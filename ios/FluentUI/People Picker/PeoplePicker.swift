@@ -91,6 +91,22 @@ open class PeoplePicker: BadgeField {
 	 */
 	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
 
+    /**
+     Set `showsAvatar` to true to show the persona's Avatar.
+     */
+    @objc open var showsAvatar: Bool = false {
+        didSet {
+            if showsAvatar {
+                deleteAllBadges()
+                pickedPersonas.forEach {
+                    let avatar = MSFAvatar(style: .default, size: .size16)
+                    avatar.state.image = $0.image
+                    addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
+                }
+            }
+        }
+    }
+
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
             badgeFieldDelegate = delegate
@@ -287,7 +303,13 @@ open class PeoplePicker: BadgeField {
     private func updatePickedPersonaBadges() {
         deleteAllBadges()
         pickedPersonas.forEach {
-            addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            if showsAvatar {
+                let avatar = MSFAvatar(style: .default, size: .size16)
+                avatar.state.image = $0.image
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
+            } else {
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            }
         }
     }
 

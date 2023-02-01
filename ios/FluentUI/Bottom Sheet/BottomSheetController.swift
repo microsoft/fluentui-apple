@@ -300,8 +300,7 @@ public class BottomSheetController: UIViewController {
             animator = stateChangeAnimator(to: targetState)
 
             currentStateChangeAnimator = animator
-            animator?.addCompletion { [weak self] finalPosition in
-                self?.currentStateChangeAnimator = nil
+            animator?.addCompletion { finalPosition in
                 completion?(finalPosition)
             }
         }
@@ -387,6 +386,10 @@ public class BottomSheetController: UIViewController {
         dimmingView.translatesAutoresizingMaskIntoConstraints = false
         dimmingView.alpha = 0.0
 
+        dimmingView.accessibilityLabel = "Accessibility.Dismiss.Label".localized
+        dimmingView.accessibilityHint = "Accessibility.Dismiss.Hint".localized
+        dimmingView.accessibilityTraits = .button
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDimmingViewTap))
         dimmingView.addGestureRecognizer(tapGesture)
         return dimmingView
@@ -413,11 +416,17 @@ public class BottomSheetController: UIViewController {
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
+        // Some types of content (like navigation controllers) can mess up the VO order.
+        // Explicitly specifying a11y elements helps prevents this.
+        bottomSheetContentView.accessibilityElements = [resizingHandleView]
+
         if let headerView = headerContentView {
             stackView.addArrangedSubview(headerView)
+            bottomSheetContentView.accessibilityElements?.append(headerView)
         }
 
         stackView.addArrangedSubview(expandedContentView)
+        bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
@@ -460,6 +469,18 @@ public class BottomSheetController: UIViewController {
     }
 
     public override func viewDidLayoutSubviews() {
+        let newHeight = view.bounds.height
+        if currentRootViewHeight != newHeight && currentExpansionState == .transitioning {
+            // The view height has changed and we can't guarantee the animation target frame is valid anymore.
+            // Let's complete animations and cancel ongoing gestures to guarantee we end up in a good state.
+            completeAnimationsIfNeeded(skipToEnd: true)
+
+            if panGestureRecognizer.state != .possible {
+                panGestureRecognizer.state = .cancelled
+            }
+        }
+        currentRootViewHeight = newHeight
+
         // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
@@ -467,27 +488,16 @@ public class BottomSheetController: UIViewController {
             updateSheetLayoutGuideTopConstraint()
             updateExpandedContentAlpha()
             updateDimmingViewAlpha()
+            updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
         completeAnimationsIfNeeded(skipToEnd: true)
-    }
-
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        if size.height != view.frame.height && currentExpansionState == .transitioning {
-            // The view is resizing and we can't guarantee the animation target frame is valid anymore.
-            // Completing the animation ensures the sheet will be correctly positioned on the next layout pass
-            completeAnimationsIfNeeded(skipToEnd: true)
-
-            if panGestureRecognizer.state != .possible {
-                panGestureRecognizer.state = .cancelled
-            }
-        }
     }
 
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -573,6 +583,25 @@ public class BottomSheetController: UIViewController {
         dimmingView.alpha = targetAlpha
     }
 
+    // When the bottomsheet is expanded and dimmingView is shown, we should make dimmingView accessibility
+    // DimmingView is technically full screen. However, for accessibility users, we should update the dimmingView's accessibilityFrame to be only the offset from bottomsheet's frame.
+    private func updateDimmingViewAccessibility() {
+        guard shouldShowDimmingView else {
+            return
+        }
+
+        if dimmingView.alpha == 0 {
+            dimmingView.isAccessibilityElement = false
+            view.accessibilityViewIsModal = false
+        } else {
+            dimmingView.isAccessibilityElement = true
+            var margins: UIEdgeInsets = .zero
+            margins.bottom = bottomSheetView.frame.height
+            dimmingView.accessibilityFrame = view.frame.inset(by: margins)
+            view.accessibilityViewIsModal = true
+        }
+    }
+
     private func updateSheetLayoutGuideTopConstraint() {
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
             sheetLayoutGuideTopConstraint.constant = currentSheetVerticalOffset
@@ -614,6 +643,7 @@ public class BottomSheetController: UIViewController {
         updateSheetLayoutGuideTopConstraint()
         updateExpandedContentAlpha()
         updateDimmingViewAlpha()
+        updateDimmingViewAccessibility()
     }
 
     // Source of truth for the sheet frame at a given offset from the top of the root view bounds.
@@ -702,9 +732,6 @@ public class BottomSheetController: UIViewController {
 
             if animated {
                 currentStateChangeAnimator = animator
-                animator.addCompletion { [weak self] _ in
-                    self?.currentStateChangeAnimator = nil
-                }
                 animator.startAnimation()
             } else {
                 animator.startAnimation() // moves the animator into active state so it can be stopped
@@ -752,12 +779,20 @@ public class BottomSheetController: UIViewController {
             strongSelf.updateDimmingViewAlpha()
             strongSelf.updateExpandedContentAlpha()
             strongSelf.view.layoutIfNeeded()
+            strongSelf.updateDimmingViewAccessibility()
         }
 
         translationAnimator.addCompletion({ [weak self] finalPosition in
             guard let strongSelf = self else {
                 return
             }
+
+            // It's important we drop the reference to the animator as early as possible.
+            // Otherwise we could accidentally try modifying the animator while it's calling out to its completion handler, which can lead to a crash.
+            if let animator = strongSelf.currentStateChangeAnimator, animator == translationAnimator {
+                strongSelf.currentStateChangeAnimator = nil
+            }
+
             strongSelf.targetExpansionState = nil
             strongSelf.panGestureRecognizer.isEnabled = strongSelf.isExpandable
             strongSelf.handleCompletedStateChange(to: finalPosition == .start ? originalExpansionState : targetExpansionState,
@@ -817,7 +852,7 @@ public class BottomSheetController: UIViewController {
     }
 
     private func completeAnimationsIfNeeded(skipToEnd: Bool = false) {
-        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning {
+        if let currentAnimator = currentStateChangeAnimator, currentAnimator.isRunning, currentAnimator.state == .active {
             let endPosition: UIViewAnimatingPosition = currentAnimator.isReversed ? .start : .end
             currentAnimator.stopAnimation(false)
             currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
@@ -936,6 +971,10 @@ public class BottomSheetController: UIViewController {
     private var currentSheetVerticalOffset: CGFloat {
         bottomSheetView.frame.minY
     }
+
+    // Only used for height change detection.
+    // For all other cases you should probably directly use self.view.bounds.height.
+    private var currentRootViewHeight: CGFloat = 0
 
     private let shouldShowDimmingView: Bool
 

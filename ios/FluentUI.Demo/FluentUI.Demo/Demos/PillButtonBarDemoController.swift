@@ -9,6 +9,9 @@ import UIKit
 class PillButtonBarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "A pill button bar lets someone select one option from a set of two or more pill-shaped buttons aligned horizontally.\n\nPill button bars are ideal for narrowing down the information someone sees on a page, like filtering information. They’re often used in conjunction with search bars. "
+
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
@@ -99,11 +102,16 @@ class PillButtonBarDemoController: DemoController {
             items.forEach { bar.disableItem($0) }
         }
 
-        let backgroundView = UIView()
-        if style == .primary {
-            backgroundView.backgroundColor = Colors.navigationBarBackground
-        }
+        let backgroundStyle: ColoredPillBackgroundStyle = {
+            switch style {
+            case .primary:
+                return .neutral
+            case .onBrand:
+                return .brand
+            }
+        }()
 
+        let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)

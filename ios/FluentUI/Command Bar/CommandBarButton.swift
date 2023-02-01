@@ -8,6 +8,8 @@ import UIKit
 class CommandBarButton: UIButton {
     let item: CommandBarItem
 
+    unowned let tokenSet: CommandBarTokenSet
+
     override var isHighlighted: Bool {
         didSet {
             updateStyle()
@@ -31,9 +33,10 @@ class CommandBarButton: UIButton {
         updateStyle()
     }
 
-    init(item: CommandBarItem, isPersistSelection: Bool = true) {
+    init(item: CommandBarItem, isPersistSelection: Bool = true, tokenSet: CommandBarTokenSet) {
         self.item = item
         self.isPersistSelection = isPersistSelection
+        self.tokenSet = tokenSet
 
         super.init(frame: .zero)
 
@@ -47,7 +50,7 @@ class CommandBarButton: UIButton {
             if #available(iOS 15.0, *) {
                 var buttonConfiguration = UIButton.Configuration.plain()
                 buttonConfiguration.image = item.iconImage
-                buttonConfiguration.contentInsets = LayoutConstants.contentInsets
+                buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
                 buttonConfiguration.background.cornerRadius = 0
                 configuration = buttonConfiguration
             } else {
@@ -58,6 +61,7 @@ class CommandBarButton: UIButton {
             let accessibilityDescription = item.accessibilityLabel
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
             accessibilityHint = item.accessibilityHint
+            accessibilityValue = item.accessibilityValue
 
             /// Large content viewer
             addInteraction(UILargeContentViewerInteraction())
@@ -71,6 +75,8 @@ class CommandBarButton: UIButton {
         }
 
         updateState()
+
+        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)
@@ -107,46 +113,59 @@ class CommandBarButton: UIButton {
             titleLabel?.font = item.titleFont
         }
 
+        updateAccentImage(item.accentImage)
+        updateAccentImageTint(item.accentImageTintColor)
+
         titleLabel?.isEnabled = isEnabled
 
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
+        accessibilityValue = item.accessibilityValue
     }
 
     private let isPersistSelection: Bool
 
-    private var selectedTintColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.communicationBlue,
-                           dark: .black)
+    private var accentImageView: UIImageView?
+
+    private func updateAccentImage(_ accentImage: UIImage?) {
+        if accentImage == accentImageView?.image {
+            return
         }
 
-        return UIColor(light: Colors.primary(for: window),
-                       dark: .black)
+        if let accentImage = accentImage?.withRenderingMode(.alwaysTemplate), let imageView = imageView {
+            let accentImageView = UIImageView(image: accentImage)
+            accentImageView.translatesAutoresizingMaskIntoConstraints = false
+            insertSubview(accentImageView, belowSubview: imageView)
+            NSLayoutConstraint.activate([
+                accentImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+                accentImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
+            ])
+            self.accentImageView = accentImageView
+        } else {
+            accentImageView?.removeFromSuperview()
+            accentImageView = nil
+        }
     }
 
-    private var selectedBackgroundColor: UIColor {
-        guard let window = window else {
-            return UIColor(light: Colors.Palette.communicationBlueTint30.color,
-                           dark: Colors.Palette.communicationBlue.color)
+    private func updateAccentImageTint(_ tintColor: UIColor?) {
+        guard let tintColor = tintColor else {
+            return
         }
-
-        return  UIColor(light: Colors.primaryTint30(for: window),
-                        dark: Colors.primary(for: window))
+        accentImageView?.tintColor = tintColor
     }
 
     private func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor: UIColor = isSelected ? selectedTintColor : ColorConstants.normalTintColor
+        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorRest].dynamicColor)
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = selectedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorSelected].dynamicColor)
             } else if isHighlighted {
-                resolvedBackgroundColor = ColorConstants.highlightedBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorPressed].dynamicColor)
             } else {
-                resolvedBackgroundColor = ColorConstants.normalBackgroundColor
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorRest].dynamicColor)
             }
         }
 
@@ -174,21 +193,22 @@ class CommandBarButton: UIButton {
     }
 
     private struct LayoutConstants {
-        static let contentInsets = NSDirectionalEdgeInsets(top: 8.0,
-                                                           leading: 10.0,
-                                                           bottom: 8.0,
-                                                           trailing: 10.0)
         static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
                                                     left: 10.0,
                                                     bottom: 8.0,
                                                     right: 10.0)
     }
+}
 
-    private struct ColorConstants {
-        static let normalTintColor: UIColor = Colors.textPrimary
-        static let normalBackgroundColor = UIColor(light: Colors.gray50,
-                                                   dark: Colors.gray600)
-        static let highlightedBackgroundColor = UIColor(light: Colors.gray100,
-                                                        dark: Colors.gray900)
+// MARK: CommandBarButton UIPointerInteractionDelegate
+
+extension CommandBarButton: UIPointerInteractionDelegate {
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColorSelected].dynamicColor : tokenSet[.itemBackgroundColorHover].dynamicColor)
+        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorHover].dynamicColor)
+    }
+
+    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
+        updateStyle()
     }
 }

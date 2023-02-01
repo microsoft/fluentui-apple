@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.8.0'
+  s.version          = '0.12.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -133,6 +133,12 @@ fi', :execution_position => :before_compile }
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
+  end
+
+  s.subspec 'Divider_ios' do |divider_ios|
+    divider_ios.platform = :ios
+    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
   end
 
   s.subspec 'DotView_ios' do |dotview_ios|

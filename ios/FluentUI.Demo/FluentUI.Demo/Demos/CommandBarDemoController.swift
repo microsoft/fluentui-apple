@@ -75,6 +75,16 @@ class CommandBarDemoController: DemoController {
             }
         }
 
+        var accentImage: UIImage? {
+            switch self {
+            case .delete:
+                return UIImage(named: "delete24Filled")
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .textStyle, .customView, .disabledText:
+                return nil
+            }
+        }
+
         var title: String? {
             switch self {
             case .textStyle:
@@ -83,7 +93,8 @@ class CommandBarDemoController: DemoController {
                 return "Search"
             case .add:
                 return "Add"
-            default:
+            case .delete, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .customView:
                 return nil
             }
         }
@@ -94,7 +105,8 @@ class CommandBarDemoController: DemoController {
                 return TextStyle.body.font
             case .disabledText:
                 return .systemFont(ofSize: 15, weight: .regular)
-            default:
+            case .add, .mention, .calendar, .textBold, .textItalic, .textUnderline, .textStrikethrough, .arrowUndo,
+                    .arrowRedo, .copy, .checklist, .bulletList, .numberList, .link, .keyboard, .delete, .customView:
                 return nil
             }
         }
@@ -159,6 +171,9 @@ class CommandBarDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "The contextual command bar appears above the keyboard to provide contextual actions relevant to the content within the current view, like text formatting in Word."
+
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         view.backgroundColor = Colors.surfaceSecondary
@@ -208,6 +223,14 @@ class CommandBarDemoController: DemoController {
         resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
         resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
+
+        let deleteAccentImageStackView = createHorizontalStackView()
+        deleteAccentImageStackView.addArrangedSubview(createLabelWithText("\"Delete\" Accent Image"))
+        let deleteAccentImageSwitch: UISwitch = UISwitch()
+        deleteAccentImageSwitch.isOn = true
+        deleteAccentImageSwitch.addTarget(self, action: #selector(deleteAccentImageValueChange), for: .valueChanged)
+        deleteAccentImageStackView.addArrangedSubview(deleteAccentImageSwitch)
+        itemCustomizationContainer.addArrangedSubview(deleteAccentImageStackView)
 
         let itemEnabledStackView = createHorizontalStackView()
         itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
@@ -338,6 +361,11 @@ class CommandBarDemoController: DemoController {
             accessibilityHint: "sample accessibility hint"
         )
 
+        commandBarItem.accentImage = command.accentImage
+        if let window = view.window {
+            commandBarItem.accentImageTintColor = Colors.primary(for: window)
+        }
+
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
                 let label = self.createLabelWithText("Custom View")
@@ -396,6 +424,18 @@ class CommandBarDemoController: DemoController {
         item.isHidden = sender.isOn
     }
 
+    @objc func deleteAccentImageValueChange(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[5][0] else {
+            return
+        }
+
+        if sender.isOn {
+            item.accentImage = Command.delete.accentImage
+        } else {
+            item.accentImage = nil
+        }
+    }
+
     @objc func animateCommandBarDelegateEventsValueChanged(sender: UISwitch!) {
         animateCommandBarDelegateEvents = sender.isOn
     }
@@ -426,6 +466,38 @@ class CommandBarDemoController: DemoController {
 
     private static let horizontalStackViewSpacing: CGFloat = 16.0
     private static let verticalStackViewSpacing: CGFloat = 8.0
+}
+
+extension CommandBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        defaultCommandBar?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+        ]
+    }
+
+    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.grape, .primary)) }
+        ]
+    }
 }
 
 extension CommandBarDemoController: CommandBarDelegate {

@@ -171,8 +171,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// The default leading padding in the cell.
     @objc public static let defaultPaddingLeading: CGFloat = {
-        let tokenSet = TableViewCellTokenSet(customViewSize: { .default })
-        return tokenSet[.paddingLeading].float
+        return TableViewCellTokenSet.paddingLeading
     }()
 
     /// The default trailing padding in the cell.
@@ -182,7 +181,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     class var labelVerticalMarginForOneAndThreeLines: CGFloat { return TableViewCellTokenSet.defaultLabelVerticalMarginForOneAndThreeLines }
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { self.customViewSize })
+    public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { [weak self] in
+        return self?.customViewSize ?? .default
+    })
 
     var tokenSetSink: AnyCancellable?
 
@@ -573,25 +574,26 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                                               text: text, labelAccessoryViewMarginLeading: labelAccessoryViewMarginLeading)
 
         let availableWidth = textAreaWidth - (leadingAccessoryAreaWidth + trailingAccessoryAreaWidth + labelAccessoryViewMarginTrailing)
+        let labelSize = text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
         if isAttributedTextSet, let attributedText = attributedText {
-            return preferredLabelSize(with: attributedText, availableTextWidth: availableWidth)
+            let attributedSize = preferredLabelSize(with: attributedText, availableTextWidth: availableWidth)
+            // The boundingRect method for NSAttributedString does not consider system font size,
+            // which is the default in the case where there is not .font attribute, resulting in an inaccurate
+            // height value. Taking the max of labelSize and attributedSize resolves this.
+            return CGSize(width: attributedSize.width, height: max(labelSize.height, attributedSize.height))
         }
-        return text.preferredSize(for: font, width: availableWidth, numberOfLines: numberOfLines)
+
+        return labelSize
     }
 
     private static func preferredLabelSize(with attributedText: NSAttributedString,
                                            availableTextWidth: CGFloat = .greatestFiniteMagnitude) -> CGSize {
-        // We need to have .usesDeviceMetrics to ensure that there is no trailing clipping in our label.
-        // However, it causes the bottom portion of the label to be clipped instead. Creating a calculated CGRect
-        // for width and height accommodates for both scenarios so that there is no clipping.
         let estimatedBoundsHeight = attributedText.boundingRect(
             with: CGSize(width: availableTextWidth, height: .greatestFiniteMagnitude),
             options: [.usesLineFragmentOrigin, .usesFontLeading],
             context: nil)
 
-        // We want the larger width value so that the label does not undergo any trucation.
         return CGSize(width: ceil(availableTextWidth), height: ceil(estimatedBoundsHeight.height))
-
     }
 
     private static func labelPreferredWidth(text: String,
@@ -643,16 +645,17 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private static func customViewLeadingOffset(isInSelectionMode: Bool,
-                                                tokenSet: TableViewCellTokenSet) -> CGFloat {
-        return tokenSet[.paddingLeading].float + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
-                                                                        selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
-                                                                        selectionImageSize: TableViewCellTokenSet.selectionImageSize)
+                                                leadingPadding: CGFloat) -> CGFloat {
+        return leadingPadding + selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
+                                                       selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
+                                                       selectionImageSize: TableViewCellTokenSet.selectionImageSize)
     }
 
     private static func textAreaLeadingOffset(customViewSize: MSFTableViewCellCustomViewSize,
                                               isInSelectionMode: Bool,
                                               tokenSet: TableViewCellTokenSet) -> CGFloat {
-        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokenSet: tokenSet)
+        var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                            leadingPadding: TableViewCellTokenSet.paddingLeading)
         if customViewSize != .zero {
             textAreaLeadingOffset += tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
         }
@@ -734,10 +737,43 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Text that appears as the third line of text
     @objc public var footer: String { return footerLabel.text ?? "" }
 
+    /// The attributedText for the title.
+    @objc public var attributedTitle: NSAttributedString? {
+        get {
+            return titleLabel.attributedText
+        }
+        set {
+            titleLabel.attributedText = newValue
+            isAttributedTitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the subtitle.
+    @objc public var attributedSubtitle: NSAttributedString? {
+        get {
+            return subtitleLabel.attributedText
+        }
+        set {
+            subtitleLabel.attributedText = newValue
+            isAttributedSubtitleSet = newValue == nil ? false : true
+        }
+    }
+
+    /// The attributedText for the footer.
+    @objc public var attributedFooter: NSAttributedString? {
+        get {
+            return footerLabel.attributedText
+        }
+        set {
+            footerLabel.attributedText = newValue
+            isAttributedFooterSet = newValue == nil ? false : true
+        }
+    }
+
     /// The leading padding.
     @objc public var paddingLeading: CGFloat {
         get {
-            return _paddingLeading ?? tokenSet[.paddingLeading].float
+            return _paddingLeading ?? TableViewCellTokenSet.paddingLeading
         }
         set {
             if newValue != _paddingLeading {
@@ -844,6 +880,28 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc open var footerLineBreakMode: NSLineBreakMode = .byTruncatingTail {
         didSet {
             footerLabel.lineBreakMode = footerLineBreakMode
+        }
+    }
+
+    private lazy var unreadDotLayer: CALayer = {
+        let unreadDotLayer = CALayer()
+        let unreadDotSize = TableViewCellTokenSet.unreadDotDimensions
+        unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
+        unreadDotLayer.cornerRadius = unreadDotSize / 2
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
+        return unreadDotLayer
+    }()
+
+    /// Boolean determining if the unread dot is visible.
+    @objc open var isUnreadDotVisible: Bool = false {
+        didSet {
+            if isUnreadDotVisible {
+                self.contentView.layer.addSublayer(unreadDotLayer)
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
+            } else {
+                unreadDotLayer.removeFromSuperlayer()
+                accessibilityLabel = title
+            }
         }
     }
 
@@ -1403,39 +1461,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private var isUsingCustomTextColors: Bool = false
 
-    private var attributedTitle: NSAttributedString? {
-        get {
-            return titleLabel.attributedText
-        }
-        set {
-            titleLabel.attributedText = newValue
-            isAttributedTitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedTitleSet: Bool = false
 
-    private var attributedSubtitle: NSAttributedString? {
-        get {
-            return subtitleLabel.attributedText
-        }
-        set {
-            subtitleLabel.attributedText = newValue
-            isAttributedSubtitleSet = newValue == nil ? false : true
-        }
-    }
-
     private var isAttributedSubtitleSet: Bool = false
-
-    private var attributedFooter: NSAttributedString? {
-        get {
-            return footerLabel.attributedText
-        }
-        set {
-            footerLabel.attributedText = newValue
-            isAttributedFooterSet = newValue == nil ? false : true
-        }
-    }
 
     private var isAttributedFooterSet: Bool = false
 
@@ -1501,10 +1529,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             )
         }
 
+        if isUnreadDotVisible {
+            let unreadDotDimensions: CGFloat = TableViewCellTokenSet.unreadDotDimensions
+            let unreadDotYOffset = ceil((contentView.frame.height - unreadDotDimensions) / 2)
+            var unreadDotXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                          leadingPadding: TableViewCellTokenSet.unreadDotHorizontalPadding)
+            if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                unreadDotXOffset = self.contentView.frame.width - unreadDotXOffset - unreadDotDimensions
+            }
+            unreadDotLayer.frame.origin = CGPoint(x: unreadDotXOffset, y: unreadDotYOffset)
+        }
+
         if let customView = customView {
             let customViewDimensions = tokenSet[.customViewDimensions].float
             let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
-            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode, tokenSet: tokenSet)
+            let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
+                                                                          leadingPadding: TableViewCellTokenSet.paddingLeading)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
                 size: CGSize(width: customViewDimensions, height: customViewDimensions)
@@ -1696,6 +1736,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         subtitleLineBreakMode = .byTruncatingTail
         footerLineBreakMode = .byTruncatingTail
 
+        isUnreadDotVisible = false
         titleLeadingAccessoryView = nil
         titleTrailingAccessoryView = nil
         subtitleLeadingAccessoryView = nil
@@ -1826,7 +1867,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAppearance()
     }
 
-    private func updateAppearance() {
+    internal func updateAppearance() {
         updateFonts()
         updateTextColors()
         updateSelectionImageColor()
@@ -1937,6 +1978,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateSelectionImageColor() {
         selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.mainBrandColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

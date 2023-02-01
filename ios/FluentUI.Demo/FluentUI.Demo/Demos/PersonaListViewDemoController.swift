@@ -32,7 +32,8 @@ let samplePersonas: [PersonaData] = [
     PersonaData(email: "carlos.slattery@contoso.com", subtitle: "Software Engineer"),
     PersonaData(name: "Henry Brill", subtitle: "Software Engineer", image: UIImage(named: "avatar_henry_brill")),
     PersonaData(name: "Cecil Folk", subtitle: "Program Manager", image: UIImage(named: "avatar_cecil_folk")),
-    PersonaData(name: "+1 (425) 123 4567")
+    PersonaData(name: "+1 (425) 123 4567"),
+    PersonaData(name: "🦃", email: "🦃🦃🦃🦃🦃🦃🦃🦃@example.com")
 ]
 
 let searchDirectoryPersonas: [PersonaData] = [
@@ -57,6 +58,7 @@ class PersonaListViewDemoController: DemoController {
             alert.addAction(action)
             self.present(alert, animated: true)
         }
+        scrollingContainer.removeFromSuperview()
         view.addSubview(personaListView)
         personaListView.frame = view.bounds
         personaListView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

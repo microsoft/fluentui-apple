@@ -3,124 +3,12 @@
 //  Licensed under the MIT License.
 //
 import UIKit
-
-// MARK: SegmentedControl Colors
-
-private extension Colors {
-    struct SegmentedControl {
-        struct PrimaryPill {
-            static let background = UIColor(light: surfaceTertiary, dark: gray950)
-            static let backgroundDisabled: UIColor = background
-            static let segmentText = UIColor(light: textSecondary, dark: textPrimary)
-            static let selectionDisabled: UIColor = surfaceQuaternary
-        }
-
-        struct OnBrandPill {
-            static let background: UIColor = PrimaryPill.background
-            static let backgroundDisabled: UIColor = PrimaryPill.backgroundDisabled
-            static let segmentText = UIColor(light: textOnAccent, dark: textPrimary)
-            static let selection = UIColor(light: surfacePrimary, dark: surfaceQuaternary)
-            static let selectionDisabled = UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
-        }
-    }
-}
+import Combine
 
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIControl {
-    @objc(MSFSegmentedControlStyle)
-    public enum Style: Int {
-        /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
-        case primaryPill
-        /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
-        /// Selection is indicated by a thumb under the selected label.
-        case onBrandPill
-
-        var backgroundHasRoundedCorners: Bool { return self == .primaryPill || self == .onBrandPill }
-
-        func backgroundColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.background
-            case .onBrandPill:
-                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.SegmentedControl.OnBrandPill.background)
-            }
-        }
-        func backgroundColorDisabled(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.backgroundDisabled
-            case .onBrandPill:
-                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.SegmentedControl.OnBrandPill.backgroundDisabled)
-            }
-        }
-        func selectionColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.primary(for: window)
-            case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.selection
-            }
-        }
-        var selectionColorDisabled: UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.selectionDisabled
-            case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.selectionDisabled
-            }
-        }
-        var segmentTextColor: UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.SegmentedControl.PrimaryPill.segmentText
-            case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.segmentText
-            }
-        }
-        func segmentTextColorSelected(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.textOnAccent
-            case .onBrandPill:
-                return UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-            }
-        }
-        func segmentTextColorDisabled(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return Colors.textDisabled
-            case .onBrandPill:
-                return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
-            }
-        }
-        func segmentTextColorSelectedAndDisabled(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
-            case .onBrandPill:
-                return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
-            }
-        }
-
-        func segmentUnreadDotColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .primaryPill:
-                return UIColor(light: Colors.primary(for: window), dark: Colors.gray100)
-            case .onBrandPill:
-                return Colors.SegmentedControl.OnBrandPill.segmentText
-            }
-        }
-
-        var selectionChangeAnimationDuration: TimeInterval {
-            switch self {
-            case .primaryPill, .onBrandPill:
-                return 0.2
-            }
-        }
-    }
-
+open class SegmentedControl: UIView, TokenizedControlInternal {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -128,18 +16,32 @@ open class SegmentedControl: UIControl {
         static let iPadMinimumWidth: CGFloat = 375
     }
 
-    open override var isEnabled: Bool {
+    open var isEnabled: Bool = true {
         didSet {
             for button in buttons {
                 button.isEnabled = isEnabled
             }
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
     @objc public var isAnimated: Bool = true
     @objc public var numberOfSegments: Int { return items.count }
-    @objc public var shouldSetEqualWidthForSegments: Bool = true
+    /// Defines if the segments of the `SegmentedControl` are equal in width.
+    @objc public var shouldSetEqualWidthForSegments: Bool = true {
+        didSet {
+            updateStackDistribution()
+        }
+    }
+
+    /// Defines if the `SegmentedControl` will take up the full width of the screen on iPhone, or half on iPad.
+    /// Scrolling will only work if this is false.
+    @objc public var isFixedWidth: Bool = true {
+        didSet {
+            updateViewHierarchyForScrolling()
+            updatePillContainerConstraints()
+        }
+    }
 
     /// only used for pill style segment control. It is used to define the inset of the pillContainerView
     @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: Constants.pillContainerHorizontalInset, bottom: 0, trailing: Constants.pillContainerHorizontalInset) {
@@ -147,49 +49,51 @@ open class SegmentedControl: UIControl {
             guard oldValue != contentInset else {
                 return
             }
-            pillContainerViewTopConstraint?.constant = contentInset.top
-            pillContainerViewBottomConstraint?.constant = contentInset.bottom
-            pillContainerViewLeadingConstraint?.constant = contentInset.leading
-            pillContainerViewTrailingConstraint?.constant = contentInset.trailing
+            updatePillContainerConstraints()
 
             invalidateIntrinsicContentSize()
         }
     }
+    /// The closure for the action to be called when a segment is selected.
+    /// When called, the selected item and its index will be passed in to the closure.
+    @objc public var onSelectAction: ((SegmentItem, Int) -> Void)?
     @objc public var selectedSegmentIndex: Int {
         get { return _selectedSegmentIndex }
         set { selectSegment(at: newValue, animated: false) }
     }
 
     private var _selectedSegmentIndex: Int = -1
-    private var customSegmentedControlBackgroundColor: UIColor?
-    private var customSegmentedControlSelectedButtonBackgroundColor: UIColor?
-    private var customSegmentedControlButtonTextColor: UIColor?
-    private var customSelectedSegmentedControlButtonTextColor: UIColor?
 
     private var items = [SegmentItem]()
-    internal var style: Style {
+    internal var style: SegmentedControlStyle {
         didSet {
-            updateWindowSpecificColors()
+            updateColors()
         }
     }
 
-    // Hierarchy for pill styles:
+    // Hierarchy:
     //
+    // isFixedWidth = false (adds mask and scrollView):
+    // layer.mask -> gradientMaskLayer
+    // scrollView
+    // |--pillContainerView (used to create 16pt inset on either side)
+    // |  |--stackView (fill container view, uses restTabColor)
+    // |  |  |--buttons (uses restLabelColor)
+    // |  |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
+    // |  |  |.mask -> selectionView
+    // |  |  |--pillMaskedLabels (uses selectedLabelColor)
+    // |  |  |--pillMaskedImages (uses selectedLabelColor)
+    //
+    // isFixedWidth = true:
     // pillContainerView (used to create 16pt inset on either side)
-    // |--backgroundView (fill container view, uses customSegmentedControlBackgroundColor)
-    // |--buttons (uses customSegmentedControlButtonTextColor)
-    // |--pillMaskedContentContainerView (fill container view, uses customSegmentedControlSelectedButtonBackgroundColor)
+    // |--stackView (fill container view, uses restTabColor)
+    // |  |--buttons (uses restLabelColor)
+    // |--pillMaskedContentContainerView (fill container view, uses selectedTabColor)
     // |  |.mask -> selectionView
-    // |  |--pillMaskedLabels (uses customSelectedSegmentedControlButtonTextColor)
-    // |  |--pillMaskedImages (uses customSelectedSegmentedControlButtonTextColor)
+    // |  |--pillMaskedLabels (uses selectedLabelColor)
+    // |  |--pillMaskedImages (uses selectedLabelColor)
 
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.layer.cornerCurve = .continuous
-
-        return view
-    }()
-    private var buttons = [UIButton]()
+    private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
@@ -199,23 +103,63 @@ open class SegmentedControl: UIControl {
     private let pillContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
     private let pillMaskedContentContainerView: UIView = {
         let view = UIView()
         view.layer.cornerCurve = .continuous
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
 
         return view
     }()
+    private let stackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerCurve = .continuous
+
+        return stackView
+    }()
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+
+        return scrollView
+    }()
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
-    private var pillContainerViewTopConstraint: NSLayoutConstraint?
-    private var pillContainerViewBottomConstraint: NSLayoutConstraint?
-    private var pillContainerViewLeadingConstraint: NSLayoutConstraint?
-    private var pillContainerViewTrailingConstraint: NSLayoutConstraint?
+    private var pillContainerViewConstraints: [NSLayoutConstraint] = []
+
+    private lazy var scrollViewConstraints: [NSLayoutConstraint] = {
+        let safeArea = safeAreaLayoutGuide
+        return [scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)]
+    }()
 
     private var isAnimating: Bool = false
+
+    private let gradientMaskLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1.0, y: 0.5)
+        return gradient
+    }()
+
+    private var gradientMaskColors: [CGColor] {
+        let contentOffsetX = scrollView.contentOffset.x
+        let leftColor = contentOffsetX <= 0 ? UIColor.black : UIColor.clear
+        let rightColor = contentOffsetX >= maximumContentOffset ? UIColor.black : UIColor.clear
+        // Divide the Segmented Control into 5 sections to control the length
+        // of the gradient
+        return [leftColor, UIColor.black, UIColor.black, UIColor.black, rightColor].map { $0.cgColor }
+    }
 
     public convenience init() {
         self.init(items: [])
@@ -225,87 +169,67 @@ open class SegmentedControl: UIControl {
     ///
     /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public convenience init(items: [SegmentItem], style: Style = .primaryPill) {
-        self.init(items: items,
-                  style: style,
-                  customSegmentedControlBackgroundColor: nil,
-                  customSegmentedControlSelectedButtonBackgroundColor: nil,
-                  customSegmentedControlButtonTextColor: nil,
-                  customSelectedSegmentedControlButtonTextColor: nil)
-    }
-
-    /// Initializes a segmented control with the specified titles, style, and colors (colors are for pill styles only).
-    ///
-    /// - Parameter items: An array of Segmented Items representing the segments for this control.
-    /// - Parameter style: A style used for rendering of the control.
-    /// - Parameter customSegmentedControlBackgroundColor: UIColor to use as the background color
-    /// - Parameter customSegmentedControlSelectedButtonBackgroundColor: UIColor to use as the selected button background color
-    /// - Parameter customSegmentedControlButtonTextColor: UIColor to use as the unselected button text color
-    /// - Parameter customSelectedSegmentedControlButtonTextColor: UIColor to use as the selected button text color
-    @objc public init(items: [SegmentItem],
-                      style: Style = .primaryPill,
-                      customSegmentedControlBackgroundColor: UIColor? = nil,
-                      customSegmentedControlSelectedButtonBackgroundColor: UIColor? = nil,
-                      customSegmentedControlButtonTextColor: UIColor? = nil,
-                      customSelectedSegmentedControlButtonTextColor: UIColor? = nil) {
+    @objc public init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
         self.style = style
-        self.customSegmentedControlBackgroundColor = customSegmentedControlBackgroundColor
-        self.customSegmentedControlSelectedButtonBackgroundColor = customSegmentedControlSelectedButtonBackgroundColor
-        self.customSegmentedControlButtonTextColor = customSegmentedControlButtonTextColor
-        self.customSelectedSegmentedControlButtonTextColor = customSelectedSegmentedControlButtonTextColor
 
         super.init(frame: .zero)
+        scrollView.delegate = self
 
-        backgroundView.layer.cornerRadius = Constants.pillButtonCornerRadius
-        pillContainerView.addSubview(backgroundView)
+        stackView.layer.cornerRadius = Constants.pillButtonCornerRadius
+        pillContainerView.addSubview(stackView)
         selectionView.backgroundColor = .black
         pillContainerView.addSubview(selectionView)
         pillMaskedContentContainerView.mask = selectionView
-        pillMaskedContentContainerView.isUserInteractionEnabled = false
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
-        // We need to add pillMaskedContentContainerView to the container view
-        // before the buttons in order to activate the label constraints, but
-        // we want pillMaskedContentContainerView to show above the buttons.
-        pillContainerView.bringSubviewToFront(pillMaskedContentContainerView)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         addSubview(pillContainerView)
 
+        updateStackDistribution()
         setupLayoutConstraints()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Update appearance whenever overrideTokens changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateTokenizedValues()
+        }
+        updateTokenizedValues()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    public func updateWindowSpecificColors() {
-        guard let window = window else {
-            return
+    public func updateColors() {
+        let tabColor: DynamicColor
+        let selectedTabColor: DynamicColor
+        let selectedContentColor: UIColor
+        if isEnabled {
+            tabColor = tokenSet[.restTabColor].dynamicColor
+            selectedTabColor = tokenSet[.selectedTabColor].dynamicColor
+            selectedContentColor = UIColor(dynamicColor: tokenSet[.selectedLabelColor].dynamicColor)
+        } else {
+            tabColor = tokenSet[.disabledTabColor].dynamicColor
+            selectedTabColor = tokenSet[.disabledSelectedTabColor].dynamicColor
+            selectedContentColor = UIColor(dynamicColor: tokenSet[.disabledSelectedLabelColor].dynamicColor)
         }
-
-        pillMaskedContentContainerView.backgroundColor = customSegmentedControlSelectedButtonBackgroundColor ?? (isEnabled ? style.selectionColor(for: window) : style.selectionColorDisabled)
-        backgroundView.backgroundColor = customSegmentedControlBackgroundColor ?? (isEnabled ? style.backgroundColor(for: window) : style.backgroundColorDisabled(for: window))
-        let maskedContentColor = isEnabled ? (customSelectedSegmentedControlButtonTextColor ?? style.segmentTextColorSelected(for: window)) : style.segmentTextColorSelectedAndDisabled(for: window)
+        stackView.backgroundColor = UIColor(dynamicColor: tabColor)
+        pillMaskedContentContainerView.backgroundColor = UIColor(dynamicColor: selectedTabColor)
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
                 continue
             }
-            maskedLabel.textColor = maskedContentColor
+            maskedLabel.textColor = selectedContentColor
         }
         for maskedImage in pillMaskedImages {
             guard let maskedImage = maskedImage else {
                 continue
             }
-            maskedImage.tintColor = maskedContentColor
-        }
-        let contentColor = isEnabled ? (customSegmentedControlButtonTextColor ?? style.segmentTextColor) : style.segmentTextColorDisabled(for: window)
-        for button in buttons {
-            button.setTitleColor(contentColor, for: .normal)
-            button.tintColor = contentColor
-
-            if let switchButton = button as? SegmentPillButton {
-                switchButton.unreadDotColor = isEnabled ? style.segmentUnreadDotColor(for: window) : style.segmentTextColorDisabled(for: window)
-            }
+            maskedImage.tintColor = selectedContentColor
         }
     }
 
@@ -318,7 +242,7 @@ open class SegmentedControl: UIControl {
         items.insert(item, at: index)
 
         let button = createPillButton(withItem: item)
-        pillContainerView.addSubview(button)
+        stackView.addArrangedSubview(button)
         addMaskedContent(over: button, at: index, hasImage: item.image != nil)
         buttons.insert(button, at: index)
         updateButton(at: index, isSelected: false)
@@ -374,7 +298,8 @@ open class SegmentedControl: UIControl {
     ///   - index: The index of the segment to set as selected
     ///   - animated: Whether or not to animate the change in selected segment
     @objc open func selectSegment(at index: Int, animated: Bool) {
-        precondition(index >= 0 && index < buttons.count, "SegmentedControl > try to selected segment index with invalid index: \(index)")
+        precondition(index >= 0 && index < buttons.count,
+                     "SegmentedControl > try to selected segment index with invalid index: \(index)")
 
         if index == _selectedSegmentIndex {
             return
@@ -391,7 +316,10 @@ open class SegmentedControl: UIControl {
 
         if animated {
             isAnimating = true
-            UIView.animate(withDuration: style.selectionChangeAnimationDuration, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            UIView.animate(withDuration: selectionChangeAnimationDuration,
+                           delay: 0,
+                           options: [.curveEaseOut, .beginFromCurrentState],
+                           animations: {
                 self.layoutSelectionView()
             }, completion: { _ in
                 self.isAnimating = false
@@ -399,94 +327,76 @@ open class SegmentedControl: UIControl {
         } else {
             setNeedsLayout()
         }
+        if !isFixedWidth {
+            scrollView.scrollRectToVisible(buttons[_selectedSegmentIndex].frame, animated: animated)
+        }
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard !isAnimating else {
-            return
-        }
+        stackView.layoutIfNeeded()
 
-        var rightOffset: CGFloat = 0
-        var leftOffset: CGFloat = 0
-        for (index, button) in buttons.enumerated() {
-            if shouldSetEqualWidthForSegments {
-                rightOffset = ceil(CGFloat(index + 1) / CGFloat(buttons.count) * pillContainerView.frame.width)
-            } else {
-                let maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-                rightOffset = leftOffset + ceil(button.sizeThatFits(maxSize).width)
-            }
-            button.frame = CGRect(x: leftOffset, y: 0, width: rightOffset - leftOffset, height: pillContainerView.frame.height)
-            leftOffset = rightOffset
-        }
-
-            // flipSubviewsForRTL only works on direct children subviews
-            pillContainerView.flipSubviewsForRTL()
+        // flipSubviewsForRTL only works on direct children subviews
+        pillContainerView.flipSubviewsForRTL()
 
         flipSubviewsForRTL()
         layoutSelectionView()
+
+        updateGradientMaskColors()
+        gradientMaskLayer.frame = layer.bounds
     }
 
     open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude,
+                                   height: CGFloat.greatestFiniteMagnitude))
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if shouldSetEqualWidthForSegments {
-            invalidateIntrinsicContentSize()
-        }
-        layoutSubviews()
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        guard let window = window else {
-            return CGSize.zero
-        }
-        var maxButtonHeight: CGFloat = 0.0
-        var maxButtonWidth: CGFloat = 0.0
-        var buttonsWidth: CGFloat = 0.0
+        var height: CGFloat = 0.0
+        var width: CGFloat = 0.0
 
         for button in buttons {
             let size = button.sizeThatFits(size)
-            maxButtonHeight = max(maxButtonHeight, ceil(size.height))
-            if shouldSetEqualWidthForSegments {
-                maxButtonWidth = max(maxButtonWidth, ceil(size.width))
-            } else {
-                buttonsWidth += ceil(size.width)
+            height = max(height, ceil(size.height))
+            if !isFixedWidth {
+                width += ceil(size.width)
             }
         }
 
-        if shouldSetEqualWidthForSegments {
-            maxButtonWidth *= CGFloat(buttons.count)
-        } else {
-            maxButtonWidth = buttonsWidth
-        }
-
-        if shouldSetEqualWidthForSegments {
-            let windowSafeAreaInsets = window.safeAreaInsets
-            let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
-            if traitCollection.userInterfaceIdiom == .pad {
-                maxButtonWidth = max(windowWidth / 2, Constants.iPadMinimumWidth)
-            } else {
-                maxButtonWidth = windowWidth
+        if isFixedWidth {
+            if let window = window {
+                let windowSafeAreaInsets = window.safeAreaInsets
+                let windowWidth = window.bounds.width - windowSafeAreaInsets.left - windowSafeAreaInsets.right
+                if traitCollection.userInterfaceIdiom == .pad {
+                    width = max(windowWidth / 2, Constants.iPadMinimumWidth)
+                } else {
+                    width = windowWidth
+                }
             }
         } else {
-            maxButtonWidth += (contentInset.leading + contentInset.trailing)
+            width += (contentInset.leading + contentInset.trailing)
         }
-        maxButtonHeight += (contentInset.top + contentInset.bottom)
+        height += (contentInset.top + contentInset.bottom)
 
-        return CGSize(width: min(maxButtonWidth, size.width), height: min(maxButtonHeight, size.height))
+        return CGSize(width: min(width, size.width),
+                      height: min(height, size.height))
     }
 
     open override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateWindowSpecificColors()
-    }
 
-    func intrinsicContentSizeInvalidatedForChildView() {
-        invalidateIntrinsicContentSize()
+        tokenSet.update(fluentTheme)
+        updateGradientMaskColors()
+        if isFixedWidth {
+            invalidateIntrinsicContentSize()
+        }
     }
 
     /// Used to retrieve the view from the segment at the specified index
@@ -496,6 +406,31 @@ open class SegmentedControl: UIControl {
         }
 
         return buttons[index] as UIView
+    }
+
+#if DEBUG
+    public override var accessibilityIdentifier: String? {
+        get { return "Segmented Control with \(items.count) \(isEnabled ? "enabled" : "disabled") buttons" }
+        set { }
+    }
+#endif
+
+    public typealias TokenSetKeyType = SegmentedControlTokenSet.Tokens
+    lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primaryPill
+    })
+    private var tokenSetSink: AnyCancellable?
+
+    private let selectionChangeAnimationDuration: TimeInterval = 0.2
+
+    private func updateButtons() {
+        let contentColor = isEnabled ? UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.disabledLabelColor].dynamicColor)
+        for (index, button) in buttons.enumerated() {
+            button.updateTokenizedValues()
+            button.setTitleColor(contentColor, for: .normal)
+            button.tintColor = contentColor
+            pillMaskedLabels[index]?.font = button.titleLabel?.font
+        }
     }
 
     private func addButtons(items: [SegmentItem]) {
@@ -510,13 +445,13 @@ open class SegmentedControl: UIControl {
         }
     }
 
-    private func createPillButton(withItem item: SegmentItem) -> UIButton {
-        let button = SegmentPillButton(withItem: item)
+    private func createPillButton(withItem item: SegmentItem) -> SegmentPillButton {
+        let button = SegmentPillButton(withItem: item, tokenSet: tokenSet)
         button.addTarget(self, action: #selector(handleButtonTap(_:)), for: .touchUpInside)
         return button
     }
 
-    private func addMaskedContent(over button: UIButton, at index: Int, hasImage: Bool) {
+    private func addMaskedContent(over button: SegmentPillButton, at index: Int, hasImage: Bool) {
         let unmaskedContent: UIView
         let maskedContent: UIView
         let maskedImageView: UIImageView?
@@ -547,53 +482,76 @@ open class SegmentedControl: UIControl {
         pillMaskedContentContainerView.addSubview(maskedContent)
         pillMaskedLabels.insert(maskedLabel, at: index)
         pillMaskedImages.insert(maskedImageView, at: index)
-
-        NSLayoutConstraint.activate([
+        let constraints = [
             unmaskedContent.leadingAnchor.constraint(equalTo: maskedContent.leadingAnchor),
             unmaskedContent.trailingAnchor.constraint(equalTo: maskedContent.trailingAnchor),
             unmaskedContent.topAnchor.constraint(equalTo: maskedContent.topAnchor),
             unmaskedContent.bottomAnchor.constraint(equalTo: maskedContent.bottomAnchor)
-        ])
-    }
+        ]
 
-    @objc private func handleButtonTap(_ sender: UIButton) {
-        if let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index {
-            selectSegment(at: index, animated: isAnimated)
-            sendActions(for: .valueChanged)
+        if #available(iOS 15.0, *) {
+            button.updateMaskedContentConstraints = {
+                unmaskedContent.removeConstraints(constraints)
+                NSLayoutConstraint.activate(constraints)
+            }
+        } else {
+            NSLayoutConstraint.activate(constraints)
         }
     }
 
+    @objc private func handleButtonTap(_ sender: SegmentPillButton) {
+        guard let index = buttons.firstIndex(of: sender), selectedSegmentIndex != index  else {
+            return
+        }
+
+        selectSegment(at: index, animated: isAnimated)
+        if let onSelectAction = onSelectAction {
+            onSelectAction(items[index], index)
+        }
+    }
+
+    private func updatePillContainerConstraints() {
+        NSLayoutConstraint.deactivate(pillContainerViewConstraints)
+        let topAnchor: NSLayoutYAxisAnchor
+        let leadingAnchor: NSLayoutXAxisAnchor
+        let trailingAnchor: NSLayoutXAxisAnchor
+        let bottomAnchor: NSLayoutYAxisAnchor
+        if isFixedWidth {
+            topAnchor = self.safeAreaLayoutGuide.topAnchor
+            leadingAnchor = self.safeAreaLayoutGuide.leadingAnchor
+            trailingAnchor = self.safeAreaLayoutGuide.trailingAnchor
+            bottomAnchor = self.safeAreaLayoutGuide.bottomAnchor
+        } else {
+            topAnchor = scrollView.topAnchor
+            leadingAnchor = scrollView.leadingAnchor
+            trailingAnchor = scrollView.trailingAnchor
+            bottomAnchor = scrollView.bottomAnchor
+        }
+        pillContainerViewConstraints = [
+            pillContainerView.topAnchor.constraint(equalTo: topAnchor,
+                                                   constant: contentInset.top),
+            pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading),
+            pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing),
+            pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                   constant: -contentInset.bottom)
+        ]
+        NSLayoutConstraint.activate(pillContainerViewConstraints)
+    }
+
     private func setupLayoutConstraints () {
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        var constraints = [NSLayoutConstraint]()
-        pillContainerView.translatesAutoresizingMaskIntoConstraints = false
-        pillMaskedContentContainerView.translatesAutoresizingMaskIntoConstraints = false
+        updatePillContainerConstraints()
 
-        let pillContainerViewTopConstraint = pillContainerView.topAnchor.constraint(equalTo: topAnchor, constant: contentInset.top)
-        let pillContainerViewBottomConstraint = pillContainerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -contentInset.bottom)
-        let pillContainerViewLeadingConstraint = pillContainerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: contentInset.leading)
-        let pillContainerViewTrailingConstraint = pillContainerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -contentInset.trailing)
-        self.pillContainerViewTopConstraint = pillContainerViewTopConstraint
-        self.pillContainerViewBottomConstraint = pillContainerViewBottomConstraint
-        self.pillContainerViewLeadingConstraint = pillContainerViewLeadingConstraint
-        self.pillContainerViewTrailingConstraint = pillContainerViewTrailingConstraint
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
 
-        constraints.append(contentsOf: [
-            pillContainerViewTopConstraint,
-            pillContainerViewBottomConstraint,
-            pillContainerViewLeadingConstraint,
-            pillContainerViewTrailingConstraint,
-            backgroundView.leadingAnchor.constraint(equalTo: pillContainerView.leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: pillContainerView.trailingAnchor),
-            backgroundView.topAnchor.constraint(equalTo: pillContainerView.topAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: pillContainerView.bottomAnchor),
-
-            pillMaskedContentContainerView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor),
-            pillMaskedContentContainerView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor),
-            pillMaskedContentContainerView.topAnchor.constraint(equalTo: backgroundView.topAnchor),
-            pillMaskedContentContainerView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor)
+            pillMaskedContentContainerView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
+            pillMaskedContentContainerView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            pillMaskedContentContainerView.topAnchor.constraint(equalTo: stackView.topAnchor),
+            pillMaskedContentContainerView.bottomAnchor.constraint(equalTo: stackView.bottomAnchor)
         ])
-        NSLayoutConstraint.activate(constraints)
     }
 
     private func updateButton(at index: Int, isSelected: Bool) {
@@ -603,6 +561,13 @@ open class SegmentedControl: UIControl {
 
         let button = buttons[index]
         button.isSelected = isSelected
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        tokenSet.update(fluentTheme)
     }
 
     private func layoutSelectionView() {
@@ -615,9 +580,54 @@ open class SegmentedControl: UIControl {
         selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
     }
 
+    private func updateTokenizedValues() {
+        updateColors()
+        updateButtons()
+        layoutSelectionView()
+        setNeedsLayout()
+    }
+
     private func updateAccessibilityHints() {
         for (index, button) in buttons.enumerated() {
-            button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
+            button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized,
+                                                                        index + 1, items.count)
         }
+    }
+
+    private func updateStackDistribution() {
+        stackView.distribution = shouldSetEqualWidthForSegments ? .fillEqually : .fillProportionally
+    }
+
+    private func updateGradientMaskColors() {
+        gradientMaskLayer.colors = gradientMaskColors
+    }
+
+    private func updateViewHierarchyForScrolling() {
+        if isFixedWidth {
+            scrollView.removeFromSuperview()
+            pillContainerView.removeFromSuperview()
+            addSubview(pillContainerView)
+            layer.mask = nil
+
+            NSLayoutConstraint.deactivate(scrollViewConstraints)
+        } else {
+            pillContainerView.removeFromSuperview()
+            scrollView.addSubview(pillContainerView)
+            addSubview(scrollView)
+            layer.mask = gradientMaskLayer
+
+            NSLayoutConstraint.activate(scrollViewConstraints)
+        }
+    }
+
+    private var maximumContentOffset: CGFloat {
+        return stackView.frame.size.width - scrollView.frame.size.width
+    }
+}
+
+// MARK: UIScrollViewDelegate
+extension SegmentedControl: UIScrollViewDelegate {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateGradientMaskColors()
     }
 }

@@ -6,7 +6,8 @@
 import SwiftUI
 
 /// A platform-agnostic representation of a 32-bit RGBA color value.
-public struct ColorValue: Equatable {
+@objc(MSFColorValue)
+public class ColorValue: NSObject {
 
     public static let clear: ColorValue = .init(r: 0.0, g: 0.0, b: 0.0, a: 0.0)
 
@@ -18,7 +19,7 @@ public struct ColorValue: Equatable {
     /// - Parameter hexValue: The color value to store, in 24-bit (three-channel, 8-bit) RGB.
     ///
     /// - Returns: A color object that stores the provided color information.
-    public init(_ hexValue: UInt32) {
+    @objc public init(_ hexValue: UInt32) {
         self.hexValue = hexValue << 8 | 0xFF
     }
 
@@ -33,10 +34,10 @@ public struct ColorValue: Equatable {
     /// - Parameter a: The alpha channel.
     ///
     /// - Returns: A color object that stores the provided color information.
-    public init(r: CGFloat,
-                g: CGFloat,
-                b: CGFloat,
-                a: CGFloat) {
+    @objc public init(r: CGFloat,
+                      g: CGFloat,
+                      b: CGFloat,
+                      a: CGFloat) {
         hexValue = (min(UInt32(r * 255.0), 0xFF) << 24) |
                    (min(UInt32(g * 255.0), 0xFF) << 16) |
                    (min(UInt32(b * 255.0), 0xFF) << 8) |
@@ -53,7 +54,8 @@ public struct ColorValue: Equatable {
 }
 
 /// Represents a set of color values to be used in different contexts.
-public struct DynamicColor: Equatable {
+@objc(MSFDynamicColor)
+public class DynamicColor: NSObject {
 
     /// Creates a dynamic color object that wraps a set of color values for various rendering contexts.
     ///
@@ -65,14 +67,14 @@ public struct DynamicColor: Equatable {
     /// - Parameter darkHighContrast: The override color for a dark, high contrast context. Optional.
     /// - Parameter darkElevated: The override color for a dark, elevated context. Optional.
     /// - Parameter darkElevatedHighContrast: The override color for a dark, elevated, high contrast context. Optional.
-    public init(light: ColorValue,
-                lightHighContrast: ColorValue? = nil,
-                lightElevated: ColorValue? = nil,
-                lightElevatedHighContrast: ColorValue? = nil,
-                dark: ColorValue? = nil,
-                darkHighContrast: ColorValue? = nil,
-                darkElevated: ColorValue? = nil,
-                darkElevatedHighContrast: ColorValue? = nil) {
+    @objc public init(light: ColorValue,
+                      lightHighContrast: ColorValue? = nil,
+                      lightElevated: ColorValue? = nil,
+                      lightElevatedHighContrast: ColorValue? = nil,
+                      dark: ColorValue? = nil,
+                      darkHighContrast: ColorValue? = nil,
+                      darkElevated: ColorValue? = nil,
+                      darkElevatedHighContrast: ColorValue? = nil) {
         self.light = light
         self.lightHighContrast = lightHighContrast
         self.lightElevated = lightElevated
@@ -84,28 +86,28 @@ public struct DynamicColor: Equatable {
     }
 
     /// The default color for a light context. Required.
-    var light: ColorValue
+    let light: ColorValue
 
     /// The override color for a light, high contrast context. Optional.
-    var lightHighContrast: ColorValue?
+    let lightHighContrast: ColorValue?
 
     /// The override color for a light, elevated context. Optional.
-    var lightElevated: ColorValue?
+    let lightElevated: ColorValue?
 
     /// The override color for a light, elevated, high contrast context. Optional.
-    var lightElevatedHighContrast: ColorValue?
+    let lightElevatedHighContrast: ColorValue?
 
     /// The override color for a dark context. Optional.
-    var dark: ColorValue?
+    let dark: ColorValue?
 
     /// The override color for a dark, high contrast context. Optional.
-    var darkHighContrast: ColorValue?
+    let darkHighContrast: ColorValue?
 
     /// The override color for a dark, elevated context. Optional.
-    var darkElevated: ColorValue?
+    let darkElevated: ColorValue?
 
     /// The override color for a dark, elevated, high contrast context. Optional.
-    var darkElevatedHighContrast: ColorValue?
+    let darkElevatedHighContrast: ColorValue?
 
     // MARK: - Internal functions
 

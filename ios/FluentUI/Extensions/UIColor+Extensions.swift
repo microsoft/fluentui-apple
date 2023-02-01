@@ -90,7 +90,7 @@ extension UIColor {
     /// Creates a UIColor from a `ColorValue` instance.
     ///
     /// - Parameter colorValue: Color value to use to initialize this color.
-    public convenience init(colorValue: ColorValue) {
+    @objc public convenience init(colorValue: ColorValue) {
         self.init(
             red: colorValue.r,
             green: colorValue.g,
@@ -102,7 +102,7 @@ extension UIColor {
     /// rendering context.
     ///
     /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
-    public convenience init(dynamicColor: DynamicColor) {
+    @objc public convenience init(dynamicColor: DynamicColor) {
         self.init { traits -> UIColor in
             let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
                                             contrast: traits.accessibilityContrast == .high ? .increased : .standard,

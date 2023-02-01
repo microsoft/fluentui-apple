@@ -20,6 +20,7 @@ class NotificationViewDemoController: DemoController {
         case persistentBarWithCancel
         case primaryToastWithStrikethroughAttribute
         case neutralBarWithFontAttribute
+        case neutralBarFromTop
         case neutralToastWithOverriddenTokens
         case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
@@ -50,6 +51,8 @@ class NotificationViewDemoController: DemoController {
                 return "Primary Toast with Strikethrough Attribute"
             case .neutralBarWithFontAttribute:
                 return "Neutral Bar with Font Attribute"
+            case .neutralBarFromTop:
+                return "Neutral Bar Presented from Top"
             case .neutralToastWithOverriddenTokens:
                 return "Neutral Toast With Overridden Tokens"
             case .neutralToastWithGradientBackground:
@@ -62,6 +65,9 @@ class NotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
+
         view.backgroundColor = Colors.surfaceSecondary
 
         addTitle(text: "SwiftUI Demo")
@@ -180,6 +186,15 @@ class NotificationViewDemoController: DemoController {
                                                                       attributes: [.font: UIFont.init(name: "Papyrus",
                                                                                                       size: 30.0)!,
                                                                                    .foregroundColor: UIColor.red])
+            notification.state.actionButtonAction = { [weak self] in
+                self?.showMessage("`Dismiss` tapped")
+                notification.hide()
+            }
+            return notification
+        case .neutralBarFromTop:
+            let notification = MSFNotification(style: .neutralBar)
+            notification.state.message = "This is a bar presented from the top."
+            notification.state.showFromBottom = false
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
