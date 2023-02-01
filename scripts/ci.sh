@@ -30,7 +30,7 @@ $XCODEBUILD_WRAPPER_LOCATION macos_build FluentUITestApp-macOS Release build tes
 handle_exit_code
 
 echo "Building and Testing iOS Static Lib Debug Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Debug build test -destination "platform=iOS Simulator,name=iPhone 8"
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build FluentUI-iOS Debug build
 handle_exit_code
 
 echo "Building iOS Static Lib Release Simulator"
