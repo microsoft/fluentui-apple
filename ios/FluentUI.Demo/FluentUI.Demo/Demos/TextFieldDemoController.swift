@@ -9,12 +9,10 @@ import UIKit
 class TextFieldDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let textField1 = FluentTextField()
-        textField1.placeholder = "Hint text"
+        textField1.placeholder = "Validates text on each input character"
         textField1.leadingImage = UIImage(named: "Placeholder_24")
-        textField1.labelText = "Label"
-        textField1.assistiveText = "Validates text on each input character"
         textField1.validateInputText = validateText
 
         let textField2 = FluentTextField()
@@ -27,8 +25,6 @@ class TextFieldDemoController: DemoController {
 
         let textField3 = FluentTextField()
         textField3.placeholder = "Hint text"
-        textField3.leadingImage = UIImage(named: "Placeholder_24")
-        textField3.labelText = "Label"
         textField3.assistiveText = "Validates on press of return key"
         textField3.onReturn = onReturn
 
