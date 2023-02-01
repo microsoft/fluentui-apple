@@ -23,16 +23,28 @@ class CardNudgeTest: BaseTest {
 
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge with title \"Standard\", subtitle \"Subtitle\", accent text \"Accent\", an icon, an accent icon, an action button titled \"Action\", and a dismiss button.*")).element.exists)
         mainIconSwitch.tap()
+        // sleeps after each switch change to allow changes to reflect
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*an icon.*")).element.exists)
+
         subtitleSwitch.tap()
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*subtitle.*")).element.exists)
+
         accentIconSwitch.tap()
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*accent icon.*")).element.exists)
+
         accentSwitch.tap()
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*accent text.*")).element.exists)
+
         dismissButtonSwitch.tap()
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*dismiss button.*")).element.exists)
+
         actionButtonSwitch.tap()
+        sleep(1)
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Card Nudge.*action button.*")).element.exists)
     }
 
