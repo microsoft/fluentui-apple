@@ -153,7 +153,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
 
             case .activityBackgroundColor:
                 return .dynamicColor({
-                    theme.aliasTokens.colors[.background4]
+                    theme.aliasTokens.colors[.background5]
                 })
 
             case .backgroundDefaultColor:
