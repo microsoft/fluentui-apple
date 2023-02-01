@@ -191,12 +191,18 @@ public struct Avatar: View, TokenizedControlView {
                     }
                     return state.hasRingInnerGap ? "an image based ring with an inner gap" : "an image based ring with no inner gap"
                 }()
-                let presenceDescription: String = state.isOutOfOffice ? "out of office" : state.presence.rawValue.description
+                let presenceActivityDescription: String = {
+                    if shouldDisplayActivity {
+                        return "activity \(state.activityStyle.rawValue)"
+                    } else {
+                        return state.isOutOfOffice ? "presence out of office" : "presence \(state.presence.rawValue)"
+                    }
+                }()
 
                 if let title: String = state.primaryText ?? state.secondaryText {
-                    return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+                    return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and \(presenceActivityDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
                 }
-                return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+                return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceActivityDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
             }()
 #endif
 
