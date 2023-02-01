@@ -30,11 +30,14 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         /// The gap around the ring around the `Avatar`.
         case ringOuterGap
 
-        /// The thickness of the outline around the presence icon.
-        case presenceIconOutlineThickness
+        /// The thickness of the outline around the presence/activity.
+        case borderThickness
 
-        /// The color of the outline around the presence.
-        case presenceOutlineColor
+        /// The color of the border around the presence/activity.
+        case borderColor
+
+        /// The background color of the activity.
+        case activityBackgroundColor
 
         /// The default color of the background of the `Avatar`.
         case backgroundDefaultColor
@@ -133,7 +136,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     }
                 })
 
-            case .presenceIconOutlineThickness:
+            case .borderThickness:
                 return .float({
                     switch size() {
                     case .size16:
@@ -143,9 +146,14 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     }
                 })
 
-            case .presenceOutlineColor:
+            case .borderColor:
                 return .dynamicColor({
                     theme.aliasTokens.colors[.background1]
+                })
+
+            case .activityBackgroundColor:
+                return .dynamicColor({
+                    theme.aliasTokens.colors[.background5]
                 })
 
             case .backgroundDefaultColor:
@@ -223,9 +231,43 @@ extension AvatarTokenSet {
             return GlobalTokens.iconSize(.small)
         }
     }
+
+    /// The border radius for the activity icon in the MSFAvatarActivityStyle `.square` style.
+    static func activityIconRadius(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40, .size56:
+            return GlobalTokens.corner(.radius40)
+        }
+    }
+
+    /// The size of the activity icon.
+    static func activityIconSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40:
+            return GlobalTokens.iconSize(.xSmall)
+        case .size56:
+            return GlobalTokens.iconSize(.medium)
+        }
+    }
+
+    /// The size of the activity icon background.
+    static func activityIconBackgroundSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40:
+            return GlobalTokens.iconSize(.small)
+        case .size56:
+            return GlobalTokens.iconSize(.large)
+        }
+    }
 }
 
-/// Pre-defined styles of the avatar
+/// Pre-defined styles of the avatar.
 @objc public enum MSFAvatarStyle: Int, CaseIterable {
     case `default`
     case accent
@@ -235,7 +277,7 @@ extension AvatarTokenSet {
     case overflow
 }
 
-/// Pre-defined sizes of the avatar
+/// Pre-defined sizes of the avatar.
 @objc public enum MSFAvatarSize: Int, CaseIterable {
     case size16
     case size20
@@ -244,4 +286,11 @@ extension AvatarTokenSet {
     case size40
     case size56
     case size72
+}
+
+/// Types of Avatar Activity styles.
+@objc public enum MSFAvatarActivityStyle: Int, CaseIterable {
+    case none
+    case circle
+    case square
 }
