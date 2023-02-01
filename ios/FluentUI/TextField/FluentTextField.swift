@@ -489,7 +489,7 @@ extension TextFieldTokenSet {
 }
 
 @objc(MSFTextInputError)
-public class FluentTextInputError: NSObject {
+open class FluentTextInputError: NSObject {
     @objc public init(localizedDescription: String) {
         self.localizedDescription = localizedDescription
         super.init()
