@@ -73,7 +73,7 @@ open class TwoLineTitleView: UIView {
         case subtitle = 0b10
         case all = 0b11
 
-        func includes(_ other: InteractivePart) -> Bool {
+        func contains(_ other: InteractivePart) -> Bool {
             return rawValue & other.rawValue != 0
         }
     }
@@ -142,7 +142,7 @@ open class TwoLineTitleView: UIView {
 
     private let titleButton = EasyTapButton()
     private var titleAccessoryType: AccessoryType {
-        return interactivePart.includes(.title) ? accessoryType : .none
+        return interactivePart.contains(.title) ? accessoryType : .none
     }
 
     private lazy var titleButtonLabel: Label = {
@@ -158,7 +158,7 @@ open class TwoLineTitleView: UIView {
 
     private let subtitleButton = EasyTapButton()
     private var subtitleAccessoryType: AccessoryType {
-        return interactivePart.includes(.subtitle) ? accessoryType : .none
+        return interactivePart.contains(.subtitle) ? accessoryType : .none
     }
 
     private lazy var subtitleButtonLabel: Label = {
@@ -244,7 +244,7 @@ open class TwoLineTitleView: UIView {
         self.animatesTextColor = animatesTextColor
         self.accessoryType = accessoryType
 
-        setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart.includes(.title), accessoryType: accessoryType)
+        setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll stretch the title button to adjust the hit area
         // while still only keeping one button active from an accessibility standpoint.
@@ -360,7 +360,7 @@ open class TwoLineTitleView: UIView {
         if subtitleButtonLabel.text != nil {
             subtitleButton.frame = CGRect(x: frame.origin.x, y: top, width: bounds.width, height: subtitleButtonHeight).integral
 
-            let subtitleButtonLabelMaxWidth = interactivePart.includes(.subtitle) ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width
+            let subtitleButtonLabelMaxWidth = interactivePart.contains(.subtitle) ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width
             subtitleButtonLabel.sizeToFit()
             let subtitleButtonLabelWidth = min(subtitleButtonLabelMaxWidth, subtitleButtonLabel.frame.width)
             subtitleButtonLabel.frame = CGRect(
