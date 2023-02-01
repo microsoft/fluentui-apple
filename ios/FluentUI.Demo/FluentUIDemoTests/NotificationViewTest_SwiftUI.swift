@@ -50,7 +50,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         let setImageSwitch: XCUIElement = app.switches["Set image"]
         let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"]
 
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*no image.*")).element.exists)
+        XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*image.*")).element.exists)
         setImageSwitch.tap()
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*image.*")).element.exists)
 
