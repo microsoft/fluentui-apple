@@ -436,6 +436,11 @@ open class NavigationBar: UINavigationBar {
         )
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors(for: topItem)
+    }
+
     /// Guarantees that the custom UI remains on top of the subview stack
     /// Fetches the current navigation item and triggers a UI update
     open override func layoutSubviews() {
