@@ -58,7 +58,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-    @objc public var validateInputText: ((FluentTextField) -> FluentTextInputError?)?
+    @objc public var onEditingChanged: ((FluentTextField) -> Void)?
     @objc public var onDidBeginEditing: ((FluentTextField) -> Void)?
     @objc public var onDidEndEditing: ((FluentTextField) -> Void)?
     @objc public var onReturn: ((FluentTextField) -> Bool)?
@@ -71,9 +71,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
     @objc public init() {
         super.init(frame: .zero)
-        textfield.validateInputText = validateInput
+        textfield.validateInputText = editingChanged
         textfield.delegate = self
-        textfield.addTarget(self, action: #selector(validateInput), for: .editingChanged)
+        textfield.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
 
         let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
         textStack.axis = .vertical
@@ -219,11 +219,11 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         updateTokenizedValues()
     }
 
-    @objc private func validateInput() {
-        guard let validateInputText = validateInputText else {
+    @objc private func editingChanged() {
+        guard let onEditingChanged = onEditingChanged else {
             return
         }
-        error = validateInputText(self)
+        onEditingChanged(self)
     }
 
     private func updateTokenizedValues() {

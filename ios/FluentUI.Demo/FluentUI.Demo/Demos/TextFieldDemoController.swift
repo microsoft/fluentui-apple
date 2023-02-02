@@ -13,7 +13,7 @@ class TextFieldDemoController: DemoController {
         let textField1 = FluentTextField()
         textField1.placeholder = "Validates text on each input character"
         textField1.leadingImage = UIImage(named: "Placeholder_24")
-        textField1.validateInputText = validateText
+        textField1.onEditingChanged = onEditingChanged
 
         let textField2 = FluentTextField()
         textField2.placeholder = "Hint text"
@@ -51,6 +51,10 @@ class TextFieldDemoController: DemoController {
             return FluentTextInputError(localizedDescription: "Input text cannot contain the following characters: /")
         }
         return nil
+    }
+
+    func onEditingChanged (_ textfield: FluentTextField) {
+        textfield.error = validateText(textfield)
     }
 
     func onDidBeginEditing(_ textfield: FluentTextField) {
