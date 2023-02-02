@@ -54,7 +54,7 @@ open class CommandingItem: NSObject {
     }
 
     /// A `Badge` to be displayed on the trailing end.
-    @objc open var badge: BadgeView? {
+    @objc open var badge: UIView? {
         didSet {
             if badge != oldValue {
                 delegate?.commandingItem(self, didChangeBadgeTo: badge)
@@ -95,7 +95,7 @@ open class CommandingItem: NSObject {
         self.isToggleable = isToggleable
     }
 
-    @objc public convenience init(title: String, image: UIImage, badge: BadgeView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
+    @objc public convenience init(title: String, image: UIImage, badge: UIView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
         self.init(title: title, image: image, action: action, isToggleable: isToggleable)
         self.badge = badge
     }
@@ -121,7 +121,7 @@ protocol CommandingItemDelegate: AnyObject {
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
 
     /// Called after the `badge` property changed.
-    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: BadgeView?)
+    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: UIView?)
 
     /// Called after the `isOn` property changed.
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)

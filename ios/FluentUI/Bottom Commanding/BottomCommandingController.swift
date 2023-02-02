@@ -661,9 +661,7 @@ open class BottomCommandingController: UIViewController {
             }
         } else {
             if let badge = item.badge {
-                let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
-                stackView.addArrangedSubview(badge)
-                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: stackView)
+                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: badge)
             } else {
                 cell.setup(title: item.title ?? "", customView: iconView)
             }
@@ -1013,7 +1011,7 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: BadgeView?) {
+    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: UIView?) {
         reloadView(from: item)
     }
 
