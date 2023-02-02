@@ -218,7 +218,6 @@ open class TwoLineTitleView: UIView {
     // MARK: Setup
 
     /// Sets the relevant strings and button styles for the title and subtitle.
-    /// This is a legacy API that maintains Objective C compatibility with older versions of fluentui-apple.
     ///
     /// - Parameters:
     ///   - title: A title string.
