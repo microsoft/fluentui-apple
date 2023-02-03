@@ -39,7 +39,7 @@ class TextFieldDemoController: DemoController {
         NSLayoutConstraint.activate([
             safeArea.topAnchor.constraint(equalTo: stack.topAnchor),
             safeArea.leadingAnchor.constraint(equalTo: stack.leadingAnchor),
-            safeArea.trailingAnchor.constraint(equalTo: stack.trailingAnchor),
+            safeArea.trailingAnchor.constraint(equalTo: stack.trailingAnchor)
         ])
     }
 
@@ -58,7 +58,7 @@ class TextFieldDemoController: DemoController {
     }
 
     func onDidBeginEditing(_ textfield: FluentTextField) {
-        if let image =  UIImage(named: "play-in-circle-24x24") {
+        if let image = UIImage(named: "play-in-circle-24x24") {
             textfield.leadingImage = image.withRenderingMode(.alwaysTemplate)
         }
         textfield.error = validateText(textfield)

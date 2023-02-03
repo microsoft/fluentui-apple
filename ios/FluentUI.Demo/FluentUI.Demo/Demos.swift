@@ -33,6 +33,7 @@ struct Demos {
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TextFieldDemoController", TextFieldDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self),
         DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
     ]
@@ -59,8 +60,7 @@ struct Demos {
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
         DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
-        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
-        DemoDescriptor("TextFieldDemoController", TextFieldDemoController.self),
+        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self)
     ]
 
     static let debug: [DemoDescriptor] = [
