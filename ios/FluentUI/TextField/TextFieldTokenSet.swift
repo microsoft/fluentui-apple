@@ -60,51 +60,30 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor {
                     switch state() {
                     case .unfocused, .focused:
-                        // Foreground 2
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                            dark: GlobalTokens.neutralColors(.grey84))
+                        return theme.aliasTokens.colors[.foreground2]
                     case .error:
-                        // Danger foreground 1
-                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
-                                            dark: GlobalTokens.sharedColors(.red, .tint30))
+                        return theme.aliasTokens.colors[.dangerForeground1]
                     }
                 }
             case .assistiveTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.caption2] }
             case .backgroundColor:
-                return .dynamicColor {
-                    // Background 1
-                    DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                 dark: GlobalTokens.neutralColors(.black),
-                                 darkElevated: GlobalTokens.neutralColors(.grey4))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
             case .cursorColor:
-                return .dynamicColor {
-                    // Foreground 3
-                    DynamicColor(light: GlobalTokens.neutralColors(.grey50),
-                                 dark: GlobalTokens.neutralColors(.grey68))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
             case .inputTextColor:
-                return .dynamicColor {
-                    // Foreground 1
-                    DynamicColor(light: GlobalTokens.neutralColors(.grey14),
-                                 dark: GlobalTokens.neutralColors(.white))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
             case .inputTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.body1] }
             case .labelColor:
                 return .dynamicColor {
                     switch state() {
                     case .unfocused:
-                        // Foreground 2
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                            dark: GlobalTokens.neutralColors(.grey84))
+                        return theme.aliasTokens.colors[.foreground2]
                     case .focused:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     case .error:
-                        // Danger foreground 1
-                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
-                                            dark: GlobalTokens.sharedColors(.red, .tint30))
+                        return theme.aliasTokens.colors[.dangerForeground1]
                     }
                 }
             case .labelFont:
@@ -113,40 +92,27 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor {
                     switch state() {
                     case .unfocused, .error:
-                        // Foreground 2
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                            dark: GlobalTokens.neutralColors(.grey84))
+                        return theme.aliasTokens.colors[.foreground2]
                     case .focused:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
             case .placeholderColor:
-                return .dynamicColor {
-                    // Foreground 2
-                    return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                        dark: GlobalTokens.neutralColors(.grey84))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
             case .strokeColor:
                 return .dynamicColor {
                     switch state() {
                     case .unfocused:
-                        // Stroke 1
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
-                                            dark: GlobalTokens.neutralColors(.grey30),
-                                            darkElevated: GlobalTokens.neutralColors(.grey36))
+                        return theme.aliasTokens.colors[.stroke1]
                     case .focused:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     case .error:
-                        // Danger foreground 1
-                        return DynamicColor(light: GlobalTokens.sharedColors(.red, .shade10),
-                                            dark: GlobalTokens.sharedColors(.red, .tint30))
+                        return theme.aliasTokens.colors[.dangerForeground1]
                     }
                 }
             case .trailingIconColor:
                 return .dynamicColor {
-                    // Foreground 2
-                    return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                        dark: GlobalTokens.neutralColors(.grey84))
+                    return theme.aliasTokens.colors[.foreground2]
                 }
             }
         }
@@ -163,41 +129,41 @@ extension TextFieldTokenSet {
 
     /// The value for the padding between the leading and trailing edges of the control and the content.
     static func horizontalPadding() -> CGFloat {
-        return GlobalTokens.spacing(.medium)
+        return GlobalTokens.spacing(.size160)
     }
 
     /// The value for the padding between the top edge of the control and the content.
     static func topPadding() -> CGFloat {
-        return GlobalTokens.spacing(.small)
+        return GlobalTokens.spacing(.size120)
     }
 
     /// The value for the padding between the bottom edge of the control and the content.
     static func bottomPadding() -> CGFloat {
-        return GlobalTokens.spacing(.xxSmall)
+        return GlobalTokens.spacing(.size40)
     }
 
     /// The value for the spacing between the top label and the input or placeholder text.
     static func labelInputTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.small)
+        return GlobalTokens.spacing(.size120)
     }
 
     /// The value for the spacing between the leading icon and the input or placeholder text.
     static func leadingIconInputTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.medium)
+        return GlobalTokens.spacing(.size160)
     }
 
     /// The value for the spacing between the input or placeholder text and the trailing icon.
     static func inputTextTrailingIconSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.xSmall)
+        return GlobalTokens.spacing(.size80)
     }
 
     /// The value for the spacing between the input or placeholder text and the separator.
     static func inputTextStrokeSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.small)
+        return GlobalTokens.spacing(.size120)
     }
 
     /// The value for the spacing between the separator and the assistive text label.
     static func strokeAssistiveTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.xxSmall)
+        return GlobalTokens.spacing(.size40)
     }
 }
