@@ -15,7 +15,7 @@ import Combine
 // |    |--title
 // |    |--message
 // |  |--arrowImageView (tip of tooltip view)
-// |--|--layer (ambient and perimeter shadows added as sublayers)
+// |--|--layer (ambient and key shadows added as sublayers)
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
 open class Tooltip: NSObject, TokenizedControlInternal {
