@@ -26,9 +26,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).withAlphaComponent(0.4)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor).withAlphaComponent(0.4)
+                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor).withAlphaComponent(0.4)
             case .communication:
                 return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor).withAlphaComponent(0.4)
             }
@@ -37,9 +37,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor)
+                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.destructiveTextColor].dynamicColor)
+                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor)
             case .communication:
                 return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor)
             }
@@ -122,9 +122,9 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private var action1Type: ActionType = .regular
     private var action2Type: ActionType = .regular
 
-    private let topSeparator = Separator(style: .default, orientation: .horizontal)
-    private let bottomSeparator = Separator(style: .default, orientation: .horizontal)
-    private let verticalSeparator = Separator(style: .default, orientation: .vertical)
+    private let topSeparator = Separator(orientation: .horizontal)
+    private let bottomSeparator = Separator(orientation: .horizontal)
+    private let verticalSeparator = Separator(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })

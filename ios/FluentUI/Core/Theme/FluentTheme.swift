@@ -50,7 +50,7 @@ public class FluentTheme: NSObject, ObservableObject {
 // MARK: - FluentThemeable
 
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
-public protocol FluentThemeable {
+@objc public protocol FluentThemeable {
     var fluentTheme: FluentTheme { get set }
 }
 

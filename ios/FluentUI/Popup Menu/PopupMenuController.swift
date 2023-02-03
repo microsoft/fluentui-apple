@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: PopupMenu Colors
-
-public extension Colors {
-    struct PopupMenu {
-        public static var description: UIColor = textSecondary
-    }
-}
-
 // MARK: - PopupMenuController Colors
 
 /**
@@ -26,7 +18,6 @@ public extension Colors {
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-
         static let descriptionHorizontalMargin: CGFloat = 16
         static let descriptionVerticalMargin: CGFloat = 12
     }
@@ -126,9 +117,12 @@ open class PopupMenuController: DrawerController {
     }
 
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.Separator.default {
-        didSet {
-            separator?.backgroundColor = separatorColor
+    @objc open var separatorColor: UIColor = { return UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.stroke2]) }() {
+            didSet {
+                guard let separator = separator else {
+                    return
+                }
+                separator.backgroundColor = UIColor(cgColor: separatorColor.cgColor)
         }
     }
 
@@ -159,6 +153,8 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
+        let verticalMargin = GlobalTokens.spacing(.size120)
+        let horizontalMargin = GlobalTokens.spacing(.size160)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
@@ -184,7 +180,6 @@ open class PopupMenuController: DrawerController {
     }()
     private let descriptionLabel: Label = {
         let label = Label(style: .footnote)
-        label.textColor = Colors.PopupMenu.description
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -221,6 +216,20 @@ open class PopupMenuController: DrawerController {
     open override func initialize() {
         super.initialize()
         initTableView()
+        updateDescriptionLabelColor()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    private func updateDescriptionLabelColor() {
+        descriptionLabel.textColor = UIColor(dynamicColor: tableView.fluentTheme.aliasTokens.colors[.foreground2])
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        updateDescriptionLabelColor()
     }
 
     open override func didDismiss() {

@@ -24,141 +24,137 @@ public extension PillButton {
     // MARK: normal state
 
     @objc(normalBackgroundColorForWindow:ForStyle:)
-    static func normalBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
-        let defaultColor = UIColor(light: Colors.surfaceTertiary, dark: Colors.surfaceSecondary)
+    static func normalBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
+        let defaultColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
         switch style {
         case .primary:
             return defaultColor
         case .onBrand:
-            return UIColor(light: Colors.primaryShade10(for: window), dark: defaultColor)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground2]), dark: defaultColor)
         }
     }
 
-    static func titleColor(for style: PillButtonStyle) -> UIColor {
+    static func titleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.textSecondary, dark: Colors.textPrimary)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         case .onBrand:
-            return UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }
 
-    static func hoverBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
-        switch style {
-        case .primary:
-            return Colors.surfaceQuaternary
-        case .onBrand:
-            return UIColor(light: Colors.primaryShade20(for: window), dark: Colors.surfaceQuaternary)
-        }
+    static func titleFont(for fluentTheme: FluentTheme) -> FontInfo {
+        return fluentTheme.aliasTokens.typography[.body2]
     }
 
     // MARK: selected state
 
-    static func selectedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return Colors.primary(for: window)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
         case .onBrand:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]))
         }
     }
 
-    static func selectedTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return Colors.textOnAccent
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic]))
         case .onBrand:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundLightStatic]))
         }
     }
 
     // MARK: disabled state
 
-    static func disabledBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
-        switch style {
-        case .primary:
-            return normalBackgroundColor(for: window, for: style)
-        case .onBrand:
-            return UIColor(light: Colors.primaryShade10(for: window), dark: normalBackgroundColor(for: window, for: style))
-        }
+    static func disabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
+        return normalBackgroundColor(for: fluentTheme, for: style)
     }
 
-    static func disabledTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func disabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return Colors.textDisabled
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         case .onBrand:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDisabled)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
         }
     }
 
     // MARK: selected disabled state
-
-    static func selectedDisabledBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedDisabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return Colors.surfaceQuaternary
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundDisabled])
         case .onBrand:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.surfaceQuaternary)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundDisabled]))
         }
     }
 
-    static func selectedDisabledTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedDisabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.surfacePrimary, dark: Colors.gray500)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled2])
         case .onBrand:
-            return UIColor(light: Colors.primaryTint20(for: window), dark: Colors.gray500)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled2]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled2]))
         }
     }
 
     // MARK: highlighted state
 
-    static func highlightedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
-        return disabledBackgroundColor(for: window, for: style)
+    static func highlightedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
+        return disabledBackgroundColor(for: fluentTheme, for: style)
     }
 
-    static func highlightedTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
-        return UIColor(light: disabledTitleColor(for: window, for: style), dark: Colors.textSecondary)
+    static func highlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
+        return UIColor(light: disabledTitleColor(for: fluentTheme, for: style),
+                       dark: UIColor(colorValue: GlobalTokens.sharedColors(.lime, .primary)))
     }
 
     // MARK: selected highlighted state
 
-    static func selectedHighlightedBackgroundColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedHighlightedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.primaryTint20(for: window))
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
         case .onBrand:
-            return UIColor(light: Colors.surfaceSecondary, dark: Colors.gray700)
+            return UIColor(light: UIColor(colorValue: GlobalTokens.neutralColors(.white)),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }
 
-    static func selectedHighlightedTitleColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func selectedHighlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return selectedTitleColor(for: window, for: style)
+            return selectedTitleColor(for: fluentTheme, for: style)
         case .onBrand:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.textDominant)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
         }
     }
 
     // MARK: unread dot state
 
-    static func enabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func enabledUnreadDotColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.primary(for: window), dark: Colors.primary(for: window))
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]))
         case .onBrand:
-            return UIColor(light: .white, dark: Colors.gray100)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
         }
     }
 
-    static func disabledUnreadDotColor(for window: UIWindow, for style: PillButtonStyle) -> UIColor {
+    static func disabledUnreadDotColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: Colors.gray300, dark: Colors.gray600)
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
         case .onBrand:
-            return UIColor(light: Colors.primaryTint10(for: window), dark: Colors.gray600)
+            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]),
+                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
         }
     }
 }
