@@ -34,7 +34,7 @@ class FluentTextFieldInternal: UITextField {
     let inputTextTrailingIconSpacing: CGFloat = TextFieldTokenSet.inputTextTrailingIconSpacing()
     let trailingViewSize: CGFloat = TextFieldTokenSet.iconSize()
     var clearButton: Button = {
-        let button = Button(style: .borderless)
+        let button = Button(style: .subtle)
         button.image = UIImage.staticImageNamed("ic_fluent_dismiss_circle_24_regular")
         button.accessibilityLabel = "Accessibility.TextField.Clear".localized
         button.edgeInsets = .zero

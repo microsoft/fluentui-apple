@@ -231,7 +231,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }()
 
     let separator: Separator = {
-        let separator = Separator(style: .default, orientation: .horizontal)
+        let separator = Separator()
         return separator
     }()
 
