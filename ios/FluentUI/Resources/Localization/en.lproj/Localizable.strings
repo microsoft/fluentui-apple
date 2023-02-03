@@ -128,6 +128,9 @@
 /* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
 "Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
 
+/* Accessibility label for the small x button of the textfield to clear text */
+"Accessibility.TextField.Clear" = "Clear text";
+
 /* Commanding Bottom Bar - More button */
 "CommandingBottomBar.More" = "More";
 

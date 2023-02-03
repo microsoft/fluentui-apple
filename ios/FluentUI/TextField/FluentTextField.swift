@@ -304,6 +304,7 @@ class FluentTextFieldInternal: UITextField {
     var clearButton: Button = {
         let button = Button(style: .borderless)
         button.image = UIImage.staticImageNamed("ic_fluent_dismiss_circle_24_regular")
+        button.accessibilityLabel = "Accessibility.TextField.Clear".localized
         button.edgeInsets = .zero
         return button
     }()
