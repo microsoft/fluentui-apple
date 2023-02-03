@@ -315,7 +315,7 @@ public struct Avatar: View, TokenizedControlView {
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
-                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice)))
+                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)))
                                         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
