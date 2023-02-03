@@ -46,7 +46,6 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
     public var body: some View {
         let label = state.label ?? ""
         let type = state.type
-        let foregroundColor = Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
         let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
         let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
 
@@ -56,7 +55,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
+                        .color(UIColor(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -72,23 +71,23 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(foregroundColor)
+                        .foregroundColor(Color(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(foregroundColor)
+                        .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }
-        .padding(EdgeInsets(top: verticalPadding,
+        .padding(EdgeInsets(top: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.topPadding,
                             leading: horizontalPadding,
-                            bottom: verticalPadding,
+                            bottom: label.isEmpty ? HeadsUpDisplayTokenSet.verticalPadding : HeadsUpDisplayTokenSet.bottomPadding,
                             trailing: horizontalPadding))
         .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
                       maxSize: HeadsUpDisplayTokenSet.maxSize)

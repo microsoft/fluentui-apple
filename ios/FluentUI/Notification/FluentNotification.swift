@@ -284,14 +284,7 @@ public struct FluentNotification: View, TokenizedControlView {
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
                         )
-                        .shadow(color: Color(dynamicColor: shadowInfo.colorOne),
-                                radius: shadowInfo.blurOne,
-                                x: shadowInfo.xOne,
-                                y: shadowInfo.yOne)
-                        .shadow(color: Color(dynamicColor: shadowInfo.colorTwo),
-                                radius: shadowInfo.blurTwo,
-                                x: shadowInfo.xTwo,
-                                y: shadowInfo.yTwo)
+                        .applyShadow(shadowInfo: shadowInfo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
@@ -328,7 +321,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         })
                         .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
-                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yOne / 2)
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yKey / 2)
                             // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
                             if !isPresented {
                                 bottomOffset = bottomOffsetForDismissedState

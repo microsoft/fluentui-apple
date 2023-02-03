@@ -160,10 +160,10 @@ class CommandBarDemoController: DemoController {
     var defaultCommandBar: CommandBar?
     var animateCommandBarDelegateEvents: Bool = false
 
-    let textField: UITextField = {
+    lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = Colors.navigationBarBackground
+        textField.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         textField.placeholder = "Text Field"
 
         return textField
@@ -176,50 +176,56 @@ class CommandBarDemoController: DemoController {
 
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        view.backgroundColor = Colors.surfaceSecondary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
         commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
-        commandBar.backgroundColor = Colors.navigationBarBackground
+        commandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
 
         let itemCustomizationContainer = UIStackView()
         itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
         itemCustomizationContainer.axis = .vertical
-        itemCustomizationContainer.backgroundColor = Colors.navigationBarBackground
+        itemCustomizationContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
-        let refreshButton = Button(style: .tertiaryOutline)
+        let refreshButton = Button(style: .outline)
+        refreshButton.size = .small
         refreshButton.setTitle("Refresh 'Default' Bar", for: .normal)
         refreshButton.addTarget(self, action: #selector(refreshDefaultBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshButton)
 
-        let removeTrailingItemButton = Button(style: .tertiaryOutline)
+        let removeTrailingItemButton = Button(style: .outline)
+        removeTrailingItemButton.size = .small
         removeTrailingItemButton.setTitle("Remove Trailing Button", for: .normal)
         removeTrailingItemButton.addTarget(self, action: #selector(removeDefaultTrailingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(removeTrailingItemButton)
 
-        let refreshTrailingItemButton = Button(style: .tertiaryOutline)
+        let refreshTrailingItemButton = Button(style: .outline)
+        refreshTrailingItemButton.size = .small
         refreshTrailingItemButton.setTitle("Refresh Trailing Button", for: .normal)
         refreshTrailingItemButton.addTarget(self, action: #selector(refreshDefaultTrailingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshTrailingItemButton)
 
-        let removeLeadingItemButton = Button(style: .tertiaryOutline)
+        let removeLeadingItemButton = Button(style: .outline)
+        removeLeadingItemButton.size = .small
         removeLeadingItemButton.setTitle("Remove Leading Button", for: .normal)
         removeLeadingItemButton.addTarget(self, action: #selector(removeDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(removeLeadingItemButton)
 
-        let refreshLeadingItemButton = Button(style: .tertiaryOutline)
+        let refreshLeadingItemButton = Button(style: .outline)
+        refreshLeadingItemButton.size = .small
         refreshLeadingItemButton.setTitle("Refresh Leading Button", for: .normal)
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let resetScrollPositionButton = Button(style: .tertiaryOutline)
+        let resetScrollPositionButton = Button(style: .outline)
+        resetScrollPositionButton.size = .small
         resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
         resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)
@@ -264,13 +270,13 @@ class CommandBarDemoController: DemoController {
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
         fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
-        fixedButtonCommandBar.backgroundColor = Colors.navigationBarBackground
+        fixedButtonCommandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
         let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = Colors.navigationBarBackground
+        textFieldContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         textFieldContainer.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
@@ -362,9 +368,7 @@ class CommandBarDemoController: DemoController {
         )
 
         commandBarItem.accentImage = command.accentImage
-        if let window = view.window {
-            commandBarItem.accentImageTintColor = Colors.primary(for: window)
-        }
+        commandBarItem.accentImageTintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
@@ -506,7 +510,7 @@ extension CommandBarDemoController: CommandBarDelegate {
             let originalBackgroundColor = commandBar.backgroundColor
 
             UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
-                commandBar.backgroundColor = Colors.communicationBlue
+                commandBar.backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.brandBackground1])
             } completion: { _ in
                 commandBar.backgroundColor = originalBackgroundColor
             }
