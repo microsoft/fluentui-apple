@@ -53,11 +53,11 @@ open class CommandingItem: NSObject {
         }
     }
 
-    /// A `Badge` to be displayed on the trailing end.
-    @objc open var badge: UIView? {
+    /// A `UIView` to be displayed on the trailing end.
+    @objc open var trailingView: UIView? {
         didSet {
-            if badge != oldValue {
-                delegate?.commandingItem(self, didChangeBadgeTo: badge)
+            if trailingView != oldValue {
+                delegate?.commandingItem(self, didChangeTrailingViewTo: trailingView)
             }
         }
     }
@@ -95,9 +95,9 @@ open class CommandingItem: NSObject {
         self.isToggleable = isToggleable
     }
 
-    @objc public convenience init(title: String, image: UIImage, badge: UIView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
+    @objc public convenience init(title: String, image: UIImage, trailingView: UIView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
         self.init(title: title, image: image, action: action, isToggleable: isToggleable)
-        self.badge = badge
+        self.trailingView = trailingView
     }
 
     @objc public init(isToggleable: Bool = false) {
@@ -120,8 +120,8 @@ protocol CommandingItemDelegate: AnyObject {
     /// Called after the `selectedImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
 
-    /// Called after the `badge` property changed.
-    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: UIView?)
+    /// Called after the `trailingView` property changed.
+    func commandingItem(_ item: CommandingItem, didChangeTrailingViewTo value: UIView?)
 
     /// Called after the `isOn` property changed.
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)

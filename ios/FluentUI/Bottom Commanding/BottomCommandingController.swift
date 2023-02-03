@@ -660,8 +660,8 @@ open class BottomCommandingController: UIViewController {
                 item.action?(item)
             }
         } else {
-            if let badge = item.badge {
-                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: badge)
+            if let trailingView = item.trailingView {
+                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: trailingView)
             } else {
                 cell.setup(title: item.title ?? "", customView: iconView)
             }
@@ -1011,7 +1011,7 @@ extension BottomCommandingController: CommandingItemDelegate {
         reloadView(from: item)
     }
 
-    func commandingItem(_ item: CommandingItem, didChangeBadgeTo value: UIView?) {
+    func commandingItem(_ item: CommandingItem, didChangeTrailingViewTo value: UIView?) {
         reloadView(from: item)
     }
 
