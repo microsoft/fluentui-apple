@@ -36,7 +36,7 @@ jobs:
           'macos_build FluentUITestApp-macOS Debug build test',
           'macos_build FluentUITestApp-macOS Release build test',
           'macos_build FluentUITestApp-macOS Debug build test -destination "platform=macOS,arch=x86_64"',
-          'ios_simulator_build FluentUI-iOS Debug build test -destination "platform=iOS Simulator,name=iPhone 8"', # Provide a destination for the iOS simulator unit tests
+          'ios_simulator_build FluentUI-iOS Debug build',
           'ios_simulator_build FluentUI-iOS Release build',
           'ios_device_build FluentUI-iOS Debug build',
           'ios_device_build FluentUI-iOS Release build',
