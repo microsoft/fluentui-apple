@@ -46,7 +46,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
-            return TableViewCell()
+            return UITableViewCell()
         }
         cell.backgroundStyleType = TableViewCellBackgroundStyleType.custom
         cell.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
