@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class ColorTokensDemoController: DemoTableViewController {
+class GlobalColorTokensDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         readmeString = "All global color tokens within the FluentUI framework."

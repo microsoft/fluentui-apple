@@ -9,6 +9,66 @@ import SwiftUI
 @objc(MSFGlobalTokens)
 public class GlobalTokens: NSObject {
 
+    // MARK: - BrandColors
+
+    @objc(MSFBrandColorsGlobalTokens)
+    public enum BrandColorsTokens: Int, TokenSetKey {
+        case comm10
+        case comm20
+        case comm30
+        case comm40
+        case comm50
+        case comm60
+        case comm70
+        case comm80
+        case comm90
+        case comm100
+        case comm110
+        case comm120
+        case comm130
+        case comm140
+        case comm150
+        case comm160
+    }
+
+    @objc(brandColorForGlobalToken:)
+    public static func brandColors(_ token: BrandColorsTokens) -> ColorValue {
+        switch token {
+        case .comm10:
+            return ColorValue(0x061724)
+        case .comm20:
+            return ColorValue(0x082338)
+        case .comm30:
+            return ColorValue(0x0A2E4A)
+        case .comm40:
+            return ColorValue(0x0C3B5E)
+        case .comm50:
+            return ColorValue(0x0E4775)
+        case .comm60:
+            return ColorValue(0x0F548C)
+        case .comm70:
+            return ColorValue(0x115EA3)
+        case .comm80:
+            return ColorValue(0x0F6CBD)
+        case .comm90:
+            return ColorValue(0x2886DE)
+        case .comm100:
+            return ColorValue(0x479EF5)
+        case .comm110:
+            return ColorValue(0x62ABF5)
+        case .comm120:
+            return ColorValue(0x77B7F7)
+        case .comm130:
+            return ColorValue(0x96C6FA)
+        case .comm140:
+            return ColorValue(0xB4D6FA)
+        case .comm150:
+            return ColorValue(0xCFE4FA)
+        case .comm160:
+            return ColorValue(0xEBF3FC)
+        }
+    }
+
     // MARK: - NeutralColors
 
     @objc(MSFNeutralColorsToken)
@@ -139,7 +199,7 @@ public class GlobalTokens: NSObject {
         case .grey68:
             return ColorValue(0xADADAD)
         case .grey70:
-            return ColorValue(0xB3B3B3)
+            return ColorValue(0xB2B2B2)
         case .grey72:
             return ColorValue(0xB8B8B8)
         case .grey74:
@@ -159,7 +219,7 @@ public class GlobalTokens: NSObject {
         case .grey88:
             return ColorValue(0xE0E0E0)
         case .grey90:
-            return ColorValue(0xE6E6E6)
+            return ColorValue(0xE5E5E5)
         case .grey92:
             return ColorValue(0xEBEBEB)
         case .grey94:
@@ -1552,7 +1612,7 @@ public class GlobalTokens: NSObject {
             case .shade20:
                 return ColorValue(0xC0AD00)
             case .shade30:
-                return ColorValue(0x8E7F00)
+                return ColorValue(0x817400)
             case .shade40:
                 return ColorValue(0x4C4400)
             case .shade50:
@@ -1669,92 +1729,122 @@ public class GlobalTokens: NSObject {
     // MARK: - Spacing
 
     public enum SpacingToken: TokenSetKey {
-        case none
-        case xxxSmall
-        case xxSmall
-        case xSmall
-        case small
-        case medium
-        case large
-        case xLarge
-        case xxLarge
-        case xxxLarge
-        case xxxxLarge
+        case sizeNone
+        case size20
+        case size40
+        case size60
+        case size80
+        case size100
+        case size120
+        case size160
+        case size200
+        case size240
+        case size280
+        case size320
+        case size360
+        case size400
+        case size480
+        case size520
+        case size560
     }
     public static func spacing(_ token: SpacingToken) -> CGFloat {
         switch token {
-        case .none:
+        case .sizeNone:
             return 0
-        case .xxxSmall:
+        case .size20:
             return 2
-        case .xxSmall:
+        case .size40:
             return 4
-        case .xSmall:
+        case .size60:
+            return 6
+        case .size80:
             return 8
-        case .small:
+        case .size100:
+            return 10
+        case .size120:
             return 12
-        case .medium:
+        case .size160:
             return 16
-        case .large:
+        case .size200:
             return 20
-        case .xLarge:
+        case .size240:
             return 24
-        case .xxLarge:
+        case .size280:
+            return 28
+        case .size320:
+            return 32
+        case .size360:
             return 36
-        case .xxxLarge:
+        case .size400:
+            return 40
+        case .size480:
             return 48
-        case .xxxxLarge:
-            return 72
+        case .size520:
+            return 52
+        case .size560:
+            return 56
         }
     }
 
     // MARK: - BorderRadius
 
-    public enum BorderRadiusToken: TokenSetKey {
-        case none
-        case small
-        case medium
-        case large
-        case xLarge
-        case circle
+    public enum CornerRadiusToken: TokenSetKey {
+        case radiusNone
+        case radius20
+        case radius40
+        case radius60
+        case radius80
+        case radius120
+        case radiusCircular
     }
-    public static func borderRadius(_ token: BorderRadiusToken) -> CGFloat {
+    public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
-        case .none:
+        case .radiusNone:
             return 0
-        case .small:
+        case .radius20:
             return 2
-        case .medium:
+        case .radius40:
             return 4
-        case .large:
+        case .radius60:
+            return 6
+        case .radius80:
             return 8
-        case .xLarge:
+        case .radius120:
             return 12
-        case .circle:
+        case .radiusCircular:
             return 9999
         }
     }
 
     // MARK: - BorderSize
 
-    public enum BorderSizeToken: TokenSetKey {
-        case none
-        case thin
-        case thick
-        case thicker
-        case thickest
+    public enum StrokeWidthToken: TokenSetKey {
+        case widthNone
+        case width05
+        case width10
+        case width15
+        case width20
+        case width30
+        case width40
+        case width60
     }
-    public static func borderSize(_ token: BorderSizeToken) -> CGFloat {
+    public static func stroke(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
-        case .none:
+        case .widthNone:
             return 0
-        case .thin:
+        case .width05:
+            return 0.5
+        case .width10:
             return 1
-        case .thick:
+        case .width15:
+            return 1.5
+        case .width20:
             return 2
-        case .thicker:
+        case .width30:
+            return 3
+        case .width40:
             return 4
-        case .thickest:
+        case .width60:
             return 6
         }
     }

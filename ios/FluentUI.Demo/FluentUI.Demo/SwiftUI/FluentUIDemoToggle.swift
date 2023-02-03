@@ -11,7 +11,7 @@ struct FluentUIDemoToggle: View {
     var isOn: Binding<Bool>
 
     let switchToggleStyle: SwitchToggleStyle = {
-        return SwitchToggleStyle(tint: Color(Colors.communicationBlue))
+        return SwitchToggleStyle(tint: Color(UIColor(colorValue: GlobalTokens.brandColors(.comm80))))
     }()
 
     var body: some View {

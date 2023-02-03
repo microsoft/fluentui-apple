@@ -65,10 +65,8 @@ class NotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
-
-        view.backgroundColor = Colors.surfaceSecondary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
 
         addTitle(text: "SwiftUI Demo")
         container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
@@ -246,14 +244,14 @@ class NotificationViewDemoController: DemoController {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
-                                  blurOne: 10.0,
-                                  xOne: 10.0,
-                                  yOne: 10.0,
-                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
-                                  blurTwo: 100.0,
-                                  xTwo: -10.0,
-                                  yTwo: -10.0)
+                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  keyBlur: 10.0,
+                                  xKey: 10.0,
+                                  yKey: 10.0,
+                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientBlur: 100.0,
+                                  xAmbient: -10.0,
+                                  yAmbient: -10.0)
             }
         ]
     }

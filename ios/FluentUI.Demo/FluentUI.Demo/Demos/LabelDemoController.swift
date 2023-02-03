@@ -61,10 +61,6 @@ extension TextColorStyle {
             return "Primary"
         case .error:
             return "Error"
-        case .warning:
-            return "Warning"
-        case .disabled:
-            return "Disabled"
         }
     }
 }

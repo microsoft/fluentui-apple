@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: ResizingHandle Colors
-
-private extension Colors {
-    struct ResizingHandle {
-        public static var mark: UIColor = iconSecondary
-    }
-}
-
 // MARK: - ResizingHandleView
 
 @objc(MSFResizingHandleView)
@@ -28,7 +20,6 @@ open class ResizingHandleView: UIView {
         let markLayer = CALayer()
         markLayer.bounds.size = Constants.markSize
         markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = Colors.ResizingHandle.mark.cgColor
         return markLayer
     }()
 
@@ -40,7 +31,24 @@ open class ResizingHandleView: UIView {
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
+        updateMarkLayerBackgroundColor()
         layer.addSublayer(markLayer)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateMarkLayerBackgroundColor()
+   }
+
+    private func updateMarkLayerBackgroundColor() {
+        markLayer.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeAccessible]).cgColor
     }
 
     public required init?(coder aDecoder: NSCoder) {

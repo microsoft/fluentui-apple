@@ -21,12 +21,12 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
             switch token {
             case .backgroundColor:
                 return .dynamicColor {
-                    theme.aliasTokens.backgroundColors[.surfaceQuaternary]
+                    theme.aliasTokens.colors[.stroke1]
                 }
 
             case .gradientColor:
                 return .dynamicColor {
-                    theme.aliasTokens.brandColors[.primary]
+                    theme.aliasTokens.colors[.brandBackground1]
                 }
             }
         }

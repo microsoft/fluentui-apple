@@ -60,11 +60,14 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The color for the accessoryDetailButtonColor.
         case accessoryDetailButtonColor
 
-        /// The main primary brand color of the theme.
-        case mainBrandColor
+        /// The main brand text color..
+        case brandTextColor
 
-        /// The destructive text color in an ActionsCell.
-        case destructiveTextColor
+        /// The brand background color for the boolean cell.
+        case booleanCellBrandColor
+
+        /// The danger text color in an ActionsCell.
+        case dangerTextColor
 
         /// The communication text color in an ActionsCell.
         case communicationTextColor
@@ -75,36 +78,22 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
-                    .init(light: GlobalTokens.neutralColors(.white),
-                          dark: GlobalTokens.neutralColors(.black))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .backgroundGroupedColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral2].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.backgroundCanvas] }
 
             case .cellBackgroundColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral1].dark,
-                          darkElevated: theme.aliasTokens.backgroundColors[.neutral2].darkElevated)
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .cellBackgroundGroupedColor:
-                return .dynamicColor {
-                    .init(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                          dark: theme.aliasTokens.backgroundColors[.neutral3].dark,
-                          darkElevated: ColorValue(0x212121))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.background3] }
 
             case .cellBackgroundSelectedColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral5] }
+                return .dynamicColor { theme.aliasTokens.colors[.background1Pressed] }
 
             case .imageColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .customViewDimensions:
                 return .float {
@@ -122,25 +111,25 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .float {
                     switch customViewSize() {
                     case .zero:
-                        return GlobalTokens.spacing(.none)
+                        return GlobalTokens.spacing(.sizeNone)
                     case .small:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     case .medium, .default:
-                        return GlobalTokens.spacing(.small)
+                        return GlobalTokens.spacing(.size120)
                     }
                 }
 
             case .titleColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
 
             case .subtitleColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
 
             case .footerColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
 
             case .selectionIndicatorOffColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .titleFont:
                 return .fontInfo { theme.aliasTokens.typography[.body1] }
@@ -155,25 +144,22 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .fontInfo { theme.aliasTokens.typography[.caption1] }
 
             case .accessoryDisclosureIndicatorColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .accessoryDetailButtonColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
-            case .mainBrandColor:
-                return .dynamicColor { theme.aliasTokens.brandColors[.primary] }
+            case .dangerTextColor:
+                return .dynamicColor { theme.aliasTokens.colors[.dangerForeground2] }
 
-            case .destructiveTextColor:
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue(0xD92C2C),
-                                 dark: ColorValue(0xE83A3A))
-                }
+            case .brandTextColor:
+                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
+
+            case .booleanCellBrandColor:
+                return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue(0x0078D4),
-                                 dark: ColorValue(0x0086F0))
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
             }
         }
     }
@@ -186,7 +172,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
 extension TableViewCellTokenSet {
     /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
-    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.xxxLarge)
+    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.size480)
 
     /// The height of a TableViewCell with two lines of text.
     static let twoLineMinHeight: CGFloat = 64.0
@@ -195,19 +181,19 @@ extension TableViewCellTokenSet {
     static let threeLineMinHeight: CGFloat = 84.0
 
     /// The default horizontal spacing in the cell.
-    static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.medium)
+    static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The leading padding in the cell.
-    static let paddingLeading: CGFloat = GlobalTokens.spacing(.medium)
+    static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The vertical padding in the cell.
     static let paddingVertical: CGFloat = 11.0
 
     /// The trailing padding in the cell.
-    static let paddingTrailing: CGFloat = GlobalTokens.spacing(.medium)
+    static let paddingTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The leading and trailing padding for the unreadDotLayer.
-    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    static let unreadDotHorizontalPadding: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The size dimensions of the unreadDotLayer.
     static let unreadDotDimensions: CGFloat = 8.0
@@ -228,13 +214,16 @@ extension TableViewCellTokenSet {
     static let footerHeight: CGFloat = 18.0
 
     /// The leading margin for the labelAccessoryView.
-    static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let labelAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)
 
-    /// The trailing margin for the labelAccessoryView.
-    static let labelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.xSmall)
+    /// The trailing margin for the labelAccessoryView of the title label.
+    static let titleLabelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size80)
+
+    /// The trailing margin for the labelAccessoryView of the subtitle label.
+    static let subtitleLabelAccessoryViewMarginTrailing: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The leading margin for the customAccessoryView.
-    static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let customAccessoryViewMarginLeading: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The minimum vertical margin for the customAccessoryView.
     static let customAccessoryViewMinVerticalMargin: CGFloat = 6.0
@@ -243,13 +232,13 @@ extension TableViewCellTokenSet {
     static let defaultLabelVerticalMarginForOneAndThreeLines: CGFloat = 11.0
 
     /// The vertical margin for the label when it has two lines.
-    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.small)
+    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical spacing for the label.
-    static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.none)
+    static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.sizeNone)
 
     /// The trailing margin for the selectionImage.
-    static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.medium)
+    static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The size for the selectionImage.
     static let selectionImageSize: CGFloat = GlobalTokens.iconSize(.medium)
