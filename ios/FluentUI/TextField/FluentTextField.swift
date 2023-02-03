@@ -259,6 +259,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     private func updateTokenizedValues() {
+        backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+
         leadingImageView.tintColor = UIColor(dynamicColor: tokenSet[.leadingIconColor].dynamicColor)
 
         label.font = UIFont.fluent(tokenSet[.labelFont].fontInfo)
