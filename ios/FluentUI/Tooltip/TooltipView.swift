@@ -119,6 +119,32 @@ class TooltipView: UIView, Shadowable {
         set { }
     }
 
+#if DEBUG
+    override var accessibilityIdentifier: String? {
+        get {
+            var identifier: String = "Tooltip with message \"\(message)\""
+
+            if let title = titleMessage {
+                identifier += " and title \"\(title)\""
+            }
+
+            switch arrowDirection {
+            case .up:
+                identifier += " that is pointing up"
+            case .down:
+                identifier += " that is pointing down"
+            case .left:
+                identifier += " that is pointing left"
+            case .right:
+                identifier += " that is pointing right"
+            }
+
+            return identifier
+        }
+        set { }
+    }
+#endif
+
     override var accessibilityHint: String? {
         get { return "Accessibility.Dismiss.Hint".localized }
         set { }
