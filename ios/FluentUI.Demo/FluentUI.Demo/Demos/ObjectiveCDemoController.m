@@ -4,6 +4,7 @@
 //
 
 #import "ObjectiveCDemoController.h"
+#import "ObjectiveCDemoColorProviding.h"
 #import <FluentUI/FluentUI-Swift.h>
 #import <FluentUI_Demo-Swift.h>
 
@@ -18,6 +19,8 @@
 
 @property (nonatomic) NSMutableSet<UILabel *> *addedLabels;
 
+@property (nonatomic) ObjectiveCDemoColorProviding *colorProvider;
+
 @end
 
 @implementation ObjectiveCDemoController
@@ -27,7 +30,9 @@
     self.container = [self createVerticalContainer];
     self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    self.view.backgroundColor = MSFColors.surfacePrimary;
+    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
+    self.view.backgroundColor = [[UIColor alloc] initWithDynamicColor:primaryColor];
     [self setupTitleView];
 
     [self.view addSubview:self.scrollingContainer];
@@ -44,8 +49,12 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:@selector(buttonPressed:)];
-    [self.container addArrangedSubview:testButton];
+    MSFButton *testTokensButton = [self createButtonWithTitle:@"Test global and alias" action:@selector(tokensButtonPressed:)];
+    [self.container addArrangedSubview:testTokensButton];
+
+
+    MSFButton *testOverridesButton = [self createButtonWithTitle:@"Test overrides" action:@selector(overridesButtonPressed:)];
+    [self.container addArrangedSubview:testOverridesButton];
 
     [self setAddedLabels:[NSMutableSet set]];
 
@@ -76,7 +85,7 @@
     [[self addedLabels] addObject:label];
 }
 
-- (void)buttonPressed:(id)sender {
+- (void)tokensButtonPressed:(id)sender {
     MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
                                                                   token:MSFSharedColorsTokensPrimary];
     [self addLabelWithText:@"Test label with global color"
@@ -85,8 +94,26 @@
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
     MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens brandColorForToken:MSFBrandColorsAliasTokensPrimary];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandBackground3];
     [self addLabelWithText:@"Test label with alias color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+}
+
+- (void)overridesButtonPressed:(id)sender {
+    [[self view] setColorProvider:[[ObjectiveCDemoColorProviding alloc] init]];
+
+    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
+
+    [self addLabelWithText:@"Test label with override brand color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Remove the overrides
+    [[self view] resetFluentTheme];
+    aliasTokens = [[[self view] fluentTheme] aliasTokens];
+    primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
+
+    [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
 
@@ -100,7 +127,7 @@
 }
 
 - (void)setupTitleView {
-    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleDark];
+    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleSystem];
     [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
     self.titleView.delegate = self;
     self.navigationItem.titleView = self.titleView;

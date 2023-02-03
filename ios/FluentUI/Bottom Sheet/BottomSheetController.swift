@@ -40,7 +40,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController {
+public class BottomSheetController: UIViewController, Shadowable {
 
     /// Initializes the bottom sheet controller
     /// - Parameters:
@@ -360,7 +360,7 @@ public class BottomSheetController: UIViewController {
 
         let overflowView = UIView()
         overflowView.translatesAutoresizingMaskIntoConstraints = false
-        overflowView.backgroundColor = Colors.NavigationBar.background
+        overflowView.backgroundColor = backgroundColor
         view.addSubview(overflowView)
 
         if let headerContentView = headerContentView {
@@ -380,6 +380,10 @@ public class BottomSheetController: UIViewController {
 
         NSLayoutConstraint.activate(constraints)
     }
+
+    // MARK: - Shadow Layers
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     private lazy var dimmingView: DimmingView = {
         var dimmingView = DimmingView(type: .black)
@@ -442,20 +446,16 @@ public class BottomSheetController: UIViewController {
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
         let bottomSheetView = UIView()
 
-        // We need to have the shadow on a parent of the view that does the corner masking.
-        // Otherwise the view will mask its own shadow.
-        bottomSheetView.layer.shadowColor = Constants.Shadow.color
-        bottomSheetView.layer.shadowOffset = Constants.Shadow.offset
-        bottomSheetView.layer.shadowOpacity = Constants.Shadow.opacity
-        bottomSheetView.layer.shadowRadius = Constants.Shadow.radius
-
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = Colors.NavigationBar.background
+        contentView.backgroundColor = backgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
 
+        // We need to set the background color of the embedding view otherwise the shadows will not display
+        bottomSheetView.backgroundColor = backgroundColor
+        bottomSheetView.layer.cornerRadius = Constants.cornerRadius
         bottomSheetView.addSubview(contentView)
 
         NSLayoutConstraint.activate([
@@ -491,6 +491,15 @@ public class BottomSheetController: UIViewController {
             updateDimmingViewAccessibility()
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+        updateShadow()
+    }
+
+    private func updateShadow() {
+        let shadowInfo = view.fluentTheme.aliasTokens.shadow[.shadow28]
+
+        // We need to have the shadow on a parent of the view that does the corner masking.
+        // Otherwise the view will mask its own shadow.
+        shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
 
         super.viewDidLayoutSubviews()
     }
@@ -978,6 +987,8 @@ public class BottomSheetController: UIViewController {
 
     private let shouldShowDimmingView: Bool
 
+    private lazy var backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
         static let maxRubberBandOffset: CGFloat = 20.0
@@ -1017,13 +1028,6 @@ public class BottomSheetController: UIViewController {
 
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)
             static let overflowHeight: CGFloat = 50.0
-        }
-
-        struct Shadow {
-            static let color: CGColor = UIColor.black.cgColor
-            static let opacity: Float = 0.14
-            static let radius: CGFloat = 8
-            static let offset: CGSize = CGSize(width: 0, height: 4)
         }
     }
 }

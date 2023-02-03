@@ -10,16 +10,13 @@ class TabBarItemView: UIControl {
 
     override var isEnabled: Bool {
         didSet {
-            titleLabel.isEnabled = isEnabled
-            imageView.tintAdjustmentMode = isEnabled ? .automatic : .dimmed
             isUserInteractionEnabled = isEnabled
+            updateColors()
         }
     }
 
     override var isSelected: Bool {
         didSet {
-            titleLabel.isHighlighted = isSelected
-            imageView.isHighlighted = isSelected
             updateImage()
             updateColors()
             if isSelected {
@@ -106,12 +103,17 @@ class TabBarItemView: UIControl {
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.centerYAnchor.constraint(equalTo: centerYAnchor),
             container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-    ])
+        ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -120,6 +122,13 @@ class TabBarItemView: UIControl {
 
         badgeValue = item.badgeValue
         updateLayout()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -156,7 +165,6 @@ class TabBarItemView: UIControl {
     }
 
     private struct Constants {
-        static let unselectedColor: UIColor = Colors.textSecondary
         static let spacingVertical: CGFloat = 3
         static let spacingHorizontal: CGFloat = 8
         static let portraitImageSize: CGFloat = 28
@@ -207,7 +215,6 @@ class TabBarItemView: UIControl {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Constants.unselectedColor
 
         if canResizeImage {
             let sizeConstraints = (
@@ -223,11 +230,10 @@ class TabBarItemView: UIControl {
 
     private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
 
-    private let titleLabel: Label = {
+    private lazy var titleLabel: Label = {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = Constants.unselectedColor
 
         return titleLabel
     }()
@@ -258,18 +264,20 @@ class TabBarItemView: UIControl {
     }
 
     private func updateColors() {
-        if let window = window {
-            let primaryColor = Colors.primary(for: window)
-            titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected ? primaryColor : Constants.unselectedColor
-        }
+        let selectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        let unselectedImageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        let unselectedTextColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        let disabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+
+        titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : unselectedTextColor) : disabledColor
+        imageView.tintColor = isEnabled ? (isSelected ? selectedColor : unselectedImageColor) : disabledColor
     }
 
     private func updateImage() {
         // Normally we'd set imageView.image and imageView.highlightedImage separately. However, there's a known issue with
         // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
         // this is a straightforward workaround that gets us the same effect without triggering the bug.
-        imageView.image = imageView.isHighlighted ?
+        imageView.image = isSelected ?
                             item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
                             item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }

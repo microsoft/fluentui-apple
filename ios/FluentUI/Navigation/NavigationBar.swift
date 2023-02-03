@@ -62,38 +62,39 @@ open class NavigationBar: UINavigationBar {
         case system
         case custom
 
-        var tintColor: UIColor {
+        func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return Colors.Navigation.Primary.tint
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
             case .system:
-                return Colors.Navigation.System.tint
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
             }
         }
 
-        var titleColor: UIColor {
+        func titleColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return Colors.Navigation.Primary.title
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
             case .system:
-                return Colors.Navigation.System.title
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             }
         }
 
-        func backgroundColor(for window: UIWindow, customColor: UIColor?) -> UIColor {
+        public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
+            let defaultColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground1].light, dark: fluentTheme.aliasTokens.colors[.background3].dark))
             switch self {
             case .primary, .default:
-                return defaultBackgroundColor(for: window)
+                return defaultColor
             case .system:
-                return Colors.Navigation.System.background
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
             case .custom:
-                return customColor ?? defaultBackgroundColor(for: window)
+                return customColor ?? defaultColor
             }
         }
+    }
 
-        func defaultBackgroundColor(for window: UIWindow) -> UIColor {
-            return UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
-        }
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+        return Style.system.backgroundColor(fluentTheme: fluentTheme)
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -295,11 +296,23 @@ open class NavigationBar: UINavigationBar {
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateColors(for: topItem)
     }
 
     /// Custom base initializer, used regardless of entry point
@@ -423,6 +436,11 @@ open class NavigationBar: UINavigationBar {
         )
     }
 
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors(for: topItem)
+    }
+
     /// Guarantees that the custom UI remains on top of the subview stack
     /// Fetches the current navigation item and triggers a UI update
     open override func layoutSubviews() {
@@ -430,11 +448,6 @@ open class NavigationBar: UINavigationBar {
         bringSubviewToFront(backgroundView)
         bringSubviewToFront(contentStackView)
         updateAccessibilityElements()
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateColors(for: topItem)
     }
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -499,29 +512,27 @@ open class NavigationBar: UINavigationBar {
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-        if let window = window {
-            let color = navigationItem?.navigationBarColor(for: window)
+        let color = navigationItem?.navigationBarColor(fluentTheme: fluentTheme)
 
-            switch style {
-            case .primary, .default, .custom:
-                titleView.style = .light
-            case .system:
-                titleView.style = .dark
-            }
+        switch style {
+        case .primary, .default, .custom:
+            titleView.style = .primary
+        case .system:
+            titleView.style = .system
+        }
 
-            standardAppearance.backgroundColor = color
-            backgroundView.backgroundColor = color
-            tintColor = style.tintColor
-            standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-            standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+        standardAppearance.backgroundColor = color
+        backgroundView.backgroundColor = color
+        tintColor = style.tintColor(fluentTheme: fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: fluentTheme)
+        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: fluentTheme)
 
-            // Update the scroll edge appearance to match the new standard appearance
-            scrollEdgeAppearance = standardAppearance
+        // Update the scroll edge appearance to match the new standard appearance
+        scrollEdgeAppearance = standardAppearance
 
-            navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
-                // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
-                self.updateColors(for: navigationItem)
-            }
+        navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
+            // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
+            self.updateColors(for: navigationItem)
         }
     }
 
