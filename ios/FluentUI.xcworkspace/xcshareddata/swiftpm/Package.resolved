@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "appcenter-sdk-apple",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/microsoft/appcenter-sdk-apple.git",
+      "state" : {
+        "revision" : "8354a50fe01a7e54e196d3b5493b5ab53dd5866a",
+        "version" : "4.4.2"
+      }
+    },
+    {
+      "identity" : "plcrashreporter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/microsoft/PLCrashReporter.git",
+      "state" : {
+        "revision" : "6b27393cad517c067dceea85fadf050e70c4ceaa",
+        "version" : "1.10.1"
+      }
+    }
+  ],
+  "version" : 2
+}
