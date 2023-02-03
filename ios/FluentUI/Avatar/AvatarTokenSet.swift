@@ -30,11 +30,14 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         /// The gap around the ring around the `Avatar`.
         case ringOuterGap
 
-        /// The thickness of the outline around the presence icon.
-        case presenceIconOutlineThickness
+        /// The thickness of the outline around the presence/activity.
+        case borderThickness
 
-        /// The color of the outline around the presence.
-        case presenceOutlineColor
+        /// The color of the border around the presence/activity.
+        case borderColor
+
+        /// The background color of the activity.
+        case activityBackgroundColor
 
         /// The default color of the background of the `Avatar`.
         case backgroundDefaultColor
@@ -53,17 +56,17 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch style() {
                     case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-                        return GlobalTokens.borderRadius(.none)
+                        return GlobalTokens.corner(.radiusNone)
                     case .group:
                         switch size() {
                         case .size16, .size20:
-                            return GlobalTokens.borderRadius(.small)
+                            return GlobalTokens.corner(.radius20)
                         case .size24, .size32:
-                            return GlobalTokens.borderRadius(.medium)
+                            return GlobalTokens.corner(.radius40)
                         case .size40, .size56:
-                            return GlobalTokens.borderRadius(.large)
+                            return GlobalTokens.corner(.radius80)
                         case .size72:
-                            return GlobalTokens.borderRadius(.xLarge)
+                            return GlobalTokens.corner(.radius120)
                         }
                     }
                 })
@@ -89,31 +92,27 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .ringDefaultColor:
                 return .dynamicColor({
                     switch style() {
-                    case .default, .group:
-                        return theme.aliasTokens.brandColors[.tint10]
-                    case .accent:
-                        return theme.aliasTokens.brandColors[.shade10]
+                    case .default, .group, .accent, .outlinedPrimary:
+                        return theme.aliasTokens.colors[.brandStroke1]
                     case .outlined, .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutralDisabled]
-                    case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint10].light, dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.aliasTokens.colors[.strokeAccessible]
                     }
                 })
 
             case .ringGapColor:
                 return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                    theme.aliasTokens.colors[.background1]
                 })
 
             case .ringThickness:
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24:
-                        return GlobalTokens.borderSize(.thin)
+                        return GlobalTokens.stroke(.width10)
                     case .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -121,9 +120,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -131,40 +130,43 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
-            case .presenceIconOutlineThickness:
+            case .borderThickness:
                 return .float({
                     switch size() {
                     case .size16:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.stroke(.widthNone)
                     case .size20, .size24, .size32, .size40, .size56, .size72:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     }
                 })
 
-            case .presenceOutlineColor:
+            case .borderColor:
                 return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                    theme.aliasTokens.colors[.background1]
+                })
+
+            case .activityBackgroundColor:
+                return .dynamicColor({
+                    theme.aliasTokens.colors[.background5]
                 })
 
             case .backgroundDefaultColor:
                 return .dynamicColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: GlobalTokens.neutralColors(.white), dark: theme.aliasTokens.brandColors[.primary].dark)
+                        return theme.aliasTokens.colors[.background1]
                     case .accent:
-                        return theme.aliasTokens.brandColors[.primary]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey94), dark: GlobalTokens.neutralColors(.grey26))
+                        return theme.aliasTokens.colors[.brandBackground1]
+                    case .outlined, .overflow:
+                        return theme.aliasTokens.colors[.background5]
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint40].light, dark: GlobalTokens.neutralColors(.grey26))
-                    case .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutral4]
+                        return theme.aliasTokens.colors[.brandBackgroundTint]
                     }
                 })
 
@@ -172,15 +174,13 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .dynamicColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.black))
+                        return theme.aliasTokens.colors[.brandForeground1]
                     case .accent:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey42), dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.aliasTokens.colors[.foregroundOnColor]
+                    case .outlined, .overflow:
+                        return theme.aliasTokens.colors[.foreground2]
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.grey78))
-                    case .overflow:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.brandForegroundTint]
                     }
                 })
             }
@@ -231,9 +231,43 @@ extension AvatarTokenSet {
             return GlobalTokens.iconSize(.small)
         }
     }
+
+    /// The border radius for the activity icon in the MSFAvatarActivityStyle `.square` style.
+    static func activityIconRadius(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40, .size56:
+            return GlobalTokens.corner(.radius40)
+        }
+    }
+
+    /// The size of the activity icon.
+    static func activityIconSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40:
+            return GlobalTokens.iconSize(.xSmall)
+        case .size56:
+            return GlobalTokens.iconSize(.medium)
+        }
+    }
+
+    /// The size of the activity icon background.
+    static func activityIconBackgroundSize(_ size: MSFAvatarSize) -> CGFloat {
+        switch size {
+        case .size16, .size20, .size24, .size32, .size72:
+            return 0
+        case .size40:
+            return GlobalTokens.iconSize(.small)
+        case .size56:
+            return GlobalTokens.iconSize(.large)
+        }
+    }
 }
 
-/// Pre-defined styles of the avatar
+/// Pre-defined styles of the avatar.
 @objc public enum MSFAvatarStyle: Int, CaseIterable {
     case `default`
     case accent
@@ -243,7 +277,7 @@ extension AvatarTokenSet {
     case overflow
 }
 
-/// Pre-defined sizes of the avatar
+/// Pre-defined sizes of the avatar.
 @objc public enum MSFAvatarSize: Int, CaseIterable {
     case size16
     case size20
@@ -252,4 +286,11 @@ extension AvatarTokenSet {
     case size40
     case size56
     case size72
+}
+
+/// Types of Avatar Activity styles.
+@objc public enum MSFAvatarActivityStyle: Int, CaseIterable {
+    case none
+    case circle
+    case square
 }

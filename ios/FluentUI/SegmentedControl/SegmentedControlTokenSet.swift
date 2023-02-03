@@ -65,11 +65,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
-                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
+                                            dark: theme.aliasTokens.colors[.background3].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5].dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
-                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
+                                            dark: theme.aliasTokens.colors[.background3].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5].dark)
                     }
                 }
 
@@ -77,10 +79,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandBackground1]
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                            dark: GlobalTokens.neutralColors(.grey32))
+                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
+                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5Selected].dark)
                     }
                 }
 
@@ -88,11 +91,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                            dark: GlobalTokens.neutralColors(.grey8))
+                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
+                                            dark: theme.aliasTokens.colors[.background3].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5].dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
-                                            dark: GlobalTokens.neutralColors(.grey8))
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
+                                            dark: theme.aliasTokens.colors[.background3].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5].dark)
                     }
                 }
 
@@ -100,11 +105,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey80),
-                                            dark: GlobalTokens.neutralColors(.grey30))
+                        return theme.aliasTokens.colors[.brandBackground1]
                     case .onBrandPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                            dark: GlobalTokens.neutralColors(.grey30))
+                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
+                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
+                                            darkElevated: theme.aliasTokens.colors[.background5Selected].dark)
                     }
                 }
 
@@ -112,11 +117,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral3].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                        return theme.aliasTokens.colors[.foreground2]
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
+                                            dark: theme.aliasTokens.colors[.foreground2].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground2].dark)
                     }
                 }
 
@@ -124,11 +129,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark)
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral1].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
+                                            dark: theme.aliasTokens.colors[.foreground1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     }
                 }
 
@@ -136,11 +141,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey70),
-                                            dark: GlobalTokens.neutralColors(.grey26))
+                        return theme.aliasTokens.colors[.foregroundDisabled1]
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
-                                            dark: GlobalTokens.neutralColors(.grey26))
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled1].light,
+                                            dark: theme.aliasTokens.colors[.foregroundDisabled1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled1].dark)
                     }
                 }
 
@@ -148,11 +153,11 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                            dark: GlobalTokens.neutralColors(.grey44))
+                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
                     case .onBrandPill:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
-                                            dark: GlobalTokens.neutralColors(.grey44))
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled2].light,
+                                            dark: theme.aliasTokens.colors[.foregroundDisabled2].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled2].dark)
                     }
                 }
 
@@ -160,10 +165,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .dynamicColor {
                     switch style() {
                     case .primaryPill:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
+                                            dark: theme.aliasTokens.colors[.foreground1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
-                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
+                                            dark: theme.aliasTokens.colors[.foreground1].dark,
+                                            darkElevated: theme.aliasTokens.colors[.foreground1].dark)
                     }
                 }
 
@@ -171,7 +179,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .horizontalInset:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .unreadDotOffsetX:
                 return .float { 6.0 }
