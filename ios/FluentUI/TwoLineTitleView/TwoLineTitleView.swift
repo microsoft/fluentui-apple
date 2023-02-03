@@ -209,6 +209,8 @@ open class TwoLineTitleView: UIView {
         addInteraction(UILargeContentViewerInteraction())
         titleButtonLabel.showsLargeContentViewer = true
         subtitleButtonLabel.showsLargeContentViewer = true
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -387,6 +389,10 @@ open class TwoLineTitleView: UIView {
 
         titleButton.flipSubviewsForRTL()
         subtitleButton.flipSubviewsForRTL()
+    }
+
+    @objc private func handleContentSizeCategoryDidChange() {
+        invalidateIntrinsicContentSize()
     }
 
     // MARK: Actions
