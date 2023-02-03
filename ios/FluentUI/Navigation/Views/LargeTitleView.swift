@@ -10,7 +10,8 @@ import UIKit
 /// Large Header and custom profile button container
 class LargeTitleView: UIView {
     enum Style: Int {
-        case light, dark
+        case primary
+        case system
     }
 
     private struct Constants {
@@ -21,7 +22,6 @@ class LargeTitleView: UIView {
 
         // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
         static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)
-        static let titleFont = UIFont.systemFont(ofSize: 30, weight: .bold)
     }
 
     var personaData: Persona? {
@@ -77,10 +77,10 @@ class LargeTitleView: UIView {
         }
     }
 
-    var style: Style = .light {
+    var style: Style = .primary {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            avatar?.state.style = style == .light ? .default : .accent
+            avatar?.state.style = style == .primary ? .default : .accent
         }
     }
 
@@ -92,7 +92,7 @@ class LargeTitleView: UIView {
             case .contracted:
                 titleButton.titleLabel?.font = Constants.compactTitleFont
             case .expanded:
-                titleButton.titleLabel?.font = Constants.titleFont
+                titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
             }
         }
     }
@@ -114,10 +114,11 @@ class LargeTitleView: UIView {
 
     private var colorForStyle: UIColor {
         switch style {
-        case .light:
-            return Colors.Navigation.Primary.title
-        case .dark:
-            return Colors.Navigation.System.title
+        case .primary:
+            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+        case .system:
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
         }
     }
 
@@ -158,6 +159,18 @@ class LargeTitleView: UIView {
     private func initBase() {
         setupLayout()
         setupAccessibility()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        titleButton.setTitleColor(colorForStyle, for: .normal)
     }
 
     // MARK: - Base Construction Methods
@@ -174,7 +187,7 @@ class LargeTitleView: UIView {
                                                                  bottom: 0,
                                                                  right: 8))
         // Avatar setup
-        let preferredFallbackImageStyle: MSFAvatarStyle = style == .light ? .default : .accent
+        let preferredFallbackImageStyle: MSFAvatarStyle = style == .primary ? .default : .accent
         let avatar = MSFAvatar(style: preferredFallbackImageStyle,
                                size: Constants.avatarSize)
         let avatarState = avatar.state
@@ -199,7 +212,7 @@ class LargeTitleView: UIView {
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = Constants.titleFont
+        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
@@ -219,7 +232,7 @@ class LargeTitleView: UIView {
 
     private func expansionAnimation() {
         if titleSize == .automatic {
-            titleButton.titleLabel?.font = Constants.titleFont
+            titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
         }
 
         if avatarSize == .automatic {
