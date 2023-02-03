@@ -19,6 +19,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return self?.state ?? .unfocused
     })
 
+    /// UIImage used in the leading UIImageView. If this is nil, the leading UIImageView will be hidden.
     @objc public var leadingImage: UIImage? {
         didSet {
             if let image = leadingImage {
@@ -29,6 +30,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             }
         }
     }
+
+    /// String used in the top label. If this is nil, the top label will be hidden.
     @objc public var labelText: String? {
         didSet {
             if let text = labelText {
@@ -39,6 +42,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             }
         }
     }
+
+    /// String representing the input text
     @objc public var text: String? {
         get {
             return textfield.text
@@ -47,21 +52,38 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             textfield.text = newValue
         }
     }
+
+    /// String representing the placeholder text.
     @objc public var placeholder: String? {
         didSet {
             textfield.attributedPlaceholder = attributedPlaceholder
         }
     }
+
+    /// String used in the bottom label. If this is nil, the bottom label will be hidden. If the `error` property
+    /// of the `FluentTextField` is set, the `localizedDescription` from `error` will be displayed
+    /// instead.
     @objc public var assistiveText: String? {
         didSet {
             updateAssistiveText()
         }
     }
 
+    /// The closure for the action to be called in response to the textfield's `.editingChanged` event.
     @objc public var onEditingChanged: ((FluentTextField) -> Void)?
+
+    /// The closure for the action to be called in `textFieldDidBeginEditing`.
     @objc public var onDidBeginEditing: ((FluentTextField) -> Void)?
+
+    /// The closure for the action to be called in `textFieldDidEndEditing`.
     @objc public var onDidEndEditing: ((FluentTextField) -> Void)?
+
+    /// The closure for the action to be called in `textFieldShouldReturn`. The return value of `onReturn`
+    /// will be returned in `textFieldShouldReturn`.
     @objc public var onReturn: ((FluentTextField) -> Bool)?
+
+    /// The `FluentTextInputError` containing the `localizedDescription` that will be
+    /// displayed in the assistive text label.
     @objc public var error: FluentTextInputError? {
         didSet {
             updateState()
@@ -69,6 +91,16 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
+    // Hierarchy:
+    //
+    // imageTextStack
+    // |--leadingImageContainerView
+    // |--|--leadingImageView
+    // |--textStack
+    // |--|--label
+    // |--|--textfield
+    // |--|--separator
+    // |--|--assistiveTextLabel
     @objc public init() {
         super.init(frame: .zero)
         textfield.validateInputText = editingChanged
@@ -326,26 +358,50 @@ class FluentTextFieldInternal: UITextField {
     var validateInputText: (() -> Void)?
 }
 
-// TODO: Better, less confusing name. Since this is nothing like the other state objects
+/// The predefined states of the `FluentTextField`.
 public enum FluentTextFieldState: Int, CaseIterable {
     case unfocused
     case focused
     case error
 }
 
+/// Design token set for the `FluentTextField` control.
 public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// Defines the color of the text in the bottom label.
         case assistiveTextColor
+
+        /// Defines the font of the  text in the bottom label.
         case assistiveTextFont
+
+        /// Defines the background color of the entire control.
         case backgroundColor
+
+        /// Defines the color of the cursor in the textfield.
         case cursorColor
+
+        /// Defines the color of the input text in the textfield.
         case inputTextColor
+
+        /// Defines the font of the input and placeholder text in the textfield.
         case inputTextFont
+
+        /// Defines the color of the text in the top label.
         case labelColor
+
+        /// Defines the font of the text in the top label.
         case labelFont
+
+        /// Defines the color of the leading image.
         case leadingIconColor
+
+        /// Defines the color of the placeholder text in the textfield.
         case placeholderColor
+
+        /// Defines the color of the separator between the textfield and the bottom lablel
         case strokeColor
+
+        /// Defines the color of the trailing icon in the textfield.
         case trailingIconColor
     }
 
@@ -452,43 +508,53 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
 }
 
 extension TextFieldTokenSet {
+    /// The value for the size of the leading and trailing icons.
     static func iconSize() -> CGFloat {
         return GlobalTokens.iconSize(.medium)
     }
 
+    /// The value for the padding between the leading and trailing edges of the control and the content.
     static func horizontalPadding() -> CGFloat {
         return GlobalTokens.spacing(.medium)
     }
 
+    /// The value for the padding between the top edge of the control and the content.
     static func topPadding() -> CGFloat {
         return GlobalTokens.spacing(.small)
     }
 
+    /// The value for the padding between the bottom edge of the control and the content.
     static func bottomPadding() -> CGFloat {
         return GlobalTokens.spacing(.xxSmall)
     }
 
+    /// The value for the spacing between the top label and the input or placeholder text.
     static func labelInputTextSpacing() -> CGFloat {
         return GlobalTokens.spacing(.small)
     }
 
+    /// The value for the spacing between the leading icon and the input or placeholder text.
     static func leadingIconInputTextSpacing() -> CGFloat {
         return GlobalTokens.spacing(.medium)
     }
 
+    /// The value for the spacing between the input or placeholder text and the trailing icon.
     static func inputTextTrailingIconSpacing() -> CGFloat {
         return GlobalTokens.spacing(.xSmall)
     }
 
+    /// The value for the spacing between the input or placeholder text and the separator.
     static func inputTextStrokeSpacing() -> CGFloat {
         return GlobalTokens.spacing(.small)
     }
 
+    /// The value for the spacing between the separator and the assistive text label.
     static func strokeAssistiveTextSpacing() -> CGFloat {
         return GlobalTokens.spacing(.xxSmall)
     }
 }
 
+/// An error object with a localized string used by the `FluentTextField`.
 @objc(MSFTextInputError)
 open class FluentTextInputError: NSObject {
     @objc public init(localizedDescription: String) {
