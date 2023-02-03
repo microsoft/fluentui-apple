@@ -1077,9 +1077,9 @@
 			isa = PBXGroup;
 			children = (
 				EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */,
-				EC98E2B1298D97EC00B9DF91 /* TextFieldTokenSet.swift */,
 				EC98E2AF298D978C00B9DF91 /* FluentTextFieldInternal.swift */,
 				EC98E2B3298D989100B9DF91 /* FluentTextInputError.swift */,
+				EC98E2B1298D97EC00B9DF91 /* TextFieldTokenSet.swift */,
 			);
 			path = TextField;
 			sourceTree = "<group>";
