@@ -79,18 +79,19 @@ class PillButtonBarDemoController: DemoController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-        }
+        let backgroundColorLight = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground1])
+        onBrandBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+        customBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let pillButtonBackgroundColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillButtonUnreadDotColor = useCustomPillsColors ? Colors.textPrimary : nil
+        let accentColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
+        let textColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+        let pillButtonBackgroundColor = useCustomPillsColors ? accentColor : nil
+        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? textColor : nil
+        let pillButtonTextColor = useCustomPillsColors ? textColor : nil
+        let pillSelectedButtontextColor = useCustomPillsColors ? accentColor : nil
+        let pillButtonUnreadDotColor = useCustomPillsColors ? textColor : nil
 
         let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
         bar.items = items

@@ -10,49 +10,15 @@ import UIKit
 
 class TableViewHeaderFooterViewDemoController: DemoController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
-    private let plainSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.plainSections
-
-    private lazy var segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: TableViewHeaderFooterSampleData.tabTitles.map({return SegmentItem(title: $0)}), style: .primaryPill)
-        segmentedControl.onSelectAction = { [weak self] (_, _) in
-            guard let strongSelf = self else {
-                return
-            }
-
-            strongSelf.updateActiveTabContent()
-        }
-
-        return segmentedControl
-    }()
     private lazy var groupedTableView: UITableView = createTableView(style: .grouped)
-    private lazy var plainTableView: UITableView = createTableView(style: .plain)
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        container.heightAnchor.constraint(equalTo: scrollingContainer.heightAnchor).isActive = true
-        container.layoutMargins = .zero
-        container.spacing = 0
-
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.backgroundColor = Colors.navigationBarBackground
-        container.addArrangedSubview(segmentedControl)
-        container.setCustomSpacing(8, after: segmentedControl)
-        container.backgroundColor = Colors.navigationBarBackground
-
-        let separator = Separator(style: .shadow, orientation: .horizontal)
-        container.addArrangedSubview(separator)
-
-        container.addArrangedSubview(groupedTableView)
-        container.addArrangedSubview(plainTableView)
-
-        updateActiveTabContent()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        navigationController?.navigationBar.shadowImage = nil
+        view.addSubview(groupedTableView)
+        groupedTableView.frame = view.bounds
+        groupedTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        scrollingContainer.removeFromSuperview()
     }
 
     func createTableView(style: UITableView.Style) -> UITableView {
@@ -61,14 +27,9 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackground
+        tableView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         tableView.separatorStyle = .none
         return tableView
-    }
-
-    @objc private func updateActiveTabContent() {
-        groupedTableView.isHidden = segmentedControl.selectedSegmentIndex == 1
-        plainTableView.isHidden = !groupedTableView.isHidden
     }
 }
 
@@ -76,7 +37,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
 
 extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return tableView.style == .grouped ? groupedSections.count : plainSections.count
+        return  groupedSections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,6 +48,8 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
             return UITableViewCell()
         }
+        cell.backgroundStyleType = TableViewCellBackgroundStyleType.custom
+        cell.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {
@@ -105,14 +68,14 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
 
 extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
+        let section = groupedSections[section]
         return section.hasFooter ? UITableView.automaticDimension : 0
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let index = section
-        let section = tableView.style == .grouped ? groupedSections[section] : plainSections[section]
+        let section = groupedSections[section]
         if let header = header, section.hasHandler {
             header.onHeaderViewTapped = { [weak self] in self?.forHeaderTapped(header: header, section: index) }
         }
@@ -133,7 +96,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
-        button.setTitleColor(Colors.error, for: .normal)
+        button.setTitleColor(UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary)), for: .normal)
         return button
     }
 
