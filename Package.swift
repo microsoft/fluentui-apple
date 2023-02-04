@@ -28,10 +28,6 @@ let package = Package(
             path: "public"
         ),
         .target(
-            name: "FluentUIResources",
-            path: "apple"
-        ),
-        .target(
             name: "FluentUI_ios",
             dependencies: [
                 .target(name: "FluentUIResources")

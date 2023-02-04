@@ -103,8 +103,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
-    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
@@ -357,8 +356,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 

@@ -24,11 +24,7 @@ public class FluentUIFramework: NSObject {
         #endif
     }()
     @objc public static let colorsBundle: Bundle = {
-        #if SWIFT_PACKAGE
-        return SharedResources.colorsBundle
-        #else
         return resourceBundle
-        #endif
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
