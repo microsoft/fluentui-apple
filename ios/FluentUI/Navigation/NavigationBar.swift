@@ -742,7 +742,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
             return
         }
 
-        let customTitleView = TwoLineTitleView(style: style == .primary ? .light : .dark)
+        let customTitleView = TwoLineTitleView(style: style == .primary ? .primary : .system)
         customTitleView.setup(title: navigationItem.title ?? "", subtitle: subtitle, interactivePart: .title)
         customTitleView.delegate = self
         navigationItem.titleView = customTitleView

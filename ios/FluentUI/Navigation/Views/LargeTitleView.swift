@@ -80,7 +80,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     var style: Style = .primary {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
-            twoLineTitleView.applyStyle()
+            twoLineTitleView.currentStyle = style == .primary ? .primary : .system
             avatar?.state.style = style == .primary ? .default : .accent
         }
     }
@@ -185,6 +185,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
             return
         }
         titleButton.setTitleColor(colorForStyle, for: .normal)
+        twoLineTitleView.currentStyle = style == .primary ? .primary : .system
     }
 
     // MARK: - Base Construction Methods

@@ -118,7 +118,11 @@ open class TwoLineTitleView: UIView {
         return interactivePart.contains(.title) ? accessoryType : .none
     }
 
-    private var currentStyle: Style
+    var currentStyle: Style {
+        didSet {
+            applyStyle()
+        }
+    }
 
     private lazy var titleButtonLabel: Label = {
         let label = Label()
@@ -250,7 +254,7 @@ open class TwoLineTitleView: UIView {
 
     // MARK: Highlighting
 
-    func applyStyle() {
+    private func applyStyle() {
         switch currentStyle {
         case .system:
             titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
