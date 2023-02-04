@@ -82,6 +82,20 @@ class DatePickerSelectionManager {
         }
     }
 
+    func getNextIndexPath(indexPath: IndexPath) -> IndexPath {
+        if indexPath.item == 6 {
+            return IndexPath(item: 0, section: indexPath.section + 1)
+        }
+        return IndexPath(item: indexPath.item + 1, section: indexPath.section)
+    }
+
+    func getPreviousIndexPath(indexPath: IndexPath) -> IndexPath {
+        if indexPath.item == 0 {
+            return IndexPath(item: 6, section: indexPath.section - 1)
+        }
+        return IndexPath(item: indexPath.item - 1, section: indexPath.section)
+    }
+
     func setSelectedIndexPath(_ indexPath: IndexPath, mode: SelectionMode? = nil) {
         selectionState = selectionState(for: indexPath, mode: mode)
     }
