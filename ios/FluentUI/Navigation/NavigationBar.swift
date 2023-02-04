@@ -54,10 +54,6 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
 open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
-    public func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
-    }
-
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -802,6 +798,13 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         } else {
             accessibilityElements = nil
         }
+    }
+
+    // MARK: TwoLineTitleViewDelegate
+
+    /// Tapping the regular two-line title view asks the accessory to expand.
+    public func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
+        NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
     }
 }
 
