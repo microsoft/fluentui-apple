@@ -129,7 +129,7 @@ class AvatarDemoController: DemoTableViewController {
             ])
 
             var backgroundConfiguration = UIBackgroundConfiguration.clear()
-            backgroundConfiguration.backgroundColor = self.isUsingAlternateBackgroundColor ? Colors.tableCellBackgroundSelected : Colors.tableCellBackground
+            backgroundConfiguration.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelectedColor : TableViewCell.tableCellBackgroundColor
             cell.backgroundConfiguration = backgroundConfiguration
 
             return cell

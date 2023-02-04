@@ -134,7 +134,7 @@ class NavigationControllerDemoController: DemoController {
         stackView.alignment = .center
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-        button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+        button.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
         stackView.addArrangedSubview(button)
         presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
     }
@@ -688,9 +688,9 @@ class ModalViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-        }
+        let tintColor = DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                     dark: GlobalTokens.neutralColors(.white))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: tintColor)
     }
 
     override func viewDidLoad() {
@@ -744,7 +744,7 @@ class ModalViewController: UITableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor : TableViewCell.tableBackgroundColor
         tableView.reloadData()
     }
 
@@ -774,6 +774,6 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: Colors.navigationBarBackground)
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 }

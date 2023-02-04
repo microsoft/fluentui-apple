@@ -22,8 +22,8 @@ struct Demos {
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
+        DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
-        DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
@@ -33,8 +33,14 @@ struct Demos {
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self),
-        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self)
+    ]
+
+    static let fluent2DesignTokens: [DemoDescriptor] = [
+        DemoDescriptor("Global Color Tokens", GlobalColorTokensDemoController.self),
+        DemoDescriptor("Alias Color Tokens", AliasColorTokensDemoController.self),
+        DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self),
+        DemoDescriptor("Typography Tokens", TypographyTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -42,9 +48,7 @@ struct Demos {
         DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
-        DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
-        DemoDescriptor("Color", ColorDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),

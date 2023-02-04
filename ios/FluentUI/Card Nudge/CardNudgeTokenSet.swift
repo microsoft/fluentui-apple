@@ -17,15 +17,41 @@ import SwiftUI
 /// Design token set for the `CardNudge` control.
 public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// The  color applied to the accent text and icon
         case accentColor
+
+        /// The background color of the`CardNudge` control
         case backgroundColor
+
+        /// The background color of the action button and main icon
         case buttonBackgroundColor
+
+        /// The foreground color of the action button and main icon
+        case buttonForegroundColor
+
+        /// The color of the outline of the`CardNudge` control
         case outlineColor
+
+        /// The color of the subtitle text and dismiss icon
         case subtitleTextColor
+
+        /// The color of the title text
         case textColor
+
+        /// The circle radius of the main icon
         case circleRadius
+
+        /// The corner radius of the action button and the`CardNudge` control
         case cornerRadius
+
+        /// The width of the`CardNudge` control outline
         case outlineWidth
+
+        /// The font applied to the title text and action button text
+        case titleFont
+
+        /// The font applied to the subtitle text and the accent text
+        case subtitleFont
     }
 
     init(style: @escaping () -> MSFCardNudgeStyle) {
@@ -34,68 +60,76 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             switch token {
             case .accentColor:
                 return .dynamicColor {
-                    theme.aliasTokens.brandColors[.shade20]
+                    theme.aliasTokens.colors[.brandForeground1]
                 }
 
             case .backgroundColor:
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral2]
+                        theme.aliasTokens.colors[.backgroundCanvas]
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral1]
+                        theme.aliasTokens.colors[.background1]
                     }
+            }
 
-                }
             case .buttonBackgroundColor:
                 return .dynamicColor {
-                    theme.aliasTokens.brandColors[.tint30]
+                    theme.aliasTokens.colors[.brandBackgroundTint]
+                }
+
+            case .buttonForegroundColor:
+                return .dynamicColor {
+                    theme.aliasTokens.colors[.brandForegroundTint]
                 }
 
             case .circleRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.circle)
+                    GlobalTokens.corner(.radiusCircular)
                 }
 
             case .cornerRadius:
                 return .float {
-                    GlobalTokens.borderRadius(.xLarge)
+                    GlobalTokens.corner(.radius120)
                 }
 
             case .outlineColor:
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.backgroundColors[.neutral2]
+                        theme.aliasTokens.colors[.backgroundCanvas]
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.strokeColors[.neutral1]
+                        theme.aliasTokens.colors[.stroke2]
                     }
                 }
 
             case .outlineWidth:
                 return .float {
-                    GlobalTokens.borderSize(.thin)
+                    GlobalTokens.stroke(.width10)
                 }
 
             case .subtitleTextColor:
                 return .dynamicColor {
-                    theme.aliasTokens.foregroundColors[.neutral3]
+                    theme.aliasTokens.colors[.foreground2]
                 }
 
             case .textColor:
-                switch style() {
-                case .standard:
-                    return .dynamicColor {
-                        theme.aliasTokens.foregroundColors[.neutral1]
-                    }
-                case .outline:
-                    return .dynamicColor {
-                        theme.aliasTokens.brandColors[.shade20]
-                    }
+                return .dynamicColor {
+                    theme.aliasTokens.colors[.foreground1]
+                }
+
+            case .titleFont:
+                return .fontInfo {
+                    theme.aliasTokens.typography[.body2Strong]
+                }
+
+            case .subtitleFont:
+                return .fontInfo {
+                    theme.aliasTokens.typography[.caption1]
                 }
             }
         }
@@ -108,16 +142,16 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 // MARK: - Constants
 
 extension CardNudgeTokenSet {
-    static let iconSize: CGFloat = GlobalTokens.iconSize(.xSmall)
+    static let iconSize: CGFloat = GlobalTokens.iconSize(.medium)
     static let circleSize: CGFloat = GlobalTokens.iconSize(.xxLarge)
     static let accentIconSize: CGFloat = GlobalTokens.iconSize(.xxSmall)
-    static let accentPadding: CGFloat = GlobalTokens.spacing(.xxSmall)
+    static let accentPadding: CGFloat = GlobalTokens.spacing(.size40)
 
-    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.medium)
-    static let verticalPadding: CGFloat = GlobalTokens.spacing(.xSmall)
-    static let buttonInnerPaddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
-    static let interTextVerticalPadding: CGFloat = GlobalTokens.spacing(.xxxSmall)
-    static let mainContentVerticalPadding: CGFloat = GlobalTokens.spacing(.small)
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size80)
+    static let buttonInnerPaddingHorizontal: CGFloat = GlobalTokens.spacing(.size120)
+    static let interTextVerticalPadding: CGFloat = GlobalTokens.spacing(.size20)
+    static let mainContentVerticalPadding: CGFloat = GlobalTokens.spacing(.size120)
 
     static let minimumHeight: CGFloat = 56.0
 }

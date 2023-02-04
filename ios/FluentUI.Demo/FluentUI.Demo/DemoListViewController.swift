@@ -31,11 +31,13 @@ class DemoListViewController: DemoTableViewController {
 
     func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
         self.theme = theme
-        if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
-            Colors.setProvider(provider: provider, for: window)
+        if let provider = self.provider {
+            window.setColorProvider(provider)
+            let aliasTokens = self.view.fluentTheme.aliasTokens
+            let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
-            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
+            FluentUIFramework.initializeAppearance(with: UIColor(light: UIColor(colorValue: GlobalTokens.brandColors(.comm80)), dark: UIColor(colorValue: GlobalTokens.brandColors(.comm90))))
         }
     }
 
@@ -122,6 +124,7 @@ class DemoListViewController: DemoTableViewController {
 
     private enum DemoControllerSection: CaseIterable {
         case fluent2Controls
+        case fluent2DesignTokens
         case controls
 #if DEBUG
         case debug
@@ -131,6 +134,8 @@ class DemoListViewController: DemoTableViewController {
             switch self {
             case .fluent2Controls:
                 return "Fluent 2 Controls"
+            case .fluent2DesignTokens:
+                return "Fluent 2 Design Tokens"
             case .controls:
                 return "Controls"
 #if DEBUG
@@ -144,6 +149,8 @@ class DemoListViewController: DemoTableViewController {
             switch self {
             case .fluent2Controls:
                 return Demos.fluent2
+            case .fluent2DesignTokens:
+                return Demos.fluent2DesignTokens
             case .controls:
                 return Demos.controls
 #if DEBUG
