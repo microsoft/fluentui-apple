@@ -8,7 +8,7 @@ import UIKit
 // MARK: LargeTitleView
 
 /// Large Header and custom profile button container
-class LargeTitleView: UIView {
+class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     enum Style: Int {
         case primary
         case system
@@ -80,6 +80,7 @@ class LargeTitleView: UIView {
     var style: Style = .primary {
         didSet {
             titleButton.setTitleColor(colorForStyle, for: .normal)
+            twoLineTitleView.currentStyle = style == .primary ? .primary : .system
             avatar?.state.style = style == .primary ? .default : .accent
         }
     }
@@ -124,7 +125,19 @@ class LargeTitleView: UIView {
 
     private var avatar: MSFAvatar? // circular view displaying the profile information
 
+    private let titleContainerView = UIView()
+
+    private var hasSubtitle: Bool = false {
+        didSet {
+            if oldValue != hasSubtitle {
+                updateTitleContainerView()
+            }
+        }
+    }
+
+    // TODO: Once we have an iOS 15 minimum, we can use UIButton.Configuration to eliminate the need for TwoLineTitleView here
     private let titleButton = UIButton() // button used to display the title of the current navigation item
+    private let twoLineTitleView = TwoLineTitleView() // view used to display the title of the current navigation item if a subtitle exists
 
     private let contentStackView = UIStackView() // containing stack view
 
@@ -159,6 +172,7 @@ class LargeTitleView: UIView {
     private func initBase() {
         setupLayout()
         setupAccessibility()
+        twoLineTitleView.delegate = self
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(themeDidChange),
@@ -171,6 +185,7 @@ class LargeTitleView: UIView {
             return
         }
         titleButton.setTitleColor(colorForStyle, for: .normal)
+        twoLineTitleView.currentStyle = style == .primary ? .primary : .system
     }
 
     // MARK: - Base Construction Methods
@@ -209,8 +224,10 @@ class LargeTitleView: UIView {
 
         avatarView.centerYAnchor.constraint(equalTo: contentStackView.centerYAnchor).isActive = true
 
+        updateTitleContainerView()
+        contentStackView.addArrangedSubview(titleContainerView)
+
         // title button setup
-        contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
         titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
         titleButton.setTitleColor(colorForStyle, for: .normal)
@@ -311,12 +328,27 @@ class LargeTitleView: UIView {
         showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
 
+    private func updateTitleContainerView() {
+        titleContainerView.removeAllSubviews()
+        titleContainerView.contain(view: hasSubtitle ? twoLineTitleView : titleButton)
+    }
+
     /// Sets the interface with the provided item's details
     ///
     /// - Parameter navigationItem: instance of UINavigationItem providing inteface information
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
+        hasSubtitle = navigationItem.subtitle != nil
+        if let title = navigationItem.title {
+            twoLineTitleView.setup(
+                title: title,
+                subtitle: navigationItem.subtitle,
+                alignment: .leading,
+                interactivePart: .all,
+                animatesWhenPressed: false
+            )
+        }
     }
 
     // MARK: - Expansion/Contraction Methods
@@ -366,6 +398,15 @@ class LargeTitleView: UIView {
         accessibilityElements = contentStackView.arrangedSubviews.filter({ arrangedSubview in
             return !arrangedSubview.isHidden
         })
+    }
+
+    // MARK: - TwoLineTitleViewDelegate
+
+    func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
+        guard respondsToTaps, twoLineTitleView == self.twoLineTitleView else {
+            return
+        }
+        requestExpansion()
     }
 }
 

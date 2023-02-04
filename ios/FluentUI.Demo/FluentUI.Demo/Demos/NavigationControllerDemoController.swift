@@ -16,6 +16,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLargeTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
@@ -23,11 +24,14 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
         container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: #selector(showLargeTitleWithSystemStyleAndNoShadow)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithSystemStyleAndShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLargeTitleWithSystemStyleShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
 
         addTitle(text: "Regular Title")
-        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with collapsible search bar and subtitle", action: #selector(showRegularTitleWithShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"system\" with fixed search bar and subtitle", action: #selector(showSystemTitleWithFixedAccessoryAndSubtitle)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -54,6 +58,10 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
+    @objc func showLargeTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withLargeTitle: true, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+    }
+
     @objc func showLargeTitleWithSystemStyle() {
         presentController(withLargeTitle: true, style: .system)
     }
@@ -66,16 +74,28 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
+    @objc func showLargeTitleWithSystemStyleShyAccessoryAndSubtitle() {
+        presentController(withLargeTitle: true, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+    }
+
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
-    @objc func showRegularTitleWithShyAccessory() {
+    @objc func showSystemTitleWithShyAccessory() {
         presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
         presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
@@ -121,6 +141,7 @@ class NavigationControllerDemoController: DemoController {
 
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool,
+                                   subtitle: String? = nil,
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
                                    showsTopAccessory: Bool = false,
@@ -130,6 +151,7 @@ class NavigationControllerDemoController: DemoController {
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
+        content.navigationItem.subtitle = subtitle
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
