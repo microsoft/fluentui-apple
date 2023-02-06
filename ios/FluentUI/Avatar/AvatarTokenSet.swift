@@ -224,11 +224,11 @@ extension AvatarTokenSet {
         case .size16:
             return 0
         case .size20, .size24, .size32:
-            return GlobalTokens.iconSize(.xxxSmall)
+            return GlobalTokens.icon(.size100)
         case .size40, .size56:
-            return GlobalTokens.iconSize(.xxSmall)
+            return GlobalTokens.icon(.size120)
         case .size72:
-            return GlobalTokens.iconSize(.small)
+            return GlobalTokens.icon(.size200)
         }
     }
 
@@ -248,9 +248,9 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
-            return GlobalTokens.iconSize(.xSmall)
+            return GlobalTokens.icon(.size160)
         case .size56:
-            return GlobalTokens.iconSize(.medium)
+            return GlobalTokens.icon(.size240)
         }
     }
 
@@ -260,9 +260,9 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
-            return GlobalTokens.iconSize(.small)
+            return GlobalTokens.icon(.size200)
         case .size56:
-            return GlobalTokens.iconSize(.large)
+            return GlobalTokens.icon(.size280)
         }
     }
 }
