@@ -101,9 +101,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                     case .zero:
                         return 0.0
                     case .small:
-                        return GlobalTokens.iconSize(.medium)
+                        return GlobalTokens.icon(.size240)
                     case .medium, .default:
-                        return GlobalTokens.iconSize(.xxLarge)
+                        return GlobalTokens.icon(.size400)
                     }
                 }
 
@@ -241,7 +241,7 @@ extension TableViewCellTokenSet {
     static let selectionImageMarginTrailing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The size for the selectionImage.
-    static let selectionImageSize: CGFloat = GlobalTokens.iconSize(.medium)
+    static let selectionImageSize: CGFloat = GlobalTokens.icon(.size240)
 
     /// The duration for the selectionModeAnimation.
     static let selectionModeAnimationDuration: CGFloat = 0.2
