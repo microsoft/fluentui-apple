@@ -21,7 +21,7 @@ class BaseTest: XCTestCase {
             controlPage.tap()
             return
         }
-        
+
         let onDifferentControlPage: Bool = {
             // handles edge case of SideTabBar first
             if !app.navigationBars.element.exists {
