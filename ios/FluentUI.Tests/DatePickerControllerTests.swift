@@ -54,7 +54,7 @@ class DatePickerControllerTests: XCTestCase {
             return
         }
 
-        let nextIndexPath = IndexPath(item: endIndex.item + 1, section: endIndex.section)
+        let nextIndexPath = selectionManager.getNextIndexPath(indexPath: endIndex)
         selectionManager.setSelectedIndexPath(nextIndexPath)
 
         XCTAssertEqual(selectionManager.endDate, endDate.adding(days: 1).startOfDay)
@@ -65,7 +65,7 @@ class DatePickerControllerTests: XCTestCase {
         }
 
         // Test transition from ranged to single date and back
-        let previousIndexPath = IndexPath(item: endIndex.item - 1, section: endIndex.section)
+        let previousIndexPath = selectionManager.getPreviousIndexPath(indexPath: endIndex)
         selectionManager.setSelectedIndexPath(previousIndexPath)
 
         XCTAssertEqual(selectionManager.endDate, startDate.startOfDay)
