@@ -185,7 +185,6 @@
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */; };
 		94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */; };
-		A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */; };
 		A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */; };
 		A542A9D7226FC01100204A52 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A559BB81212B6FA40055E107 /* Localizable.strings */; };
 		A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */; };
@@ -321,7 +320,6 @@
 		92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
 		94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarCommandGroupsView.swift; sourceTree = "<group>"; };
-		A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-apple.xcassets"; path = "../apple/Resources/FluentUI-apple.xcassets"; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
 		A5237ACC21ED6CA70040BF27 /* DrawerShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerShadowView.swift; sourceTree = "<group>"; };
@@ -833,7 +831,6 @@
 			children = (
 				F5784DB9285D031800DBEAD6 /* docs */,
 				A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */,
-				A257F829251D98DD002CAA6E /* FluentUI-apple.xcassets */,
 				A5CEC15320D980B20016922A /* FluentUI */,
 				A5DA88FD226FAA01000A8EA8 /* FluentUI.Resources */,
 				A5CEC15E20D980B30016922A /* FluentUI.Tests */,
@@ -1374,7 +1371,6 @@
 			files = (
 				A542A9D7226FC01100204A52 /* Localizable.strings in Resources */,
 				A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */,
-				A257F82A251D98DD002CAA6E /* FluentUI-apple.xcassets in Resources */,
 				A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
