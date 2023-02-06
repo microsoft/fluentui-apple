@@ -15,7 +15,7 @@ class NotificationViewTestSwiftUI: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Notification View")).exists)
+        XCTAssert(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Notification View")).exists)
     }
 
     func testText() throws {
