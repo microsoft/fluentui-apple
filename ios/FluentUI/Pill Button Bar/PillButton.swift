@@ -232,18 +232,18 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
         if isSelected {
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selected)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelected].dynamicColor)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selected)
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor)
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selected), for: .normal)
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor), for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.selectedDisabled)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelectedDisabled].dynamicColor)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selectedDisabled)
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor)
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.selectedDisabled), for: .normal)
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor), for: .normal)
                 }
             }
         } else {
@@ -251,18 +251,18 @@ open class PillButton: UIButton, TokenizedControlInternal {
                         ? UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
                         : UIColor(dynamicColor: tokenSet[.disabledUnreadDotColor].dynamicColor)
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.rest)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.rest)
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.rest), for: .normal)
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor), for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].pillButtonDynamicColors.disabled)
+                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorDisabled].dynamicColor)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.disabled)
+                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor)
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].pillButtonDynamicColors.disabled), for: .disabled)
+                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor), for: .disabled)
                 }
             }
         }

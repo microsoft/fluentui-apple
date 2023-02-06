@@ -181,19 +181,21 @@ class PillButtonBarDemoController: DemoController {
 
     private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .pillButtonDynamicColors {
-                .init(rest: Colors.textOnAccent.dynamicColor!,
-                      selected: Colors.textPrimary.dynamicColor!,
-                      disabled: Colors.surfaceQuaternary.dynamicColor!,
-                      selectedDisabled: Colors.surfaceSecondary.dynamicColor!)
-            },
+            .backgroundColor: .dynamicColor { Colors.textOnAccent.dynamicColor! },
 
-            .titleColor: .pillButtonDynamicColors {
-                .init(rest: Colors.textPrimary.dynamicColor!,
-                      selected: Colors.textOnAccent.dynamicColor!,
-                      disabled: Colors.textDisabled.dynamicColor!,
-                      selectedDisabled: Colors.textDisabled.dynamicColor!)
-            },
+            .backgroundColorSelected: .dynamicColor { Colors.textPrimary.dynamicColor! },
+
+            .backgroundColorDisabled: .dynamicColor { Colors.surfaceQuaternary.dynamicColor! },
+
+            .backgroundColorSelectedDisabled: .dynamicColor { Colors.surfaceSecondary.dynamicColor! },
+
+            .titleColor: .dynamicColor { Colors.textPrimary.dynamicColor! },
+
+            .titleColorSelected: .dynamicColor { Colors.textOnAccent.dynamicColor! },
+
+            .titleColorDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
+
+            .titleColorSelectedDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
 
             .enabledUnreadDotColor: .dynamicColor {
                 Colors.textPrimary.dynamicColor!
@@ -246,26 +248,44 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
 
     private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .pillButtonDynamicColors {
-                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
-                                                dark: GlobalTokens.sharedColors(.steel, .shade30)),
-                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                                                    dark: GlobalTokens.sharedColors(.pumpkin, .shade30)),
-                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                                                    dark: GlobalTokens.sharedColors(.darkTeal, .shade30)),
-                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                                            dark: GlobalTokens.sharedColors(.orchid, .shade30)))
+            .backgroundColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
+                                    dark: GlobalTokens.sharedColors(.steel, .shade30))
             },
 
-            .titleColor: .pillButtonDynamicColors {
-                return .init(rest: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
-                                                dark: GlobalTokens.sharedColors(.steel, .tint40)),
-                             selected: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
-                                                    dark: GlobalTokens.sharedColors(.pumpkin, .tint40)),
-                             disabled: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
-                                                    dark: GlobalTokens.sharedColors(.darkTeal, .tint40)),
-                             selectedDisabled: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                                            dark: GlobalTokens.sharedColors(.orchid, .tint40)))
+            .backgroundColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                                    dark: GlobalTokens.sharedColors(.pumpkin, .shade30))
+            },
+
+            .backgroundColorDisabled: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                                    dark: GlobalTokens.sharedColors(.darkTeal, .shade30))
+            },
+
+            .backgroundColorSelectedDisabled: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
+                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
+            },
+
+            .titleColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
+                                    dark: GlobalTokens.sharedColors(.steel, .tint40))
+            },
+
+            .titleColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
+                                    dark: GlobalTokens.sharedColors(.pumpkin, .tint40))
+            },
+
+            .titleColorDisabled: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
+                                    dark: GlobalTokens.sharedColors(.darkTeal, .tint40))
+            },
+
+            .titleColorSelectedDisabled: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
+                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
             },
 
             .font: .fontInfo {
