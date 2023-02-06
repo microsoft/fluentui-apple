@@ -11,14 +11,6 @@ import UIKit
 class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
-    }
-
-    required init?(coder: NSCoder) {
-        preconditionFailure("init(coder:) has not been implemented")
-    }
-
     private var isGrouped: Bool = false {
         didSet {
             updateTableView()
@@ -112,7 +104,7 @@ class TableViewCellDemoController: DemoTableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor : TableViewCell.tableBackgroundColor
         tableView.reloadData()
     }
 }

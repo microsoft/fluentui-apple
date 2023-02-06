@@ -56,9 +56,64 @@ struct NotificationDemoView: View {
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
 
+#if DEBUG
+        let accessibilityIdentifier: String = {
+            var identifier: String = "Notification View with"
+
+            if hasTitle {
+                if hasAttribute {
+                    identifier += " attributed title \"\(title)\""
+                } else {
+                    identifier += " title \"\(title)\""
+                }
+            } else {
+                identifier += " no title"
+            }
+
+            if hasMessage {
+                if hasAttribute {
+                    identifier += ", attributed message \"\(message)\""
+                } else {
+                    identifier += ", message \"\(message)\""
+                }
+            } else {
+                identifier += ", no message"
+            }
+
+            if image != nil {
+                identifier += ", an image"
+            }
+
+            if actionButtonTitle != "" {
+                identifier += ", and an action button titled \"\(actionButtonTitle)\""
+            } else {
+                if trailingImage != nil {
+                    identifier += ", and a trailing image"
+                } else {
+                    identifier += ", and a dismiss button"
+                }
+            }
+
+            identifier += " in style \(style.rawValue)"
+
+            if !(MSFNotificationStyle.primaryBar.rawValue...MSFNotificationStyle.neutralBar.rawValue ~= style.rawValue) {
+                if isFlexibleWidthToast {
+                    identifier += " that is flexible in width"
+                } else {
+                    identifier += " that is not flexible in width"
+                }
+            }
+
+            return identifier
+        }()
+ #endif
+
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
+#if DEBUG
+                .accessibilityIdentifier(accessibilityIdentifier)
+#endif
                 .presentNotification(isPresented: .constant(true), isBlocking: false) {
                     FluentNotification(style: style,
                                        isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
@@ -204,14 +259,14 @@ struct NotificationDemoView: View {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
-                                  blurOne: 10.0,
-                                  xOne: 10.0,
-                                  yOne: 10.0,
-                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
-                                  blurTwo: 100.0,
-                                  xTwo: -10.0,
-                                  yTwo: -10.0)
+                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                                  keyBlur: 10.0,
+                                  xKey: 10.0,
+                                  yKey: 10.0,
+                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientBlur: 100.0,
+                                  xAmbient: -10.0,
+                                  yAmbient: -10.0)
             }
         ]
     }

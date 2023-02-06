@@ -44,7 +44,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return UIColor(dynamicColor: tokenSet[.accessoryDetailButtonColor].dynamicColor)
         case .checkmark:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.brandColors[.primary])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
         }
     }
 
@@ -83,38 +83,6 @@ public enum TableViewCellBackgroundStyleType: Int {
             return nil
         }
     }
-}
-
-// MARK: - Table Colors
-
-public extension Colors {
-    internal struct Table {
-        struct Cell {
-            static var image: UIColor = iconSecondary
-            static var title: UIColor = textPrimary
-            static var subtitle: UIColor = textSecondary
-        }
-
-        struct HeaderFooter {
-            static var accessoryButtonText: UIColor = textSecondary
-            static var background: UIColor = .clear
-            static var backgroundDivider: UIColor = surfaceSecondary
-            static var text: UIColor = textSecondary
-            static var textDivider: UIColor = textSecondary
-            static var textLink = UIColor(light: Palette.communicationBlueShade10.color, dark: communicationBlue)
-        }
-
-        static var background: UIColor = surfacePrimary
-        static var backgroundGrouped = UIColor(light: surfaceSecondary, dark: surfacePrimary)
-    }
-
-    // Objective-C support
-    @objc static var tableBackground: UIColor { return surfacePrimary }
-    @objc static var tableBackgroundGrouped: UIColor { return UIColor(light: surfaceSecondary, dark: surfacePrimary) }
-    @objc static var tableCellBackground: UIColor { return surfacePrimary }
-    @objc static var tableCellBackgroundGrouped: UIColor { return UIColor(light: surfacePrimary, dark: surfaceSecondary) }
-    @objc static var tableCellBackgroundSelected: UIColor { return surfaceTertiary }
-    @objc static var tableCellImage: UIColor { return iconSecondary }
 }
 
 // MARK: - TableViewCell
@@ -162,6 +130,26 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var smallHeight: CGFloat { return height(title: "", customViewSize: .small) }
     @objc public static var mediumHeight: CGFloat { return height(title: "", subtitle: " ") }
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
+
+    /// TableViewCell colors with obj-c support
+    @objc public static var tableBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundColor].dynamicColor)
+    }
+    @objc public static var tableBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundGroupedColor].dynamicColor)
+    }
+    @objc public static var tableCellBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundColor].dynamicColor)
+    }
+    @objc public static var tableCellBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundGroupedColor].dynamicColor)
+    }
+    @objc public static var tableCellBackgroundSelectedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundSelectedColor].dynamicColor)
+    }
+    @objc public static var tableCellImageColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.imageColor].dynamicColor)
+    }
 
     /// Identifier string for TableViewCell
     @objc public static var identifier: String { return String(describing: self) }
@@ -342,7 +330,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var textAreaWidth = containerWidth - (textAreaLeadingOffset + textAreaTrailingOffset)
         let textAreaMinWidth = TableViewCellTokenSet.textAreaMinWidth
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
         if textAreaWidth < textAreaMinWidth, let customAccessoryView = customAccessoryView {
             let oldAccessoryViewWidth = customAccessoryView.frame.width
             let availableWidth = oldAccessoryViewWidth - (textAreaMinWidth - textAreaWidth)
@@ -514,7 +502,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                          footerTrailingAccessoryView: footerTrailingAccessoryView)
         let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
         let labelAccessoryViewMarginLeading = TableViewCellTokenSet.labelAccessoryViewMarginLeading
-        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.labelAccessoryViewMarginTrailing
+        let labelAccessoryViewMarginTrailing = TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing
 
         var textAreaWidth = Self.labelPreferredWidth(text: title,
                                                      attributedText: attributedTitle,
@@ -888,7 +876,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let unreadDotSize = TableViewCellTokenSet.unreadDotDimensions
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.booleanCellBrandColor].dynamicColor).cgColor
         return unreadDotLayer
     }()
 
@@ -1274,8 +1262,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return imageView
     }()
 
-    internal let topSeparator = Separator(style: .default, orientation: .horizontal)
-    internal let bottomSeparator = Separator(style: .default, orientation: .horizontal)
+    internal let topSeparator = Separator(orientation: .horizontal)
+    internal let bottomSeparator = Separator(orientation: .horizontal)
 
     private var superTableView: UITableView? {
         return findSuperview(of: UITableView.self) as? UITableView
@@ -1559,7 +1547,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                          leadingAccessoryView: titleLeadingAccessoryView,
                          leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
                          trailingAccessoryView: titleTrailingAccessoryView,
-                         trailingAccessoryViewSize: titleTrailingAccessoryViewSize)
+                         trailingAccessoryViewSize: titleTrailingAccessoryViewSize,
+                         labelAccessoryViewMarginTrailing: TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing)
 
         if layoutType == .twoLines || layoutType == .threeLines {
             layoutLabelViews(label: subtitleLabel,
@@ -1570,7 +1559,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              leadingAccessoryView: subtitleLeadingAccessoryView,
                              leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
                              trailingAccessoryView: subtitleTrailingAccessoryView,
-                             trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize)
+                             trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize,
+                             labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
 
             if layoutType == .threeLines {
                 layoutLabelViews(label: footerLabel,
@@ -1581,7 +1571,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                  leadingAccessoryView: footerLeadingAccessoryView,
                                  leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
                                  trailingAccessoryView: footerTrailingAccessoryView,
-                                 trailingAccessoryViewSize: footerTrailingAccessoryViewSize)
+                                 trailingAccessoryViewSize: footerTrailingAccessoryViewSize,
+                                 labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
             }
         }
 
@@ -1632,7 +1623,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   leadingAccessoryView: UIView?,
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
-                                  trailingAccessoryViewSize: CGSize) {
+                                  trailingAccessoryViewSize: CGSize,
+                                  labelAccessoryViewMarginTrailing: CGFloat) {
         let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
                                                                         isInSelectionMode: isInSelectionMode,
                                                                         tokenSet: tokenSet)
@@ -1659,7 +1651,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         let leadingAccessoryAreaWidth = TableViewCell.labelLeadingAccessoryAreaWidth(viewWidth: leadingAccessoryViewSize.width,
-                                                                                     labelAccessoryViewMarginTrailing: TableViewCellTokenSet.labelAccessoryViewMarginTrailing)
+                                                                                     labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
         let labelSize = TableViewCell.labelSize(text: text,
                                                 attributedText: label.attributedText,
                                                 isAttributedTextSet: isAttributedTextSet,
@@ -1669,7 +1661,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                                 leadingAccessoryView: leadingAccessoryView,
                                                 labelAccessoryViewMarginLeading: TableViewCellTokenSet.labelAccessoryViewMarginLeading,
                                                 trailingAccessoryView: trailingAccessoryView,
-                                                labelAccessoryViewMarginTrailing: TableViewCellTokenSet.labelAccessoryViewMarginTrailing)
+                                                labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing)
         label.frame = CGRect(
             x: textAreaLeadingOffset + leadingAccessoryAreaWidth,
             y: topOffset,
@@ -1977,8 +1969,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.mainBrandColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.mainBrandColor].dynamicColor).cgColor
+        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
+        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

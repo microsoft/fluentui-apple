@@ -33,6 +33,13 @@ public final class TokenSet<T: TokenSetKey, V> {
         }
     }
 
+    /// Removes a stored override for a given token value.
+    ///
+    /// - Parameter token: The token value whose override should be removed.
+    public func removeOverride(_ token: T) {
+        valueOverrides?[token] = nil
+    }
+
     /// Initializes this token set with a callback to fetch its default values as needed.
     ///
     /// The `defaultValues` closure being passed in is expected to take the form of a static switch statement, like so:
