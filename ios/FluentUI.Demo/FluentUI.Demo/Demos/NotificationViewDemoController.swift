@@ -65,6 +65,9 @@ class NotificationViewDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
+
         view.backgroundColor = Colors.surfaceSecondary
 
         addTitle(text: "SwiftUI Demo")

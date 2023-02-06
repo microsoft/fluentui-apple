@@ -67,6 +67,17 @@
                ReferencedContainer = "container:FluentUI.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3A42750E29677C3700F36FBE"
+               BuildableName = "FluentUIDemoTests.xctest"
+               BlueprintName = "FluentUIDemoTests"
+               ReferencedContainer = "container:FluentUI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
