@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */; };
 		3A42751229677C3700F36FBE /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751129677C3700F36FBE /* BaseTest.swift */; };
-		3A42751429677C3700F36FBE /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751329677C3700F36FBE /* AvatarView.swift */; };
+		3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751329677C3700F36FBE /* AvatarViewTest.swift */; };
 		3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751A29677CA100F36FBE /* BadgeViewTest.swift */; };
 		3A42751D29677CB900F36FBE /* ButtonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751C29677CB900F36FBE /* ButtonTest.swift */; };
 		3A42751F29677CCB00F36FBE /* DatePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751E29677CCB00F36FBE /* DatePickerTest.swift */; };
@@ -138,7 +138,7 @@
 		2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
 		3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A42751129677C3700F36FBE /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
-		3A42751329677C3700F36FBE /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		3A42751329677C3700F36FBE /* AvatarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewTest.swift; sourceTree = "<group>"; };
 		3A42751A29677CA100F36FBE /* BadgeViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewTest.swift; sourceTree = "<group>"; };
 		3A42751C29677CB900F36FBE /* ButtonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTest.swift; sourceTree = "<group>"; };
 		3A42751E29677CCB00F36FBE /* DatePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTest.swift; sourceTree = "<group>"; };
@@ -337,7 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				3A42751129677C3700F36FBE /* BaseTest.swift */,
-				3A42751329677C3700F36FBE /* AvatarView.swift */,
+				3A42751329677C3700F36FBE /* AvatarViewTest.swift */,
 				3A42751A29677CA100F36FBE /* BadgeViewTest.swift */,
 				3A42751C29677CB900F36FBE /* ButtonTest.swift */,
 				3A42752629677D3700F36FBE /* ColorTest.swift */,
@@ -927,7 +927,7 @@
 			files = (
 				3A42751229677C3700F36FBE /* BaseTest.swift in Sources */,
 				3A42751F29677CCB00F36FBE /* DatePickerTest.swift in Sources */,
-				3A42751429677C3700F36FBE /* AvatarView.swift in Sources */,
+				3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */,
 				3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */,
 				3A42751D29677CB900F36FBE /* ButtonTest.swift in Sources */,
 				3A42752129677CE800F36FBE /* FilledTemplateImageTest.swift in Sources */,

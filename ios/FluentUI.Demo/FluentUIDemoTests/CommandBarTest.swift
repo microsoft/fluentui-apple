@@ -10,7 +10,7 @@ class CommandBarTest: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars[controlName].exists)
+        XCTAssert(app.navigationBars[controlName].exists)
     }
 
     // ensures that adding (refreshing)/removing leading/trailing button works as expected
