@@ -15,6 +15,9 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Default badge", style: .default)
         addBadgeSection(title: "Error badge", style: .error)
         addBadgeSection(title: "Warning badge", style: .warning)
+        addBadgeSection(title: "Neutral badge", style: .neutral)
+        addBadgeSection(title: "Severe Warning badge", style: .severeWarning)
+        addBadgeSection(title: "Success badge", style: .success)
         addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
         addBadgeSection(title: "Custom badge", style: .default, overrideColor: true)
         addBadgeSection(title: "Custom disabled badge", style: .default, isEnabled: false, overrideColor: true)
@@ -54,13 +57,13 @@ class BadgeViewDemoController: DemoController {
             let badge = createBadge(text: "Kat Larsson", style: style, size: size, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
-                    badge.backgroundColor = Colors.Palette.blueMagenta20.color
-                    badge.selectedBackgroundColor = Colors.Palette.cyanBlue20.color
-                    badge.labelTextColor = Colors.Palette.gray50.color
-                    badge.selectedLabelTextColor = Colors.Palette.gray100.color
+                    badge.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
+                    badge.selectedBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.darkTeal, .tint20))
+                    badge.labelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey94))
+                    badge.selectedLabelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey88))
                 } else {
-                    badge.disabledBackgroundColor = Colors.Palette.gray100.color
-                    badge.disabledLabelTextColor = Colors.Palette.gray600.color
+                    badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey88))
+                    badge.disabledLabelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey26))
                 }
             }
             addRow(text: size.description, items: [badge])
@@ -92,7 +95,7 @@ class BadgeViewDemoController: DemoController {
                 customView: customView,
                 customViewVerticalPadding: 3
             )
-            badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
+            badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
             badge.disabledLabelTextColor = .white
 
             addRow(text: size.description, items: [badge])

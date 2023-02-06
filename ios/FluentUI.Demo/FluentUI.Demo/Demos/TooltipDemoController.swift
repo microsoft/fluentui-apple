@@ -9,7 +9,7 @@ import UIKit
 // MARK: TooltipDemoController
 
 class TooltipDemoController: DemoController {
-    let titleView = TwoLineTitleView(style: .dark)
+    let titleView = TwoLineTitleView(style: .system)
     var edgeCaseStackView: UIStackView!
 
     override func viewDidLoad() {
