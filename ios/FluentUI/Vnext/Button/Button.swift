@@ -131,20 +131,20 @@ struct FluentButtonStyle: ButtonStyle {
         let borderColor: DynamicColor
         let backgroundColor: DynamicColor
         if isDisabled {
-            iconColor = tokenSet[.iconColor].buttonDynamicColors.disabled
-            textColor = tokenSet[.textColor].buttonDynamicColors.disabled
-            borderColor = tokenSet[.borderColor].buttonDynamicColors.disabled
-            backgroundColor = tokenSet[.backgroundColor].buttonDynamicColors.disabled
+            iconColor = tokenSet[.iconColorDisabled].dynamicColor
+            textColor = tokenSet[.textColorDisabled].dynamicColor
+            borderColor = tokenSet[.borderColorDisabled].dynamicColor
+            backgroundColor = tokenSet[.backgroundColorDisabled].dynamicColor
         } else if isPressed || isFocused {
-            iconColor = tokenSet[.iconColor].buttonDynamicColors.pressed
-            textColor = tokenSet[.textColor].buttonDynamicColors.pressed
-            borderColor = tokenSet[.borderColor].buttonDynamicColors.pressed
-            backgroundColor = tokenSet[.backgroundColor].buttonDynamicColors.pressed
+            iconColor = tokenSet[.iconColorPressed].dynamicColor
+            textColor = tokenSet[.textColorPressed].dynamicColor
+            borderColor = tokenSet[.borderColorPressed].dynamicColor
+            backgroundColor = tokenSet[.backgroundColorPressed].dynamicColor
         } else {
-            iconColor = tokenSet[.iconColor].buttonDynamicColors.rest
-            textColor = tokenSet[.textColor].buttonDynamicColors.rest
-            borderColor = tokenSet[.borderColor].buttonDynamicColors.rest
-            backgroundColor = tokenSet[.backgroundColor].buttonDynamicColors.rest
+            iconColor = tokenSet[.iconColor].dynamicColor
+            textColor = tokenSet[.textColor].dynamicColor
+            borderColor = tokenSet[.borderColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundColor].dynamicColor
         }
 
         @ViewBuilder
