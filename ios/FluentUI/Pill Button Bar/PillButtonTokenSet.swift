@@ -10,25 +10,25 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// The background color of the `PillButton`.
         case backgroundColor
-        
+
         /// The background color of the `PillButton` when selected.
         case backgroundColorSelected
-        
+
         /// The background color of the `PillButton` when disabled.
         case backgroundColorDisabled
-        
+
         /// The background color of the `PillButton` when selected and disabled.
         case backgroundColorSelectedDisabled
 
         /// The color of the title of the `PillButton`.
         case titleColor
-        
+
         /// The color of the title of the `PillButton` when selected.
         case titleColorSelected
-        
+
         /// The color of the title of the `PillButton` when disabled.
         case titleColorDisabled
-        
+
         /// The color of the title of the `PillButton` when selected and disabled.
         case titleColorSelectedDisabled
 

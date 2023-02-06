@@ -337,7 +337,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderColorPressed:
                 return .dynamicColor {
                     switch style() {
-                    case .primary,.secondary, .accentFloating, .subtleFloating:
+                    case .primary, .secondary, .accentFloating, .subtleFloating:
                         return theme.aliasTokens.backgroundColors[.brandPressed]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
