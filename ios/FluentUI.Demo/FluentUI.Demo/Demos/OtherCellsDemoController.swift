@@ -18,7 +18,7 @@ class OtherCellsDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         tableView.register(ActivityIndicatorCell.self, forCellReuseIdentifier: ActivityIndicatorCell.identifier)
