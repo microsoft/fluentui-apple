@@ -1,11 +1,5 @@
 name: sizeComparison
 
-on:
-  pull_request:
-    branches:
-      - main*
-      - fluent2*
-
 jobs:
   archiveHeadBuild:
     runs-on: macos-12

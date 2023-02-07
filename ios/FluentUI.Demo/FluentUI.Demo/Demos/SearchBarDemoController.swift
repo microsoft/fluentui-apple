@@ -44,7 +44,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         let dataSource = BadgeViewDataSource(text: text, customView: customView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
-        badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
+        badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
         badge.disabledLabelTextColor = .white
         badge.isActive = false
         badge.maxFontSize = Constants.badgeViewMaxFontSize

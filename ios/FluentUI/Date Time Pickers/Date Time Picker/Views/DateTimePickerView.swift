@@ -48,15 +48,21 @@ class DateTimePickerView: UIControl {
     private let selectionTopSeparator = Separator()
     private let selectionBottomSeparator = Separator()
 
-    private let gradientLayer: CAGradientLayer = {
+    private var gradientLayer = CAGradientLayer()
+
+    private func createGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        let backgroundColor = Colors.DateTimePicker.background
-        let transparentColor = backgroundColor.withAlphaComponent(0)
-        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
+        updateGradientLayerColors(gradientLayer: gradientLayer)
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         return gradientLayer
-    }()
+    }
+
+    private func updateGradientLayerColors(gradientLayer: CAGradientLayer) {
+        let backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        let transparentColor = backgroundColor.withAlphaComponent(0)
+        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
+    }
 
     init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
         self.mode = mode
@@ -66,15 +72,32 @@ class DateTimePickerView: UIControl {
 
         super.init(frame: .zero)
 
-        layer.addSublayer(gradientLayer)
+        gradientLayer = createGradientLayer()
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
 
-        backgroundColor = Colors.DateTimePicker.background
+        updateBackgroundColor()
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+        updateGradientLayerColors(gradientLayer: gradientLayer)
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -88,6 +111,9 @@ class DateTimePickerView: UIControl {
             addSubview(component.view)
             component.didMove(toParent: viewController)
         }
+
+        // Display the gradient layer above the components
+        layer.addSublayer(gradientLayer)
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged

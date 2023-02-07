@@ -8,7 +8,7 @@ import UIKit
 class CardPresenterNavigationController: UINavigationController, CardPresentable {
     override func viewDidLoad() {
         super.viewDidLoad()
-        FluentUIFramework.initializeUINavigationBarAppearance(navigationBar)
+        FluentUIFramework.initializeUINavigationBarAppearance(navigationBar, navigationBarStyle: .dateTimePicker, fluentTheme: view.fluentTheme)
     }
 
     func idealSize() -> CGSize {

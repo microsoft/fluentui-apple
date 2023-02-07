@@ -6,7 +6,7 @@
 import UIKit
 
 // MARK: TooltipView
-class TooltipView: UIView {
+class TooltipView: UIView, Shadowable {
 
     init(anchorView: UIView,
          message: String,
@@ -45,18 +45,16 @@ class TooltipView: UIView {
         }
 
         addSubview(textContainer)
-
-        // TODO: Integrate with new applyShadow functionality
-        // Shadow
-        layer.insertSublayer(CALayer(), at: 0)
-        layer.insertSublayer(CALayer(), at: 0)
-        updateShadows()
-
         isAccessibilityElement = true
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadows()
     }
 
     func updateTooltipSizeAndOrigin() {
@@ -86,7 +84,6 @@ class TooltipView: UIView {
         }
 
         updateTextContainerSize()
-        updateShadows()
     }
 
     func updateFonts() {
@@ -105,6 +102,10 @@ class TooltipView: UIView {
         updateColors()
     }
 
+    // MARK: - Shadow Layers
+    var ambientShadow: CALayer?
+    var keyShadow: CALayer?
+
     // MARK: - Accessibility
     override var accessibilityLabel: String? {
         get {
@@ -118,6 +119,32 @@ class TooltipView: UIView {
         set { }
     }
 
+#if DEBUG
+    override var accessibilityIdentifier: String? {
+        get {
+            var identifier: String = "Tooltip with message \"\(message)\""
+
+            if let title = titleMessage {
+                identifier += " and title \"\(title)\""
+            }
+
+            switch arrowDirection {
+            case .up:
+                identifier += " that is pointing up"
+            case .down:
+                identifier += " that is pointing down"
+            case .left:
+                identifier += " that is pointing left"
+            case .right:
+                identifier += " that is pointing right"
+            }
+
+            return identifier
+        }
+        set { }
+    }
+#endif
+
     override var accessibilityHint: String? {
         get { return "Accessibility.Dismiss.Hint".localized }
         set { }
@@ -125,6 +152,11 @@ class TooltipView: UIView {
 
     var tooltipRect: CGRect {
         return CGRect(origin: tooltipOrigin, size: tooltipSize)
+    }
+
+    private func updateShadows() {
+        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
+        shadowInfo.applyShadow(to: backgroundView)
     }
 
     private func updateArrowDirectionAndTooltipRect(for message: String, title: String? = nil, tokenSet: TooltipTokenSet) {
@@ -203,28 +235,6 @@ class TooltipView: UIView {
         arrowImageView.image = arrowImageView.image?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
         messageLabel.textColor = textColor
         titleLabel?.textColor = textColor
-    }
-
-    private func updateShadows() {
-        let backgroundCornerRadius = tokenSet[.backgroundCornerRadius].float
-        let shadowInfo = tokenSet[.shadowInfo].shadowInfo
-        if let ambientShadow = layer.sublayers?[1] {
-            ambientShadow.frame = bounds
-            ambientShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-            ambientShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-            ambientShadow.shadowOpacity = 1
-            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-            ambientShadow.shadowRadius = shadowInfo.blurOne
-        }
-
-        if let perimeterShadow = layer.sublayers?[0] {
-            perimeterShadow.frame = bounds
-            perimeterShadow.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: backgroundCornerRadius).cgPath
-            perimeterShadow.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-            perimeterShadow.shadowOpacity = 1
-            perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-            perimeterShadow.shadowRadius = shadowInfo.blurTwo
-        }
     }
 
     private func transformForArrowImageView() -> CGAffineTransform {

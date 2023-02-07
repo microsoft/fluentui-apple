@@ -82,6 +82,26 @@ class DatePickerSelectionManager {
         }
     }
 
+    func getNextIndexPath(indexPath: IndexPath) -> IndexPath {
+        // if the indexPath in is a Saturday (Sunday is 0th day of the week, Saturday is the 6th)
+        if indexPath.item == 6 {
+            // return an IndexPath representing Sunday of the next week (indexPath's section is the week)
+            return IndexPath(item: 0, section: indexPath.section + 1)
+        }
+        // otherwise, increment the day
+        return IndexPath(item: indexPath.item + 1, section: indexPath.section)
+    }
+
+    func getPreviousIndexPath(indexPath: IndexPath) -> IndexPath {
+        // if the indexPath in is a Sunday
+        if indexPath.item == 0 {
+            // return an IndexPath representing Saturday of the previous week
+            return IndexPath(item: 6, section: indexPath.section - 1)
+        }
+        // otherwise, decrement the day
+        return IndexPath(item: indexPath.item - 1, section: indexPath.section)
+    }
+
     func setSelectedIndexPath(_ indexPath: IndexPath, mode: SelectionMode? = nil) {
         selectionState = selectionState(for: indexPath, mode: mode)
     }

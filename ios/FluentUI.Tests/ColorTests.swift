@@ -8,12 +8,6 @@ import XCTest
 
 class ColorTests: XCTestCase {
 
-    func testColorsExist() throws {
-        for paletteColor in Colors.Palette.allCases {
-            XCTAssertNotNil(paletteColor.color)
-        }
-    }
-
     func testColorValue() {
         let hexColorValue = ColorValue(0xC7E0F4)
         XCTAssertEqual(hexColorValue.a, 1.0)
