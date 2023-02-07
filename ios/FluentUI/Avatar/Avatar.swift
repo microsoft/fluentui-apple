@@ -312,11 +312,10 @@ public struct Avatar: View, TokenizedControlView {
                                     .overlay(accessoryImage
                                         .interpolation(.high)
                                         .resizable()
-                                        .foregroundColor(Color(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1]))
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
-                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice)))
+                                            .foregroundColor(shouldDisplayActivity ? Color(dynamicColor: tokenSet.fluentTheme.aliasTokens.foregroundColors[.neutral1]) : presence.color(isOutOfOffice: isOutOfOffice)))
                                         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
