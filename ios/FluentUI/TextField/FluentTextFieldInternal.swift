@@ -12,6 +12,8 @@ class FluentTextFieldInternal: UITextField {
         clearButton.addTarget(self, action: #selector(clearText), for: .touchUpInside)
         rightView = clearButton
         rightViewMode = .whileEditing
+
+        adjustsFontForContentSizeCategory = true
     }
 
     required init?(coder: NSCoder) {
