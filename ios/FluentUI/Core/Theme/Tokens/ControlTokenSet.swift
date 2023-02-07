@@ -116,8 +116,6 @@ public enum ControlTokenValue {
     case dynamicColor(() -> DynamicColor)
     case fontInfo(() -> FontInfo)
     case shadowInfo(() -> ShadowInfo)
-    case buttonDynamicColors(() -> ButtonDynamicColors)
-    case pillButtonDynamicColors(() -> PillButtonDynamicColors)
 
     public var float: CGFloat {
         if case .float(let float) = self {
@@ -162,31 +160,6 @@ public enum ControlTokenValue {
         }
     }
 
-    public var buttonDynamicColors: ButtonDynamicColors {
-        if case .buttonDynamicColors(let buttonDynamicColors) = self {
-            return buttonDynamicColors()
-        } else {
-            assertionFailure("Cannot convert token to ButtonDynamicColors: \(self)")
-            return ButtonDynamicColors(rest: fallbackColor,
-                                       hover: fallbackColor,
-                                       pressed: fallbackColor,
-                                       selected: fallbackColor,
-                                       disabled: fallbackColor)
-        }
-    }
-
-    public var pillButtonDynamicColors: PillButtonDynamicColors {
-        if case .pillButtonDynamicColors(let pillButtonDynamicColors) = self {
-            return pillButtonDynamicColors()
-        } else {
-            assertionFailure("Cannot convert token to PillButtonDynamicColors: \(self)")
-            return PillButtonDynamicColors(rest: fallbackColor,
-                                           selected: fallbackColor,
-                                           disabled: fallbackColor,
-                                           selectedDisabled: fallbackColor)
-        }
-    }
-
     // MARK: - Helpers
 
     private var fallbackColor: DynamicColor {
@@ -212,10 +185,6 @@ extension ControlTokenValue: CustomStringConvertible {
             return "ControlTokenValue.fontInfo (\(fontInfo())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
-        case .buttonDynamicColors(let buttonDynamicColors):
-            return "ControlTokenValue.buttonDynamicColors (\(buttonDynamicColors())"
-        case .pillButtonDynamicColors(let pillButtonDynamicColors):
-            return "ControlTokenValue.pillButtonDynamicColors (\(pillButtonDynamicColors()))"
         }
     }
 }

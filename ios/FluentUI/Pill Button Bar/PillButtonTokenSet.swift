@@ -11,8 +11,26 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
         /// The background color of the `PillButton`.
         case backgroundColor
 
+        /// The background color of the `PillButton` when selected.
+        case backgroundColorSelected
+
+        /// The background color of the `PillButton` when disabled.
+        case backgroundColorDisabled
+
+        /// The background color of the `PillButton` when selected and disabled.
+        case backgroundColorSelectedDisabled
+
         /// The color of the title of the `PillButton`.
         case titleColor
+
+        /// The color of the title of the `PillButton` when selected.
+        case titleColorSelected
+
+        /// The color of the title of the `PillButton` when disabled.
+        case titleColorDisabled
+
+        /// The color of the title of the `PillButton` when selected and disabled.
+        case titleColorSelectedDisabled
 
         /// The color of the unread dot when the `PillButton` is enabled.
         case enabledUnreadDotColor
@@ -47,49 +65,97 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .pillButtonDynamicColors {
+                return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
-                                                        dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
-                                     selected: theme.aliasTokens.foregroundColors[.brandRest],
-                                     disabled: DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                                            dark: GlobalTokens.neutralColors(.grey8)),
-                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey80),
-                                                                    dark: GlobalTokens.neutralColors(.grey30)))
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral4].light,
+                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
                     case .onBrand:
-                        return .init(rest: DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
-                                                        dark: theme.aliasTokens.backgroundColors[.neutral3].dark),
-                                     selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                                            dark: GlobalTokens.neutralColors(.grey32)),
-                                     disabled: DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
-                                                            dark: GlobalTokens.neutralColors(.grey8)),
-                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                                    dark: GlobalTokens.neutralColors(.grey30)))
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.brandHover].light,
+                                            dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                    }
+                }
+
+            case .backgroundColorSelected:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.aliasTokens.foregroundColors[.brandRest]
+                    case .onBrand:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                            dark: GlobalTokens.neutralColors(.grey32))
+                    }
+                }
+
+            case .backgroundColorDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                            dark: GlobalTokens.neutralColors(.grey8))
+                    case .onBrand:
+                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade20].light,
+                                            dark: GlobalTokens.neutralColors(.grey8))
+                    }
+                }
+
+            case .backgroundColorSelectedDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey80),
+                                            dark: GlobalTokens.neutralColors(.grey30))
+                    case .onBrand:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                            dark: GlobalTokens.neutralColors(.grey30))
                     }
                 }
 
             case .titleColor:
-                return .pillButtonDynamicColors {
+                return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return .init(rest: DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral3].light,
-                                                        dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
-                                     selected: DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                                            dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark),
-                                     disabled: DynamicColor(light: GlobalTokens.neutralColors(.grey70),
-                                                            dark: GlobalTokens.neutralColors(.grey26)),
-                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey94),
-                                                                    dark: GlobalTokens.neutralColors(.grey44)))
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutral3].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
                     case .onBrand:
-                        return .init(rest: DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
-                                                        dark: theme.aliasTokens.foregroundColors[.neutral2].dark),
-                                     selected: DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
-                                                            dark: theme.aliasTokens.foregroundColors[.neutral1].dark),
-                                     disabled: DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
-                                                            dark: GlobalTokens.neutralColors(.grey26)),
-                                     selectedDisabled: DynamicColor(light: GlobalTokens.neutralColors(.grey74),
-                                                                    dark: GlobalTokens.neutralColors(.grey44)))
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.neutralInverted].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral2].dark)
+                    }
+                }
+
+            case .titleColorSelected:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutralInverted].dark)
+                    case .onBrand:
+                        return DynamicColor(light: theme.aliasTokens.foregroundColors[.brandRest].light,
+                                            dark: theme.aliasTokens.foregroundColors[.neutral1].dark)
+                    }
+                }
+
+            case .titleColorDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey70),
+                                            dark: GlobalTokens.neutralColors(.grey26))
+                    case .onBrand:
+                        return DynamicColor(light: theme.aliasTokens.brandColors[.shade10].light,
+                                            dark: GlobalTokens.neutralColors(.grey26))
+                    }
+                }
+
+            case .titleColorSelectedDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey94),
+                                            dark: GlobalTokens.neutralColors(.grey44))
+                    case .onBrand:
+                        return DynamicColor(light: GlobalTokens.neutralColors(.grey74),
+                                            dark: GlobalTokens.neutralColors(.grey44))
                     }
                 }
 
