@@ -339,6 +339,9 @@ public struct Avatar: View, TokenizedControlView {
                                     .overlay(accessoryImage
                                         .interpolation(.high)
                                         .resizable()
+                                         // Rendering mode should be original for now to allow any image to show,
+                                         // but eventually should be changed to template when we add foreground tokens.
+                                        .renderingMode(.original)
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
