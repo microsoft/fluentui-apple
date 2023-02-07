@@ -428,6 +428,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
 
         updateAppearance()
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
@@ -450,8 +451,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         updateBackgroundColor()
         updateShadow()
         updateCornerRadius()
-
-        super.viewDidLayoutSubviews()
     }
 
     private func updateBackgroundColor() {
@@ -465,7 +464,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         // We need to have the shadow on a parent of the view that does the corner masking.
         // Otherwise the view will mask its own shadow.
         shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
-        super.viewDidLayoutSubviews()
     }
 
     private func updateCornerRadius() {
