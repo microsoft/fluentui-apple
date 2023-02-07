@@ -95,11 +95,6 @@ open class CommandingItem: NSObject {
         self.isToggleable = isToggleable
     }
 
-    @objc public convenience init(title: String, image: UIImage, trailingView: UIView, action: @escaping (CommandingItem) -> Void, isToggleable: Bool = false) {
-        self.init(title: title, image: image, action: action, isToggleable: isToggleable)
-        self.trailingView = trailingView
-    }
-
     @objc public init(isToggleable: Bool = false) {
         self.isToggleable = isToggleable
     }

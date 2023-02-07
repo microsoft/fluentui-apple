@@ -60,7 +60,10 @@ class BottomCommandingDemoController: UIViewController {
         let badge = BadgeView(dataSource: BadgeViewDataSource(text: "Badge"))
         let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 25))
         stackView.addArrangedSubview(badge)
-        return CommandingItem(title: "Badge Item ", image: homeImage, trailingView: stackView, action: commandAction)
+
+        let item = CommandingItem(title: "Badge Item ", image: homeImage, action: commandAction)
+        item.trailingView = stackView
+        return item
     }()
 
     private lazy var shortCommandSectionList: [CommandingSection] = [
