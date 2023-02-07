@@ -339,6 +339,7 @@ public struct Avatar: View, TokenizedControlView {
                                     .overlay(accessoryImage
                                         .interpolation(.high)
                                         .resizable()
+                                        .foregroundColor(Color(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1]))
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
