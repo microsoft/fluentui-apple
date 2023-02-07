@@ -18,7 +18,7 @@ class OtherCellsDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         tableView.register(ActivityIndicatorCell.self, forCellReuseIdentifier: ActivityIndicatorCell.identifier)
@@ -27,8 +27,8 @@ class OtherCellsDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = Colors.tableBackgroundGrouped
-        tableView.separatorColor = Colors.Separator.default
+        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
+        tableView.separatorColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stroke2])
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
@@ -56,7 +56,12 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokenSet: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .mainBrandColor: .dynamicColor {
+            .brandTextColor: .dynamicColor {
+                // "Charcoal"
+                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
+                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+            },
+            .booleanCellBrandColor: .dynamicColor {
                 // "Charcoal"
                 return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
                                     dark: GlobalTokens.sharedColors(.charcoal, .shade40))

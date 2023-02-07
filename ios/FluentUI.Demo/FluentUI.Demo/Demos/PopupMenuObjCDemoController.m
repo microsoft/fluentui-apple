@@ -19,7 +19,7 @@
 
 - (void)loadView {
     [super loadView];
-    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStylePrimaryOutline];
+    MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStyleOutline];
     [demoButton setTitle:@"Show PopupMenu" forState:UIControlStateNormal];
     [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
 
@@ -28,7 +28,11 @@
     [stack setTranslatesAutoresizingMaskIntoConstraints:NO];
     UIView *view = [self view];
     [view addSubview:stack];
-    [view setBackgroundColor:[MSFColors surfacePrimary]];
+
+    MSFAliasTokens *aliasTokens = [[view fluentTheme] aliasTokens];
+    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
+    [view setBackgroundColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
     UILayoutGuide *safeArea = [view safeAreaLayoutGuide];
     [NSLayoutConstraint activateConstraints:@[
         [[stack topAnchor] constraintEqualToAnchor:[safeArea topAnchor] constant:10],

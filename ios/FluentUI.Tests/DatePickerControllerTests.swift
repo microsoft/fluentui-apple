@@ -54,7 +54,7 @@ class DatePickerControllerTests: XCTestCase {
             return
         }
 
-        let nextIndexPath = IndexPath(item: endIndex.item + 1, section: endIndex.section)
+        let nextIndexPath = selectionManager.getNextIndexPath(indexPath: endIndex)
         selectionManager.setSelectedIndexPath(nextIndexPath)
 
         XCTAssertEqual(selectionManager.endDate, endDate.adding(days: 1).startOfDay)
@@ -65,7 +65,7 @@ class DatePickerControllerTests: XCTestCase {
         }
 
         // Test transition from ranged to single date and back
-        let previousIndexPath = IndexPath(item: endIndex.item - 1, section: endIndex.section)
+        let previousIndexPath = selectionManager.getPreviousIndexPath(indexPath: endIndex)
         selectionManager.setSelectedIndexPath(previousIndexPath)
 
         XCTAssertEqual(selectionManager.endDate, startDate.startOfDay)
@@ -90,7 +90,7 @@ class DatePickerControllerTests: XCTestCase {
 
 class MockCalendarViewStyleDataSource: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary
@@ -99,7 +99,7 @@ class MockCalendarViewStyleDataSource: CalendarViewStyleDataSource {
 
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
     ) -> CalendarViewDayCellBackgroundStyle {
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary

@@ -138,6 +138,27 @@ public class CommandBar: UIView, TokenizedControlInternal {
         updateShadow()
     }
 
+#if DEBUG
+    public override var accessibilityIdentifier: String? {
+        get {
+            var identifier: String = "Command Bar"
+
+            if leadingItemGroups != nil {
+                let count: Int = leadingItemGroups?.count ?? 0
+                identifier += " with \(count) \(count == 1 ? "leading button" : "leading buttons")"
+            }
+
+            if trailingItemGroups != nil {
+                let count: Int = trailingItemGroups?.count ?? 0
+                identifier += " and \(count) \(count == 1 ? "trailing button" : "trailing buttons")"
+            }
+
+            return identifier
+        }
+        set { }
+    }
+#endif
+
     // MARK: - TokenizedControl
 
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
