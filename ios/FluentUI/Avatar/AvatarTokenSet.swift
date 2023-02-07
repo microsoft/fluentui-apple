@@ -36,6 +36,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         /// The color of the border around the presence/activity.
         case borderColor
 
+        /// The foreground color of the activity.
+        case activityForegroundColor
+
         /// The background color of the activity.
         case activityBackgroundColor
 
@@ -149,6 +152,11 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
             case .borderColor:
                 return .dynamicColor({
                     theme.aliasTokens.colors[.background1]
+                })
+
+            case .activityForegroundColor:
+                return .dynamicColor({
+                    theme.aliasTokens.colors[.foreground1]
                 })
 
             case .activityBackgroundColor:
