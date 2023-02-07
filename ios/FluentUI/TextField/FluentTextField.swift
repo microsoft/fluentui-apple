@@ -221,6 +221,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     let label: Label = {
         let label = Label()
         label.isHidden = true
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         return label
     }()
 
