@@ -28,7 +28,11 @@ class TextFieldDemoController: DemoController {
         textField3.assistiveText = "Validates on press of return key"
         textField3.onReturn = onReturn
 
-        let stack = UIStackView(arrangedSubviews: [textField1, textField2, textField3])
+        let objcDemoButton = Button(style: .outline)
+        objcDemoButton.setTitle("Show Objective C Demo", for: .normal)
+        objcDemoButton.addTarget(self, action: #selector(showObjCDemo), for: .touchUpInside)
+
+        let stack = UIStackView(arrangedSubviews: [textField1, textField2, textField3, objcDemoButton])
         stack.axis = .vertical
         stack.spacing = 20
         stack.distribution = .equalSpacing
@@ -73,5 +77,9 @@ class TextFieldDemoController: DemoController {
         let error = validateText(textfield)
         textfield.error = error
         return error != nil
+    }
+
+    @objc func showObjCDemo(sender: Button) {
+        navigationController?.pushViewController(TextFieldObjCDemoController(), animated: true)
     }
 }

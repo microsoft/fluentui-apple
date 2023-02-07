@@ -120,6 +120,7 @@
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
 		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
+		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
 		ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
@@ -251,6 +252,8 @@
 		EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
 		EC24DBC428B97E950026EF92 /* PopupMenuObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMenuObjCDemoController.h; sourceTree = "<group>"; };
 		EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupMenuObjCDemoController.m; sourceTree = "<group>"; };
+		EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldObjCDemoController.m; sourceTree = "<group>"; };
+		EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldObjCDemoController.h; sourceTree = "<group>"; };
 		ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
@@ -525,6 +528,8 @@
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */,
+				EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */,
+				EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
 				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
 				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
@@ -812,6 +817,7 @@
 				53097D4327028AF400A6E4DC /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
+				EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
