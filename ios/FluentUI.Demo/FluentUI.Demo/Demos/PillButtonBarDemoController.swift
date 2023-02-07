@@ -120,7 +120,7 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = text
         label.textAlignment = .center
         return label

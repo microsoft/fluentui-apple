@@ -72,24 +72,6 @@ public enum CardSize: Int, CaseIterable {
         }
     }
 
-    var primaryTextStyle: TextStyle {
-        switch self {
-        case .small:
-            return .caption1
-        case .large:
-            return .subhead
-        }
-    }
-
-    var secondaryTextStyle: TextStyle {
-        switch self {
-        case .small:
-            return .caption2
-        case .large:
-            return .footnote
-        }
-    }
-
     func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
         var height: CGFloat = 0
         switch self {
@@ -288,7 +270,7 @@ open class CardView: UIView, Shadowable {
 
     /// The label for the Card's title
     private let primaryLabel: Label = {
-        let primaryLabel = Label()
+        let primaryLabel = Label(style: .body2)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.colorStyle = .primary
         return primaryLabel
@@ -296,7 +278,7 @@ open class CardView: UIView, Shadowable {
 
     /// The label for the Card's subtitle
     private let secondaryLabel: Label = {
-        let secondaryLabel = Label()
+        let secondaryLabel = Label(style: .caption1)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.colorStyle = .secondary
         return secondaryLabel
@@ -346,14 +328,12 @@ open class CardView: UIView, Shadowable {
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
         primaryLabel.textAlignment = .natural
-        primaryLabel.style = size.primaryTextStyle
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
             secondaryLabel.textAlignment = .natural
-            secondaryLabel.style = size.secondaryTextStyle
             addSubview(secondaryLabel)
         }
 

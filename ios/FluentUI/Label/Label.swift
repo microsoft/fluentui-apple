@@ -42,7 +42,7 @@ open class Label: UILabel {
             updateTextColor()
         }
     }
-    @objc open var style: TextStyle = .body {
+    @objc open var style: AliasTokens.TypographyTokens = .body1 {
         didSet {
             updateFont()
         }
@@ -68,7 +68,7 @@ open class Label: UILabel {
 
     private var isUsingCustomAttributedText: Bool = false
 
-    @objc public init(style: TextStyle = .body, colorStyle: TextColorStyle = .regular) {
+    @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
         self.style = style
         self.colorStyle = colorStyle
         super.init(frame: .zero)
@@ -122,7 +122,7 @@ open class Label: UILabel {
             return
         }
 
-        let defaultFont = style.font
+        let defaultFont = UIFont.fluent(fluentTheme.aliasTokens.typography[style])
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
         } else {

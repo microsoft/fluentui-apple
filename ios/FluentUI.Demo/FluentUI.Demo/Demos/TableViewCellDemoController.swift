@@ -170,18 +170,19 @@ extension TableViewCellDemoController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell, let fluentTheme = self.view.window?.fluentTheme else {
             return UITableViewCell()
         }
+
         let section = sections[indexPath.section]
         let item = section.item
         if section.title == "Inverted double line cell" {
             cell.setup(
                 attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: TextStyle.footnote.font,
+                                                    attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.body1]),
                                                                  .foregroundColor: UIColor.purple]),
                 attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: TextStyle.body.font,
+                                                       attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1]),
                                                                     .foregroundColor: UIColor.red]),
                 footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
                 customView: TableViewSampleData.createCustomView(imageName: item.image),

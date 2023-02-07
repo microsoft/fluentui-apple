@@ -17,7 +17,8 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Fonts.body.lineHeight, Constants.baseHeight)
+        let font = UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1])
+        return max(Constants.verticalPadding * 2 + font.lineHeight, Constants.baseHeight)
     }
 
     var emphasized: Bool = false {

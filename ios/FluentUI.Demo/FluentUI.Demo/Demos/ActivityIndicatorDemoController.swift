@@ -76,7 +76,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 return cell
             }
 
-            let titleLabel = Label(style: .body, colorStyle: .regular)
+            let titleLabel = Label()
             titleLabel.text = activityIndicatorSize.description
             titleLabel.numberOfLines = 0
 
