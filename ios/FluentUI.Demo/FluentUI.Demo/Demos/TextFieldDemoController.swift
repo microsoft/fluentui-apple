@@ -120,7 +120,7 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
         return [
             .assistiveTextColor: .dynamicColor { foreground },
             .assistiveTextFont: .fontInfo { font },
-            .backgroundColor: .dynamicColor{ background },
+            .backgroundColor: .dynamicColor { background },
             .inputTextColor: .dynamicColor { foreground },
             .inputTextFont: .fontInfo { font },
             .labelColor: .dynamicColor { foreground },
@@ -141,7 +141,7 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
         return [
             .assistiveTextColor: .dynamicColor { foreground },
             .assistiveTextFont: .fontInfo { font },
-            .backgroundColor: .dynamicColor{ background },
+            .backgroundColor: .dynamicColor { background },
             .inputTextColor: .dynamicColor { foreground },
             .inputTextFont: .fontInfo { font },
             .labelColor: .dynamicColor { foreground },
