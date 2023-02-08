@@ -124,7 +124,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
 extension TextFieldTokenSet {
     /// The value for the size of the leading and trailing icons.
     static func iconSize() -> CGFloat {
-        return GlobalTokens.iconSize(.medium)
+        return GlobalTokens.icon(.size240)
     }
 
     /// The value for the padding between the leading and trailing edges of the control and the content.
