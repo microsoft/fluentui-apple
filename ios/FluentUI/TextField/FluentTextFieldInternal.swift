@@ -5,6 +5,7 @@
 
 import UIKit
 
+/// Internal subclass of UITextField that allows us to adjust the position of the `rightView`.
 class FluentTextFieldInternal: UITextField {
     init() {
         super.init(frame: .zero)
