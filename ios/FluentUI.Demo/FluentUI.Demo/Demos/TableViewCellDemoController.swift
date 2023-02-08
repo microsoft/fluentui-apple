@@ -158,7 +158,7 @@ extension TableViewCellDemoController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell, let fluentTheme = self.view.window?.fluentTheme else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell, let fluentTheme = view?.fluentTheme else {
             return UITableViewCell()
         }
 
