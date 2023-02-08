@@ -340,14 +340,10 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
         hasSubtitle = navigationItem.subtitle != nil
-        if let title = navigationItem.title {
-            twoLineTitleView.setup(
-                title: title,
-                subtitle: navigationItem.subtitle,
-                alignment: .leading,
-                interactivePart: .all,
-                animatesWhenPressed: false
-            )
+        twoLineTitleView.setup(navigationItem: navigationItem)
+        if navigationItem.titleAccessory == nil {
+            // Use default behavior of requesting an accessory expansion
+            twoLineTitleView.delegate = self
         }
     }
 

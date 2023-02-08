@@ -8,6 +8,7 @@ import UIKit
 @objc public extension UINavigationItem {
     private struct AssociatedKeys {
         static var accessoryView: String = "accessoryView"
+        static var titleAccessory: String = "titleAccessory"
         static var topAccessoryView: String = "topAccessoryView"
         static var topAccessoryViewAttributes: String = "topAccessoryViewAttributes"
         static var contentScrollView: String = "contentScrollView"
@@ -24,6 +25,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var titleAccessory: NavigationBarTitleAccessory? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleAccessory) as? NavigationBarTitleAccessory
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.titleAccessory, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
