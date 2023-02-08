@@ -73,11 +73,6 @@
                BlueprintName = "FluentUITests"
                ReferencedContainer = "container:../FluentUI.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "DatePickerControllerTests/testSelectionManagerEnd()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

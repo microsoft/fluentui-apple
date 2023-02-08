@@ -29,10 +29,6 @@ public class FluentUIResources: NSObject {
 
     /// The resource bundle that points to our common color definitions
 	@objc public static let colorsBundle: Bundle = {
-        #if SWIFT_PACKAGE
-        return SharedResources.colorsBundle
-        #else
         return resourceBundle
-        #endif
     }()
 }

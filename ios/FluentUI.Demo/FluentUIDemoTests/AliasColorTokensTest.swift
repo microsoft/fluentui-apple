@@ -5,8 +5,8 @@
 
 import XCTest
 
-class ButtonTest: BaseTest {
-    override var controlName: String { "Button" }
+class AliasColorTokensTest: BaseTest {
+    override var controlName: String { "Alias Color Tokens" }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
