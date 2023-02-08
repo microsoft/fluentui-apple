@@ -25,21 +25,26 @@ public extension PillButton {
 
     @objc(normalBackgroundColorForWindow:ForStyle:)
     static func normalBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
-        let defaultColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
         switch style {
         case .primary:
-            return defaultColor
+            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background5].light,
+                                                      dark: fluentTheme.aliasTokens.colors[.background3].dark,
+                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5].darkElevated))
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground2]), dark: defaultColor)
+            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2].light,
+                                                      dark: fluentTheme.aliasTokens.colors[.background3].dark,
+                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5].darkElevated))
         }
     }
 
     static func titleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]), dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
+            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                      dark: fluentTheme.aliasTokens.colors[.foreground2].dark,
+                                                      darkElevated: fluentTheme.aliasTokens.colors[.foreground2].darkElevated))
         }
     }
 
