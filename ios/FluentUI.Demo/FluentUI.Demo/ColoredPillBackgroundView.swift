@@ -37,10 +37,11 @@ class ColoredPillBackgroundView: UIView {
     func updateBackgroundColor() {
         switch style {
         case .neutral:
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light:  GlobalTokens.neutralColors(.grey98),
+                                                                 dark: GlobalTokens.neutralColors(.grey8)))
         case .brand:
             backgroundColor = UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]),
-                                      dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3]))
+                                      dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey8)))
         }
     }
 
