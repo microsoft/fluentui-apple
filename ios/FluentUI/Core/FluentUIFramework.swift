@@ -77,7 +77,7 @@ public class FluentUIFramework: NSObject {
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
         var titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = Fonts.body
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1])
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         let switchAppearance = containerTypes != nil ? UISwitch.appearance(whenContainedInInstancesOf: containerTypes!) : UISwitch.appearance()
@@ -109,7 +109,7 @@ public class FluentUIFramework: NSObject {
         navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
 
         var titleAttributes = standardAppearance.titleTextAttributes
-        titleAttributes[.font] = Fonts.headline
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1Strong])
         titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
 
         standardAppearance.titleTextAttributes = titleAttributes

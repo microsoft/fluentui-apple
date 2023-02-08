@@ -104,7 +104,7 @@ class AvatarDemoController: DemoTableViewController {
 
             let avatarView = avatar
 
-            let titleLabel = Label(style: .body, colorStyle: .regular)
+            let titleLabel = Label()
             titleLabel.text = row.title
             titleLabel.numberOfLines = 0
             titleLabel.translatesAutoresizingMaskIntoConstraints = false

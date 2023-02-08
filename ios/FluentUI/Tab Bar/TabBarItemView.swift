@@ -286,7 +286,7 @@ class TabBarItemView: UIControl {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = Constants.spacingVertical
-            titleLabel.style = .button2
+            titleLabel.style = .caption2
             titleLabel.maxFontSize = 10
 
             if canResizeImage {
@@ -295,7 +295,7 @@ class TabBarItemView: UIControl {
         } else {
             container.axis = .horizontal
             container.spacing = Constants.spacingHorizontal
-            titleLabel.style = .footnote
+            titleLabel.style = .caption2
             titleLabel.maxFontSize = 13
 
             if canResizeImage {
