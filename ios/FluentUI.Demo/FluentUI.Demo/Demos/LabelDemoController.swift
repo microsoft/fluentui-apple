@@ -76,7 +76,7 @@ extension AliasTokens.TypographyTokens {
     var description: String {
         switch self {
         case .display:
-            return "display"
+            return "Display"
         case .largeTitle:
             return "Large Title"
         case .title1:
