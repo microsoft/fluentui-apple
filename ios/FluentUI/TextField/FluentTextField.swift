@@ -160,6 +160,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
                                                name: .didChangeTheme,
                                                object: nil)
         updateTokenizedValues()
+
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateTokenizedValues()
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -275,8 +279,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         textfield.font = UIFont.fluent(tokenSet[.inputTextFont].fontInfo)
         textfield.tintColor = UIColor(dynamicColor: tokenSet[.cursorColor].dynamicColor)
         textfield.textColor = UIColor(dynamicColor: tokenSet[.inputTextColor].dynamicColor)
-        let buttonColor = tokenSet[.trailingIconColor]
-        textfield.clearButton.tokenSet[.foregroundColor] = buttonColor
+        textfield.attributedPlaceholder = attributedPlaceholder
+        textfield.clearButton.tokenSet[.foregroundColor] = tokenSet[.trailingIconColor]
     }
 
     private func updateState() {
