@@ -184,7 +184,7 @@ open class SearchBar: UIView {
     // user interaction point
     private lazy var searchTextField: SearchBarTextField = {
         let textField = SearchBarTextField()
-        textField.font = Fonts.body.withSize(Constants.fontSize)
+        textField.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1]).withSize(Constants.fontSize)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -228,7 +228,7 @@ open class SearchBar: UIView {
     // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = Fonts.body.withSize(Constants.fontSize)
+        button.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0

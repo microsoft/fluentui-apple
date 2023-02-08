@@ -97,7 +97,7 @@ class TableViewCellSampleData: TableViewSampleData {
     ]
 
     static var customAccessoryView: UIView {
-        let label = Label(style: .body, colorStyle: .secondary)
+        let label = Label(style: .body1, colorStyle: .secondary)
         label.text = "PowerPoint Presentation"
         label.sizeToFit()
         label.numberOfLines = 0
@@ -171,7 +171,7 @@ class TableViewCellSampleData: TableViewSampleData {
         stackView.distribution = .fill
         stackView.axis = .vertical
 
-        let label = Label(style: .footnote)
+        let label = Label(style: .caption1)
         label.textColor = UIColor(dynamicColor: stackView.fluentTheme.aliasTokens.colors[.foreground3])
         label.text = text
         stackView.addArrangedSubview(label)

@@ -292,6 +292,7 @@ public struct Avatar: View, TokenizedControlView {
                 let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
                 let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
                 let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
+                let accessoryForegroundColor: Color = shouldDisplayActivity ? Color(dynamicColor: tokenSet[.activityForegroundColor].dynamicColor) : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)
                 let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
                 let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
                                                                                iconSize: accessoryBorderSize,
@@ -342,7 +343,7 @@ public struct Avatar: View, TokenizedControlView {
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
-                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)))
+                                            .foregroundColor(accessoryForegroundColor))
                                         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,

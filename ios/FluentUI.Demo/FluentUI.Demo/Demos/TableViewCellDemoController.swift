@@ -11,7 +11,20 @@ import UIKit
 class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
-    private var isGrouped: Bool = false {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(style: .insetGrouped)
+    }
+
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+        self.isGrouped = (style == .insetGrouped)
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    private var isGrouped: Bool = true {
         didSet {
             updateTableView()
         }
@@ -40,10 +53,6 @@ class TableViewCellDemoController: DemoTableViewController {
         }
     }
 
-    private var styleButtonTitle: String {
-        return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
-    }
-
     private var editButton: UIBarButtonItem?
 
     private var overrideTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue]?
@@ -60,22 +69,6 @@ class TableViewCellDemoController: DemoTableViewController {
         let editButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
         navigationItem.rightBarButtonItems?.append(editButton)
         self.editButton = editButton
-
-        toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: styleButtonTitle, style: .plain, target: self, action: #selector(styleBarButtonTapped)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        ]
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.isToolbarHidden = false
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.isToolbarHidden = true
     }
 
     @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
@@ -87,11 +80,6 @@ class TableViewCellDemoController: DemoTableViewController {
             }
         }
         isInSelectionMode = !isInSelectionMode
-    }
-
-    @objc private func styleBarButtonTapped(sender: UIBarButtonItem) {
-        isGrouped = !isGrouped
-        sender.title = styleButtonTitle
     }
 
     private func updateNavigationTitle() {
@@ -170,18 +158,19 @@ extension TableViewCellDemoController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell, let fluentTheme = view?.fluentTheme else {
             return UITableViewCell()
         }
+
         let section = sections[indexPath.section]
         let item = section.item
         if section.title == "Inverted double line cell" {
             cell.setup(
                 attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: TextStyle.footnote.font,
+                                                    attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.body1]),
                                                                  .foregroundColor: UIColor.purple]),
                 attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: TextStyle.body.font,
+                                                       attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1]),
                                                                     .foregroundColor: UIColor.red]),
                 footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
                 customView: TableViewSampleData.createCustomView(imageName: item.image),

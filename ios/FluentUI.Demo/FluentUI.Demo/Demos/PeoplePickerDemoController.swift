@@ -103,7 +103,7 @@ class PeoplePickerDemoController: DemoController {
         asyncImageRow.alignment = .center
         asyncImageRow.distribution = .equalSpacing
 
-        let asyncImageLabel = Label(style: .subhead, colorStyle: .regular)
+        let asyncImageLabel = Label()
         asyncImageLabel.text = "Load persona images asynchronously"
 
         asyncImageRow.addArrangedSubview(asyncImageLabel)

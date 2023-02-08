@@ -63,9 +63,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         func textFont() -> UIFont {
             switch self {
             case .headerPrimary:
-                return Constants.primaryTitleTextStyle.font
+                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1Strong])
             case .header, .footer:
-                return Constants.titleTextStyle.font
+                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.caption1])
             }
         }
     }
@@ -76,12 +76,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
-        static let primaryTitleTextStyle: TextStyle = .headline
-        static let titleTextStyle: TextStyle = .footnote
 
         static let accessoryViewBottomMargin: CGFloat = 2
         static let accessoryViewMarginLeft: CGFloat = 8
-        static var accessoryButtonTextStyle: TextStyle = .button2
     }
 
     @objc public static var identifier: String { return String(describing: self) }
@@ -485,7 +482,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private func updateAccessoryButtonTitleStyle() {
-        accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
+        accessoryButton?.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1Strong])
         updateAccessoryButtonTitleColor()
     }
 

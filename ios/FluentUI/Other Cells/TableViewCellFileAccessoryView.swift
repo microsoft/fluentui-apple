@@ -205,7 +205,7 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private lazy var dateLabel: Label = {
-        let label = Label(style: .footnote, colorStyle: .secondary)
+        let label = Label(style: .caption1, colorStyle: .secondary)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -244,7 +244,7 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private lazy var sharedStatusLabel: Label = {
-        let label = Label(style: .footnote, colorStyle: .secondary)
+        let label = Label(style: .caption1, colorStyle: .secondary)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .natural

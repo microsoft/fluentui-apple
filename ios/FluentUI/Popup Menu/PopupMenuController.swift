@@ -179,7 +179,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
     private let descriptionLabel: Label = {
-        let label = Label(style: .footnote)
+        let label = Label(style: .caption1)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label

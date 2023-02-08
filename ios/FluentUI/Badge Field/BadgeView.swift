@@ -72,12 +72,12 @@ open class BadgeView: UIView {
         case small
         case medium
 
-        var labelTextStyle: TextStyle {
+        var labelTextStyle: AliasTokens.TypographyTokens {
             switch self {
             case .small:
-                return .footnote
+                return .caption1
             case .medium:
-                return .subhead
+                return .body2
             }
         }
 
