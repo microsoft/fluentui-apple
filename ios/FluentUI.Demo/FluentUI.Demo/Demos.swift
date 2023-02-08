@@ -33,7 +33,7 @@ struct Demos {
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
-        DemoDescriptor("TextFieldDemoController", TextFieldDemoController.self),
+        DemoDescriptor("Text Field", TextFieldDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self)
     ]
 
