@@ -656,7 +656,11 @@ open class BottomCommandingController: UIViewController {
                 item.action?(item)
             }
         } else {
-            cell.setup(title: item.title ?? "", customView: iconView)
+            if let trailingView = item.trailingView {
+                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: trailingView)
+            } else {
+                cell.setup(title: item.title ?? "", customView: iconView)
+            }
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
@@ -995,6 +999,10 @@ extension BottomCommandingController: CommandingItemDelegate {
     }
 
     func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?) {
+        reloadView(from: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeTrailingViewTo value: UIView?) {
         reloadView(from: item)
     }
 

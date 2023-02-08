@@ -56,11 +56,21 @@ class BottomCommandingDemoController: UIViewController {
         CommandingItem(title: "Boolean Item " + String($0), image: homeImage, action: commandAction, isToggleable: true)
     }
 
+    private lazy var badgeCommand: CommandingItem = {
+        let badge = BadgeView(dataSource: BadgeViewDataSource(text: "Badge"))
+        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 25))
+        stackView.addArrangedSubview(badge)
+
+        let item = CommandingItem(title: "Badge Item ", image: homeImage, action: commandAction)
+        item.trailingView = stackView
+        return item
+    }()
+
     private lazy var shortCommandSectionList: [CommandingSection] = [
         CommandingSection(title: "Section 1", items:
         Array(1...2).map {
             CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
-        } + booleanCommands)
+        } + booleanCommands + [badgeCommand])
     ]
 
     private lazy var longCommandSectionList: [CommandingSection] = shortCommandSectionList
