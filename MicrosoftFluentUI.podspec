@@ -302,6 +302,7 @@ fi', :execution_position => :before_compile }
     textfield_ios.dependency 'MicrosoftFluentUI/Button_ios'
     textfield_ios.dependency 'MicrosoftFluentUI/Label_ios'
     textfield_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    textfield_ios.preserve_paths = ["ios/FluentUI/TextField/TextField.resources.xcfilelist"]
     textfield_ios.source_files = ["ios/FluentUI/TextField/**/*.{swift,h}"]
   end
 
