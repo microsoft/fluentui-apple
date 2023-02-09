@@ -53,6 +53,15 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// A `UIView` to be displayed on the trailing end.
+    @objc open var trailingView: UIView? {
+        didSet {
+            if trailingView != oldValue {
+                delegate?.commandingItem(self, didChangeTrailingViewTo: trailingView)
+            }
+        }
+    }
+
     /// Indicates whether the command is currently on.
     ///
     /// When `isToggleable` is `true`, this property is toggled automatically before `action` is called.
@@ -105,6 +114,9 @@ protocol CommandingItemDelegate: AnyObject {
 
     /// Called after the `selectedImage` property changed.
     func commandingItem(_ item: CommandingItem, didChangeSelectedImageTo value: UIImage?)
+
+    /// Called after the `trailingView` property changed.
+    func commandingItem(_ item: CommandingItem, didChangeTrailingViewTo value: UIView?)
 
     /// Called after the `isOn` property changed.
     func commandingItem(_ item: CommandingItem, didChangeOnTo value: Bool)

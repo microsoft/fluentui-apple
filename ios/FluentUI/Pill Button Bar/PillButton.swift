@@ -33,6 +33,11 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                object: pillBarItem)
 
         NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(titleValueDidChange),
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
@@ -100,6 +105,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func setupView() {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
+
             configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
                                                                   leading: Constants.horizontalInset,
                                                                   bottom: Constants.bottomInset,
@@ -238,6 +244,9 @@ open class PillButton: UIButton, TokenizedControlInternal {
                 } else {
                     setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor), for: .normal)
                 }
+
+                setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style), for: .normal)
+                setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
             } else {
                 resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelectedDisabled].dynamicColor)
                 if #available(iOS 15.0, *) {

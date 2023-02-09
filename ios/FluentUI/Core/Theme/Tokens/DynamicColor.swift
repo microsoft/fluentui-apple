@@ -172,7 +172,7 @@ public class DynamicColor: NSObject {
 
 // MARK: - Extensions
 
-extension Color {
+public extension Color {
     /// Creates a dynamic color object that returns the appropriate color value based on the current
     /// rendering context.
     ///

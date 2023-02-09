@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 class DateTimePickerDemoController: DemoController {
-    private let dateLabel = Label(style: .headline)
+    private let dateLabel = Label(style: .body1Strong)
     private let dateTimePicker = DateTimePicker()
 
     private let datePickerTypeSelector: UISegmentedControl = {
@@ -241,7 +241,7 @@ class DateTimePickerDemoController: DemoController {
         container.alignment = .center
         container.distribution = .equalSpacing
 
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label(style: .body1Strong, colorStyle: .regular)
         label.text = "Date picker type"
         label.numberOfLines = 0
         container.addArrangedSubview(label)
@@ -253,10 +253,10 @@ class DateTimePickerDemoController: DemoController {
     }
 
     func createCustomCalendarConfigurationUI() -> UIStackView {
-        let customCalendarConfigurationTitleLabel = Label(style: .subhead, colorStyle: .regular)
+        let customCalendarConfigurationTitleLabel = Label(style: .body1Strong, colorStyle: .regular)
         customCalendarConfigurationTitleLabel.text = "Custom calendar configuration"
 
-        let customCalendarConfigurationBodyLabel = Label(style: .footnote, colorStyle: .regular)
+        let customCalendarConfigurationBodyLabel = Label(style: .caption1, colorStyle: .regular)
         customCalendarConfigurationBodyLabel.text = "First weekday: Monday\nReference start date: Today\nReference end date: One month from today"
         customCalendarConfigurationBodyLabel.numberOfLines = 0
 
@@ -281,7 +281,7 @@ class DateTimePickerDemoController: DemoController {
         validationRow.alignment = .center
         validationRow.distribution = .equalSpacing
 
-        let validationLabel = Label(style: .subhead, colorStyle: .regular)
+        let validationLabel = Label(style: .body1Strong, colorStyle: .regular)
         validationLabel.text = "Validate for date in future"
 
         validationRow.addArrangedSubview(validationLabel)

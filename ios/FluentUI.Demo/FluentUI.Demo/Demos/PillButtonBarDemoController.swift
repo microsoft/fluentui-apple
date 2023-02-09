@@ -79,10 +79,9 @@ class PillButtonBarDemoController: DemoController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-        }
+        let backgroundColorLight = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground1])
+        onBrandBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+        customBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
@@ -115,7 +114,7 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = text
         label.textAlignment = .center
         return label

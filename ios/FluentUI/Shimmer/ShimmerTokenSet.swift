@@ -78,8 +78,7 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .concealing:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                            dark: GlobalTokens.neutralColors(.grey8))
+                        return theme.aliasTokens.colors[.stencil2]
                     case .revealing:
                         return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
                                             lightHighContrast: ColorValue(0x919191) /* gray400 */,
@@ -117,16 +116,16 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .float { 3.0 }
 
             case .cornerRadius:
-                return .float { GlobalTokens.borderRadius(.medium) }
+                return .float { GlobalTokens.corner(.radius40) }
 
             case .labelCornerRadius:
-                return .float { GlobalTokens.borderRadius(.small) }
+                return .float { GlobalTokens.corner(.radius20) }
 
             case .labelHeight:
                 return .float { 11.0 }
 
             case .labelSpacing:
-                return .float { GlobalTokens.spacing(.small) }
+                return .float { GlobalTokens.spacing(.size120) }
             }
         }
     }

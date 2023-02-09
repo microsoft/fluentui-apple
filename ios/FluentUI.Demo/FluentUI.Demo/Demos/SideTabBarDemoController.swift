@@ -95,10 +95,8 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.topItems[2].isUnreadDotVisible = true
 
         var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
-        if let window = view.window {
-            let primaryColor = Colors.primary(for: window)
-            premiumImage = premiumImage.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
-        }
+        let primaryColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForegroundTint])
+        premiumImage = premiumImage.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
 
         sideTabBar.bottomItems = [
             TabBarItem(title: "Go Premium", image: premiumImage),

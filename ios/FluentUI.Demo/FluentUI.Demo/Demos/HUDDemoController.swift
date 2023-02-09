@@ -290,15 +290,15 @@ extension HUDDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideActivityHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
-            .backgroundColor: .dynamicColor { aliasTokens.backgroundColors[.brandHover] }
+            .backgroundColor: .dynamicColor { aliasTokens.colors[.brandBackground1] }
         ]
     }
 
     private var perControlOverrideHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let aliasTokens = self.view.fluentTheme.aliasTokens
         return [
-            .cornerRadius: .float { GlobalTokens.borderRadius(.xLarge) },
-            .foregroundColor: .dynamicColor { aliasTokens.brandColors[.primary] }
+            .cornerRadius: .float { GlobalTokens.corner(.radius120) },
+            .labelColor: .dynamicColor { aliasTokens.colors[.brandForeground1] }
         ]
     }
 }

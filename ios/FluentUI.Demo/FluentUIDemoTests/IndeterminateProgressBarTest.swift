@@ -17,7 +17,27 @@ class IndeterminateProgressBarTest: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars[controlName].exists)
+        XCTAssert(app.navigationBars[controlName].exists)
+    }
+
+    // tests start/stop functionality as well as hiding (indeterminate progress bar should disappear when stopped)
+    func testStartStopHide() throws {
+        let startStopButton: XCUIElement = app.buttons["Start / Stop activity"]
+        let hidesWhenStoppedButton: XCUIElement = app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch
+
+        XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        startStopButton.tap()
+        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+
+        hidesWhenStoppedButton.tap()
+        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(indeterminateProgressBarExists(status: progressHalted))
+
+        startStopButton.tap()
+        XCTAssert(indeterminateProgressBarExists(status: inProgress))
+        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
     }
 
     // tests start/stop functionality as well as hiding (indeterminate progress bar should disappear when stopped)

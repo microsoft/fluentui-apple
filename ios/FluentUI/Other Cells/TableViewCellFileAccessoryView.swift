@@ -135,6 +135,19 @@ open class TableViewCellFileAccessoryView: UIView {
                                                selector: #selector(updateLayout),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateSharedStatus()
     }
 
     @available(*, unavailable)
@@ -192,7 +205,7 @@ open class TableViewCellFileAccessoryView: UIView {
     }
 
     private lazy var dateLabel: Label = {
-        let label = Label(style: .footnote, colorStyle: .secondary)
+        let label = Label(style: .caption1, colorStyle: .secondary)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -225,12 +238,13 @@ open class TableViewCellFileAccessoryView: UIView {
 
     private func updateSharedStatus() {
         let imageName = isShared ? "ic_fluent_people_24_regular" : "ic_fluent_person_24_regular"
-        sharedStatusImageView.image = UIImage.staticImageNamed(imageName)?.withTintColor(Colors.gray500, renderingMode: .alwaysOriginal)
+        let imageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        sharedStatusImageView.image = UIImage.staticImageNamed(imageName)?.withTintColor(imageColor, renderingMode: .alwaysOriginal)
         sharedStatusLabel.text = isShared ? "Common.Shared".localized : "Common.OnlyMe".localized
     }
 
     private lazy var sharedStatusLabel: Label = {
-        let label = Label(style: .footnote, colorStyle: .secondary)
+        let label = Label(style: .caption1, colorStyle: .secondary)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .natural
@@ -476,8 +490,11 @@ open class TableViewCellFileAccessoryView: UIView {
 
 private class FileAccessoryViewActionView: UIButton {
     fileprivate static let size = CGSize(width: 24, height: 60)
+    private let action: FileAccessoryViewAction
 
     fileprivate init(action: FileAccessoryViewAction, window: UIWindow) {
+        self.action = action
+
         super.init(frame: .zero)
 
         accessibilityLabel = action.title
@@ -489,23 +506,40 @@ private class FileAccessoryViewActionView: UIButton {
         isEnabled = action.isEnabled
         setImage(action.image, for: .normal)
 
-        if action.useAppPrimaryColor {
-            tintColor = Colors.primary(for: window)
-        } else if action.isEnabled {
-            tintColor = Colors.iconSecondary
-        } else {
-            tintColor = Colors.iconDisabled
-        }
+        updateActionColor()
 
         NSLayoutConstraint.activate([
             widthAnchor.constraint(equalToConstant: FileAccessoryViewActionView.size.width),
             heightAnchor.constraint(greaterThanOrEqualToConstant: FileAccessoryViewActionView.size.height)
         ])
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         showsLargeContentViewer = true
         scalesLargeContentImage = true
         largeContentTitle = action.title
         isPointerInteractionEnabled = true
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateActionColor()
+    }
+
+    private func updateActionColor() {
+        if action.useAppPrimaryColor {
+            tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+        } else if action.isEnabled {
+            tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        } else {
+            tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+        }
     }
 
     @available(*, unavailable)

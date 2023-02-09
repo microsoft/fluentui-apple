@@ -9,7 +9,7 @@ import UIKit
 // MARK: TooltipDemoController
 
 class TooltipDemoController: DemoController {
-    let titleView = TwoLineTitleView(style: .dark)
+    let titleView = TwoLineTitleView(style: .system)
     var edgeCaseStackView: UIStackView!
 
     override func viewDidLoad() {
@@ -100,7 +100,7 @@ class TooltipDemoController: DemoController {
         topContainer.addArrangedSubview(topleftButton)
         topContainer.addArrangedSubview(topRightButton)
 
-        let middleLabel = Label(style: .headline, colorStyle: .regular)
+        let middleLabel = Label(style: .body1Strong, colorStyle: .regular)
         middleLabel.text = "Press corner buttons to show offset tooltips"
         middleLabel.numberOfLines = 0
         middleLabel.textAlignment = .center

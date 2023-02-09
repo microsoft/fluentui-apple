@@ -408,6 +408,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         return buttons[index] as UIView
     }
 
+#if DEBUG
+    public override var accessibilityIdentifier: String? {
+        get { return "Segmented Control with \(items.count) \(isEnabled ? "enabled" : "disabled") buttons" }
+        set { }
+    }
+#endif
+
     public typealias TokenSetKeyType = SegmentedControlTokenSet.Tokens
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryPill

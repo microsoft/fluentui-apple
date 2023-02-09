@@ -17,7 +17,30 @@ class ActivityIndicatorTest: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars[controlName].exists)
+        XCTAssert(app.navigationBars[controlName].exists)
+    }
+
+    // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)
+    func testStartStopHide() throws {
+        let startStopButton: XCUIElement = app.buttons["Start / Stop activity"]
+        let hidesWhenStoppedButton: XCUIElement = app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch
+
+        XCTAssert(activityIndicatorExists(status: inProgress))
+        startStopButton.tap()
+        XCTAssert(!activityIndicatorExists(status: inProgress))
+
+        hidesWhenStoppedButton.tap()
+        XCTAssert(activityIndicatorExists(status: progressHalted))
+
+        startStopButton.tap()
+        XCTAssert(activityIndicatorExists(status: inProgress))
+    }
+
+    func testSizes() throws {
+        // ensures all 5 activity indicators sizes are shown
+        for i in 0...4 {
+            XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size \(i).*")).element.exists)
+        }
     }
 
     // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)

@@ -34,6 +34,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
+        updateMarkLayerBackgroundColor()
         layer.addSublayer(markLayer)
 
         NotificationCenter.default.addObserver(self,

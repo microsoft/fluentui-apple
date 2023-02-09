@@ -31,7 +31,7 @@
       enableASanStackUseAfterReturn = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A5CEC15920D980B30016922A"

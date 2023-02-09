@@ -137,6 +137,16 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
     }
 
+    private func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    }
+
+    private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+    }
+
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
@@ -443,6 +453,19 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         super.init(nibName: nil, bundle: nil)
 
         initialize()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+              return
+        }
+
+        updateBackgroundColor()
     }
 
     /**

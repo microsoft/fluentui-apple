@@ -20,6 +20,14 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         }
     }
 
+    @objc open var size: ButtonSize = .medium {
+        didSet {
+            if size != oldValue {
+                update()
+            }
+        }
+    }
+
     /// The button's image.
     /// For ButtonStyle.primaryFilled and ButtonStyle.primaryOutline, the image must be 24x24.
     /// For ButtonStyle.secondaryOutline and ButtonStyle.borderless, the image must be 20x20.
@@ -48,7 +56,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
 
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
-            isUsingCustomContentEdgeInsets = true
+            isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 
             updateProposedTitleLabelWidth()
 
@@ -81,7 +89,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         size.height = ceil(max(size.height, ButtonLegacyTokenSet.minContainerHeight(style)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
-            size.width += image.size.width
+            contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
                 size.width += ButtonLegacyTokenSet.titleImageSpacing(style)
             }
@@ -91,7 +99,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
             }
         }
 
-        return size
+        return contentSize
     }
 
     open func initialize() {
@@ -127,12 +135,12 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style == .primaryFilled || style == .dangerFilled,
+        guard style == .accent || style == .danger,
               (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
             return
         }
 
-        updateBackgroundColor()
+        updateBackground()
     }
 
     open override func didMoveToWindow() {
@@ -222,7 +230,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     private func updateImage() {
-        let isDisplayingImage = style != .tertiaryOutline && image != nil
+        let isDisplayingImage = image != nil
 
         let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
         let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
@@ -272,7 +280,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     private func update() {
         updateTitle()
         updateImage()
-        updateBackgroundColor()
+        updateBackground()
         updateBorder()
 
         if !isUsingCustomContentEdgeInsets {
@@ -321,7 +329,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
-    private func updateBackgroundColor() {
+    private func updateBackground() {
         let backgroundColor: DynamicColor
 
         if !isEnabled {
@@ -335,6 +343,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         }
 
         self.backgroundColor = UIColor(dynamicColor: backgroundColor)
+        layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {

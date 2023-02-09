@@ -188,8 +188,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
     private let descriptionLabel: Label = {
-        let label = Label(style: .footnote)
-        label.textColor = Colors.PopupMenu.description
+        let label = Label(style: .caption1)
         label.textAlignment = .center
         label.numberOfLines = 0
         return label
@@ -226,6 +225,20 @@ open class PopupMenuController: DrawerController {
     open override func initialize() {
         super.initialize()
         initTableView()
+        updateDescriptionLabelColor()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    private func updateDescriptionLabelColor() {
+        descriptionLabel.textColor = UIColor(dynamicColor: tableView.fluentTheme.aliasTokens.colors[.foreground2])
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        updateDescriptionLabelColor()
     }
 
     open override func didDismiss() {

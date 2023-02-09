@@ -89,7 +89,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -103,16 +102,31 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
         isAccessibilityElement = true
 
-        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
-        backgroundStyleType = .custom
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
             guard let strongSelf = self else {
                 return
             }
             strongSelf.updateAppearance()
-            strongSelf.updateSelectionColors()
+            strongSelf.updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
         }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateColors()
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        backgroundStyleType = .custom
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -188,11 +202,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateSelectionColors()
-    }
-
     private func updateAccessibilityTraits() {
         if isHeader {
             accessibilityTraits.remove(.button)
@@ -212,7 +221,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        updateSelectionColors()
+        updateColors()
 
         _imageView.isHighlighted = isSelected
     }
