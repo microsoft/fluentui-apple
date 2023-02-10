@@ -73,8 +73,8 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         // Override -> No highlight
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+	override func willMove(toWindow newWindow: UIWindow?) {
+		super.willMove(toWindow: newWindow)
         updateTextLabelColor()
     }
 

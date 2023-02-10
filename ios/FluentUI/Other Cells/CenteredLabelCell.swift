@@ -100,8 +100,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         label.centerInSuperview()
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+	open override func willMove(toWindow newWindow: UIWindow?) {
+		super.willMove(toWindow: newWindow)
 
         tokenSet.update(fluentTheme)
         updateAppearance()
