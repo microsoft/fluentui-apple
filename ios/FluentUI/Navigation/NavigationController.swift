@@ -79,6 +79,8 @@ open class NavigationController: UINavigationController {
 
         super.delegate = self
 
+        msfNavigationBar.backButtonDelegate = self
+
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
     }
@@ -233,5 +235,13 @@ extension NavigationController: UINavigationControllerDelegate {
         transitionAnimator.navigationController = navigationController
         transitionAnimator.operation = operation
         return transitionAnimator
+    }
+}
+
+// MARK: - NavigationController: NavigationBarBackButtonDelegate
+
+extension NavigationController: NavigationBarBackButtonDelegate {
+    func backButtonWasPressed() {
+        popViewController(animated: true)
     }
 }

@@ -86,6 +86,13 @@ open class NavigationBarTitleAccessory: NSObject {
     }
 }
 
+// MARK: - NavigationBarBackButtonDelegate
+/// Handles presses from a `NavigationBar`'s makeshift back button.
+@objc(MSFNavigationBarBackButtonDelegate)
+protocol NavigationBarBackButtonDelegate {
+    func backButtonWasPressed()
+}
+
 // MARK: - NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
@@ -332,6 +339,13 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var usesLargeTitleObserver: NSKeyValueObservation?
 
+    private var backButtonItem: UIBarButtonItem?
+    weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
+        didSet {
+            backButtonItem?.target = backButtonDelegate
+        }
+    }
+
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
@@ -392,6 +406,8 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
+        backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
 
         isTranslucent = false
 
@@ -586,7 +602,9 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
         titleView.update(with: navigationItem)
 
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if navigationItem.backButtonTitle == nil {
+            navigationItem.backButtonTitle = ""
+        }
         updateBarButtonItems(with: navigationItem)
 
         // Force layout to avoid animation
@@ -672,7 +690,16 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
         // only one left bar button item is support for large title view
-        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
+        if let backButtonItem = backButtonItem, navigationItem != items?.first {
+            // Show our own back button
+            // navigationItem != items?.first is sufficient for knowing we won't be at the
+            // root element of our navigation controller. This is because UINavigationItems
+            // are unique to their view controllers, and you can't push the same view controller
+            // onto a navigation stack more than once.
+            leftBarButtonItemsStackView.isHidden = false
+            backButtonItem.title = navigationItem.backButtonTitle
+            refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+        } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
         } else {
