@@ -180,11 +180,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // add check for error == nil?
         if let onReturn = onReturn {
             return onReturn(self)
         }
-        // what is a good default?
         return true
     }
 
