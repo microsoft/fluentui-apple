@@ -123,47 +123,29 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
 
 extension TextFieldTokenSet {
     /// The value for the size of the leading and trailing icons.
-    static func iconSize() -> CGFloat {
-        return GlobalTokens.icon(.size240)
-    }
+    static let iconSize: CGFloat = GlobalTokens.icon(.size240)
 
     /// The value for the padding between the leading and trailing edges of the control and the content.
-    static func horizontalPadding() -> CGFloat {
-        return GlobalTokens.spacing(.size160)
-    }
+    static let horizontalPadding: CGFloat =  GlobalTokens.spacing(.size160)
 
     /// The value for the padding between the top edge of the control and the content.
-    static func topPadding() -> CGFloat {
-        return GlobalTokens.spacing(.size120)
-    }
+    static let topPadding: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The value for the padding between the bottom edge of the control and the content.
-    static func bottomPadding() -> CGFloat {
-        return GlobalTokens.spacing(.size40)
-    }
+    static let bottomPadding: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The value for the spacing between the top label and the input or placeholder text.
-    static func labelInputTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.size120)
-    }
+    static let labelInputTextSpacing: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The value for the spacing between the leading icon and the input or placeholder text.
-    static func leadingIconInputTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.size160)
-    }
+    static let leadingIconInputTextSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The value for the spacing between the input or placeholder text and the trailing icon.
-    static func inputTextTrailingIconSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.size80)
-    }
+    static let inputTextTrailingIconSpacing: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The value for the spacing between the input or placeholder text and the separator.
-    static func inputTextStrokeSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.size120)
-    }
+    static let inputTextStrokeSpacing: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The value for the spacing between the separator and the assistive text label.
-    static func strokeAssistiveTextSpacing() -> CGFloat {
-        return GlobalTokens.spacing(.size40)
-    }
+    static let strokeAssistiveTextSpacing: CGFloat = GlobalTokens.spacing(.size40)
 }
