@@ -112,10 +112,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         textStack.alignment = .leading
         textStack.spacing = TextFieldTokenSet.labelInputTextSpacing()
         textStack.setCustomSpacing(4, after: separator)
-        textStack.layoutMargins = UIEdgeInsets(top: TextFieldTokenSet.topPadding(),
-                                               left: 0,
-                                               bottom: TextFieldTokenSet.bottomPadding(),
-                                               right: 0)
+        textStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: TextFieldTokenSet.topPadding(),
+                                                                     leading: 0,
+                                                                     bottom: TextFieldTokenSet.bottomPadding(),
+                                                                     trailing: 0)
         textStack.isLayoutMarginsRelativeArrangement = true
 
         leadingImageContainerView.addSubview(leadingImageView)
@@ -126,17 +126,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         imageTextStack.distribution = .fill
         imageTextStack.translatesAutoresizingMaskIntoConstraints = false
         imageTextStack.alignment = .center
-
-        let leftInset: CGFloat
-        let rightInset: CGFloat
-        if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            leftInset = TextFieldTokenSet.horizontalPadding()
-            rightInset = 0
-        } else {
-            leftInset = 0
-            rightInset = TextFieldTokenSet.horizontalPadding()
-        }
-        imageTextStack.layoutMargins = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+        imageTextStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0,
+                                                                          leading: TextFieldTokenSet.horizontalPadding(),
+                                                                          bottom: 0,
+                                                                          trailing: 0)
         imageTextStack.isLayoutMarginsRelativeArrangement = true
 
         addSubview(imageTextStack)
