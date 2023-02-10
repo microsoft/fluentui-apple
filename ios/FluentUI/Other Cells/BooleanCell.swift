@@ -87,8 +87,8 @@ open class BooleanCell: TableViewCell {
         onValueChanged?()
     }
 
-	open override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         `switch`.onTintColor = UIColor(dynamicColor: tokenSet[.booleanCellBrandColor].dynamicColor)
     }
 

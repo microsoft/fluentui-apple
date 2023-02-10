@@ -35,8 +35,8 @@ class BadgeLabel: UILabel {
         updateColors()
     }
 
-	override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateColors()
     }
 

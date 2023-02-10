@@ -84,8 +84,8 @@ class CalendarViewWeekdayHeadingView: UIView {
         flipSubviewsForRTL()
     }
 
-	override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         super.didMoveToWindow()
         updateBackgroundColor()
     }

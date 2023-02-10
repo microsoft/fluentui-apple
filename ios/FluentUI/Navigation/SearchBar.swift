@@ -291,8 +291,8 @@ open class SearchBar: UIView {
         setupLayout()
     }
 
-	open override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateColorsForStyle()
     }
 

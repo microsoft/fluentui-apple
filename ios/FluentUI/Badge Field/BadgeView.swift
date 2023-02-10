@@ -464,8 +464,8 @@ open class BadgeView: UIView {
         return CGSize(width: max(minWidth, min(width, maxWidth)), height: min(height, maxHeight))
     }
 
-	open override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateColors()
     }
 

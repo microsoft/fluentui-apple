@@ -436,8 +436,8 @@ open class NavigationBar: UINavigationBar {
         )
     }
 
-	open override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateColors(for: topItem)
     }
 

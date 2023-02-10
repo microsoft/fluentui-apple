@@ -100,8 +100,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-	public override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+    public override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
 
         tokenSet.update(fluentTheme)
         updateButtonTokens()
