@@ -76,7 +76,7 @@ open class NavigationBarTitleAccessory: NSObject {
     public let location: Location
     /// The style of the accessory.
     public let style: Style
-    /// The action to perform when the view is tapped.
+    /// A delegate that handles title press actions.
     public weak var delegate: NavigationBarTitleAccessoryDelegate?
 
     public init(location: Location, style: Style, delegate: NavigationBarTitleAccessoryDelegate? = nil) {
