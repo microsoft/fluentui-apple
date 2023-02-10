@@ -110,11 +110,11 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
         textStack.axis = .vertical
         textStack.alignment = .leading
-        textStack.spacing = TextFieldTokenSet.labelInputTextSpacing()
+        textStack.spacing = TextFieldTokenSet.labelInputTextSpacing
         textStack.setCustomSpacing(4, after: separator)
-        textStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: TextFieldTokenSet.topPadding(),
+        textStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: TextFieldTokenSet.topPadding,
                                                                      leading: 0,
-                                                                     bottom: TextFieldTokenSet.bottomPadding(),
+                                                                     bottom: TextFieldTokenSet.bottomPadding,
                                                                      trailing: 0)
         textStack.isLayoutMarginsRelativeArrangement = true
 
@@ -122,12 +122,12 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
         let imageTextStack = UIStackView(arrangedSubviews: [leadingImageContainerView, textStack])
         imageTextStack.axis = .horizontal
-        imageTextStack.spacing = TextFieldTokenSet.leadingIconInputTextSpacing()
+        imageTextStack.spacing = TextFieldTokenSet.leadingIconInputTextSpacing
         imageTextStack.distribution = .fill
         imageTextStack.translatesAutoresizingMaskIntoConstraints = false
         imageTextStack.alignment = .center
         imageTextStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0,
-                                                                          leading: TextFieldTokenSet.horizontalPadding(),
+                                                                          leading: TextFieldTokenSet.horizontalPadding,
                                                                           bottom: 0,
                                                                           trailing: 0)
         imageTextStack.isLayoutMarginsRelativeArrangement = true

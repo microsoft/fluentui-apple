@@ -33,9 +33,9 @@ class FluentTextFieldInternal: UITextField {
         return CGRect(x: origin.x, y: origin.y, width: size.width - (trailingViewSpacing + inputTextTrailingIconSpacing), height: size.height)
     }
 
-    let trailingViewSpacing: CGFloat = TextFieldTokenSet.horizontalPadding()
-    let inputTextTrailingIconSpacing: CGFloat = TextFieldTokenSet.inputTextTrailingIconSpacing()
-    let trailingViewSize: CGFloat = TextFieldTokenSet.iconSize()
+    let trailingViewSpacing: CGFloat = TextFieldTokenSet.horizontalPadding
+    let inputTextTrailingIconSpacing: CGFloat = TextFieldTokenSet.inputTextTrailingIconSpacing
+    let trailingViewSize: CGFloat = TextFieldTokenSet.iconSize
     var clearButton: Button = {
         let button = Button(style: .subtle)
         button.image = UIImage.staticImageNamed("ic_fluent_dismiss_circle_24_regular")
