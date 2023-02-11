@@ -256,7 +256,26 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 
 // MARK: - RootViewController
 
-class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NavigationBarTitleAccessoryDelegate {
+    struct TitleViewFeature {
+        var name: String
+        var apply: (UINavigationItem) -> Void
+    }
+
+    lazy var titleViewFeaturesByRow: [Int: TitleViewFeature] = [
+        4: TitleViewFeature(name: "Large title") {
+            $0.usesLargeTitle = true
+        },
+        5: TitleViewFeature(name: "Leading-aligned, two titles") {
+            $0.usesLargeTitle = true
+            $0.subtitle = "Subtitle"
+        },
+        6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
+            $0.subtitle = "Press me!"
+            $0.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
+        }
+    ]
+
     enum BarButtonItemTag: Int {
         case dismiss
         case select
@@ -451,7 +470,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return UITableViewCell()
         }
         let imageView = UIImageView(image: UIImage(named: "excelIcon"))
-        cell.setup(title: "Cell #\(indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
+        let row = indexPath.row
+        cell.setup(title: "Cell #\(row)", subtitle: titleViewFeaturesByRow[row]?.name ?? "", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
     }
@@ -460,9 +480,13 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isInSelectionMode {
             updateNavigationTitle()
         } else {
-            let controller = ChildViewController()
+            let row = indexPath.row
+            let controller = ChildViewController(parentIndex: row)
             if navigationItem.accessoryView == nil {
                 controller.navigationItem.navigationBarStyle = .system
+            }
+            if let feature = titleViewFeaturesByRow[row] {
+                feature.apply(controller.navigationItem)
             }
             navigationController?.pushViewController(controller, animated: true)
         }
@@ -615,6 +639,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         return customBorderImage
     }
+
+    func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
+        NSLog("You pressed me!")
+    }
 }
 
 // MARK: - RootViewController: SearchBarDelegate
@@ -645,11 +673,18 @@ extension RootViewController: SearchBarDelegate {
 // MARK: - ChildViewController
 
 class ChildViewController: UITableViewController {
+    var parentIndex: Int = -1
+
+    convenience init(parentIndex: Int) {
+        self.init()
+        self.parentIndex = parentIndex
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        navigationItem.title = "Regular Title"
+        navigationItem.title = "Cell #\(parentIndex)"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

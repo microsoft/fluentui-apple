@@ -47,6 +47,45 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
     }
 }
 
+// MARK: - NavigationBarTitleAccessory
+
+@objc(MSFNavigationBarTitleAccessoryDelegate)
+/// Handles user interactions with a `NavigationBar` with an accessory.
+public protocol NavigationBarTitleAccessoryDelegate {
+    @objc func navigationBarDidTapOnTitle(_ sender: NavigationBar)
+}
+
+/// The specifications for an accessory to show in the title or subtitle of the navigation bar.
+@objc(MSFNavigationBarTitleAccessory)
+open class NavigationBarTitleAccessory: NSObject {
+    /// Specifies a location where the title accessory should appear within the navigation bar.
+    @objc(MSFNavigationBarTitleAccessoryLocation)
+    public enum Location: Int {
+        case title
+        case subtitle
+    }
+
+    /// The style of title accessory to show.
+    @objc(MSFNavigationBarTitleAccessoryStyle)
+    public enum Style: Int {
+        case disclosure
+        case downArrow
+    }
+
+    /// The location of the accessory.
+    public let location: Location
+    /// The style of the accessory.
+    public let style: Style
+    /// A delegate that handles title press actions.
+    public weak var delegate: NavigationBarTitleAccessoryDelegate?
+
+    public init(location: Location, style: Style, delegate: NavigationBarTitleAccessoryDelegate? = nil) {
+        self.location = location
+        self.style = style
+        self.delegate = delegate
+    }
+}
+
 // MARK: - NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
@@ -732,15 +771,18 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     }
 
     private func updateSubtitleView(for navigationItem: UINavigationItem?) {
-        guard let navigationItem = navigationItem, let subtitle = navigationItem.subtitle else {
+        guard let navigationItem = navigationItem else {
             // Use the default title view
             navigationItem?.titleView = nil
             return
         }
 
         let customTitleView = TwoLineTitleView(style: style == .primary ? .primary : .system)
-        customTitleView.setup(title: navigationItem.title ?? "", subtitle: subtitle, interactivePart: .title)
-        customTitleView.delegate = self
+        customTitleView.setup(navigationItem: navigationItem)
+        if navigationItem.titleAccessory == nil {
+            // Use default behavior of requesting an accessory expansion
+            customTitleView.delegate = self
+        }
         navigationItem.titleView = customTitleView
     }
 
