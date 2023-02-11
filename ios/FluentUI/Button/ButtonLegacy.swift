@@ -12,7 +12,7 @@ import Combine
 @IBDesignable
 @objc(MSFButtonLegacy)
 open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
-    @objc open var style: ButtonLegacyStyle = .secondaryOutline {
+    @objc open var style: ButtonLegacyStyle = .outline {
         didSet {
             if style != oldValue {
                 update()
@@ -20,7 +20,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc open var size: ButtonSize = .medium {
+    @objc open var size: ButtonLegacySize = .medium {
         didSet {
             if size != oldValue {
                 update()
@@ -84,18 +84,18 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     open override var intrinsicContentSize: CGSize {
-        var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
-        size.width = ceil(size.width + edgeInsets.leading + edgeInsets.trailing)
-        size.height = ceil(max(size.height, ButtonLegacyTokenSet.minContainerHeight(style)) + edgeInsets.top + edgeInsets.bottom)
+        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
+        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
+        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(size)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                size.width += ButtonLegacyTokenSet.titleImageSpacing(style)
+                contentSize.width += ButtonTokenSet.titleImageSpacing(size)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                size.width -= ButtonLegacyTokenSet.titleImageSpacing(style)
+                contentSize.width -= ButtonTokenSet.titleImageSpacing(size)
             }
         }
 
@@ -177,7 +177,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         return rect
     }
 
-    @objc public init(style: ButtonLegacyStyle = .secondaryOutline) {
+    @objc public init(style: ButtonLegacyStyle = .outline) {
         self.style = style
         super.init(frame: .zero)
         initialize()
@@ -211,7 +211,10 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     public typealias TokenSetKeyType = ButtonLegacyTokenSet.Tokens
 
     lazy public var tokenSet: ButtonLegacyTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .primaryFilled
+        return self?.style ?? .outline
+    },
+                                                     size: { [weak self] in
+        return self?.size ?? .medium
     })
 
     private func updateTitle() {
@@ -304,7 +307,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonLegacyTokenSet.titleImageSpacing(style)
+        var spacing = ButtonTokenSet.titleImageSpacing(size)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -362,9 +365,8 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonLegacyTokenSet.horizontalPadding(style)
-        let verticalPadding = ButtonLegacyTokenSet.verticalPadding(style)
-        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
+        let horizontalPadding = ButtonTokenSet.horizontalPadding(size)
+        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
 
     private var normalImageTintColor: UIColor?

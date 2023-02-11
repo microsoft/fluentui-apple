@@ -86,7 +86,7 @@ class DrawerPresentationController: UIPresentationController {
         return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil, tokenSet: drawerTokenSet)
     }()
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
-    private lazy var separator = Separator(style: .shadow)
+    private lazy var separator = Separator()
     // Tokens for drawer stylesheet
     private var drawerTokenSet: DrawerTokenSet
 

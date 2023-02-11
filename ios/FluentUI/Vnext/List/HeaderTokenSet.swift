@@ -44,39 +44,39 @@ public class HeaderTokenSet: ControlTokenSet<HeaderTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .textColor:
                 return .dynamicColor {
                     switch style() {
                     case .standard:
-                        return theme.aliasTokens.foregroundColors[.neutral1]
+                        return theme.aliasTokens.colors[.foreground1]
                     case .subtle:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
                     }
                 }
 
             case .headerHeight:
-                return .float { GlobalTokens.spacing(.xxxLarge) }
+                return .float { GlobalTokens.spacing(.size480) }
 
             case .topPadding:
                 return .float {
                     switch style() {
                     case .standard:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     case .subtle:
-                        return GlobalTokens.spacing(.xLarge)
+                        return GlobalTokens.spacing(.size240)
                     }
                 }
 
             case .leadingPadding:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .bottomPadding:
-                return .float { GlobalTokens.spacing(.xSmall) }
+                return .float { GlobalTokens.spacing(.size80) }
 
             case .trailingPadding:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .textFont:
                 return .fontInfo {

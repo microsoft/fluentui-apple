@@ -9,17 +9,18 @@ import UIKit
 
 @objc(MSFButtonLegacyStyle)
 public enum ButtonLegacyStyle: Int, CaseIterable {
-    case primaryFilled
-    case primaryOutline
-    case dangerFilled
+    case accent
+    case outline
+    case subtle
+    case danger
     case dangerOutline
     case dangerSubtle
 }
 
 // MARK: ButtonSize
 
-@objc(MSFButtonSize)
-public enum ButtonSize: Int, CaseIterable {
+@objc(MSFButtonLegacySize)
+public enum ButtonLegacySize: Int, CaseIterable {
     case large
     case medium
     case small
@@ -71,7 +72,8 @@ public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> 
         case titleFont
     }
 
-    init(style: @escaping () -> ButtonLegacyStyle) {
+    init(style: @escaping () -> ButtonLegacyStyle,
+         size: @escaping () -> ButtonLegacySize) {
         self.style = style
         self.size = size
         super.init { [style, size] token, theme in
@@ -220,56 +222,41 @@ public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> 
     }
 
     var style: () -> ButtonLegacyStyle
+    var size: () -> ButtonLegacySize
 }
 
-extension ButtonLegacyTokenSet {
+extension ButtonTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ style: ButtonLegacyStyle) -> CGFloat {
-        switch style {
-        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return GlobalTokens.spacing(.large)
-        case .secondaryOutline:
-            return 14.0
-        case .borderless:
-            return GlobalTokens.spacing(.small)
-        case .tertiaryOutline:
-            return GlobalTokens.spacing(.xSmall)
+    static func horizontalPadding(_ size: ButtonLegacySize) -> CGFloat {
+        switch size {
+        case .large:
+            return GlobalTokens.spacing(.size200)
+        case .medium:
+            return GlobalTokens.spacing(.size120)
+        case .small:
+            return GlobalTokens.spacing(.size80)
         }
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ style: ButtonLegacyStyle) -> CGFloat {
-        switch style {
-        case .borderless, .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return 20
-        case .secondaryOutline, .tertiaryOutline:
-            return 18
+    static func minContainerHeight(_ size: ButtonLegacySize) -> CGFloat {
+        switch size {
+        case .large:
+            return 52
+        case .medium:
+            return 40
+        case .small:
+            return 28
         }
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ style: ButtonLegacyStyle) -> CGFloat {
-        switch style {
-        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return 10
-        case .secondaryOutline, .borderless:
-            return GlobalTokens.spacing(.xSmall)
-        case .tertiaryOutline:
-            return GlobalTokens.spacing(.none)
-        }
-    }
-
-    /// The value for the vertical padding between the content of the button and the frame.
-    static func verticalPadding(_ style: ButtonLegacyStyle) -> CGFloat {
-        switch style {
-        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return GlobalTokens.spacing(.medium)
-        case .secondaryOutline:
-            return 10
-        case .borderless:
-            return 7
-        case .tertiaryOutline:
-            return 5
+    static func titleImageSpacing(_ size: ButtonLegacySize) -> CGFloat {
+        switch size {
+        case .large, .medium:
+            return GlobalTokens.spacing(.size80)
+        case .small:
+            return GlobalTokens.spacing(.size40)
         }
     }
 }

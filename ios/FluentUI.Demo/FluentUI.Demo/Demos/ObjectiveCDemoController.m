@@ -50,12 +50,12 @@
         [[self.container widthAnchor] constraintEqualToAnchor:[self.scrollingContainer widthAnchor]],
     ]];
 
-    UILabel *buttonLabel = [[UILabel alloc] init];
-    [buttonLabel setText:@"Button"];
-    [self.container addArrangedSubview:buttonLabel];
+    MSFButtonLegacy *testTokensButton = [self createButtonWithTitle:@"Test global and alias" action:@selector(tokensButtonPressed:)];
+    [self.container addArrangedSubview:testTokensButton];
 
-    MSFButton *testButton = [self createButtonWithTitle:@"Test" action:@selector(buttonPressed:)];
-    [self.container addArrangedSubview:testButton];
+
+    MSFButtonLegacy *testOverridesButton = [self createButtonWithTitle:@"Test overrides" action:@selector(overridesButtonPressed:)];
+    [self.container addArrangedSubview:testOverridesButton];
 
     UILabel *buttonVnextLabel = [[UILabel alloc] init];
     [buttonVnextLabel setText:@"Button (Vnext)"];

@@ -26,9 +26,6 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
         /// Tint color of the middle of the gradient if shimmer is concealing shimmer.
         case tintColor
 
-        /// Tint color of the view if shimmering without a cover.
-        case viewTint
-
         ///  Color of the darkest part of the shimmer's gradient.
         case darkGradient
 
@@ -43,9 +40,6 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
         /// Delay between the end of a shimmering animation and the beginning of the next one.
         case shimmerDelay
-
-        /// Duration of a single shimmer animation
-        case shimmerDuration
 
         /// Corner radius on each view.
         case cornerRadius
@@ -80,19 +74,8 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                     case .concealing:
                         return theme.aliasTokens.colors[.stencil2]
                     case .revealing:
-                        return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
-                                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
-                                            dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
-                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
+                        return theme.aliasTokens.colors[.stencil1]
                     }
-                }
-
-            case .viewTint:
-                return .dynamicColor {
-                    return DynamicColor(light: ColorValue(0xF1F1F1) /* gray50 */,
-                                            lightHighContrast: ColorValue(0x919191) /* gray400 */,
-                                        dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark,
-                                            darkHighContrast: ColorValue(0x919191) /* gray400 */)
                 }
 
             case .darkGradient:
@@ -111,9 +94,6 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
 
             case .shimmerDelay:
                 return .float { 0.4 }
-
-            case .shimmerDuration:
-                return .float { 3.0 }
 
             case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius40) }

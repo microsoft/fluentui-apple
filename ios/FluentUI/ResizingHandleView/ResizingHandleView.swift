@@ -26,15 +26,13 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
     }()
 
     public override init(frame: CGRect) {
-        tokenSet = ResizingHandleTokenSet()
         super.init(frame: frame)
-        backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
-        updateMarkLayerBackgroundColor()
+        updateColors()
         layer.addSublayer(markLayer)
 
         NotificationCenter.default.addObserver(self,
@@ -69,7 +67,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = ResizingHandleTokenSet.Tokens
-    public var tokenSet: ResizingHandleTokenSet
+    public var tokenSet = ResizingHandleTokenSet()
 
     var tokenSetSink: AnyCancellable?
 
@@ -86,10 +84,10 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        tokenSet.update(window.fluentTheme)
+        tokenSet.update(themeView.fluentTheme)
         updateColors()
     }
 }

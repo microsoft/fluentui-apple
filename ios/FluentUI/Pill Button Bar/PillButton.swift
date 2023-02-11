@@ -100,7 +100,9 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     private var tokenSetSink: AnyCancellable?
 
-    var unreadDotColor: UIColor = Colors.gray100
+    lazy var unreadDotColor: UIColor = {
+        UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
+    }()
 
     private func setupView() {
         if #available(iOS 15.0, *) {
@@ -244,9 +246,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
                 } else {
                     setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor), for: .normal)
                 }
-
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style), for: .normal)
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
             } else {
                 resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelectedDisabled].dynamicColor)
                 if #available(iOS 15.0, *) {

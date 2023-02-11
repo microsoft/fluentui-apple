@@ -46,13 +46,13 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
             case .tabBarItemSelectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.foregroundColors[.neutral1]
+                    return theme.aliasTokens.colors[.foreground1]
                 }
 
             case .tabBarItemUnselectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.foregroundColors[.neutral1]
+                    return theme.aliasTokens.colors[.foreground1]
                 }
 
             case .tabBarItemTitleLabelFontPortrait:

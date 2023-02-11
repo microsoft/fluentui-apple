@@ -99,6 +99,15 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
+    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    }
+
+    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+    }
 
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
@@ -125,7 +134,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
         set {
             if isViewLoaded {
-                view.backgroundColor = backgroundColor
+                view.backgroundColor = newValue
             }
 
             guard let newColor = newValue.dynamicColor else {
@@ -135,16 +144,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             tokenSet[.navigationBarBackground] = .dynamicColor { newColor }
             tokenSet[.drawerContentBackground] = .dynamicColor { newColor }
         }
-    }
-
-    private func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
-    }
-
-    private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
     }
 
     /**
@@ -464,8 +463,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
               return
         }
-
-        updateBackgroundColor()
+        tokenSet.update(fluentTheme)
     }
 
     /**

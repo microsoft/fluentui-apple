@@ -141,7 +141,7 @@ class DemoListViewController: DemoTableViewController {
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
     private let cellTypeButton: UIButton = {
-        let button = Button()
+        let button = MSFButtonLegacy()
         button.setTitle("Type", for: .normal)
         return button
     }()

@@ -85,8 +85,20 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
+//<<<<<<< HEAD
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
+//=======
+//        let accentColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundOnColor])
+//        let textColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
+//        let pillButtonBackgroundColor = useCustomPillsColors ? accentColor : nil
+//        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? textColor : nil
+//        let pillButtonTextColor = useCustomPillsColors ? textColor : nil
+//        let pillSelectedButtontextColor = useCustomPillsColors ? accentColor : nil
+//        let pillButtonUnreadDotColor = useCustomPillsColors ? textColor : nil
+//
+//        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor, pillButtonUnreadDotColor: pillButtonUnreadDotColor)
+//>>>>>>> main
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
@@ -182,26 +194,25 @@ class PillButtonBarDemoController: DemoController {
     private var bars: [PillButtonBar] = []
 
     private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        let theme = FluentTheme()
         return [
-            .backgroundColor: .dynamicColor { Colors.textOnAccent.dynamicColor! },
+            .backgroundColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .backgroundColorSelected: .dynamicColor { Colors.textPrimary.dynamicColor! },
+            .backgroundColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .backgroundColorDisabled: .dynamicColor { Colors.surfaceQuaternary.dynamicColor! },
+            .backgroundColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .backgroundColorSelectedDisabled: .dynamicColor { Colors.surfaceSecondary.dynamicColor! },
+            .backgroundColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .titleColor: .dynamicColor { Colors.textPrimary.dynamicColor! },
+            .titleColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .titleColorSelected: .dynamicColor { Colors.textOnAccent.dynamicColor! },
+            .titleColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .titleColorDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
+            .titleColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .titleColorSelectedDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
+            .titleColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .enabledUnreadDotColor: .dynamicColor {
-                Colors.textPrimary.dynamicColor!
-            }
+            .enabledUnreadDotColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] }
         ]
     }
 }

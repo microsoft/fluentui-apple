@@ -38,6 +38,10 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
             tokenSet[.titleColor] = .dynamicColor { newColor }
         }
     }
+    //        get { return customTitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) }
+    //        set { customTitleColor = newValue }
+    //    }
+    //    var customTitleColor: UIColor?
     /// `subtitle` color
     @objc public var subtitleColor: UIColor {
         get {
@@ -50,6 +54,12 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
             tokenSet[.subtitleColor] = .dynamicColor { newColor }
         }
     }
+    //    /// `subtitle` color
+    //    @objc public var subtitleColor: UIColor {
+    //        get { return customSubtitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+    //        set { customSubtitleColor = newValue }
+    //    }
+    //    var customSubtitleColor: UIColor?
     /// `image` tint color if it is rendered as template
     @objc public var imageColor: UIColor {
         get {
@@ -62,6 +72,12 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
             tokenSet[.imageColor] = .dynamicColor { newColor }
         }
     }
+    //    /// `image` tint color if it is rendered as template
+    //    @objc public var imageColor: UIColor {
+    //        get { return customImageColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+    //        set { customImageColor = newValue }
+    //    }
+    //    var customImageColor: UIColor?
     /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var titleSelectedColor: UIColor?
     /// `subtitle` color when`isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used

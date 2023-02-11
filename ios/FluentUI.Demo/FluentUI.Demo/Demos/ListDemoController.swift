@@ -37,6 +37,7 @@ class ListDemoController: DemoController {
         collapsibleSection.hasDividers = true
 
         /// TableViewCell Sample Data Sections
+        let theme = view.fluentTheme
         for (sectionIndex, section) in sections.enumerated() {
             let sectionState = list.state.createSection()
             sectionState.title = section.title
@@ -51,15 +52,15 @@ class ListDemoController: DemoController {
                 listCell.footnote = cell.text3
                 if !listCell.subtitle.isEmpty {
                     listCell.leadingViewSize = MSFListCellLeadingViewSize.large
-                    listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle") : nil
-                    listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle") : nil
+                    listCell.subtitleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "success-12x12", imageType: "subtitle", theme: theme) : nil
+                    listCell.subtitleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-down-20x20", imageType: "subtitle", theme: theme) : nil
                 }
 
-                listCell.titleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title") : nil
-                listCell.titleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title") : nil
+                listCell.titleLeadingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "ic_fluent_presence_available_16_filled", imageType: "title", theme: theme) : nil
+                listCell.titleTrailingAccessoryUIView = showsLabelAccessoryView ? createCustomView(imageName: "chevron-right-20x20", imageType: "title", theme: theme) : nil
 
-                listCell.leadingUIView = createCustomView(imageName: cell.image)
-                listCell.trailingUIView = section.hasAccessory ? createCustomView(imageName: cell.image) : nil
+                listCell.leadingUIView = createCustomView(imageName: cell.image, theme: theme)
+                listCell.trailingUIView = section.hasAccessory ? createCustomView(imageName: cell.image, theme: theme) : nil
                 listCell.accessoryType = accessoryType(for: rowIndex)
                 listCell.onTapAction = {
                     self.showAlertForCellTapped(indexPath: IndexPath(row: rowIndex, section: sectionIndex))
@@ -120,7 +121,8 @@ class ListDemoController: DemoController {
 
     private func createCustomView(imageName: String,
                                   useImageAsTemplate: Bool = false,
-                                  imageType: String = "") -> UIImageView? {
+                                  imageType: String = "",
+                                  theme: FluentTheme) -> UIImageView? {
         if imageName == "" {
             return nil
         }
@@ -133,11 +135,11 @@ class ListDemoController: DemoController {
 
         switch imageType {
         case "title":
-            customView.tintColor = Colors.textPrimary
+            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground1])
         case "subtitle":
-            customView.tintColor = Colors.textSecondary
+            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground2])
         default:
-            customView.tintColor = Colors.iconSecondary
+            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground3])
         }
         return customView
     }

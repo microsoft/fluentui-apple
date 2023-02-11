@@ -112,13 +112,13 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
                 return
             }
             strongSelf.updateAppearance()
-            strongSelf.updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
+            strongSelf.updateSelectionColors()
         }
     }
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateColors()
+        updateSelectionColors()
     }
 
     @objc override func themeDidChange(_ notification: Notification) {
@@ -221,7 +221,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        updateColors()
+        updateSelectionColors()
 
         _imageView.isHighlighted = isSelected
     }
@@ -231,7 +231,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             _accessoryType = .none
             return
         }
-        let brandColor = UIColor(dynamicColor: item.tokenSet[.mainBrandColor].dynamicColor)
+        let brandColor = UIColor(dynamicColor: item.tokenSet[.brandTextColor].dynamicColor)
         let imageColor: UIColor
         let titleColor: UIColor
         let subtitleColor: UIColor

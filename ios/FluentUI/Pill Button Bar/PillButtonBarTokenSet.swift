@@ -37,12 +37,12 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
 
             case .minButtonsSpacing:
                 return .float {
-                    GlobalTokens.spacing(.xSmall)
+                    GlobalTokens.spacing(.size80)
                 }
 
             case .minButtonVisibleWidth:
                 return .float {
-                    GlobalTokens.spacing(.large)
+                    GlobalTokens.spacing(.size200)
                 }
 
             case .minButtonWidth:
@@ -57,7 +57,7 @@ public class PillButtonBarTokenSet: ControlTokenSet<PillButtonBarTokenSet.Tokens
 
             case .sideInset:
                 return .float {
-                    GlobalTokens.spacing(.medium)
+                    GlobalTokens.spacing(.size160)
                 }
             }
         }

@@ -82,14 +82,14 @@ class DrawerShadowView: UIView {
             return
         }
         let shadowInfo = drawerTokenSet[.shadow].shadowInfo
-        shadow1.shadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-        shadow1.shadowRadius = shadowInfo.blurOne
+        shadow1.shadowColor = UIColor(dynamicColor: shadowInfo.keyColor).cgColor
+        shadow1.shadowRadius = shadowInfo.keyBlur
         shadow1.shadowOpacity = 1 // delegate opacity to style sheet
         shadow1.shadowOffset = shadowOffset(for: shadowDirection, isFirst: true)
 
         if shadowDirection.isHorizontal {
-            shadow2.shadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-            shadow2.shadowRadius = shadowInfo.blurTwo
+            shadow2.shadowColor = UIColor(dynamicColor: shadowInfo.ambientColor).cgColor
+            shadow2.shadowRadius = shadowInfo.ambientBlur
             shadow2.shadowOpacity = 1 // delegate opacity to style sheet
             shadow2.shadowOffset = shadowOffset(for: shadowDirection)
         }
@@ -125,12 +125,12 @@ class DrawerShadowView: UIView {
                 offset.height = -drawerTokenSet[.shadowOffset].float
             case .fromLeading:
                 let shadowInfo = drawerTokenSet[.shadow].shadowInfo
-                offset.width = isFirst ? shadowInfo.xOne : shadowInfo.xTwo
-                offset.height = isFirst ? shadowInfo.yOne : shadowInfo.yTwo
+                offset.width = isFirst ? shadowInfo.xKey : shadowInfo.xAmbient
+                offset.height = isFirst ? shadowInfo.yKey : shadowInfo.yAmbient
             case .fromTrailing:
                 let shadowInfo = drawerTokenSet[.shadow].shadowInfo
-                offset.width = -1 * (isFirst ? shadowInfo.xOne : shadowInfo.xTwo)
-                offset.height = -1 * (isFirst ? shadowInfo.yOne : shadowInfo.yTwo)
+                offset.width = -1 * (isFirst ? shadowInfo.xKey : shadowInfo.xAmbient)
+                offset.height = -1 * (isFirst ? shadowInfo.yKey : shadowInfo.yAmbient)
             }
         }
         return offset

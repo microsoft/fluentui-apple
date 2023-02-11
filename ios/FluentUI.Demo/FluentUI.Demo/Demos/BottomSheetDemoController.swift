@@ -11,6 +11,8 @@ class BottomSheetDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "Bottom sheets are helpful for enabling a simple task that people can complete before returning to the parent view."
+
         let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
@@ -423,7 +425,6 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
     }
 
     // MARK: - Custom tokens
-
     private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
             .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),

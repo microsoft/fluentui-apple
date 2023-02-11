@@ -134,85 +134,85 @@ public class ListCellTokenSet: ControlTokenSet<ListCellTokenSet.Tokens> {
             switch token {
 
             case .disclosureIconForegroundColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .labelColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
 
             case .labelSelectedColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
+                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
 
             case .leadingViewColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .sublabelColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
 
             case .sublabelSelectedColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
+                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
 
             case .trailingItemForegroundColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral3] }
+                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
 
             case .trailingItemSelectedForegroundColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.brandRest] }
+                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
 
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral1] }
+                return .dynamicColor { theme.aliasTokens.colors[.background1] }
 
             case .highlightedBackgroundColor:
-                return .dynamicColor { theme.aliasTokens.backgroundColors[.neutral5] }
+                return .dynamicColor { theme.aliasTokens.colors[.background1Pressed] }
 
             case .cellHeightOneLine:
-                return .float { GlobalTokens.spacing(.xxxLarge) }
+                return .float { GlobalTokens.spacing(.size480) }
 
             case .cellHeightTwoLines:
                 return .float { 64 }
 
             case .cellHeightThreeLines:
-                return .float { GlobalTokens.spacing(.xxxxLarge) }
+                return .float { GlobalTokens.spacing(.size560) }
 
             case .disclosureInterspace:
-                return .float { GlobalTokens.spacing(.xxSmall) }
+                return .float { GlobalTokens.spacing(.size40) }
 
             case .disclosureSize:
-                return .float { GlobalTokens.iconSize(.small) }
+                return .float { GlobalTokens.icon(.size200) }
 
             case .horizontalCellPadding:
-                return .float { GlobalTokens.spacing(.small) }
+                return .float { GlobalTokens.spacing(.size120) }
 
             case .iconInterspace:
-                return .float { GlobalTokens.spacing(.medium) }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .labelAccessoryInterspace:
-                return .float { GlobalTokens.spacing(.xSmall) }
+                return .float { GlobalTokens.spacing(.size80) }
 
             case .labelAccessorySize:
-                return .float { GlobalTokens.iconSize(.xxSmall) }
+                return .float { GlobalTokens.icon(.size120) }
 
             case .leadingViewSize:
                 return .float {
                     switch cellLeadingViewSize() {
                     case .small:
-                        return GlobalTokens.iconSize(.xSmall)
+                        return GlobalTokens.icon(.size160)
                     case .medium:
-                        return GlobalTokens.iconSize(.medium)
+                        return GlobalTokens.icon(.size240)
                     case .large:
-                        return GlobalTokens.iconSize(.xxLarge)
+                        return GlobalTokens.icon(.size400)
                     }
                 }
 
             case .leadingViewAreaSize:
-                return .float { GlobalTokens.spacing(.xxxLarge) }
+                return .float { GlobalTokens.spacing(.size480) }
 
             case .sublabelAccessorySize:
-                return .float { GlobalTokens.iconSize(.xxSmall) }
+                return .float { GlobalTokens.icon(.size120) }
 
             case .trailingItemSize:
-                return .float { GlobalTokens.iconSize(.medium) }
+                return .float { GlobalTokens.icon(.size240) }
 
             case .verticalCellPadding:
-                return .float { GlobalTokens.spacing(.xSmall) }
+                return .float { GlobalTokens.spacing(.size80) }
 
             case .footnoteFont:
                 return .fontInfo { theme.aliasTokens.typography[.caption1] }

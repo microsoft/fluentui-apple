@@ -5,16 +5,6 @@
 
 import UIKit
 
-// MARK: PopupMenu Colors
-
-private extension Colors {
-    struct PopupMenu {
-        static var description: UIColor = textSecondary
-    }
-}
-
-// MARK: - PopupMenuController Colors
-
 /**
  `PopupMenuController` is used to present a popup menu that slides from top or bottom depending on `presentationDirection`. Use `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show popup menu. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
 
@@ -127,10 +117,13 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    /// set `separatorColor` to customize separator colors of PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = Colors.dividerOnPrimary {
+    /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
+    @objc open var separatorColor: UIColor = { return UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.stroke2]) }() {
         didSet {
-            separator?.backgroundColor = separatorColor
+            guard let separator = separator else {
+                return
+            }
+            separator.backgroundColor = UIColor(cgColor: separatorColor.cgColor)
         }
     }
 
@@ -161,8 +154,8 @@ open class PopupMenuController: DrawerController {
         view.isHidden = true
 
         view.addSubview(descriptionLabel)
-        let verticalMargin = GlobalTokens.spacing(.small)
-        let horizontalMargin = GlobalTokens.spacing(.medium)
+        let verticalMargin = GlobalTokens.spacing(.size120)
+        let horizontalMargin = GlobalTokens.spacing(.size160)
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(

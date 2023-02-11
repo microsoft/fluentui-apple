@@ -71,7 +71,7 @@ class NavigationControllerDemoController: DemoController {
             stackView.alignment = .center
             let button = UIButton(type: .system)
             button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-            button.tintColor = UIColor(light: Colors.textOnAccent, dark: Colors.textPrimary)
+            button.tintColor = UIColor(dynamicColor: strongSelf.view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
             stackView.addArrangedSubview(button)
             strongSelf.presentController(withLargeTitle: true,
                                          accessoryView: stackView,
