@@ -152,6 +152,7 @@ class NavigationControllerDemoController: DemoController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.subtitle = subtitle
+        content.navigationItem.backButtonTitle = "999+"
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
@@ -685,6 +686,7 @@ class ChildViewController: UITableViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         navigationItem.title = "Cell #\(parentIndex)"
+        navigationItem.backButtonTitle = "\(parentIndex)"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -696,6 +698,50 @@ class ChildViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = GrandchildViewController(grandparentIndex: parentIndex, parentIndex: 1 + indexPath.row)
+        if navigationItem.accessoryView == nil {
+            controller.navigationItem.navigationBarStyle = .system
+        }
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+}
+
+// MARK: - GrandchildViewController
+
+class GrandchildViewController: UITableViewController {
+    var grandparentIndex: Int = -1
+    var parentIndex: Int = -1
+
+    convenience init(grandparentIndex: Int, parentIndex: Int) {
+        self.init()
+        self.grandparentIndex = grandparentIndex
+        self.parentIndex = parentIndex
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        navigationItem.title = "Cell #\(grandparentIndex)-\(parentIndex)"
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
+        cell.setup(title: "Grandchild Cell #\(1 + indexPath.row)")
         return cell
     }
 
