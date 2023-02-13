@@ -19,7 +19,7 @@ public enum ButtonStyle: Int, CaseIterable {
 
 // MARK: ButtonSizeCategory
 
-@objc(MSFButtonSize)
+@objc(MSFButtonSizeCategory)
 public enum ButtonSizeCategory: Int, CaseIterable {
     case large
     case medium
