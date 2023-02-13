@@ -642,7 +642,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
-        NSLog("You pressed me!")
+        if let topItem = sender.topItem {
+            topItem.navigationBarStyle = topItem.navigationBarStyle == .primary ? .system : .primary
+        }
     }
 }
 
