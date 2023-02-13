@@ -545,6 +545,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
 
+        // We need to set the background color of the embedding view otherwise the shadows will not display
+        bottomSheetView.backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
         bottomSheetView.addSubview(contentView)
 
         NSLayoutConstraint.activate([
