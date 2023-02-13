@@ -697,7 +697,16 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
             // are unique to their view controllers, and you can't push the same view controller
             // onto a navigation stack more than once.
             leftBarButtonItemsStackView.isHidden = false
-            backButtonItem.title = navigationItem.backButtonTitle
+
+            // This gets called before the navigation stack gets updated
+            if let items = items, let navigationItemIndex = items.firstIndex(of: navigationItem), navigationItemIndex > 0 {
+                let upcomingBackItem = items[navigationItemIndex - 1]
+                backButtonItem.title = upcomingBackItem.backButtonTitle
+            } else {
+                // Assume that this item is getting pushed onto the stack
+                backButtonItem.title = topItem?.backButtonTitle
+            }
+
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
         } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
