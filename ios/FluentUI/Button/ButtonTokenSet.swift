@@ -17,10 +17,10 @@ public enum ButtonStyle: Int, CaseIterable {
     case dangerSubtle
 }
 
-// MARK: ButtonSize
+// MARK: ButtonSizeCategory
 
 @objc(MSFButtonSize)
-public enum ButtonSize: Int, CaseIterable {
+public enum ButtonSizeCategory: Int, CaseIterable {
     case large
     case medium
     case small
@@ -73,7 +73,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
     }
 
     init(style: @escaping () -> ButtonStyle,
-         size: @escaping () -> ButtonSize) {
+         size: @escaping () -> ButtonSizeCategory) {
         self.style = style
         self.size = size
         super.init { [style, size] token, theme in
@@ -222,12 +222,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
     }
 
     var style: () -> ButtonStyle
-    var size: () -> ButtonSize
+    var size: () -> ButtonSizeCategory
 }
 
 extension ButtonTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ size: ButtonSize) -> CGFloat {
+    static func horizontalPadding(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
@@ -239,7 +239,7 @@ extension ButtonTokenSet {
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ size: ButtonSize) -> CGFloat {
+    static func minContainerHeight(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
             return 52
@@ -251,7 +251,7 @@ extension ButtonTokenSet {
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ size: ButtonSize) -> CGFloat {
+    static func titleImageSpacing(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large, .medium:
             return GlobalTokens.spacing(.size80)
