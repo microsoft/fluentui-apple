@@ -40,8 +40,11 @@ class TooltipTest: BaseTest {
     func testDirections() throws {
         let showTooltipBelowButton: XCUIElement = app.buttons["Show single-line tooltip below"]
         let showTooltipAboveButton: XCUIElement = app.buttons["Show tooltip with title above"]
-        let showTooltipLeftButton: XCUIElement = app.buttons["Show tooltip (with arrow left)"]
-        let showTooltipRightButton: XCUIElement = app.buttons["Show tooltip (with arrow right)"]
+        // Due to a difference between UIKit and SwiftUI buttons, we need the
+        // `\n` expicitly for now. We'll have to go back to a space once we're
+        // using the UIKit button in UIKit again.
+        let showTooltipLeftButton: XCUIElement = app.buttons["Show tooltip\n(with arrow left)"]
+        let showTooltipRightButton: XCUIElement = app.buttons["Show tooltip\n(with arrow right)"]
 
         let up: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Tooltip.*that is pointing up.*")
         let down: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Tooltip.*that is pointing down.*")

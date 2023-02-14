@@ -139,12 +139,6 @@ fi', :execution_position => :before_compile }
   s.subspec 'Divider_ios' do |divider_ios|
     divider_ios.platform = :ios
     divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
-  end
-
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
     divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
   end
 
@@ -173,8 +167,8 @@ fi', :execution_position => :before_compile }
     hud_ios.platform = :ios
     hud_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
     hud_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
-    hud_ios.preserve_paths = ["ios/FluentUI/Vnext/HUD/HUD.resources.xcfilelist"]
-    hud_ios.source_files = ["ios/FluentUI/Vnext/HUD/**/*.{swift,h}"]
+    hud_ios.preserve_paths = ["ios/FluentUI/HUD/HUD.resources.xcfilelist"]
+    hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
   end
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|

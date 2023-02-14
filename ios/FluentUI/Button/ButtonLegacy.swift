@@ -86,16 +86,16 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     open override var intrinsicContentSize: CGSize {
         var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(size)) + edgeInsets.top + edgeInsets.bottom)
+        contentSize.height = ceil(max(contentSize.height, ButtonLegacyTokenSet.minContainerHeight(size)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(size)
+                contentSize.width += ButtonLegacyTokenSet.titleImageSpacing(size)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonTokenSet.titleImageSpacing(size)
+                contentSize.width -= ButtonLegacyTokenSet.titleImageSpacing(size)
             }
         }
 
@@ -307,7 +307,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(size)
+        var spacing = ButtonLegacyTokenSet.titleImageSpacing(size)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -365,7 +365,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(size)
+        let horizontalPadding = ButtonLegacyTokenSet.horizontalPadding(size)
         return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
 

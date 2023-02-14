@@ -225,7 +225,7 @@ public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> 
     var size: () -> ButtonLegacySize
 }
 
-extension ButtonTokenSet {
+extension ButtonLegacyTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
     static func horizontalPadding(_ size: ButtonLegacySize) -> CGFloat {
         switch size {
