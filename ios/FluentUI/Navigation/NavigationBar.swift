@@ -707,6 +707,19 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
                 backButtonItem.title = topItem?.backButtonTitle
             }
 
+            if !navigationItem.usesLargeTitle {
+                let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
+                // The OS already gives us the leading margin we want, so no need for additional insets
+                if #available(iOS 15.0, *) {
+                    // More size-efficient than setting the whole thing to .zero
+                    button.configuration?.contentInsets.leading = 0
+                } else {
+                    // More size-efficient than setting .left and .right individually
+                    button.contentEdgeInsets = .zero
+                }
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+            }
+
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
         } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
