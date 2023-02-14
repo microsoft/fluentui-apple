@@ -115,6 +115,10 @@ class DemoListViewController: DemoTableViewController {
         cell.titleNumberOfLinesForLargerDynamicType = 2
         cell.backgroundStyleType = .grouped
 
+        if indexPath.row == DemoControllerSection.allCases[indexPath.section].rows.count - 1 {
+            cell.bottomSeparatorType = .none
+        }
+
         return cell
     }
 
