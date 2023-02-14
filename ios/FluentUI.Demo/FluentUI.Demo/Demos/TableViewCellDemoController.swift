@@ -17,7 +17,7 @@ class TableViewCellDemoController: DemoTableViewController {
 
     override init(style: UITableView.Style) {
         super.init(style: style)
-        self.isGrouped = (style == .insetGrouped)
+        self.isGrouped = (style == .insetGrouped || style == .grouped)
     }
 
     required init?(coder: NSCoder) {
@@ -228,6 +228,7 @@ extension TableViewCellDemoController {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
+        header?.tableViewStyle = tableView.style
         return header
     }
 
