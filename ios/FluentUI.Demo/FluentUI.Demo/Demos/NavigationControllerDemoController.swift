@@ -152,7 +152,7 @@ class NavigationControllerDemoController: DemoController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.subtitle = subtitle
-        content.navigationItem.backButtonTitle = "999+"
+        content.navigationItem.backButtonTitle = "99+"
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
