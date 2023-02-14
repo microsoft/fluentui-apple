@@ -136,7 +136,7 @@ class LeftNavMenuViewController: UIViewController {
 
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevron.tintColor = UIColor(dynamicColor :view.fluentTheme.aliasTokens.colors[.foreground1])
+        chevron.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
         let personaState = persona.state
 
         personaState.presence = .available
@@ -343,16 +343,16 @@ enum LeftNavPresence: Int, CaseIterable {
             imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceAvailable])
         case .away, .beRightBack:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_away_16_filled"))
-            imageView.tintColor =  UIColor(dynamicColor: theme.aliasTokens.colors[.presenceAway])
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceAway])
         case .busy:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_busy_16_filled"))
-            imageView.tintColor =  UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
         case .doNotDisturb:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_dnd_16_filled"))
-            imageView.tintColor =  UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
         case .offline:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_offline_16_regular"))
-            imageView.tintColor =  UIColor(dynamicColor: theme.aliasTokens.colors[.presenceOof])
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceOof])
         }
         return imageView
     }
