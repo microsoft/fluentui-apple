@@ -199,8 +199,13 @@ open class BadgeView: UIView {
             if let customDisabledLabelTextColor = _disabledLabelTextColor {
                 return customDisabledLabelTextColor
             }
-            let textDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1])
-            return style == .default ? textDisabledColor : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled2])
+
+            let textDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+            if style == .default {
+                return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]), dark: textDisabledColor)
+            } else {
+                return textDisabledColor
+            }
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -283,8 +288,13 @@ open class BadgeView: UIView {
             if let customDisabledBackgroundColor = _disabledBackgroundColor {
                 return customDisabledBackgroundColor
             }
-            let backgroundDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground3])
-            return style == .default ? backgroundDisabledColor : self.backgroundColor
+
+            let backgroundDisabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+            if style == .default {
+                return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground3]), dark: backgroundDisabledColor)
+            } else {
+                return backgroundDisabledColor
+            }
         }
         set {
             if disabledBackgroundColor != newValue {
