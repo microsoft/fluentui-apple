@@ -44,13 +44,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case footer
         case headerPrimary
 
-        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .header, .footer, .headerPrimary:
-                return .clear
-            }
-        }
-
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer:
@@ -169,6 +162,15 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     /// `onAccessoryButtonTapped` is called when `accessoryButton` is tapped
     @objc open var onAccessoryButtonTapped: (() -> Void)?
     @objc open var onHeaderViewTapped: (() -> Void)?
+
+    /// configure this variable to change the appropriate background color based on what type of UITableView style it is in hosted
+    @objc public var tableViewStyle: UITableView.Style = .insetGrouped {
+        didSet {
+            if tableViewStyle != oldValue {
+                updateTitleAndBackgroundColors()
+            }
+        }
+    }
 
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
 
@@ -473,7 +475,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     private func updateTitleAndBackgroundColors() {
         titleView.textColor = style.textColor(fluentTheme: fluentTheme)
-        backgroundView?.backgroundColor = style.backgroundColor(fluentTheme: fluentTheme)
+
+        if tableViewStyle == .insetGrouped || tableViewStyle == .grouped {
+            backgroundView?.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.backgroundCanvas])
+        } else {
+            backgroundView?.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+        }
+
         titleView.font = style.textFont()
     }
 

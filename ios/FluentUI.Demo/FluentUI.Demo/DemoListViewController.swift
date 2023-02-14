@@ -123,7 +123,7 @@ class DemoListViewController: DemoTableViewController {
         let demoController: UIViewController
         if demo.title.compare("TableViewCell", options: .caseInsensitive) == .orderedSame {
             // .grouped is used for plain type so that the headerfooterview will scroll with the rest of the plain style cells
-            demoController = TableViewCellDemoController.init(style: showGroupedTableViewCellStyle ? .insetGrouped : .grouped)
+            demoController = TableViewCellDemoController.init(style: showGroupedTableViewCellStyle ? .insetGrouped : .plain)
         } else {
             demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
         }
