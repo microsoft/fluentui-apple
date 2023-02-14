@@ -210,8 +210,11 @@ extension TableViewCellDemoController {
 
         cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
-        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-        cell.bottomSeparatorType = isLastInSection ? .full : .inset
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            cell.bottomSeparatorType = isGrouped ? .none : .full
+        } else {
+            cell.bottomSeparatorType = .inset
+        }
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
