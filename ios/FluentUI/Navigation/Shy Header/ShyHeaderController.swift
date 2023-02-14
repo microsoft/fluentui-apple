@@ -66,10 +66,15 @@ class ShyHeaderController: UIViewController {
     private var contentScrollViewObservation: NSKeyValueObservation?
     private var previousContentScrollViewTraits = ContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
-    init(contentViewController: UIViewController) {
+    // The context of the parent controller used to pull the correct FluentTheme to update visuals
+    weak var containingView: UIView?
+
+    init(contentViewController: UIViewController, containingView: UIView?) {
         self.contentViewController = contentViewController
         shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
         shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+
+        self.containingView = containingView
 
         super.init(nibName: nil, bundle: nil)
 
@@ -121,10 +126,6 @@ class ShyHeaderController: UIViewController {
 
         updatePadding()
         setupNotificationObservers()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         updateNavigationBarStyle()
     }
 
@@ -259,7 +260,7 @@ class ShyHeaderController: UIViewController {
     }
 
     private func updateBackgroundColor(with item: UINavigationItem) {
-        let color = item.navigationBarColor(fluentTheme: view.fluentTheme)
+        let color = item.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color

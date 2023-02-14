@@ -37,6 +37,11 @@ class BottomSheetDemoController: DemoController {
         view.addSubview(bottomSheetViewController.view)
         bottomSheetViewController.didMove(toParent: self)
 
+        // If we're hosting a VC view in the bottom sheet, the VC itself needs to be a child of the bottom sheet VC
+        // This is important to ensure safe area changes propagate correctly.
+        bottomSheetViewController.addChild(contentNavigationController)
+        contentNavigationController.didMove(toParent: bottomSheetViewController)
+
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

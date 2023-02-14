@@ -46,8 +46,8 @@ open class PillButton: UIButton {
         }
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateAppearance()
     }
 
@@ -255,9 +255,6 @@ open class PillButton: UIButton {
                     setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style),
                                   for: .highlighted)
                 }
-
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style), for: .normal)
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
             } else {
                 resolvedBackgroundColor = PillButton.selectedDisabledBackgroundColor(for: fluentTheme, for: style)
                 if #available(iOS 15.0, *) {
