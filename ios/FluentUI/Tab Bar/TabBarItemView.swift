@@ -287,7 +287,7 @@ class TabBarItemView: UIControl {
             container.axis = .vertical
             container.spacing = Constants.spacingVertical
             titleLabel.style = .caption2
-            titleLabel.maxFontSize = 10
+            titleLabel.maxFontSize = 12
 
             if canResizeImage {
                 suggestImageSize = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
@@ -296,7 +296,7 @@ class TabBarItemView: UIControl {
             container.axis = .horizontal
             container.spacing = Constants.spacingHorizontal
             titleLabel.style = .caption2
-            titleLabel.maxFontSize = 13
+            titleLabel.maxFontSize = 12
 
             if canResizeImage {
                  suggestImageSize = Constants.landscapeImageSize
