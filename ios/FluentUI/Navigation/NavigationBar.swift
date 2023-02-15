@@ -87,7 +87,7 @@ open class NavigationBarTitleAccessory: NSObject {
 }
 
 // MARK: - NavigationBarBackButtonDelegate
-/// Handles presses from a `NavigationBar`'s makeshift back button.
+/// Handles presses from the back button shown with a leading-aligned title.
 @objc(MSFNavigationBarBackButtonDelegate)
 protocol NavigationBarBackButtonDelegate {
     func backButtonWasPressed()
