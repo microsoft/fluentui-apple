@@ -159,7 +159,10 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
 
             case .communicationTextColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandStroke1] }
+                return .dynamicColor {
+                    DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                 dark: GlobalTokens.brandColors(.comm100))
+                }
             }
         }
     }
