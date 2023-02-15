@@ -671,18 +671,24 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
             button.configuration?.contentInsets = insets
         } else {
+            let leftInset: CGFloat
+            let rightInset: CGFloat
             if isLeftItem {
-                let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: isRTL ? Constants.leftBarButtonItemTrailingMargin : Constants.leftBarButtonItemLeadingMargin,
-                                                        bottom: 0,
-                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : Constants.leftBarButtonItemTrailingMargin)
+                if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                    leftInset = Constants.leftBarButtonItemTrailingMargin
+                    rightInset = Constants.leftBarButtonItemLeadingMargin
+                } else {
+                    leftInset = Constants.leftBarButtonItemLeadingMargin
+                    rightInset = Constants.leftBarButtonItemTrailingMargin
+                }
             } else {
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: Constants.rightBarButtonItemHorizontalPadding,
-                                                        bottom: 0,
-                                                        right: Constants.rightBarButtonItemHorizontalPadding)
+                leftInset = Constants.rightBarButtonItemHorizontalPadding
+                rightInset = Constants.rightBarButtonItemHorizontalPadding
             }
+            button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                    left: leftInset,
+                                                    bottom: 0,
+                                                    right: rightInset)
         }
 
         return button
