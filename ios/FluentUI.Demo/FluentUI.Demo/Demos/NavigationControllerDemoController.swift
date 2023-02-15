@@ -18,6 +18,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLargeTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
+        container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
         addTitle(text: "Large Title with System style")
@@ -112,6 +113,10 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
     }
 
+    @objc func showLargeTitleWithCustomLeadingButton() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false, showStarButton: true)
+    }
+
     @objc func showWithTopSearchBar() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
@@ -148,6 +153,7 @@ class NavigationControllerDemoController: DemoController {
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
                                    showAvatar: Bool = true,
+                                   showStarButton: Bool = false,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
@@ -170,6 +176,10 @@ class NavigationControllerDemoController: DemoController {
         if showAvatar {
             controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
+        } else if showStarButton {
+            let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
+            starButtonItem.accessibilityLabel = "Star button"
+            content.navigationItem.leftBarButtonItem = starButtonItem
         } else {
             content.allowsCellSelection = true
         }

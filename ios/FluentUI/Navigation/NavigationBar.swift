@@ -165,6 +165,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         static let expandedContentHeight: CGFloat = 48
 
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
+        static let leftBarButtonItemTrailingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
 
         static let obscuringAnimationDuration: TimeInterval = 0.12
@@ -661,7 +662,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
                 insets = NSDirectionalEdgeInsets(top: 0,
                                                  leading: Constants.leftBarButtonItemLeadingMargin,
                                                  bottom: 0,
-                                                 trailing: 0)
+                                                 trailing: Constants.leftBarButtonItemTrailingMargin)
             } else {
                 insets = NSDirectionalEdgeInsets(top: 0,
                                                  leading: Constants.rightBarButtonItemHorizontalPadding,
@@ -674,9 +675,9 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
             if isLeftItem {
                 let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
                 button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
+                                                        left: isRTL ? Constants.leftBarButtonItemTrailingMargin : Constants.leftBarButtonItemLeadingMargin,
                                                         bottom: 0,
-                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : Constants.leftBarButtonItemTrailingMargin)
             } else {
                 button.contentEdgeInsets = UIEdgeInsets(top: 0,
                                                         left: Constants.rightBarButtonItemHorizontalPadding,
@@ -711,11 +712,11 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
                 // The OS already gives us the leading margin we want, so no need for additional insets
                 if #available(iOS 15.0, *) {
-                    // More size-efficient than setting the whole thing to .zero
                     button.configuration?.contentInsets.leading = 0
+                } else if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                    button.contentEdgeInsets.right = 0
                 } else {
-                    // More size-efficient than setting .left and .right individually
-                    button.contentEdgeInsets = .zero
+                    button.contentEdgeInsets.left = 0
                 }
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
             }
