@@ -340,10 +340,11 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var usesLargeTitleObserver: NSKeyValueObservation?
 
-    private var backButtonItem: UIBarButtonItem?
+    private let backButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+
     weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
         didSet {
-            backButtonItem?.target = backButtonDelegate
+            backButtonItem.target = backButtonDelegate
         }
     }
 
@@ -407,8 +408,6 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-
-        backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
 
         isTranslucent = false
 
@@ -691,7 +690,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
         // only one left bar button item is support for large title view
-        if let backButtonItem = backButtonItem, navigationItem != items?.first {
+        if navigationItem != items?.first {
             // Show our own back button
             // navigationItem != items?.first is sufficient for knowing we won't be at the
             // root element of our navigation controller. This is because UINavigationItems
