@@ -1854,7 +1854,10 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
 	open override func willMove(toWindow newWindow: UIWindow?) {
 		super.willMove(toWindow: newWindow)
-        tokenSet.update(fluentTheme)
+		guard let newWindow else {
+			return
+		}
+		tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 
