@@ -694,10 +694,14 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         return button
     }
 
+    /// Updates the bar button items.
+    /// 
+    /// In general, this should be called as late as possible when receiving a new navigation item
+    /// because it will replace a client-provided left bar button item with a back button if needed.
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
         // only one left bar button item is support for large title view
         if navigationItem != items?.first {
-            // Show our own back button
+            // Back button takes priority over client-provided leftBarButtonItem
             // navigationItem != items?.first is sufficient for knowing we won't be at the
             // root element of our navigation controller. This is because UINavigationItems
             // are unique to their view controllers, and you can't push the same view controller
