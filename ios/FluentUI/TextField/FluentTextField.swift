@@ -8,9 +8,12 @@ import Combine
 
 @objc(MSFTextField)
 public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
-    public override func didMoveToWindow() {
-        super.didMoveToWindow()
-        tokenSet.update(fluentTheme)
+    public override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateTokenizedValues()
     }
 
