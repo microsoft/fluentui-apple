@@ -26,7 +26,7 @@
     MSFTextField *textField2 = [[MSFTextField alloc] init];
     [textField2 setPlaceholder:@"Hint text"];
     [textField2 setLeadingImage:[UIImage imageNamed:@"Placeholder_24"]];
-    [textField2 setLabelText:@"Changes leading image on selection"];
+    [textField2 setTitleText:@"Changes leading image on selection"];
     [textField2 setAssistiveText:@"Validates text on selection and deselection"];
     [textField2 setOnDidBeginEditing:^(MSFTextField *textfield){
         [self onDidBeginEditing:textfield];
@@ -63,7 +63,7 @@
 }
 
 - (MSFTextInputError *_Nullable)validateText:(MSFTextField *)textfield {
-    NSString *text = [textfield text];
+    NSString *text = [textfield inputText];
     if (text == nil) {
         return [[MSFTextInputError alloc] initWithLocalizedDescription:@"Input text must exist?"];
     }

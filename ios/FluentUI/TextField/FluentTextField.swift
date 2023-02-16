@@ -34,20 +34,20 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-    /// String used in the top label. If this is nil, the top label will be hidden.
-    @objc public var labelText: String? {
+    /// String used in the title label. If this is nil, the title label will be hidden.
+    @objc public var titleText: String? {
         didSet {
-            if let text = labelText {
-                label.text = text
-                label.isHidden = false
+            if let text = titleText {
+                titleLabel.text = text
+                titleLabel.isHidden = false
             } else {
-                label.isHidden = true
+                titleLabel.isHidden = true
             }
         }
     }
 
     /// String representing the input text
-    @objc public var text: String? {
+    @objc public var inputText: String? {
         get {
             return textfield.text
         }
@@ -63,9 +63,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-    /// String used in the bottom label. If this is nil, the bottom label will be hidden. If the `error` property
-    /// of the `FluentTextField` is set, the `localizedDescription` from `error` will be displayed
-    /// instead.
+    /// String used in the assitive text label. If this is nil, the assistive text label will be hidden. If the `error`
+    /// property of the `FluentTextField` is set, the `localizedDescription` from `error`
+    /// will be displayed instead.
     @objc public var assistiveText: String? {
         didSet {
             updateAssistiveText()
@@ -100,7 +100,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     // |--leadingImageContainerView
     // |--|--leadingImageView
     // |--textStack
-    // |--|--label
+    // |--|--titleLabel
     // |--|--textfield
     // |--|--separator
     // |--|--assistiveTextLabel
@@ -110,9 +110,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         textfield.delegate = self
         textfield.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
 
-        let textStack = UIStackView(arrangedSubviews: [label, textfield, separator, assistiveTextLabel])
+        let textStack = UIStackView(arrangedSubviews: [titleLabel, textfield, separator, assistiveTextLabel])
         textStack.axis = .vertical
-        textStack.spacing = TextFieldTokenSet.labelInputTextSpacing
+        textStack.spacing = TextFieldTokenSet.titleInputTextSpacing
         textStack.setCustomSpacing(TextFieldTokenSet.strokeAssistiveTextSpacing, after: separator)
         textStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: TextFieldTokenSet.topPadding,
                                                                      leading: 0,
@@ -175,7 +175,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             onDidEndEditing(self)
         }
         updateState()
-        if text?.isEmpty == true {
+        if inputText?.isEmpty == true {
             textfield.rightViewMode = .whileEditing
         } else {
             textfield.rightViewMode = .always
@@ -212,7 +212,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return imageView
     }()
 
-    let label: Label = {
+    let titleLabel: Label = {
         let label = Label()
         label.isHidden = true
         label.lineBreakMode = .byWordWrapping
@@ -259,8 +259,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
         leadingImageView.tintColor = UIColor(dynamicColor: tokenSet[.leadingIconColor].dynamicColor)
 
-        label.font = UIFont.fluent(tokenSet[.labelFont].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.labelColor].dynamicColor)
+        titleLabel.font = UIFont.fluent(tokenSet[.titleLabelFont].fontInfo)
+        titleLabel.textColor = UIColor(dynamicColor: tokenSet[.titleLabelColor].dynamicColor)
         assistiveTextLabel.font = UIFont.fluent(tokenSet[.assistiveTextFont].fontInfo)
         assistiveTextLabel.textColor = UIColor(dynamicColor: tokenSet[.assistiveTextColor].dynamicColor)
 

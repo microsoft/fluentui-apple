@@ -19,7 +19,7 @@ class TextFieldDemoController: DemoController {
         let textField2 = FluentTextField()
         textField2.placeholder = "Hint text"
         textField2.leadingImage = UIImage(named: "Placeholder_24")
-        textField2.labelText = "Changes leading image on selection"
+        textField2.titleText = "Changes leading image on selection"
         textField2.assistiveText = "Validates text on selection and deselection"
         textField2.onDidBeginEditing = onDidBeginEditing
         textField2.onDidEndEditing = onDidEndEditing
@@ -51,7 +51,7 @@ class TextFieldDemoController: DemoController {
     }
 
     func validateText(_ textfield: FluentTextField) -> FluentTextInputError? {
-        guard let text = textfield.text else {
+        guard let text = textfield.inputText else {
             return FluentTextInputError(localizedDescription: "Input text must exist?")
         }
         if text.contains("/") {
@@ -123,11 +123,11 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
             .backgroundColor: .dynamicColor { background },
             .inputTextColor: .dynamicColor { foreground },
             .inputTextFont: .fontInfo { font },
-            .labelColor: .dynamicColor { foreground },
-            .labelFont: .fontInfo { font },
             .leadingIconColor: .dynamicColor { foreground },
             .placeholderColor: .dynamicColor { foreground },
             .strokeColor: .dynamicColor { foreground },
+            .titleLabelColor: .dynamicColor { foreground },
+            .titleLabelFont: .fontInfo { font },
             .trailingIconColor: .dynamicColor { foreground }
         ]
     }
@@ -144,11 +144,11 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
             .backgroundColor: .dynamicColor { background },
             .inputTextColor: .dynamicColor { foreground },
             .inputTextFont: .fontInfo { font },
-            .labelColor: .dynamicColor { foreground },
-            .labelFont: .fontInfo { font },
             .leadingIconColor: .dynamicColor { foreground },
             .placeholderColor: .dynamicColor { foreground },
             .strokeColor: .dynamicColor { foreground },
+            .titleLabelColor: .dynamicColor { foreground },
+            .titleLabelFont: .fontInfo { font },
             .trailingIconColor: .dynamicColor { foreground }
         ]
     }

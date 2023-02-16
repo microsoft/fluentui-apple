@@ -33,12 +33,6 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
         /// Defines the font of the input and placeholder text in the textfield.
         case inputTextFont
 
-        /// Defines the color of the text in the top label.
-        case labelColor
-
-        /// Defines the font of the text in the top label.
-        case labelFont
-
         /// Defines the color of the leading image.
         case leadingIconColor
 
@@ -47,6 +41,12 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
 
         /// Defines the color of the separator between the textfield and the bottom lablel
         case strokeColor
+
+        /// Defines the color of the text in the title label.
+        case titleLabelColor
+
+        /// Defines the font of the text in the title label.
+        case titleLabelFont
 
         /// Defines the color of the trailing icon in the textfield.
         case trailingIconColor
@@ -75,19 +75,6 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
             case .inputTextFont:
                 return .fontInfo { theme.aliasTokens.typography[.body1] }
-            case .labelColor:
-                return .dynamicColor {
-                    switch state() {
-                    case .unfocused:
-                        return theme.aliasTokens.colors[.foreground2]
-                    case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
-                    case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
-                    }
-                }
-            case .labelFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
             case .leadingIconColor:
                 return .dynamicColor {
                     switch state() {
@@ -110,6 +97,19 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                         return theme.aliasTokens.colors[.dangerForeground1]
                     }
                 }
+            case .titleLabelColor:
+                return .dynamicColor {
+                    switch state() {
+                    case .unfocused:
+                        return theme.aliasTokens.colors[.foreground2]
+                    case .focused:
+                        return theme.aliasTokens.colors[.brandForeground1]
+                    case .error:
+                        return theme.aliasTokens.colors[.dangerForeground1]
+                    }
+                }
+            case .titleLabelFont:
+                return .fontInfo { theme.aliasTokens.typography[.caption2] }
             case .trailingIconColor:
                 return .dynamicColor {
                     return theme.aliasTokens.colors[.foreground2]
@@ -134,8 +134,8 @@ extension TextFieldTokenSet {
     /// The value for the padding between the bottom edge of the control and the content.
     static let bottomPadding: CGFloat = GlobalTokens.spacing(.size40)
 
-    /// The value for the spacing between the top label and the input or placeholder text.
-    static let labelInputTextSpacing: CGFloat = GlobalTokens.spacing(.size120)
+    /// The value for the spacing between the title label and the input or placeholder text.
+    static let titleInputTextSpacing: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The value for the spacing between the leading icon and the input or placeholder text.
     static let leadingIconInputTextSpacing: CGFloat = GlobalTokens.spacing(.size160)
