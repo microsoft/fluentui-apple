@@ -120,6 +120,7 @@
 		D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
+		EC0A83E4299ED3630010ED3E /* TextFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
 		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
 		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
@@ -253,6 +254,7 @@
 		D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoColorProviding.m; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
+		EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTest.swift; sourceTree = "<group>"; };
 		EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
 		EC24DBC428B97E950026EF92 /* PopupMenuObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMenuObjCDemoController.h; sourceTree = "<group>"; };
 		EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupMenuObjCDemoController.m; sourceTree = "<group>"; };
@@ -373,6 +375,7 @@
 				3A83F9062953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift */,
 				3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */,
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
+				EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */,
 				3A83F90C2953BB3500EF6629 /* TooltipTest.swift */,
 				3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */,
 			);
@@ -711,6 +714,7 @@
 				3A83F8E12953B99A00EF6629 /* IndeterminateProgressBarTest.swift in Sources */,
 				3A83F8FB2953BAC500EF6629 /* SearchBarTest.swift in Sources */,
 				3A83F8EF2953BA7C00EF6629 /* PeoplePickerTest.swift in Sources */,
+				EC0A83E4299ED3630010ED3E /* TextFieldTest.swift in Sources */,
 				3A83F8F52953BAA200EF6629 /* PillButtonTest.swift in Sources */,
 				3A83F8C52953B8B900EF6629 /* AvatarGroupTest.swift in Sources */,
 				3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */,
