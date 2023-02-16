@@ -76,7 +76,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 return cell
             }
 
-            let titleLabel = Label(style: .body, colorStyle: .regular)
+            let titleLabel = Label()
             titleLabel.text = activityIndicatorSize.description
             titleLabel.numberOfLines = 0
 
@@ -171,7 +171,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
         MSFActivityIndicatorSize.allCases.forEach { size in
             let indicator = MSFActivityIndicator(size: size)
             indicator.state.isAnimating = true
-            indicator.state.color = Colors.communicationBlue
+            indicator.state.color = UIColor(colorValue: GlobalTokens.brandColors(.comm80))
             customColorIndicators.updateValue(indicator, forKey: size)
         }
 

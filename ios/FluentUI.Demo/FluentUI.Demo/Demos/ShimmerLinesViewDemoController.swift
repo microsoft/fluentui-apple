@@ -59,7 +59,7 @@ class ShimmerViewDemoController: DemoController {
         }
 
         let shimmerViewLabel = { (text: String) -> UILabel in
-            let label = Label(style: .headline)
+            let label = Label()
             label.numberOfLines = 0
             label.text = text
             return label

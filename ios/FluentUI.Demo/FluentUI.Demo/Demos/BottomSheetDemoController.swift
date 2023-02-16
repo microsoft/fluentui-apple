@@ -11,6 +11,8 @@ class BottomSheetDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "Bottom sheets are helpful for enabling a simple task that people can complete before returning to the parent view."
+
         let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
         optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
@@ -151,7 +153,7 @@ class BottomSheetDemoController: DemoController {
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        personaListView.backgroundColor = Colors.navigationBarBackground
+        personaListView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
@@ -162,7 +164,7 @@ class BottomSheetDemoController: DemoController {
         view.addSubview(personaListView)
 
         let bottomView = UIView()
-        bottomView.backgroundColor = Colors.surfaceQuaternary
+        bottomView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomView)
 
@@ -210,7 +212,7 @@ class BottomSheetDemoController: DemoController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.surfaceQuaternary
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
 
         let label = Label()
         label.text = "Header view"
@@ -423,7 +425,6 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
     }
 
     // MARK: - Custom tokens
-
     private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
             .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),

@@ -41,7 +41,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController, TokenizedControlInternal {
+public class BottomSheetController: UIViewController, Shadowable, TokenizedControlInternal {
 
     /// Initializes the bottom sheet controller
     /// - Parameters:
@@ -393,6 +393,10 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         NSLayoutConstraint.activate(constraints)
     }
 
+    // MARK: - Shadow Layers
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
+
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -423,9 +427,8 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         }
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
 
-        super.viewDidLayoutSubviews()
-
         updateAppearance()
+        super.viewDidLayoutSubviews()
     }
 
     public override func viewSafeAreaInsetsDidChange() {
@@ -446,7 +449,7 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
 
     private func updateAppearance() {
         updateBackgroundColor()
-        updateShadows()
+        updateShadow()
         updateCornerRadius()
     }
 
@@ -456,37 +459,11 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
         overflowView.backgroundColor = backgroundColor
     }
 
-    private func updateShadows() {
+    private func updateShadow() {
         let shadowInfo = tokenSet[.shadow].shadowInfo
-        if let shadowLayer = bottomSheetView.layer.sublayers?[0] {
-            shadowLayer.sublayers?.removeAll()
-
-            let perimeterShadow = CAShapeLayer()
-            let perimeterShadowColor = UIColor(dynamicColor: shadowInfo.colorTwo).cgColor
-            perimeterShadow.backgroundColor = perimeterShadowColor
-            perimeterShadow.shadowColor = perimeterShadowColor
-            perimeterShadow.frame = bottomSheetView.layer.bounds
-            perimeterShadow.shadowOffset = CGSize(width: shadowInfo.xTwo, height: shadowInfo.yTwo)
-            perimeterShadow.shadowOpacity = 1
-            perimeterShadow.shadowRadius = shadowInfo.blurTwo
-            perimeterShadow.masksToBounds = false
-            perimeterShadow.cornerCurve = .continuous
-            perimeterShadow.cornerRadius = tokenSet[.cornerRadius].float
-            shadowLayer.addSublayer(perimeterShadow)
-
-            let ambientShadow = CAShapeLayer()
-            let ambientShadowColor = UIColor(dynamicColor: shadowInfo.colorOne).cgColor
-            ambientShadow.backgroundColor = ambientShadowColor
-            ambientShadow.shadowColor = ambientShadowColor
-            ambientShadow.frame = bottomSheetView.layer.bounds
-            ambientShadow.shadowOffset = CGSize(width: shadowInfo.xOne, height: shadowInfo.yOne)
-            ambientShadow.shadowOpacity = 1
-            ambientShadow.shadowRadius = shadowInfo.blurOne
-            ambientShadow.masksToBounds = false
-            ambientShadow.cornerCurve = .continuous
-            ambientShadow.cornerRadius = tokenSet[.cornerRadius].float
-            shadowLayer.addSublayer(ambientShadow)
-        }
+        // We need to have the shadow on a parent of the view that does the corner masking.
+        // Otherwise the view will mask its own shadow.
+        shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
     }
 
     private func updateCornerRadius() {
@@ -562,11 +539,6 @@ public class BottomSheetController: UIViewController, TokenizedControlInternal {
 
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
         let bottomSheetView = UIView()
-
-        // We need to have the shadow on a parent of the view that does the corner masking.
-        // Otherwise the view will mask its own shadow.
-        // Add Shadow Layer
-        bottomSheetView.layer.insertSublayer(CALayer(), at: 0)
 
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.layer.cornerCurve = .continuous

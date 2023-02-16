@@ -89,7 +89,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     private let accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Colors.Table.Cell.image
         return imageView
     }()
 
@@ -103,8 +102,10 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
         isAccessibilityElement = true
 
-        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
-        backgroundStyleType = .custom
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
             guard let strongSelf = self else {
@@ -113,6 +114,19 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             strongSelf.updateAppearance()
             strongSelf.updateSelectionColors()
         }
+    }
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateSelectionColors()
+    }
+
+    @objc override func themeDidChange(_ notification: Notification) {
+        super.themeDidChange(notification)
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        backgroundStyleType = .custom
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -188,11 +202,6 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateSelectionColors()
-    }
-
     private func updateAccessibilityTraits() {
         if isHeader {
             accessibilityTraits.remove(.button)
@@ -222,7 +231,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             _accessoryType = .none
             return
         }
-        let brandColor = UIColor(dynamicColor: item.tokenSet[.mainBrandColor].dynamicColor)
+        let brandColor = UIColor(dynamicColor: item.tokenSet[.brandTextColor].dynamicColor)
         let imageColor: UIColor
         let titleColor: UIColor
         let subtitleColor: UIColor

@@ -61,7 +61,7 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarTokenSet.Tokens> {
                 return .float { 18.0 }
 
             case .avatarViewMinTopSpacing:
-                return .float { GlobalTokens.spacing(.xxLarge) }
+                return .float { GlobalTokens.spacing(.size360) }
 
             case .avatarViewTopStackViewSpacing:
                 return .float { 34.0 }
@@ -70,13 +70,13 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarTokenSet.Tokens> {
                 return .float { 14.0 }
 
             case .bottomStackViewMinSpacing:
-                return .float { GlobalTokens.spacing(.xLarge) }
+                return .float { GlobalTokens.spacing(.size240) }
 
             case .topTabBarItemSpacing:
                 return .float { 32.0 }
 
             case .bottomTabBarItemSpacing:
-                return .float { GlobalTokens.spacing(.xLarge) }
+                return .float { GlobalTokens.spacing(.size240) }
 
             case .badgeTopSectionPadding:
                 return .float { 2.0 }
@@ -87,13 +87,13 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarTokenSet.Tokens> {
             case .tabBarItemSelectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.foregroundColors[.neutral1]
+                    return theme.aliasTokens.colors[.foreground1]
                 }
 
             case .tabBarItemUnselectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.foregroundColors[.neutral1]
+                    return theme.aliasTokens.colors[.foreground1]
                 }
 
             case .tabBarItemTitleLabelFontPortrait:

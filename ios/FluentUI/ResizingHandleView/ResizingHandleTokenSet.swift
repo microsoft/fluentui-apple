@@ -17,14 +17,11 @@ public class ResizingHandleTokenSet: ControlTokenSet<ResizingHandleTokenSet.Toke
     }
 
     init() {
-        super.init { token, _ in
+        super.init { token, theme in
             switch token {
             case .markColor:
                 return .dynamicColor {
-                    return DynamicColor(light: ColorValue(0x919191) /* gray400 */,
-                                        lightHighContrast: ColorValue(0x404040) /* gray600 */,
-                                        dark: ColorValue(0x6E6E6E) /* gray500 */,
-                                        darkHighContrast: ColorValue(0x919191) /* gray400 */)
+                    return theme.aliasTokens.colors[.strokeAccessible]
                 }
 
             case .backgroundColor:

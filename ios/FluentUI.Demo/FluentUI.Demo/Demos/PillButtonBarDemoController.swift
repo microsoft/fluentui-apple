@@ -79,10 +79,9 @@ class PillButtonBarDemoController: DemoController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.navigationBarBackground)
-        }
+        let backgroundColorLight = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground1])
+        onBrandBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+        customBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
@@ -115,7 +114,7 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = text
         label.textAlignment = .center
         return label
@@ -183,26 +182,25 @@ class PillButtonBarDemoController: DemoController {
     private var bars: [PillButtonBar] = []
 
     private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        let theme = FluentTheme()
         return [
-            .backgroundColor: .dynamicColor { Colors.textOnAccent.dynamicColor! },
+            .backgroundColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .backgroundColorSelected: .dynamicColor { Colors.textPrimary.dynamicColor! },
+            .backgroundColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .backgroundColorDisabled: .dynamicColor { Colors.surfaceQuaternary.dynamicColor! },
+            .backgroundColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .backgroundColorSelectedDisabled: .dynamicColor { Colors.surfaceSecondary.dynamicColor! },
+            .backgroundColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .titleColor: .dynamicColor { Colors.textPrimary.dynamicColor! },
+            .titleColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .titleColorSelected: .dynamicColor { Colors.textOnAccent.dynamicColor! },
+            .titleColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
 
-            .titleColorDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
+            .titleColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .titleColorSelectedDisabled: .dynamicColor { Colors.textDisabled.dynamicColor! },
+            .titleColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
 
-            .enabledUnreadDotColor: .dynamicColor {
-                Colors.textPrimary.dynamicColor!
-            }
+            .enabledUnreadDotColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] }
         ]
     }
 }

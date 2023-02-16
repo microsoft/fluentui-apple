@@ -99,6 +99,15 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
+    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    }
+
+    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
+                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+    }
 
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
@@ -125,7 +134,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
         set {
             if isViewLoaded {
-                view.backgroundColor = backgroundColor
+                view.backgroundColor = newValue
             }
 
             guard let newColor = newValue.dynamicColor else {
@@ -443,6 +452,18 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         super.init(nibName: nil, bundle: nil)
 
         initialize()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+              return
+        }
+        tokenSet.update(fluentTheme)
     }
 
     /**

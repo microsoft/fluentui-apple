@@ -7,8 +7,6 @@ import FluentUI
 import UIKit
 
 class DemoListViewController: DemoTableViewController {
-
-    private var provider: ColorProviding? = DemoColorTheme.default.provider
     public var theme: DemoColorTheme = DemoColorTheme.default {
         didSet {
             provider = theme.provider
@@ -31,11 +29,13 @@ class DemoListViewController: DemoTableViewController {
 
     func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
         self.theme = theme
-        if let provider = self.provider, let primaryColor = provider.primaryColor(for: window) {
-            Colors.setProvider(provider: provider, for: window)
+        if let provider = self.provider {
+            window.setColorProvider(provider)
+            let aliasTokens = self.view.fluentTheme.aliasTokens
+            let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
-            FluentUIFramework.initializeAppearance(with: Colors.primary(for: window))
+            FluentUIFramework.initializeAppearance(with: UIColor(light: UIColor(colorValue: GlobalTokens.brandColors(.comm80)), dark: UIColor(colorValue: GlobalTokens.brandColors(.comm90))))
         }
     }
 
@@ -96,7 +96,22 @@ class DemoListViewController: DemoTableViewController {
             return UITableViewCell()
         }
         let demo = DemoControllerSection.allCases[indexPath.section].rows[indexPath.row]
-        cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
+
+        if demo.title.compare("TableViewCell", options: .caseInsensitive) == .orderedSame {
+            let insetGroupedType = UIAction(title: "insetGrouped") { _ in
+                self.showGroupedTableViewCellStyle = true
+            }
+            let plainType = UIAction(title: "plain") { _ in
+                self.showGroupedTableViewCellStyle = false
+            }
+            cellTypeButton.menu = UIMenu(title: "Type", children: [insetGroupedType, plainType])
+            cellTypeButton.showsMenuAsPrimaryAction = true
+            let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 28))
+            stackView.addArrangedSubview(cellTypeButton)
+            cell.setup(title: demo.title, customAccessoryView: stackView)
+        } else {
+            cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
+        }
         cell.titleNumberOfLinesForLargerDynamicType = 2
         cell.backgroundStyleType = .grouped
 
@@ -105,7 +120,13 @@ class DemoListViewController: DemoTableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let demo = DemoControllerSection.allCases[indexPath.section].rows[indexPath.row]
-        let demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
+        let demoController: UIViewController
+        if demo.title.compare("TableViewCell", options: .caseInsensitive) == .orderedSame {
+            // .grouped is used for plain type so that the headerfooterview will scroll with the rest of the plain style cells
+            demoController = TableViewCellDemoController.init(style: showGroupedTableViewCellStyle ? .insetGrouped : .grouped)
+        } else {
+            demoController = demo.controllerClass.init(nibName: nil, bundle: nil)
+        }
         demoController.title = demo.title
         navigationController?.pushViewController(demoController, animated: true)
 
@@ -119,9 +140,17 @@ class DemoListViewController: DemoTableViewController {
     let cellReuseIdentifier: String = "TableViewCell"
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
+    private let cellTypeButton: UIButton = {
+        let button = MSFButtonLegacy()
+        button.setTitle("Type", for: .normal)
+        return button
+    }()
+    private var showGroupedTableViewCellStyle: Bool = true
+    private var provider: ColorProviding? = DemoColorTheme.default.provider
 
     private enum DemoControllerSection: CaseIterable {
         case fluent2Controls
+        case fluent2DesignTokens
         case controls
 #if DEBUG
         case debug
@@ -131,6 +160,8 @@ class DemoListViewController: DemoTableViewController {
             switch self {
             case .fluent2Controls:
                 return "Fluent 2 Controls"
+            case .fluent2DesignTokens:
+                return "Fluent 2 Design Tokens"
             case .controls:
                 return "Controls"
 #if DEBUG
@@ -144,6 +175,8 @@ class DemoListViewController: DemoTableViewController {
             switch self {
             case .fluent2Controls:
                 return Demos.fluent2
+            case .fluent2DesignTokens:
+                return Demos.fluent2DesignTokens
             case .controls:
                 return Demos.controls
 #if DEBUG

@@ -41,16 +41,16 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
             switch token {
             case .shadow:
                 return .shadowInfo({
-                    ShadowInfo(colorOne: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.03),
+                    ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.03),
                                                       dark: ColorValue(r: 0, g: 0, b: 0, a: 0.07)),
-                               blurOne: 14,
-                               xOne: 0,
-                               yOne: 14,
-                               colorTwo: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.33),
-                                                      dark: ColorValue(r: 0, g: 0, b: 0, a: 0.66)),
-                               blurTwo: 4,
-                               xTwo: 0,
-                               yTwo: 0)
+                               keyBlur: 14,
+                               xKey: 0,
+                               yKey: 14,
+                               ambientColor: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.33),
+                                                          dark: ColorValue(r: 0, g: 0, b: 0, a: 0.66)),
+                               ambientBlur: 4,
+                               xAmbient: 0,
+                               yAmbient: 0)
                 })
 
             case .backgroundDimmedColor:
@@ -61,33 +61,32 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
 
             case .drawerContentBackground:
                 return .dynamicColor({
-                    DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                 dark: theme.aliasTokens.backgroundColors[.neutral3].dark)
+                    DynamicColor(light: theme.aliasTokens.colors[.background2].light,
+                                 dark: theme.aliasTokens.colors[.background2].dark)
                 })
 
             case .popoverContentBackground:
                 return .dynamicColor({
-                    DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                 dark: theme.aliasTokens.backgroundColors[.surfaceQuaternary].dark)
+                    DynamicColor(light: theme.aliasTokens.colors[.background4].light,
+                                 dark: theme.aliasTokens.colors[.background4].dark)
                 })
 
             case .navigationBarBackground:
                 return .dynamicColor({
-                    DynamicColor(light: theme.aliasTokens.backgroundColors[.neutral1].light,
-                                 dark: GlobalTokens.neutralColors(.grey14))
+                    theme.aliasTokens.colors[.background3]
                 })
 
             case .cornerRadius:
                 return .float({ 14 })
 
             case .minHorizontalMargin:
-                return .float({ GlobalTokens.spacing(.xxxLarge) })
+                return .float({ GlobalTokens.spacing(.size480) })
 
             case .minVerticalMargin:
-                return .float({ GlobalTokens.spacing(.large) })
+                return .float({ GlobalTokens.spacing(.size200) })
 
             case .shadowOffset:
-                return .float({ GlobalTokens.spacing(.xSmall) })
+                return .float({ GlobalTokens.spacing(.size80) })
             }
         }
     }

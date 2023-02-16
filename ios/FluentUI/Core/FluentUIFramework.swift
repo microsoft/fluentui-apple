@@ -9,28 +9,6 @@ import FluentUIResources
 #endif
 import UIKit
 
-// MARK: Colors
-
-public extension Colors {
-    internal struct Progress {
-        static var trackTint = UIColor(light: surfaceQuaternary, dark: surfaceTertiary)
-    }
-
-    internal struct NavigationBar {
-        static var background = UIColor(light: surfacePrimary, dark: gray900)
-        static var tint: UIColor = iconPrimary
-        static var title: UIColor = textDominant
-    }
-
-    internal struct Toolbar {
-        static var background: UIColor = NavigationBar.background
-        static var tint: UIColor = NavigationBar.tint
-    }
-
-    // Objective-C support
-    @objc static var navigationBarBackground: UIColor { return NavigationBar.background }
-}
-
 // MARK: - FluentUIFramework
 
 public class FluentUIFramework: NSObject {
@@ -46,11 +24,7 @@ public class FluentUIFramework: NSObject {
         #endif
     }()
     @objc public static let colorsBundle: Bundle = {
-        #if SWIFT_PACKAGE
-        return SharedResources.colorsBundle
-        #else
         return resourceBundle
-        #endif
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
@@ -58,10 +32,30 @@ public class FluentUIFramework: NSObject {
 
     @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
     @objc public static func initializeAppearance() {
-        initializeAppearance(with: Colors.primary)
+        let aliasTokens = FluentTheme.shared.aliasTokens
+        let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
+        initializeAppearance(with: primaryColor)
+    }
+
+    enum NavigationBarStyle {
+        case normal
+        case dateTimePicker
+
+        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
+            switch self {
+            case .normal:
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
+            case .dateTimePicker:
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
+            }
+        }
     }
 
     @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil) {
+        initializeAppearance(with: primaryColor, whenContainedInInstancesOf: containerTypes, fluentTheme: nil)
+    }
+
+    @objc public static func initializeAppearance(with primaryColor: UIColor, whenContainedInInstancesOf containerTypes: [UIAppearanceContainer.Type]? = nil, fluentTheme: FluentTheme? = nil) {
         let navigationBarAppearance = containerTypes != nil ? UINavigationBar.appearance(whenContainedInInstancesOf: containerTypes!) : UINavigationBar.appearance()
         initializeUINavigationBarAppearance(navigationBarAppearance)
         let light = UITraitCollection(userInterfaceStyle: .light)
@@ -74,13 +68,16 @@ public class FluentUIFramework: NSObject {
         // UIToolbar
         let toolbar = UIToolbar.appearance()
         toolbar.isTranslucent = false
-        toolbar.barTintColor = Colors.Toolbar.background
-        toolbar.tintColor = Colors.Toolbar.tint
+
+        let aliasTokens = fluentTheme?.aliasTokens ?? AliasTokens()
+
+        toolbar.barTintColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
+        toolbar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
 
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
         var titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = Fonts.body
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1])
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         let switchAppearance = containerTypes != nil ? UISwitch.appearance(whenContainedInInstancesOf: containerTypes!) : UISwitch.appearance()
@@ -88,25 +85,38 @@ public class FluentUIFramework: NSObject {
 
         let progressViewAppearance = containerTypes != nil ? UIProgressView.appearance(whenContainedInInstancesOf: containerTypes!) : UIProgressView.appearance()
         progressViewAppearance.progressTintColor = primaryColor
-        progressViewAppearance.trackTintColor = Colors.Progress.trackTint
+        progressViewAppearance.trackTintColor = UIColor(dynamicColor: aliasTokens.colors[.stroke1])
     }
 
-    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil) {
+    static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil, navigationBarStyle: NavigationBarStyle = .normal, fluentTheme: FluentTheme? = nil) {
         navigationBar.isTranslucent = false
 
         let standardAppearance = navigationBar.standardAppearance
-        navigationBar.tintColor = Colors.NavigationBar.tint
 
-        navigationBar.standardAppearance.backgroundColor = Colors.NavigationBar.background
+        let aliasTokens: AliasTokens
+        if let fluentTheme = fluentTheme {
+            navigationBar.standardAppearance.backgroundColor = navigationBarStyle.backgroundColor(fluentTheme: fluentTheme)
+            aliasTokens = fluentTheme.aliasTokens
+        } else {
+            aliasTokens = AliasTokens()
+            navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
+        }
+
+        navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
 
         let traits = traits ?? navigationBar.traitCollection
         // Removing built-in shadow for Dark Mode
         navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
 
         var titleAttributes = standardAppearance.titleTextAttributes
-        titleAttributes[.font] = Fonts.headline
-        titleAttributes[.foregroundColor] = Colors.NavigationBar.title
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1Strong])
+        titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
+
         standardAppearance.titleTextAttributes = titleAttributes
+
+        if navigationBarStyle == .dateTimePicker {
+            standardAppearance.shadowColor = .clear
+        }
 
         navigationBar.backIndicatorImage = UIImage.staticImageNamed("back-24x24")
         navigationBar.backIndicatorTransitionMaskImage = navigationBar.backIndicatorImage

@@ -25,7 +25,6 @@ struct Demos {
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
         DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
-        DemoDescriptor("ColorTokens", ColorTokensDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),
         DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("HUD", HUDDemoController.self),
@@ -43,8 +42,14 @@ struct Demos {
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self),
-        DemoDescriptor("TypographyTokens", TypographyTokensDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self)
+    ]
+
+    static let fluent2DesignTokens: [DemoDescriptor] = [
+        DemoDescriptor("Global Color Tokens", GlobalColorTokensDemoController.self),
+        DemoDescriptor("Alias Color Tokens", AliasColorTokensDemoController.self),
+        DemoDescriptor("Shadow Tokens", ShadowTokensDemoController.self),
+        DemoDescriptor("Typography Tokens", TypographyTokensDemoController.self)
     ]
 
     static let controls: [DemoDescriptor] = [
@@ -53,7 +58,6 @@ struct Demos {
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("Button (Legacy)", ButtonLegacyDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
-        DemoDescriptor("Color", ColorDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),

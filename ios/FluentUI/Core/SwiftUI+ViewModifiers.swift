@@ -50,6 +50,14 @@ extension View {
     func showsLargeContentViewer(text: String? = nil, image: UIImage? = nil) -> some View {
         modifier(LargeContentViewerModifier(text: text, image: image))
     }
+
+    /// Applies multiple shadows on a View
+    /// - Parameters
+    ///  - shadowInfo: The values of the two shadows to be applied
+    /// - Returns: The modified view.
+    func applyShadow(shadowInfo: ShadowInfo) -> some View {
+        modifier(ShadowModifier(shadowInfo: shadowInfo))
+    }
 }
 
 /// PreferenceKey that will store the measured size of the view
@@ -97,4 +105,25 @@ struct LargeContentViewerModifier: ViewModifier {
 
     private var text: String?
     private var image: UIImage?
+}
+
+/// ViewModifier that applies both shadows from a ShadowInfo
+struct ShadowModifier: ViewModifier {
+    var shadowInfo: ShadowInfo
+
+    init(shadowInfo: ShadowInfo) {
+        self.shadowInfo = shadowInfo
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .shadow(color: Color(dynamicColor: shadowInfo.ambientColor),
+                    radius: shadowInfo.ambientBlur,
+                    x: shadowInfo.xAmbient,
+                    y: shadowInfo.yAmbient)
+            .shadow(color: Color(dynamicColor: shadowInfo.keyColor),
+                    radius: shadowInfo.keyBlur,
+                    x: shadowInfo.xKey,
+                    y: shadowInfo.yKey)
+    }
 }

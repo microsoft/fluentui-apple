@@ -42,6 +42,7 @@ class SegmentPillButton: UIButton {
                                                                   bottom: verticalInset,
                                                                   trailing: horizontalInset)
             configuration.background.backgroundColor = .clear
+            configuration.baseForegroundColor = UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor)
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
                 outgoing.font = UIFont.fluent(self.tokenSet[.font].fontInfo, shouldScale: false)

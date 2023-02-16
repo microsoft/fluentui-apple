@@ -11,10 +11,10 @@ public class PersonaViewTokenSet: ListCellTokenSet {
         super.init(cellLeadingViewSize: cellLeadingViewSize)
 
         self.replaceAllOverrides(with: [
-            .sublabelColor: .dynamicColor { self.fluentTheme.aliasTokens.foregroundColors[.neutral1] },
-            .iconInterspace: .float { GlobalTokens.spacing(.small) },
-            .labelAccessoryInterspace: .float { GlobalTokens.spacing(.xxxSmall) },
-            .labelAccessorySize: .float { GlobalTokens.iconSize(.xSmall) },
+            .sublabelColor: .dynamicColor { self.fluentTheme.aliasTokens.colors[.foreground2] },
+            .iconInterspace: .float { GlobalTokens.spacing(.size120) },
+            .labelAccessoryInterspace: .float { GlobalTokens.spacing(.size20) },
+            .labelAccessorySize: .float { GlobalTokens.icon(.size160) },
             .labelFont: .fontInfo { self.fluentTheme.aliasTokens.typography[.body1Strong] }
         ])
     }

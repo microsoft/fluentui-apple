@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114CF8B72423E10900D064AA /* ColorDemoController.swift */; };
 		2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */; };
 		3A83F8BB2953B73700EF6629 /* ActivityIndicatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */; };
 		3A83F8BD2953B75100EF6629 /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8BC2953B75100EF6629 /* BaseTest.swift */; };
@@ -22,7 +21,7 @@
 		3A83F8CF2953B90000EF6629 /* ButtonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8CE2953B90000EF6629 /* ButtonTest.swift */; };
 		3A83F8D12953B90D00EF6629 /* CardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D02953B90D00EF6629 /* CardTest.swift */; };
 		3A83F8D32953B91900EF6629 /* CardNudgeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D22953B91900EF6629 /* CardNudgeTest.swift */; };
-		3A83F8D52953B92D00EF6629 /* ColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D42953B92D00EF6629 /* ColorTokensTest.swift */; };
+		3A83F8D52953B92D00EF6629 /* GlobalColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D42953B92D00EF6629 /* GlobalColorTokensTest.swift */; };
 		3A83F8D72953B93A00EF6629 /* CommandBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D62953B93A00EF6629 /* CommandBarTest.swift */; };
 		3A83F8D92953B94D00EF6629 /* DateTimePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8D82953B94D00EF6629 /* DateTimePickerTest.swift */; };
 		3A83F8DB2953B95B00EF6629 /* DrawerControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */; };
@@ -52,6 +51,8 @@
 		3A83F90B2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */; };
 		3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90C2953BB3500EF6629 /* TooltipTest.swift */; };
 		3A83F90F2953BB4000EF6629 /* TypographyTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */; };
+		3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */; };
+		3AA92B6B298DD96F001C0464 /* ShadowTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		4B0DA61728B6DA97002B1C51 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0DA61628B6DA96002B1C51 /* NotificationViewDemoController_SwiftUI.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -77,7 +78,9 @@
 		532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */; };
 		5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
+		6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */; };
 		6FC8AD3B28DBAF280010C0F8 /* ReadmeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC8AD3A28DBAF280010C0F8 /* ReadmeViewController.swift */; };
+		6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */; };
 		7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */; };
 		807E8B4528F9F8B8002B8F84 /* PillButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807E8B4428F9F8B8002B8F84 /* PillButtonDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
@@ -87,7 +90,7 @@
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
 		923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923DF2DA271158C900637646 /* libFluentUI.a */; };
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
-		9245E1F927BECDBB007616F3 /* ColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */; };
+		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
@@ -118,6 +121,7 @@
 		C038992E2359307D00265026 /* TableViewCellShimmerDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */; };
 		C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */; };
 		CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */; };
+		D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
@@ -140,7 +144,6 @@
 		0A0516BF2940A407006DE0A2 /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		0A0516C02940A407006DE0A2 /* DividerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerDemoController.swift; sourceTree = "<group>"; };
 		11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewDemoController.swift; sourceTree = "<group>"; };
-		114CF8B72423E10900D064AA /* ColorDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoController.swift; sourceTree = "<group>"; };
 		2F0A96FB25CA047100EF9736 /* SearchBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchBarDemoController.swift; sourceTree = "<group>"; };
 		3A83F7BF295110FF00EF6629 /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorTest.swift; sourceTree = "<group>"; };
@@ -156,7 +159,7 @@
 		3A83F8CE2953B90000EF6629 /* ButtonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTest.swift; sourceTree = "<group>"; };
 		3A83F8D02953B90D00EF6629 /* CardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTest.swift; sourceTree = "<group>"; };
 		3A83F8D22953B91900EF6629 /* CardNudgeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTest.swift; sourceTree = "<group>"; };
-		3A83F8D42953B92D00EF6629 /* ColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokensTest.swift; sourceTree = "<group>"; };
+		3A83F8D42953B92D00EF6629 /* GlobalColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensTest.swift; sourceTree = "<group>"; };
 		3A83F8D62953B93A00EF6629 /* CommandBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarTest.swift; sourceTree = "<group>"; };
 		3A83F8D82953B94D00EF6629 /* DateTimePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimePickerTest.swift; sourceTree = "<group>"; };
 		3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerControllerTest.swift; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 		3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewTest.swift; sourceTree = "<group>"; };
 		3A83F90C2953BB3500EF6629 /* TooltipTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTest.swift; sourceTree = "<group>"; };
 		3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensTest.swift; sourceTree = "<group>"; };
+		3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensTest.swift; sourceTree = "<group>"; };
+		3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensTest.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		4B0DA61628B6DA96002B1C51 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		4B8A766F2862DBF100F90F3A /* ShimmerLinesViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -203,7 +208,9 @@
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
 		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensDemoController.swift; sourceTree = "<group>"; };
 		6FC8AD3A28DBAF280010C0F8 /* ReadmeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadmeViewController.swift; sourceTree = "<group>"; };
+		6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController.swift; sourceTree = "<group>"; };
 		7D0931C024AAA3D30072458A /* SideTabBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideTabBarDemoController.swift; sourceTree = "<group>"; };
 		7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewDemoController.swift; sourceTree = "<group>"; };
 		807E8B4428F9F8B8002B8F84 /* PillButtonDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonDemoController.swift; sourceTree = "<group>"; };
@@ -211,7 +218,7 @@
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokensDemoController.swift; sourceTree = "<group>"; };
+		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
@@ -248,6 +255,8 @@
 		C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerDemoController.swift; sourceTree = "<group>"; };
 		C0938E49235F733100256251 /* ShimmerLinesViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesViewDemoController.swift; sourceTree = "<group>"; };
 		CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewDemoController.swift; sourceTree = "<group>"; };
+		D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCDemoColorProviding.h; sourceTree = "<group>"; };
+		D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoColorProviding.m; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
 		EC02A5F8274EED9200E81B3E /* DividerDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -329,6 +338,7 @@
 				3A83F8BC2953B75100EF6629 /* BaseTest.swift */,
 				3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */,
 				3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */,
+				3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */,
 				3A83F8C02953B89000EF6629 /* AvatarTest.swift */,
 				3A83F8C22953B8A400EF6629 /* AvatarTest_SwiftUI.swift */,
 				3A83F8C42953B8B900EF6629 /* AvatarGroupTest.swift */,
@@ -339,7 +349,7 @@
 				3A83F8CE2953B90000EF6629 /* ButtonTest.swift */,
 				3A83F8D02953B90D00EF6629 /* CardTest.swift */,
 				3A83F8D22953B91900EF6629 /* CardNudgeTest.swift */,
-				3A83F8D42953B92D00EF6629 /* ColorTokensTest.swift */,
+				3A83F8D42953B92D00EF6629 /* GlobalColorTokensTest.swift */,
 				3A83F8D62953B93A00EF6629 /* CommandBarTest.swift */,
 				3A83F8D82953B94D00EF6629 /* DateTimePickerTest.swift */,
 				3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */,
@@ -360,6 +370,7 @@
 				3A83F8F82953BABA00EF6629 /* PopupMenuControllerTest.swift */,
 				3A83F8FA2953BAC500EF6629 /* SearchBarTest.swift */,
 				3A83F8FC2953BAD300EF6629 /* SegmentedControlTest.swift */,
+				3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */,
 				3A83F8FE2953BADF00EF6629 /* ShimmerViewTest.swift */,
 				3A83F9002953BAEB00EF6629 /* SideTabBarTest.swift */,
 				3A83F9022953BAF700EF6629 /* TabBarViewTest.swift */,
@@ -494,8 +505,7 @@
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
-				114CF8B72423E10900D064AA /* ColorDemoController.swift */,
-				9245E1F827BECDBB007616F3 /* ColorTokensDemoController.swift */,
+				9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */,
 				FC414E3625888BC300069E73 /* CommandBarDemoController.swift */,
 				FD7254EC21471A3F002F4069 /* DateTimePickerDemoController.swift */,
 				0A0516BF2940A407006DE0A2 /* DividerDemoController_SwiftUI.swift */,
@@ -510,6 +520,8 @@
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
 				4B0DA61628B6DA96002B1C51 /* NotificationViewDemoController_SwiftUI.swift */,
+				D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding.h */,
+				D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */,
 				FDDD73FC22C6D86B00A9D995 /* ObjectiveCDemoController.h */,
 				FDDD73FB22C6D86B00A9D995 /* ObjectiveCDemoController.m */,
 				B441478E228E02540040E88E /* OtherCellsDemoController.swift */,
@@ -533,6 +545,8 @@
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
 				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
+				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
+				6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -712,6 +726,7 @@
 				3A83F8F92953BABA00EF6629 /* PopupMenuControllerTest.swift in Sources */,
 				3A83F8CB2953B8E500EF6629 /* BottomCommandingControllerTest.swift in Sources */,
 				3A83F9092953BB1B00EF6629 /* TableViewCellShimmerTest.swift in Sources */,
+				3AA92B6B298DD96F001C0464 /* ShadowTokensTest.swift in Sources */,
 				3A83F8FD2953BAD300EF6629 /* SegmentedControlTest.swift in Sources */,
 				3A83F8ED2953BA6B00EF6629 /* OtherCellsTest.swift in Sources */,
 				3A83F8DB2953B95B00EF6629 /* DrawerControllerTest.swift in Sources */,
@@ -733,9 +748,10 @@
 				3A83F8C72953B8C800EF6629 /* BadgeFieldTest.swift in Sources */,
 				3A83F90F2953BB4000EF6629 /* TypographyTokensTest.swift in Sources */,
 				3A83F8D72953B93A00EF6629 /* CommandBarTest.swift in Sources */,
-				3A83F8D52953B92D00EF6629 /* ColorTokensTest.swift in Sources */,
+				3A83F8D52953B92D00EF6629 /* GlobalColorTokensTest.swift in Sources */,
 				3A83F8F32953BA9500EF6629 /* PersonaListViewTest.swift in Sources */,
 				3A83F8D32953B91900EF6629 /* CardNudgeTest.swift in Sources */,
+				3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */,
 				3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */,
 				3A83F8D92953B94D00EF6629 /* DateTimePickerTest.swift in Sources */,
 				3A83F9072953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */,
@@ -759,7 +775,10 @@
 				92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */,
 				6FC8AD3B28DBAF280010C0F8 /* ReadmeViewController.swift in Sources */,
 				5303259826B31A6300611D05 /* FluentUIDemoToggle.swift in Sources */,
-				9245E1F927BECDBB007616F3 /* ColorTokensDemoController.swift in Sources */,
+				9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */,
+				D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */,
+				6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */,
+				6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				53097D3327028A7B00A6E4DC /* LeftNavDemoController.swift in Sources */,
 				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
@@ -809,7 +828,6 @@
 				53097D3D27028AD800A6E4DC /* NavigationControllerDemoController.swift in Sources */,
 				532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */,
 				807E8B4528F9F8B8002B8F84 /* PillButtonDemoController.swift in Sources */,
-				114CF8B82423E10900D064AA /* ColorDemoController.swift in Sources */,
 				53097D4427028AFA00A6E4DC /* TooltipDemoController.swift in Sources */,
 				A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */,
 				E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */,

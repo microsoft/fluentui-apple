@@ -139,9 +139,9 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .float {
                     switch size() {
                     case .small, .medium:
-                        return GlobalTokens.borderRadius(.large)
+                        return GlobalTokens.corner(.radius80)
                     case .large:
-                        return GlobalTokens.borderRadius(.xLarge)
+                        return GlobalTokens.corner(.radius120)
                     }
                 }
 
@@ -149,9 +149,9 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .float {
                     switch style() {
                     case .primary, .ghost, .accentFloating, .subtleFloating:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.stroke(.widthNone)
                     case .secondary:
-                        return GlobalTokens.borderSize(.thin)
+                        return GlobalTokens.stroke(.width10)
                     }
                 }
 
@@ -161,13 +161,13 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primary, .secondary, .ghost:
                         switch size() {
                         case .small:
-                            return GlobalTokens.iconSize(.xSmall)
+                            return GlobalTokens.icon(.size160)
                         case .medium,
                                 .large:
-                            return GlobalTokens.iconSize(.small)
+                            return GlobalTokens.icon(.size200)
                         }
                     case .accentFloating, .subtleFloating:
-                        return GlobalTokens.iconSize(.medium)
+                        return GlobalTokens.icon(.size240)
                     }
                 }
 
@@ -177,12 +177,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primary, .secondary, .ghost:
                         switch size() {
                         case .small:
-                            return GlobalTokens.spacing(.xxSmall)
+                            return GlobalTokens.spacing(.size40)
                         case .medium, .large:
-                            return GlobalTokens.spacing(.xSmall)
+                            return GlobalTokens.spacing(.size80)
                         }
                     case .accentFloating, .subtleFloating:
-                        return GlobalTokens.spacing(.xSmall)
+                        return GlobalTokens.spacing(.size80)
                     }
                 }
 
@@ -192,25 +192,25 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .primary, .secondary, .ghost:
                         switch size() {
                         case .small:
-                            return GlobalTokens.spacing(.xSmall)
+                            return GlobalTokens.spacing(.size80)
                         case .medium:
-                            return GlobalTokens.spacing(.small)
+                            return GlobalTokens.spacing(.size120)
                         case .large:
-                            return GlobalTokens.spacing(.large)
+                            return GlobalTokens.spacing(.size200)
                         }
                     case .accentFloating:
                         switch size() {
                         case .small, .medium:
-                            return GlobalTokens.spacing(.small)
+                            return GlobalTokens.spacing(.size120)
                         case .large:
-                            return GlobalTokens.spacing(.medium)
+                            return GlobalTokens.spacing(.size160)
                         }
                     case .subtleFloating:
                         switch size() {
                         case .small, .medium:
-                            return GlobalTokens.spacing(.small)
+                            return GlobalTokens.spacing(.size120)
                         case .large:
-                            return GlobalTokens.spacing(.medium)
+                            return GlobalTokens.spacing(.size160)
                         }
                     }
                 }
@@ -243,15 +243,15 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 }
 
             case .textMinimumHeight:
-                return .float { GlobalTokens.iconSize(.medium) }
+                return .float { GlobalTokens.icon(.size240) }
 
             case .textAdditionalHorizontalPadding:
                 return .float {
                     switch size() {
                     case .small, .medium:
-                        return GlobalTokens.spacing(.xSmall)
+                        return GlobalTokens.spacing(.size80)
                     case .large:
-                        return GlobalTokens.spacing(.xxSmall)
+                        return GlobalTokens.spacing(.size40)
                     }
                 }
 
@@ -259,11 +259,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
                     case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
@@ -271,11 +271,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
                     case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandHover]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
@@ -283,11 +283,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
                     case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandPressed]
+                        return theme.aliasTokens.colors[.brandForeground1Pressed]
                     }
                 }
 
@@ -295,31 +295,22 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.foreground2]
                     case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandSelected]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
             case .textColorDisabled:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralDisabled]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandDisabled]
-                    }
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
 
             case .borderColor:
                 return .dynamicColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandForeground1]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     }
@@ -329,7 +320,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.brandHover]
+                        return theme.aliasTokens.colors[.brandStroke1]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     }
@@ -338,7 +329,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.brandPressed]
+                        return theme.aliasTokens.colors[.brandStroke1Pressed]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     }
@@ -347,7 +338,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.brandSelected]
+                        return theme.aliasTokens.colors[.brandStroke1]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     }
@@ -356,7 +347,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.brandDisabled]
+                        return theme.aliasTokens.colors[.foregroundDisabled1]
                     case .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     }
@@ -366,11 +357,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.backgroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.brandBackground1]
                     case .secondary, .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     case .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.neutral1]
+                        return theme.aliasTokens.colors[.background1]
                     }
                 }
 
@@ -378,11 +369,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.backgroundColors[.brandHover]
+                        return theme.aliasTokens.colors[.brandBackground1]
                     case .secondary, .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     case .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.neutral1]
+                        return theme.aliasTokens.colors[.background1]
                     }
                 }
 
@@ -390,11 +381,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.backgroundColors[.brandPressed]
+                        return theme.aliasTokens.colors[.brandBackground1Pressed]
                     case .secondary, .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     case .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.neutral5]
+                        return theme.aliasTokens.colors[.background1Pressed]
                     }
                 }
 
@@ -402,11 +393,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.backgroundColors[.brandSelected]
+                        return theme.aliasTokens.colors[.brandBackground1Pressed]
                     case .secondary, .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     case .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.neutral1]
+                        return theme.aliasTokens.colors[.background1Pressed]
                     }
                 }
 
@@ -414,11 +405,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.backgroundColors[.brandDisabled]
+                        return theme.aliasTokens.colors[.backgroundDisabled]
                     case .secondary, .ghost:
                         return DynamicColor(light: ColorValue.clear)
                     case .subtleFloating:
-                        return theme.aliasTokens.backgroundColors[.neutral1]
+                        return theme.aliasTokens.colors[.background1]
                     }
                 }
 
@@ -426,11 +417,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
+                    case .secondary, .ghost:
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
@@ -438,11 +429,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandHover]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
+                    case .secondary, .ghost:
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
@@ -450,11 +441,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandPressed]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.aliasTokens.colors[.foreground2]
+                    case .secondary, .ghost:
+                        return theme.aliasTokens.colors[.brandForeground1Pressed]
                     }
                 }
 
@@ -462,31 +453,22 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandSelected]
+                        return theme.aliasTokens.colors[.foregroundOnColor]
                     case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.brandRest]
+                        return theme.aliasTokens.colors[.foreground2]
+                    case .secondary, .ghost:
+                        return theme.aliasTokens.colors[.brandForeground1]
                     }
                 }
 
             case .iconColorDisabled:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary, .accentFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .secondary, .ghost:
-                        return theme.aliasTokens.foregroundColors[.brandDisabled]
-                    case .subtleFloating:
-                        return theme.aliasTokens.foregroundColors[.neutralDisabled]
-                    }
-                }
+                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
 
             case .restShadow:
-                return .shadowInfo { theme.aliasTokens.elevation[.interactiveElevation1Rest] }
+                return .shadowInfo { theme.aliasTokens.shadow[.shadow08] }
 
             case .pressedShadow:
-                return .shadowInfo { theme.aliasTokens.elevation[.interactiveElevation1Pressed] }
+                return .shadowInfo { theme.aliasTokens.shadow[.shadow02] }
 
             case .minHeight:
                 return .float {

@@ -121,7 +121,7 @@ class LeftNavMenuViewController: UIViewController {
         }
         statusCell.isExpanded = false
         statusCell.title = presence.cellTitle
-        statusCell.leadingUIView = presence.imageView
+        statusCell.leadingUIView = presence.imageView(theme: view.fluentTheme)
     }
 
     private var leftNavAvatar = MSFAvatar(style: .default, size: .size56)
@@ -136,7 +136,7 @@ class LeftNavMenuViewController: UIViewController {
 
     private lazy var leftNavAccountView: UIView = {
         let chevron = UIImageView(image: UIImage(named: "ic_fluent_ios_chevron_right_20_filled"))
-        chevron.tintColor = Colors.textPrimary
+        chevron.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground1])
         let personaState = persona.state
 
         personaState.presence = .available
@@ -175,19 +175,20 @@ class LeftNavMenuViewController: UIViewController {
 
         let menuSection = leftNavMenuList.state.createSection()
 
+        let theme = contentView.fluentTheme
         let statusCellState = menuSection.createCell()
         statusCell = statusCellState
 
         statusCellState.title = LeftNavPresence.available.cellTitle
         statusCellState.backgroundColor = .systemBackground
-        let statusImageView = LeftNavPresence.available.imageView
+        let statusImageView = LeftNavPresence.available.imageView(theme: theme)
         statusCellState.leadingUIView = statusImageView
 
         for presence in LeftNavPresence.allCases {
             let statusCellChild = statusCellState.createChildCell()
             statusCellChild.leadingViewSize = .small
             statusCellChild.title = presence.cellTitle
-            statusCellChild.leadingUIView = presence.imageView
+            statusCellChild.leadingUIView = presence.imageView(theme: theme)
             statusCellChild.backgroundColor = .systemBackground
             statusCellChild.onTapAction = { [weak self] in
                 guard let strongSelf = self else {
@@ -197,8 +198,8 @@ class LeftNavMenuViewController: UIViewController {
             }
         }
 
-        let aliasTokens = contentView.fluentTheme.aliasTokens
-        let tintDynamicColor = aliasTokens.foregroundColors[.neutral4]
+        let aliasTokens = theme.aliasTokens
+        let tintDynamicColor = aliasTokens.colors[.foreground2]
         let tintColor = UIColor(dynamicColor: tintDynamicColor)
 
         let resetStatusCell = statusCellState.createChildCell()
@@ -334,24 +335,24 @@ enum LeftNavPresence: Int, CaseIterable {
     case away
     case offline
 
-    var imageView: UIImageView {
+    func imageView(theme: FluentTheme) -> UIImageView {
         let imageView: UIImageView
         switch self {
         case .available:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_available_16_filled"))
-            imageView.tintColor = FluentUI.Colors.Palette.presenceAvailable.color
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceAvailable])
         case .away, .beRightBack:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_away_16_filled"))
-            imageView.tintColor = FluentUI.Colors.Palette.presenceAway.color
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceAway])
         case .busy:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_busy_16_filled"))
-            imageView.tintColor = FluentUI.Colors.Palette.presenceBusy.color
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
         case .doNotDisturb:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_dnd_16_filled"))
-            imageView.tintColor = FluentUI.Colors.Palette.presenceDnd.color
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceDnd])
         case .offline:
             imageView = UIImageView(image: UIImage(named: "ic_fluent_presence_offline_16_regular"))
-            imageView.tintColor = FluentUI.Colors.Palette.presenceOffline.color
+            imageView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.presenceOof])
         }
         return imageView
     }

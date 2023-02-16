@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.11.0'
+  s.version          = '0.12.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -104,8 +104,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
-    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
@@ -140,12 +139,6 @@ fi', :execution_position => :before_compile }
   s.subspec 'Divider_ios' do |divider_ios|
     divider_ios.platform = :ios
     divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Vnext/Divider/**/*.{swift,h}"]
-  end
-
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
     divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
   end
 
@@ -174,8 +167,8 @@ fi', :execution_position => :before_compile }
     hud_ios.platform = :ios
     hud_ios.dependency 'MicrosoftFluentUI/ActivityIndicator_ios'
     hud_ios.dependency 'MicrosoftFluentUI/TouchForwardingView_ios'
-    hud_ios.preserve_paths = ["ios/FluentUI/Vnext/HUD/HUD.resources.xcfilelist"]
-    hud_ios.source_files = ["ios/FluentUI/Vnext/HUD/**/*.{swift,h}"]
+    hud_ios.preserve_paths = ["ios/FluentUI/HUD/HUD.resources.xcfilelist"]
+    hud_ios.source_files = ["ios/FluentUI/HUD/**/*.{swift,h}"]
   end
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|
@@ -364,8 +357,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 

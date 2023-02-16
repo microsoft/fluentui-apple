@@ -30,14 +30,14 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
                 return .float {
                     switch spacing() {
                     case .none:
-                        return GlobalTokens.spacing(.none)
+                        return GlobalTokens.spacing(.sizeNone)
                     case .medium:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     }
                 }
 
             case .color:
-                return .dynamicColor { theme.aliasTokens.strokeColors[.neutral2] }
+                return .dynamicColor { theme.aliasTokens.colors[.stroke2] }
             }
         }
     }

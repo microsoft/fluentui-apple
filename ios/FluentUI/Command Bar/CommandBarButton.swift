@@ -76,6 +76,17 @@ class CommandBarButton: UIButton {
 
         updateState()
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateStyle()
         isPointerInteractionEnabled = true
     }
 
@@ -121,6 +132,7 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool
@@ -169,13 +181,12 @@ class CommandBarButton: UIButton {
             }
         }
 
-        tintColor = resolvedTintColor
         if #available(iOS 15.0, *) {
             configuration?.baseForegroundColor = resolvedTintColor
             configuration?.background.backgroundColor = resolvedBackgroundColor
         } else {
             backgroundColor = resolvedBackgroundColor
-            setTitleColor(tintColor, for: .normal)
+            setTitleColor(resolvedTintColor, for: .normal)
         }
     }
 

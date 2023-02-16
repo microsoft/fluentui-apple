@@ -29,16 +29,13 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
     override var isEnabled: Bool {
         didSet {
-            titleLabel.isEnabled = isEnabled
-            imageView.tintAdjustmentMode = isEnabled ? .automatic : .dimmed
             isUserInteractionEnabled = isEnabled
+            updateColors()
         }
     }
 
     override var isSelected: Bool {
         didSet {
-            titleLabel.isHighlighted = isSelected
-            imageView.isHighlighted = isSelected
             updateImage()
             updateColors()
             if isSelected {
@@ -124,12 +121,17 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
             container.centerXAnchor.constraint(equalTo: centerXAnchor),
             container.centerYAnchor.constraint(equalTo: centerYAnchor),
             container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-    ])
+        ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
@@ -274,7 +276,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         // Normally we'd set imageView.image and imageView.highlightedImage separately. However, there's a known issue with
         // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
         // this is a straightforward workaround that gets us the same effect without triggering the bug.
-        imageView.image = imageView.isHighlighted ?
+        imageView.image = isSelected ?
                             item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
                             item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }

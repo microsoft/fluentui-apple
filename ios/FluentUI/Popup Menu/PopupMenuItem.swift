@@ -9,7 +9,8 @@ import UIKit
  `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */
 @objc(MSFPopupMenuItem)
-open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
+open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
+    public var fluentTheme: FluentTheme
 
     @objc public var cellClass: PopupMenuItemTemplateCell.Type
 
@@ -99,6 +100,7 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         self.executionMode = executionMode
         self.onSelected = onSelected
         self.isAccessoryCheckmarkVisible = isAccessoryCheckmarkVisible
+        self.fluentTheme = FluentTheme.shared
         super.init()
     }
 

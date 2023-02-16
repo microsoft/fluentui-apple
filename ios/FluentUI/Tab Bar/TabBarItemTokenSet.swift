@@ -83,43 +83,40 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
             switch token {
             case .selectedColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.foregroundColors[.brandRest]
+                    return theme.aliasTokens.colors[.brandForeground1]
                 }
 
             case .unselectedColor:
                 return .dynamicColor {
-                    DynamicColor(light: ColorValue(0x6E6E6E) /* gray500 */,
-                                 lightHighContrast: ColorValue(0x303030) /* gray700 */,
-                                 dark: ColorValue(0x919191) /* gray400 */,
-                                 darkHighContrast: ColorValue(0xC8C8C8) /* gray200 */)
+                    return theme.aliasTokens.colors[.foreground3]
                 }
 
             case .spacingVertical:
                 return .float { 3.0 }
 
             case .spacingHorizontal:
-                return .float { GlobalTokens.spacing(.xSmall) }
+                return .float { GlobalTokens.spacing(.size80) }
 
             case .portraitImageSize:
-                return .float { GlobalTokens.iconSize(.large) }
+                return .float { GlobalTokens.icon(.size280) }
 
             case .portraitImageWithLabelSize:
-                return .float { GlobalTokens.iconSize(.medium) }
+                return .float { GlobalTokens.icon(.size240) }
 
             case .landscapeImageSize:
-                return .float { GlobalTokens.iconSize(.medium) }
+                return .float { GlobalTokens.icon(.size240) }
 
             case .badgeVerticalOffset:
-                return .float { -GlobalTokens.spacing(.xxSmall) }
+                return .float { -GlobalTokens.spacing(.size40) }
 
             case .badgePortraitTitleVerticalOffset:
-                return .float { -GlobalTokens.spacing(.xxxSmall) }
+                return .float { -GlobalTokens.spacing(.size20) }
 
             case .singleDigitBadgeHorizontalOffset:
                 return .float { 14.0 }
 
             case .multiDigitBadgeHorizontalOffset:
-                return .float { GlobalTokens.spacing(.small) }
+                return .float { GlobalTokens.spacing(.size120) }
 
             case .badgeHeight:
                 return .float { 16.0 }
@@ -131,7 +128,7 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { 42.0 }
 
             case .badgeBorderWidth:
-                return .float { GlobalTokens.borderSize(.thick) }
+                return .float { GlobalTokens.stroke(.width20) }
 
             case .badgeHorizontalPadding:
                 return .float { 10.0 }
