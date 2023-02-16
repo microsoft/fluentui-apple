@@ -18,6 +18,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLargeTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
+        container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
         addTitle(text: "Large Title with System style")
@@ -109,7 +110,11 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithoutAvatar() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .nothing)
+    }
+
+    @objc func showLargeTitleWithCustomLeadingButton() {
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .customButton)
     }
 
     @objc func showWithTopSearchBar() {
@@ -139,6 +144,11 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
     }
 
+    private enum LeadingItem {
+        case nothing
+        case avatar
+        case customButton
+    }
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool,
                                    subtitle: String? = nil,
@@ -147,11 +157,12 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true,
+                                   leadingItem: LeadingItem = .avatar,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
         content.navigationItem.subtitle = subtitle
+        content.navigationItem.backButtonTitle = "99+"
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
@@ -166,10 +177,15 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
-        if showAvatar {
+        switch leadingItem {
+        case .avatar:
             controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
-        } else {
+        case .customButton:
+            let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
+            starButtonItem.accessibilityLabel = "Star button"
+            content.navigationItem.leftBarButtonItem = starButtonItem
+        case .nothing:
             content.allowsCellSelection = true
         }
 
@@ -641,7 +657,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
-        NSLog("You pressed me!")
+        if let topItem = sender.topItem {
+            topItem.navigationBarStyle = topItem.navigationBarStyle == .primary ? .system : .primary
+            setNeedsStatusBarAppearanceUpdate()
+        }
     }
 }
 
@@ -685,6 +704,7 @@ class ChildViewController: UITableViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         navigationItem.title = "Cell #\(parentIndex)"
+        navigationItem.backButtonTitle = "\(parentIndex)"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -696,6 +716,50 @@ class ChildViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = GrandchildViewController(grandparentIndex: parentIndex, parentIndex: 1 + indexPath.row)
+        if navigationItem.accessoryView == nil {
+            controller.navigationItem.navigationBarStyle = .system
+        }
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+}
+
+// MARK: - GrandchildViewController
+
+class GrandchildViewController: UITableViewController {
+    var grandparentIndex: Int = -1
+    var parentIndex: Int = -1
+
+    convenience init(grandparentIndex: Int, parentIndex: Int) {
+        self.init()
+        self.grandparentIndex = grandparentIndex
+        self.parentIndex = parentIndex
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        navigationItem.title = "Cell #\(grandparentIndex)-\(parentIndex)"
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
+        cell.setup(title: "Grandchild Cell #\(1 + indexPath.row)")
         return cell
     }
 

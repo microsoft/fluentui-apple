@@ -86,6 +86,13 @@ open class NavigationBarTitleAccessory: NSObject {
     }
 }
 
+// MARK: - NavigationBarBackButtonDelegate
+/// Handles presses from the back button shown with a leading-aligned title.
+@objc(MSFNavigationBarBackButtonDelegate)
+protocol NavigationBarBackButtonDelegate {
+    func backButtonWasPressed()
+}
+
 // MARK: - NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
@@ -158,6 +165,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         static let expandedContentHeight: CGFloat = 48
 
         static let leftBarButtonItemLeadingMargin: CGFloat = 8
+        static let leftBarButtonItemTrailingMargin: CGFloat = 8
         static let rightBarButtonItemHorizontalPadding: CGFloat = 10
 
         static let obscuringAnimationDuration: TimeInterval = 0.12
@@ -331,6 +339,14 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     private var navigationBarStyleObserver: NSKeyValueObservation?
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var usesLargeTitleObserver: NSKeyValueObservation?
+
+    private let backButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+
+    weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
+        didSet {
+            backButtonItem.target = backButtonDelegate
+        }
+    }
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -586,7 +602,9 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
         titleView.update(with: navigationItem)
 
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if navigationItem.backButtonTitle == nil {
+            navigationItem.backButtonTitle = ""
+        }
         updateBarButtonItems(with: navigationItem)
 
         // Force layout to avoid animation
@@ -643,7 +661,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
                 insets = NSDirectionalEdgeInsets(top: 0,
                                                  leading: Constants.leftBarButtonItemLeadingMargin,
                                                  bottom: 0,
-                                                 trailing: 0)
+                                                 trailing: Constants.leftBarButtonItemTrailingMargin)
             } else {
                 insets = NSDirectionalEdgeInsets(top: 0,
                                                  leading: Constants.rightBarButtonItemHorizontalPadding,
@@ -653,26 +671,67 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
             button.configuration?.contentInsets = insets
         } else {
+            let leftInset: CGFloat
+            let rightInset: CGFloat
             if isLeftItem {
-                let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
-                                                        bottom: 0,
-                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
+                if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                    leftInset = Constants.leftBarButtonItemTrailingMargin
+                    rightInset = Constants.leftBarButtonItemLeadingMargin
+                } else {
+                    leftInset = Constants.leftBarButtonItemLeadingMargin
+                    rightInset = Constants.leftBarButtonItemTrailingMargin
+                }
             } else {
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: Constants.rightBarButtonItemHorizontalPadding,
-                                                        bottom: 0,
-                                                        right: Constants.rightBarButtonItemHorizontalPadding)
+                leftInset = Constants.rightBarButtonItemHorizontalPadding
+                rightInset = Constants.rightBarButtonItemHorizontalPadding
             }
+            button.contentEdgeInsets = UIEdgeInsets(top: 0,
+                                                    left: leftInset,
+                                                    bottom: 0,
+                                                    right: rightInset)
         }
 
         return button
     }
 
+    /// Updates the bar button items.
+    /// 
+    /// In general, this should be called as late as possible when receiving a new navigation item
+    /// because it will replace a client-provided left bar button item with a back button if needed.
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
         // only one left bar button item is support for large title view
-        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
+        if navigationItem != items?.first {
+            // Back button takes priority over client-provided leftBarButtonItem
+            // navigationItem != items?.first is sufficient for knowing we won't be at the
+            // root element of our navigation controller. This is because UINavigationItems
+            // are unique to their view controllers, and you can't push the same view controller
+            // onto a navigation stack more than once.
+            leftBarButtonItemsStackView.isHidden = false
+
+            // This gets called before the navigation stack gets updated
+            if let items = items, let navigationItemIndex = items.firstIndex(of: navigationItem), navigationItemIndex > 0 {
+                let upcomingBackItem = items[navigationItemIndex - 1]
+                backButtonItem.title = upcomingBackItem.backButtonTitle
+            } else {
+                // Assume that this item is getting pushed onto the stack
+                backButtonItem.title = topItem?.backButtonTitle
+            }
+
+            if !navigationItem.usesLargeTitle {
+                let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
+                // The OS already gives us the leading margin we want, so no need for additional insets
+                if #available(iOS 15.0, *) {
+                    button.configuration?.contentInsets.leading = 0
+                } else if effectiveUserInterfaceLayoutDirection == .rightToLeft {
+                    button.contentEdgeInsets.right = 0
+                } else {
+                    button.contentEdgeInsets.left = 0
+                }
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+            }
+
+            refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+        } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
         } else {
