@@ -35,7 +35,7 @@ public enum TextColorStyle: Int, CaseIterable {
 
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)
-open class Label: UILabel {
+open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
             _textColor = nil
@@ -66,6 +66,9 @@ open class Label: UILabel {
     }
     private var _textColor: UIColor?
 
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
+
     private var isUsingCustomAttributedText: Bool = false
 
     @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
@@ -80,8 +83,12 @@ open class Label: UILabel {
         initialize()
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateTextColor()
     }
 
@@ -113,6 +120,7 @@ open class Label: UILabel {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateTextColor()
     }
 
@@ -135,7 +143,7 @@ open class Label: UILabel {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = _textColor ?? colorStyle.color(fluentTheme: fluentTheme)
+        super.textColor = _textColor ?? colorStyle.color(fluentTheme: tokenSet.fluentTheme)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

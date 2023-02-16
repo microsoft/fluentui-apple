@@ -34,13 +34,26 @@ class ColoredPillBackgroundView: UIView {
         updateBackgroundColor()
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        // Note: We usually do updates during `willMove(toWindow:)` to ensure that there's no "flash" of the
+        // old color in cases whre the view is briefly visible before this API is called. However, the
+        // public APIs for easily hooking into theme changes have not yet been exposed, so this demo
+        // controller is not in a position to easily follow those rules. This will be sufficient for our
+        // current needs, but it's technically less correct than I'd like.
+        // TODO: update this to use proper theme updating hooks once they're built
+        updateBackgroundColor()
+    }
+
     func updateBackgroundColor() {
         switch style {
         case .neutral:
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.grey98),
+                                                                 dark: GlobalTokens.neutralColors(.grey8)))
         case .brand:
             backgroundColor = UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]),
-                                      dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3]))
+                                      dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey8)))
         }
     }
 
