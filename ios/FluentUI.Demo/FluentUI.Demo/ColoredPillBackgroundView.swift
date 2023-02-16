@@ -36,6 +36,13 @@ class ColoredPillBackgroundView: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
+
+        // Note: We usually do updates during `willMove(toWindow:)` to ensure that there's no "flash" of the
+        // old color in cases whre the view is briefly visible before this API is called. However, the
+        // public APIs for easily hooking into theme changes have not yet been exposed, so this demo
+        // controller is not in a position to easily follow those rules. This will be sufficient for our
+        // current needs, but it's technically less correct than I'd like.
+        // TODO: update this to use proper theme updating hooks once they're built
         updateBackgroundColor()
     }
 
