@@ -34,6 +34,11 @@ class ColoredPillBackgroundView: UIView {
         updateBackgroundColor()
     }
 
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        updateBackgroundColor()
+    }
+
     func updateBackgroundColor() {
         switch style {
         case .neutral:

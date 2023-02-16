@@ -5,7 +5,7 @@
 
 import UIKit
 
-class TabBarItemView: UIControl {
+class TabBarItemView: UIControl, TokenizedControlInternal {
     let item: TabBarItem
 
     override var isEnabled: Bool {
@@ -69,6 +69,9 @@ class TabBarItemView: UIControl {
         }
     }
 
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -128,6 +131,7 @@ class TabBarItemView: UIControl {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateColors()
     }
 
@@ -161,6 +165,10 @@ class TabBarItemView: UIControl {
 
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateColors()
     }
 
@@ -264,10 +272,10 @@ class TabBarItemView: UIControl {
     }
 
     private func updateColors() {
-        let selectedColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-        let unselectedImageColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
-        let unselectedTextColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-        let disabledColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+        let selectedColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandForeground1])
+        let unselectedImageColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground3])
+        let unselectedTextColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
+        let disabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundDisabled1])
 
         titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : unselectedTextColor) : disabledColor
         imageView.tintColor = isEnabled ? (isSelected ? selectedColor : unselectedImageColor) : disabledColor
