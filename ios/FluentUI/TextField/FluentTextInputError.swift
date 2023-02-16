@@ -13,5 +13,5 @@ open class FluentTextInputError: NSObject {
         super.init()
     }
 
-    @objc public var localizedDescription: String
+    @objc public let localizedDescription: String
 }
