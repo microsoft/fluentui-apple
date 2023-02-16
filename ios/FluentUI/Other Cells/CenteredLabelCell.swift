@@ -102,10 +102,10 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-		guard let newWindow else {
-			return
-		}
-		tokenSet.update(newWindow.fluentTheme)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 

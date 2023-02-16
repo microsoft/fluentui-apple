@@ -104,7 +104,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {
-		super.willMove(toWindow: newWindow)
+        super.willMove(toWindow: newWindow)
         updateColors()
     }
 
