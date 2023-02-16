@@ -102,8 +102,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     public override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-
-        tokenSet.update(fluentTheme)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateButtonTokens()
     }
 
