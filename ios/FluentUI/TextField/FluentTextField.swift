@@ -25,8 +25,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     /// UIImage used in the leading UIImageView. If this is nil, the leading UIImageView will be hidden.
     @objc public var leadingImage: UIImage? {
         didSet {
-            if let image = leadingImage {
-                leadingImageView.image = image
+            if let leadingImage {
+                leadingImageView.image = leadingImage
                 leadingImageContainerView.isHidden = false
             } else {
                 leadingImageContainerView.isHidden = true
@@ -37,8 +37,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     /// String used in the title label. If this is nil, the title label will be hidden.
     @objc public var titleText: String? {
         didSet {
-            if let text = titleText {
-                titleLabel.text = text
+            if let titleText {
+                titleLabel.text = titleText
                 titleLabel.isHidden = false
             } else {
                 titleLabel.isHidden = true
@@ -164,14 +164,14 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
     // MARK: UITextFieldDelegate
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        if let onDidBeginEditing = onDidBeginEditing {
+        if let onDidBeginEditing {
             onDidBeginEditing(self)
         }
         updateState()
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        if let onDidEndEditing = onDidEndEditing {
+        if let onDidEndEditing {
             onDidEndEditing(self)
         }
         updateState()
@@ -183,14 +183,14 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if let onReturn = onReturn {
+        if let onReturn {
             return onReturn(self)
         }
         return true
     }
 
     var attributedPlaceholder: NSAttributedString? {
-        guard let placeholder = placeholder else {
+        guard let placeholder else {
             return nil
         }
         return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
@@ -248,7 +248,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     @objc private func editingChanged() {
-        guard let onEditingChanged = onEditingChanged else {
+        guard let onEditingChanged else {
             return
         }
         onEditingChanged(self)
@@ -282,10 +282,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     private func updateAssistiveText() {
-        if let error = error {
+        if let error {
             assistiveTextLabel.text = error.localizedDescription
             assistiveTextLabel.isHidden = false
-        } else if let assistiveText = assistiveText {
+        } else if let assistiveText {
             assistiveTextLabel.text = assistiveText
             assistiveTextLabel.isHidden = false
         } else {
