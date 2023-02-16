@@ -110,11 +110,11 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithoutAvatar() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .nothing)
     }
 
     @objc func showLargeTitleWithCustomLeadingButton() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false, showStarButton: true)
+        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .customButton)
     }
 
     @objc func showWithTopSearchBar() {
@@ -144,6 +144,11 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, accessoryView: stackView, contractNavigationBarOnScroll: false)
     }
 
+    private enum LeadingItem {
+        case nothing
+        case avatar
+        case customButton
+    }
     @discardableResult
     private func presentController(withLargeTitle useLargeTitle: Bool,
                                    subtitle: String? = nil,
@@ -152,8 +157,7 @@ class NavigationControllerDemoController: DemoController {
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true,
-                                   showStarButton: Bool = false,
+                                   leadingItem: LeadingItem = .avatar,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
@@ -173,14 +177,15 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
-        if showAvatar {
+        switch leadingItem {
+        case .avatar:
             controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
-        } else if showStarButton {
+        case .customButton:
             let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
             starButtonItem.accessibilityLabel = "Star button"
             content.navigationItem.leftBarButtonItem = starButtonItem
-        } else {
+        case .nothing:
             content.allowsCellSelection = true
         }
 
