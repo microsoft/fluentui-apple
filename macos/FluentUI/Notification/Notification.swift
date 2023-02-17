@@ -133,10 +133,8 @@ public struct Notification: View {
 			if state.style.isToast {
 				if let image = state.image {
 					let imageSize = image.size
-                    Image(nsImage: image)
-                        .frame(width: imageSize.width,
-                               height: imageSize.height,
-                               alignment: .center)
+					Image(nsImage: image)
+						.frame(width: imageSize.width, height: imageSize.height, alignment: .center)
 						.foregroundColor(foregroundColor)
 				}
 			}
