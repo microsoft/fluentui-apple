@@ -60,9 +60,15 @@ if CommandLine.arguments.count != 3 {
         print("Total decrease: \(totalDecreaseString) bytes")
 
         print("| File | Before | After | Delta |")
-        print("|------|--------|-------|-------|")
+        print("|------|-------:|------:|------:|")
         print(rowString(name: "Total", before: totalBefore, after: totalAfter, delta: totalDelta))
+
+        print("<details>")
+        print("<summary> Full breakdown </summary>\n")
+        print("| File | Before | After | Delta |")
+        print("|------|-------:|------:|------:|")
         stringsToPrint.forEach { print($0) }
+        print("</details>")
     }
 }
 
