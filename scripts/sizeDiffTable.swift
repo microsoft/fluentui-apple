@@ -9,6 +9,12 @@ struct SizePair {
 }
 var sizeDict: [String: SizePair] = [:]
 
+let numberFormatter = NumberFormatter()
+numberFormatter.numberStyle = .decimal
+
+let severeMin = 250000
+let dangerMin = 50000
+
 if CommandLine.arguments.count != 3 {
     print("usage: swift sizeDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
 } else {
@@ -19,28 +25,44 @@ if CommandLine.arguments.count != 3 {
         parseArFor(path: oldPath, isOld: true)
         parseArFor(path: newPath, isOld: false)
 
-        print("| File | Before | After | Delta |")
-        print("|------|--------|-------|-------|")
-
+        var totalBefore = 0
+        var totalAfter = 0
+        var totalIncrease = 0
+        var totalDecrease = 0
+        var totalDelta = 0
+        var stringsToPrint: [String] = []
         let sortedDict = sizeDict.sorted { $0.value.delta > $1.value.delta }
         for element in sortedDict {
             let value = element.value
+
+            let oldSize = value.oldSize
+            totalBefore += oldSize
+            
+            let newSize = value.newSize
+            totalAfter += newSize
+
             let delta = value.delta
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            let beforeString = numberFormatter.string(from: NSNumber(value: value.oldSize)) ?? "0"
-            let afterString = numberFormatter.string(from: NSNumber(value: value.newSize)) ?? "0"
-            let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
-            if delta > 250000 {
-                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | ⛔️ \(deltaString) bytes |")
-            } else if delta > 50000 {
-                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | 🛑 \(deltaString) bytes |")
-            } else if delta > 0 {
-                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | ⚠️ \(deltaString) bytes |")
-            } else if delta < 0 {
-                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | 🎉 \(deltaString) bytes |")
+            if delta != 0 {
+                totalDelta += delta
+                stringsToPrint.append(rowString(name: element.key, before: oldSize, after: newSize, delta: delta))
+                if delta > 0 {
+                    totalIncrease += delta
+                } else {
+                    totalDecrease += delta
+                }
             }
         }
+        
+        let totalIncreaseString = numberFormatter.string(from: NSNumber(value: totalIncrease)) ?? "0"
+        print("Total increase: \(totalIncreaseString) bytes")
+
+        let totalDecreaseString = numberFormatter.string(from: NSNumber(value: totalDecrease)) ?? "0"
+        print("Total decrease: \(totalDecreaseString) bytes")
+
+        print("| File | Before | After | Delta |")
+        print("|------|--------|-------|-------|")
+        print(rowString(name: "Total", before: totalBefore, after: totalAfter, delta: totalDelta))
+        stringsToPrint.forEach { print($0) }
     }
 }
 
@@ -72,4 +94,21 @@ func parseArFor(path: String, isOld: Bool) {
     } catch {
         return
     }
+}
+
+func rowString(name: String, before: Int, after: Int, delta: Int) -> String {
+    let beforeString = numberFormatter.string(from: NSNumber(value: before)) ?? "0"
+    let afterString = numberFormatter.string(from: NSNumber(value: after)) ?? "0"
+    let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
+    let emoji: String
+    if delta > severeMin {
+        emoji = "⛔️"
+    } else if delta > dangerMin {
+        emoji = "🛑"
+    } else if delta > 0 {
+        emoji = "⚠️"
+    } else {
+        emoji = "🎉"
+    }
+    return "| \(name) | \(beforeString) bytes | \(afterString) bytes | \(emoji) \(deltaString) bytes |"
 }
