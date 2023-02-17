@@ -126,7 +126,7 @@
 "Accessibility.TabBarItemView.UnreadFormat" = "%@, ulæst";
 
 /* Accessibility hint for the button to delete the input text in the TextField. Should match the accessibility label from the system text fields.*/
-"Accessibility.TextField.ClearText" = "Clear text";
+"Accessibility.TextField.ClearText" = "Ryd tekst";
 
 /* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
 "Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
