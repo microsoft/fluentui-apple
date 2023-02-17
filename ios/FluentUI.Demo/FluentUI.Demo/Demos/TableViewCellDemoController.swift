@@ -231,7 +231,7 @@ extension TableViewCellDemoController {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
-        header?.tableViewStyle = tableView.style
+        header?.tableViewCellStyle = tableView.style == .plain ? .plain : .grouped
         return header
     }
 

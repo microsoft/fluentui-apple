@@ -18,7 +18,8 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Neutral badge", style: .neutral)
         addBadgeSection(title: "Severe Warning badge", style: .severeWarning)
         addBadgeSection(title: "Success badge", style: .success)
-        addBadgeSection(title: "Disabled badge", style: .default, isEnabled: false)
+        addBadgeSection(title: "Disabled badge Default", style: .default, isEnabled: false)
+        addBadgeSection(title: "Disabled badge Neutral", style: .neutral, isEnabled: false)
         addBadgeSection(title: "Custom badge", style: .default, overrideColor: true)
         addBadgeSection(title: "Custom disabled badge", style: .default, isEnabled: false, overrideColor: true)
 
