@@ -16,7 +16,7 @@ let severeMin = 250000
 let dangerMin = 50000
 
 if CommandLine.arguments.count != 3 {
-    print("usage: swift sizeDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
+    print("usage: swift GenerateBinaryDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
 } else {
     let oldPath: String = CommandLine.arguments[1]
     let newPath: String = CommandLine.arguments[2]
