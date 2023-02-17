@@ -12,8 +12,8 @@ var sizeDict: [String: SizePair] = [:]
 let numberFormatter = NumberFormatter()
 numberFormatter.numberStyle = .decimal
 
-let severeMin = 250000
-let dangerMin = 50000
+let dangerMin = 250000
+let severeMin = 50000
 
 if CommandLine.arguments.count != 3 {
     print("usage: swift GenerateBinaryDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
@@ -101,9 +101,9 @@ func rowString(name: String, before: Int, after: Int, delta: Int) -> String {
     let afterString = numberFormatter.string(from: NSNumber(value: after)) ?? "0"
     let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
     let emoji: String
-    if delta > severeMin {
+    if delta > dangerMin {
         emoji = "⛔️"
-    } else if delta > dangerMin {
+    } else if delta > severeMin {
         emoji = "🛑"
     } else if delta > 0 {
         emoji = "⚠️"
