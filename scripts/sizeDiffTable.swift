@@ -1,9 +1,5 @@
 import Foundation
 
-if CommandLine.arguments.count != 3 {
-    print("usage: swift sizeDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
-}
-
 struct SizeDiff {
     var oldSize: Int = 0
     var newSize: Int = 0
@@ -11,29 +7,33 @@ struct SizeDiff {
         return newSize - oldSize
     }
 }
-
-let oldPath: String = CommandLine.arguments[1]
-let newPath: String = CommandLine.arguments[2]
 var sizeDict: [String: SizeDiff] = [:]
 
-do {
-    parseArFor(path: oldPath, isOld: true)
-    parseArFor(path: newPath, isOld: false)
+if CommandLine.arguments.count != 3 {
+    print("usage: swift sizeDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
+} else {
+    let oldPath: String = CommandLine.arguments[1]
+    let newPath: String = CommandLine.arguments[2]
 
-    print("| File | Before | After | Delta |")
-    print("|------|--------|-------|-------|")
+    do {
+        parseArFor(path: oldPath, isOld: true)
+        parseArFor(path: newPath, isOld: false)
 
-    let sortedDict = sizeDict.sorted { abs($0.value.delta) > abs($1.value.delta) }
-    for element in sortedDict {
-        let value = element.value
-        let delta = value.delta
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let beforeString = numberFormatter.string(from: NSNumber(value: value.oldSize)) ?? "0"
-        let afterString = numberFormatter.string(from: NSNumber(value: value.newSize)) ?? "0"
-        let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
-        if delta != 0 {
-            print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | \(deltaString) bytes |")
+        print("| File | Before | After | Delta |")
+        print("|------|--------|-------|-------|")
+
+        let sortedDict = sizeDict.sorted { abs($0.value.delta) > abs($1.value.delta) }
+        for element in sortedDict {
+            let value = element.value
+            let delta = value.delta
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            let beforeString = numberFormatter.string(from: NSNumber(value: value.oldSize)) ?? "0"
+            let afterString = numberFormatter.string(from: NSNumber(value: value.newSize)) ?? "0"
+            let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
+            if delta != 0 {
+                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | \(deltaString) bytes |")
+            }
         }
     }
 }
