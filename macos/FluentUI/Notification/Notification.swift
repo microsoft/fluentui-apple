@@ -82,20 +82,20 @@ public struct Notification: View {
 	///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
 	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
-	public init(style: MSFNotificationStyle,
-				message: String? = nil,
-				title: String? = nil,
-				image: NSImage? = nil,
-				actionButtonTitle: String? = nil,
-				actionButtonAction: (() -> Void)? = nil,
-				messageButtonAction: (() -> Void)? = nil) {
-		let state = MSFNotificationStateImpl(style: style,
-											 message: message,
-											 title: title,
-											 image: image,
-											 actionButtonTitle: actionButtonTitle,
-											 actionButtonAction: actionButtonAction,
-											 messageButtonAction: messageButtonAction)
+    public init(style: MSFNotificationStyle,
+                message: String? = nil,
+                title: String? = nil,
+                image: NSImage? = nil,
+                actionButtonTitle: String? = nil,
+                actionButtonAction: (() -> Void)? = nil,
+                messageButtonAction: (() -> Void)? = nil) {
+        let state = MSFNotificationStateImpl(style: style,
+                                             message: message,
+                                             title: title,
+                                             image: image,
+                                             actionButtonTitle: actionButtonTitle,
+                                             actionButtonAction: actionButtonAction,
+                                             messageButtonAction: messageButtonAction)
 		self.state = state
 
 		self.backgroundColor = {
@@ -329,13 +329,13 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 				  messageButtonAction: nil)
 	}
 
-	init(style: MSFNotificationStyle,
-		 message: String? = nil,
-		 title: String? = nil,
-		 image: NSImage? = nil,
-		 actionButtonTitle: String? = nil,
-		 actionButtonAction: (() -> Void)? = nil,
-		 messageButtonAction: (() -> Void)? = nil) {
+    init(style: MSFNotificationStyle,
+         message: String? = nil,
+         title: String? = nil,
+         image: NSImage? = nil,
+         actionButtonTitle: String? = nil,
+         actionButtonAction: (() -> Void)? = nil,
+         messageButtonAction: (() -> Void)? = nil) {
 		self.style = style
 		self.message = message
 		self.title = title
