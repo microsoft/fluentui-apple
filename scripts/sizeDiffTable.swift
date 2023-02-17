@@ -1,13 +1,13 @@
 import Foundation
 
-struct SizeDiff {
+struct SizePair {
     var oldSize: Int = 0
     var newSize: Int = 0
     var delta: Int {
         return newSize - oldSize
     }
 }
-var sizeDict: [String: SizeDiff] = [:]
+var sizeDict: [String: SizePair] = [:]
 
 if CommandLine.arguments.count != 3 {
     print("usage: swift sizeDiffTable.swift <path to old libFluentUI.a> <path to new libFluentUI.a>")
@@ -62,9 +62,9 @@ func parseArFor(path: String, isOld: Bool) {
                 let fileSize = fields[2]
                 if let sizeInt = Int(fileSize) {
                     if isOld {
-                        sizeDict[fileName, default: SizeDiff()].oldSize = sizeInt
+                        sizeDict[fileName, default: SizePair()].oldSize = sizeInt
                     } else {
-                        sizeDict[fileName, default: SizeDiff()].newSize = sizeInt
+                        sizeDict[fileName, default: SizePair()].newSize = sizeInt
                     }
                 }
             }
