@@ -25,7 +25,7 @@ import SwiftUI
 	/// Floating notification with red text and background.
 	case dangerToast
 
-	///Floating notification with yellow text and background.
+	/// Floating notification with yellow text and background.
 	case warningToast
 
 	var isToast: Bool {
@@ -67,9 +67,6 @@ import SwiftUI
 	/// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
 	var actionButtonAction: (() -> Void)? { get set }
 
-	/// Bool to control if the Notification has a dismiss action by default.
-	var showDefaultDismissActionButton: Bool { get set }
-
 	/// Action to be dispatched by tapping on the toast/bar notification.
 	var messageButtonAction: (() -> Void)? { get set }
 }
@@ -84,24 +81,21 @@ public struct Notification: View {
 	///   - image: Optional icon to draw at the leading edge of the control.
 	///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
-	///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
 	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
 	public init(style: MSFNotificationStyle,
-				message: String? = nil,
-				title: String? = nil,
-				image: NSImage? = nil,
-				actionButtonTitle: String? = nil,
-				actionButtonAction: (() -> Void)? = nil,
-				showDefaultDismissActionButton: Bool? = nil,
-				messageButtonAction: (() -> Void)? = nil) {
+                message: String? = nil,
+                title: String? = nil,
+                image: NSImage? = nil,
+                actionButtonTitle: String? = nil,
+                actionButtonAction: (() -> Void)? = nil,
+                messageButtonAction: (() -> Void)? = nil) {
 		let state = MSFNotificationStateImpl(style: style,
-											 message: message,
-											 title: title,
-											 image: image,
-											 actionButtonTitle: actionButtonTitle,
-											 actionButtonAction: actionButtonAction,
-											 showDefaultDismissActionButton: showDefaultDismissActionButton,
-											 messageButtonAction: messageButtonAction)
+                                             message: message,
+                                             title: title,
+                                             image: image,
+                                             actionButtonTitle: actionButtonTitle,
+                                             actionButtonAction: actionButtonAction,
+                                             messageButtonAction: messageButtonAction)
 		self.state = state
 
 		self.backgroundColor = {
@@ -308,7 +302,6 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	@Published var message: String?
 	@Published var title: String?
 	@Published var image: NSImage?
-	@Published var showDefaultDismissActionButton: Bool
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
@@ -333,18 +326,16 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 				  image: nil,
 				  actionButtonTitle: nil,
 				  actionButtonAction: nil,
-				  showDefaultDismissActionButton: nil,
 				  messageButtonAction: nil)
 	}
 
 	init(style: MSFNotificationStyle,
-		 message: String? = nil,
-		 title: String? = nil,
-		 image: NSImage? = nil,
-		 actionButtonTitle: String? = nil,
-		 actionButtonAction: (() -> Void)? = nil,
-		 showDefaultDismissActionButton: Bool? = nil,
-		 messageButtonAction: (() -> Void)? = nil) {
+         message: String? = nil,
+         title: String? = nil,
+         image: NSImage? = nil,
+         actionButtonTitle: String? = nil,
+         actionButtonAction: (() -> Void)? = nil,
+         messageButtonAction: (() -> Void)? = nil) {
 		self.style = style
 		self.message = message
 		self.title = title
@@ -352,7 +343,6 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 		self.actionButtonTitle = actionButtonTitle
 		self.actionButtonAction = actionButtonAction
 		self.messageButtonAction = messageButtonAction
-		self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
 
 		super.init()
 	}
