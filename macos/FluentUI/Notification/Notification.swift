@@ -79,7 +79,7 @@ public struct Notification: View {
 	///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
 	///   - title: Optional text to draw above the message area.
 	///   - image: Optional icon to draw at the leading edge of the control.
-	///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
+	///   - actionButtonTitle: Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
 	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
@@ -97,7 +97,6 @@ public struct Notification: View {
                                              actionButtonAction: actionButtonAction,
                                              messageButtonAction: messageButtonAction)
 		self.state = state
-
 		self.backgroundColor = {
 			switch state.style {
 			case .primaryToast, .primaryBar:
@@ -134,10 +133,10 @@ public struct Notification: View {
 			if state.style.isToast {
 				if let image = state.image {
 					let imageSize = image.size
-					Image(nsImage: image)
-						.frame(width: imageSize.width,
-							   height: imageSize.height,
-							   alignment: .center)
+                    Image(nsImage: image)
+                        .frame(width: imageSize.width,
+                               height: imageSize.height,
+                               alignment: .center)
 						.foregroundColor(foregroundColor)
 				}
 			}
@@ -305,12 +304,12 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
-	/// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+	/// To show an action button, provide values for both `actionButtonTitle` and `actionButtonAction`.
 	@Published var actionButtonTitle: String?
 
 	/// Action to be dispatched by the action button on the trailing edge of the control.
 	///
-	/// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
+	/// To show an action button, provide values for both `actionButtonTitle` and `actionButtonAction`.
 	@Published var actionButtonAction: (() -> Void)?
 
 	/// Action to be dispatched by tapping on the toast/bar notification.
@@ -319,14 +318,14 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	/// Style to draw the control.
 	@Published var style: MSFNotificationStyle
 
-	@objc convenience init(style: MSFNotificationStyle) {
-		self.init(style: style,
-				  message: nil,
-				  title: nil,
-				  image: nil,
-				  actionButtonTitle: nil,
-				  actionButtonAction: nil,
-				  messageButtonAction: nil)
+    @objc convenience init(style: MSFNotificationStyle) {
+        self.init(style: style,
+                  message: nil,
+                  title: nil,
+                  image: nil,
+                  actionButtonTitle: nil,
+                  actionButtonAction: nil,
+                  messageButtonAction: nil)
 	}
 
     init(style: MSFNotificationStyle,
