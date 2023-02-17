@@ -20,7 +20,7 @@ do {
     parseArFor(path: oldPath, isOld: true)
     parseArFor(path: newPath, isOld: false)
 
-    print("| file | before | after | delta |")
+    print("| File | Before | After | Delta |")
     print("|------|--------|-------|-------|")
 
     let sortedDict = sizeDict.sorted { abs($0.value.delta) > abs($1.value.delta) }
