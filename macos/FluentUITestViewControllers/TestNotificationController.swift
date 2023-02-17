@@ -21,7 +21,8 @@ class TestNotificationController: NSViewController {
 			Notification(style: .warningToast, message: "Read Only", actionButtonAction: buttonPressed),
 			Notification(style: .primaryBar, message: "Updating..."),
 			Notification(style: .primaryOutlineBar, message: "Mail Sent"),
-			Notification(style: .neutralBar, message: "No internet connection")
+			Notification(style: .neutralBar, message: "No internet connection"),
+			Notification(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionButtonTitle: "Action", actionButtonAction: buttonPressed)
 		]
 
 		var constraints = [NSLayoutConstraint]()
@@ -33,6 +34,7 @@ class TestNotificationController: NSViewController {
 				constraints.append(hostingView.widthAnchor.constraint(equalToConstant: 350))
 			} else {
 				constraints.append(hostingView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor))
+				constraints.append(hostingView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor))
 			}
 		}
 
