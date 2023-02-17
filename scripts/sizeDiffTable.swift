@@ -22,7 +22,7 @@ if CommandLine.arguments.count != 3 {
         print("| File | Before | After | Delta |")
         print("|------|--------|-------|-------|")
 
-        let sortedDict = sizeDict.sorted { abs($0.value.delta) > abs($1.value.delta) }
+        let sortedDict = sizeDict.sorted { $0.value.delta > $1.value.delta }
         for element in sortedDict {
             let value = element.value
             let delta = value.delta
@@ -31,8 +31,14 @@ if CommandLine.arguments.count != 3 {
             let beforeString = numberFormatter.string(from: NSNumber(value: value.oldSize)) ?? "0"
             let afterString = numberFormatter.string(from: NSNumber(value: value.newSize)) ?? "0"
             let deltaString = numberFormatter.string(from: NSNumber(value: delta)) ?? "0"
-            if delta != 0 {
-                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | \(deltaString) bytes |")
+            if delta > 250000 {
+                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | ⛔️ \(deltaString) bytes |")
+            } else if delta > 50000 {
+                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | 🛑 \(deltaString) bytes |")
+            } else if delta > 0 {
+                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | ⚠️ \(deltaString) bytes |")
+            } else if delta < 0 {
+                print("| \(element.key) | \(beforeString) bytes | \(afterString) bytes | 🎉 \(deltaString) bytes |")
             }
         }
     }
