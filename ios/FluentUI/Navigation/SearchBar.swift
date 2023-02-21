@@ -57,7 +57,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         func placeholderColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
             case .lightContent:
                 return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
             }

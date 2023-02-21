@@ -28,16 +28,59 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         return buildBadgeView(text: "Kat Larsson", customView: imageView)
     }()
 
+    private var searchBars: [SearchBar] = []
+
+    let segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
+                                                style: .primaryPill)
+
+        // Override the selected tab's background color otherwise it will blend into the container's background
+        segmentedControl.tokenSet.replaceAllOverrides(with: [.selectedTabColor: .dynamicColor({
+            segmentedControl.fluentTheme.aliasTokens.colors[.brandForeground1Selected]
+        })])
+        return segmentedControl
+    }()
+
+    @objc private func updateSearchbars() {
+        if segmentedControl.selectedSegmentIndex == 1 {
+            container.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .lightContent)
+        } else {
+            container.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .darkContent)
+        }
+    }
+
+    private func updateSearchBarsStyles(to style: SearchBar.Style) {
+        for searchBar in searchBars {
+            searchBar.style = style
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "no autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "autocorrect")
 
-        container.addArrangedSubview(searchBarNoAutocorrect)
-        container.addArrangedSubview(searchBarAutocorrect)
-        container.addArrangedSubview(searchBarWithBadgeView)
-        container.addArrangedSubview(searchBarWithAvatarBadgeView)
+        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
+
+        container.addArrangedSubview(segmentedControl)
+        container.addArrangedSubview(UIView())
+
+        for searchBar in searchBars {
+            container.addArrangedSubview(searchBar)
+        }
+
+        segmentedControl.onSelectAction = { [weak self] (_, _) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.updateSearchbars()
+        }
+
+        updateSearchbars()
     }
 
     func buildBadgeView(text: String, customView: UIView? = nil) -> UIView {
