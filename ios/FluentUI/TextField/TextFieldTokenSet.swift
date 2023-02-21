@@ -126,7 +126,7 @@ extension TextFieldTokenSet {
     static let iconSize: CGFloat = GlobalTokens.icon(.size240)
 
     /// The value for the padding between the leading and trailing edges of the control and the content.
-    static let horizontalPadding: CGFloat =  GlobalTokens.spacing(.size160)
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The value for the padding between the top edge of the control and the content.
     static let topPadding: CGFloat = GlobalTokens.spacing(.size120)
