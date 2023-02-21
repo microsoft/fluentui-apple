@@ -11,6 +11,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         static let badgeViewCornerRadius: CGFloat = 10
         static let badgeViewSideLength: CGFloat = 20
         static let badgeViewMaxFontSize: CGFloat = 40
+        static let searchBarStackviewMargin: CGFloat = 16
     }
 
     private lazy var searchBarWithBadgeView: SearchBar =
@@ -34,19 +35,15 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
                                                 style: .primaryPill)
 
-        // Override the selected tab's background color otherwise it will blend into the container's background
-        segmentedControl.tokenSet.replaceAllOverrides(with: [.selectedTabColor: .dynamicColor({
-            segmentedControl.fluentTheme.aliasTokens.colors[.brandForeground1Selected]
-        })])
         return segmentedControl
     }()
 
     @objc private func updateSearchbars() {
         if segmentedControl.selectedSegmentIndex == 1 {
-            container.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
+            searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
             updateSearchBarsStyles(to: .lightContent)
         } else {
-            container.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
             updateSearchBarsStyles(to: .darkContent)
         }
     }
@@ -56,6 +53,19 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
             searchBar.style = style
         }
     }
+
+    // Used to change the SearchBars' background color between brand and system styles
+    private let searchBarsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.layoutMargins = UIEdgeInsets(top: Constants.searchBarStackviewMargin,
+                                               left: Constants.searchBarStackviewMargin,
+                                               bottom: Constants.searchBarStackviewMargin,
+                                               right: Constants.searchBarStackviewMargin)
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.spacing = Constants.searchBarStackviewMargin
+        return stackView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,8 +79,10 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         container.addArrangedSubview(UIView())
 
         for searchBar in searchBars {
-            container.addArrangedSubview(searchBar)
+            searchBarsStackView.addArrangedSubview(searchBar)
         }
+
+        container.addArrangedSubview(searchBarsStackView)
 
         segmentedControl.onSelectAction = { [weak self] (_, _) in
             guard let strongSelf = self else {
