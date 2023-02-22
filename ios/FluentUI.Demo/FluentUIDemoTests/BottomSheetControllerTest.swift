@@ -45,7 +45,9 @@ class BottomSheetControllerTest: BaseTest {
         let bottomSheet: XCUIElement = app.otherElements.containing(bottomSheetPredicate).element
         let scrollToHideSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 3)
 
+        XCTAssert(bottomSheet.exists)
         scrollToHideSwitch.tap()
+        sleep(1)
         app.swipeUp()
         sleep(1)
         XCTAssert(!bottomSheet.isHittable)
