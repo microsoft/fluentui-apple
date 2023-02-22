@@ -92,6 +92,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 if isViewLoaded {
                     move(to: .collapsed, animated: false)
                 }
+
+#if DEBUG
+                if isExpandable {
+                    bottomSheetView.accessibilityIdentifier?.append(", a resizing handle")
+                } else {
+                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", a resizing handle", with: "")
+                }
+#endif
             }
         }
     }
@@ -218,6 +226,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 return
             }
             view.setNeedsLayout()
+
+#if DEBUG
+                if shouldAlwaysFillWidth {
+                    bottomSheetView.accessibilityIdentifier?.append(", filled width")
+                } else {
+                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", filled width", with: "")
+                }
+#endif
         }
     }
 
@@ -554,6 +570,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
         ])
 
+#if DEBUG
+        bottomSheetView.accessibilityIdentifier = "Bottom Sheet View"
+#endif
+
         return bottomSheetView
     }
 
@@ -592,6 +612,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             }
         }
         expandedContentView.alpha = targetAlpha
+
+#if DEBUG
+        if targetAlpha == 1.0 {
+            bottomSheetView.accessibilityIdentifier?.append(", an expanded content view")
+        } else {
+            bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", an expanded content view", with: "")
+        }
+#endif
     }
 
     private func updateDimmingViewAlpha() {
