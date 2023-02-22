@@ -309,6 +309,14 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.titleImage = UIImage(systemName: "10.circle")
             $0.subtitle = "Subtitle"
             $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        11: TitleViewFeature(name: "Leading, down arrow") {
+            $0.usesLargeTitle = true
+            $0.subtitle = ""
+            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        12: TitleViewFeature(name: "Centered, down arrow") {
+            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         }
     ]
 

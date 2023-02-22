@@ -457,7 +457,7 @@ open class TwoLineTitleView: UIView {
             }
         }
 
-        if subtitleButtonLabel.text != nil {
+        if let subtitle = subtitleButtonLabel.text, !subtitle.isEmpty {
             subtitleButton.frame = CGRect(x: frame.origin.x, y: top, width: bounds.width, height: subtitleButtonHeight).integral
 
             let subtitleButtonLabelMaxWidth = interactivePart.contains(.subtitle) ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width
