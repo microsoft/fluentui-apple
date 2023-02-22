@@ -259,14 +259,14 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-    private func updateBackgroundColor(with item: UINavigationItem) {
-        let color = item.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
+    public func updateBackgroundColor(with item: UINavigationItem, theme: FluentTheme) {
+        let color = item.navigationBarColor(fluentTheme: theme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
         navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [weak self] item, _ in
-            self?.updateBackgroundColor(with: item)
+            self?.updateBackgroundColor(with: item, theme: theme)
         }
     }
 
@@ -524,9 +524,9 @@ class ShyHeaderController: UIViewController {
 
     /// Updates based on the current navigation bar style.
     private func updateNavigationBarStyle() {
-        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+        if let (actualStyle, _) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
             shyHeaderView.navigationBarStyle = actualStyle
-            updateBackgroundColor(with: actualItem)
+            //updateBackgroundColor(with: actualItem)
         }
     }
 

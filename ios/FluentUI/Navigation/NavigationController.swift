@@ -138,6 +138,10 @@ open class NavigationController: UINavigationController {
     func updateNavigationBar(for viewController: UIViewController) {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
+        if let shyHeader = topViewController as? ShyHeaderController {
+            let theme = msfNavigationBar.tokenSet.fluentTheme
+            shyHeader.updateBackgroundColor(with: viewController.navigationItem, theme: theme)
+        }
         setNeedsStatusBarAppearanceUpdate()
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
             transitionAnimator.tintColor = backgroundColor
