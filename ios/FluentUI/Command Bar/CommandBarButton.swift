@@ -28,8 +28,8 @@ class CommandBarButton: UIButton {
         }
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateStyle()
     }
 

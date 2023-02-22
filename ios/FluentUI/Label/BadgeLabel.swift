@@ -7,8 +7,11 @@ import UIKit
 
 // MARK: BadgeLabel
 
-class BadgeLabel: UILabel {
+class BadgeLabel: UILabel, TokenizedControlInternal {
     var shouldUseWindowColor: Bool = false
+
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,8 +38,12 @@ class BadgeLabel: UILabel {
         updateColors()
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateColors()
     }
 
@@ -44,6 +51,7 @@ class BadgeLabel: UILabel {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateColors()
     }
 
