@@ -960,6 +960,7 @@ extension BottomCommandingController: UITableViewDelegate {
         var configuredHeader: UIView?
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
+            header.tableViewCellStyle = .clear
             configuredHeader = header
         }
 

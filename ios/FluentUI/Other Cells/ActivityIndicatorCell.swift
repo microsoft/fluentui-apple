@@ -72,9 +72,12 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         activityIndicatorView.center = CGPoint(x: ceil(contentView.frame.width / 2), y: ceil(contentView.frame.height / 2))
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 

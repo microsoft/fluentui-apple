@@ -102,7 +102,7 @@ public class FluentUIFramework: NSObject {
             navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
         }
 
-        navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
+        navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground2])
 
         let traits = traits ?? navigationBar.traitCollection
         // Removing built-in shadow for Dark Mode
