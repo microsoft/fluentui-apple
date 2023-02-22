@@ -292,21 +292,21 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         },
         7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
             $0.usesLargeTitle = true
-            $0.titleImage = UIImage(systemName: "7.circle")
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.subtitle = "Subtitle"
         },
         8: TitleViewFeature(name: "Centered, image, subtitle") {
-            $0.titleImage = UIImage(systemName: "8.circle")
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.subtitle = "Subtitle"
         },
         9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
             $0.usesLargeTitle = true
-            $0.titleImage = UIImage(systemName: "9.circle")
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.subtitle = "Subtitle"
             $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         10: TitleViewFeature(name: "Centered, image, down arrow, subtitle") {
-            $0.titleImage = UIImage(systemName: "10.circle")
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.subtitle = "Subtitle"
             $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
