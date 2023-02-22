@@ -290,7 +290,7 @@ public struct Notification: View {
 		static let horizontalPadding: CGFloat = 16
 		static let verticalPadding: CGFloat = 12
 		static let horizontalSpacing: CGFloat = 16
-		static let minimumHeight: CGFloat = 52
+		static let minimumHeight: CGFloat = 45
 		static let outlineWidth: CGFloat = 0.5
 	}
 }
