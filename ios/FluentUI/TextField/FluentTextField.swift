@@ -104,8 +104,8 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     // |--|--textfield
     // |--|--separator
     // |--|--assistiveTextLabel
-    @objc public init() {
-        super.init(frame: .zero)
+    @objc public override init(frame: CGRect) {
+        super.init(frame: frame)
         textfield.validateInputText = editingChanged
         textfield.delegate = self
         textfield.addTarget(self, action: #selector(editingChanged), for: .editingChanged)
