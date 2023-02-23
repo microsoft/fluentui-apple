@@ -255,7 +255,7 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-    public func updateBackgroundColor(with item: UINavigationItem, theme: FluentTheme) {
+    private func updateBackgroundColor(with item: UINavigationItem, theme: FluentTheme) {
         let color = item.navigationBarColor(fluentTheme: theme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
