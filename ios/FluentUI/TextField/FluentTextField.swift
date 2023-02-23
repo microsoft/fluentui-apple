@@ -46,7 +46,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-    /// String representing the input text
+    /// String representing the input text.
     @objc public var inputText: String? {
         get {
             return textfield.text
@@ -63,7 +63,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-    /// String used in the assitive text label. If this is nil, the assistive text label will be hidden. If the `error`
+    /// String used in the assistive text label. If this is nil, the assistive text label will be hidden. If the `error`
     /// property of the `FluentTextField` is set, the `localizedDescription` from `error`
     /// will be displayed instead.
     @objc public var assistiveText: String? {
@@ -196,7 +196,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
     }
 
-    // The leadingImageView needs a contianer to be vertically centered on the
+    // The leadingImageView needs a container to be vertically centered on the
     // textfield
     let leadingImageContainerView: UIView = {
         let view = UIView()

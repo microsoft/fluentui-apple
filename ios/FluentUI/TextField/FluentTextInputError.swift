@@ -5,7 +5,7 @@
 
 import Foundation
 
-/// An error object with a localized string used by the `FluentTextField`.
+/// An error object with a localized description used by the `FluentTextField`.
 @objc(MSFTextInputError)
 open class FluentTextInputError: NSObject {
     @objc public init(localizedDescription: String) {
