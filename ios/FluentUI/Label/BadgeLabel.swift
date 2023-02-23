@@ -56,12 +56,15 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
     }
 
     private func updateColors() {
+        let colors = tokenSet.fluentTheme.aliasTokens.colors
         if shouldUseWindowColor {
-            textColor = UIColor(dynamicColor: DynamicColor(light: tokenSet.fluentTheme.aliasTokens.colors[.brandForeground1].light, dark: GlobalTokens.neutralColors(.white)))
-            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: tokenSet.fluentTheme.aliasTokens.colors[.brandBackground1].dark))
+            textColor = UIColor(dynamicColor: DynamicColor(light: colors[.brandForeground1].light,
+                                                           dark: GlobalTokens.neutralColors(.white)))
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                                 dark: colors[.brandBackground1].dark))
         } else {
             textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
-            backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.dangerBackground2])
+            backgroundColor = UIColor(dynamicColor: colors[.dangerBackground2])
         }
     }
 
