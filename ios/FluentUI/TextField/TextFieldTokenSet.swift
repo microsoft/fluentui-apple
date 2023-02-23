@@ -118,7 +118,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
         }
     }
 
-    var state: () -> FluentTextFieldState
+    private var state: () -> FluentTextFieldState
 }
 
 extension TextFieldTokenSet {
