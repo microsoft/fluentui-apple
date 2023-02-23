@@ -523,7 +523,7 @@ class ShyHeaderController: UIViewController {
     }
 
     /// Updates based on the current navigation bar style.
-    public func updateNavigationBarStyle(theme: FluentTheme) {
+    func updateNavigationBarStyle(theme: FluentTheme) {
         if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
             shyHeaderView.navigationBarStyle = actualStyle
             updateBackgroundColor(with: actualItem, theme: theme)
