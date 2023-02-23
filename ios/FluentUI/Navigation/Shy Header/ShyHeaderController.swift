@@ -125,6 +125,10 @@ class ShyHeaderController: UIViewController {
 
         updatePadding()
         setupNotificationObservers()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         updateNavigationBarStyle(theme: containingView?.fluentTheme ?? view.fluentTheme)
     }
 
