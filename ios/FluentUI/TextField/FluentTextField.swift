@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 @objc(MSFTextField)
 public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
