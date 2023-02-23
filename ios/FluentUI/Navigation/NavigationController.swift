@@ -126,7 +126,7 @@ open class NavigationController: UINavigationController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return ShyHeaderController(contentViewController: viewController, containingView: self.parent?.view ?? view)
+        return ShyHeaderController(contentViewController: viewController, containingView: view)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
@@ -147,6 +147,7 @@ open class NavigationController: UINavigationController {
 
     func updateNavigationBar(for viewController: UIViewController) {
         msfNavigationBar.update(with: viewController.navigationItem)
+        updateShyHeader()
         viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
