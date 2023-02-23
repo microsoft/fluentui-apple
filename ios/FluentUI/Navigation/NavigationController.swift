@@ -67,8 +67,6 @@ open class NavigationController: UINavigationController {
         super.init(coder: aDecoder)
     }
 
-    private var navigationBarStyleObservation: NSKeyValueObservation?
-
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -78,9 +76,11 @@ open class NavigationController: UINavigationController {
             popGesture.removeTarget(nil, action: nil)
             popGesture.addTarget(self, action: #selector(navigationPopScreenPanGestureRecognizerRecognized))
         }
+
         navigationBarStyleObservation = msfNavigationBar.observe(\.style) { [weak self] _, _ in
             self?.updateShyHeader()
         }
+
         super.delegate = self
 
         // Allow subviews to display a custom background view
@@ -212,6 +212,8 @@ open class NavigationController: UINavigationController {
             return
         }
     }
+
+    private var navigationBarStyleObservation: NSKeyValueObservation?
 }
 
 // MARK: - NavigationController: UINavigationControllerDelegate
