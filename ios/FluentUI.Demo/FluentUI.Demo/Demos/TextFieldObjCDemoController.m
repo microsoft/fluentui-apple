@@ -8,11 +8,6 @@
 
 @implementation TextFieldObjCDemoController
 
-- (instancetype)init {
-    self = [super init];
-    return self;
-}
-
 - (void)loadView {
     [super loadView];
     
