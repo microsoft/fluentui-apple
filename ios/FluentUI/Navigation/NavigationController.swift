@@ -67,6 +67,8 @@ open class NavigationController: UINavigationController {
         super.init(coder: aDecoder)
     }
 
+    private var navigationBarStyleObservation: NSKeyValueObservation?
+
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -76,7 +78,9 @@ open class NavigationController: UINavigationController {
             popGesture.removeTarget(nil, action: nil)
             popGesture.addTarget(self, action: #selector(navigationPopScreenPanGestureRecognizerRecognized))
         }
-
+        navigationBarStyleObservation = msfNavigationBar.observe(\.style) { [weak self] _,_ in
+            self?.updateShyHeader()
+        }
         super.delegate = self
 
         // Allow subviews to display a custom background view
@@ -122,7 +126,7 @@ open class NavigationController: UINavigationController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return ShyHeaderController(contentViewController: viewController, containingView: self.parent?.view ?? view)
+        return ShyHeaderController(contentViewController: viewController, containingView: view)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
@@ -135,13 +139,15 @@ open class NavigationController: UINavigationController {
         return false
     }
 
+    private func updateShyHeader() {
+        if let shyHeader = topViewController as? ShyHeaderController {
+            shyHeader.updateNavigationBarStyle(theme: view.fluentTheme)
+        }
+    }
+
     func updateNavigationBar(for viewController: UIViewController) {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
-        if let shyHeader = topViewController as? ShyHeaderController {
-            let theme = msfNavigationBar.tokenSet.fluentTheme
-            shyHeader.updateBackgroundColor(with: viewController.navigationItem, theme: theme)
-        }
         setNeedsStatusBarAppearanceUpdate()
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
             transitionAnimator.tintColor = backgroundColor

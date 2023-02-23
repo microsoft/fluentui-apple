@@ -47,7 +47,6 @@ class ShyHeaderController: UIViewController {
     private var accessoryViewObservation: NSKeyValueObservation?
 
     private var navigationBarCenterObservation: NSKeyValueObservation?
-    private var navigationBarStyleObservation: NSKeyValueObservation?
     private var navigationBarHeightObservation: NSKeyValueObservation?
     private var navigationBarColorObservation: NSKeyValueObservation?
 
@@ -126,7 +125,7 @@ class ShyHeaderController: UIViewController {
 
         updatePadding()
         setupNotificationObservers()
-        updateNavigationBarStyle()
+        updateNavigationBarStyle(theme: containingView?.fluentTheme ?? view.fluentTheme)
     }
 
     // MARK: - Base Construction
@@ -214,9 +213,6 @@ class ShyHeaderController: UIViewController {
         // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
         navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [weak self] navigationBar, _ in
             self?.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
-        }
-        navigationBarStyleObservation = msfNavigationController?.msfNavigationBar.observe(\.style) { [weak self] _, _ in
-            self?.updateNavigationBarStyle()
         }
         navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [weak self] _, _ in
             self?.updatePadding()
@@ -523,10 +519,10 @@ class ShyHeaderController: UIViewController {
     }
 
     /// Updates based on the current navigation bar style.
-    private func updateNavigationBarStyle() {
-        if let (actualStyle, _) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+    public func updateNavigationBarStyle(theme: FluentTheme) {
+        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
             shyHeaderView.navigationBarStyle = actualStyle
-            //updateBackgroundColor(with: actualItem)
+            updateBackgroundColor(with: actualItem, theme: theme)
         }
     }
 
