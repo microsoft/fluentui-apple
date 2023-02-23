@@ -521,5 +521,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
     // MARK: Accessibility
 
-    open override var accessibilityLabel: String? { get { return label.text } set { } }
+    open override var accessibilityLabel: String? {
+        get { return dataSource?.accessibilityLabel ?? label.text }
+        set { }
+    }
 }
