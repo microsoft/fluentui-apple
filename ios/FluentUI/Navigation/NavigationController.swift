@@ -78,7 +78,7 @@ open class NavigationController: UINavigationController {
             popGesture.removeTarget(nil, action: nil)
             popGesture.addTarget(self, action: #selector(navigationPopScreenPanGestureRecognizerRecognized))
         }
-        navigationBarStyleObservation = msfNavigationBar.observe(\.style) { [weak self] _,_ in
+        navigationBarStyleObservation = msfNavigationBar.observe(\.style) { [weak self] _, _ in
             self?.updateShyHeader()
         }
         super.delegate = self
@@ -126,7 +126,7 @@ open class NavigationController: UINavigationController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return ShyHeaderController(contentViewController: viewController, containingView: view)
+        return ShyHeaderController(contentViewController: viewController, containingView: self.parent?.view ?? view)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
@@ -141,7 +141,7 @@ open class NavigationController: UINavigationController {
 
     private func updateShyHeader() {
         if let shyHeader = topViewController as? ShyHeaderController {
-            shyHeader.updateNavigationBarStyle(theme: view.fluentTheme)
+            shyHeader.updateNavigationBarStyle(theme: msfNavigationBar.tokenSet.fluentTheme)
         }
     }
 
