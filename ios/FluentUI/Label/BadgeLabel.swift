@@ -8,7 +8,11 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var shouldUseWindowColor: Bool = false
+    var shouldUseWindowColor: Bool = false {
+        didSet {
+            updateColors()
+        }
+    }
 
     typealias TokenSetKeyType = EmptyTokenSet.Tokens
     var tokenSet: EmptyTokenSet = .init()
