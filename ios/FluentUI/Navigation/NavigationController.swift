@@ -81,6 +81,11 @@ open class NavigationController: UINavigationController {
             self?.updateShyHeader()
         }
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         super.delegate = self
 
         // Allow subviews to display a custom background view
@@ -175,6 +180,13 @@ open class NavigationController: UINavigationController {
             }
         }
         super.setNavigationBarHidden(hidden, animated: animated)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.view.isDescendant(of: themeView) else {
+            return
+        }
+        updateShyHeader()
     }
 
     private func searchIsActive(in viewController: UIViewController?) -> Bool {
