@@ -4,32 +4,7 @@
 //
 
 import UIKit
-
-// MARK: TextColorStyle
-
-@objc(MSFTextColorStyle)
-public enum TextColorStyle: Int, CaseIterable {
-    case regular
-    case secondary
-    case white
-    case primary
-    case error
-
-    func color(fluentTheme: FluentTheme) -> UIColor {
-        switch self {
-        case .regular:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-        case .secondary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-        case .white:
-            return .white
-        case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-        case .error:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerForeground2])
-        }
-    }
-}
+import Combine
 
 // MARK: - Label
 
@@ -64,24 +39,6 @@ open class Label: UILabel, TokenizedControlInternal {
             updateTextColor()
         }
     }
-    private var _textColor: UIColor?
-
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
-
-    private var isUsingCustomAttributedText: Bool = false
-
-    @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
-        self.style = style
-        self.colorStyle = colorStyle
-        super.init(frame: .zero)
-        initialize()
-    }
-
-    @objc public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initialize()
-    }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
@@ -96,6 +53,23 @@ open class Label: UILabel, TokenizedControlInternal {
       didSet {
           isUsingCustomAttributedText = attributedText != nil
         }
+    }
+
+    public typealias TokenSetKeyType = LabelTokenSet.Tokens
+    lazy public var tokenSet: LabelTokenSet = .init(colorStyle: { [weak self] in
+        return self?.colorStyle ?? .regular
+    })
+
+    @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
+        self.style = style
+        self.colorStyle = colorStyle
+        super.init(frame: .zero)
+        initialize()
+    }
+
+    @objc public required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
     }
 
     private func initialize() {
@@ -114,6 +88,11 @@ open class Label: UILabel, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        // Update appearance whenever overrideTokens changes.
+        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+            self?.updateTextColor()
+        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
@@ -143,7 +122,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = _textColor ?? colorStyle.color(fluentTheme: tokenSet.fluentTheme)
+        super.textColor = _textColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -151,4 +130,8 @@ open class Label: UILabel, TokenizedControlInternal {
             updateFont()
         }
     }
+
+    private var _textColor: UIColor?
+    private var isUsingCustomAttributedText: Bool = false
+    private var tokenSetSink: AnyCancellable?
 }

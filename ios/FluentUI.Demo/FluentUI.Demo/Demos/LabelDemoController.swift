@@ -8,9 +8,11 @@ import UIKit
 
 class LabelDemoController: DemoController {
     private var dynamicLabels = [Label]()
+    private var textColorLabels = [Label]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "Labels are used to standardize text across your app."
 
         addLabel(text: "Text Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
 
@@ -25,7 +27,7 @@ class LabelDemoController: DemoController {
 
         addLabel(text: "Text Color Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
         for colorStyle in TextColorStyle.allCases {
-            addLabel(text: colorStyle.description, style: .body1, colorStyle: colorStyle)
+            textColorLabels.append(addLabel(text: colorStyle.description, style: .body1, colorStyle: colorStyle))
         }
 
         container.addArrangedSubview(UIView())  // spacer
@@ -120,5 +122,45 @@ extension UIFontDescriptor {
             }
         }
         return "Regular"
+    }
+}
+
+extension LabelDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: LabelTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideLabelTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for label in textColorLabels {
+            label.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideLabelTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: LabelTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
+                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
+            }
+        ]
+    }
+
+    private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30))
+            }
+        ]
     }
 }
