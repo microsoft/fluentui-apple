@@ -221,7 +221,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
         var attributedTitle = AttributedString(itemTitle)
         attributedTitle.font = UIFont.fluent(titleFont)
         configuration?.attributedTitle = attributedTitle
-        
+
         let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = UIFont.fluent(self.titleFont)
