@@ -18,13 +18,20 @@ public enum TextColorStyle: Int, CaseIterable {
 
 public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        case font
         case textColor
     }
 
-    init(colorStyle: @escaping () -> TextColorStyle) {
+    init(style: @escaping () -> AliasTokens.TypographyTokens,
+         colorStyle: @escaping () -> TextColorStyle) {
+        self.style = style
         self.colorStyle = colorStyle
         super.init { [colorStyle] token, theme in
             switch token {
+            case .font:
+                return .fontInfo {
+                    return theme.aliasTokens.typography[style()]
+                }
             case .textColor:
                 return .dynamicColor {
                     switch colorStyle() {
@@ -44,6 +51,8 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         }
     }
 
+    /// Defines the text typography style of the label.
+    var style: () -> AliasTokens.TypographyTokens
     /// Defines the text color style of the label.
     var colorStyle: () -> TextColorStyle
 }

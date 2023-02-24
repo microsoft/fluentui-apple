@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 // MARK: - Label
 
@@ -56,7 +56,10 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = LabelTokenSet.Tokens
-    lazy public var tokenSet: LabelTokenSet = .init(colorStyle: { [weak self] in
+    lazy public var tokenSet: LabelTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .body1
+    },
+                                                    colorStyle: { [weak self] in
         return self?.colorStyle ?? .regular
     })
 
@@ -68,8 +71,7 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        initialize()
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     private func initialize() {
@@ -92,6 +94,7 @@ open class Label: UILabel, TokenizedControlInternal {
         // Update appearance whenever overrideTokens changes.
         tokenSetSink = tokenSet.sinkChanges { [weak self] in
             self?.updateTextColor()
+            self?.updateFont()
         }
     }
 
@@ -101,6 +104,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
         tokenSet.update(themeView.fluentTheme)
         updateTextColor()
+        updateFont()
     }
 
     private func updateFont() {
@@ -109,7 +113,7 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(fluentTheme.aliasTokens.typography[style])
+        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
         } else {

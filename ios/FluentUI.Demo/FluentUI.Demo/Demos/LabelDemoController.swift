@@ -136,8 +136,20 @@ extension LabelDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for label in dynamicLabels {
+            if isOverrideEnabled {
+                label.tokenSet[.font] = perControlOverrideLabelTokens[.font] ?? label.tokenSet[.font]
+            } else {
+                label.tokenSet.removeOverride(.font)
+            }
+        }
+
         for label in textColorLabels {
-            label.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideLabelTokens : nil)
+            if isOverrideEnabled {
+                label.tokenSet[.textColor] = perControlOverrideLabelTokens[.textColor] ?? label.tokenSet[.textColor]
+            } else {
+                label.tokenSet.removeOverride(.textColor)
+            }
         }
     }
 
@@ -149,6 +161,9 @@ extension LabelDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
+            .font: .fontInfo {
+                return FontInfo(name: "Times", size: 20.0, weight: .regular)
+            },
             .textColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
                                     dark: GlobalTokens.sharedColors(.marigold, .tint40))
@@ -158,6 +173,9 @@ extension LabelDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
+            .font: .fontInfo {
+                return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
+            },
             .textColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30))
             }
