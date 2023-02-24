@@ -144,7 +144,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
     var maxHeightChanged: (() -> Void)?
 
     var lockedInContractedState: Bool = false
-    var parentController: ShyHeaderController?
+    weak var parentController: ShyHeaderController?
 
     var navigationBarIsHidden: Bool = false {
         didSet {
