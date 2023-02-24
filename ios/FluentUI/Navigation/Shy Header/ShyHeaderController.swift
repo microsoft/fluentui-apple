@@ -78,6 +78,7 @@ class ShyHeaderController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        shyHeaderView.parentController = self
         shyHeaderView.maxHeightChanged = { [weak self] in
             self?.updatePadding()
         }
