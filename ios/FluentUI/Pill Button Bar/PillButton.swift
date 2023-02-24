@@ -151,7 +151,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = .fluent(titleFont)
+            titleLabel?.font = UIFont.fluent(titleFont, shouldScale: false)
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -219,8 +219,15 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = .fluent(titleFont)
+        attributedTitle.font = UIFont.fluent(titleFont, shouldScale: false)
         configuration?.attributedTitle = attributedTitle
+
+        let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.fluent(self.titleFont, shouldScale: false)
+            return outgoing
+        }
+        configuration?.titleTextAttributesTransformer = attributedTitleTransformer
 
         // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
         accessibilityLabel = itemTitle
