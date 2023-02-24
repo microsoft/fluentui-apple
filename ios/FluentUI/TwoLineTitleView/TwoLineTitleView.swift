@@ -53,8 +53,8 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 @objc(MSFTwoLineTitleView)
 open class TwoLineTitleView: UIView {
     private struct Constants {
-        static let titleButtonLabelMarginBottomRegular: CGFloat = 0
-        static let titleButtonLabelMarginBottomCompact: CGFloat = -2
+        static let titleButtonLabelMarginBottomRegular: CGFloat = GlobalTokens.spacing(.sizeNone)
+        static let titleButtonLabelMarginBottomCompact: CGFloat = -GlobalTokens.spacing(.size20)
         static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.iconSize(.xSmall)
         static let titleButtonLeadingImageMargin: CGFloat = GlobalTokens.spacing(.size40)
         static let titleButtonLeadingImageTotalPadding: CGFloat = titleButtonLeadingImageSize + titleButtonLeadingImageMargin
