@@ -47,6 +47,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         updateTextColor()
+        updateFont()
     }
 
     open override var attributedText: NSAttributedString? {
