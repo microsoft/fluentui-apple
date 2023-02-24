@@ -14,7 +14,7 @@ import UIKit
 class ShyHeaderView: UIView, TokenizedControlInternal {
     typealias TokenSetKeyType = EmptyTokenSet.Tokens
     public var tokenSet: EmptyTokenSet = .init()
-    
+
     /// Defines all possible states of the header view's appearance
     ///
     /// - exposed: Fully showing header
