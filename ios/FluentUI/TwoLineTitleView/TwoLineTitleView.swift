@@ -55,7 +55,7 @@ open class TwoLineTitleView: UIView {
     private struct Constants {
         static let titleButtonLabelMarginBottomRegular: CGFloat = GlobalTokens.spacing(.sizeNone)
         static let titleButtonLabelMarginBottomCompact: CGFloat = -GlobalTokens.spacing(.size20)
-        static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.iconSize(.xSmall)
+        static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.icon(.size160)
         static let titleButtonLeadingImageMargin: CGFloat = GlobalTokens.spacing(.size40)
         static let titleButtonLeadingImageTotalPadding: CGFloat = titleButtonLeadingImageSize + titleButtonLeadingImageMargin
         static let colorAnimationDuration: TimeInterval = 0.2
