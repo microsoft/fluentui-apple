@@ -53,8 +53,11 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 @objc(MSFTwoLineTitleView)
 open class TwoLineTitleView: UIView {
     private struct Constants {
-        static let titleButtonLabelMarginBottomRegular: CGFloat = 0
-        static let titleButtonLabelMarginBottomCompact: CGFloat = -2
+        static let titleButtonLabelMarginBottomRegular: CGFloat = GlobalTokens.spacing(.sizeNone)
+        static let titleButtonLabelMarginBottomCompact: CGFloat = -GlobalTokens.spacing(.size20)
+        static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.iconSize(.xSmall)
+        static let titleButtonLeadingImageMargin: CGFloat = GlobalTokens.spacing(.size40)
+        static let titleButtonLeadingImageTotalPadding: CGFloat = titleButtonLeadingImageSize + titleButtonLeadingImageMargin
         static let colorAnimationDuration: TimeInterval = 0.2
         static let colorAlpha: CGFloat = 1.0
         static let colorHighlightedAlpha: CGFloat = 0.4
@@ -167,7 +170,12 @@ open class TwoLineTitleView: UIView {
         return label
     }()
 
-    private var titleButtonImageView = UIImageView()
+    private var titleButtonLeadingImageView = UIImageView()
+    private var titleButtonTrailingImageView = UIImageView()
+
+    private var titleButtonLeadingImageAreaWidth: CGFloat {
+        return titleButtonLeadingImageView.image != nil ? 2 * Constants.titleButtonLeadingImageTotalPadding : 0
+    }
 
     private let subtitleButton = EasyTapButton()
     private var subtitleAccessoryType: AccessoryType {
@@ -203,8 +211,9 @@ open class TwoLineTitleView: UIView {
         titleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
         addSubview(titleButton)
 
+        titleButton.addSubview(titleButtonLeadingImageView)
         titleButton.addSubview(titleButtonLabel)
-        titleButton.addSubview(titleButtonImageView)
+        titleButton.addSubview(titleButtonTrailingImageView)
 
         subtitleButton.addTarget(self, action: #selector(onSubtitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         subtitleButton.addTarget(self, action: #selector(onSubtitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
@@ -217,7 +226,8 @@ open class TwoLineTitleView: UIView {
         setupTitleButtonColor(highlighted: false, animated: false)
         setupSubtitleButtonColor(highlighted: false, animated: false)
 
-        titleButtonImageView.contentMode = .scaleAspectFit
+        titleButtonLeadingImageView.contentMode = .scaleAspectFit
+        titleButtonTrailingImageView.contentMode = .scaleAspectFit
         subtitleButtonImageView.contentMode = .scaleAspectFit
 
         titleButton.accessibilityTraits = [.staticText, .header]
@@ -265,22 +275,26 @@ open class TwoLineTitleView: UIView {
     ///
     /// - Parameters:
     ///   - title: A title string.
+    ///   - titleImage: An optional image to display before the title.
     ///   - subtitle: An optional subtitle string. If nil, title will take up entire frame.
     ///   - alignment: How to align the title and subtitle. Ignored if `subtitle` is nil.
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - animatesWhenPressed: If true, the text color will flash when pressed. Ignored if `interactivePart` is `.none`.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
-    @objc open func setup(title: String, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none) {
+    @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none) {
         self.alignment = alignment
         self.interactivePart = interactivePart
         self.animatesWhenPressed = animatesWhenPressed
         self.accessoryType = accessoryType
 
-        setupButton(titleButton, label: titleButtonLabel, imageView: titleButtonImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
+        titleButtonLeadingImageView.image = titleImage
+        titleButtonLeadingImageView.isHidden = titleImage == nil
+
+        setupButton(titleButton, label: titleButtonLabel, trailingImageView: titleButtonTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll stretch the title button to adjust the hit area
         // while still only keeping one button active from an accessibility standpoint.
-        setupButton(subtitleButton, label: subtitleButtonLabel, imageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+        setupButton(subtitleButton, label: subtitleButtonLabel, trailingImageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
@@ -306,7 +320,7 @@ open class TwoLineTitleView: UIView {
             animatesWhenPressed = false
         }
 
-        setup(title: title, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
+        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
     }
 
     // MARK: Highlighting
@@ -316,13 +330,16 @@ open class TwoLineTitleView: UIView {
         case .system:
             titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
             subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            titleButtonLeadingImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            titleButtonTrailingImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
         case .primary:
             titleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
                                                                             dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
             subtitleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
                                                                                dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
-            titleButtonImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+            titleButtonLeadingImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
+                                                                                dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+            titleButtonTrailingImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
                                                                                 dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
         }
 
@@ -331,7 +348,7 @@ open class TwoLineTitleView: UIView {
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {
-        setupColor(highlighted: highlighted, animated: animated, onLabel: titleButtonLabel, onImageView: titleButtonImageView)
+        setupColor(highlighted: highlighted, animated: animated, onLabel: titleButtonLabel, onImageViews: [titleButtonLeadingImageView, titleButtonTrailingImageView])
     }
 
     private func setupSubtitleButtonColor(highlighted: Bool, animated: Bool) {
@@ -339,6 +356,10 @@ open class TwoLineTitleView: UIView {
     }
 
     private func setupColor(highlighted: Bool, animated: Bool, onLabel label: UILabel, onImageView imageView: UIImageView) {
+        setupColor(highlighted: highlighted, animated: animated, onLabel: label, onImageViews: [imageView])
+    }
+
+    private func setupColor(highlighted: Bool, animated: Bool, onLabel label: UILabel, onImageViews imageViews: [UIImageView]) {
         // Highlighting is never animated to match iOS
         let duration = !highlighted && animated ? Constants.colorAnimationDuration : 0
 
@@ -346,12 +367,14 @@ open class TwoLineTitleView: UIView {
             // Button label
             label.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
 
-            // Button image view
-            imageView.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+            // Button image views
+            imageViews.forEach {
+                $0.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+            }
         }
     }
 
-    private func setupButton(_ button: UIButton, label: UILabel, imageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
+    private func setupButton(_ button: UIButton, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
         button.isUserInteractionEnabled = interactive
         button.accessibilityLabel = text
         if interactive {
@@ -363,15 +386,15 @@ open class TwoLineTitleView: UIView {
         }
 
         label.text = text
-        imageView.image = accessoryType.image
-        imageView.isHidden = imageView.image == nil
+        trailingImageView.image = accessoryType.image
+        trailingImageView.isHidden = trailingImageView.image == nil
     }
 
     // MARK: Layout
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         var titleSize = titleButtonLabel.sizeThatFits(size)
-        titleSize.width += titleAccessoryType.areaWidth
+        titleSize.width += max(titleAccessoryType.areaWidth, titleButtonLeadingImageAreaWidth)
 
         var subtitleSize = subtitleButtonLabel.sizeThatFits(size)
         subtitleSize.width += subtitleAccessoryType.areaWidth
@@ -403,7 +426,7 @@ open class TwoLineTitleView: UIView {
         titleButton.frame = CGRect(x: 0, y: top, width: bounds.width, height: titleButtonHeight).integral
         top += titleButtonHeight + titleBottomMargin
 
-        let titleButtonLabelMaxWidth = titleButton.bounds.width - titleAccessoryType.areaWidth
+        let titleButtonLabelMaxWidth = titleButton.bounds.width - max(titleAccessoryType.areaWidth, titleButtonLeadingImageAreaWidth)
         titleButtonLabel.sizeToFit()
         let titleButtonLabelWidth = min(titleButtonLabelMaxWidth, titleButtonLabel.frame.width)
         titleButtonLabel.frame = CGRect(
@@ -413,14 +436,28 @@ open class TwoLineTitleView: UIView {
             height: titleButton.frame.height
         )
 
-        titleButtonImageView.frame = CGRect(
+        titleButtonTrailingImageView.frame = CGRect(
             origin: CGPoint(x: titleButtonLabel.frame.maxX + titleAccessoryType.horizontalPadding, y: 0),
             size: titleAccessoryType.size
         )
 
-        titleButtonImageView.centerInSuperview(horizontally: false, vertically: true)
+        titleButtonTrailingImageView.centerInSuperview(horizontally: false, vertically: true)
 
-        if subtitleButtonLabel.text != nil {
+        if titleButtonLeadingImageView.image != nil {
+            titleButtonLeadingImageView.frame = CGRect(
+                origin: CGPoint(x: titleButtonLabel.frame.minX - Constants.titleButtonLeadingImageTotalPadding, y: 0),
+                size: CGSize(width: Constants.titleButtonLeadingImageSize, height: Constants.titleButtonLeadingImageSize))
+            titleButtonLeadingImageView.centerInSuperview(horizontally: false, vertically: true)
+
+            if alignment == .leading {
+                // Shift everything over so the leading image lines up with the leading side instead of the text
+                titleButton.subviews.forEach {
+                    $0.frame.origin.x += Constants.titleButtonLeadingImageTotalPadding
+                }
+            }
+        }
+
+        if let subtitle = subtitleButtonLabel.text, !subtitle.isEmpty {
             subtitleButton.frame = CGRect(x: frame.origin.x, y: top, width: bounds.width, height: subtitleButtonHeight).integral
 
             let subtitleButtonLabelMaxWidth = interactivePart.contains(.subtitle) ? subtitleButton.bounds.width - subtitleAccessoryType.areaWidth : titleButton.bounds.width

@@ -9,6 +9,7 @@ import UIKit
     private struct AssociatedKeys {
         static var accessoryView: String = "accessoryView"
         static var titleAccessory: String = "titleAccessory"
+        static var titleImage: String = "titleImage"
         static var topAccessoryView: String = "topAccessoryView"
         static var topAccessoryViewAttributes: String = "topAccessoryViewAttributes"
         static var contentScrollView: String = "contentScrollView"
@@ -34,6 +35,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.titleAccessory, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var titleImage: UIImage? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleImage) as? UIImage
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.titleImage, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
