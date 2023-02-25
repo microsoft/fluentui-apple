@@ -8,7 +8,7 @@ import UIKit
 // MARK: - DateTimePickerViewComponentCell
 
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
-class DateTimePickerViewComponentCell: UITableViewCell {
+class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
@@ -17,7 +17,8 @@ class DateTimePickerViewComponentCell: UITableViewCell {
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Fonts.body.lineHeight, Constants.baseHeight)
+        let font = UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1])
+        return max(Constants.verticalPadding * 2 + font.lineHeight, Constants.baseHeight)
     }
 
     var emphasized: Bool = false {
@@ -25,6 +26,9 @@ class DateTimePickerViewComponentCell: UITableViewCell {
             updateTextLabelColor()
         }
     }
+
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
@@ -47,6 +51,7 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateTextLabelColor()
     }
 
@@ -72,8 +77,12 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         // Override -> No highlight
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateTextLabelColor()
     }
 

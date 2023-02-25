@@ -162,6 +162,44 @@ public struct CardNudge: View, TokenizedControlView {
     }
 
     public var body: some View {
+#if DEBUG
+        let accessibilityIdentifier: String = {
+            var identifier: String = "Card Nudge with title \"\(state.title)\""
+
+            var elements: [String] = []
+            if let subtitle = state.subtitle {
+                elements.append("subtitle \"\(subtitle)\"")
+            }
+            if let accentText = state.accentText {
+                elements.append("accent text \"\(accentText)\"")
+            }
+            if state.mainIcon != nil {
+                elements.append("an icon")
+            }
+            if state.accentIcon != nil {
+                elements.append("an accent icon")
+            }
+            if let actionButtonTitle = state.actionButtonTitle {
+                elements.append("an action button titled \"\(actionButtonTitle)\"")
+            }
+            if state.dismissButtonAction != nil {
+                elements.append("a dismiss button")
+            }
+
+            if elements.count == 1 {
+                identifier += " and \(elements[0])"
+            } else if elements.count > 1 {
+                for i in 0...elements.count - 2 {
+                    identifier += ", \(elements[i])"
+                }
+                identifier += ", and \(elements[elements.count - 1])"
+            }
+
+            identifier += " in style \(state.style.rawValue)"
+
+            return identifier
+        }()
+#endif
         innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
@@ -171,6 +209,9 @@ public struct CardNudge: View, TokenizedControlView {
                         Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
                             .cornerRadius(tokenSet[.cornerRadius].float)
                     )
+#if DEBUG
+                    .accessibilityIdentifier(accessibilityIdentifier)
+#endif
             )
             .padding(.vertical, CardNudgeTokenSet.verticalPadding)
             .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)

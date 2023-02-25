@@ -14,14 +14,14 @@ class ButtonDemoController: DemoController {
         container.alignment = .leading
 
         for style in ButtonStyle.allCases {
-            for size in ButtonSize.allCases {
+            for size in ButtonSizeCategory.allCases {
                 addTitle(text: style.description + ", " + size.description)
 
                 let button = createButton(with: style,
-                                          size: size,
+                                          sizeCategory: size,
                                           title: "Text")
                 let disabledButton = createButton(with: style,
-                                                  size: size,
+                                                  sizeCategory: size,
                                                   title: "Text",
                                                   isEnabled: false)
                 let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
@@ -31,11 +31,11 @@ class ButtonDemoController: DemoController {
 
                 if let image = size.image {
                     let iconButton = createButton(with: style,
-                                                  size: size,
+                                                  sizeCategory: size,
                                                   title: "Text",
                                                   image: image)
                     let disabledIconButton = createButton(with: style,
-                                                          size: size,
+                                                          sizeCategory: size,
                                                           title: "Text",
                                                           image: image,
                                                           isEnabled: false)
@@ -45,10 +45,10 @@ class ButtonDemoController: DemoController {
                     container.addArrangedSubview(titleImageButtonStack)
 
                     let iconOnlyButton = createButton(with: style,
-                                                      size: size,
+                                                      sizeCategory: size,
                                                       image: image)
                     let disabledIconOnlyButton = createButton(with: style,
-                                                              size: size,
+                                                              sizeCategory: size,
                                                               image: image,
                                                               isEnabled: false)
                     let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
@@ -64,16 +64,35 @@ class ButtonDemoController: DemoController {
                                   title: "Longer Text Button")
         let iconButton = createButton(with: .accent,
                                       title: "Longer Text Button",
-                                      image: ButtonSize.large.image)
+                                      image: ButtonSizeCategory.large.image)
         addRow(items: [button])
         addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
+
+        let customButton = createButton(with: .accent, sizeCategory: .small, title: "ToolBar Test Button")
+        let buttonBarItem = UIBarButtonItem.init(customView: customButton)
+        customButton.sizeToFit()
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            buttonBarItem,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
     }
 
-    private func createButton(with style: ButtonStyle, size: ButtonSize = .large, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> Button {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isToolbarHidden = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+
+    private func createButton(with style: ButtonStyle, sizeCategory: ButtonSizeCategory = .large, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> Button {
         let button = Button(style: style)
-        button.size = size
+        button.sizeCategory = sizeCategory
         if let title = title {
             button.setTitle(title, for: .normal)
             button.titleLabel?.numberOfLines = 0
@@ -116,7 +135,7 @@ extension ButtonStyle {
     }
 }
 
-extension ButtonSize {
+extension ButtonSizeCategory {
     var description: String {
         switch self {
         case .large:

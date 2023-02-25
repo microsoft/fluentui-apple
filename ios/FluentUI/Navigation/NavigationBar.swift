@@ -99,7 +99,7 @@ protocol NavigationBarBackButtonDelegate {
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
+open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitleViewDelegate {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -154,6 +154,9 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         case automatic
         case alwaysHidden
     }
+
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
 
@@ -367,6 +370,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateColors(for: topItem)
     }
 
@@ -491,8 +495,12 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
         )
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateColors(for: topItem)
     }
 
@@ -567,7 +575,7 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-        let color = navigationItem?.navigationBarColor(fluentTheme: fluentTheme)
+        let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
 
         switch style {
         case .primary, .default, .custom:
@@ -578,9 +586,9 @@ open class NavigationBar: UINavigationBar, TwoLineTitleViewDelegate {
 
         standardAppearance.backgroundColor = color
         backgroundView.backgroundColor = color
-        tintColor = style.tintColor(fluentTheme: fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: fluentTheme)
-        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: fluentTheme)
+        tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance

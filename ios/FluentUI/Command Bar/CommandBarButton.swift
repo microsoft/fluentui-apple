@@ -28,8 +28,8 @@ class CommandBarButton: UIButton {
         }
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         updateStyle()
     }
 
@@ -132,6 +132,7 @@ class CommandBarButton: UIButton {
         accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private let isPersistSelection: Bool

@@ -164,7 +164,7 @@ open class TwoLineTitleView: UIView {
     private lazy var titleButtonLabel: Label = {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
-        label.style = .headline
+        label.style = .body1Strong
         label.maxFontSize = 17
         label.textAlignment = .center
         return label

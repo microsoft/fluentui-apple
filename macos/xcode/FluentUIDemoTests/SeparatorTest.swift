@@ -10,6 +10,6 @@ class SeparatorTest: BaseTest {
 
 	// launch test that ensures the demo app does not crash and is on the correct control page
 	func testLaunch() throws {
-		XCTAssertTrue(app.cells.containing(.staticText, identifier: controlName).firstMatch.isSelected)
+		XCTAssert(app.cells.containing(.staticText, identifier: controlName).firstMatch.isSelected)
 	}
 }

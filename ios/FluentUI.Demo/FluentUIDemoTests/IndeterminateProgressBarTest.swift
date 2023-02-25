@@ -13,11 +13,11 @@ class IndeterminateProgressBarTest: BaseTest {
 
     func indeterminateProgressBarExists(status: NSPredicate) -> Bool {
          return app.otherElements.element(matching: status).exists
-     }
+    }
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssertTrue(app.navigationBars[controlName].exists)
+        XCTAssert(app.navigationBars[controlName].exists)
     }
 
     // tests start/stop functionality as well as hiding (indeterminate progress bar should disappear when stopped)

@@ -51,6 +51,8 @@
 		3A83F90B2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */; };
 		3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90C2953BB3500EF6629 /* TooltipTest.swift */; };
 		3A83F90F2953BB4000EF6629 /* TypographyTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */; };
+		3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */; };
+		3AA92B6B298DD96F001C0464 /* ShadowTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */; };
 		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -118,8 +120,11 @@
 		D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */ = {isa = PBXBuildFile; fileRef = D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */; };
 		E6842974247B672000A29C40 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842973247B672000A29C40 /* SceneDelegate.swift */; };
 		E6842996247C350700A29C40 /* DemoColorThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6842995247C350700A29C40 /* DemoColorThemes.swift */; };
+		EC0A83E4299ED3630010ED3E /* TextFieldTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */; };
 		EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */; };
 		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
+		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
+		ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -183,6 +188,8 @@
 		3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewTest.swift; sourceTree = "<group>"; };
 		3A83F90C2953BB3500EF6629 /* TooltipTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTest.swift; sourceTree = "<group>"; };
 		3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensTest.swift; sourceTree = "<group>"; };
+		3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensTest.swift; sourceTree = "<group>"; };
+		3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensTest.swift; sourceTree = "<group>"; };
 		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -247,9 +254,13 @@
 		D6296DB0295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCDemoColorProviding.m; sourceTree = "<group>"; };
 		E6842973247B672000A29C40 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E6842995247C350700A29C40 /* DemoColorThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoColorThemes.swift; sourceTree = "<group>"; };
+		EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTest.swift; sourceTree = "<group>"; };
 		EC1C31742923032000CF052C /* ColoredPillBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredPillBackgroundView.swift; sourceTree = "<group>"; };
 		EC24DBC428B97E950026EF92 /* PopupMenuObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PopupMenuObjCDemoController.h; sourceTree = "<group>"; };
 		EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PopupMenuObjCDemoController.m; sourceTree = "<group>"; };
+		EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldObjCDemoController.m; sourceTree = "<group>"; };
+		EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldObjCDemoController.h; sourceTree = "<group>"; };
+		ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -324,6 +335,7 @@
 				3A83F8BC2953B75100EF6629 /* BaseTest.swift */,
 				3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */,
 				3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */,
+				3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */,
 				3A83F8C02953B89000EF6629 /* AvatarTest.swift */,
 				3A83F8C22953B8A400EF6629 /* AvatarTest_SwiftUI.swift */,
 				3A83F8C42953B8B900EF6629 /* AvatarGroupTest.swift */,
@@ -355,6 +367,7 @@
 				3A83F8F82953BABA00EF6629 /* PopupMenuControllerTest.swift */,
 				3A83F8FA2953BAC500EF6629 /* SearchBarTest.swift */,
 				3A83F8FC2953BAD300EF6629 /* SegmentedControlTest.swift */,
+				3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */,
 				3A83F8FE2953BADF00EF6629 /* ShimmerViewTest.swift */,
 				3A83F9002953BAEB00EF6629 /* SideTabBarTest.swift */,
 				3A83F9022953BAF700EF6629 /* TabBarViewTest.swift */,
@@ -362,6 +375,7 @@
 				3A83F9062953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift */,
 				3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */,
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
+				EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */,
 				3A83F90C2953BB3500EF6629 /* TooltipTest.swift */,
 				3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */,
 			);
@@ -522,6 +536,9 @@
 				7DC2FB2A24C0F4FD00367A55 /* TableViewCellFileAccessoryViewDemoController.swift */,
 				C038992D2359307D00265026 /* TableViewCellShimmerDemoController.swift */,
 				B4EF66532295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift */,
+				ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */,
+				EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */,
+				EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
 				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
 				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
@@ -697,6 +714,7 @@
 				3A83F8E12953B99A00EF6629 /* IndeterminateProgressBarTest.swift in Sources */,
 				3A83F8FB2953BAC500EF6629 /* SearchBarTest.swift in Sources */,
 				3A83F8EF2953BA7C00EF6629 /* PeoplePickerTest.swift in Sources */,
+				EC0A83E4299ED3630010ED3E /* TextFieldTest.swift in Sources */,
 				3A83F8F52953BAA200EF6629 /* PillButtonTest.swift in Sources */,
 				3A83F8C52953B8B900EF6629 /* AvatarGroupTest.swift in Sources */,
 				3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */,
@@ -704,6 +722,7 @@
 				3A83F8F92953BABA00EF6629 /* PopupMenuControllerTest.swift in Sources */,
 				3A83F8CB2953B8E500EF6629 /* BottomCommandingControllerTest.swift in Sources */,
 				3A83F9092953BB1B00EF6629 /* TableViewCellShimmerTest.swift in Sources */,
+				3AA92B6B298DD96F001C0464 /* ShadowTokensTest.swift in Sources */,
 				3A83F8FD2953BAD300EF6629 /* SegmentedControlTest.swift in Sources */,
 				3A83F8ED2953BA6B00EF6629 /* OtherCellsTest.swift in Sources */,
 				3A83F8DB2953B95B00EF6629 /* DrawerControllerTest.swift in Sources */,
@@ -728,6 +747,7 @@
 				3A83F8D52953B92D00EF6629 /* GlobalColorTokensTest.swift in Sources */,
 				3A83F8F32953BA9500EF6629 /* PersonaListViewTest.swift in Sources */,
 				3A83F8D32953B91900EF6629 /* CardNudgeTest.swift in Sources */,
+				3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */,
 				3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */,
 				3A83F8D92953B94D00EF6629 /* DateTimePickerTest.swift in Sources */,
 				3A83F9072953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */,
@@ -789,6 +809,7 @@
 				53097D3E27028ADC00A6E4DC /* NotificationViewDemoController.swift in Sources */,
 				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
+				ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
 				92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */,
 				53097D4027028AE500A6E4DC /* PersonaButtonCarouselDemoController.swift in Sources */,
@@ -808,6 +829,7 @@
 				53097D4327028AF400A6E4DC /* TableViewCellFileAccessoryViewDemoController.swift in Sources */,
 				B444D6B82183BA4B0002B4D4 /* BadgeViewDemoController.swift in Sources */,
 				A591A3F420F429EB001ED23B /* Demos.swift in Sources */,
+				EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */,
 				B4C39552227A4AC800539EC2 /* TableViewSampleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -104,7 +104,7 @@ class AvatarDemoController: DemoTableViewController {
 
             let avatarView = avatar
 
-            let titleLabel = Label(style: .body, colorStyle: .regular)
+            let titleLabel = Label()
             titleLabel.text = row.title
             titleLabel.numberOfLines = 0
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -208,7 +208,7 @@ class AvatarDemoController: DemoTableViewController {
                     isEven = index % 2 == 0
                     activityStyle = isEven ? .circle : .square
                     allDemoAvatarsCombined[index].state.activityStyle = isShowingActivity ? activityStyle : .none
-                    allDemoAvatarsCombined[index].state.activityImage = isEven ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")
+                    allDemoAvatarsCombined[index].state.activityImage = isEven ? UIImage(named: "Placeholder_20")?.withRenderingMode(.alwaysTemplate) : UIImage(named: "excelIcon")
                 }
             }
         }

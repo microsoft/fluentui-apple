@@ -100,10 +100,12 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-    public override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        tokenSet.update(fluentTheme)
+    public override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateButtonTokens()
     }
 
@@ -137,6 +139,27 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         updateShadow()
     }
+
+#if DEBUG
+    public override var accessibilityIdentifier: String? {
+        get {
+            var identifier: String = "Command Bar"
+
+            if leadingItemGroups != nil {
+                let count: Int = leadingItemGroups?.count ?? 0
+                identifier += " with \(count) \(count == 1 ? "leading button" : "leading buttons")"
+            }
+
+            if trailingItemGroups != nil {
+                let count: Int = trailingItemGroups?.count ?? 0
+                identifier += " and \(count) \(count == 1 ? "trailing button" : "trailing buttons")"
+            }
+
+            return identifier
+        }
+        set { }
+    }
+#endif
 
     // MARK: - TokenizedControl
 
