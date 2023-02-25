@@ -7,8 +7,15 @@ import UIKit
 
 // MARK: BadgeLabel
 
-class BadgeLabel: UILabel {
-    var shouldUseWindowColor: Bool = false
+class BadgeLabel: UILabel, TokenizedControlInternal {
+    var shouldUseWindowColor: Bool = false {
+        didSet {
+            updateColors()
+        }
+    }
+
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,8 +42,12 @@ class BadgeLabel: UILabel {
         updateColors()
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateColors()
     }
 
@@ -44,16 +55,20 @@ class BadgeLabel: UILabel {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateColors()
     }
 
     private func updateColors() {
+        let colors = tokenSet.fluentTheme.aliasTokens.colors
         if shouldUseWindowColor {
-            textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light, dark: GlobalTokens.neutralColors(.white)))
-            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white), dark: fluentTheme.aliasTokens.colors[.brandBackground1].dark))
+            textColor = UIColor(dynamicColor: DynamicColor(light: colors[.brandForeground1].light,
+                                                           dark: GlobalTokens.neutralColors(.white)))
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                                 dark: colors[.brandBackground1].dark))
         } else {
             textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.dangerBackground2])
+            backgroundColor = UIColor(dynamicColor: colors[.dangerBackground2])
         }
     }
 

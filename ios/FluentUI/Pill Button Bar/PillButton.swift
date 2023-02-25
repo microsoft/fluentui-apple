@@ -9,7 +9,7 @@ import UIKit
 
 /// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
-open class PillButton: UIButton {
+open class PillButton: UIButton, TokenizedControlInternal {
 
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
@@ -46,8 +46,12 @@ open class PillButton: UIButton {
         }
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 
@@ -78,12 +82,16 @@ open class PillButton: UIButton {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateAppearance()
     }
 
-    lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: fluentTheme, for: style)
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
-    lazy var titleFont: FontInfo = PillButton.titleFont(for: fluentTheme)
+    lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
+
+    lazy var titleFont: FontInfo = PillButton.titleFont(for: tokenSet.fluentTheme)
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -143,7 +151,7 @@ open class PillButton: UIButton {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = .fluent(titleFont)
+            titleLabel?.font = UIFont.fluent(titleFont, shouldScale: false)
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -211,8 +219,15 @@ open class PillButton: UIButton {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = .fluent(titleFont)
+        attributedTitle.font = UIFont.fluent(titleFont, shouldScale: false)
         configuration?.attributedTitle = attributedTitle
+
+        let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.fluent(self.titleFont, shouldScale: false)
+            return outgoing
+        }
+        configuration?.titleTextAttributesTransformer = attributedTitleTransformer
 
         // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
         accessibilityLabel = itemTitle
@@ -244,58 +259,55 @@ open class PillButton: UIButton {
         if isSelected {
             if isEnabled {
                 resolvedBackgroundColor = customSelectedBackgroundColor ?? (isHighlighted
-                                                                            ? PillButton.selectedHighlightedBackgroundColor(for: fluentTheme, for: style)
-                                                                            : PillButton.selectedBackgroundColor(for: fluentTheme, for: style))
+                                                                            ? PillButton.selectedHighlightedBackgroundColor(for: tokenSet.fluentTheme, for: style)
+                                                                            : PillButton.selectedBackgroundColor(for: tokenSet.fluentTheme, for: style))
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = customSelectedTextColor ?? (isHighlighted ? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style)
-                                                                     : PillButton.selectedTitleColor(for: fluentTheme, for: style))
+                    resolvedTitleColor = customSelectedTextColor ?? (isHighlighted ? PillButton.selectedHighlightedTitleColor(for: tokenSet.fluentTheme, for: style)
+                                                                     : PillButton.selectedTitleColor(for: tokenSet.fluentTheme, for: style))
                 } else {
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style),
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: tokenSet.fluentTheme, for: style),
                                   for: .normal)
-                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style),
+                    setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: tokenSet.fluentTheme, for: style),
                                   for: .highlighted)
                 }
-
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedTitleColor(for: fluentTheme, for: style), for: .normal)
-                setTitleColor(customSelectedTextColor ?? PillButton.selectedHighlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
             } else {
-                resolvedBackgroundColor = PillButton.selectedDisabledBackgroundColor(for: fluentTheme, for: style)
+                resolvedBackgroundColor = PillButton.selectedDisabledBackgroundColor(for: tokenSet.fluentTheme, for: style)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = PillButton.selectedDisabledTitleColor(for: fluentTheme, for: style)
+                    resolvedTitleColor = PillButton.selectedDisabledTitleColor(for: tokenSet.fluentTheme, for: style)
                 } else {
-                    setTitleColor(PillButton.selectedDisabledTitleColor(for: fluentTheme, for: style),
+                    setTitleColor(PillButton.selectedDisabledTitleColor(for: tokenSet.fluentTheme, for: style),
                                   for: .normal)
                 }
             }
         } else {
             if isEnabled {
-                unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: fluentTheme, for: style)
+                unreadDotColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
                 resolvedBackgroundColor = customBackgroundColor ?? (isHighlighted
-                                                                    ? PillButton.highlightedBackgroundColor(for: fluentTheme, for: style)
-                                                                    : PillButton.normalBackgroundColor(for: fluentTheme, for: style))
+                                                                    ? PillButton.highlightedBackgroundColor(for: tokenSet.fluentTheme, for: style)
+                                                                    : PillButton.normalBackgroundColor(for: tokenSet.fluentTheme, for: style))
                 if #available(iOS 15.0, *) {
                     resolvedTitleColor = {
                         guard let customTextColor = customTextColor else {
                             if isHighlighted {
-                                return PillButton.highlightedTitleColor(for: fluentTheme, for: style)
+                                return PillButton.highlightedTitleColor(for: tokenSet.fluentTheme, for: style)
                             }
 
-                            return PillButton.titleColor(for: fluentTheme, for: style)
+                            return PillButton.titleColor(for: tokenSet.fluentTheme, for: style)
                         }
 
                         return customTextColor
                     }()
                 } else {
-                    setTitleColor(customTextColor ?? PillButton.titleColor(for: fluentTheme, for: style), for: .normal)
-                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: fluentTheme, for: style), for: .highlighted)
+                    setTitleColor(customTextColor ?? PillButton.titleColor(for: tokenSet.fluentTheme, for: style), for: .normal)
+                    setTitleColor(customTextColor ?? PillButton.highlightedTitleColor(for: tokenSet.fluentTheme, for: style), for: .highlighted)
                 }
             } else {
-                unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: fluentTheme, for: style)
-                resolvedBackgroundColor = customBackgroundColor ?? PillButton.disabledBackgroundColor(for: fluentTheme, for: style)
+                unreadDotColor = customUnreadDotColor ?? PillButton.disabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
+                resolvedBackgroundColor = customBackgroundColor ?? PillButton.disabledBackgroundColor(for: tokenSet.fluentTheme, for: style)
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = PillButton.disabledTitleColor(for: fluentTheme, for: style)
+                    resolvedTitleColor = PillButton.disabledTitleColor(for: tokenSet.fluentTheme, for: style)
                 } else {
-                    setTitleColor(PillButton.disabledTitleColor(for: fluentTheme, for: style), for: .disabled)
+                    setTitleColor(PillButton.disabledTitleColor(for: tokenSet.fluentTheme, for: style), for: .disabled)
                 }
             }
         }

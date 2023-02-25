@@ -56,9 +56,64 @@ struct NotificationDemoView: View {
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
 
+#if DEBUG
+        let accessibilityIdentifier: String = {
+            var identifier: String = "Notification View with"
+
+            if hasTitle {
+                if hasAttribute {
+                    identifier += " attributed title \"\(title)\""
+                } else {
+                    identifier += " title \"\(title)\""
+                }
+            } else {
+                identifier += " no title"
+            }
+
+            if hasMessage {
+                if hasAttribute {
+                    identifier += ", attributed message \"\(message)\""
+                } else {
+                    identifier += ", message \"\(message)\""
+                }
+            } else {
+                identifier += ", no message"
+            }
+
+            if image != nil {
+                identifier += ", an image"
+            }
+
+            if actionButtonTitle != "" {
+                identifier += ", and an action button titled \"\(actionButtonTitle)\""
+            } else {
+                if trailingImage != nil {
+                    identifier += ", and a trailing image"
+                } else {
+                    identifier += ", and a dismiss button"
+                }
+            }
+
+            identifier += " in style \(style.rawValue)"
+
+            if !(MSFNotificationStyle.primaryBar.rawValue...MSFNotificationStyle.neutralBar.rawValue ~= style.rawValue) {
+                if isFlexibleWidthToast {
+                    identifier += " that is flexible in width"
+                } else {
+                    identifier += " that is not flexible in width"
+                }
+            }
+
+            return identifier
+        }()
+ #endif
+
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
+#if DEBUG
+                .accessibilityIdentifier(accessibilityIdentifier)
+#endif
                 .presentNotification(isPresented: .constant(true), isBlocking: false) {
                     FluentNotification(style: style,
                                        isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,

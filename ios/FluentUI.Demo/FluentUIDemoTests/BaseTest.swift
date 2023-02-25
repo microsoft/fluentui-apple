@@ -16,13 +16,24 @@ class BaseTest: XCTestCase {
         app.launch()
 
         let onHomePage: Bool = app.staticTexts["FluentUI DEV"].exists
-        if !onHomePage {
-            if !app.navigationBars.element.exists {
-                app.buttons["Dismiss"].tap()
-            } else {
-                app.buttons.firstMatch.tap()
-            }
+        let controlPage: XCUIElement = app.staticTexts[controlName]
+        if onHomePage {
+            controlPage.tap()
+            return
         }
-        app.staticTexts[controlName].tap()
+
+        let onDifferentControlPage: Bool = {
+            // handles edge case of SideTabBar first
+            if !app.navigationBars.element.exists {
+                return controlName != "SideTabBar"
+            }
+            return !app.navigationBars.element.staticTexts[controlName].exists
+        }()
+        let backButton: XCUIElement = app.navigationBars.element.exists ? app.buttons.firstMatch : app.buttons["Dismiss"]
+
+        if onDifferentControlPage {
+            backButton.tap()
+            controlPage.tap()
+        }
     }
 }

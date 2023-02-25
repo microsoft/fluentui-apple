@@ -21,7 +21,7 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 /// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
 /// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
-open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
+open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedControlInternal {
     @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
     public enum AccessoryButtonStyle: Int {
         case regular
@@ -44,13 +44,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case footer
         case headerPrimary
 
-        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .header, .footer, .headerPrimary:
-                return .clear
-            }
-        }
-
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer:
@@ -63,9 +56,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         func textFont() -> UIFont {
             switch self {
             case .headerPrimary:
-                return Constants.primaryTitleTextStyle.font
+                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1Strong])
             case .header, .footer:
-                return Constants.titleTextStyle.font
+                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.caption1])
             }
         }
     }
@@ -76,12 +69,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
-        static let primaryTitleTextStyle: TextStyle = .headline
-        static let titleTextStyle: TextStyle = .footnote
 
         static let accessoryViewBottomMargin: CGFloat = 2
         static let accessoryViewMarginLeft: CGFloat = 8
-        static var accessoryButtonTextStyle: TextStyle = .button2
     }
 
     @objc public static var identifier: String { return String(describing: self) }
@@ -173,6 +163,15 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc open var onAccessoryButtonTapped: (() -> Void)?
     @objc open var onHeaderViewTapped: (() -> Void)?
 
+    /// configure this variable to change the appropriate background color based on what type of TableViewCell style it is associated with
+    @objc public var tableViewCellStyle: TableViewCellBackgroundStyleType = .grouped {
+        didSet {
+            if tableViewCellStyle != oldValue {
+                updateTitleAndBackgroundColors()
+            }
+        }
+    }
+
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
 
     open override var intrinsicContentSize: CGSize {
@@ -206,6 +205,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             }
         }
     }
+
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
     private var style: Style = .header {
         didSet {
@@ -273,9 +275,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         updateTitleAndBackgroundColors()
         updateAccessoryButtonTitleColor()
     }
@@ -462,6 +465,16 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateTitleAndBackgroundColors()
+        updateAccessoryButtonTitleColor()
+    }
+
     private func updateTitleViewFont() {
         if let window = window {
             let titleFont = style.textFont()
@@ -475,17 +488,26 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private func updateTitleAndBackgroundColors() {
-        titleView.textColor = style.textColor(fluentTheme: fluentTheme)
-        backgroundView?.backgroundColor = style.backgroundColor(fluentTheme: fluentTheme)
+        titleView.textColor = style.textColor(fluentTheme: tokenSet.fluentTheme)
+
+        if tableViewCellStyle == .grouped {
+            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.backgroundCanvas])
+        } else if tableViewCellStyle == .plain {
+            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background1])
+        } else {
+            backgroundView?.backgroundColor = .clear
+        }
+
         titleView.font = style.textFont()
+        titleView.updateLinkTextColor(tokenSet.fluentTheme)
     }
 
     private func updateAccessoryButtonTitleColor() {
-        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(fluentTheme: fluentTheme), for: .normal)
+        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(fluentTheme: tokenSet.fluentTheme), for: .normal)
     }
 
     private func updateAccessoryButtonTitleStyle() {
-        accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
+        accessoryButton?.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1Strong])
         updateAccessoryButtonTitleColor()
     }
 
@@ -532,22 +554,10 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        updateLinkTextColor()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        updateLinkTextColor(fluentTheme)
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        updateLinkTextColor()
-    }
-
-    private func updateLinkTextColor() {
+    func updateLinkTextColor(_ fluentTheme: FluentTheme) {
         linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])]
     }
 

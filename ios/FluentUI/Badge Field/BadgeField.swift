@@ -69,7 +69,6 @@ open class BadgeField: UIView {
         static let labelMarginRight: CGFloat = 5
         static let labelColorStyle: TextColorStyle = .secondary
         static let textFieldMinWidth: CGFloat = 100
-        static let textStyle: TextStyle = .subhead
     }
 
     @objc open var label: String = "" {
@@ -169,11 +168,9 @@ open class BadgeField: UIView {
 
         updateBackgroundColor()
 
-        labelView.style = Constants.textStyle
         labelView.colorStyle = Constants.labelColorStyle
         addSubview(labelView)
 
-        placeholderView.style = Constants.textStyle
         placeholderView.colorStyle = Constants.labelColorStyle
         addSubview(placeholderView)
 
@@ -249,7 +246,7 @@ open class BadgeField: UIView {
     }
 
     private func setupTextField(_ textField: UITextField) {
-        textField.font = Constants.textStyle.font
+        textField.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress

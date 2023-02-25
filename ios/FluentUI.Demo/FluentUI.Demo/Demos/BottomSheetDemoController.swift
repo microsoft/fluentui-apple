@@ -6,10 +6,12 @@
 import FluentUI
 import UIKit
 
-class BottomSheetDemoController: UIViewController {
+class BottomSheetDemoController: DemoController {
 
-    override func loadView() {
-        view = UIView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        readmeString = "Bottom sheets are helpful for enabling a simple task that people can complete before returning to the parent view."
 
         let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +36,11 @@ class BottomSheetDemoController: UIViewController {
         self.addChild(bottomSheetViewController)
         view.addSubview(bottomSheetViewController.view)
         bottomSheetViewController.didMove(toParent: self)
+
+        // If we're hosting a VC view in the bottom sheet, the VC itself needs to be a child of the bottom sheet VC
+        // This is important to ensure safe area changes propagate correctly.
+        bottomSheetViewController.addChild(contentNavigationController)
+        contentNavigationController.didMove(toParent: bottomSheetViewController)
 
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -139,7 +146,7 @@ class BottomSheetDemoController: UIViewController {
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        personaListView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        personaListView.backgroundColor = .clear
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
@@ -150,7 +157,7 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(personaListView)
 
         let bottomView = UIView()
-        bottomView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
+        bottomView.backgroundColor = .clear
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomView)
 
@@ -198,7 +205,7 @@ class BottomSheetDemoController: UIViewController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
+        view.backgroundColor = .clear
 
         let label = Label()
         label.text = "Header view"
@@ -390,5 +397,40 @@ extension BottomSheetDemoController: BottomSheetControllerDelegate {
         bottomSheetController.willMove(toParent: nil)
         bottomSheetController.removeFromParent()
         bottomSheetController.view.removeFromSuperview()
+    }
+}
+
+extension BottomSheetDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: BottomSheetTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideBottomSheetTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        bottomSheetViewController?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideBottomSheetTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: BottomSheetTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),
+                                                           dark: GlobalTokens.sharedColors(.plum, .shade30))
+            }
+        ]
+    }
+
+    private var perControlOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint40),
+                                                           dark: GlobalTokens.sharedColors(.forest, .shade30))
+            }
+        ]
     }
 }

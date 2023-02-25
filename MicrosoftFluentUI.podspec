@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.12.0'
+  s.version          = '0.13.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
   s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.7"
+  s.swift_version = "5.7.1"
   s.module_name = 'FluentUI'
 
 
@@ -103,8 +103,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
-    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
@@ -298,6 +297,15 @@ fi', :execution_position => :before_compile }
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
   end
 
+  s.subspec 'TextField_ios' do |textfield_ios|
+    textfield_ios.platform = :ios
+    textfield_ios.dependency 'MicrosoftFluentUI/Button_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    textfield_ios.preserve_paths = ["ios/FluentUI/TextField/TextField.resources.xcfilelist"]
+    textfield_ios.source_files = ["ios/FluentUI/TextField/**/*.{swift,h}"]
+  end
+
   s.subspec 'Tooltip_ios' do |tooltip_ios|
     tooltip_ios.platform = :ios
     tooltip_ios.dependency 'MicrosoftFluentUI/Label_ios'
@@ -357,8 +365,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 

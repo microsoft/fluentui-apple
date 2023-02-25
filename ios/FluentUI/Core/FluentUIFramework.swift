@@ -24,11 +24,7 @@ public class FluentUIFramework: NSObject {
         #endif
     }()
     @objc public static let colorsBundle: Bundle = {
-        #if SWIFT_PACKAGE
-        return SharedResources.colorsBundle
-        #else
         return resourceBundle
-        #endif
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
@@ -81,7 +77,7 @@ public class FluentUIFramework: NSObject {
         // UIBarButtonItem
         let barButtonItem = UIBarButtonItem.appearance()
         var titleAttributes = barButtonItem.titleTextAttributes(for: .normal) ?? [:]
-        titleAttributes[.font] = Fonts.body
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1])
         barButtonItem.setTitleTextAttributes(titleAttributes, for: .normal)
 
         let switchAppearance = containerTypes != nil ? UISwitch.appearance(whenContainedInInstancesOf: containerTypes!) : UISwitch.appearance()
@@ -106,14 +102,14 @@ public class FluentUIFramework: NSObject {
             navigationBar.standardAppearance.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[.background3])
         }
 
-        navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground3])
+        navigationBar.tintColor = UIColor(dynamicColor: aliasTokens.colors[.foreground2])
 
         let traits = traits ?? navigationBar.traitCollection
         // Removing built-in shadow for Dark Mode
         navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
 
         var titleAttributes = standardAppearance.titleTextAttributes
-        titleAttributes[.font] = Fonts.headline
+        titleAttributes[.font] = UIFont.fluent(aliasTokens.typography[.body1Strong])
         titleAttributes[.foregroundColor] = UIColor(dynamicColor: aliasTokens.colors[.foreground1])
 
         standardAppearance.titleTextAttributes = titleAttributes
