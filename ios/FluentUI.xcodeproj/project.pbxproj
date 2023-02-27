@@ -98,7 +98,6 @@
 		5314E19625F019650099271A /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1168630322E131CF0088B302 /* TabBarView.swift */; };
 		5314E19725F019650099271A /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118D9847230BBA2300BC0B72 /* TabBarItem.swift */; };
 		5314E19825F019650099271A /* SideTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0931C224AAAC8C0072458A /* SideTabBar.swift */; };
-		5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */; };
 		5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */; };
 		5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */; };
 		5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */; };
@@ -194,7 +193,6 @@
 		C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B055260A86FA007190FA /* SegmentPillButton.swift */; };
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
-		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		D6296DAE295B7CA0002E8EB6 /* ColorProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6296DAD295B7C9F002E8EB6 /* ColorProviding.swift */; };
 		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
@@ -291,7 +289,6 @@
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
 		6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabelButton.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
-		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingController.swift; sourceTree = "<group>"; };
 		8035CACA26377C14007B3FD1 /* CommandingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingItem.swift; sourceTree = "<group>"; };
 		8035CADC2638E435007B3FD1 /* CommandingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandingSection.swift; sourceTree = "<group>"; };
@@ -381,7 +378,6 @@
 		C7752C7B2790C1F40012F860 /* FluentUILib_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_release.xcconfig; sourceTree = "<group>"; };
 		C7752C7C2790C1F40012F860 /* FluentUILib_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_debug.xcconfig; sourceTree = "<group>"; };
 		C77A04B625F03DD1001B3EB6 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
-		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		D6296DAD295B7C9F002E8EB6 /* ColorProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorProviding.swift; sourceTree = "<group>"; };
 		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
@@ -1045,8 +1041,6 @@
 				B4E782C221793AB200A7DFCE /* ActivityIndicatorCell.swift */,
 				B441478C228CDA130040E88E /* BooleanCell.swift */,
 				B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */,
-				7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */,
-				C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */,
 			);
 			path = "Other Cells";
 			sourceTree = "<group>";
@@ -1570,7 +1564,6 @@
 				5314E07125F00F140099271A /* DatePickerSelectionManager.swift in Sources */,
 				5373D5672694D65C0032A3B4 /* Avatar.swift in Sources */,
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
-				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,
 				5314E0A825F010070099271A /* DrawerPresentationController.swift in Sources */,
 				43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */,
@@ -1585,7 +1578,6 @@
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
 				5314E16925F017940099271A /* SegmentedControl.swift in Sources */,
-				C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */,
 				4BF01DA027B3A862005B32F2 /* UIApplication+Extensions.swift in Sources */,
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
