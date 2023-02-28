@@ -145,6 +145,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
 
     var lockedInContractedState: Bool = false
     weak var parentController: ShyHeaderController?
+    weak var paddingView: UIView?
 
     var navigationBarIsHidden: Bool = false {
         didSet {
@@ -170,6 +171,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
         let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         backgroundColor = color
+        paddingView?.backgroundColor = color
     }
 
     private let contentStackView = UIStackView()
