@@ -71,17 +71,11 @@ class ShyHeaderController: UIViewController {
 
     init(contentViewController: UIViewController, containingView: UIView?) {
         self.contentViewController = contentViewController
-        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
-        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
-
         self.containingView = containingView
 
         super.init(nibName: nil, bundle: nil)
 
-        shyHeaderView.parentController = self
-        shyHeaderView.maxHeightChanged = { [weak self] in
-            self?.updatePadding()
-        }
+        setupShyHeaderView()
 
         loadViewIfNeeded()
         addChild(contentViewController)
@@ -208,6 +202,16 @@ class ShyHeaderController: UIViewController {
         // Make sure shy header is always on top so it can show a shadow which is positioned outside of its bounds
         view.bringSubviewToFront(shyHeaderView)
         view.bringSubviewToFront(paddingView)
+    }
+
+    private func setupShyHeaderView() {
+        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
+        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        shyHeaderView.paddingView = paddingView
+        shyHeaderView.parentController = self
+        shyHeaderView.maxHeightChanged = { [weak self] in
+            self?.updatePadding()
+        }
     }
 
     private func setupNotificationObservers() {
