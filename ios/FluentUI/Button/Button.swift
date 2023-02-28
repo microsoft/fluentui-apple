@@ -133,7 +133,7 @@ open class Button: UIButton, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.update()
         }
     }
@@ -380,7 +380,6 @@ open class Button: UIButton, TokenizedControlInternal {
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
-    private var tokenSetSink: AnyCancellable?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false

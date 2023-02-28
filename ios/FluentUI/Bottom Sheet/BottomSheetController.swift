@@ -60,7 +60,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             guard let strongSelf = self else {
                 return
             }
@@ -460,7 +460,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
     public var tokenSet: BottomSheetTokenSet = .init()
 
-    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
     private func updateAppearance() {

@@ -194,7 +194,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateTokenizedValues()
         }
         updateTokenizedValues()
@@ -421,7 +421,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryPill
     })
-    private var tokenSetSink: AnyCancellable?
 
     private let selectionChangeAnimationDuration: TimeInterval = 0.2
 

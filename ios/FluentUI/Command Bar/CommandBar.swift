@@ -92,7 +92,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         configureHierarchy()
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+        tokenSet.onUpdate = { [weak self] in
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
                 self?.updateButtonTokens()
@@ -207,8 +207,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
         tokenSet.update(fluentTheme)
     }
-
-    private var tokenSetSink: AnyCancellable?
 
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView

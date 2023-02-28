@@ -68,20 +68,6 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
-    /// Simplifies the process of observing changes to this token set.
-    ///
-    /// - Parameter receiveValue: A callback to be invoked after the token set has completed updating.
-    ///
-    /// - Returns: An `AnyCancellable` to track this observation.
-    func sinkChanges(receiveValue: @escaping () -> Void) -> AnyCancellable {
-        return self.objectWillChange.sink { [receiveValue] in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                receiveValue()
-            }
-        }
-    }
-
     // Internal accessor and setter functions for the override dictionary
 
     func overrideValue(forToken token: T) -> ControlTokenValue? {
@@ -100,6 +86,18 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = value
     }
 
+    /// A callback to be invoked after the token set has completed updating.
+    var onUpdate: (() -> Void)? {
+        didSet {
+            changeSink = self.objectWillChange.sink { [weak self] in
+                // Values will be updated on the next run loop iteration.
+                DispatchQueue.main.async {
+                    self?.onUpdate?()
+                }
+            }
+        }
+    }
+
     /// The current `FluentTheme` associated with this `ControlTokenSet`.
     @Published var fluentTheme: FluentTheme = FluentTheme.shared
 
@@ -108,6 +106,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// Reference to the default value lookup function for this control.
     private var defaults: ((_ token: T, _ theme: FluentTheme) -> ControlTokenValue)?
+
+    /// Holds the sink for any changes to the control token set.
+    private var changeSink: AnyCancellable?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.

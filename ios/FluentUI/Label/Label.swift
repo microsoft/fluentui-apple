@@ -93,7 +93,7 @@ open class Label: UILabel, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateTextColor()
             self?.updateFont()
         }
@@ -138,5 +138,4 @@ open class Label: UILabel, TokenizedControlInternal {
 
     private var _textColor: UIColor?
     private var isUsingCustomAttributedText: Bool = false
-    private var tokenSetSink: AnyCancellable?
 }

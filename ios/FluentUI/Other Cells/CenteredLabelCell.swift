@@ -14,7 +14,6 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
     public var tokenSet: TableViewCellTokenSet
-    var tokenSetSink: AnyCancellable?
 
     @objc private func themeDidChange(_ notification: Notification) {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
@@ -60,7 +59,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         setupBackgroundColors()
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateAppearance()
         }
     }

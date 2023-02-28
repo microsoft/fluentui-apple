@@ -59,7 +59,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateShimmeringAnimation()
         }
     }
@@ -78,8 +78,6 @@ open class ShimmerView: UIView, TokenizedControlInternal {
     public lazy var tokenSet: ShimmerTokenSet = .init(style: { [weak self] in
         return self?.style ?? .concealing
     })
-
-    var tokenSetSink: AnyCancellable?
 
     /// Style to draw the control.
     public let style: MSFShimmerStyle

@@ -94,7 +94,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
                                                name: .didChangeTheme,
                                                object: nil)
 
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             guard let strongSelf = self else {
                 return
             }

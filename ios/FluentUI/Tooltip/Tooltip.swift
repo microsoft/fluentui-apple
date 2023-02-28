@@ -238,7 +238,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
     public var tokenSet: TooltipTokenSet = .init()
-    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme {
         // Use anchor view to get theme since tooltip view will most likely be nil
         guard let anchorView = anchorView else {
@@ -264,7 +263,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateAppearance()
         }
     }

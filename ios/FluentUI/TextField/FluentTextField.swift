@@ -153,7 +153,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
                                                object: nil)
         updateTokenizedValues()
 
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.onUpdate = { [weak self] in
             self?.updateTokenizedValues()
         }
     }
@@ -299,5 +299,4 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             updateTokenizedValues()
         }
     }
-    private var tokenSetSink: AnyCancellable?
 }
