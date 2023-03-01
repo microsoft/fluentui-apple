@@ -59,6 +59,14 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         self.defaults = defaults
     }
 
+    deinit {
+        if let notificationObserver {
+            NotificationCenter.default.removeObserver(notificationObserver,
+                                                      name: .didChangeTheme,
+                                                      object: nil)
+        }
+    }
+
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
     ///
     /// - Parameter fluentTheme: The current `FluentTheme` for the control's environment.
@@ -95,6 +103,19 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                     self?.onUpdate?()
                 }
             }
+
+            if notificationObserver == nil {
+                // Register for notifications in order to call update() when the theme changes.
+                notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                              object: nil,
+                                                                              queue: nil) { [weak self] notification in
+                    guard let strongSelf = self,
+                          let themable = notification.object as? FluentThemeable else {
+                        return
+                    }
+                    strongSelf.update(themable.fluentTheme)
+                }
+            }
         }
     }
 
@@ -109,6 +130,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// Holds the sink for any changes to the control token set.
     private var changeSink: AnyCancellable?
+
+    // Stores the notification handler for .didChangeTheme notifications.
+    private var notificationObserver: NSObjectProtocol?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.

@@ -127,11 +127,6 @@ open class Button: UIButton, TokenizedControlInternal {
 
         update()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
         tokenSet.onUpdate = { [weak self] in
             self?.update()
@@ -207,13 +202,6 @@ open class Button: UIButton, TokenizedControlInternal {
         if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
             updateBorder()
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
