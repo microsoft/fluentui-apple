@@ -7,12 +7,6 @@ import SwiftUI
 
 /// Pre-defined styles of the notification
 @objc public enum MSFNotificationStyle: Int, CaseIterable {
-	/// Floating notification with brand colored text and background.
-	case primaryToast
-
-	/// Floating notification with neutral colored text and background.
-	case neutralToast
-
 	/// Bar notification with brand colored text and background.
 	case primaryBar
 
@@ -21,26 +15,6 @@ import SwiftUI
 
 	/// Bar notification with neutral colored text and brackground.
 	case neutralBar
-
-	/// Floating notification with red text and background.
-	case dangerToast
-
-	/// Floating notification with yellow text and background.
-	case warningToast
-
-	var isToast: Bool {
-		switch self {
-		case .primaryToast,
-			 .neutralToast,
-			 .dangerToast,
-			 .warningToast:
-			return true
-		case .primaryBar,
-			 .primaryOutlineBar,
-			 .neutralBar:
-			return false
-		}
-	}
 }
 
 /// Properties that can be used to customize the appearance of the `Notification`.
@@ -50,12 +24,6 @@ import SwiftUI
 
 	/// Optional text for the main title area of the control. If there is a title, the message becomes subtext.
 	var message: String? { get set }
-
-	/// Optional text to draw above the message area.
-	var title: String? { get set }
-
-	/// Optional icon to draw at the leading edge of the control.
-	var image: NSImage? { get set }
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
@@ -77,82 +45,43 @@ public struct Notification: View {
 	/// - Parameters:
 	///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
 	///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
-	///   - title: Optional text to draw above the message area.
-	///   - image: Optional icon to draw at the leading edge of the control.
 	///   - actionButtonTitle: Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
 	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     public init(style: MSFNotificationStyle,
                 message: String? = nil,
-                title: String? = nil,
-                image: NSImage? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
-                                             title: title,
-                                             image: image,
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              messageButtonAction: messageButtonAction)
 		self.state = state
 		self.backgroundColor = {
 			switch state.style {
-			case .primaryToast, .primaryBar:
+			case .primaryBar:
 				return Constants.primaryBackgroundColor
-			case .neutralToast, .neutralBar:
-				return Constants.neutralBackgroundColor
 			case .primaryOutlineBar:
-				return Constants.primaryOutlineBarBackgroundColor
-			case .dangerToast:
-				return Constants.dangerToastBackgroundColor
-			case .warningToast:
-				return Constants.warningToastBackgroundColor
+				return Constants.primaryOutlineBackgroundColor
+			case .neutralBar:
+				return Constants.neutralBackgroundColor
 			}
 		}()
 		self.foregroundColor = {
 			switch state.style {
-			case .primaryToast, .primaryBar:
+			case .primaryBar:
 				return Constants.primaryForegroundColor
-			case .neutralToast, .neutralBar:
-				return Constants.neutralForegroundColor
 			case .primaryOutlineBar:
-				return Constants.primaryOutlineBarForegroundColor
-			case .dangerToast:
-				return Constants.dangerToastForegroundColor
-			case .warningToast:
-				return Constants.warningToastForegroundColor
+				return Constants.primaryOutlineForegroundColor
+			case .neutralBar:
+				return Constants.neutralForegroundColor
 			}
 		}()
 	}
 
 	public var body: some View {
-		@ViewBuilder
-		var image: some View {
-			if state.style.isToast {
-				if let image = state.image {
-					let imageSize = image.size
-					Image(nsImage: image)
-						.frame(width: imageSize.width, height: imageSize.height, alignment: .center)
-						.foregroundColor(foregroundColor)
-				}
-			}
-		}
-
-		@ViewBuilder
-		var titleLabel: some View {
-			if state.style.isToast && hasSecondTextRow {
-				if let title = state.title {
-					Text(title)
-						.font(.system(size: 15))
-						.fontWeight(.semibold)
-						.foregroundColor(foregroundColor)
-						.fixedSize(horizontal: false, vertical: true)
-				}
-			}
-		}
-
 		@ViewBuilder
 		var messageLabel: some View {
 			if let message = state.message {
@@ -162,17 +91,6 @@ public struct Notification: View {
 					.foregroundColor(foregroundColor)
 					.fixedSize(horizontal: false, vertical: true)
 			}
-		}
-
-		@ViewBuilder
-		var textContainer: some View {
-			VStack(alignment: .leading) {
-				if hasSecondTextRow {
-					titleLabel
-				}
-				messageLabel
-			}
-			.padding(.vertical, Constants.verticalPadding)
 		}
 
 		@ViewBuilder
@@ -208,10 +126,10 @@ public struct Notification: View {
 		let messageButtonAction = state.messageButtonAction
 		@ViewBuilder
 		var innerContents: some View {
-			if hasCenteredText {
+			if state.actionButtonAction == nil {
 				HStack {
 					Spacer()
-					textContainer
+					messageLabel
 					Spacer()
 				}
 				.frame(minHeight: Constants.minimumHeight)
@@ -219,8 +137,7 @@ public struct Notification: View {
 				let horizontalSpacing = Constants.horizontalSpacing
 				HStack(spacing: 0) {
 					HStack(spacing: horizontalSpacing) {
-						image
-						textContainer
+						messageLabel
 						Spacer(minLength: 0)
 					}
 					.accessibilityElement(children: .combine)
@@ -238,7 +155,6 @@ public struct Notification: View {
 			innerContents
 				.background(
 					backgroundColor
-					.clipShape(RoundedRectangle(cornerRadius: state.style.isToast ? Constants.toastCornerRadius : Constants.barCornerRadius))
 				)
 				.overlay(Rectangle().frame(width: nil, height: state.style == .primaryOutlineBar ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: .top)
 				.onTapGesture {
@@ -257,38 +173,15 @@ public struct Notification: View {
 
 	var foregroundColor: Color
 
-	private var hasImage: Bool {
-		state.style.isToast && state.image != nil
-	}
-
-	private var hasSecondTextRow: Bool {
-		guard state.title != nil else {
-			return false
-		}
-
-		return state.style.isToast
-	}
-
-	private var hasCenteredText: Bool {
-		!state.style.isToast && state.actionButtonAction == nil
-	}
-
 	private struct Constants {
 		static let primaryBackgroundColor: Color = Color(FluentUI.Colors.primaryTint30)
 		static let primaryForegroundColor: Color = Color(FluentUI.Colors.primaryShade20)
+		static let primaryOutlineBackgroundColor: Color = Color(.white)
+		static let primaryOutlineForegroundColor: Color = Color(FluentUI.Colors.primary)
 		static let neutralBackgroundColor: Color = Color(FluentUI.Colors.Palette.gray100.color)
 		static let neutralForegroundColor: Color = Color(FluentUI.Colors.Palette.gray900.color)
-		static let primaryOutlineBarBackgroundColor: Color = Color(.white)
-		static let primaryOutlineBarForegroundColor: Color = Color(FluentUI.Colors.primary)
-		static let dangerToastBackgroundColor: Color = Color(FluentUI.Colors.Palette.dangerTint30.color)
-		static let dangerToastForegroundColor: Color = Color(FluentUI.Colors.Palette.dangerShade20.color)
-		static let warningToastBackgroundColor: Color = Color(FluentUI.Colors.Palette.warningTint30.color)
-		static let warningToastForegroundColor: Color = Color(FluentUI.Colors.Palette.warningShade30.color)
 
-		static let toastCornerRadius: CGFloat = 12
-		static let barCornerRadius: CGFloat = 0
 		static let horizontalPadding: CGFloat = 16
-		static let verticalPadding: CGFloat = 12
 		static let horizontalSpacing: CGFloat = 16
 		static let minimumHeight: CGFloat = 45
 		static let outlineWidth: CGFloat = 0.5
@@ -297,8 +190,6 @@ public struct Notification: View {
 
 class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	@Published var message: String?
-	@Published var title: String?
-	@Published var image: NSImage?
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
@@ -319,8 +210,6 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
                   message: nil,
-                  title: nil,
-                  image: nil,
                   actionButtonTitle: nil,
                   actionButtonAction: nil,
                   messageButtonAction: nil)
@@ -328,15 +217,11 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 
     init(style: MSFNotificationStyle,
          message: String? = nil,
-         title: String? = nil,
-         image: NSImage? = nil,
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil) {
 		self.style = style
 		self.message = message
-		self.title = title
-		self.image = image
 		self.actionButtonTitle = actionButtonTitle
 		self.actionButtonAction = actionButtonAction
 		self.messageButtonAction = messageButtonAction
