@@ -7,13 +7,15 @@ import FluentUI
 import UIKit
 
 class BadgeViewDemoController: DemoController {
+    private var badges = [BadgeView]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         readmeString = "A badge is a compact, interactive, \ntextual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
 
         addBadgeSection(title: "Default badge", style: .default)
-        addBadgeSection(title: "Error badge", style: .error)
+        addBadgeSection(title: "Danger badge", style: .danger)
         addBadgeSection(title: "Warning badge", style: .warning)
         addBadgeSection(title: "Neutral badge", style: .neutral)
         addBadgeSection(title: "Severe Warning badge", style: .severeWarning)
@@ -28,8 +30,8 @@ class BadgeViewDemoController: DemoController {
 
     func createBadge(
         text: String,
-        style: BadgeView.Style,
-        size: BadgeView.Size,
+        style: MSFBadgeViewStyle,
+        size: MSFBadgeViewSize,
         isEnabled: Bool,
         customView: UIView? = nil,
         customViewVerticalPadding: NSNumber? = nil,
@@ -49,22 +51,45 @@ class BadgeViewDemoController: DemoController {
         let badge = BadgeView(dataSource: dataSource)
         badge.delegate = self
         badge.isActive = isEnabled
+        badges.append(badge)
         return badge
     }
 
-    func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true, overrideColor: Bool = false) {
+    func addBadgeSection(title: String, style: MSFBadgeViewStyle, isEnabled: Bool = true, overrideColor: Bool = false) {
         addTitle(text: title)
-        for size in BadgeView.Size.allCases.reversed() {
+        for size in MSFBadgeViewSize.allCases.reversed() {
             let badge = createBadge(text: "Kat Larsson", style: style, size: size, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
-                    badge.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
-                    badge.selectedBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.darkTeal, .tint20))
-                    badge.labelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey94))
-                    badge.selectedLabelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey88))
+                    var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+                        return [
+                            .backgroundTintColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
+                            },
+                            .backgroundFilledColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint20))
+                            },
+                            .foregroundTintColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.neutralColors(.grey94))
+                            },
+                            .foregroundFilledColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.neutralColors(.grey88))
+                            }
+                        ]
+                    }
+                    badge.tokenSet.replaceAllOverrides(with: customTokens)
                 } else {
-                    badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey88))
-                    badge.disabledLabelTextColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey26))
+                    var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+                        return [
+                            .backgroundDisabledColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.neutralColors(.grey88))
+                            },
+                            .foregroundDisabledColor: .dynamicColor {
+                                return DynamicColor(light: GlobalTokens.neutralColors(.grey26))
+                            }
+                        ]
+                    }
+                    badge.tokenSet.replaceAllOverrides(with: customTokens)
                 }
             }
             addRow(text: size.description, items: [badge])
@@ -82,7 +107,7 @@ class BadgeViewDemoController: DemoController {
         let avatar = MSFAvatar(style: .default, size: .size16)
         avatar.state.image = UIImage(named: "avatar_kat_larsson")
 
-        let dataSource: [(BadgeView.Size, UIView)] = [
+        let dataSource: [(MSFBadgeViewSize, UIView)] = [
             (.medium, imageView),
             (.small, avatar)
         ]
@@ -96,12 +121,19 @@ class BadgeViewDemoController: DemoController {
                 customView: customView,
                 customViewVerticalPadding: 3
             )
-            badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
-            badge.disabledLabelTextColor = .white
-
+            var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+                return [
+                    .backgroundDisabledColor: .dynamicColor {
+                        return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
+                    },
+                    .foregroundDisabledColor: .dynamicColor {
+                        return DynamicColor(light: GlobalTokens.neutralColors(.white))
+                    }
+                ]
+            }
+            badge.tokenSet.replaceAllOverrides(with: customTokens)
             addRow(text: size.description, items: [badge])
         }
-
         container.addArrangedSubview(UIView())
     }
 }
@@ -118,7 +150,70 @@ extension BadgeViewDemoController: BadgeViewDelegate {
     }
 }
 
-extension BadgeView.Size {
+extension BadgeViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: BadgeViewTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideBadgeViewTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for badge in badges {
+            badge.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideBadgeViewTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: BadgeViewTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideBadgeViewTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundTintColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),
+                                    dark: GlobalTokens.sharedColors(.plum, .shade30))
+            },
+            .backgroundFilledColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                    dark: GlobalTokens.sharedColors(.berry, .tint40))
+            },
+            .foregroundTintColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                    dark: GlobalTokens.neutralColors(.grey98))
+            },
+            .foregroundFilledColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                    dark: GlobalTokens.neutralColors(.black))
+            }
+        ]
+    }
+
+    private var perControlOverrideBadgeViewTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundTintColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint40),
+                                    dark: GlobalTokens.sharedColors(.forest, .shade30))
+            },
+            .backgroundFilledColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .shade30),
+                                    dark: GlobalTokens.sharedColors(.seafoam, .tint40))
+            },
+            .foregroundTintColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.neutralColors(.black),
+                                    dark: GlobalTokens.neutralColors(.white))
+            },
+            .foregroundFilledColor: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                    dark: GlobalTokens.neutralColors(.black))
+            }
+        ]
+    }
+}
+
+extension MSFBadgeViewSize {
     var description: String {
         switch self {
         case .small:

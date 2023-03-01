@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
+		3A7BAA0D29A586F4001D7908 /* BadgeViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7BAA0C29A586F4001D7908 /* BadgeViewTokenSet.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B2E373D2991CB53008929B4 /* BottomSheetTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E373C2991CB53008929B4 /* BottomSheetTokenSet.swift */; };
 		4B4A2F2129A7E83100570CD4 /* LabelTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */; };
@@ -243,6 +244,7 @@
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTokenSet.swift; sourceTree = "<group>"; };
+		3A7BAA0C29A586F4001D7908 /* BadgeViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewTokenSet.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
@@ -868,13 +870,13 @@
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5306074E26A1E6A4002D49CF /* AvatarGroup */,
+				B4F118EA21C8270F00855942 /* Badge Field */,
 				5314DFF625F0079B0099271A /* BarButtonItems */,
 				80B52538264CA5BC00E3FD32 /* Bottom Commanding */,
 				80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */,
 				5314DFEC25F0029C0099271A /* Button */,
-				CCC18C2A2501B1A900BE830E /* Card */,
-				B4F118EA21C8270F00855942 /* Badge Field */,
 				FDFB8AE921361C860046850A /* Calendar */,
+				CCC18C2A2501B1A900BE830E /* Card */,
 				92D5597C26A0FC9700328FD3 /* Card Nudge */,
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
@@ -1016,6 +1018,7 @@
 				B45EB78F219E310F008646A2 /* BadgeField.swift */,
 				B4A8BBCC21BF6D6900D5E3ED /* BadgeStringExtractor.swift */,
 				B444D6B52183A9740002B4D4 /* BadgeView.swift */,
+				3A7BAA0C29A586F4001D7908 /* BadgeViewTokenSet.swift */,
 			);
 			path = "Badge Field";
 			sourceTree = "<group>";
@@ -1446,6 +1449,7 @@
 				6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */,
 				6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,
+				3A7BAA0D29A586F4001D7908 /* BadgeViewTokenSet.swift in Sources */,
 				EC5982DA27C703EE00FD048D /* ShapeCutout.swift in Sources */,
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */,

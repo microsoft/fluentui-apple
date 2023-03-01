@@ -99,8 +99,17 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         let dataSource = BadgeViewDataSource(text: text, customView: customView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
-        badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
-        badge.disabledLabelTextColor = .white
+        var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+            return [
+                .backgroundDisabledColor: .dynamicColor {
+                    return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
+                },
+                .foregroundDisabledColor: .dynamicColor {
+                    return DynamicColor(light: GlobalTokens.neutralColors(.white))
+                }
+            ]
+        }
+        badge.tokenSet.replaceAllOverrides(with: customTokens)
         badge.isActive = false
         badge.maxFontSize = Constants.badgeViewMaxFontSize
         return badge

@@ -4,19 +4,20 @@
 //
 
 import UIKit
+import Combine
 
 // MARK: BadgeViewDataSource
 @objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
-    @objc open var style: BadgeView.Style
-    @objc open var size: BadgeView.Size
+    @objc open var style: MSFBadgeViewStyle
+    @objc open var size: MSFBadgeViewSize
     @objc open var customView: UIView?
     @objc open var customViewVerticalPadding: NSNumber?
     @objc open var customViewPaddingLeft: NSNumber?
     @objc open var customViewPaddingRight: NSNumber?
 
-    @objc public init(text: String, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
+    @objc public init(text: String, style: MSFBadgeViewStyle = .default, size: MSFBadgeViewSize = .medium) {
         self.text = text
         self.style = style
         self.size = size
@@ -25,8 +26,8 @@ open class BadgeViewDataSource: NSObject {
 
     @objc public convenience init(
         text: String,
-        style: BadgeView.Style = .default,
-        size: BadgeView.Size = .medium,
+        style: MSFBadgeViewStyle = .default,
+        size: MSFBadgeViewSize = .medium,
         customView: UIView? = nil,
         customViewVerticalPadding: NSNumber? = nil,
         customViewPaddingLeft: NSNumber? = nil,
@@ -57,53 +58,13 @@ public protocol BadgeViewDelegate {
  */
 @objc(MSFBadgeView)
 open class BadgeView: UIView, TokenizedControlInternal {
-    @objc(MSFBadgeViewStyle)
-    public enum Style: Int {
-        case `default`
-        case warning
-        case error
-        case neutral
-        case severeWarning
-        case success
-    }
-
-    @objc(MSFBadgeViewSize)
-    public enum Size: Int, CaseIterable {
-        case small
-        case medium
-
-        var labelTextStyle: AliasTokens.TypographyTokens {
-            switch self {
-            case .small:
-                return .caption1
-            case .medium:
-                return .body2
-            }
-        }
-
-        var horizontalPadding: CGFloat {
-            switch self {
-            case .small:
-                return 4
-            case .medium:
-                return 5
-            }
-        }
-
-        var verticalPadding: CGFloat {
-            switch self {
-            case .small:
-                return 1.5
-            case .medium:
-                return 4
-            }
-        }
-    }
-
-    private struct Constants {
-        static let defaultMinWidth: CGFloat = 25
-        static let backgroundCornerRadius: CGFloat = 3
-    }
+    public typealias TokenSetKeyType = BadgeViewTokenSet.Tokens
+    lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .default
+    },
+                                                     size: { [weak self] in
+        return self?.size ?? .medium
+    })
 
     @objc open var dataSource: BadgeViewDataSource? {
         didSet {
@@ -136,143 +97,6 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
-    private var _labelTextColor: UIColor?
-    @objc open var labelTextColor: UIColor? {
-        get {
-            if let customLabelTextColor = _labelTextColor {
-                return customLabelTextColor
-            }
-            switch style {
-            case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandForegroundTint])
-            case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.warningForeground1])
-            case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.dangerForeground1])
-            case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
-            case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.severeForeground1])
-            case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.successForeground1])
-            }
-        }
-        set {
-            if labelTextColor != newValue {
-                _labelTextColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _selectedLabelTextColor: UIColor?
-    @objc open var selectedLabelTextColor: UIColor {
-        get {
-            if let customSelectedLabelTextColor = _selectedLabelTextColor {
-                return customSelectedLabelTextColor
-            }
-
-            switch style {
-            case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundOnColor])
-            case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundDarkStatic])
-            case .error,
-                 .severeWarning,
-                 .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
-            case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1])
-            }
-        }
-        set {
-            if selectedLabelTextColor != newValue {
-                _selectedLabelTextColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _disabledLabelTextColor: UIColor?
-    @objc open var disabledLabelTextColor: UIColor? {
-        get {
-            if let customDisabledLabelTextColor = _disabledLabelTextColor {
-                return customDisabledLabelTextColor
-            }
-
-            let textDisabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundDisabled1])
-            if style == .default {
-                return UIColor(light: UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]), dark: textDisabledColor)
-            } else {
-                return textDisabledColor
-            }
-        }
-        set {
-            if disabledBackgroundColor != newValue {
-                _disabledLabelTextColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _backgroundColor: UIColor?
-    @objc open override var backgroundColor: UIColor? {
-        get {
-            if let customBackgroundColor = _backgroundColor {
-                return customBackgroundColor
-            }
-            switch style {
-            case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandBackgroundTint])
-            case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.warningBackground1])
-            case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.dangerBackground1])
-            case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background5])
-            case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.severeBackground1])
-            case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.successBackground1])
-            }
-        }
-        set {
-            if backgroundColor != newValue {
-                _backgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _selectedBackgroundColor: UIColor?
-    @objc open var selectedBackgroundColor: UIColor? {
-        get {
-            if let customSelectedBackgroundColor = _selectedBackgroundColor {
-                return customSelectedBackgroundColor
-            }
-            switch style {
-            case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandBackground1])
-            case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.warningBackground2])
-            case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.dangerBackground2])
-            case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background5Selected])
-            case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.severeBackground2])
-            case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.successBackground2])
-            }
-        }
-        set {
-            if selectedBackgroundColor != newValue {
-                _selectedBackgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
     @objc open var lineBreakMode: NSLineBreakMode {
         set {
             label.lineBreakMode = newValue
@@ -282,29 +106,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
-    private var _disabledBackgroundColor: UIColor?
-    open var disabledBackgroundColor: UIColor? {
-        get {
-            if let customDisabledBackgroundColor = _disabledBackgroundColor {
-                return customDisabledBackgroundColor
-            }
-
-            let backgroundDisabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background5])
-            if style == .default {
-                return UIColor(light: UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandBackground3]), dark: backgroundDisabledColor)
-            } else {
-                return backgroundDisabledColor
-            }
-        }
-        set {
-            if disabledBackgroundColor != newValue {
-                _disabledBackgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    @objc open var minWidth: CGFloat = Constants.defaultMinWidth {
+    @objc open var minWidth: CGFloat = BadgeViewTokenSet.defaultMinWidth {
         didSet {
             setNeedsLayout()
         }
@@ -326,16 +128,13 @@ open class BadgeView: UIView, TokenizedControlInternal {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
-
-    private var style: Style = .default {
+    private var style: MSFBadgeViewStyle = .default {
         didSet {
             updateColors()
         }
     }
 
-    private var size: Size = .medium {
+    private var size: MSFBadgeViewSize = .medium {
         didSet {
             label.style = size.labelTextStyle
             invalidateIntrinsicContentSize()
@@ -356,8 +155,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             return defaultValue
         }
-        let defaultVerticalPadding = size.verticalPadding
-        let defaultHorizontalPadding = size.horizontalPadding
+        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding(size)
+        let defaultHorizontalPadding = BadgeViewTokenSet.horizontalPadding(size)
         return UIEdgeInsets(
             top: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
             left: getFloat(dataSource?.customViewPaddingLeft, defaultHorizontalPadding),
@@ -366,6 +165,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
         )
     }
 
+    private var tokenSetSink: AnyCancellable?
+
     private let backgroundView = UIView()
 
     private let label = Label()
@@ -373,7 +174,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     @objc public init(dataSource: BadgeViewDataSource) {
         super.init(frame: .zero)
 
-        backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
+        backgroundView.layer.cornerRadius = tokenSet[.borderRadius].float
         backgroundView.layer.cornerCurve = .continuous
 
         addSubview(backgroundView)
@@ -405,6 +206,14 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
 
         updateFonts()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateColors()
+            }
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -440,7 +249,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
             let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x, height: labelSize.height)
             label.frame = CGRect(origin: labelOrigin, size: labelSizeThatFits)
         } else {
-            label.frame = bounds.insetBy(dx: size.horizontalPadding, dy: size.verticalPadding)
+            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(size), dy: BadgeViewTokenSet.verticalPadding(size))
         }
 
         flipSubviewsForRTL()
@@ -465,12 +274,12 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
         if let customViewSize = customViewSize(for: size), customViewSize != .zero {
             let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
-            let heightForLabel = labelSize.height + self.size.verticalPadding * 2
+            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding(self.size) * 2
             height = max(heightForCustomView, heightForLabel)
-            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + self.size.horizontalPadding * 2
+            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.size) * 2
         } else {
-            height = labelSize.height + self.size.verticalPadding * 2
-            width = labelSize.width + self.size.horizontalPadding * 2
+            height = labelSize.height + BadgeViewTokenSet.verticalPadding(self.size) * 2
+            width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.size) * 2
         }
 
         let maxWidth = size.width > 0 ? size.width : .infinity
@@ -502,12 +311,12 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateBackgroundColor() {
-        backgroundView.backgroundColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
+        backgroundView.backgroundColor = UIColor(dynamicColor: isActive ? (isSelected ? tokenSet[.backgroundFilledColor].dynamicColor : tokenSet[.backgroundTintColor].dynamicColor) : tokenSet[.backgroundDisabledColor].dynamicColor)
         super.backgroundColor = .clear
     }
 
     private func updateLabelTextColor() {
-        label.textColor = isActive ? (isSelected ? selectedLabelTextColor : labelTextColor) : disabledLabelTextColor
+        label.textColor = UIColor(dynamicColor: isActive ? (isSelected ? tokenSet[.foregroundFilledColor].dynamicColor : tokenSet[.foregroundTintColor].dynamicColor) : tokenSet[.foregroundDisabledColor].dynamicColor)
     }
 
     @objc private func badgeTapped() {
