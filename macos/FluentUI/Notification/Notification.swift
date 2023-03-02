@@ -37,6 +37,9 @@ import SwiftUI
 
 	/// Action to be dispatched by tapping on the toast/bar notification.
 	var messageButtonAction: (() -> Void)? { get set }
+	
+	/// Defines whether the notification shows from the bottom or the top.
+	var showFromBottom: Bool { get set }
 }
 
 /// View that represents the Notification.
@@ -48,16 +51,19 @@ public struct NotificationView: View {
 	///   - actionButtonTitle: Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
 	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
+	///   - showFromBottom: Defines whether the notification shows from the bottom or the top.
     public init(style: MSFNotificationStyle,
                 message: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
-                messageButtonAction: (() -> Void)? = nil) {
+                messageButtonAction: (() -> Void)? = nil,
+                showFromBottom: Bool = true) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
-                                             messageButtonAction: messageButtonAction)
+                                             messageButtonAction: messageButtonAction,
+                                             showFromBottom: showFromBottom)
 		self.state = state
 		self.backgroundColor = {
 			switch state.style {
@@ -156,7 +162,7 @@ public struct NotificationView: View {
 				.background(
 					backgroundColor
 				)
-				.overlay(Rectangle().frame(width: nil, height: state.style == .subtle ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: .top)
+				.overlay(Rectangle().frame(width: nil, height: state.style == .subtle ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: state.showFromBottom ? .top : .bottom)
 				.onTapGesture {
 					if let messageAction = messageButtonAction {
 						messageAction()
@@ -190,6 +196,7 @@ public struct NotificationView: View {
 
 class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	@Published var message: String?
+	@Published var showFromBottom: Bool
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
@@ -212,19 +219,22 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
                   message: nil,
                   actionButtonTitle: nil,
                   actionButtonAction: nil,
-                  messageButtonAction: nil)
+                  messageButtonAction: nil,
+                  showFromBottom: true)
 	}
 
     init(style: MSFNotificationStyle,
          message: String? = nil,
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
-         messageButtonAction: (() -> Void)? = nil) {
+         messageButtonAction: (() -> Void)? = nil,
+         showFromBottom: Bool = true) {
 		self.style = style
 		self.message = message
 		self.actionButtonTitle = actionButtonTitle
 		self.actionButtonAction = actionButtonAction
 		self.messageButtonAction = messageButtonAction
+		self.showFromBottom = showFromBottom
 
 		super.init()
 	}
