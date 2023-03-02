@@ -87,25 +87,12 @@ open class Label: UILabel, TokenizedControlInternal {
                                                selector: #selector(handleContentSizeCategoryDidChange),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         // Update appearance whenever overrideTokens changes.
         tokenSet.onUpdate = { [weak self] in
             self?.updateTextColor()
             self?.updateFont()
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateTextColor()
-        updateFont()
     }
 
     private func updateFont() {

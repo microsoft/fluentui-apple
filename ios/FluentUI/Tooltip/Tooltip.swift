@@ -246,21 +246,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         return anchorView.fluentTheme
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, let anchorView = anchorView, anchorView.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
-
     private override init() {
         super.init()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.onUpdate = { [weak self] in

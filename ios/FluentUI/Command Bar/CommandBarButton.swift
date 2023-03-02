@@ -76,18 +76,10 @@ class CommandBarButton: UIButton {
 
         updateState()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.onUpdate = { [weak self] in
+            self?.updateStyle()
+            self?.isPointerInteractionEnabled = true
         }
-        updateStyle()
-        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)

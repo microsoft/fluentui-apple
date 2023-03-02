@@ -147,10 +147,6 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             leadingImageView.centerYAnchor.constraint(equalTo: textfield.centerYAnchor)
         ])
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
         updateTokenizedValues()
 
         tokenSet.onUpdate = { [weak self] in
@@ -238,14 +234,6 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         label.numberOfLines = 0
         return label
     }()
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateTokenizedValues()
-    }
 
     @objc private func editingChanged() {
         guard let onEditingChanged else {

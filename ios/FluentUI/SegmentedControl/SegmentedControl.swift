@@ -188,11 +188,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         updateStackDistribution()
         setupLayoutConstraints()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
         tokenSet.onUpdate = { [weak self] in
             self?.updateTokenizedValues()
@@ -562,13 +557,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         let button = buttons[index]
         button.isSelected = isSelected
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
     }
 
     private func layoutSelectionView() {

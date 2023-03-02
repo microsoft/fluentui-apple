@@ -54,11 +54,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever `tokenSet` changes.
         tokenSet.onUpdate = { [weak self] in
             guard let strongSelf = self else {
@@ -483,13 +478,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private func updateCornerRadius() {
         bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.view.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
     }
 
     private lazy var overflowView: UIView = UIView()

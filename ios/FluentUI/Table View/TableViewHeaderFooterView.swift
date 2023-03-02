@@ -268,19 +268,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.onUpdate = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateTitleAndBackgroundColors()
+            strongSelf.updateAccessoryButtonTitleColor()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateTitleAndBackgroundColors()
-        updateAccessoryButtonTitleColor()
     }
 
     // MARK: Setup

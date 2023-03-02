@@ -85,18 +85,11 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
         super.init(frame: .zero)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
         configureHierarchy()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.onUpdate = { [weak self] in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                self?.updateButtonTokens()
-            }
+            self?.updateButtonTokens()
         }
     }
 
@@ -200,13 +193,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public weak var delegate: CommandBarDelegate?
 
     // MARK: - Private properties
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-    }
 
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView

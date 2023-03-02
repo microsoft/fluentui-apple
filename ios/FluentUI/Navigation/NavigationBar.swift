@@ -300,23 +300,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         super.init(frame: frame)
         initBase()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors(for: topItem)
     }
 
     /// Custom base initializer, used regardless of entry point
@@ -366,6 +354,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
+
+        tokenSet.onUpdate = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.updateColors(for: strongSelf.topItem)
+        }
     }
 
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {

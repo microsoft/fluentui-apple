@@ -114,25 +114,15 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                object: item)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: TabBarItem.isUnreadValueDidChangeNotification,
                                                object: item)
 
         badgeValue = item.badgeValue
         updateLayout()
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.onUpdate = { [weak self] in
+            self?.updateColors()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
