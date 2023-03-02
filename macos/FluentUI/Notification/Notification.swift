@@ -17,6 +17,11 @@ import SwiftUI
 	case neutral
 }
 
+@objc public enum MSFNotificationDirection: Int, CaseIterable {
+	case top
+	case bottom
+}
+
 /// Properties that can be used to customize the appearance of the `Notification`.
 @objc public protocol MSFNotificationState: NSObjectProtocol {
 	/// Style to draw the control.
@@ -35,35 +40,35 @@ import SwiftUI
 	/// To show an action button, provide values for both `actionButtonTitle` and  `actionButtonAction`.
 	var actionButtonAction: (() -> Void)? { get set }
 
-	/// Action to be dispatched by tapping on the toast/bar notification.
+	/// Action to be dispatched by tapping on the notification.
 	var messageButtonAction: (() -> Void)? { get set }
-	
-	/// Defines whether the notification shows from the bottom or the top.
-	var showFromBottom: Bool { get set }
+
+	/// Direction that the notification will appear from. This is used to determine which side to draw the border for subtle notifications.
+	var notificationDirection: MSFNotificationDirection { get set }
 }
 
 /// View that represents the Notification.
-public struct NotificationView: View {
+public struct NotificationBarView: View {
 	/// Creates the Notification
 	/// - Parameters:
 	///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
 	///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
 	///   - actionButtonTitle: Title to display in the action button on the trailing edge of the control.
 	///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
-	///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
-	///   - showFromBottom: Defines whether the notification shows from the bottom or the top.
+	///   - messageButtonAction: Action to be dispatched by tapping on the notification.
+	///   - notificationDirection: Direction that the notification will appear from. This is used to determine which side to draw the border for subtle notifications.
     public init(style: MSFNotificationStyle,
                 message: String? = nil,
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
-                showFromBottom: Bool = true) {
+                notificationDirection: MSFNotificationDirection = .bottom) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              messageButtonAction: messageButtonAction,
-                                             showFromBottom: showFromBottom)
+                                             notificationDirection: notificationDirection)
 		self.state = state
 		self.backgroundColor = {
 			switch state.style {
@@ -162,7 +167,7 @@ public struct NotificationView: View {
 				.background(
 					backgroundColor
 				)
-				.overlay(Rectangle().frame(width: nil, height: state.style == .subtle ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: state.showFromBottom ? .top : .bottom)
+				.overlay(Rectangle().frame(width: nil, height: state.style == .subtle ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: state.notificationDirection == MSFNotificationDirection.bottom ? .top : .bottom)
 				.onTapGesture {
 					if let messageAction = messageButtonAction {
 						messageAction()
@@ -196,7 +201,6 @@ public struct NotificationView: View {
 
 class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	@Published var message: String?
-	@Published var showFromBottom: Bool
 
 	/// Title to display in the action button on the trailing edge of the control.
 	///
@@ -208,11 +212,14 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
 	/// To show an action button, provide values for both `actionButtonTitle` and `actionButtonAction`.
 	@Published var actionButtonAction: (() -> Void)?
 
-	/// Action to be dispatched by tapping on the toast/bar notification.
+	/// Action to be dispatched by tapping on the notification.
 	@Published var messageButtonAction: (() -> Void)?
 
 	/// Style to draw the control.
 	@Published var style: MSFNotificationStyle
+
+	/// Direction that the notification will appear from. This is used to determine which side to draw the border for subtle notifications.
+	@Published var notificationDirection: MSFNotificationDirection
 
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
@@ -220,7 +227,7 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
                   actionButtonTitle: nil,
                   actionButtonAction: nil,
                   messageButtonAction: nil,
-                  showFromBottom: true)
+                  notificationDirection: MSFNotificationDirection.bottom)
 	}
 
     init(style: MSFNotificationStyle,
@@ -228,13 +235,13 @@ class MSFNotificationStateImpl: NSObject, MSFNotificationState {
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
-         showFromBottom: Bool = true) {
+         notificationDirection: MSFNotificationDirection = .bottom) {
 		self.style = style
 		self.message = message
 		self.actionButtonTitle = actionButtonTitle
 		self.actionButtonAction = actionButtonAction
 		self.messageButtonAction = messageButtonAction
-		self.showFromBottom = showFromBottom
+		self.notificationDirection = notificationDirection
 
 		super.init()
 	}
