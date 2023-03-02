@@ -13,10 +13,10 @@ class TestNotificationController: NSViewController {
 		containerView.orientation = .vertical
 
 		let notificationList = [
-			Notification(style: .primaryBar, message: "Updating..."),
-			Notification(style: .primaryOutlineBar, message: "Mail Sent"),
-			Notification(style: .neutralBar, message: "No internet connection"),
-			Notification(style: .neutralBar, message: "This error can be taken action on with the action on the right.", actionButtonTitle: "Action", actionButtonAction: buttonPressed)
+			Notification(style: .accent, message: "Updating..."),
+			Notification(style: .subtle, message: "Mail Sent"),
+			Notification(style: .neutral, message: "No internet connection"),
+			Notification(style: .neutral, message: "This error can be taken action on with the action on the right.", actionButtonTitle: "Action", actionButtonAction: buttonPressed)
 		]
 
 		var constraints = [NSLayoutConstraint]()

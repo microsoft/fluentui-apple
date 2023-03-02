@@ -8,13 +8,13 @@ import SwiftUI
 /// Pre-defined styles of the notification
 @objc public enum MSFNotificationStyle: Int, CaseIterable {
 	/// Bar notification with brand colored text and background.
-	case primaryBar
+	case accent
 
 	/// Bar notification with brand colored text and neutral colored background.
-	case primaryOutlineBar
+	case subtle
 
 	/// Bar notification with neutral colored text and brackground.
-	case neutralBar
+	case neutral
 }
 
 /// Properties that can be used to customize the appearance of the `Notification`.
@@ -61,21 +61,21 @@ public struct Notification: View {
 		self.state = state
 		self.backgroundColor = {
 			switch state.style {
-			case .primaryBar:
-				return Constants.primaryBackgroundColor
-			case .primaryOutlineBar:
-				return Constants.primaryOutlineBackgroundColor
-			case .neutralBar:
+			case .accent:
+				return Constants.accentBackgroundColor
+			case .subtle:
+				return Constants.subtleBackgroundColor
+			case .neutral:
 				return Constants.neutralBackgroundColor
 			}
 		}()
 		self.foregroundColor = {
 			switch state.style {
-			case .primaryBar:
-				return Constants.primaryForegroundColor
-			case .primaryOutlineBar:
-				return Constants.primaryOutlineForegroundColor
-			case .neutralBar:
+			case .accent:
+				return Constants.accentForegroundColor
+			case .subtle:
+				return Constants.subtleForegroundColor
+			case .neutral:
 				return Constants.neutralForegroundColor
 			}
 		}()
@@ -156,7 +156,7 @@ public struct Notification: View {
 				.background(
 					backgroundColor
 				)
-				.overlay(Rectangle().frame(width: nil, height: state.style == .primaryOutlineBar ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: .top)
+				.overlay(Rectangle().frame(width: nil, height: state.style == .subtle ? Constants.outlineWidth : 0, alignment: .top).foregroundColor(Constants.neutralBackgroundColor), alignment: .top)
 				.onTapGesture {
 					if let messageAction = messageButtonAction {
 						messageAction()
@@ -174,10 +174,10 @@ public struct Notification: View {
 	var foregroundColor: Color
 
 	private struct Constants {
-		static let primaryBackgroundColor: Color = Color(FluentUI.Colors.primaryTint30)
-		static let primaryForegroundColor: Color = Color(FluentUI.Colors.primaryShade20)
-		static let primaryOutlineBackgroundColor: Color = Color(.white)
-		static let primaryOutlineForegroundColor: Color = Color(FluentUI.Colors.primary)
+		static let accentBackgroundColor: Color = Color(FluentUI.Colors.primaryTint30)
+		static let accentForegroundColor: Color = Color(FluentUI.Colors.primaryShade20)
+		static let subtleBackgroundColor: Color = Color(.white)
+		static let subtleForegroundColor: Color = Color(FluentUI.Colors.primary)
 		static let neutralBackgroundColor: Color = Color(FluentUI.Colors.Palette.gray100.color)
 		static let neutralForegroundColor: Color = Color(FluentUI.Colors.Palette.gray900.color)
 
