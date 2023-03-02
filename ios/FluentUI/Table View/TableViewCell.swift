@@ -886,10 +886,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             if oldValue != isUnreadDotVisible {
                 if isUnreadDotVisible {
                     self.contentView.layer.addSublayer(unreadDotLayer)
-                    accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
                 } else {
                     unreadDotLayer.removeFromSuperlayer()
-                    accessibilityLabel = title
                 }
             }
         }
@@ -1103,23 +1101,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    open override var accessibilityLabel: String? {
-        get {
-            if isInSelectionMode && isEnabled {
-                return "Accessibility.MultiSelect.Hint".localized
-            }
-            if let customSwitch = customAccessoryView as? UISwitch {
-                if isEnabled && customSwitch.isEnabled {
-                    return "Accessibility.TableViewCell.Switch.Hint".localized
-                } else {
-                    return nil
-                }
-            }
-            return super.accessibilityLabel
-        }
-        set { super.accessibilityLabel = newValue }
-    }
-
     open override var accessibilityHint: String? {
         get {
             if isInSelectionMode && isEnabled {
@@ -1141,6 +1122,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         get {
             if let customAccessoryView = customAccessoryView as? UISwitch {
                 return (customAccessoryView.isOn ? "Accessibility.TableViewCell.Switch.On" : "Accessibility.TableViewCell.Switch.Off").localized
+            }
+            if isUnreadDotVisible {
+                return String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, "")
             }
             return super.accessibilityValue
         }
