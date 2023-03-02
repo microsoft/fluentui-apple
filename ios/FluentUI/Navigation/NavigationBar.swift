@@ -167,9 +167,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         static let normalContentHeight: CGFloat = 44
         static let expandedContentHeight: CGFloat = 48
 
-        static let leftBarButtonItemLeadingMargin: CGFloat = 8
-        static let leftBarButtonItemTrailingMargin: CGFloat = 8
-        static let rightBarButtonItemHorizontalPadding: CGFloat = 10
+        static let leftBarButtonItemLeadingMargin: CGFloat = GlobalTokens.spacing(.size80)
+        static let leftBarButtonItemTrailingMargin: CGFloat = GlobalTokens.spacing(.size80)
+        static let rightBarButtonItemHorizontalPadding: CGFloat = GlobalTokens.spacing(.size100)
 
         static let obscuringAnimationDuration: TimeInterval = 0.12
         static let revealingAnimationDuration: TimeInterval = 0.25
