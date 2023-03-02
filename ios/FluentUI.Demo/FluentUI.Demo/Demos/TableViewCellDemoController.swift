@@ -190,7 +190,7 @@ extension TableViewCellDemoController {
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
 
-        cell.isUnreadDotVisible = section.isUnreadDotVisible
+//        cell.isUnreadDotVisible = section.isUnreadDotVisible
         cell.titleLeadingAccessoryView = showsLabelAccessoryView ? item.text1LeadingAccessoryView() : nil
         cell.titleTrailingAccessoryView = showsLabelAccessoryView ? item.text1TrailingAccessoryView() : nil
         cell.subtitleLeadingAccessoryView = showsLabelAccessoryView ? item.text2LeadingAccessoryView() : nil
