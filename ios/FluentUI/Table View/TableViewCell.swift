@@ -883,12 +883,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     /// Boolean determining if the unread dot is visible.
     @objc open var isUnreadDotVisible: Bool = false {
         didSet {
-            if isUnreadDotVisible {
-                self.contentView.layer.addSublayer(unreadDotLayer)
-                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
-            } else {
-                unreadDotLayer.removeFromSuperlayer()
-                accessibilityLabel = title
+            if oldValue != isUnreadDotVisible {
+                if isUnreadDotVisible {
+                    self.contentView.layer.addSublayer(unreadDotLayer)
+                } else {
+                    unreadDotLayer.removeFromSuperlayer()
+                }
             }
         }
     }
@@ -1122,6 +1122,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         get {
             if let customAccessoryView = customAccessoryView as? UISwitch {
                 return (customAccessoryView.isOn ? "Accessibility.TableViewCell.Switch.On" : "Accessibility.TableViewCell.Switch.Off").localized
+            }
+            if isUnreadDotVisible {
+                return String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, "")
             }
             return super.accessibilityValue
         }
