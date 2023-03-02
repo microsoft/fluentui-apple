@@ -248,11 +248,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
 
     private override init() {
         super.init()
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSet.onUpdate = { [weak self] in
-            self?.updateAppearance()
-        }
     }
 
     @objc private func handleTapGesture() {

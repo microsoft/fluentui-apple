@@ -76,7 +76,7 @@ class CommandBarButton: UIButton {
 
         updateState()
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateStyle()
             self?.isPointerInteractionEnabled = true
         }

@@ -282,7 +282,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     private func initialize() {
         setupLayout()
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColorsForStyle()
         }
     }

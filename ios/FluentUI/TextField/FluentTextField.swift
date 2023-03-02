@@ -149,7 +149,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
 
         updateTokenizedValues()
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
     }

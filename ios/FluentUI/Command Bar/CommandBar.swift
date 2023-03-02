@@ -88,7 +88,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         configureHierarchy()
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateButtonTokens()
         }
     }

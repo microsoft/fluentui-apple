@@ -72,7 +72,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }

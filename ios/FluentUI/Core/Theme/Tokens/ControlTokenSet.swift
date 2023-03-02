@@ -6,6 +6,7 @@
 import Foundation
 import CoreGraphics // for CGFloat
 import Combine
+import UIKit
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -95,8 +96,12 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     }
 
     /// A callback to be invoked after the token set has completed updating.
-    var onUpdate: (() -> Void)? {
-        didSet {
+    private var onUpdate: (() -> Void)?
+
+    func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
+        if self.onUpdate == nil {
+            assert(changeSink == nil && notificationObserver == nil)
+
             changeSink = self.objectWillChange.sink { [weak self] in
                 // Values will be updated on the next run loop iteration.
                 DispatchQueue.main.async {
@@ -104,17 +109,18 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                 }
             }
 
-            if notificationObserver == nil {
-                // Register for notifications in order to call update() when the theme changes.
-                notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
-                                                                              object: nil,
-                                                                              queue: nil) { [weak self] notification in
-                    guard let strongSelf = self,
-                          let themable = notification.object as? FluentThemeable else {
-                        return
-                    }
-                    strongSelf.update(themable.fluentTheme)
+            // Register for notifications in order to call update() when the theme changes.
+            notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                          object: nil,
+                                                                          queue: nil) { [weak self, weak control] notification in
+                guard let strongSelf = self,
+                      let themeView = notification.object as? UIView,
+                      let control,
+                      control.isDescendant(of: themeView)
+                    else {
+                    return
                 }
+                strongSelf.update(themeView.fluentTheme)
             }
         }
     }

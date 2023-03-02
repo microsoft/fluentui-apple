@@ -128,7 +128,7 @@ open class Button: UIButton, TokenizedControlInternal {
         update()
 
         // Update appearance whenever overrideTokens changes.
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
     }

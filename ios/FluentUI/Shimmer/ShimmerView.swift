@@ -59,7 +59,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateShimmeringAnimation()
         }
     }

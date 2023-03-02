@@ -53,14 +53,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSet.onUpdate = { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateAppearance()
-        }
     }
 
     @available(*, unavailable)
@@ -407,6 +399,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // MARK: - Shadow Layers
     public var ambientShadow: CALayer?
     public var keyShadow: CALayer?
+
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateAppearance()
+        }
+    }
 
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

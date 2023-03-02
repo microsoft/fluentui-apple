@@ -189,7 +189,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         setupLayoutConstraints()
 
         // Update appearance whenever overrideTokens changes.
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
         updateTokenizedValues()

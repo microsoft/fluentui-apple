@@ -89,7 +89,7 @@ open class Label: UILabel, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever overrideTokens changes.
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextColor()
             self?.updateFont()
         }

@@ -317,7 +317,7 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
         super.init(frame: .zero)
         setupColors()
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.setupColors()
         }
 

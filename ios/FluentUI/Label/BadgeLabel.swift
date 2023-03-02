@@ -34,7 +34,7 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
 
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
     }

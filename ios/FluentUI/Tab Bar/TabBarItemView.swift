@@ -120,7 +120,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
         badgeValue = item.badgeValue
         updateLayout()
-        tokenSet.onUpdate = { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
     }
