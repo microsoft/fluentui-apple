@@ -40,7 +40,7 @@ import SwiftUI
 }
 
 /// View that represents the Notification.
-public struct Notification: View {
+public struct MSFNotification: View {
 	/// Creates the Notification
 	/// - Parameters:
 	///   - style: `MSFNotificationStyle` enum value that defines the style of the Notification being presented.
