@@ -7,16 +7,16 @@ import AppKit
 import FluentUI
 import SwiftUI
 
-class TestNotificationController: NSViewController {
+class TestNotificationViewController: NSViewController {
 	override func loadView() {
 		let containerView = NSStackView(frame: .zero)
 		containerView.orientation = .vertical
 
 		let notificationList = [
-			MSFNotification(style: .accent, message: "Updating..."),
-			MSFNotification(style: .subtle, message: "Mail Sent"),
-			MSFNotification(style: .neutral, message: "No internet connection"),
-			MSFNotification(style: .neutral, message: "This error can be taken action on with the action on the right.", actionButtonTitle: "Action", actionButtonAction: buttonPressed)
+			NotificationView(style: .accent, message: "Updating..."),
+			NotificationView(style: .subtle, message: "Mail Sent"),
+			NotificationView(style: .neutral, message: "No internet connection"),
+			NotificationView(style: .neutral, message: "This error can be taken action on with the action on the right.", actionButtonTitle: "Action", actionButtonAction: buttonPressed)
 		]
 
 		var constraints = [NSLayoutConstraint]()

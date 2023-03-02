@@ -19,7 +19,7 @@
 		3A42752729677D3700F36FBE /* ColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752629677D3700F36FBE /* ColorTest.swift */; };
 		3A80A049299EE88900A4A3D2 /* NotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationTest.swift */; };
 		3A8CB0E02996CB8800B68FCF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0DF2996CB8800B68FCF /* Notification.swift */; };
-		3A8CB0E32996CDA200B68FCF /* TestNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationController.swift */; };
+		3A8CB0E32996CDA200B68FCF /* TestNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationViewController.swift */; };
 		3F2506DB25F2C7A90049ED54 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2506D825F2C7A90049ED54 /* DynamicColor.swift */; };
 		3F2506DC25F2C7A90049ED54 /* Apperance+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2506DA25F2C7A90049ED54 /* Apperance+Theme.swift */; };
 		53BCB0DB253A72AD00620960 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BCB0DA253A72AD00620960 /* Colors.swift */; };
@@ -151,7 +151,7 @@
 		3A42752629677D3700F36FBE /* ColorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTest.swift; sourceTree = "<group>"; };
 		3A80A048299EE88900A4A3D2 /* NotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTest.swift; sourceTree = "<group>"; };
 		3A8CB0DF2996CB8800B68FCF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		3A8CB0E12996CD6400B68FCF /* TestNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationController.swift; sourceTree = "<group>"; };
+		3A8CB0E12996CD6400B68FCF /* TestNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationViewController.swift; sourceTree = "<group>"; };
 		3F2506D825F2C7A90049ED54 /* DynamicColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		3F2506DA25F2C7A90049ED54 /* Apperance+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Apperance+Theme.swift"; sourceTree = "<group>"; };
 		53BCB0DA253A72AD00620960 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
@@ -582,7 +582,7 @@
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
 				9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */,
 				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
-				3A8CB0E12996CD6400B68FCF /* TestNotificationController.swift */,
+				3A8CB0E12996CD6400B68FCF /* TestNotificationViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
 			);
@@ -1008,7 +1008,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A8CB0E32996CDA200B68FCF /* TestNotificationController.swift in Sources */,
+				3A8CB0E32996CDA200B68FCF /* TestNotificationViewController.swift in Sources */,
 				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
 				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
 				EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */,
