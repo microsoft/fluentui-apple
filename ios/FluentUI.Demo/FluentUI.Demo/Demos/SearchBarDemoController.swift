@@ -11,6 +11,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         static let badgeViewCornerRadius: CGFloat = 10
         static let badgeViewSideLength: CGFloat = 20
         static let badgeViewMaxFontSize: CGFloat = 40
+        static let searchBarStackviewMargin: CGFloat = 16
     }
 
     private lazy var searchBarWithBadgeView: SearchBar =
@@ -28,24 +29,87 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         return buildBadgeView(text: "Kat Larsson", customView: imageView)
     }()
 
+    private var searchBars: [SearchBar] = []
+
+    let segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
+                                                style: .primaryPill)
+
+        return segmentedControl
+    }()
+
+    @objc private func updateSearchbars() {
+        if segmentedControl.selectedSegmentIndex == 1 {
+            searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .lightContent)
+        } else {
+            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .darkContent)
+        }
+    }
+
+    private func updateSearchBarsStyles(to style: SearchBar.Style) {
+        for searchBar in searchBars {
+            searchBar.style = style
+        }
+    }
+
+    // Used to change the SearchBars' background color between brand and system styles
+    private let searchBarsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.layoutMargins = UIEdgeInsets(top: Constants.searchBarStackviewMargin,
+                                               left: Constants.searchBarStackviewMargin,
+                                               bottom: Constants.searchBarStackviewMargin,
+                                               right: Constants.searchBarStackviewMargin)
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.spacing = Constants.searchBarStackviewMargin
+        return stackView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "no autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "autocorrect")
 
-        container.addArrangedSubview(searchBarNoAutocorrect)
-        container.addArrangedSubview(searchBarAutocorrect)
-        container.addArrangedSubview(searchBarWithBadgeView)
-        container.addArrangedSubview(searchBarWithAvatarBadgeView)
+        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
+
+        container.addArrangedSubview(segmentedControl)
+        container.addArrangedSubview(UIView())
+
+        for searchBar in searchBars {
+            searchBarsStackView.addArrangedSubview(searchBar)
+        }
+
+        container.addArrangedSubview(searchBarsStackView)
+
+        segmentedControl.onSelectAction = { [weak self] (_, _) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.updateSearchbars()
+        }
+
+        updateSearchbars()
     }
 
     func buildBadgeView(text: String, customView: UIView? = nil) -> UIView {
         let dataSource = BadgeViewDataSource(text: text, customView: customView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
-        badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
-        badge.disabledLabelTextColor = .white
+        var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
+            return [
+                .backgroundDisabledColor: .dynamicColor {
+                    return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
+                },
+                .foregroundDisabledColor: .dynamicColor {
+                    return DynamicColor(light: GlobalTokens.neutralColors(.white))
+                }
+            ]
+        }
+        badge.tokenSet.replaceAllOverrides(with: customTokens)
         badge.isActive = false
         badge.maxFontSize = Constants.badgeViewMaxFontSize
         return badge

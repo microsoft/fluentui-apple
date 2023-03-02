@@ -100,7 +100,7 @@ struct DemoAppearanceView: View {
                 // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
                 .alert(isPresented: $showingThemeWideAlert) {
                     Alert(title: Text("Theme-wide override"),
-                          message: Text("Changes to \"Theme-wide override\" tokens will only take effect when the control redraws for some othe reason.\n\nTry backing out of this view and re-entering it."))
+                          message: Text("Changes to \"Theme-wide override\" tokens will only take effect when the control redraws for some other reason.\n\nTry backing out of this view and re-entering it."))
                 }
         }
     }
