@@ -151,7 +151,7 @@ open class CommandBarItem: NSObject {
     @objc public lazy var menu: UIMenu? = nil { // Only lazy property can be used with @available
         didSet {
             if menu != oldValue {
-                propertyChangedUpdateBlock?(self, false)
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
             }
         }
     }
