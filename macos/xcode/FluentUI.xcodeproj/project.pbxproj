@@ -17,8 +17,8 @@
 		3A42752329677CF800F36FBE /* LinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752229677CF800F36FBE /* LinkTest.swift */; };
 		3A42752529677D0800F36FBE /* SeparatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752429677D0800F36FBE /* SeparatorTest.swift */; };
 		3A42752729677D3700F36FBE /* ColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752629677D3700F36FBE /* ColorTest.swift */; };
-		3A80A049299EE88900A4A3D2 /* NotificationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationTest.swift */; };
-		3A8CB0E02996CB8800B68FCF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0DF2996CB8800B68FCF /* Notification.swift */; };
+		3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */; };
+		3A8CB0E02996CB8800B68FCF /* NotificationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0DF2996CB8800B68FCF /* NotificationBarView.swift */; };
 		3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */; };
 		3F2506DB25F2C7A90049ED54 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2506D825F2C7A90049ED54 /* DynamicColor.swift */; };
 		3F2506DC25F2C7A90049ED54 /* Apperance+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2506DA25F2C7A90049ED54 /* Apperance+Theme.swift */; };
@@ -149,8 +149,8 @@
 		3A42752229677CF800F36FBE /* LinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTest.swift; sourceTree = "<group>"; };
 		3A42752429677D0800F36FBE /* SeparatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTest.swift; sourceTree = "<group>"; };
 		3A42752629677D3700F36FBE /* ColorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTest.swift; sourceTree = "<group>"; };
-		3A80A048299EE88900A4A3D2 /* NotificationTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTest.swift; sourceTree = "<group>"; };
-		3A8CB0DF2996CB8800B68FCF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBarViewTest.swift; sourceTree = "<group>"; };
+		3A8CB0DF2996CB8800B68FCF /* NotificationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBarView.swift; sourceTree = "<group>"; };
 		3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationBarViewController.swift; sourceTree = "<group>"; };
 		3F2506D825F2C7A90049ED54 /* DynamicColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
 		3F2506DA25F2C7A90049ED54 /* Apperance+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Apperance+Theme.swift"; sourceTree = "<group>"; };
@@ -350,7 +350,7 @@
 				3A42751E29677CCB00F36FBE /* DatePickerTest.swift */,
 				3A42752029677CE800F36FBE /* FilledTemplateImageTest.swift */,
 				3A42752229677CF800F36FBE /* LinkTest.swift */,
-				3A80A048299EE88900A4A3D2 /* NotificationTest.swift */,
+				3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */,
 				3A42752429677D0800F36FBE /* SeparatorTest.swift */,
 			);
 			path = FluentUIDemoTests;
@@ -359,7 +359,7 @@
 		3A8CB0DE2996CA1B00B68FCF /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				3A8CB0DF2996CB8800B68FCF /* Notification.swift */,
+				3A8CB0DF2996CB8800B68FCF /* NotificationBarView.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -946,7 +946,7 @@
 				3A42751F29677CCB00F36FBE /* DatePickerTest.swift in Sources */,
 				3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */,
 				3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */,
-				3A80A049299EE88900A4A3D2 /* NotificationTest.swift in Sources */,
+				3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */,
 				3A42751D29677CB900F36FBE /* ButtonTest.swift in Sources */,
 				3A42752129677CE800F36FBE /* FilledTemplateImageTest.swift in Sources */,
 				3A42752329677CF800F36FBE /* LinkTest.swift in Sources */,
@@ -979,7 +979,7 @@
 				53BCB0DB253A72AD00620960 /* Colors.swift in Sources */,
 				53BCB102253A75EF00620960 /* Separator.swift in Sources */,
 				80117A8322E0E63E00813D59 /* CalendarHeaderView.swift in Sources */,
-				3A8CB0E02996CB8800B68FCF /* Notification.swift in Sources */,
+				3A8CB0E02996CB8800B68FCF /* NotificationBarView.swift in Sources */,
 				53BCB0ED253A75BB00620960 /* AvatarView.swift in Sources */,
 				3F2506DC25F2C7A90049ED54 /* Apperance+Theme.swift in Sources */,
 				53BCB0FB253A75E400620960 /* Link.swift in Sources */,

@@ -25,7 +25,7 @@ public let testViewControllers = [TestViewController(title: "Avatar View",
 													 type: TestFilledTemplateImageViewController.self),
 								  TestViewController(title: "Link",
 													 type: TestLinkViewController.self),
-								  TestViewController(title: "Notification",
+								  TestViewController(title: "Notification Bar View",
 													 type: TestNotificationBarViewController.self),
 								  TestViewController(title: "Separator",
 													 type: TestSeparatorViewController.self)]

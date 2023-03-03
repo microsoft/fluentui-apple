@@ -5,8 +5,8 @@
 
 import XCTest
 
-class NotificationTest: BaseTest {
-	override var controlName: String { "Notification" }
+class NotificationBarViewTest: BaseTest {
+	override var controlName: String { "Notification Bar View" }
 
 	// launch test that ensures the demo app does not crash and is on the correct control page
 	func testLaunch() throws {

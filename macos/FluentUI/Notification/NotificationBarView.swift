@@ -17,6 +17,7 @@ import SwiftUI
 	case neutral
 }
 
+/// Direction that the notification will appear from.
 @objc public enum MSFNotificationDirection: Int, CaseIterable {
 	case top
 	case bottom
