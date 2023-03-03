@@ -245,7 +245,7 @@ class CommandBarDemoController: DemoController {
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
         let resetScrollPositionButton = MSFButtonLegacy(style: .outline)
-        resetScrollPositionButton.size = .small
+        resetScrollPositionButton.sizeCategory = .small
         resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
         resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(resetScrollPositionButton)

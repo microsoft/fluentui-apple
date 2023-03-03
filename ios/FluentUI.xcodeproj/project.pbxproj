@@ -17,6 +17,7 @@
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B14B18F28F8DBE40099D52A /* TooltipTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */; };
 		4B4A271A292CD47100FA1D6D /* TooltipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2719292CD47100FA1D6D /* TooltipView.swift */; };
+		4B4A2F2129A7E83100570CD4 /* LabelTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */; };
 		4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */; };
 		4BAFED0D296BD5E400695590 /* BottomSheetTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BAFED0C296BD5E400695590 /* BottomSheetTokenSet.swift */; };
 		4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBD651E2755FD9500A8B09E /* MSFNotification.swift */; };
@@ -170,6 +171,7 @@
 		80AECC21263339E3005AF2F3 /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBD82629F18E005AF2F3 /* BottomSheetController.swift */; };
 		80AECC22263339E5005AF2F3 /* BottomSheetPassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECBF1262FC34E005AF2F3 /* BottomSheetPassthroughView.swift */; };
 		8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA3CB5A246B19EA0049E431 /* ColorTests.swift */; };
+		92016FF8299DF34A00660DB7 /* EmptyTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92016FF7299DF34A00660DB7 /* EmptyTokenSet.swift */; };
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
 		920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */; };
 		922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* TokenizedControlView.swift */; };
@@ -221,6 +223,10 @@
 		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
 		EC5982DE27D2EA6100FD048D /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DD27D2EA6100FD048D /* SegmentedControlTokenSet.swift */; };
 		EC65F790292EDCEF002A1A23 /* ButtonLegacyTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC65F78F292EDCEF002A1A23 /* ButtonLegacyTokenSet.swift */; };
+		EC98E2AD2980C15C00B9DF91 /* FluentTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */; };
+		EC98E2B0298D978C00B9DF91 /* FluentTextFieldInternal.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2AF298D978C00B9DF91 /* FluentTextFieldInternal.swift */; };
+		EC98E2B2298D97EC00B9DF91 /* TextFieldTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B1298D97EC00B9DF91 /* TextFieldTokenSet.swift */; };
+		EC98E2B4298D989100B9DF91 /* FluentTextInputError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B3298D989100B9DF91 /* FluentTextInputError.swift */; };
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
@@ -268,6 +274,7 @@
 		4B0E060A28A248F40045E9BB /* ShimmerLinesShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesShape.swift; sourceTree = "<group>"; };
 		4B14B18E28F8DBE40099D52A /* TooltipTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTokenSet.swift; sourceTree = "<group>"; };
 		4B4A2719292CD47100FA1D6D /* TooltipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipView.swift; sourceTree = "<group>"; };
+		4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTokenSet.swift; sourceTree = "<group>"; };
 		4B53505E27F63E3F0033B47F /* NotificationModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModifiers.swift; sourceTree = "<group>"; };
 		4B8A76732862F49E00F90F3A /* ShimmerModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifiers.swift; sourceTree = "<group>"; };
 		4B8A7675286ADCD300F90F3A /* ShimmerLinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
@@ -335,6 +342,7 @@
 		86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		8FA3CB5A246B19EA0049E431 /* ColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTests.swift; sourceTree = "<group>"; };
 		8FD01166228A820600D25925 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		92016FF7299DF34A00660DB7 /* EmptyTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTokenSet.swift; sourceTree = "<group>"; };
 		92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeModifiers.swift; sourceTree = "<group>"; };
 		92088EF72666DB2C003F571A /* PersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButton.swift; sourceTree = "<group>"; };
 		920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokenSet.swift; sourceTree = "<group>"; };
@@ -430,6 +438,10 @@
 		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
 		EC5982DD27D2EA6100FD048D /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC65F78F292EDCEF002A1A23 /* ButtonLegacyTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLegacyTokenSet.swift; sourceTree = "<group>"; };
+		EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentTextField.swift; sourceTree = "<group>"; };
+		EC98E2AF298D978C00B9DF91 /* FluentTextFieldInternal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentTextFieldInternal.swift; sourceTree = "<group>"; };
+		EC98E2B1298D97EC00B9DF91 /* TextFieldTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTokenSet.swift; sourceTree = "<group>"; };
+		EC98E2B3298D989100B9DF91 /* FluentTextInputError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentTextInputError.swift; sourceTree = "<group>"; };
 		ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatarGroup.swift; sourceTree = "<group>"; };
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
@@ -682,6 +694,7 @@
 			children = (
 				A589F853211BA03200471C23 /* Label.swift */,
 				6EB4B25D270ED6450005B808 /* BadgeLabel.swift */,
+				4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */,
 			);
 			path = Label;
 			sourceTree = "<group>";
@@ -867,6 +880,7 @@
 				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */,
 				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
+				92016FF7299DF34A00660DB7 /* EmptyTokenSet.swift */,
 				925728F8276D6B5800EE1019 /* FontInfo.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
 				92D5FDFA28A713990087894B /* LinearGradientInfo.swift */,
@@ -1006,6 +1020,7 @@
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
+				EC98E2AB2980C0C000B9DF91 /* TextField */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
@@ -1170,6 +1185,17 @@
 				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
 			);
 			path = Divider;
+			sourceTree = "<group>";
+		};
+		EC98E2AB2980C0C000B9DF91 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				EC98E2AC2980C15C00B9DF91 /* FluentTextField.swift */,
+				EC98E2AF298D978C00B9DF91 /* FluentTextFieldInternal.swift */,
+				EC98E2B3298D989100B9DF91 /* FluentTextInputError.swift */,
+				EC98E2B1298D97EC00B9DF91 /* TextFieldTokenSet.swift */,
+			);
+			path = TextField;
 			sourceTree = "<group>";
 		};
 		ECEBA8F625EDEFF70048EE24 /* SegmentedControl */ = {
@@ -1541,6 +1567,7 @@
 				D6F4098F274F1A1C001B80D4 /* PillButtonBarTokenSet.swift in Sources */,
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
 				6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */,
+				EC98E2B2298D97EC00B9DF91 /* TextFieldTokenSet.swift in Sources */,
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
 				532FE3D426EA6D74007539C0 /* ActivityIndicatorTokenSet.swift in Sources */,
@@ -1558,13 +1585,16 @@
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
 				922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */,
+				92016FF8299DF34A00660DB7 /* EmptyTokenSet.swift in Sources */,
 				5314E14525F016860099271A /* CardPresentationController.swift in Sources */,
+				EC98E2AD2980C15C00B9DF91 /* FluentTextField.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				569B036B2903835E00940044 /* ShimmerTokenSet.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
 				EC0A83E2299711920010ED3E /* HeadsUpDisplay.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
+				EC98E2B0298D978C00B9DF91 /* FluentTextFieldInternal.swift in Sources */,
 				5314E08025F00F1A0099271A /* DateTimePickerViewComponent.swift in Sources */,
 				5314E06325F00EFD0099271A /* CalendarViewDayMonthYearCell.swift in Sources */,
 				5314E1A225F01A7C0099271A /* ActivityIndicatorCell.swift in Sources */,
@@ -1584,6 +1614,7 @@
 				8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */,
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
+				EC98E2B4298D989100B9DF91 /* FluentTextInputError.swift in Sources */,
 				92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
@@ -1655,6 +1686,7 @@
 				5314E12925F016230099271A /* PillButtonStyle.swift in Sources */,
 				530D9C5327EE7B2C00BDCBBF /* SwiftUI+ViewAnimation.swift in Sources */,
 				EC5982DE27D2EA6100FD048D /* SegmentedControlTokenSet.swift in Sources */,
+				4B4A2F2129A7E83100570CD4 /* LabelTokenSet.swift in Sources */,
 				5306075726A1E6A4002D49CF /* AvatarGroup.swift in Sources */,
 				92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */,
 				5314E1C425F01B4E0099271A /* TwoLineTitleView.swift in Sources */,

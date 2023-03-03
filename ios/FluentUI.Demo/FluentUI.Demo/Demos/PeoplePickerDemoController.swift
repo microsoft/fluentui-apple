@@ -93,6 +93,7 @@ class PeoplePickerDemoController: DemoController {
         peoplePicker.hidePersonaListViewWhenNoSuggestedPersonas = variant.hidePersonaListViewWhenNoSuggestedPersonas
         peoplePicker.showsAvatar = variant.showsAvatar
         peoplePicker.delegate = self
+        peoplePicker.isActive = true
         peoplePickers.append(peoplePicker)
         container.addArrangedSubview(peoplePicker)
     }

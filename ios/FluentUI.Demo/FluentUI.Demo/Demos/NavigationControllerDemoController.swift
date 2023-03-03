@@ -266,6 +266,25 @@ class NavigationControllerDemoController: DemoController {
         return searchBar
     }
 
+    private func createSegmentedControl() -> UIView {
+        let segmentItems: [SegmentItem] = [
+            SegmentItem(title: "First"),
+            SegmentItem(title: "Second")]
+        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        pillControl.shouldSetEqualWidthForSegments = false
+        pillControl.isFixedWidth = false
+        pillControl.contentInset = .zero
+        let stackView = UIStackView()
+        stackView.addArrangedSubview(pillControl)
+        stackView.distribution = .equalCentering
+        stackView.alignment = .center
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
+        button.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
+        stackView.addArrangedSubview(button)
+        return stackView
+    }
+
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
         let meControl = Label(style: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
@@ -296,7 +315,7 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         // Only show side drawer for the root view controller
         if let controller = presentedViewController as? UINavigationController,
-            gestureRecognizer is UIScreenEdgePanGestureRecognizer && gestureRecognizer.view == controller.view && controller.topViewController != controller.viewControllers.first {
+           gestureRecognizer is UIScreenEdgePanGestureRecognizer && gestureRecognizer.view == controller.view && controller.topViewController != controller.viewControllers.first {
             return false
         }
         return true

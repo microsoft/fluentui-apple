@@ -151,7 +151,7 @@ public enum CardSize: Int, CaseIterable {
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
 @objc(MSFCardView)
-open class CardView: UIView, Shadowable {
+open class CardView: UIView, Shadowable, TokenizedControlInternal {
 
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
@@ -209,7 +209,7 @@ open class CardView: UIView, Shadowable {
     }
 
     /// Set `customBackgroundColor` in order to set the background color when using the custom color style
-    @objc open lazy var customBackgroundColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2]) {
+    @objc open lazy var customBackgroundColor: UIColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background2]) {
         didSet {
             if customBackgroundColor != oldValue {
                 setupColors()
@@ -218,7 +218,7 @@ open class CardView: UIView, Shadowable {
     }
 
     /// Set `customTitleColor` in order to set the title's text color when using the custom color style
-    @objc open lazy var customTitleColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) {
+    @objc open lazy var customTitleColor: UIColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1]) {
         didSet {
             if customTitleColor != oldValue {
                 setupColors()
@@ -227,7 +227,7 @@ open class CardView: UIView, Shadowable {
     }
 
     /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color style
-    @objc open lazy var customSubtitleColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) {
+    @objc open lazy var customSubtitleColor: UIColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2]) {
         didSet {
             if customSubtitleColor != oldValue {
                 setupColors()
@@ -236,7 +236,7 @@ open class CardView: UIView, Shadowable {
     }
 
     /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color style
-    @objc open lazy var customIconTintColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) {
+    @objc open lazy var customIconTintColor: UIColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2]) {
         didSet {
             if customIconTintColor != oldValue {
                 setupColors()
@@ -245,7 +245,7 @@ open class CardView: UIView, Shadowable {
     }
 
     /// Set `customBorderColor` in order to set the border's color when using the custom color style
-    @objc open lazy var customBorderColor: UIColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]) {
+    @objc open lazy var customBorderColor: UIColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.stroke1]) {
         didSet {
             if customBorderColor != oldValue {
                 setupColors()
@@ -261,6 +261,9 @@ open class CardView: UIView, Shadowable {
             }
         }
     }
+
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
     /// The size of the card.
     private var size: CardSize = .small
@@ -366,7 +369,7 @@ open class CardView: UIView, Shadowable {
     public var keyShadow: CALayer?
 
     private func updateShadow() {
-        let shadowInfo = fluentTheme.aliasTokens.shadow[.shadow02]
+        let shadowInfo = tokenSet.fluentTheme.aliasTokens.shadow[.shadow02]
         shadowInfo.applyShadow(to: self)
     }
 
@@ -379,6 +382,7 @@ open class CardView: UIView, Shadowable {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
+        tokenSet.update(themeView.fluentTheme)
         setupColors()
     }
 
@@ -395,9 +399,9 @@ open class CardView: UIView, Shadowable {
                 // Update border color
                 switch colorStyle {
                 case .appColor:
-                    layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
+                    layer.borderColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                 case .neutral:
-                    layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
+                    layer.borderColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.stroke1]).cgColor
                 case .custom:
                     layer.borderColor = customBorderColor.cgColor
                 }
@@ -405,21 +409,30 @@ open class CardView: UIView, Shadowable {
         }
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        setupColors()
+    }
+
     /// Set up the background color of the card and update the icon and text color if necessary
     private func setupColors() {
         switch colorStyle {
         case .appColor:
-            primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
-            layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
+            primaryLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1])
+            secondaryLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
+            iconView.tintColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandForeground1])
+            backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background2])
+            layer.borderColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.stroke1]).cgColor
         case .neutral:
-            backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
-            primaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            secondaryLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            iconView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            layer.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke1]).cgColor
+            backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background2])
+            primaryLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground1])
+            secondaryLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
+            iconView.tintColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
+            layer.borderColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.stroke1]).cgColor
         case .custom:
             backgroundColor = customBackgroundColor
             primaryLabel.textColor = customTitleColor

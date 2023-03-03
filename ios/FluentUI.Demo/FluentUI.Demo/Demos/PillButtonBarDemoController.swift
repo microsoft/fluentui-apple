@@ -77,13 +77,6 @@ class PillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        let backgroundColorLight = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandBackground1])
-        onBrandBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
-        customBar?.backgroundColor = UIColor(light: backgroundColorLight, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
-    }
-
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
         bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil

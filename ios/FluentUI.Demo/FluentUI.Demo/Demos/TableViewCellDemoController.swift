@@ -17,7 +17,7 @@ class TableViewCellDemoController: DemoTableViewController {
 
     override init(style: UITableView.Style) {
         super.init(style: style)
-        self.isGrouped = (style == .insetGrouped)
+        self.isGrouped = (style == .insetGrouped || style == .grouped)
     }
 
     required init?(coder: NSCoder) {
@@ -210,8 +210,11 @@ extension TableViewCellDemoController {
 
         cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
-        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-        cell.bottomSeparatorType = isLastInSection ? .full : .inset
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            cell.bottomSeparatorType = isGrouped ? .none : .full
+        } else {
+            cell.bottomSeparatorType = .inset
+        }
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
@@ -228,6 +231,7 @@ extension TableViewCellDemoController {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
+        header?.tableViewCellStyle = tableView.style == .plain ? .plain : .grouped
         return header
     }
 
