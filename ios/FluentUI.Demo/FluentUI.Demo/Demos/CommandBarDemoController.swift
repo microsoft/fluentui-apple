@@ -434,11 +434,11 @@ class CommandBarDemoController: DemoController {
         }
 
         if sender.isOn {
-            var disabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), attributes: .disabled, handler: { _ in }),
+            let disabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), attributes: .disabled, handler: { _ in }),
                                             UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), attributes: .disabled, handler: { _ in })])
             item.menu = disabledMenu
         } else {
-            var enabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+            let enabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
                                             UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
             item.menu = enabledMenu
         }
