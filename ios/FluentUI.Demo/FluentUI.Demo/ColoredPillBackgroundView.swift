@@ -49,9 +49,11 @@ class ColoredPillBackgroundView: UIView {
     func updateBackgroundColor() {
         switch style {
         case .neutral:
-            backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: fluentTheme)
+            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.grey98),
+                                                                 dark: GlobalTokens.neutralColors(.grey8)))
         case .brand:
-            backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: fluentTheme)
+            backgroundColor = UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1]),
+                                      dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey8)))
         }
     }
 
