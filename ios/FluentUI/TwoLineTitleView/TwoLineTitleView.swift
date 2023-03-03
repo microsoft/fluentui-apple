@@ -165,7 +165,7 @@ open class TwoLineTitleView: UIView {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
         label.style = .body1Strong
-        label.maxFontSize = 17
+        label.maxFontSize = fluentTheme.aliasTokens.typography[.body1Strong].size
         label.textAlignment = .center
         return label
     }()
@@ -186,7 +186,7 @@ open class TwoLineTitleView: UIView {
         let label = Label()
         label.lineBreakMode = .byTruncatingMiddle
         label.style = .caption1
-        label.maxFontSize = 12
+        label.maxFontSize = fluentTheme.aliasTokens.typography[.caption1].size
         return label
     }()
 
