@@ -114,7 +114,7 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
+        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: adjustsFontForContentSizeCategory)
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
         } else {
