@@ -389,10 +389,12 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                       height: min(height, size.height))
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateGradientMaskColors()
         if isFixedWidth {
             invalidateIntrinsicContentSize()
@@ -621,7 +623,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private var maximumContentOffset: CGFloat {
-        return stackView.frame.size.width - scrollView.frame.size.width
+        return (stackView.frame.size.width + 2 * Constants.pillContainerHorizontalInset) - scrollView.frame.size.width
     }
 }
 

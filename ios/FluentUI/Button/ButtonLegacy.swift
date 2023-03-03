@@ -20,9 +20,9 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc open var size: ButtonLegacySize = .medium {
+    @objc open var sizeCategory: ButtonLegacySizeCategory = .medium {
         didSet {
-            if size != oldValue {
+            if sizeCategory != oldValue {
                 update()
             }
         }
@@ -84,18 +84,22 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     open override var intrinsicContentSize: CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? size.width : proposedTitleLabelWidth, height: size.width)) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonLegacyTokenSet.minContainerHeight(size)) + edgeInsets.top + edgeInsets.bottom)
+        contentSize.height = ceil(max(contentSize.height, ButtonLegacyTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                contentSize.width += ButtonLegacyTokenSet.titleImageSpacing(size)
+                contentSize.width += ButtonLegacyTokenSet.titleImageSpacing(sizeCategory)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonLegacyTokenSet.titleImageSpacing(size)
+                contentSize.width -= ButtonLegacyTokenSet.titleImageSpacing(sizeCategory)
             }
         }
 
@@ -143,8 +147,12 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         updateBackground()
     }
 
-    open override func didMoveToWindow() {
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         update()
     }
 
@@ -214,7 +222,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         return self?.style ?? .outline
     },
                                                      size: { [weak self] in
-        return self?.size ?? .medium
+        return self?.sizeCategory ?? .medium
     })
 
     private func updateTitle() {
@@ -307,7 +315,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonLegacyTokenSet.titleImageSpacing(size)
+        var spacing = ButtonLegacyTokenSet.titleImageSpacing(sizeCategory)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -365,7 +373,7 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonLegacyTokenSet.horizontalPadding(size)
+        let horizontalPadding = ButtonLegacyTokenSet.horizontalPadding(sizeCategory)
         return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
 

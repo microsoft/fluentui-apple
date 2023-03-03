@@ -37,6 +37,11 @@ class BottomSheetDemoController: DemoController {
         view.addSubview(bottomSheetViewController.view)
         bottomSheetViewController.didMove(toParent: self)
 
+        // If we're hosting a VC view in the bottom sheet, the VC itself needs to be a child of the bottom sheet VC
+        // This is important to ensure safe area changes propagate correctly.
+        bottomSheetViewController.addChild(contentNavigationController)
+        contentNavigationController.didMove(toParent: bottomSheetViewController)
+
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -153,7 +158,7 @@ class BottomSheetDemoController: DemoController {
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        personaListView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        personaListView.backgroundColor = .clear
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
@@ -164,7 +169,7 @@ class BottomSheetDemoController: DemoController {
         view.addSubview(personaListView)
 
         let bottomView = UIView()
-        bottomView.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
+        bottomView.backgroundColor = .clear
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomView)
 
@@ -212,7 +217,7 @@ class BottomSheetDemoController: DemoController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.backgroundDisabled])
+        view.backgroundColor = .clear
 
         let label = Label()
         label.text = "Header view"

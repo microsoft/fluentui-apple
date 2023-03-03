@@ -17,10 +17,10 @@ public enum ButtonLegacyStyle: Int, CaseIterable {
     case dangerSubtle
 }
 
-// MARK: ButtonSize
+// MARK: ButtonSizeCategory
 
-@objc(MSFButtonLegacySize)
-public enum ButtonLegacySize: Int, CaseIterable {
+@objc(MSFButtonLegacySizeCategory)
+public enum ButtonLegacySizeCategory: Int, CaseIterable {
     case large
     case medium
     case small
@@ -73,7 +73,7 @@ public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> 
     }
 
     init(style: @escaping () -> ButtonLegacyStyle,
-         size: @escaping () -> ButtonLegacySize) {
+         size: @escaping () -> ButtonLegacySizeCategory) {
         self.style = style
         self.size = size
         super.init { [style, size] token, theme in
@@ -222,12 +222,12 @@ public class ButtonLegacyTokenSet: ControlTokenSet<ButtonLegacyTokenSet.Tokens> 
     }
 
     var style: () -> ButtonLegacyStyle
-    var size: () -> ButtonLegacySize
+    var size: () -> ButtonLegacySizeCategory
 }
 
 extension ButtonLegacyTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ size: ButtonLegacySize) -> CGFloat {
+    static func horizontalPadding(_ size: ButtonLegacySizeCategory) -> CGFloat {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
@@ -239,7 +239,7 @@ extension ButtonLegacyTokenSet {
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ size: ButtonLegacySize) -> CGFloat {
+    static func minContainerHeight(_ size: ButtonLegacySizeCategory) -> CGFloat {
         switch size {
         case .large:
             return 52
@@ -251,7 +251,7 @@ extension ButtonLegacyTokenSet {
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ size: ButtonLegacySize) -> CGFloat {
+    static func titleImageSpacing(_ size: ButtonLegacySizeCategory) -> CGFloat {
         switch size {
         case .large, .medium:
             return GlobalTokens.spacing(.size80)

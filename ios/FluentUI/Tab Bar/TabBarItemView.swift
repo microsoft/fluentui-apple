@@ -67,7 +67,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                 updateLayout()
             }
         }
-	}
+    }
 
     /// The number of lines for the item's title label.
     var numberOfTitleLines: Int = 1 {

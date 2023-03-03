@@ -29,6 +29,7 @@ struct Demos {
         DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
+        DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("LeftNav", LeftNavDemoController.self),
         DemoDescriptor("List", ListDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
@@ -42,6 +43,7 @@ struct Demos {
         DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
         DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("Text Field", TextFieldDemoController.self),
         DemoDescriptor("Tooltip", TooltipDemoController.self)
     ]
 
@@ -59,7 +61,7 @@ struct Demos {
         DemoDescriptor("Button (Legacy)", ButtonLegacyDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
-        DemoDescriptor("Label", LabelDemoController.self),
+        DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),

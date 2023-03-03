@@ -14,7 +14,7 @@ class ButtonLegacyDemoController: DemoController {
         container.alignment = .leading
 
         for style in ButtonLegacyStyle.allCases {
-            for size in ButtonLegacySize.allCases {
+            for size in ButtonLegacySizeCategory.allCases {
                 addTitle(text: style.description + ", " + size.description)
 
                 let button = createButton(with: style,
@@ -64,16 +64,16 @@ class ButtonLegacyDemoController: DemoController {
                                   title: "Longer Text Button")
         let iconButton = createButton(with: .accent,
                                       title: "Longer Text Button",
-                                      image: ButtonLegacySize.large.image)
+                                      image: ButtonLegacySizeCategory.large.image)
         addRow(items: [button])
         addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
     }
 
-    private func createButton(with style: ButtonLegacyStyle, size: ButtonLegacySize = .large, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> MSFButtonLegacy {
+    private func createButton(with style: ButtonLegacyStyle, size: ButtonLegacySizeCategory = .large, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> MSFButtonLegacy {
         let button = MSFButtonLegacy(style: style)
-        button.size = size
+        button.sizeCategory = size
         if let title = title {
             button.setTitle(title, for: .normal)
             button.titleLabel?.numberOfLines = 0
@@ -116,7 +116,7 @@ extension ButtonLegacyStyle {
     }
 }
 
-extension ButtonLegacySize {
+extension ButtonLegacySizeCategory {
     var description: String {
         switch self {
         case .large:

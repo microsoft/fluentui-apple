@@ -122,7 +122,7 @@ open class NavigationController: UINavigationController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return ShyHeaderController(contentViewController: viewController)
+        return ShyHeaderController(contentViewController: viewController, containingView: self.parent?.view ?? view)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
