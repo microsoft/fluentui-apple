@@ -133,6 +133,7 @@ class CommandBarButton: UIButton {
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
         accessibilityIdentifier = item.accessibilityIdentifier
+        menu = item.menu
     }
 
     private let isPersistSelection: Bool
