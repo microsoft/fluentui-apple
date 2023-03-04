@@ -15,7 +15,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     }
 
     private struct Constants {
-        static let horizontalSpacing: CGFloat = 10
+        static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size100)
 
         static let compactAvatarSize: MSFAvatarSize = .size24
         static let avatarSize: MSFAvatarSize = .size32
