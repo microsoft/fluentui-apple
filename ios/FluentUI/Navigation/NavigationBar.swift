@@ -483,6 +483,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         bottom.priority = .defaultHigh
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
+
+        if #available(iOS 15.0, *) {
+            // These are consistent with UIKit's default navigation bar
+            contentStackView.minimumContentSizeCategory = .large
+            contentStackView.maximumContentSizeCategory = .extraExtraLarge
+        }
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
