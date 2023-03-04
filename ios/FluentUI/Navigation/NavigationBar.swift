@@ -574,7 +574,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateElementSizes() {
         titleView.avatarSize = currentAvatarSize
-        titleView.titleSize = currentTitleSize
         barHeight = currentBarHeight
     }
 
