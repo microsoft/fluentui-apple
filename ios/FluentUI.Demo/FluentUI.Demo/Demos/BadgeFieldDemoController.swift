@@ -47,6 +47,7 @@ class BadgeFieldDemoController: DemoController {
         badgeField.label = label
         badgeField.badgeFieldDelegate = self
         badgeField.addBadges(withDataSources: dataSources)
+        badgeField.isActive = true
         return badgeField
     }
 }

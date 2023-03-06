@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.12.0'
+  s.version          = '0.13.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
   s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.7"
+  s.swift_version = "5.7.1"
   s.module_name = 'FluentUI'
 
 
@@ -296,6 +296,15 @@ fi', :execution_position => :before_compile }
     tableview_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     tableview_ios.preserve_paths = ["ios/FluentUI/Table View/TableView.resources.xcfilelist"]
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
+  end
+
+  s.subspec 'TextField_ios' do |textfield_ios|
+    textfield_ios.platform = :ios
+    textfield_ios.dependency 'MicrosoftFluentUI/Button_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    textfield_ios.preserve_paths = ["ios/FluentUI/TextField/TextField.resources.xcfilelist"]
+    textfield_ios.source_files = ["ios/FluentUI/TextField/**/*.{swift,h}"]
   end
 
   s.subspec 'Tooltip_ios' do |tooltip_ios|
