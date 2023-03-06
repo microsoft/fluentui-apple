@@ -394,20 +394,16 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         constraints.append(contentsOf: makeLayoutGuideConstraints())
 
         NSLayoutConstraint.activate(constraints)
-    }
-
-    // MARK: - Shadow Layers
-    public var ambientShadow: CALayer?
-    public var keyShadow: CALayer?
-
-    public override func viewDidLoad() {
-        super.viewDidLoad()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: view) { [weak self] in
             self?.updateAppearance()
         }
     }
+
+    // MARK: - Shadow Layers
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
