@@ -6,7 +6,8 @@
 import UIKit
 
 /// Pre-defined styles of the Badge.
-@objc public enum MSFBadgeViewStyle: Int, CaseIterable {
+@objc(MSFBadgeViewStyle)
+public enum Style: Int {
     case `default`
     case danger
     case severeWarning
@@ -16,7 +17,8 @@ import UIKit
 }
 
 /// Pre-defined sizes of the Badge.
-@objc public enum MSFBadgeViewSize: Int, CaseIterable {
+@objc(MSFBadgeViewSize)
+public enum Size: Int, CaseIterable {
     case small
     case medium
 
@@ -58,8 +60,8 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
         case textFont
     }
 
-    init(style: @escaping () -> MSFBadgeViewStyle,
-         size: @escaping () -> MSFBadgeViewSize) {
+    init(style: @escaping () -> Style,
+         size: @escaping () -> Size) {
         self.style = style
         self.size = size
         super.init { [style] token, theme in
@@ -169,15 +171,15 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
     }
 
     /// Defines the style of the Badge.
-    var style: () -> MSFBadgeViewStyle
+    var style: () -> Style
 
     /// Defines the size of the Badge.
-    var size: () -> MSFBadgeViewSize
+    var size: () -> Size
 }
 
 // MARK: Constants
 extension BadgeViewTokenSet {
-    static func horizontalPadding(_ size: MSFBadgeViewSize) -> CGFloat {
+    static func horizontalPadding(_ size: Size) -> CGFloat {
         switch size {
         case .small:
             return GlobalTokens.spacing(.size40)
@@ -186,7 +188,7 @@ extension BadgeViewTokenSet {
         }
     }
 
-    static func verticalPadding(_ size: MSFBadgeViewSize) -> CGFloat {
+    static func verticalPadding(_ size: Size) -> CGFloat {
         switch size {
         case .small:
             return 1.5

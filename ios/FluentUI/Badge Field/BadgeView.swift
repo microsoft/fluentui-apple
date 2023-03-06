@@ -10,14 +10,14 @@ import Combine
 @objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
-    @objc open var style: MSFBadgeViewStyle
-    @objc open var size: MSFBadgeViewSize
+    @objc open var style: Style
+    @objc open var size: Size
     @objc open var customView: UIView?
     @objc open var customViewVerticalPadding: NSNumber?
     @objc open var customViewPaddingLeft: NSNumber?
     @objc open var customViewPaddingRight: NSNumber?
 
-    @objc public init(text: String, style: MSFBadgeViewStyle = .default, size: MSFBadgeViewSize = .medium) {
+    @objc public init(text: String, style: Style = .default, size: Size = .medium) {
         self.text = text
         self.style = style
         self.size = size
@@ -26,8 +26,8 @@ open class BadgeViewDataSource: NSObject {
 
     @objc public convenience init(
         text: String,
-        style: MSFBadgeViewStyle = .default,
-        size: MSFBadgeViewSize = .medium,
+        style: Style = .default,
+        size: Size = .medium,
         customView: UIView? = nil,
         customViewVerticalPadding: NSNumber? = nil,
         customViewPaddingLeft: NSNumber? = nil,
@@ -128,13 +128,13 @@ open class BadgeView: UIView, TokenizedControlInternal {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
-    private var style: MSFBadgeViewStyle = .default {
+    private var style: Style = .default {
         didSet {
             updateColors()
         }
     }
 
-    private var size: MSFBadgeViewSize = .medium {
+    private var size: Size = .medium {
         didSet {
             label.style = size.labelTextStyle
             invalidateIntrinsicContentSize()
