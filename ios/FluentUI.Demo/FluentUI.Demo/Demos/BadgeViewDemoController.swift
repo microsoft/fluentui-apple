@@ -61,35 +61,25 @@ class BadgeViewDemoController: DemoController {
             let badge = createBadge(text: "Kat Larsson", style: style, sizeCategory: sizeCategory, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
-                    var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
-                        return [
-                            .backgroundTintColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
-                            },
-                            .backgroundFilledColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint20))
-                            },
-                            .foregroundTintColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.neutralColors(.grey94))
-                            },
-                            .foregroundFilledColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.neutralColors(.grey88))
-                            }
-                        ]
+                    badge.tokenSet[.backgroundTintColor] = .dynamicColor {
+                        .init(light: GlobalTokens.sharedColors(.purple, .primary))
                     }
-                    badge.tokenSet.replaceAllOverrides(with: customTokens)
+                    badge.tokenSet[.backgroundFilledColor] = .dynamicColor {
+                        .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20))
+                    }
+                    badge.tokenSet[.foregroundTintColor] = .dynamicColor {
+                        .init(light: GlobalTokens.neutralColors(.grey94))
+                    }
+                    badge.tokenSet[.foregroundFilledColor] = .dynamicColor {
+                        .init(light: GlobalTokens.neutralColors(.grey88))
+                    }
                 } else {
-                    var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
-                        return [
-                            .backgroundDisabledColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.neutralColors(.grey88))
-                            },
-                            .foregroundDisabledColor: .dynamicColor {
-                                return DynamicColor(light: GlobalTokens.neutralColors(.grey26))
-                            }
-                        ]
+                    badge.tokenSet[.backgroundDisabledColor] = .dynamicColor {
+                        .init(light: GlobalTokens.neutralColors(.grey88))
                     }
-                    badge.tokenSet.replaceAllOverrides(with: customTokens)
+                    badge.tokenSet[.foregroundDisabledColor] = .dynamicColor {
+                        .init(light: GlobalTokens.neutralColors(.grey26))
+                    }
                 }
             }
             addRow(text: sizeCategory.description, items: [badge])
@@ -121,17 +111,12 @@ class BadgeViewDemoController: DemoController {
                 customView: customView,
                 customViewVerticalPadding: 3
             )
-            var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
-                return [
-                    .backgroundDisabledColor: .dynamicColor {
-                        return DynamicColor(light: GlobalTokens.sharedColors(.purple, .primary))
-                    },
-                    .foregroundDisabledColor: .dynamicColor {
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white))
-                    }
-                ]
+            badge.tokenSet[.backgroundDisabledColor] = .dynamicColor {
+                .init(light: GlobalTokens.sharedColors(.purple, .primary))
             }
-            badge.tokenSet.replaceAllOverrides(with: customTokens)
+            badge.tokenSet[.foregroundDisabledColor] = .dynamicColor {
+                .init(light: GlobalTokens.neutralColors(.white))
+            }
             addRow(text: sizeCategory.description, items: [badge])
         }
         container.addArrangedSubview(UIView())
