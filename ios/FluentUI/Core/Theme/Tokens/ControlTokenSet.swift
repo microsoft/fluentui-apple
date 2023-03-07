@@ -3,8 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
-import CoreGraphics // for CGFloat
 import Combine
 import UIKit
 
@@ -95,33 +93,34 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = value
     }
 
-    /// A callback to be invoked after the token set has completed updating.
-    private var onUpdate: (() -> Void)?
-
     func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
-        if self.onUpdate == nil {
-            assert(changeSink == nil && notificationObserver == nil)
+        guard self.onUpdate == nil,
+              changeSink == nil,
+              notificationObserver == nil else {
+            assertionFailure("Attempting to double-register for tokenSet updates!")
+            return
+        }
+        self.onUpdate = onUpdate
 
-            changeSink = self.objectWillChange.sink { [weak self] in
-                // Values will be updated on the next run loop iteration.
-                DispatchQueue.main.async {
-                    self?.onUpdate?()
-                }
+        changeSink = self.objectWillChange.sink { [weak self] in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.onUpdate?()
             }
+        }
 
-            // Register for notifications in order to call update() when the theme changes.
-            notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
-                                                                          object: nil,
-                                                                          queue: nil) { [weak self, weak control] notification in
-                guard let strongSelf = self,
-                      let themeView = notification.object as? UIView,
-                      let control,
-                      control.isDescendant(of: themeView)
-                    else {
-                    return
-                }
-                strongSelf.update(themeView.fluentTheme)
+        // Register for notifications in order to call update() when the theme changes.
+        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                      object: nil,
+                                                                      queue: nil) { [weak self, weak control] notification in
+            guard let strongSelf = self,
+                  let themeView = notification.object as? UIView,
+                  let control,
+                  control.isDescendant(of: themeView)
+            else {
+                return
             }
+            strongSelf.update(themeView.fluentTheme)
         }
     }
 
@@ -139,6 +138,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     // Stores the notification handler for .didChangeTheme notifications.
     private var notificationObserver: NSObjectProtocol?
+
+    /// A callback to be invoked after the token set has completed updating.
+    private var onUpdate: (() -> Void)?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
