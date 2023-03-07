@@ -17,6 +17,7 @@ class BadgeViewTest: BaseTest {
         let badge: XCUIElement = app.buttons.containing(NSPredicate(format: "identifier MATCHES %@", "Badge.*")).firstMatch
         badge.doubleTap()
         XCTAssert(app.alerts["A selected badge was tapped"].exists)
+        app.buttons["OK"].tap()
     }
 
     func testDisabledBadge() throws {
