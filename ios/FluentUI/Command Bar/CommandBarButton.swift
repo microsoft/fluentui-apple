@@ -75,11 +75,6 @@ class CommandBarButton: UIButton {
         }
 
         updateState()
-
-        tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateStyle()
-            self?.isPointerInteractionEnabled = true
-        }
     }
 
     @available(*, unavailable)
@@ -159,7 +154,7 @@ class CommandBarButton: UIButton {
         accentImageView?.tintColor = tintColor
     }
 
-    private func updateStyle() {
+    func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
         let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorRest].dynamicColor)
