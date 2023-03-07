@@ -12,4 +12,16 @@ class BadgeViewTest: BaseTest {
     func testLaunch() throws {
         XCTAssert(app.navigationBars[controlName].exists)
     }
+
+    func testEnabledBadge() throws {
+        let badge: XCUIElement = app.buttons.containing(NSPredicate(format: "identifier MATCHES %@", "Badge.*")).firstMatch
+        badge.doubleTap()
+        XCTAssert(app.alerts["A selected badge was tapped"].exists)
+    }
+
+    func testDisabledBadge() throws {
+        let badge: XCUIElement = app.buttons.containing(NSPredicate(format: "identifier MATCHES %@", "Badge.*")).element(boundBy: 12)
+        badge.doubleTap()
+        XCTAssert(!app.alerts["A selected badge was tapped"].exists)
+    }
 }
