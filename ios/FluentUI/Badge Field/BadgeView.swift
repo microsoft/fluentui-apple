@@ -58,14 +58,6 @@ public protocol BadgeViewDelegate {
  */
 @objc(MSFBadgeView)
 open class BadgeView: UIView, TokenizedControlInternal {
-    public typealias TokenSetKeyType = BadgeViewTokenSet.Tokens
-    lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .default
-    },
-                                                     sizeCategory: { [weak self] in
-        return self?.sizeCategory ?? .medium
-    })
-
     @objc open var dataSource: BadgeViewDataSource? {
         didSet {
             reload()
@@ -127,6 +119,14 @@ open class BadgeView: UIView, TokenizedControlInternal {
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
+    
+    public typealias TokenSetKeyType = BadgeViewTokenSet.Tokens
+    lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .default
+    },
+                                                     sizeCategory: { [weak self] in
+        return self?.sizeCategory ?? .medium
+    })
 
     private var style: Style = .default {
         didSet {
