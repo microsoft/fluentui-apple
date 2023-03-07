@@ -88,32 +88,12 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        tokenSet.registerOnUpdate(for: self) { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateAppearance()
-            strongSelf.updateColors()        // until popupmenuitemcell actually supports token system, clients will override colors via cell's backgroundColor property
-        }
     }
 
-    override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        updateColors()
-    }
-
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
+    override func updateAppearance() {
+        super.updateAppearance()
         backgroundStyleType = .custom
+        updateColors()
     }
 
     func setup(item: PopupMenuTemplateItem) {

@@ -173,14 +173,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         return self?.customViewSize ?? .default
     })
 
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
-
     /// The height of the cell based on the height of its content.
     ///
     /// - Parameters:
@@ -1304,11 +1296,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAccessibility()
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleContentSizeCategoryDidChange),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
@@ -1862,7 +1849,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAppearance()
     }
 
-    internal func updateAppearance() {
+    /// Updates appearance for the given TableViewCell class.
+    ///
+    /// Subclasses should override this function, call `super.updateAppearance()`, and then
+    /// perform any custom appearance updates necessary.
+    func updateAppearance() {
         updateFonts()
         updateTextColors()
         updateSelectionImageColor()
