@@ -19,6 +19,7 @@ open class Label: UILabel, TokenizedControlInternal {
     }
     @objc open var style: AliasTokens.TypographyTokens = .body1 {
         didSet {
+            _font = nil
             updateFont()
         }
     }
@@ -37,6 +38,13 @@ open class Label: UILabel, TokenizedControlInternal {
         didSet {
             _textColor = textColor
             updateTextColor()
+        }
+    }
+
+    open override var font: UIFont! {
+        didSet {
+            _font = font
+            updateFont()
         }
     }
 
@@ -76,8 +84,9 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
-        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
+        // textColor and font are assigned in super.init to a default value and so we need to reset our cache afterwards
         _textColor = nil
+        _font = nil
 
         updateFont()
         updateTextColor()
@@ -114,11 +123,11 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
-        if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
-            font = defaultFont.withSize(maxFontSize)
+        let labelFont = _font ?? UIFont.fluent(tokenSet[.font].fontInfo)
+        if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
+            super.font = labelFont.withSize(maxFontSize)
         } else {
-            font = defaultFont
+            super.font = labelFont
         }
     }
 
@@ -137,6 +146,7 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private var _textColor: UIColor?
+    private var _font: UIFont?
     private var isUsingCustomAttributedText: Bool = false
     private var tokenSetSink: AnyCancellable?
 }
