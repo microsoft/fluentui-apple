@@ -5,33 +5,6 @@
 
 import UIKit
 
-/// Pre-defined styles of the Badge.
-@objc(MSFBadgeViewStyle)
-public enum Style: Int {
-    case `default`
-    case danger
-    case severeWarning
-    case warning
-    case success
-    case neutral
-}
-
-/// Pre-defined sizes of the Badge.
-@objc(MSFBadgeViewSize)
-public enum Size: Int, CaseIterable {
-    case small
-    case medium
-
-    var labelTextStyle: AliasTokens.TypographyTokens {
-        switch self {
-        case .small:
-            return .caption1
-        case .medium:
-            return .body2
-        }
-    }
-}
-
 /// Design token set for the `BadgeView` control.
 public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
@@ -60,10 +33,10 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
         case textFont
     }
 
-    init(style: @escaping () -> Style,
-         size: @escaping () -> Size) {
+    init(style: @escaping () -> BadgeView.Style,
+         sizeCategory: @escaping () -> BadgeView.SizeCategory) {
         self.style = style
-        self.size = size
+        self.sizeCategory = sizeCategory
         super.init { [style] token, theme in
             switch token {
             case .backgroundTintColor:
@@ -150,7 +123,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                 }
             case .borderRadius:
                 return .float({
-                    switch size() {
+                    switch sizeCategory() {
                     case .small:
                         return GlobalTokens.corner(.radius20)
                     case .medium:
@@ -159,7 +132,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                 })
             case .textFont:
                 return .fontInfo({
-                    switch size() {
+                    switch sizeCategory() {
                     case .small:
                         return theme.aliasTokens.typography[.caption1]
                     case .medium:
@@ -171,16 +144,16 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
     }
 
     /// Defines the style of the Badge.
-    var style: () -> Style
+    var style: () -> BadgeView.Style
 
-    /// Defines the size of the Badge.
-    var size: () -> Size
+    /// Defines the sizeCategory of the Badge.
+    var sizeCategory: () -> BadgeView.SizeCategory
 }
 
 // MARK: Constants
 extension BadgeViewTokenSet {
-    static func horizontalPadding(_ size: Size) -> CGFloat {
-        switch size {
+    static func horizontalPadding(_ sizeCategory: BadgeView.SizeCategory) -> CGFloat {
+        switch sizeCategory {
         case .small:
             return GlobalTokens.spacing(.size40)
         case .medium:
@@ -188,14 +161,36 @@ extension BadgeViewTokenSet {
         }
     }
 
-    static func verticalPadding(_ size: Size) -> CGFloat {
-        switch size {
-        case .small:
-            return 1.5
-        case .medium:
-            return GlobalTokens.spacing(.size40)
-        }
-    }
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size20)
 
     static let defaultMinWidth: CGFloat = 25
+}
+
+public extension BadgeView {
+    /// Pre-defined styles of the Badge.
+    @objc(MSFBadgeViewStyle)
+    enum Style: Int {
+        case `default`
+        case danger
+        case severeWarning
+        case warning
+        case success
+        case neutral
+    }
+
+    /// Pre-defined sizeCategories of the Badge.
+    @objc(MSFBadgeViewSizeCategory)
+    enum SizeCategory: Int, CaseIterable {
+        case small
+        case medium
+
+        var labelTextStyle: AliasTokens.TypographyTokens {
+            switch self {
+            case .small:
+                return .caption1
+            case .medium:
+                return .body2
+            }
+        }
+    }
 }

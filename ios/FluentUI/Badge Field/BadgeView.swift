@@ -10,30 +10,30 @@ import Combine
 @objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
-    @objc open var style: Style
-    @objc open var size: Size
+    @objc open var style: BadgeView.Style
+    @objc open var sizeCategory: BadgeView.SizeCategory
     @objc open var customView: UIView?
     @objc open var customViewVerticalPadding: NSNumber?
     @objc open var customViewPaddingLeft: NSNumber?
     @objc open var customViewPaddingRight: NSNumber?
 
-    @objc public init(text: String, style: Style = .default, size: Size = .medium) {
+    @objc public init(text: String, style: BadgeView.Style = .default, sizeCategory: BadgeView.SizeCategory = .medium) {
         self.text = text
         self.style = style
-        self.size = size
+        self.sizeCategory = sizeCategory
         super.init()
     }
 
     @objc public convenience init(
         text: String,
-        style: Style = .default,
-        size: Size = .medium,
+        style: BadgeView.Style = .default,
+        sizeCategory: BadgeView.SizeCategory = .medium,
         customView: UIView? = nil,
         customViewVerticalPadding: NSNumber? = nil,
         customViewPaddingLeft: NSNumber? = nil,
         customViewPaddingRight: NSNumber? = nil
     ) {
-        self.init(text: text, style: style, size: size)
+        self.init(text: text, style: style, sizeCategory: sizeCategory)
 
         self.customView = customView
         self.customViewVerticalPadding = customViewVerticalPadding
@@ -62,8 +62,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
     lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
         return self?.style ?? .default
     },
-                                                     size: { [weak self] in
-        return self?.size ?? .medium
+                                                     sizeCategory: { [weak self] in
+        return self?.sizeCategory ?? .medium
     })
 
     @objc open var dataSource: BadgeViewDataSource? {
@@ -134,9 +134,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
-    private var size: Size = .medium {
+    private var sizeCategory: SizeCategory = .medium {
         didSet {
-            label.style = size.labelTextStyle
+            label.style = sizeCategory.labelTextStyle
             invalidateIntrinsicContentSize()
         }
     }
@@ -155,8 +155,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             return defaultValue
         }
-        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding(size)
-        let defaultHorizontalPadding = BadgeViewTokenSet.horizontalPadding(size)
+        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding(sizeCategory)
+        let defaultHorizontalPadding = BadgeViewTokenSet.horizontalPadding(sizeCategory)
         return UIEdgeInsets(
             top: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
             left: getFloat(dataSource?.customViewPaddingLeft, defaultHorizontalPadding),
@@ -230,7 +230,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        switch size {
+        switch sizeCategory {
         case .small:
             label.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1])
         case .medium:
@@ -249,7 +249,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
             let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x, height: labelSize.height)
             label.frame = CGRect(origin: labelOrigin, size: labelSizeThatFits)
         } else {
-            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(size), dy: BadgeViewTokenSet.verticalPadding(size))
+            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory), dy: BadgeViewTokenSet.verticalPadding(sizeCategory))
         }
 
         flipSubviewsForRTL()
@@ -258,7 +258,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     func reload() {
         label.text = dataSource?.text
         style = dataSource?.style ?? .default
-        size = dataSource?.size ?? .medium
+        sizeCategory = dataSource?.sizeCategory ?? .medium
 
         dataSource?.customView?.removeFromSuperview()
         if let customView = dataSource?.customView {
@@ -274,12 +274,12 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
         if let customViewSize = customViewSize(for: size), customViewSize != .zero {
             let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
-            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding(self.size) * 2
+            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding(self.sizeCategory) * 2
             height = max(heightForCustomView, heightForLabel)
-            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.size) * 2
+            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         } else {
-            height = labelSize.height + BadgeViewTokenSet.verticalPadding(self.size) * 2
-            width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.size) * 2
+            height = labelSize.height + BadgeViewTokenSet.verticalPadding(self.sizeCategory) * 2
+            width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         }
 
         let maxWidth = size.width > 0 ? size.width : .infinity

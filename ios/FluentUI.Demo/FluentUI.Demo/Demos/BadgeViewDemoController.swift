@@ -14,24 +14,24 @@ class BadgeViewDemoController: DemoController {
 
         readmeString = "A badge is a compact, interactive, \ntextual representation of a person. It is generally a representation of user-input text that maps to an entry in a database."
 
-        addBadgeSection(title: "Default badge", style: Style.default)
-        addBadgeSection(title: "Danger badge", style: Style.danger)
-        addBadgeSection(title: "Warning badge", style: Style.warning)
-        addBadgeSection(title: "Neutral badge", style: Style.neutral)
-        addBadgeSection(title: "Severe Warning badge", style: Style.severeWarning)
-        addBadgeSection(title: "Success badge", style: Style.success)
-        addBadgeSection(title: "Disabled badge Default", style: Style.default, isEnabled: false)
-        addBadgeSection(title: "Disabled badge Neutral", style: Style.neutral, isEnabled: false)
-        addBadgeSection(title: "Custom badge", style: Style.default, overrideColor: true)
-        addBadgeSection(title: "Custom disabled badge", style: Style.default, isEnabled: false, overrideColor: true)
+        addBadgeSection(title: "Default badge", style: .default)
+        addBadgeSection(title: "Danger badge", style: .danger)
+        addBadgeSection(title: "Warning badge", style: .warning)
+        addBadgeSection(title: "Neutral badge", style: .neutral)
+        addBadgeSection(title: "Severe Warning badge", style: .severeWarning)
+        addBadgeSection(title: "Success badge", style: .success)
+        addBadgeSection(title: "Disabled badge Default", style: .default, isEnabled: false)
+        addBadgeSection(title: "Disabled badge Neutral", style: .neutral, isEnabled: false)
+        addBadgeSection(title: "Custom badge", style: .default, overrideColor: true)
+        addBadgeSection(title: "Custom disabled badge", style: .default, isEnabled: false, overrideColor: true)
 
         addCustomBadgeSections()
     }
 
     func createBadge(
         text: String,
-        style: Style,
-        size: Size,
+        style: BadgeView.Style,
+        sizeCategory: BadgeView.SizeCategory,
         isEnabled: Bool,
         customView: UIView? = nil,
         customViewVerticalPadding: NSNumber? = nil,
@@ -41,7 +41,7 @@ class BadgeViewDemoController: DemoController {
         let dataSource = BadgeViewDataSource(
             text: text,
             style: style,
-            size: size,
+            sizeCategory: sizeCategory,
             customView: customView,
             customViewVerticalPadding: customViewVerticalPadding,
             customViewPaddingLeft: customViewLeftPadding,
@@ -55,10 +55,10 @@ class BadgeViewDemoController: DemoController {
         return badge
     }
 
-    func addBadgeSection(title: String, style: Style, isEnabled: Bool = true, overrideColor: Bool = false) {
+    func addBadgeSection(title: String, style: BadgeView.Style, isEnabled: Bool = true, overrideColor: Bool = false) {
         addTitle(text: title)
-        for size in Size.allCases.reversed() {
-            let badge = createBadge(text: "Kat Larsson", style: style, size: size, isEnabled: isEnabled)
+        for sizeCategory in BadgeView.SizeCategory.allCases.reversed() {
+            let badge = createBadge(text: "Kat Larsson", style: style, sizeCategory: sizeCategory, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
                     var customTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
@@ -92,7 +92,7 @@ class BadgeViewDemoController: DemoController {
                     badge.tokenSet.replaceAllOverrides(with: customTokens)
                 }
             }
-            addRow(text: size.description, items: [badge])
+            addRow(text: sizeCategory.description, items: [badge])
         }
         container.addArrangedSubview(UIView())
     }
@@ -107,16 +107,16 @@ class BadgeViewDemoController: DemoController {
         let avatar = MSFAvatar(style: .default, size: .size16)
         avatar.state.image = UIImage(named: "avatar_kat_larsson")
 
-        let dataSource: [(Size, UIView)] = [
+        let dataSource: [(BadgeView.SizeCategory, UIView)] = [
             (.medium, imageView),
             (.small, avatar)
         ]
 
-        for (size, customView) in dataSource {
+        for (sizeCategory, customView) in dataSource {
             let badge = createBadge(
                 text: "Kat Larsson",
                 style: .default,
-                size: size,
+                sizeCategory: sizeCategory,
                 isEnabled: false,
                 customView: customView,
                 customViewVerticalPadding: 3
@@ -132,7 +132,7 @@ class BadgeViewDemoController: DemoController {
                 ]
             }
             badge.tokenSet.replaceAllOverrides(with: customTokens)
-            addRow(text: size.description, items: [badge])
+            addRow(text: sizeCategory.description, items: [badge])
         }
         container.addArrangedSubview(UIView())
     }
@@ -213,7 +213,7 @@ extension BadgeViewDemoController: DemoAppearanceDelegate {
     }
 }
 
-extension Size {
+extension BadgeView.SizeCategory {
     var description: String {
         switch self {
         case .small:
