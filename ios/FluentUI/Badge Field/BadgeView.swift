@@ -155,7 +155,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             return defaultValue
         }
-        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding(sizeCategory)
+        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding
         let defaultHorizontalPadding = BadgeViewTokenSet.horizontalPadding(sizeCategory)
         return UIEdgeInsets(
             top: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
@@ -212,6 +212,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
                 self?.updateColors()
+                self?.updateFonts()
             }
         }
     }
@@ -249,7 +250,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
             let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x, height: labelSize.height)
             label.frame = CGRect(origin: labelOrigin, size: labelSizeThatFits)
         } else {
-            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory), dy: BadgeViewTokenSet.verticalPadding(sizeCategory))
+            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory), dy: BadgeViewTokenSet.verticalPadding)
         }
 
         flipSubviewsForRTL()
@@ -274,11 +275,11 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
         if let customViewSize = customViewSize(for: size), customViewSize != .zero {
             let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
-            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding(self.sizeCategory) * 2
+            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
             height = max(heightForCustomView, heightForLabel)
             width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         } else {
-            height = labelSize.height + BadgeViewTokenSet.verticalPadding(self.sizeCategory) * 2
+            height = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
             width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         }
 
