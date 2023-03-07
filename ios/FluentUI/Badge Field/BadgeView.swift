@@ -525,4 +525,11 @@ open class BadgeView: UIView, TokenizedControlInternal {
         get { return dataSource?.accessibilityLabel ?? label.text }
         set { }
     }
+
+#if DEBUG
+    open override var accessibilityIdentifier: String? {
+        get { return "Badge with label \(label.text ?? "") in style \(style.rawValue)" }
+        set { }
+    }
+#endif
 }
