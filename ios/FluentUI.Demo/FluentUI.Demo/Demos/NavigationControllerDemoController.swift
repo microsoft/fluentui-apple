@@ -332,6 +332,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.subtitle = ""
             $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+        },
+        14: TitleViewFeature(name: "Centered, image, disclosure") {
+            $0.subtitle = ""
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         }
     ]
 
