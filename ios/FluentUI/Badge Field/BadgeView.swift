@@ -119,7 +119,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
-    
+
     public typealias TokenSetKeyType = BadgeViewTokenSet.Tokens
     lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
         return self?.style ?? .default
