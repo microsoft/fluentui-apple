@@ -855,7 +855,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             // Use default behavior of requesting an accessory expansion
             customTitleView.delegate = self
         }
-        navigationItem.titleView = customTitleView
+        // For some strange reason, embedding the TwoLineTitleView inside a UIStackView
+        // makes its labels resize properly according to content size changes.
+        navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
     }
 
     // MARK: Content expansion/contraction

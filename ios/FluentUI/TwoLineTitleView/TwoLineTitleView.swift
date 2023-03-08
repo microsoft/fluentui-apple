@@ -290,6 +290,9 @@ open class TwoLineTitleView: UIView {
         titleButtonLeadingImageView.image = titleImage
         titleButtonLeadingImageView.isHidden = titleImage == nil
 
+        let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
+        titleButtonLabel.maxFontSize = subtitleIsNilOrEmpty ? 0 : fluentTheme.aliasTokens.typography[.body1Strong].size
+
         setupButton(titleButton, label: titleButtonLabel, trailingImageView: titleButtonTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll stretch the title button to adjust the hit area
