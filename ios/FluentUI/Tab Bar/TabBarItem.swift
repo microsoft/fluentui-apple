@@ -30,6 +30,9 @@ open class TabBarItem: NSObject {
        }
    }
 
+    /// A string that uniquely identifies the element, typically for automation purposes.
+    @objc public var accessibilityIdentifier: String?
+
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
     @objc public func setBadgeNumber(_ number: UInt) {
@@ -73,36 +76,6 @@ open class TabBarItem: NSObject {
                   accessibilityLabelBadgeFormatString: nil)
     }
 
-#if DEBUG
-    /// Initializes `TabBarItem`
-    /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
-    /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
-    /// - Parameter selectedImage: Used for imageView when tabbar item view is selected.  If it is nil, it will use `image`.
-    /// - Parameter landscapeImage: Used for imageView when tabbar item view in landscape. If it is nil, it will use `image`. The image will be used in portrait mode if the tab bar item shows a label.
-    /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
-    /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
-    /// - Parameter accessibilityLabelBadgeFormatString: Format string to use for the tabbar item's accessibility label when the badge number is greater than zero. When the badge number is zero, the accessibility label is set to the item's title. By default, when the badge number is greater than zero, the following format is used to builds the accessibility label: "%@, %ld items" where the item's title and the badge number are used to populate the format specifiers. If a format string is provided through this parameter, it must contain "%@" and "%ld" in the same order and will be populated with the title and badge number.
-    /// - Parameter accessibilityIdentifier: Used for UI testing.
-    @objc public convenience init(title: String,
-                                  image: UIImage,
-                                  selectedImage: UIImage? = nil,
-                                  landscapeImage: UIImage? = nil,
-                                  landscapeSelectedImage: UIImage? = nil,
-                                  largeContentImage: UIImage? = nil,
-                                  accessibilityLabelBadgeFormatString: String? = nil,
-                                  accessibilityIdentifier: String? = nil) {
-        self.init(title: title,
-                  image: image,
-                  selectedImage: selectedImage,
-                  landscapeImage: landscapeImage,
-                  landscapeSelectedImage: landscapeSelectedImage,
-                  largeContentImage: nil,
-                  accessibilityLabelBadgeFormatString: nil)
-        self.accessibilityIdentifier = accessibilityIdentifier
-    }
-
-#endif
-
     /// Initializes `TabBarItem`
     /// - Parameter title: Used for tabbar item view's label and for its accessibilityLabel.
     /// - Parameter image: Used for tabbar item view's imageView and for its accessibility largeContentImage unless `largeContentImage` is specified.
@@ -140,9 +113,6 @@ open class TabBarItem: NSObject {
     let landscapeSelectedImage: UIImage?
     let largeContentImage: UIImage?
     let accessibilityLabelBadgeFormatString: String?
-#if DEBUG
-    var accessibilityIdentifier: String?
-#endif
 
     func selectedImage(isInPortraitMode: Bool, labelIsHidden: Bool) -> UIImage? {
         if isInPortraitMode {

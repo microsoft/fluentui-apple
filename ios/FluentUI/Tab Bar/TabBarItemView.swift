@@ -31,13 +31,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         }
     }
 
-#if DEBUG
-    override var accessibilityIdentifier: String? {
-        get { return item.accessibilityIdentifier }
-        set { }
-    }
-#endif
-
     /// Maximum width for the badge view where the badge value is displayed.
     var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
         didSet {
@@ -103,6 +96,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
+        accessibilityIdentifier = item.accessibilityIdentifier
 
         self.largeContentImage = item.largeContentImage ?? item.image
         largeContentTitle = item.title
