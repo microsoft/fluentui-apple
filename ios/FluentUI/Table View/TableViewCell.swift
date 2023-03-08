@@ -1754,7 +1754,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let maxWidth = size.width != 0 ? size.width : .infinity
+        let maxWidth = self.contentView.frame.width != 0 ? self.contentView.frame.width : .infinity
         return CGSize(
             width: min(
                 type(of: self).preferredWidth(
