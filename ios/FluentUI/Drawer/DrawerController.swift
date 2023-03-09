@@ -99,14 +99,12 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
-    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    /// DrawerController colors with obj-c support
+    @objc public static var drawerBackgroundColor: UIColor {
+        UIColor(dynamicColor: DrawerTokenSet()[.drawerContentBackground].dynamicColor)
     }
-
-    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+    @objc public static var popoverBackgroundColor: UIColor {
+        UIColor(dynamicColor: DrawerTokenSet()[.popoverContentBackground].dynamicColor)
     }
 
     private struct Constants {
