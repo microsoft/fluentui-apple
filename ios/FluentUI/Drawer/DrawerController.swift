@@ -391,7 +391,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        return presentationBackground == .none ? tokenSet[.shadowOffset].float : 0
+        return presentationBackground == .none ? DrawerTokenSet.shadowOffset : 0
     }
 
     private let sourceView: UIView?

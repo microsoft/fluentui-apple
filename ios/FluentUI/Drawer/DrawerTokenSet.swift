@@ -22,15 +22,6 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
 
         /// Corner radius for the popover style `Drawer` control.
         case cornerRadius
-
-        /// Minimum horizontal margin for the `Drawer` control.
-        case minHorizontalMargin
-
-        /// Minimum vertical margin for the `Drawer` control.
-        case minVerticalMargin
-
-        /// Offset of the shadow for the `Drawer` control.
-        case shadowOffset
     }
 
     init() {
@@ -70,15 +61,18 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
             case .cornerRadius:
                 return .float({ 14 })
 
-            case .minHorizontalMargin:
-                return .float({ GlobalTokens.spacing(.size480) })
-
-            case .minVerticalMargin:
-                return .float({ GlobalTokens.spacing(.size200) })
-
-            case .shadowOffset:
-                return .float({ GlobalTokens.spacing(.size80) })
             }
         }
     }
+}
+
+extension DrawerTokenSet {
+    /// Minimum horizontal margin for the `Drawer` control.
+    static let minHorizontalMargin: CGFloat = GlobalTokens.spacing(.size480)
+
+    /// Minimum vertical margin for the `Drawer` control.
+    static let minVerticalMargin: CGFloat = GlobalTokens.spacing(.size200)
+
+    /// Offset of the shadow for the `Drawer` control.
+    static let shadowOffset: CGFloat = GlobalTokens.spacing(.size80)
 }
