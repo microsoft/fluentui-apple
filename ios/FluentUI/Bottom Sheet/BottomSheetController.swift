@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {

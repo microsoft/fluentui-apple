@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 /// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
 public protocol CommandBarDelegate: AnyObject {

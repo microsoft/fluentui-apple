@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 import UIKit
-import Combine
 
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
