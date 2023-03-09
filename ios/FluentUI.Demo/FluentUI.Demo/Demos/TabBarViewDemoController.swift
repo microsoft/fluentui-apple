@@ -84,6 +84,7 @@ class TabBarViewDemoController: DemoController {
             ]
         } else {
             homeItem = homeItem(shouldShowTitle: false)
+            homeItem.accessibilityIdentifier = "yo"
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_28")!, selectedImage: UIImage(named: "New_Selected_28")!, landscapeImage: UIImage(named: "New_24")!, landscapeSelectedImage: UIImage(named: "New_Selected_24")!),

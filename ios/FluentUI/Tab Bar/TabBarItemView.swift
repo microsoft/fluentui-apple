@@ -124,6 +124,11 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                name: TabBarItem.isUnreadValueDidChangeNotification,
                                                object: item)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(accessibilityIdentifierDidChange),
+                                               name: TabBarItem.accessibilityIdentifierDidChangeNotification,
+                                               object: item)
+
         badgeValue = item.badgeValue
         updateLayout()
     }
@@ -209,6 +214,10 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         updateBadgeView()
         updateAccessibilityLabel()
         setNeedsLayout()
+    }
+
+    @objc private func accessibilityIdentifierDidChange() {
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private var isUnreadDotVisible: Bool = false
