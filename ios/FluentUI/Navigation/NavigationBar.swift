@@ -356,10 +356,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateAccessibilityElements()
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateColors(for: strongSelf.topItem)
+            self?.updateColors(for: self?.topItem)
         }
     }
 
