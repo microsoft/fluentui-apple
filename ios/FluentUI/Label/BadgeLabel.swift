@@ -34,12 +34,9 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        updateColors()
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {
@@ -48,14 +45,6 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
             return
         }
         tokenSet.update(newWindow.fluentTheme)
-        updateColors()
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
         updateColors()
     }
 
