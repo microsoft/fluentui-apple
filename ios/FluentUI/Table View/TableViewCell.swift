@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: TableViewCellAccessoryType
 
@@ -172,16 +171,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     public lazy var tokenSet: TableViewCellTokenSet = .init(customViewSize: { [weak self] in
         return self?.customViewSize ?? .default
     })
-
-    var tokenSetSink: AnyCancellable?
-
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
 
     /// The height of the cell based on the height of its content.
     ///
@@ -1306,17 +1295,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAccessibility()
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleContentSizeCategoryDidChange),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }
@@ -1864,7 +1848,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateAppearance()
     }
 
-    internal func updateAppearance() {
+    /// Updates appearance for the given TableViewCell class.
+    ///
+    /// Subclasses should override this function, call `super.updateAppearance()`, and then
+    /// perform any custom appearance updates necessary.
+    func updateAppearance() {
         updateFonts()
         updateTextColors()
         updateSelectionImageColor()

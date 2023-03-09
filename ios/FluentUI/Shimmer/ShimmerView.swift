@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
 @objc(MSFShimmerView)
@@ -59,7 +58,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
                                                object: nil)
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateShimmeringAnimation()
         }
     }
@@ -78,8 +77,6 @@ open class ShimmerView: UIView, TokenizedControlInternal {
     public lazy var tokenSet: ShimmerTokenSet = .init(style: { [weak self] in
         return self?.style ?? .concealing
     })
-
-    var tokenSetSink: AnyCancellable?
 
     /// Style to draw the control.
     public let style: MSFShimmerStyle
