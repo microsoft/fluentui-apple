@@ -396,11 +396,8 @@ open class BadgeView: UIView, TokenizedControlInternal {
                                                object: nil)
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateColors()
-            strongSelf.updateFonts()
+            self?.updateColors()
+            self?.updateFonts()
         }
 
         defer {
