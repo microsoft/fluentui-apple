@@ -112,6 +112,34 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     ///
     /// - Parameters:
     ///   - message: The text to be displayed on the new tooltip view.
+    ///   - title: The optional bolded text to be displayed above the message on the new tooltip view.
+    ///   - anchorView: The view to point to with the new tooltip's arrow.
+    ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
+    ///   - offset: An offset from the tooltip's default position.
+    ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
+    ///   - onTap: An optional closure used to do work after the user taps
+    @objc public func show(with message: String,
+                           title: String?,
+                           for anchorView: UIView,
+                           preferredArrowDirection: ArrowDirection = .down,
+                           offset: CGPoint = CGPoint(x: 0, y: 0),
+                           dismissOn dismissMode: DismissMode = .tapAnywhere,
+                           onTap: (() -> Void)? = nil) {
+        show(with: message,
+             title: title,
+             for: anchorView,
+             with: nil,
+             preferredArrowDirection: preferredArrowDirection,
+             offset: offset,
+             dismissOn: dismissMode,
+             onTap: onTap)
+    }
+
+    /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
+    /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
+    ///
+    /// - Parameters:
+    ///   - message: The text to be displayed on the new tooltip view.
     ///   - anchorView: The view to point to with the new tooltip's arrow.
     ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
     ///   - offset: An offset from the tooltip's default position.
@@ -126,6 +154,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         show(with: message,
              title: nil,
              for: anchorView,
+             with: nil,
              preferredArrowDirection: preferredArrowDirection,
              offset: offset,
              dismissOn: dismissMode,
