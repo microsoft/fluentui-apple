@@ -11,9 +11,6 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         /// `ShadowInfo` for the shadow used in the `Drawer` control.
         case shadow
 
-        /// Color used when dimming the background while showing the `Drawer` control.
-        case backgroundDimmedColor
-
         /// Color used for the background of the content of the `Drawer` control.
         case drawerContentBackground
 
@@ -51,12 +48,6 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                                ambientBlur: 4,
                                xAmbient: 0,
                                yAmbient: 0)
-                })
-
-            case .backgroundDimmedColor:
-                return .dynamicColor({
-                    DynamicColor(light: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.66),
-                                 dark: ColorValue(r: 0.0, g: 0.0, b: 0.0, a: 0.99))
                 })
 
             case .drawerContentBackground:
