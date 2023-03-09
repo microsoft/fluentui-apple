@@ -451,7 +451,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
               return
         }
         tokenSet.update(fluentTheme)
-        updateAppearance()
+        updateBackgroundColor()
     }
 
     /**
@@ -486,7 +486,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
-                self?.updateAppearance()
+                self?.updateBackgroundColor()
             }
         }
     }
@@ -545,7 +545,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
-        updateAppearance()
+        updateBackgroundColor()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -795,15 +795,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
             resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
         }
-    }
-
-    private func updateAppearance() {
-        updateBackgroundColor()
-
-        guard let presentationController = (presentationController as? DrawerPresentationController) else {
-            return
-        }
-        presentationController.updateApperance()
     }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
