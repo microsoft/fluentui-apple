@@ -12,12 +12,13 @@ import UIKit
 open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
-            _textColor = nil
+            labelTextColor = nil
             updateTextColor()
         }
     }
     @objc open var style: AliasTokens.TypographyTokens = .body1 {
         didSet {
+            labelFont = nil
             updateFont()
         }
     }
@@ -34,8 +35,15 @@ open class Label: UILabel, TokenizedControlInternal {
 
     open override var textColor: UIColor! {
         didSet {
-            _textColor = textColor
+            labelTextColor = textColor
             updateTextColor()
+        }
+    }
+
+    open override var font: UIFont! {
+        didSet {
+            labelFont = font
+            updateFont()
         }
     }
 
@@ -75,8 +83,9 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
-        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
-        _textColor = nil
+        // textColor and font are assigned in super.init to a default value and so we need to reset our cache afterwards
+        labelTextColor = nil
+        labelFont = nil
 
         updateFont()
         updateTextColor()
@@ -100,11 +109,11 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
-        if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
-            font = defaultFont.withSize(maxFontSize)
+        let labelFont = labelFont ?? UIFont.fluent(tokenSet[.font].fontInfo)
+        if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
+            super.font = labelFont.withSize(maxFontSize)
         } else {
-            font = defaultFont
+            super.font = labelFont
         }
     }
 
@@ -113,7 +122,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = _textColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        super.textColor = labelTextColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -122,6 +131,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    private var _textColor: UIColor?
+    private var labelTextColor: UIColor?
+    private var labelFont: UIFont?
     private var isUsingCustomAttributedText: Bool = false
 }
