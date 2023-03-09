@@ -136,7 +136,7 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// Holds the sink for any changes to the control token set.
     private var changeSink: AnyCancellable?
 
-    // Stores the notification handler for .didChangeTheme notifications.
+    /// Stores the notification handler for .didChangeTheme notifications.
     private var notificationObserver: NSObjectProtocol?
 
     /// A callback to be invoked after the token set has completed updating.
