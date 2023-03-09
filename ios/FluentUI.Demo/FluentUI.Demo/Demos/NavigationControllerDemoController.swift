@@ -85,7 +85,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
     }
 
     @objc func showSystemTitleWithShyAccessory() {
@@ -131,7 +131,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithPillSegment() {
-        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(compatibleWith: .primary), contractNavigationBarOnScroll: false)
     }
 
     private enum LeadingItem {
@@ -223,11 +223,11 @@ class NavigationControllerDemoController: DemoController {
         return searchBar
     }
 
-    private func createSegmentedControl() -> UIView {
+    private func createSegmentedControl(compatibleWith style: NavigationBar.Style) -> UIView {
         let segmentItems: [SegmentItem] = [
             SegmentItem(title: "First"),
             SegmentItem(title: "Second")]
-        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        let pillControl = SegmentedControl(items: segmentItems, style: style == .system ? .primaryPill : .onBrandPill)
         pillControl.shouldSetEqualWidthForSegments = false
         pillControl.isFixedWidth = false
         pillControl.contentInset = .zero
