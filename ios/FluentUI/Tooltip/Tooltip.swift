@@ -62,7 +62,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             return
         }
 
-        let hostView = hostVC.view
+        let hostView: UIView! = hostVC.view
         hostVC.addChild(tooltipViewController)
         self.onTap = onTap
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
@@ -70,8 +70,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         self.gestureView = gestureView
         switch self.dismissMode {
         case .tapAnywhere:
-            hostView?.addSubview(tooltipView)
-            hostView?.addSubview(gestureView)
+            hostView.addSubview(tooltipView)
+            hostView.addSubview(gestureView)
             gestureView.onTouches = { [weak self] _ in
                 guard let strongSelf = self else {
                     return
@@ -79,8 +79,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                 strongSelf.handleTapGesture()
             }
         case .tapOnTooltip, .tapOnTooltipOrAnchor:
-            hostView?.addSubview(gestureView)
-            hostView?.addSubview(tooltipView)
+            hostView.addSubview(gestureView)
+            hostView.addSubview(tooltipView)
             gestureView.forwardsTouches = false
             tooltipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
             if self.dismissMode == .tapOnTooltipOrAnchor {
