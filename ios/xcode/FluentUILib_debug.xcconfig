@@ -4,4 +4,4 @@
 //
 
 #include "FluentUILib_common.xcconfig"
-ENABLE_ADDRESS_SANITIZER = YES
+CLANG_ADDRESS_SANITIZER = YES
