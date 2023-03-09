@@ -57,6 +57,11 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             return
         }
 
+        // Connect tokenSet
+        tokenSet.registerOnUpdate(for: tooltipView) { [weak self] in
+            self?.tooltipViewController?.updateAppearance()
+        }
+
         let rootViewController = window.rootViewController
         let rootView = rootViewController?.view
         rootViewController?.addChild(tooltipViewController)
@@ -180,6 +185,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
 
         tooltipViewController?.removeFromParent()
         tooltipViewController = nil
+
+        tokenSet.deregisterOnUpdate()
 
         onTap = nil
 

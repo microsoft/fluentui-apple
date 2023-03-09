@@ -59,11 +59,20 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     }
 
     deinit {
+        deregisterOnUpdate()
+    }
+
+    /// Removes all `onUpdate`-based observing. Useful if you are re-registering the same tokenSet
+    /// for a new instance of a control (see `Tooltip` for an example).
+    func deregisterOnUpdate() {
         if let notificationObserver {
             NotificationCenter.default.removeObserver(notificationObserver,
                                                       name: .didChangeTheme,
                                                       object: nil)
         }
+        changeSink = nil
+        notificationObserver = nil
+        onUpdate = nil
     }
 
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
@@ -77,6 +86,14 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     // Internal accessor and setter functions for the override dictionary
 
+    /// Returns the current override value for a given token, or nil if none exists.
+    ///
+    /// This API will check `valueOverrides` first for local overrides, and `fluentTheme.tokens(for:)`
+    /// second, returning the first of those to be non-nil, or nil if both are unset.
+    ///
+    /// - Parameter token: The token key to fetch any existing override for.
+    ///
+    /// - Returns: the active override value for a given token, or nil if none exists.
     func overrideValue(forToken token: T) -> ControlTokenValue? {
         if let value = valueOverrides?[token] {
             return value
@@ -86,6 +103,10 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         return nil
     }
 
+    /// Sets an override value for a given token key.
+    ///
+    /// - Parameter value: The value to set as an override.
+    /// - Parameter token: The token key whose value should be set.
     func setOverrideValue(_ value: ControlTokenValue?, forToken token: T) {
         if valueOverrides == nil {
             valueOverrides = [:]
@@ -93,6 +114,17 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = value
     }
 
+    /// Registers an observing control for update calls.
+    ///
+    /// The `onUpdate` callback will be invoked in two cases:
+    /// 1. A new override value has been set on this `ControlTokenSet`.
+    /// 2. A `Notification.Name.didChangeTheme` notification was fired for either `control` or one of its superviews.
+    ///
+    /// Note: consecutive calls to this method will no-op; only the first invocation will be recognized. If you need to change
+    /// the view requesting updates, invoke `deregisterOnUpdate()` before calling `registerOnUpdate` a second time.
+    ///
+    /// - Parameter control: The `UIView` instance that wishes to observe.
+    /// - Parameter onUpdate: A callback to run whenever `control` should update itself.
     func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
         guard self.onUpdate == nil,
               changeSink == nil,
