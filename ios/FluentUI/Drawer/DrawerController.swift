@@ -120,7 +120,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc lazy open var backgroundColor: UIColor = DrawerController.drawerBackground(fluentTheme: view.fluentTheme) {
+    @objc lazy open var backgroundColor: UIColor = UIColor(dynamicColor: tokenSet[.drawerContentBackground].dynamicColor) {
         didSet {
             if isViewLoaded {
                 view.backgroundColor = backgroundColor
