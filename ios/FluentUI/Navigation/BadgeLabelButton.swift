@@ -191,7 +191,7 @@ class BadgeLabelButton: UIButton {
                                      width: computedBadgeWidth,
                                      height: Constants.badgeHeight)
             let badgeCutoutPath = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
-                                                            y: 0,
+                                                            y: badgeBounds.origin.y,
                                                             width: frame.size.width + computedBadgeWidth / 2,
                                                             height: frame.size.height))
             // Adding the path for the cutout on the button's titleLabel or imageView where the badge label will be placed on top of.
