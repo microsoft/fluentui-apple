@@ -58,11 +58,11 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,
               let tooltipView = tooltipViewController.view,
-              let hostVC = hostViewController ?? window.rootViewController else {
+              let hostVC = hostViewController ?? window.rootViewController,
+              let hostView = hostVC.view else {
             return
         }
 
-        let hostView: UIView! = hostVC.view
         hostVC.addChild(tooltipViewController)
         self.onTap = onTap
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
