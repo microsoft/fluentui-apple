@@ -120,24 +120,13 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open var backgroundColor: UIColor {
-        get {
-            let color: DynamicColor
-            if presentationController is UIPopoverPresentationController {
-                color = tokenSet[.popoverContentBackground].dynamicColor
-            } else if useNavigationBarBackgroundColor {
-                color = tokenSet[.navigationBarBackground].dynamicColor
-            } else {
-                color = tokenSet[.drawerContentBackground].dynamicColor
-            }
-            return UIColor(dynamicColor: color)
-        }
-        set {
+    @objc lazy open var backgroundColor: UIColor = DrawerController.drawerBackground(fluentTheme: view.fluentTheme) {
+        didSet {
             if isViewLoaded {
-                view.backgroundColor = newValue
+                view.backgroundColor = backgroundColor
             }
 
-            guard let newColor = newValue.dynamicColor else {
+            guard let newColor = backgroundColor.dynamicColor else {
                 return
             }
             tokenSet[.popoverContentBackground] = .dynamicColor { newColor }
@@ -464,6 +453,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
               return
         }
         tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     /**
@@ -501,6 +491,18 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
                 self?.updateAppearance()
             }
         }
+    }
+
+    private func updateBackgroundColor() {
+        let color: DynamicColor
+        if presentationController is UIPopoverPresentationController {
+            color = tokenSet[.popoverContentBackground].dynamicColor
+        } else if useNavigationBarBackgroundColor {
+            color = tokenSet[.navigationBarBackground].dynamicColor
+        } else {
+            color = tokenSet[.drawerContentBackground].dynamicColor
+        }
+        view.backgroundColor = UIColor(dynamicColor: color)
     }
 
     open func willDismiss() {
@@ -798,7 +800,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     private func updateAppearance() {
-        view.backgroundColor = backgroundColor
+        updateBackgroundColor()
 
         guard let presentationController = (presentationController as? DrawerPresentationController) else {
             return
