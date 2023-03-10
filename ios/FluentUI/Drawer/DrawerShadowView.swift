@@ -48,7 +48,6 @@ class DrawerShadowView: UIView, Shadowable {
         self.drawerTokenSet = tokenSet
         super.init(frame: .zero)
         updateShadow()
-        layer.cornerRadius = DrawerTokenSet.shadowOffset
         backgroundColor = .clear
         isAccessibilityElement = false
         isUserInteractionEnabled = false

@@ -8,34 +8,37 @@ import UIKit
 /// Design token set for the `Drawer` control
 public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
-        /// `ShadowInfo` for the shadow used in the `Drawer` control.
-        case shadow
+        /// Corner radius for the popover style `Drawer` control.
+        case cornerRadius
 
         /// Color used for the background of the content of the `Drawer` control.
         case drawerContentBackground
 
-        /// Color used for the background of the popover style `Drawer` control.
-        case popoverContentBackground
-
         /// Color used for the navigation bar of the `Drawer` control.
         case navigationBarBackground
 
-        /// Corner radius for the popover style `Drawer` control.
-        case cornerRadius
+        /// Color used for the background of the popover style `Drawer` control.
+        case popoverContentBackground
+
+        /// `ShadowInfo` for the shadow used in the `Drawer` control.
+        case shadow
     }
 
     init() {
         super.init { token, theme in
             switch token {
-            case .shadow:
-                return .shadowInfo({
-                    theme.aliasTokens.shadow[.shadow28]
-                })
+            case .cornerRadius:
+                return .float({ 14 })
 
             case .drawerContentBackground:
                 return .dynamicColor({
                     DynamicColor(light: theme.aliasTokens.colors[.background2].light,
                                  dark: theme.aliasTokens.colors[.background2].dark)
+                })
+
+            case .navigationBarBackground:
+                return .dynamicColor({
+                    theme.aliasTokens.colors[.background3]
                 })
 
             case .popoverContentBackground:
@@ -44,14 +47,10 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                                  dark: theme.aliasTokens.colors[.background4].dark)
                 })
 
-            case .navigationBarBackground:
-                return .dynamicColor({
-                    theme.aliasTokens.colors[.background3]
+            case .shadow:
+                return .shadowInfo({
+                    theme.aliasTokens.shadow[.shadow28]
                 })
-
-            case .cornerRadius:
-                return .float({ 14 })
-
             }
         }
     }
