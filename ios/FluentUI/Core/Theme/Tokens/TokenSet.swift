@@ -3,8 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Combine
-
 /// Defines the key used for token value indexing.
 public typealias TokenSetKey = Hashable & CaseIterable
 
@@ -13,31 +11,15 @@ public final class TokenSet<T: TokenSetKey, V> {
 
     /// Allows us to index into this token set using square brackets.
     ///
-    /// We can use square brackets to both read and write into this `TokenSet`. For example:
+    /// We can use square brackets to read from this `TokenSet`. For example:
     /// ```
-    /// let value = tokenSet[.primary]   // exercises the `get`
-    /// tokenSet[.secondary] = newValue  // exercises the `set`
+    /// let value = tokenSet[.primary]
     /// ```
     public subscript(token: T) -> V {
-        get {
-            if let value = valueOverrides?[token] {
-                return value
-            }
-            return defaultValues(token)
+        if let value = valueOverrides?[token] {
+            return value
         }
-        set(value) {
-            if valueOverrides == nil {
-                valueOverrides = [:]
-            }
-            valueOverrides?[token] = value
-        }
-    }
-
-    /// Removes a stored override for a given token value.
-    ///
-    /// - Parameter token: The token value whose override should be removed.
-    public func removeOverride(_ token: T) {
-        valueOverrides?[token] = nil
+        return defaultValues(token)
     }
 
     /// Initializes this token set with a callback to fetch its default values as needed.
@@ -56,10 +38,12 @@ public final class TokenSet<T: TokenSetKey, V> {
     /// each value, or (B) unnecessary value storage in memory.
     ///
     /// - Parameter defaultValues: A closure that provides default values for this token set.
-    init(_ defaultValues: @escaping ((_ token: T) -> V)) {
+    init(_ defaultValues: @escaping ((_ token: T) -> V),
+         _ overrideValues: [T: V]? = nil) {
         self.defaultValues = defaultValues
+        self.valueOverrides = overrideValues
     }
 
-    private var defaultValues: ((_ token: T) -> V)
-    @Published private var valueOverrides: [T: V]?
+    private let valueOverrides: [T: V]?
+    private let defaultValues: ((_ token: T) -> V)
 }

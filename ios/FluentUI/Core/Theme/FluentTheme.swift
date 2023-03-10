@@ -11,12 +11,24 @@ import SwiftUI
 public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
-    /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
-    ///  `aliasTokens` property. Control tokens can be customized via `register(controlType:tokens:) `.
-    ///  See the descriptions of those two for additional information.
+    /// A `FluentTheme` receives any custom alias tokens on initialization via arguments here.
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
     ///
-    /// - Returns: An initialized `FluentTheme` instance.
-    public override init() { }
+    /// - Parameters:
+    ///   - colorOverrides: A `Dictionary` of override values mapped to `ColorTokens`.
+    ///   - shadowOverrides: A `Dictionary` of override values mapped to `ShadowTokens`.
+    ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    public init(colorOverrides: [AliasTokens.ColorsTokens: DynamicColor]? = nil,
+                shadowOverrides: [AliasTokens.ShadowTokens: ShadowInfo]? = nil,
+                typographyOverrides: [AliasTokens.TypographyTokens: FontInfo]? = nil) {
+        // Pass overrides to AliasTokens
+        aliasTokens = .init(colorOverrides: colorOverrides,
+                            shadowOverrides: shadowOverrides,
+                            typographyOverrides: typographyOverrides)
+    }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
     ///
@@ -37,7 +49,7 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     /// The associated `AliasTokens` for this theme.
-    @objc public let aliasTokens: AliasTokens = .init()
+    @objc public let aliasTokens: AliasTokens
 
     static var shared: FluentTheme = .init()
 
@@ -46,6 +58,23 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     private var controlTokenSets: [String: Any] = [:]
+}
+
+@objc public extension FluentTheme {
+    @objc(colorForToken:)
+    func color(_ token: AliasTokens.ColorsTokens) -> DynamicColor {
+        return aliasTokens.colors[token]
+    }
+
+    @objc(shadowForToken:)
+    func shadow(_ token: AliasTokens.ShadowTokens) -> ShadowInfo {
+        return aliasTokens.shadow[token]
+    }
+
+    @objc(typographyForToken:)
+    func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
+        return aliasTokens.typography[token]
+    }
 }
 
 // MARK: - FluentThemeable
