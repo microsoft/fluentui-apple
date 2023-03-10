@@ -28,7 +28,9 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .cornerRadius:
-                return .float({ 14 })
+                return .float({
+                    GlobalTokens.corner(.radius120)
+                })
 
             case .drawerContentBackground:
                 return .dynamicColor({
