@@ -29,16 +29,7 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
             switch token {
             case .shadow:
                 return .shadowInfo({
-                    ShadowInfo(keyColor: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.03),
-                                                      dark: ColorValue(r: 0, g: 0, b: 0, a: 0.07)),
-                               keyBlur: 14,
-                               xKey: 0,
-                               yKey: 14,
-                               ambientColor: DynamicColor(light: ColorValue(r: 0, g: 0, b: 0, a: 0.33),
-                                                          dark: ColorValue(r: 0, g: 0, b: 0, a: 0.66)),
-                               ambientBlur: 4,
-                               xAmbient: 0,
-                               yAmbient: 0)
+                    theme.aliasTokens.shadow[.shadow28]
                 })
 
             case .drawerContentBackground:
