@@ -40,17 +40,17 @@ class DrawerShadowView: UIView, Shadowable {
         }
     }
 
-    private var shadowDirection: DrawerPresentationDirection?
-
     private var animationDuration: TimeInterval = 0
+
+    private var shadowDirection: DrawerPresentationDirection?
 
     private var drawerTokenSet: DrawerTokenSet
 
     init(shadowDirection: DrawerPresentationDirection?, tokenSet: DrawerTokenSet) {
         self.drawerTokenSet = tokenSet
         super.init(frame: .zero)
-        updateShadow()
-        backgroundColor = .clear
+        self.shadowDirection = shadowDirection
+        setupShadows()
         isAccessibilityElement = false
         isUserInteractionEnabled = false
     }
@@ -63,16 +63,16 @@ class DrawerShadowView: UIView, Shadowable {
         owner = nil
     }
 
-    private func updateShadow() {
+    private func setupShadows() {
         let shadowInfo = drawerTokenSet[.shadow].shadowInfo
         ambientShadow = shadowInfo.initializeShadowLayer(view: self, isAmbientShadow: true)
         keyShadow = shadowInfo.initializeShadowLayer(view: self, isAmbientShadow: false)
 
-        guard let ambientShadow = ambientShadow, let keyShadow = keyShadow else {
+        guard let direction = shadowDirection, let ambientShadow = ambientShadow, let keyShadow = keyShadow else {
             return
         }
 
-        if let direction = shadowDirection, direction.isHorizontal {
+        if direction.isHorizontal {
             layer.insertSublayer(ambientShadow, at: 0)
             layer.insertSublayer(keyShadow, below: ambientShadow)
         } else {
