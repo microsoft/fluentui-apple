@@ -68,22 +68,13 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                object: pillBarItem)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(titleValueDidChange),
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
-    }
 
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateAppearance()
     }
 
     public typealias TokenSetKeyType = EmptyTokenSet.Tokens

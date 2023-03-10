@@ -97,6 +97,13 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
+    /// Refreshes the appearance of all buttons in the group.
+    func updateButtonsStyles() {
+        for button in itemsToButtonsMap.values {
+            button.updateStyle()
+        }
+    }
+
     // MARK: - Private properties
 
     private var buttonGroupsStackView: UIStackView

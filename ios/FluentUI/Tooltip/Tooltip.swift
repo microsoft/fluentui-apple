@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: Tooltip
 // Tooltip Hierarchy:
@@ -61,6 +60,11 @@ open class Tooltip: NSObject, TokenizedControlInternal {
               let hostVC = hostViewController ?? window.rootViewController,
               let hostView = hostVC.view else {
             return
+        }
+
+        // Connect tokenSet
+        tokenSet.registerOnUpdate(for: tooltipView) { [weak self] in
+            self?.tooltipViewController?.updateAppearance()
         }
 
         hostVC.addChild(tooltipViewController)
@@ -214,6 +218,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         tooltipViewController?.removeFromParent()
         tooltipViewController = nil
 
+        tokenSet.deregisterOnUpdate()
+
         onTap = nil
 
         isShowing = false
@@ -270,7 +276,6 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     // MARK: - TokenizedControl
     public typealias TokenSetKeyType = TooltipTokenSet.Tokens
     public var tokenSet: TooltipTokenSet = .init()
-    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme {
         // Use anchor view to get theme since tooltip view will most likely be nil
         guard let anchorView = anchorView else {
@@ -279,26 +284,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         return anchorView.fluentTheme
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, let anchorView = anchorView, anchorView.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
-
     private override init() {
         super.init()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-        }
     }
 
     @objc private func handleTapGesture() {
