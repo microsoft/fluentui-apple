@@ -30,7 +30,7 @@
     self.container = [self createVerticalContainer];
     self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorAliasTokensBackground1];
+    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBackground1];
     self.view.backgroundColor = [[UIColor alloc] initWithDynamicColor:primaryColor];
     [self setupTitleView];
 
@@ -92,7 +92,7 @@
 
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
-    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorAliasTokensBrandBackground3];
+    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandBackground3];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 }
@@ -100,14 +100,14 @@
 - (void)overridesButtonPressed:(id)sender {
     [[self view] setColorProvider:[[ObjectiveCDemoColorProviding alloc] init]];
 
-    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorAliasTokensBrandForeground1];
+    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBrandForeground1];
 
     [self addLabelWithText:@"Test label with override brand color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
     [[self view] resetFluentTheme];
-    primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorAliasTokensBrandForeground1];
+    primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBrandForeground1];
 
     [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];

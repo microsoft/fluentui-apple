@@ -60,35 +60,6 @@ public class FluentTheme: NSObject, ObservableObject {
     private var controlTokenSets: [String: Any] = [:]
 }
 
-@objc public extension FluentTheme {
-    /// Returns the color value for the given token.
-    ///
-    /// - Parameter token: The `ColorsTokens` value to be retrieved.
-    /// - Returns: A `DynamicColor` for the given token.
-    @objc(colorForToken:)
-    func color(_ token: AliasTokens.ColorsTokens) -> DynamicColor {
-        return aliasTokens.colors[token]
-    }
-
-    /// Returns the shadow value for the given token.
-    ///
-    /// - Parameter token: The `ShadowTokens` value to be retrieved.
-    /// - Returns: A `ShadowInfo` for the given token.
-    @objc(shadowForToken:)
-    func shadow(_ token: AliasTokens.ShadowTokens) -> ShadowInfo {
-        return aliasTokens.shadow[token]
-    }
-
-    /// Returns the font value for the given token.
-    ///
-    /// - Parameter token: The `TypographyTokens` value to be retrieved.
-    /// - Returns: A `FontInfo` for the given token.
-    @objc(typographyForToken:)
-    func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
-        return aliasTokens.typography[token]
-    }
-}
-
 // MARK: - FluentThemeable
 
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
