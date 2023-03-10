@@ -61,16 +61,28 @@ public class FluentTheme: NSObject, ObservableObject {
 }
 
 @objc public extension FluentTheme {
+    /// Returns the color value for the given token.
+    ///
+    /// - Parameter token: The `ColorsTokens` value to be retrieved.
+    /// - Returns: A `DynamicColor` for the given token.
     @objc(colorForToken:)
     func color(_ token: AliasTokens.ColorsTokens) -> DynamicColor {
         return aliasTokens.colors[token]
     }
 
+    /// Returns the shadow value for the given token.
+    ///
+    /// - Parameter token: The `ShadowTokens` value to be retrieved.
+    /// - Returns: A `ShadowInfo` for the given token.
     @objc(shadowForToken:)
     func shadow(_ token: AliasTokens.ShadowTokens) -> ShadowInfo {
         return aliasTokens.shadow[token]
     }
 
+    /// Returns the font value for the given token.
+    ///
+    /// - Parameter token: The `TypographyTokens` value to be retrieved.
+    /// - Returns: A `FontInfo` for the given token.
     @objc(typographyForToken:)
     func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
         return aliasTokens.typography[token]
@@ -85,6 +97,10 @@ public class FluentTheme: NSObject, ObservableObject {
 }
 
 public extension Notification.Name {
+    /// The notification that will fire when a new `FluentTheme` is set on a view.
+    ///
+    /// The `object` for the fired `Notification` will be the `UIView` whose `fluentTheme` has changed.
+    /// Listeners will likely only want to redraw if they are a descendent of this view.
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
