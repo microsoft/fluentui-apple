@@ -26,6 +26,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     ///   - message: The text to be displayed on the new tooltip view.
     ///   - title: The optional bolded text to be displayed above the message on the new tooltip view.
     ///   - anchorView: The view to point to with the new tooltip's arrow.
+    ///   - hostViewController: The view controller that should host the Tooltip. If not set, the default is the window's root view controller.
     ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
     ///   - offset: An offset from the tooltip's default position.
     ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
@@ -33,6 +34,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     @objc public func show(with message: String,
                            title: String?,
                            for anchorView: UIView,
+                           with hostViewController: UIViewController? = nil,
                            preferredArrowDirection: ArrowDirection = .down,
                            offset: CGPoint = CGPoint(x: 0, y: 0),
                            dismissOn dismissMode: DismissMode = .tapAnywhere,
@@ -44,6 +46,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         }
 
         tooltipViewController = TooltipViewController(anchorView: anchorView,
+                                                      hostViewController: hostViewController,
                                                       message: message,
                                                       title: title,
                                                       textAlignment: textAlignment,
@@ -53,7 +56,9 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                                                       tokenSet: tokenSet)
         self.anchorView = anchorView
         guard let tooltipViewController = tooltipViewController,
-              let tooltipView = tooltipViewController.view else {
+              let tooltipView = tooltipViewController.view,
+              let hostVC = hostViewController ?? window.rootViewController,
+              let hostView = hostVC.view else {
             return
         }
 
@@ -62,17 +67,15 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             self?.tooltipViewController?.updateAppearance()
         }
 
-        let rootViewController = window.rootViewController
-        let rootView = rootViewController?.view
-        rootViewController?.addChild(tooltipViewController)
+        hostVC.addChild(tooltipViewController)
         self.onTap = onTap
         self.dismissMode = UIAccessibility.isVoiceOverRunning ? .tapOnTooltip : dismissMode
         let gestureView = TouchForwardingView(frame: window.bounds)
         self.gestureView = gestureView
         switch self.dismissMode {
         case .tapAnywhere:
-            rootView?.addSubview(tooltipView)
-            rootView?.addSubview(gestureView)
+            hostView.addSubview(tooltipView)
+            hostView.addSubview(gestureView)
             gestureView.onTouches = { [weak self] _ in
                 guard let strongSelf = self else {
                     return
@@ -80,8 +83,8 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                 strongSelf.handleTapGesture()
             }
         case .tapOnTooltip, .tapOnTooltipOrAnchor:
-            rootView?.addSubview(gestureView)
-            rootView?.addSubview(tooltipView)
+            hostView.addSubview(gestureView)
+            hostView.addSubview(tooltipView)
             gestureView.forwardsTouches = false
             tooltipView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapGesture)))
             if self.dismissMode == .tapOnTooltipOrAnchor {
@@ -95,7 +98,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
             }
         }
 
-        tooltipViewController.didMove(toParent: rootViewController)
+        tooltipViewController.didMove(toParent: hostViewController)
 
         // Animate tooltip
         tooltipView.alpha = 0.0
@@ -106,6 +109,34 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         })
 
         isShowing = true
+    }
+
+    /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
+    /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
+    ///
+    /// - Parameters:
+    ///   - message: The text to be displayed on the new tooltip view.
+    ///   - title: The optional bolded text to be displayed above the message on the new tooltip view.
+    ///   - anchorView: The view to point to with the new tooltip's arrow.
+    ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
+    ///   - offset: An offset from the tooltip's default position.
+    ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
+    ///   - onTap: An optional closure used to do work after the user taps
+    @objc public func show(with message: String,
+                           title: String?,
+                           for anchorView: UIView,
+                           preferredArrowDirection: ArrowDirection = .down,
+                           offset: CGPoint = CGPoint(x: 0, y: 0),
+                           dismissOn dismissMode: DismissMode = .tapAnywhere,
+                           onTap: (() -> Void)? = nil) {
+        show(with: message,
+             title: title,
+             for: anchorView,
+             with: nil,
+             preferredArrowDirection: preferredArrowDirection,
+             offset: offset,
+             dismissOn: dismissMode,
+             onTap: onTap)
     }
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
@@ -127,6 +158,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         show(with: message,
              title: nil,
              for: anchorView,
+             with: nil,
              preferredArrowDirection: preferredArrowDirection,
              offset: offset,
              dismissOn: dismissMode,
