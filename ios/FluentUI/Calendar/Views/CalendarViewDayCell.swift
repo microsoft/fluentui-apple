@@ -113,16 +113,12 @@ class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
         contentView.addSubview(dateLabel)
         contentView.addSubview(dotView)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
+    func updateAppearance() {
         updateViews()
         dotView.color = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground3])
         dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground3])
