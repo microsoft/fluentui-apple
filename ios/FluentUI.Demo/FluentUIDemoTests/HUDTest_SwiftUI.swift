@@ -53,7 +53,7 @@ class HUDTestSwiftUI: BaseTest {
         let textField: XCUIElement = app.textFields.firstMatch
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with no label")).exists)
         textField.tap()
-        textField.typeText("label")
+        textField.typeText("label\n")
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with label \"label\"")).exists)
     }
 

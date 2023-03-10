@@ -27,20 +27,18 @@ class NotificationViewTestSwiftUI: BaseTest {
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         titleTextField.tap()
-        titleTextField.typeText("title")
-        // taps different part of screen to dismiss keyboard
-        app.otherElements.firstMatch.tap()
+        titleTextField.typeText("title\n")
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with title \"title\", message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         attributedTextSwitch.tap()
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with attributed title \"title\", attributed message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         titleTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        titleTextField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        titleTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         messageTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        messageTextField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        messageTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         // if there is no action button title, there should be a dismiss button
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with no title, no message.*dismiss button.*")).element.exists)
     }
@@ -58,7 +56,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         // as long as there is a action button title, there should be no trailing image
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         setTrailingImageSwitch.tap()
         // if there is no action button title, there should be a dismiss button

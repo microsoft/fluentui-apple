@@ -45,7 +45,7 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(!avatarExists(predicate: icon))
 
         textField.doubleTap()
-        textField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         XCTAssert(!avatarExists(predicate: image))
         XCTAssert(!avatarExists(predicate: initials))
         XCTAssert(avatarExists(predicate: icon))
@@ -132,7 +132,7 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(avatarWithAttributeExists(attribute: "activity 1"))
         // removes name and image to set icon
         textField.doubleTap()
-        textField.typeText(String(XCUIKeyboardKey.delete.rawValue))
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         app.switches["Set image"].tap()
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
 
@@ -142,7 +142,7 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
         // adds name back
         textField.tap()
-        textField.typeText("Kat Larsson")
+        textField.typeText("Kat Larsson\n")
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
         app.switches["Set image"].tap()
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
