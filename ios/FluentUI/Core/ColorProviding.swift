@@ -100,13 +100,11 @@ private func brandColorOverrides(provider: ColorProviding,
     /// - Parameters:
     ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
-    @discardableResult
-    func setColorProvider(_ provider: ColorProviding) -> FluentTheme {
+    func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider, for: self)
         let fluentTheme = FluentTheme(colorOverrides: brandColors)
         self.fluentTheme = fluentTheme
-        return fluentTheme
     }
 
     /// Removes any associated `ColorProvider` from the given `UIView`.
