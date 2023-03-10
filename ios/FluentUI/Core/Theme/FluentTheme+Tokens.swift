@@ -5,9 +5,9 @@
 
 import Foundation
 
-extension FluentTheme {
+public extension FluentTheme {
     @objc(MSFColorToken)
-    public enum ColorToken: Int, TokenSetKey {
+    enum ColorToken: Int, TokenSetKey {
         // Neutral colors - Background
         case background1
         case background1Pressed
@@ -102,7 +102,7 @@ extension FluentTheme {
     }
 
     @objc(MSFShadowToken)
-    public enum ShadowToken: Int, TokenSetKey {
+    enum ShadowToken: Int, TokenSetKey {
         case clear
         case shadow02
         case shadow04
@@ -113,7 +113,7 @@ extension FluentTheme {
     }
 
     @objc(MSFTypographyToken)
-    public enum TypographyToken: Int, TokenSetKey {
+    enum TypographyToken: Int, TokenSetKey {
         case display
         case largeTitle
         case title1
@@ -133,7 +133,7 @@ extension FluentTheme {
     /// - Parameter token: The `ColorsTokens` value to be retrieved.
     /// - Returns: A `DynamicColor` for the given token.
     @objc(colorForToken:)
-    public func color(_ token: ColorToken) -> DynamicColor {
+    func color(_ token: ColorToken) -> DynamicColor {
         return aliasTokens.colors[AliasTokens.ColorsTokens(rawValue: token.rawValue)!]
     }
 
@@ -142,7 +142,7 @@ extension FluentTheme {
     /// - Parameter token: The `ShadowTokens` value to be retrieved.
     /// - Returns: A `ShadowInfo` for the given token.
     @objc(shadowForToken:)
-    public func shadow(_ token: ShadowToken) -> ShadowInfo {
+    func shadow(_ token: ShadowToken) -> ShadowInfo {
         return aliasTokens.shadow[AliasTokens.ShadowTokens(rawValue: token.rawValue)!]
     }
 
@@ -151,7 +151,7 @@ extension FluentTheme {
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Returns: A `FontInfo` for the given token.
     @objc(typographyForToken:)
-    public func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
+    func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
         return aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!]
     }
 }
