@@ -589,6 +589,9 @@ extension DrawerDemoController: DemoAppearanceDelegate {
         return [
             .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
                                                                    dark: GlobalTokens.sharedColors(.forest, .tint60))
+            },
+            .shadow: .shadowInfo {
+                self.view.fluentTheme.aliasTokens.shadow[.shadow02]
             }
         ]
     }

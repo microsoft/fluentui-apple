@@ -120,7 +120,6 @@ class DrawerPresentationController: UIPresentationController {
             contentView.addSubview(presentedViewController.view)
         }
         setPresentedViewMask()
-        updateApperance()
 
         backgroundView.alpha = 0.0
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
@@ -288,12 +287,6 @@ class DrawerPresentationController: UIPresentationController {
         }
     }
 
-    func updateApperance() {
-        shadowView.updateApperance()
-        dimmingView.dimmedBlackColor = UIColor(dynamicColor: drawerTokenSet[.backgroundDimmedColor].dynamicColor)
-        backgroundView.backgroundColor = dimmingView.dimmedClearColor
-    }
-
     private func setContentViewFrame(_ frame: CGRect) {
         contentView.frame = frame
 
@@ -439,18 +432,18 @@ class DrawerPresentationController: UIPresentationController {
         switch presentationDirection {
         case .down:
             margins.top = presentationOffsetMargin
-            margins.bottom = max(drawerTokenSet[.minVerticalMargin].float, containerView.safeAreaInsets.bottom)
+            margins.bottom = max(DrawerTokenSet.minVerticalMargin, containerView.safeAreaInsets.bottom)
         case .up:
-            margins.top = max(drawerTokenSet[.minVerticalMargin].float, containerView.safeAreaInsets.top)
+            margins.top = max(DrawerTokenSet.minVerticalMargin, containerView.safeAreaInsets.top)
             margins.bottom = presentationOffsetMargin
             if actualPresentationOffset == 0 && keyboardHeight > 0 {
                 margins.bottom += safeAreaPresentationOffset
             }
         case .fromLeading:
             margins.left = presentationOffsetMargin
-            margins.right = max(drawerTokenSet[.minHorizontalMargin].float, containerView.safeAreaInsets.right)
+            margins.right = max(DrawerTokenSet.minHorizontalMargin, containerView.safeAreaInsets.right)
         case .fromTrailing:
-            margins.left = max(drawerTokenSet[.minHorizontalMargin].float, containerView.safeAreaInsets.left)
+            margins.left = max(DrawerTokenSet.minHorizontalMargin, containerView.safeAreaInsets.left)
             margins.right = presentationOffsetMargin
         }
         return margins
