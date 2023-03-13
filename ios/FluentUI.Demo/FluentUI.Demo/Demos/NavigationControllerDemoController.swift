@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
@@ -101,7 +101,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
