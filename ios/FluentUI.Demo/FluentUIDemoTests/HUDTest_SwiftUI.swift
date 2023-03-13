@@ -50,11 +50,10 @@ class HUDTestSwiftUI: BaseTest {
     }
 
     func testLabels() throws {
+        let textField: XCUIElement = app.textFields.firstMatch
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with no label")).exists)
-        app.textFields.firstMatch.tap()
-        UIPasteboard.general.string = "label"
-        app.textFields.element.doubleTap()
-        app.menuItems["Paste"].tap()
+        textField.tap()
+        textField.typeText("label\n")
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with label \"label\"")).exists)
     }
 
