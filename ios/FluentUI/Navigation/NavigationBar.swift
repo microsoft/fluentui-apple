@@ -335,6 +335,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+    private var subtitleObserver: NSKeyValueObservation?
+    private var titleAccessoryObserver: NSKeyValueObservation?
+    private var titleImageObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
     private var accessoryViewObserver: NSKeyValueObservation?
     private var topAccessoryViewObserver: NSKeyValueObservation?
@@ -630,6 +633,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             self.navigationItemDidUpdate(item)
         }
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleAccessoryObserver = navigationItem.observe(\UINavigationItem.titleAccessory) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleImageObserver = navigationItem.observe(\UINavigationItem.titleImage) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
         accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
