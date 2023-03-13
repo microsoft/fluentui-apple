@@ -130,6 +130,19 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return scrollView
     }()
+    private var innerFocusRing: CALayer = {
+        let innerRing = CALayer()
+        innerRing.borderWidth = GlobalTokens.stroke(.width10)
+
+        return innerRing
+    }()
+    private var outerFocusRing: CALayer = {
+        let outerRing = CALayer()
+        outerRing.borderWidth = GlobalTokens.stroke(.width20)
+
+        return outerRing
+    }()
+
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewConstraints: [NSLayoutConstraint] = []
