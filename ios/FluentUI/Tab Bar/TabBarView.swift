@@ -158,7 +158,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokenSet[.phonePortraitHeight].float : tokenSet[.padHeight].float)
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
     private let showsItemTitles: Bool
 
@@ -175,7 +175,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint.constant = isPortrait ? tokenSet[.phonePortraitHeight].float : tokenSet[.phoneLandscapeHeight].float
+            heightConstraint.constant = isPortrait ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.phoneLandscapeHeight
         }
     }
 
