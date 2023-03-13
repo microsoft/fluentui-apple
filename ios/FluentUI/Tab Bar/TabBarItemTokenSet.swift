@@ -119,37 +119,37 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { GlobalTokens.spacing(.size120) }
 
             case .badgeHeight:
-                return .float { 16.0 }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .badgeMinWidth:
-                return .float { 16.0 }
+                return .float { GlobalTokens.spacing(.size160) }
 
             case .defaultBadgeMaxWidth:
-                return .float { 42.0 }
+                return .float { GlobalTokens.spacing(.size360) }
 
             case .badgeBorderWidth:
                 return .float { GlobalTokens.stroke(.width20) }
 
             case .badgeHorizontalPadding:
-                return .float { 10.0 }
+                return .float { GlobalTokens.spacing(.size100) }
 
             case .badgeCornerRadii:
                 return .float { 10.0 }
 
             case .unreadDotPortraitOffsetX:
-                return .float { 6.0 }
+                return .float { GlobalTokens.spacing(.size60) }
 
             case .unreadDotOffsetX:
-                return .float { 4.0 }
+                return .float { GlobalTokens.spacing(.size40) }
 
             case .unreadDotOffsetY:
-                return .float { 20.0 }
+                return .float { GlobalTokens.spacing(.size200) }
 
             case .unreadDotSize:
-                return .float { 8.0 }
+                return .float { GlobalTokens.spacing(.size80) }
 
             case .titleLabelFontPortrait:
-                return .fontInfo { return .init(size: 10, weight: .medium) }
+                return .fontInfo { theme.aliasTokens.typography[.caption2] }
 
             case .titleLabelFontLandscape:
                 return .fontInfo { return .init(size: 13, weight: .medium) }
