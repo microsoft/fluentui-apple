@@ -27,6 +27,8 @@ class AvatarTestSwiftUI: BaseTest {
     }
 
     func testImages() throws {
+        let textField: XCUIElement = app.textFields.firstMatch
+
         let setImageSwitch: XCUIElement = app.switches["Set image"]
         let image: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*image.*")
         let initials: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*initials.*")
@@ -42,8 +44,8 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(avatarExists(predicate: initials))
         XCTAssert(!avatarExists(predicate: icon))
 
-        app.textFields.firstMatch.doubleTap()
-        app.menuItems["Cut"].tap()
+        textField.doubleTap()
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         XCTAssert(!avatarExists(predicate: image))
         XCTAssert(!avatarExists(predicate: initials))
         XCTAssert(avatarExists(predicate: icon))
@@ -117,6 +119,8 @@ class AvatarTestSwiftUI: BaseTest {
 
     // ensures that activity is only visible with images/initials (on default style, size 56)
     func testActivitiesImage() throws {
+        let textField: XCUIElement = app.textFields.firstMatch
+
         app.switches["Show image"].tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS '.none'")).element(boundBy: 1).tap()
         app.buttons[".circle"].tap()
@@ -127,8 +131,8 @@ class AvatarTestSwiftUI: BaseTest {
         app.switches["Set image"].tap()
         XCTAssert(avatarWithAttributeExists(attribute: "activity 1"))
         // removes name and image to set icon
-        app.textFields.firstMatch.doubleTap()
-        app.menuItems["Cut"].tap()
+        textField.doubleTap()
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         app.switches["Set image"].tap()
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
 
@@ -137,8 +141,8 @@ class AvatarTestSwiftUI: BaseTest {
 
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
         // adds name back
-        app.textFields.firstMatch.tap()
-        app.menuItems["Paste"].tap()
+        textField.tap()
+        textField.typeText("Kat Larsson\n")
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
         app.switches["Set image"].tap()
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
