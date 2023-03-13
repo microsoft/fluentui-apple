@@ -99,14 +99,12 @@ public protocol DrawerControllerDelegate: AnyObject {
 
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController, TokenizedControlInternal {
-    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+    /// DrawerController colors with obj-c support
+    @objc public static var drawerBackgroundColor: UIColor {
+        UIColor(dynamicColor: DrawerTokenSet()[.drawerContentBackground].dynamicColor)
     }
-
-    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+    @objc public static var popoverBackgroundColor: UIColor {
+        UIColor(dynamicColor: DrawerTokenSet()[.popoverContentBackground].dynamicColor)
     }
 
     private struct Constants {
@@ -393,7 +391,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        return presentationBackground == .none ? tokenSet[.shadowOffset].float : 0
+        return presentationBackground == .none ? DrawerTokenSet.shadowOffset : 0
     }
 
     private let sourceView: UIView?
@@ -453,7 +451,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
               return
         }
         tokenSet.update(fluentTheme)
-        updateAppearance()
+        updateBackgroundColor()
     }
 
     /**
@@ -488,7 +486,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
             // Values will be updated on the next run loop iteration.
             DispatchQueue.main.async {
-                self?.updateAppearance()
+                self?.updateBackgroundColor()
             }
         }
     }
@@ -547,7 +545,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
-        updateAppearance()
+        updateBackgroundColor()
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -797,15 +795,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             resizingHandleView?.accessibilityLabel = "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
             resizingHandleView?.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
         }
-    }
-
-    private func updateAppearance() {
-        updateBackgroundColor()
-
-        guard let presentationController = (presentationController as? DrawerPresentationController) else {
-            return
-        }
-        presentationController.updateApperance()
     }
 
     private func offset(forResizingGesture gesture: UIPanGestureRecognizer) -> CGFloat {
