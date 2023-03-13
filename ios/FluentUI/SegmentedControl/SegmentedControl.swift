@@ -238,6 +238,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             }
             maskedImage.tintColor = selectedContentColor
         }
+        innerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]).cgColor
+        outerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus2]).cgColor
     }
 
     /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
