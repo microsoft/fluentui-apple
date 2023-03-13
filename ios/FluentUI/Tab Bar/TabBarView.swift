@@ -66,10 +66,12 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        tokenSet.update(fluentTheme)
+    override open func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 
