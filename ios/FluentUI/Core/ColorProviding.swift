@@ -103,10 +103,7 @@ private func brandColorOverrides(provider: ColorProviding,
     func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider, for: self)
-        let fluentTheme = FluentTheme()
-        brandColors.forEach { token, value in
-            fluentTheme.aliasTokens.colors[token] = value
-        }
+        let fluentTheme = FluentTheme(colorOverrides: brandColors)
         self.fluentTheme = fluentTheme
     }
 
