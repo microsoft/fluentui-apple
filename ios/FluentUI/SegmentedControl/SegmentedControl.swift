@@ -25,6 +25,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
            stackView.subviews.contains(nextFocusedView),
            let focusedButton = nextFocusedView as? SegmentPillButton {
             drawFocusRingOver(button: focusedButton)
+            outerFocusRing.removeAllAnimations()
+            innerFocusRing.removeAllAnimations()
         }
     }
 
