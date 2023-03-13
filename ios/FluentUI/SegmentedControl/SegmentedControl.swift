@@ -15,6 +15,19 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         static let iPadMinimumWidth: CGFloat = 375
     }
 
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        if let previouslyFocusedView = context.previouslyFocusedView,
+           stackView.subviews.contains(previouslyFocusedView) {
+            outerFocusRing.removeFromSuperlayer()
+            innerFocusRing.removeFromSuperlayer()
+        }
+        if let nextFocusedView = context.nextFocusedView,
+           stackView.subviews.contains(nextFocusedView),
+           let focusedButton = nextFocusedView as? SegmentPillButton {
+            drawFocusRingOver(button: focusedButton)
+        }
+    }
+
     open var isEnabled: Bool = true {
         didSet {
             for button in buttons {
@@ -581,6 +594,25 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         selectionView.frame = button.frame
         selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
+    }
+
+    private func drawFocusRingOver(button: SegmentPillButton) {
+        let containerLayer = pillContainerView.layer
+        let stackLayer = stackView.layer
+        let stackXOffset = stackLayer.frame.origin.x
+        let buttonFrame = button.frame
+        let buttonOrigin = buttonFrame.origin
+        let outerRingOrigin = CGPoint(x: buttonOrigin.x + stackXOffset,
+                                      y: buttonOrigin.y)
+        outerFocusRing.frame = CGRect(origin: outerRingOrigin,
+                                      size: buttonFrame.size)
+        containerLayer.addSublayer(outerFocusRing)
+
+        innerFocusRing.frame = CGRect(x: buttonOrigin.x + 1.5 + stackXOffset,
+                                      y: buttonOrigin.y + 1.5,
+                                      width: buttonFrame.width-3,
+                                      height: buttonFrame.height-3)
+        containerLayer.addSublayer(innerFocusRing)
     }
 
     private func updateTokenizedValues() {
