@@ -103,10 +103,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
 
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
-                                                                  leading: Constants.horizontalInset,
-                                                                  bottom: Constants.bottomInset,
-                                                                  trailing: Constants.horizontalInset)
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
+                                                                  leading: PillButtonTokenSet.horizontalInset,
+                                                                  bottom: PillButtonTokenSet.bottomInset,
+                                                                  trailing: PillButtonTokenSet.horizontalInset)
             self.configuration = configuration
 
             // This updates the attributed title stored in self.configuration,
@@ -120,10 +120,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
             setTitle(pillBarItem.title, for: .normal)
             titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
 
-            contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
-                                             left: Constants.horizontalInset,
-                                             bottom: Constants.bottomInset,
-                                             right: Constants.horizontalInset)
+            contentEdgeInsets = UIEdgeInsets(top: PillButtonTokenSet.topInset,
+                                             left: PillButtonTokenSet.horizontalInset,
+                                             bottom: PillButtonTokenSet.bottomInset,
+                                             right: PillButtonTokenSet.horizontalInset)
         }
 
         layer.cornerRadius = PillButton.cornerRadius
@@ -212,11 +212,11 @@ open class PillButton: UIButton, TokenizedControlInternal {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + tokenSet[.unreadDotOffsetX].float)
+                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotOffsetX)
             } else {
-                xPos = round(anchor.minX - tokenSet[.unreadDotOffsetX].float - tokenSet[.unreadDotSize].float)
+                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - tokenSet[.unreadDotSize].float)
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokenSet[.unreadDotOffsetY].float)
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotOffsetY)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
@@ -283,11 +283,5 @@ open class PillButton: UIButton, TokenizedControlInternal {
         } else {
             backgroundColor = resolvedBackgroundColor
         }
-    }
-
-    private struct Constants {
-        static let bottomInset: CGFloat = 6.0
-        static let horizontalInset: CGFloat = 16.0
-        static let topInset: CGFloat = 6.0
     }
 }

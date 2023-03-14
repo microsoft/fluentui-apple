@@ -38,21 +38,6 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
         /// The color of the unread dot when the `PillButton` is disabled.
         case disabledUnreadDotColor
 
-        /// The distance of the content from the top of the `PillButton`.
-        case topInset
-
-        /// The distance of the content from the bottom of the `PillButton`.
-        case bottomInset
-
-        /// The distance of the content from the sides of the `PillButton`.
-        case horizontalInset
-
-        /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
-        case unreadDotOffsetX
-
-        /// The distance of the unread dot from the top of the content of the `PillButton`.
-        case unreadDotOffsetY
-
         /// The size of the unread dot of the `PillButton`
         case unreadDotSize
 
@@ -186,21 +171,6 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                     }
                 }
 
-            case .topInset:
-                return .float { 6.0 }
-
-            case .bottomInset:
-                return .float { 6.0 }
-
-            case .horizontalInset:
-                return .float { GlobalTokens.spacing(.size160) }
-
-            case .unreadDotOffsetX:
-                return .float { 6.0 }
-
-            case .unreadDotOffsetY:
-                return .float { 3.0 }
-
             case .unreadDotSize:
                 return .float { 6.0 }
 
@@ -212,4 +182,21 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
 
     /// Defines the style of the `PillButton`.
     var style: () -> PillButtonStyle
+}
+
+extension PillButtonTokenSet {
+    /// The distance of the content from the top of the `PillButton`.
+    static let topInset: CGFloat = 6.0
+
+    /// The distance of the content from the bottom of the `PillButton`.
+    static let bottomInset: CGFloat = 6.0
+
+    /// The distance of the content from the sides of the `PillButton`.
+    static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)
+
+    /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
+    static let unreadDotOffsetX: CGFloat = 6.0
+
+    /// The distance of the unread dot from the top of the content of the `PillButton`.
+    static let unreadDotOffsetY: CGFloat = 3.0
 }
