@@ -66,7 +66,7 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .fontInfo { theme.aliasTokens.typography[.caption2] }
 
             case .titleLabelFontLandscape:
-                return .fontInfo { return .init(size: 13, weight: .medium) }
+                return .fontInfo { theme.aliasTokens.typography[.caption2] }
 
             case .unreadDotSize:
                 return .float { 8.0 }
