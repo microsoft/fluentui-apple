@@ -58,6 +58,7 @@ class BadgeLabelButton: UIButton {
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCornerRadii: CGFloat = 10
 
+        // These are consistent with UIKit's default navigation bar buttons
         static let maximumContentSizeCategory: UIContentSizeCategory = .extraExtraLarge
         static let minimumContentSizeCategory: UIContentSizeCategory = .large
     }
