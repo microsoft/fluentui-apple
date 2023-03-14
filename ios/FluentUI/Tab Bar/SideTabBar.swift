@@ -222,7 +222,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.activate(layoutConstraints)
     }
 
-    override open func willMove(toWindow newWindow: UIWindow?) {
+    open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
             return
