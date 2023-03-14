@@ -30,6 +30,15 @@ open class TabBarItem: NSObject {
        }
    }
 
+    /// A string that uniquely identifies the element, typically for automation purposes.
+    @objc public var accessibilityIdentifier: String? {
+        didSet {
+            if accessibilityIdentifier != oldValue {
+                NotificationCenter.default.post(name: TabBarItem.accessibilityIdentifierDidChangeNotification, object: self)
+            }
+        }
+    }
+
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
     @objc public func setBadgeNumber(_ number: UInt) {
@@ -103,6 +112,9 @@ open class TabBarItem: NSObject {
 
     /// Notification sent when item's `isUnread` value changes.
     static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemisUnreadValueDidChangeNotification")
+
+    /// Notification sent when item's `accessibilityIdentifier` value changes.
+    static let accessibilityIdentifierDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemAccessibilityIdentifierDidChangeNotification")
 
     let image: UIImage
     let selectedImage: UIImage?

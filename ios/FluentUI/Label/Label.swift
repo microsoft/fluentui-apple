@@ -13,12 +13,13 @@ import UIKit
 open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
-            _textColor = nil
+            labelTextColor = nil
             updateTextColor()
         }
     }
     @objc open var style: AliasTokens.TypographyTokens = .body1 {
         didSet {
+            labelFont = nil
             updateFont()
         }
     }
@@ -35,7 +36,7 @@ open class Label: UILabel, TokenizedControlInternal {
 
     open override var textColor: UIColor! {
         didSet {
-            _textColor = textColor
+            labelTextColor = textColor
             updateTextColor()
         }
     }
@@ -76,8 +77,9 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
-        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
-        _textColor = nil
+        // textColor and font are assigned in super.init to a default value and so we need to reset our cache afterwards
+        labelTextColor = nil
+        labelFont = nil
 
         updateFont()
         updateTextColor()
@@ -99,9 +101,10 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        // Update appearance whenever overrideTokens changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateTextColor()
+            self?.updateFont()
         }
         tokenSet.update(themeView.fluentTheme)
         updateTextColor()
@@ -118,7 +121,7 @@ open class Label: UILabel, TokenizedControlInternal {
         if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
             font = defaultFont.withSize(maxFontSize)
         } else {
-            font = defaultFont
+            super.font = labelFont
         }
     }
 

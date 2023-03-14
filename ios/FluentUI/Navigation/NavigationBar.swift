@@ -300,10 +300,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         super.init(frame: frame)
         initBase()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
@@ -366,6 +362,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors(for: self?.topItem)
+        }
     }
 
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {

@@ -41,15 +41,8 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal
         textLabel?.showsLargeContentViewer = true
         textLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateTextLabelColor()
         }
         tokenSet.update(themeView.fluentTheme)
         updateTextLabelColor()

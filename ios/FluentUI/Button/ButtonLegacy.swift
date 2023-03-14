@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: - Button
 
@@ -127,13 +126,8 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
 
         update()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
     }
@@ -380,7 +374,6 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
-    private var tokenSetSink: AnyCancellable?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false

@@ -88,6 +88,9 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         }
     }
 
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -111,6 +114,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
+        accessibilityIdentifier = item.accessibilityIdentifier
 
         self.largeContentImage = item.largeContentImage ?? item.image
         largeContentTitle = item.title
@@ -129,13 +133,13 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                object: item)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: TabBarItem.isUnreadValueDidChangeNotification,
+                                               object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(accessibilityIdentifierDidChange),
+                                               name: TabBarItem.accessibilityIdentifierDidChangeNotification,
                                                object: item)
 
         badgeValue = item.badgeValue
@@ -201,6 +205,10 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         updateBadgeView()
         updateAccessibilityLabel()
         setNeedsLayout()
+    }
+
+    @objc private func accessibilityIdentifierDidChange() {
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private var isUnreadDotVisible: Bool = false

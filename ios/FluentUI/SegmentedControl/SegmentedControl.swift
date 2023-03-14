@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 import UIKit
-import Combine
 
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
@@ -188,13 +187,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         updateStackDistribution()
         setupLayoutConstraints()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
         updateTokenizedValues()
@@ -421,7 +415,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
         return self?.style ?? .primaryPill
     })
-    private var tokenSetSink: AnyCancellable?
 
     private let selectionChangeAnimationDuration: TimeInterval = 0.2
 
@@ -563,13 +556,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         let button = buttons[index]
         button.isSelected = isSelected
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
     }
 
     private func layoutSelectionView() {

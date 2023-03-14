@@ -271,10 +271,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
         initialize()
     }
 
@@ -293,6 +289,10 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
     private func initialize() {
         setupLayout()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColorsForStyle()
+        }
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {

@@ -316,10 +316,10 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
 
         super.init(frame: .zero)
         setupColors()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.setupColors()
+        }
 
         translatesAutoresizingMaskIntoConstraints = false
 

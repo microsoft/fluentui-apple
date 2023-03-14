@@ -196,10 +196,10 @@ open class BadgeView: UIView, TokenizedControlInternal {
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+            self?.updateFonts()
+        }
 
         defer {
             self.dataSource = dataSource

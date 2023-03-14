@@ -34,12 +34,9 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        updateColors()
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {

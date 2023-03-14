@@ -10,6 +10,7 @@ import UIKit
 class TooltipViewController: UIViewController {
 
     init(anchorView: UIView,
+         hostViewController: UIViewController?,
          message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
@@ -18,6 +19,7 @@ class TooltipViewController: UIViewController {
          arrowMargin: CGFloat,
          tokenSet: TooltipTokenSet) {
         tooltipView = TooltipView(anchorView: anchorView,
+                                  hostViewController: hostViewController,
                                   message: message,
                                   title: title,
                                   textAlignment: textAlignment,

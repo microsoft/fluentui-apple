@@ -170,6 +170,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
         let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         backgroundColor = color
+        paddingView?.backgroundColor = color
     }
 
     private let contentStackView = UIStackView()

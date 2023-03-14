@@ -40,8 +40,8 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
         contentView.addSubview(monthLabel)
     }
 
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
+    override func updateAppearance() {
+        super.updateAppearance()
         updateMonthLabelColor()
     }
 

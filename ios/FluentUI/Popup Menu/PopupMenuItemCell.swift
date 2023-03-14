@@ -127,6 +127,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return
         }
         backgroundStyleType = .custom
+        updateColors()
     }
 
     func setup(item: PopupMenuTemplateItem) {
