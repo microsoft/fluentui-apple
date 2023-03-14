@@ -44,8 +44,6 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextLabelColor()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateTextLabelColor()
     }
 
     required init?(coder aDecoder: NSCoder) {

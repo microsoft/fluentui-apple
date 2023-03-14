@@ -307,14 +307,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         initBase()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors(for: topItem)
-    }
-
     /// Custom base initializer, used regardless of entry point
     /// Sets up the custom interface
     private func initBase() {

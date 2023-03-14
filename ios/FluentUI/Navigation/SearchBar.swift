@@ -274,14 +274,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
         initialize()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColorsForStyle()
-    }
-
     @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initialize()

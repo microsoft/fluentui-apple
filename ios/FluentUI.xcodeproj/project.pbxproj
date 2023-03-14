@@ -176,6 +176,7 @@
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
 		920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */; };
 		922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* TokenizedControlView.swift */; };
+		9231F10329BB99090079CD94 /* FluentTheme+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */; };
 		923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D2274CB65700D8E58A /* TokenizedControl.swift */; };
 		923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D3274CB65700D8E58A /* FluentTheme.swift */; };
 		923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */; };

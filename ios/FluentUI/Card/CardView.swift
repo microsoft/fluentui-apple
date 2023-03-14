@@ -378,14 +378,6 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        setupColors()
-    }
-
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if let previousTraitCollection = previousTraitCollection {

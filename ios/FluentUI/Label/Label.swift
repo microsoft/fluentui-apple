@@ -41,6 +41,13 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
+    open override var font: UIFont! {
+        didSet {
+            labelFont = font
+            updateFont()
+        }
+    }
+
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
@@ -89,26 +96,12 @@ open class Label: UILabel, TokenizedControlInternal {
                                                selector: #selector(handleContentSizeCategoryDidChange),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateTextColor()
-            self?.updateFont()
-        }
-    }
 
         // Update appearance whenever overrideTokens changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextColor()
             self?.updateFont()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateTextColor()
-        updateFont()
     }
 
     private func updateFont() {
@@ -117,9 +110,9 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
-        if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
-            font = defaultFont.withSize(maxFontSize)
+        let labelFont = labelFont ?? UIFont.fluent(tokenSet[.font].fontInfo)
+        if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
+            super.font = labelFont.withSize(maxFontSize)
         } else {
             super.font = labelFont
         }
@@ -130,7 +123,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = _textColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        super.textColor = labelTextColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -139,7 +132,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    private var _textColor: UIColor?
+    private var labelTextColor: UIColor?
+    private var labelFont: UIFont?
     private var isUsingCustomAttributedText: Bool = false
-    private var tokenSetSink: AnyCancellable?
 }

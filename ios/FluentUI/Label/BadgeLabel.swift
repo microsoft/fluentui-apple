@@ -48,14 +48,6 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         updateColors()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors()
-    }
-
     private func updateColors() {
         let colors = tokenSet.fluentTheme.aliasTokens.colors
         if shouldUseWindowColor {

@@ -203,13 +203,6 @@ open class MSFButtonLegacy: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-    }
-
     public typealias TokenSetKeyType = ButtonLegacyTokenSet.Tokens
 
     lazy public var tokenSet: ButtonLegacyTokenSet = .init(style: { [weak self] in

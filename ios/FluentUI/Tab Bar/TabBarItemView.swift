@@ -11,7 +11,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
     var tokenSet: TabBarItemTokenSet = .init()
-    var tokenSetSink: AnyCancellable?
 
     func updateAppearance() {
         updateColors()
@@ -88,9 +87,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         }
     }
 
-    typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    var tokenSet: EmptyTokenSet = .init()
-
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -149,11 +145,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
