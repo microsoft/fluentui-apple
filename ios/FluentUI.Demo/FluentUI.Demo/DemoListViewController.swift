@@ -106,9 +106,7 @@ class DemoListViewController: DemoTableViewController {
             }
             cellTypeButton.menu = UIMenu(title: "Type", children: [insetGroupedType, plainType])
             cellTypeButton.showsMenuAsPrimaryAction = true
-            let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 28))
-            stackView.addArrangedSubview(cellTypeButton)
-            cell.setup(title: demo.title, customAccessoryView: stackView)
+            cell.setup(title: demo.title, customAccessoryView: cellTypeButton)
         } else {
             cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
         }
