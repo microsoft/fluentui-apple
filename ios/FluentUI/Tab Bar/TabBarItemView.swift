@@ -18,14 +18,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         updateLayout()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        tokenSet.update(window.fluentTheme)
-        updateAppearance()
-    }
-
     override var isEnabled: Bool {
         didSet {
             isUserInteractionEnabled = isEnabled
@@ -141,10 +133,9 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         badgeValue = item.badgeValue
         updateLayout()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

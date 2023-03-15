@@ -112,10 +112,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
         accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -203,13 +202,5 @@ open class TabBarView: UIView, TokenizedControlInternal {
                                                     forToken: .titleLabelFontLandscape)
             }
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        tokenSet.update(window.fluentTheme)
-        updateAppearance()
     }
 }

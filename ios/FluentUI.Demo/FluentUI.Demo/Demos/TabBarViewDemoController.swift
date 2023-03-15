@@ -259,6 +259,18 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
             },
             .tabBarItemTitleLabelFontLandscape: .fontInfo {
                 return .init(size: 15, weight: .bold)
+            },
+            .tabBarItemSelectedColor: .dynamicColor {
+                return .init(light: GlobalTokens.sharedColors(.burgundy, .tint10),
+                             lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
+                             dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .dynamicColor {
+                return .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
+                             lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
+                             dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40))
             }
         ]
     }

@@ -134,10 +134,9 @@ open class SideTabBar: UIView, TokenizedControlInternal {
                                      borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
                                      borderLine.topAnchor.constraint(equalTo: topAnchor)])
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @available(*, unavailable)
@@ -395,13 +394,5 @@ open class SideTabBar: UIView, TokenizedControlInternal {
                                                     forToken: .titleLabelFontLandscape)
             }
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        tokenSet.update(window.fluentTheme)
-        updateAppearance()
     }
 }
