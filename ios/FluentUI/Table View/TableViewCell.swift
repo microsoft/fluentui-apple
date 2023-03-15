@@ -648,7 +648,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let customAccessoryViewAreaWidth: CGFloat
         if let customAccessoryView = customAccessoryView {
             // Trigger layout so we can have the frame calculated correctly at this point in time
-            customAccessoryView.layoutIfNeeded()
+            customAccessoryView.sizeToFit()
             customAccessoryViewAreaWidth = customAccessoryView.frame.width + customAccessoryViewMarginLeading
         } else {
             customAccessoryViewAreaWidth = 0

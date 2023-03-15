@@ -11,12 +11,24 @@ import SwiftUI
 public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
-    /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
-    ///  `aliasTokens` property. Control tokens can be customized via `register(controlType:tokens:) `.
-    ///  See the descriptions of those two for additional information.
+    /// A `FluentTheme` receives any custom alias tokens on initialization via arguments here.
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
     ///
-    /// - Returns: An initialized `FluentTheme` instance.
-    public override init() { }
+    /// - Parameters:
+    ///   - colorOverrides: A `Dictionary` of override values mapped to `ColorTokens`.
+    ///   - shadowOverrides: A `Dictionary` of override values mapped to `ShadowTokens`.
+    ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    public init(colorOverrides: [AliasTokens.ColorsTokens: DynamicColor]? = nil,
+                shadowOverrides: [AliasTokens.ShadowTokens: ShadowInfo]? = nil,
+                typographyOverrides: [AliasTokens.TypographyTokens: FontInfo]? = nil) {
+        // Pass overrides to AliasTokens
+        aliasTokens = .init(colorOverrides: colorOverrides,
+                            shadowOverrides: shadowOverrides,
+                            typographyOverrides: typographyOverrides)
+    }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
     ///
@@ -37,7 +49,7 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     /// The associated `AliasTokens` for this theme.
-    @objc public let aliasTokens: AliasTokens = .init()
+    @objc public let aliasTokens: AliasTokens
 
     static var shared: FluentTheme = .init()
 
@@ -56,6 +68,10 @@ public class FluentTheme: NSObject, ObservableObject {
 }
 
 public extension Notification.Name {
+    /// The notification that will fire when a new `FluentTheme` is set on a view.
+    ///
+    /// The `object` for the fired `Notification` will be the `UIView` whose `fluentTheme` has changed.
+    /// Listeners will likely only want to redraw if they are a descendent of this view.
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 
