@@ -59,21 +59,21 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
             case .selectedColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.brandForeground1]
+                    return theme.color(.brandForeground1)
                 }
 
             case .titleLabelFontPortrait:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .fontInfo { theme.typography(.caption2) }
 
             case .titleLabelFontLandscape:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .fontInfo { theme.typography(.caption2) }
 
             case .unreadDotSize:
                 return .float { 8.0 }
 
             case .unselectedColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.foreground3]
+                    return theme.color(.foreground3)
                 }
             }
         }

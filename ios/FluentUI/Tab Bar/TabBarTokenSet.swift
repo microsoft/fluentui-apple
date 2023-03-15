@@ -28,25 +28,25 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
             case .tabBarItemSelectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.colors[.foreground1]
+                    return theme.color(.foreground1)
                 }
 
             case .tabBarItemUnselectedColor:
                 return .dynamicColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.colors[.foreground1]
+                    return theme.color(.foreground1)
                 }
 
             case .tabBarItemTitleLabelFontPortrait:
                 return .fontInfo {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.typography[.body1]
+                    return theme.typography(.body1)
                 }
 
             case .tabBarItemTitleLabelFontLandscape:
                 return .fontInfo {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
-                    return theme.aliasTokens.typography[.body1]
+                    return theme.typography(.body1)
                 }
             }
         }
