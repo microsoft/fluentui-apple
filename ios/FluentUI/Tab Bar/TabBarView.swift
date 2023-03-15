@@ -66,10 +66,12 @@ open class TabBarView: UIView, TokenizedControlInternal {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 
@@ -110,10 +112,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
         accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -152,7 +153,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? tokenSet[.phonePortraitHeight].float : tokenSet[.padHeight].float)
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
     private let showsItemTitles: Bool
 
@@ -169,7 +170,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint.constant = isPortrait ? tokenSet[.phonePortraitHeight].float : tokenSet[.phoneLandscapeHeight].float
+            heightConstraint.constant = isPortrait ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.phoneLandscapeHeight
         }
     }
 
@@ -201,13 +202,5 @@ open class TabBarView: UIView, TokenizedControlInternal {
                                                     forToken: .titleLabelFontLandscape)
             }
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        tokenSet.update(window.fluentTheme)
-        updateAppearance()
     }
 }
