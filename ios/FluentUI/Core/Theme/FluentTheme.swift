@@ -21,13 +21,28 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
-    public init(colorOverrides: [AliasTokens.ColorsTokens: DynamicColor]? = nil,
-                shadowOverrides: [AliasTokens.ShadowTokens: ShadowInfo]? = nil,
-                typographyOverrides: [AliasTokens.TypographyTokens: FontInfo]? = nil) {
+    public init(colorOverrides: [ColorToken: DynamicColor]? = nil,
+                shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
+                typographyOverrides: [TypographyToken: FontInfo]? = nil) {
+        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: DynamicColor) in
+            let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
+
+        let fixedShadowOverrides = shadowOverrides?.map({ (key: ShadowToken, value: ShadowInfo) in
+            let newKey = AliasTokens.ShadowTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.ShadowTokens, ShadowInfo)]()
+
+        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: FontInfo) in
+            let newKey = AliasTokens.TypographyTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
+
         // Pass overrides to AliasTokens
-        aliasTokens = .init(colorOverrides: colorOverrides,
-                            shadowOverrides: shadowOverrides,
-                            typographyOverrides: typographyOverrides)
+        aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
+                            shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
+                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides))
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.

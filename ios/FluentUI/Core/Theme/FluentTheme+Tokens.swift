@@ -151,7 +151,7 @@ public extension FluentTheme {
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Returns: A `FontInfo` for the given token.
     @objc(typographyForToken:)
-    func typography(_ token: AliasTokens.TypographyTokens) -> FontInfo {
+    func typography(_ token: TypographyToken) -> FontInfo {
         return aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!]
     }
 }
