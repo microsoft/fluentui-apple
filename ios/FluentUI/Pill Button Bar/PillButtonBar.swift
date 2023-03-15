@@ -96,7 +96,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
                 // time into a superview. First time layout already has buttons in default sizes, recreate
                 // them so that the next time we layout subviews we'll recalculate their optimal sizes.
                 recreateButtons()
-                stackView.spacing = tokenSet[.minButtonsSpacing].float
+                stackView.spacing = PillButtonBarTokenSet.minButtonsSpacing
             }
 
             lastKnownScrollFrameWidth = bounds.width
@@ -109,7 +109,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
     @objc public init(pillButtonStyle: PillButtonStyle = .primary) {
         self.pillButtonStyle = pillButtonStyle
-        self.tokenSet = PillButtonBarTokenSet()
+        self.tokenSet = PillButtonBarTokenSet(style: { pillButtonStyle })
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
@@ -255,7 +255,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     private func initStackView() -> UIStackView {
         let view = UIStackView()
         view.alignment = .center
-        view.spacing = tokenSet[.minButtonsSpacing].float
+        view.spacing = PillButtonBarTokenSet.minButtonsSpacing
         return view
     }
 
@@ -287,7 +287,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         trailingConstraint?.isActive = !centerAligned
         centerConstraint?.isActive = centerAligned
 
-        contentInset.left = centerAligned ? 0.0 : tokenSet[.sideInset].float
+        contentInset.left = centerAligned ? 0.0 : PillButtonBarTokenSet.sideInset
         contentInset.right = contentInset.left
         scrollToOrigin()
     }
@@ -300,8 +300,8 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     ///  portion of it visible and there's a clear indication that the view is scrollable. To achieve this, this function calculates
     ///  a new spacing and padding that will shift the last visible button farther in the view.
     private func adjustButtonsForCurrentScrollFrame() {
-        var visibleWidth = frame.width - (tokenSet[.minButtonsSpacing].float + tokenSet[.minButtonVisibleWidth].float)
-        var visibleButtonsWidth: CGFloat = tokenSet[.sideInset].float
+        var visibleWidth = frame.width - (PillButtonBarTokenSet.minButtonsSpacing + PillButtonBarTokenSet.minButtonVisibleWidth)
+        var visibleButtonsWidth: CGFloat = PillButtonBarTokenSet.sideInset
         var visibleButtonCount = 0
         for button in buttons {
             button.layoutIfNeeded()
@@ -311,12 +311,12 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
                 break
             }
 
-            visibleButtonsWidth += tokenSet[.minButtonsSpacing].float
+            visibleButtonsWidth += PillButtonBarTokenSet.minButtonsSpacing
         }
 
         if visibleButtonCount == buttons.count {
             // If the last visible button is the last button, not need to account for space in a next button
-            visibleWidth += tokenSet[.minButtonVisibleWidth].float
+            visibleWidth += PillButtonBarTokenSet.minButtonVisibleWidth
         }
 
         if visibleButtonsWidth <= visibleWidth {
@@ -324,7 +324,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
             return
         }
 
-        let optimalVisibleButtonWidth = frame.width + tokenSet[.minButtonVisibleWidth].float
+        let optimalVisibleButtonWidth = frame.width + PillButtonBarTokenSet.minButtonVisibleWidth
         let totalAdjustment = optimalVisibleButtonWidth - visibleButtonsWidth
         if totalAdjustment < 0.0 {
             return
@@ -372,7 +372,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         }
 
         let spacingAdjustment = ceil((totalSpace) / CGFloat(numberOfButtons))
-        let newSpacing = min(tokenSet[.maxButtonsSpacing].float, tokenSet[.minButtonsSpacing].float + spacingAdjustment)
+        let newSpacing = min(PillButtonBarTokenSet.maxButtonsSpacing, PillButtonBarTokenSet.minButtonsSpacing + spacingAdjustment)
         let spacingChange = newSpacing - stackView.spacing
         stackView.spacing = newSpacing
         return spacingChange * CGFloat(numberOfButtons)
@@ -394,8 +394,8 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         for button in buttons {
             button.layoutIfNeeded()
             let buttonWidth = button.frame.width
-            if buttonWidth > 0, buttonWidth < tokenSet[.minButtonWidth].float {
-                let extraInset = floor((tokenSet[.minButtonWidth].float - button.frame.width) / 2)
+            if buttonWidth > 0, buttonWidth < PillButtonBarTokenSet.minButtonWidth {
+                let extraInset = floor((PillButtonBarTokenSet.minButtonWidth - button.frame.width) / 2)
 
                 if #available(iOS 15.0, *) {
                     button.configuration?.contentInsets.leading += extraInset
@@ -458,7 +458,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         trailingConstraint = stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         centerConstraint = stackView.centerXAnchor.constraint(equalTo: centerXAnchor)
 
-        heightConstraint = heightAnchor.constraint(equalToConstant: tokenSet[.minHeight].float)
+        heightConstraint = heightAnchor.constraint(equalToConstant: PillButtonBarTokenSet.minHeight)
         heightConstraint?.isActive = true
 
         adjustAlignment()
@@ -473,13 +473,13 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
         let viewLeadingPosition = bounds.origin.x
         let viewTrailingPosition = viewLeadingPosition + frame.size.width
 
-        let extraScrollWidth = tokenSet[.minButtonVisibleWidth].float + stackView.spacing + buttonExtraSidePadding
+        let extraScrollWidth = PillButtonBarTokenSet.minButtonVisibleWidth + stackView.spacing + buttonExtraSidePadding
         var offSet = contentOffset.x
         if buttonLeftPosition < viewLeadingPosition {
             offSet = buttonLeftPosition - extraScrollWidth
-            offSet = max(offSet, -tokenSet[.sideInset].float)
+            offSet = max(offSet, -PillButtonBarTokenSet.sideInset)
         } else if buttonRightPosition > viewTrailingPosition {
-            let maxOffsetX = contentSize.width - frame.size.width + tokenSet[.sideInset].float
+            let maxOffsetX = contentSize.width - frame.size.width + PillButtonBarTokenSet.sideInset
             offSet = buttonRightPosition - frame.size.width + extraScrollWidth
             offSet = min(offSet, maxOffsetX)
         }
@@ -503,7 +503,7 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     }
 
     private func updateHeightConstraint() {
-        var maxHeight: CGFloat = tokenSet[.minHeight].float
+        var maxHeight: CGFloat = PillButtonBarTokenSet.minHeight
         buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
             heightConstraint.constant = maxHeight
