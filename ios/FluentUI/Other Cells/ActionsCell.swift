@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: ActionsCell
 
@@ -49,16 +48,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "ActionsCell"
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public var tokenSet: TableViewCellTokenSet
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
+    public let tokenSet: TableViewCellTokenSet = .init(customViewSize: { .default })
 
     private func updateAppearance() {
         setupBackgroundColors()
@@ -127,7 +117,6 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private let verticalSeparator = Separator(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(action1Button)
@@ -145,13 +134,8 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         setupAction(action1Button)
         setupAction(action2Button)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }

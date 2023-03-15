@@ -116,12 +116,6 @@ open class TabBarView: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-            self?.updateHeight()
-        }
     }
 
     required public init?(coder aDecoder: NSCoder) {

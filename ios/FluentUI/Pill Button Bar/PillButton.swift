@@ -33,11 +33,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                object: pillBarItem)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(titleValueDidChange),
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
@@ -196,6 +191,13 @@ open class PillButton: UIButton, TokenizedControlInternal {
         var attributedTitle = AttributedString(itemTitle)
         attributedTitle.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
         configuration?.attributedTitle = attributedTitle
+
+        let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.fluent(self.tokenSet[.font].fontInfo, shouldScale: false)
+            return outgoing
+        }
+        configuration?.titleTextAttributesTransformer = attributedTitleTransformer
 
         // Workaround for Apple bug: when UIButton.Configuration is used with UIControl's isSelected = true, accessibilityLabel doesn't get set automatically
         accessibilityLabel = itemTitle

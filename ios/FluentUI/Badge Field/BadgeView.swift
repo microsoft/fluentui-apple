@@ -165,8 +165,6 @@ open class BadgeView: UIView, TokenizedControlInternal {
         )
     }
 
-    private var tokenSetSink: AnyCancellable?
-
     private let backgroundView = UIView()
 
     private let label = Label()
@@ -196,38 +194,20 @@ open class BadgeView: UIView, TokenizedControlInternal {
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+            self?.updateFonts()
+        }
 
         defer {
             self.dataSource = dataSource
         }
 
         updateFonts()
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                self?.updateColors()
-                self?.updateFonts()
-            }
-        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors()
-        updateFonts()
     }
 
     private func updateFonts() {
