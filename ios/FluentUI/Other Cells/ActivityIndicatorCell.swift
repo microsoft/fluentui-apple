@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: ActivityIndicatorCell
 
@@ -22,16 +21,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public var tokenSet: TableViewCellTokenSet
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
+    public let tokenSet: TableViewCellTokenSet = .init(customViewSize: { .default })
 
     private func updateAppearance() {
         setupBackgroundColors()
@@ -44,19 +34,13 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
     }()
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(activityIndicator)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         setupBackgroundColors()
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }

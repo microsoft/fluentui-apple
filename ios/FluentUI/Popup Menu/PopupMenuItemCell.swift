@@ -101,32 +101,12 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         contentView.addSubview(accessoryImageView)
 
         isAccessibilityElement = true
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateAppearance()
-            strongSelf.updateSelectionColors()
-        }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateSelectionColors()
-    }
-
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
+    override func updateAppearance() {
+        super.updateAppearance()
         backgroundStyleType = .custom
+        updateViews()
     }
 
     func setup(item: PopupMenuTemplateItem) {

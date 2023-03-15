@@ -11,7 +11,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
     var tokenSet: TabBarItemTokenSet = .init()
-    var tokenSetSink: AnyCancellable?
 
     func updateAppearance() {
         updateColors()
@@ -111,6 +110,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
+        accessibilityIdentifier = item.accessibilityIdentifier
 
         self.largeContentImage = item.largeContentImage ?? item.image
         largeContentTitle = item.title
@@ -129,13 +129,13 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                object: item)
 
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        NotificationCenter.default.addObserver(self,
                                                selector: #selector(isUnreadValueDidChange),
                                                name: TabBarItem.isUnreadValueDidChangeNotification,
+                                               object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(accessibilityIdentifierDidChange),
+                                               name: TabBarItem.accessibilityIdentifierDidChangeNotification,
                                                object: item)
 
         badgeValue = item.badgeValue
@@ -145,11 +145,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -201,6 +196,10 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         updateBadgeView()
         updateAccessibilityLabel()
         setNeedsLayout()
+    }
+
+    @objc private func accessibilityIdentifierDidChange() {
+        accessibilityIdentifier = item.accessibilityIdentifier
     }
 
     private var isUnreadDotVisible: Bool = false

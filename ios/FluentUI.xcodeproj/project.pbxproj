@@ -176,6 +176,7 @@
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
 		920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */; };
 		922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* TokenizedControlView.swift */; };
+		9231F10329BB99090079CD94 /* FluentTheme+Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */; };
 		923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D2274CB65700D8E58A /* TokenizedControl.swift */; };
 		923DB9D5274CB65700D8E58A /* FluentTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D3274CB65700D8E58A /* FluentTheme.swift */; };
 		923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */; };
@@ -349,6 +350,7 @@
 		92088EF72666DB2C003F571A /* PersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButton.swift; sourceTree = "<group>"; };
 		920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokenSet.swift; sourceTree = "<group>"; };
 		922A34DE27BB87990062721F /* TokenizedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizedControlView.swift; sourceTree = "<group>"; };
+		9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+Tokens.swift"; sourceTree = "<group>"; };
 		923DB9D2274CB65700D8E58A /* TokenizedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizedControl.swift; sourceTree = "<group>"; };
 		923DB9D3274CB65700D8E58A /* FluentTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentTheme.swift; sourceTree = "<group>"; };
 		923DB9D6274CB66D00D8E58A /* ControlHostingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlHostingView.swift; sourceTree = "<group>"; };
@@ -872,6 +874,7 @@
 			children = (
 				925D461A26FD126800179583 /* Tokens */,
 				923DB9D3274CB65700D8E58A /* FluentTheme.swift */,
+				9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -1701,6 +1704,7 @@
 				5314E0A725F010070099271A /* DrawerController.swift in Sources */,
 				5314E07125F00F140099271A /* DatePickerSelectionManager.swift in Sources */,
 				5373D5672694D65C0032A3B4 /* Avatar.swift in Sources */,
+				9231F10329BB99090079CD94 /* FluentTheme+Tokens.swift in Sources */,
 				5314E1A425F01A7C0099271A /* CenteredLabelCell.swift in Sources */,
 				5314E1A125F01A7C0099271A /* TableViewCellFileAccessoryView.swift in Sources */,
 				5314E1D625F01E4A0099271A /* SearchBar.swift in Sources */,

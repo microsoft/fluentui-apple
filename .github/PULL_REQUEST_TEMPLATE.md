@@ -36,6 +36,10 @@ Please include the output of scripts/GenerateBinaryDiffTable.swift, using the fo
 
 (a summary of the changes made, often organized by file)
 
+### Binary change
+
+(how is our binary size impacted -- see https://github.com/microsoft/fluentui-apple/wiki/Size-Comparison)
+
 ### Verification
 
 (how the change was tested, including both manual and automated tests)

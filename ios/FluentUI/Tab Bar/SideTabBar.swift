@@ -138,11 +138,6 @@ open class SideTabBar: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-
-        // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            self?.updateAppearance()
-        }
     }
 
     @available(*, unavailable)
