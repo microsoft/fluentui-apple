@@ -43,7 +43,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return UIColor(dynamicColor: tokenSet[.accessoryDetailButtonColor].dynamicColor)
         case .checkmark:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            return UIColor(dynamicColor: fluentTheme.color(.brandForeground1))
         }
     }
 

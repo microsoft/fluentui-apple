@@ -72,9 +72,9 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .concealing:
-                        return theme.aliasTokens.colors[.stencil2]
+                        return theme.color(.stencil2)
                     case .revealing:
-                        return theme.aliasTokens.colors[.stencil1]
+                        return theme.color(.stencil1)
                     }
                 }
 

@@ -46,21 +46,21 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
     }
 
     private func configureBackgroundColor() {
-        contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.background2).light, dark: fluentTheme.color(.background2).dark))
     }
 
     private func configureFontColor() {
-        dateLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
+        dateLabel.font = UIFont.fluent(fluentTheme.typography(.body1))
 
         if isHighlighted || isSelected {
-            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+            dateLabel.textColor = UIColor(dynamicColor: fluentTheme.color(.foregroundOnColor))
             dateLabel.showsLargeContentViewer = true
         } else {
             switch textStyle {
             case .primary:
-                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground1))
             case .secondary:
-                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+                dateLabel.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground3))
             }
         }
     }

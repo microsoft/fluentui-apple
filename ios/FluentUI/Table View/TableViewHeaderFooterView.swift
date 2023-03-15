@@ -30,9 +30,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground2))
             case .primary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                return UIColor(dynamicColor: fluentTheme.color(.brandForeground1))
             }
         }
     }
@@ -47,18 +47,18 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground2))
             case .headerPrimary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground1))
             }
         }
 
         func textFont() -> UIFont {
             switch self {
             case .headerPrimary:
-                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1Strong])
+                return UIFont.fluent(FluentTheme.shared.typography(.body1Strong))
             case .header, .footer:
-                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.caption1])
+                return UIFont.fluent(FluentTheme.shared.typography(.caption1))
             }
         }
     }
@@ -482,9 +482,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         titleView.textColor = style.textColor(fluentTheme: tokenSet.fluentTheme)
 
         if tableViewCellStyle == .grouped {
-            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.backgroundCanvas])
+            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.backgroundCanvas))
         } else if tableViewCellStyle == .plain {
-            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background1])
+            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.background1))
         } else {
             backgroundView?.backgroundColor = .clear
         }
@@ -498,7 +498,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private func updateAccessoryButtonTitleStyle() {
-        accessoryButton?.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1Strong])
+        accessoryButton?.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.typography(.caption1Strong))
         updateAccessoryButtonTitleColor()
     }
 
@@ -549,7 +549,7 @@ private class TableViewHeaderFooterTitleView: UITextView {
     }
 
     func updateLinkTextColor(_ fluentTheme: FluentTheme) {
-        linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])]
+        linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.color(.brandForeground1))]
     }
 
     required init?(coder: NSCoder) {
