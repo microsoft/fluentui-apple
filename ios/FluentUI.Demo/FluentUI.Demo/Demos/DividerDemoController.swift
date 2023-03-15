@@ -111,7 +111,7 @@ class DividerDemoController: DemoTableViewController {
 
     private func makeDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, customColor: Bool) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
-        if customColor, let color = self.view.window?.fluentTheme.aliasTokens.brandColors[.primary] {
+        if customColor, let color = self.view.window?.fluentTheme.brandColors(.primary) {
             divider.tokenSet[.color] = .dynamicColor({ color })
         }
 

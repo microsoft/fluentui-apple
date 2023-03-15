@@ -31,8 +31,8 @@ class DemoListViewController: DemoTableViewController {
         self.theme = theme
         if let provider = self.provider {
             window.setColorProvider(provider)
-            let aliasTokens = self.view.fluentTheme.aliasTokens
-            let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
+            let fluentTheme = self.view.fluentTheme
+            let primaryColor = UIColor(dynamicColor: fluentTheme.color(.brandBackground1))
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             FluentUIFramework.initializeAppearance(with: UIColor(light: UIColor(colorValue: GlobalTokens.brandColors(.comm80)), dark: UIColor(colorValue: GlobalTokens.brandColors(.comm90))))

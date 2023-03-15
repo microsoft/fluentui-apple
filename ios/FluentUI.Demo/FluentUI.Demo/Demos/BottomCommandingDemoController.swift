@@ -274,7 +274,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var customPopoverViewController: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        viewController.view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
         viewController.preferredContentSize = CGSize(width: 300, height: 300)
         viewController.modalPresentationStyle = .popover
 
