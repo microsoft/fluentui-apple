@@ -196,6 +196,7 @@
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
 		C77A04EE25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */; };
 		D6296DAE295B7CA0002E8EB6 /* ColorProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6296DAD295B7C9F002E8EB6 /* ColorProviding.swift */; };
+		EC04E65829C27359005F8BA0 /* FocusRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04E65729C27359005F8BA0 /* FocusRingView.swift */; };
 		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* ShapeCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* ShapeCutout.swift */; };
@@ -384,6 +385,7 @@
 		C77A04EC25F046EB001B3EB6 /* Date+CellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+CellFileAccessoryView.swift"; sourceTree = "<group>"; };
 		CCC18C2B2501B22F00BE830E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		D6296DAD295B7C9F002E8EB6 /* ColorProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorProviding.swift; sourceTree = "<group>"; };
+		EC04E65729C27359005F8BA0 /* FocusRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRingView.swift; sourceTree = "<group>"; };
 		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* ShapeCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCutout.swift; sourceTree = "<group>"; };
@@ -1091,6 +1093,7 @@
 				C708B04B260A8696007190FA /* SegmentItem.swift */,
 				C708B055260A86FA007190FA /* SegmentPillButton.swift */,
 				EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */,
+				EC04E65729C27359005F8BA0 /* FocusRingView.swift */,
 			);
 			path = SegmentedControl;
 			sourceTree = "<group>";
@@ -1443,6 +1446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC04E65829C27359005F8BA0 /* FocusRingView.swift in Sources */,
 				6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */,
 				6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */,
 				5314E0ED25F012C40099271A /* ContentScrollViewTraits.swift in Sources */,

@@ -25,7 +25,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
            let button = nextFocusedView as? SegmentPillButton {
             ringView.isHidden = false
             focusedButton = button
-            drawFocusRing(over: button)
+            ringView.drawFocusRing(over: button)
         }
     }
 
@@ -96,6 +96,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
+    // |  |--ringView
     //
     // isFixedWidth = true:
     // pillContainerView (used to create 16pt inset on either side)
@@ -105,6 +106,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |.mask -> selectionView
     // |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |--pillMaskedImages (uses selectedLabelColor)
+    // |--ringView
 
     private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
@@ -144,24 +146,12 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return scrollView
     }()
-    private var ringView: UIView = {
-        let view = UIView()
+    private var ringView: FocusRingView = {
+        let view = FocusRingView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
 
         return view
-    }()
-    private var innerFocusRing: CALayer = {
-        let innerRing = CALayer()
-        innerRing.borderWidth = GlobalTokens.stroke(.width10)
-
-        return innerRing
-    }()
-    private var outerFocusRing: CALayer = {
-        let outerRing = CALayer()
-        outerRing.borderWidth = GlobalTokens.stroke(.width20)
-
-        return outerRing
     }()
 
     private var pillMaskedLabels = [UILabel?]()
@@ -215,8 +205,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         pillMaskedContentContainerView.mask = selectionView
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
-        ringView.layer.addSublayer(outerFocusRing)
-        ringView.layer.addSublayer(innerFocusRing)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
         pillContainerView.addSubview(ringView)
         addSubview(pillContainerView)
@@ -262,8 +250,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             }
             maskedImage.tintColor = selectedContentColor
         }
-        innerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]).cgColor
-        outerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus2]).cgColor
     }
 
     /// Insert new segment at index with the specified title. If a segment exists at that index, it will be inserted before and will therefore take its index.
@@ -381,7 +367,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         if needsRedrawFocus,
         let focusedButton {
-            updateRingBounds(for: focusedButton)
+            ringView.updateRingBounds(for: focusedButton)
         }
     }
 
@@ -617,31 +603,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
     }
 
-    private func drawFocusRing(over button: SegmentPillButton) {
-        NSLayoutConstraint.deactivate(ringViewConstraints)
-        ringViewConstraints = [
-            ringView.topAnchor.constraint(equalTo: button.topAnchor),
-            ringView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
-            ringView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
-            ringView.bottomAnchor.constraint(equalTo: button.bottomAnchor)
-        ]
-        NSLayoutConstraint.activate(ringViewConstraints)
-        updateRingBounds(for: button)
-    }
-
-    private func updateRingBounds(for view: UIView) {
-        let ringBounds = view.bounds
-        outerFocusRing.frame = ringBounds
-        outerFocusRing.removeAllAnimations()
-
-        let ringOrigin = ringBounds.origin
-        innerFocusRing.frame = CGRect(x: ringOrigin.x + 1.5,
-                                      y: ringOrigin.y + 1.5,
-                                      width: ringBounds.width - 3,
-                                      height: ringBounds.height - 3)
-        innerFocusRing.removeAllAnimations()
-    }
-
     private func updateTokenizedValues() {
         updateColors()
         updateButtons()
@@ -688,7 +649,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     private var focusedButton: SegmentPillButton?
     private var needsRedrawFocus: Bool = false
-    private var ringViewConstraints: [NSLayoutConstraint] = []
 }
 
 // MARK: UIScrollViewDelegate
