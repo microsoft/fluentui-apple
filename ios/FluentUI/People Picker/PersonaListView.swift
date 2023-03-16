@@ -107,7 +107,7 @@ open class PersonaListView: UITableView {
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+        backgroundColor = UIColor(dynamicColor: fluentTheme.color(.background1))
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

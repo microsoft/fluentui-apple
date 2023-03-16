@@ -39,7 +39,7 @@ open class Separator: UIView {
     @objc public static var thickness: CGFloat { return GlobalTokens.stroke(.width05) }
 
     @objc public static func separatorDefaultColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.stroke2])
+        return UIColor(dynamicColor: fluentTheme.color(.stroke2))
     }
 
     private func initialize(orientation: SeparatorOrientation) {

@@ -33,8 +33,8 @@ public protocol ColorProviding {
 }
 
 private func brandColorOverrides(provider: ColorProviding,
-                                 for themeable: FluentThemeable) -> [AliasTokens.ColorsTokens: DynamicColor] {
-    var brandColors: [AliasTokens.ColorsTokens: DynamicColor] = [:]
+                                 for themeable: FluentThemeable) -> [FluentTheme.ColorToken: DynamicColor] {
+    var brandColors: [FluentTheme.ColorToken: DynamicColor] = [:]
     if let brandBackground1 = provider.brandBackground1(for: themeable)?.dynamicColor {
         brandColors[.brandBackground1] = brandBackground1
     }

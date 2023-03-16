@@ -58,34 +58,34 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
                 return .float { GlobalTokens.corner(.radius120) }
 
             case .itemBackgroundColorRest:
-                return .dynamicColor { theme.aliasTokens.colors[.background5] }
+                return .dynamicColor { theme.color(.background5) }
 
             case .itemBackgroundColorHover:
-                return .dynamicColor { theme.aliasTokens.colors[.background5] }
+                return .dynamicColor { theme.color(.background5) }
 
             case .itemBackgroundColorPressed:
-                return .dynamicColor { theme.aliasTokens.colors[.background5Pressed] }
+                return .dynamicColor { theme.color(.background5Pressed) }
 
             case .itemBackgroundColorSelected:
-                return .dynamicColor { theme.aliasTokens.colors[.brandBackgroundTint] }
+                return .dynamicColor { theme.color(.brandBackgroundTint) }
 
             case .itemBackgroundColorDisabled:
-                return .dynamicColor { theme.aliasTokens.colors[.background5] }
+                return .dynamicColor { theme.color(.background5) }
 
             case .itemIconColorRest:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .dynamicColor { theme.color(.foreground1) }
 
             case .itemIconColorHover:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .dynamicColor { theme.color(.foreground1) }
 
             case .itemIconColorPressed:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .dynamicColor { theme.color(.foreground1) }
 
             case .itemIconColorSelected:
-                return .dynamicColor { theme.aliasTokens.colors[.brandForegroundTint] }
+                return .dynamicColor { theme.color(.brandForegroundTint) }
 
             case .itemIconColorDisabled:
-                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
+                return .dynamicColor { theme.color(.foregroundDisabled1) }
             }
         }
     }

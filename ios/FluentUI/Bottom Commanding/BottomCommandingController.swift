@@ -872,8 +872,8 @@ open class BottomCommandingController: UIViewController {
     }
 
     private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey50))
-    private lazy var tableViewBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
-    private lazy var bottomBarBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+    private lazy var tableViewBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.color(.background2))
+    private lazy var bottomBarBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.color(.background2))
 
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40

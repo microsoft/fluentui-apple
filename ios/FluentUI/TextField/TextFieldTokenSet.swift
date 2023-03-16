@@ -60,59 +60,59 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                 return .dynamicColor {
                     switch state() {
                     case .unfocused, .focused:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .assistiveTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .fontInfo { theme.typography(.caption2) }
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .dynamicColor { theme.color(.background1) }
             case .cursorColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .dynamicColor { theme.color(.foreground3) }
             case .inputTextColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .dynamicColor { theme.color(.foreground1) }
             case .inputTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.body1] }
+                return .fontInfo { theme.typography(.body1) }
             case .leadingIconColor:
                 return .dynamicColor {
                     switch state() {
                     case .unfocused, .error:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
             case .placeholderColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
+                return .dynamicColor { theme.color(.foreground2) }
             case .strokeColor:
                 return .dynamicColor {
                     switch state() {
                     case .unfocused:
-                        return theme.aliasTokens.colors[.stroke1]
+                        return theme.color(.stroke1)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .titleLabelColor:
                 return .dynamicColor {
                     switch state() {
                     case .unfocused:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .titleLabelFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .fontInfo { theme.typography(.caption2) }
             case .trailingIconColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.foreground2]
+                    return theme.color(.foreground2)
                 }
             }
         }
