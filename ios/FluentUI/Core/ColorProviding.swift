@@ -57,7 +57,6 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     return brandColors
 }
 
-
 // MARK: Colors
 
 @objc public extension UIView {
