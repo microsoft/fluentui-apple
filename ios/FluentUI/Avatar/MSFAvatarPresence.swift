@@ -17,24 +17,24 @@ import SwiftUI
     case unknown
 
     func color(isOutOfOffice: Bool, fluentTheme: FluentTheme) -> Color {
-        var color = UIColor.clear
+        let colorToken: FluentTheme.ColorToken
 
         switch self {
         case .none:
-            break
+            return .clear
         case .available:
-            color = UIColor(dynamicColor: fluentTheme.color(.presenceAvailable))
+            colorToken = .presenceAvailable
         case .away:
-            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.color(.presenceOof)) : UIColor(dynamicColor: fluentTheme.color(.presenceAway))
+            colorToken = isOutOfOffice ? .presenceOof : .presenceAway
         case .busy, .blocked, .doNotDisturb:
-            color = UIColor(dynamicColor: fluentTheme.color(.presenceDnd))
+            colorToken = .presenceDnd
         case .offline:
-            color = isOutOfOffice ? UIColor(dynamicColor: fluentTheme.color(.presenceOof)) : UIColor(dynamicColor: fluentTheme.color(.foreground3))
+            colorToken = isOutOfOffice ? .presenceOof : .foreground3
         case .unknown:
-            color = UIColor(dynamicColor: fluentTheme.color(.foreground3))
+            colorToken = .foreground3
         }
 
-        return Color(color)
+        return Color(dynamicColor: fluentTheme.color(colorToken))
     }
 
     func image(isOutOfOffice: Bool) -> Image {
