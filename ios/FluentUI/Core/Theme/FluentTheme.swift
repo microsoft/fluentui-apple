@@ -53,10 +53,10 @@ public class FluentTheme: NSObject, ObservableObject {
 
     /// A shared, immutable, default `FluentTheme` instance.
     ///
-    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be applied
-    /// to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of the `ColorProviding`
-    /// protocol will not be reflected here. As such, this should only be used in cases where the caller is certain that they are looking for
-    /// the _default_ token values associated with Fluent.
+    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
+    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
+    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
+    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
     @objc(sharedTheme)
     public static let shared: FluentTheme = .init()
 
