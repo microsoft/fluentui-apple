@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: PillButtonBarItem
 
@@ -209,8 +208,6 @@ open class PillButtonBar: UIScrollView {
             }
         }
     }
-
-    var tokenSetSink: AnyCancellable?
 
     private var buttonExtraSidePadding: CGFloat = 0.0
 
