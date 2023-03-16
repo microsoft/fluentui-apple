@@ -50,13 +50,13 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.background5).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.brandBackground2).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     }
                 }
 
@@ -64,13 +64,13 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.background5).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.brandBackground2).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     }
                 }
 
@@ -78,11 +78,11 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Selected].darkElevated)
+                        return DynamicColor(light: theme.color(.background1).light,
+                                            dark: theme.color(.background3Selected).dark,
+                                            darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
@@ -92,9 +92,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                     case .primary:
                         return theme.aliasTokens.colors[.brandBackground1]
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Selected].darkElevated)
+                        return DynamicColor(light: theme.color(.background1).light,
+                                            dark: theme.color(.background3Selected).dark,
+                                            darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
@@ -103,9 +103,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
+                        return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
+                        return theme.color(.brandForegroundDisabled1)
                     }
                 }
 
@@ -113,27 +113,27 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
+                        return DynamicColor(light: theme.color(.brandForeground1).light,
+                                            dark: theme.color(.foreground1).dark)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
+                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
+                                            dark: theme.color(.foreground1).dark)
                     }
                 }
 
                 
             case .font:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .fontInfo { theme.typography(.body2) }
 
             case .titleColor:
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground2].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foreground2].darkElevated)
+                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
+                                            dark: theme.color(.foreground2).dark,
+                                            darkElevated: theme.color(.foreground2).darkElevated)
                     }
                 }
 
@@ -141,11 +141,11 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
+                        return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled1].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled1].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled1].darkElevated)
+                        return DynamicColor(light: theme.color(.brandForegroundDisabled1).light,
+                                            dark: theme.color(.foregroundDisabled1).dark,
+                                            darkElevated: theme.color(.foregroundDisabled1).darkElevated)
                     }
                 }
 
@@ -153,11 +153,11 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foreground1].darkElevated)
+                        return DynamicColor(light: theme.color(.brandForeground1).light,
+                                            dark: theme.color(.foreground1).dark,
+                                            darkElevated: theme.color(.foreground1).darkElevated)
                     }
                 }
 
@@ -165,11 +165,11 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
+                        return theme.color(.brandForegroundDisabled1)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled2].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled2].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled2].darkElevated)
+                        return DynamicColor(light: theme.color(.brandForegroundDisabled2).light,
+                                            dark: theme.color(.foregroundDisabled2).dark,
+                                            darkElevated: theme.color(.foregroundDisabled2).darkElevated)
                     }
                 }
             }
