@@ -51,7 +51,14 @@ public class FluentTheme: NSObject, ObservableObject {
     /// The associated `AliasTokens` for this theme.
     @objc public let aliasTokens: AliasTokens
 
-    static var shared: FluentTheme = .init()
+    /// A shared, immutable, default `FluentTheme` instance.
+    ///
+    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
+    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
+    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
+    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
+    @objc(sharedTheme)
+    public static let shared: FluentTheme = .init()
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
