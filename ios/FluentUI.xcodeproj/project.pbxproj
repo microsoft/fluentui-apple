@@ -215,7 +215,6 @@
 		D64D8E12283D798D00D8D7D1 /* SideTabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */; };
 		D6A0124A2810764B00C90535 /* TabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A012492810764B00C90535 /* TabBarTokenSet.swift */; };
 		D6F4098927470E7F001B80D4 /* PillButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */; };
-		D6F4098F274F1A1C001B80D4 /* PillButtonBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098E274F1A1C001B80D4 /* PillButtonBarTokenSet.swift */; };
 		EC0A83E2299711920010ED3E /* HeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17327F77EB700B01E0D /* HeadsUpDisplay.swift */; };
 		EC24DBC828BD95980026EF92 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */; };
 		EC24DBCA28BD99860026EF92 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */; };
@@ -431,7 +430,6 @@
 		D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6A012492810764B00C90535 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonTokenSet.swift; sourceTree = "<group>"; };
-		D6F4098E274F1A1C001B80D4 /* PillButtonBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarTokenSet.swift; sourceTree = "<group>"; };
 		EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
 		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
@@ -617,7 +615,6 @@
 			children = (
 				497DC2D824185885008D86F8 /* PillButton.swift */,
 				497DC2D724185885008D86F8 /* PillButtonBar.swift */,
-				D6F4098E274F1A1C001B80D4 /* PillButtonBarTokenSet.swift */,
 				D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */,
 				86AF4F7425AFC746005D4253 /* PillButtonStyle.swift */,
 			);
@@ -1570,7 +1567,6 @@
 				5314E03A25F00E3D0099271A /* BadgeView.swift in Sources */,
 				53097D4727028B1200A6E4DC /* ButtonLegacy.swift in Sources */,
 				5314E1A325F01A7C0099271A /* TableViewHeaderFooterView.swift in Sources */,
-				D6F4098F274F1A1C001B80D4 /* PillButtonBarTokenSet.swift in Sources */,
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
 				6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */,
 				EC98E2B2298D97EC00B9DF91 /* TextFieldTokenSet.swift in Sources */,
