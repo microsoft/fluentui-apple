@@ -172,6 +172,29 @@ class PillButtonBarDemoController: DemoController {
     private var primaryBar: UIView?
 
     private var bars: [PillButtonBar] = []
+
+    private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        let theme = FluentTheme()
+        return [
+            .backgroundColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+
+            .backgroundColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+
+            .backgroundColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+
+            .backgroundColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+
+            .titleColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+
+            .titleColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+
+            .titleColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+
+            .titleColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+
+            .enabledUnreadDotColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] }
+        ]
+    }
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate
@@ -259,7 +282,7 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
             },
 
             .pillButtonFont: .fontInfo {
-                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+                return self.view.fluentTheme.aliasTokens.typography[.body1]
             }
         ]
     }

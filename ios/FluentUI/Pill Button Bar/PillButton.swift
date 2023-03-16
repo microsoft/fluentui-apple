@@ -11,12 +11,11 @@ import Combine
 /// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
-    open override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        guard let newWindow else {
-            return
-        }
-        tokenSet.update(newWindow.fluentTheme)
+
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        tokenSet.update(fluentTheme)
         updateAppearance()
     }
 
@@ -38,8 +37,17 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
 
-        tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateAppearance()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.updateAppearance()
+            }
         }
     }
 
@@ -84,6 +92,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     public var tokenSet: PillButtonTokenSet
+
+    private var tokenSetSink: AnyCancellable?
 
     lazy var unreadDotColor: UIColor = {
         UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
@@ -136,6 +146,13 @@ open class PillButton: UIButton, TokenizedControlInternal {
         } else {
             accessibilityTraits.insert(.notEnabled)
         }
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let window = window, window.isEqual(notification.object) else {
+            return
+        }
+        tokenSet.update(window.fluentTheme)
     }
 
     private func initUnreadDotLayer() -> CALayer {
