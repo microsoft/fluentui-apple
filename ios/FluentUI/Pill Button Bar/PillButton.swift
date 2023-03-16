@@ -158,8 +158,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func initUnreadDotLayer() -> CALayer {
         let unreadDotLayer = CALayer()
 
-        unreadDotLayer.bounds.size = CGSize(width: tokenSet[.unreadDotSize].float, height: tokenSet[.unreadDotSize].float)
-        unreadDotLayer.cornerRadius = tokenSet[.unreadDotSize].float / 2
+        unreadDotLayer.bounds.size = CGSize(width: PillButtonTokenSet.unreadDotSize, height: PillButtonTokenSet.unreadDotSize)
+        unreadDotLayer.cornerRadius = PillButtonTokenSet.unreadDotSize / 2
 
         return unreadDotLayer
     }
@@ -171,7 +171,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        let unreadDotSize = tokenSet[.unreadDotSize].float
+        let unreadDotSize = PillButtonTokenSet.unreadDotSize
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
         return unreadDotLayer
@@ -214,7 +214,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
                 xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotOffsetX)
             } else {
-                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - tokenSet[.unreadDotSize].float)
+                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - PillButtonTokenSet.unreadDotSize)
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotOffsetY)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
