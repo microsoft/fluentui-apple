@@ -34,24 +34,24 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
 
             case .drawerContentBackground:
                 return .dynamicColor({
-                    DynamicColor(light: theme.aliasTokens.colors[.background2].light,
-                                 dark: theme.aliasTokens.colors[.background2].dark)
+                    DynamicColor(light: theme.color(.background2).light,
+                                 dark: theme.color(.background2).dark)
                 })
 
             case .navigationBarBackground:
                 return .dynamicColor({
-                    theme.aliasTokens.colors[.background3]
+                    theme.color(.background3)
                 })
 
             case .popoverContentBackground:
                 return .dynamicColor({
-                    DynamicColor(light: theme.aliasTokens.colors[.background4].light,
-                                 dark: theme.aliasTokens.colors[.background4].dark)
+                    DynamicColor(light: theme.color(.background4).light,
+                                 dark: theme.color(.background4).dark)
                 })
 
             case .shadow:
                 return .shadowInfo({
-                    theme.aliasTokens.shadow[.shadow28]
+                    theme.shadow(.shadow28)
                 })
             }
         }

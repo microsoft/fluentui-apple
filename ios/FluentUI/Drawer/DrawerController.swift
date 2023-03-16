@@ -439,19 +439,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         super.init(nibName: nil, bundle: nil)
 
         initialize()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
-              return
-        }
-        tokenSet.update(fluentTheme)
-        updateBackgroundColor()
     }
 
     /**
@@ -482,12 +469,8 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         modalPresentationStyle = .custom
         transitioningDelegate = self
 
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                self?.updateBackgroundColor()
-            }
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateBackgroundColor()
         }
     }
 
@@ -605,7 +588,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     public typealias TokenSetKeyType = DrawerTokenSet.Tokens
     public var tokenSet: DrawerTokenSet = .init()
 
-    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
     // Change of presentation direction's orientation is not supported
