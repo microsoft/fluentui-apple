@@ -92,9 +92,15 @@
 
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
-    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandBackground3];
+    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandForeground1];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Finally, add a shared-theme brand color (should be comm blue)
+    MSFFluentTheme *sharedTheme = [MSFFluentTheme sharedTheme];
+    MSFDynamicColor *sharedPrimaryColor = [sharedTheme colorForToken:MSFColorTokenBrandForeground1];
+    [self addLabelWithText:@"Test label with shared alias color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:sharedPrimaryColor]];
 }
 
 - (void)overridesButtonPressed:(id)sender {
