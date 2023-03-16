@@ -143,7 +143,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = UIColor(dynamicColor: DynamicColor(light: view.fluentTheme.aliasTokens.colors[.background2].light, dark: view.fluentTheme.aliasTokens.colors[.background2].dark))
+        view.backgroundColor = UIColor(dynamicColor: DynamicColor(light: view.fluentTheme.color(.background2).light, dark: view.fluentTheme.color(.background2).dark))
     }
 
     override func viewWillLayoutSubviews() {
@@ -163,8 +163,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBarButtonColors() {
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.color(.brandForeground1))
+        navigationItem.leftBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.color(.foreground2))
     }
 
     override func accessibilityPerformEscape() -> Bool {

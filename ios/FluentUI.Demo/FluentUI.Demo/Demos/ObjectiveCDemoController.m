@@ -75,7 +75,7 @@
 
 - (void)addLabelWithText:(NSString *)text
                textColor:(UIColor *)textColor {
-    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setText:text];
     [label setTextColor:textColor];
@@ -144,7 +144,7 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];

@@ -11,7 +11,7 @@ class ShadowTokensDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.stencil2])
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.stencil2))
 
         container.alignment = .center
         container.spacing = 120
@@ -22,8 +22,8 @@ class ShadowTokensDemoController: DemoController {
     }
 
     private func initializeShadowViews() {
-        for shadowToken in AliasTokens.ShadowTokens.allCases {
-            let shadowView = ShadowView(shadowInfo: container.fluentTheme.aliasTokens.shadow[shadowToken],
+        for shadowToken in FluentTheme.ShadowToken.allCases {
+            let shadowView = ShadowView(shadowInfo: container.fluentTheme.shadow(shadowToken),
                                         title: shadowToken.title)
             container.addArrangedSubview(shadowView)
         }
@@ -41,11 +41,11 @@ private class ShadowView: UIView, Shadowable {
         layer.borderWidth = Constants.borderWidth
         layer.cornerRadius = Constants.cornerRadius
 
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        backgroundColor = UIColor(dynamicColor: fluentTheme.color(.background2))
 
         label.text = title
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+        label.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground1))
         addSubview(label)
 
         setupLayoutConstraints()
@@ -89,7 +89,7 @@ private class ShadowView: UIView, Shadowable {
     private let label = Label()
 }
 
-private extension AliasTokens.ShadowTokens {
+private extension FluentTheme.ShadowToken {
     var title: String {
         switch self {
         case .clear:

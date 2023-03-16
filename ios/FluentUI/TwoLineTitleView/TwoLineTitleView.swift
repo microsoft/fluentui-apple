@@ -216,16 +216,16 @@ open class TwoLineTitleView: UIView {
     private func applyStyle() {
         switch currentStyle {
         case .system:
-            titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            titleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground1))
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground2))
+            titleButtonImageView.tintColor = UIColor(dynamicColor: fluentTheme.color(.foreground2))
         case .primary:
-            titleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                                            dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-            subtitleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                                               dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
-            titleButtonImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                                                dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+            titleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light,
+                                                                            dark: fluentTheme.color(.foreground1).dark))
+            subtitleButtonLabel.textColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light,
+                                                                               dark: fluentTheme.color(.foreground2).dark))
+            titleButtonImageView.tintColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light,
+                                                                                dark: fluentTheme.color(.foreground2).dark))
         }
 
         // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
@@ -282,8 +282,8 @@ open class TwoLineTitleView: UIView {
     }
 
     private func updateFonts() {
-        titleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1Strong])
-        subtitleButtonLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1])
+        titleButtonLabel.font = UIFont.fluent(fluentTheme.typography(.body1Strong))
+        subtitleButtonLabel.font = UIFont.fluent(fluentTheme.typography(.caption1))
     }
 
     open override func layoutSubviews() {

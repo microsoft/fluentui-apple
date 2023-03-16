@@ -60,29 +60,29 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             switch token {
             case .accentColor:
                 return .dynamicColor {
-                    theme.aliasTokens.colors[.brandForeground1]
+                    theme.color(.brandForeground1)
                 }
 
             case .backgroundColor:
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.backgroundCanvas]
+                        theme.color(.backgroundCanvas)
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.background1]
+                        theme.color(.background1)
                     }
             }
 
             case .buttonBackgroundColor:
                 return .dynamicColor {
-                    theme.aliasTokens.colors[.brandBackgroundTint]
+                    theme.color(.brandBackgroundTint)
                 }
 
             case .buttonForegroundColor:
                 return .dynamicColor {
-                    theme.aliasTokens.colors[.brandForegroundTint]
+                    theme.color(.brandForegroundTint)
                 }
 
             case .circleRadius:
@@ -99,11 +99,11 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 switch style() {
                 case .standard:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.backgroundCanvas]
+                        theme.color(.backgroundCanvas)
                     }
                 case .outline:
                     return .dynamicColor {
-                        theme.aliasTokens.colors[.stroke2]
+                        theme.color(.stroke2)
                     }
                 }
 
@@ -114,22 +114,22 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
 
             case .subtitleTextColor:
                 return .dynamicColor {
-                    theme.aliasTokens.colors[.foreground2]
+                    theme.color(.foreground2)
                 }
 
             case .textColor:
                 return .dynamicColor {
-                    theme.aliasTokens.colors[.foreground1]
+                    theme.color(.foreground1)
                 }
 
             case .titleFont:
                 return .fontInfo {
-                    theme.aliasTokens.typography[.body2Strong]
+                    theme.typography(.body2Strong)
                 }
 
             case .subtitleFont:
                 return .fontInfo {
-                    theme.aliasTokens.typography[.caption1]
+                    theme.typography(.caption1)
                 }
             }
         }

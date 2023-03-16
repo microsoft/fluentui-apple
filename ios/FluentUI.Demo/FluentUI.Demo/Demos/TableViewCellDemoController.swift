@@ -167,10 +167,10 @@ extension TableViewCellDemoController {
         if section.title == "Inverted double line cell" {
             cell.setup(
                 attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.body1]),
+                                                    attributes: [.font: UIFont.fluent(fluentTheme.typography(.body1)),
                                                                  .foregroundColor: UIColor.purple]),
                 attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: UIFont.fluent(fluentTheme.aliasTokens.typography[.caption1]),
+                                                       attributes: [.font: UIFont.fluent(fluentTheme.typography(.caption1)),
                                                                     .foregroundColor: UIColor.red]),
                 footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
                 customView: TableViewSampleData.createCustomView(imageName: item.image),

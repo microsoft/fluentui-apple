@@ -32,8 +32,8 @@ public protocol ColorProviding {
     @objc var brandStroke1Selected: UIColor { get }
 }
 
-private func brandColorOverrides(provider: ColorProviding) -> [AliasTokens.ColorsTokens: DynamicColor] {
-    var brandColors: [AliasTokens.ColorsTokens: DynamicColor] = [:]
+private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: DynamicColor] {
+    var brandColors: [FluentTheme.ColorToken: DynamicColor] = [:]
 
     brandColors[.brandBackground1] = provider.brandBackground1.dynamicColor
     brandColors[.brandBackground1Pressed] = provider.brandBackground1Pressed.dynamicColor
