@@ -207,6 +207,12 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
 
     @objc public let pillButtonStyle: PillButtonStyle
 
+    public var pillButtonOverrideTokens: [PillButtonTokenSet.Tokens: ControlTokenValue]? {
+        didSet {
+            updatePillButtonAppearance()
+        }
+    }
+
     /// If set to nil, the previously selected item will be deselected and there won't be any items selected
     @objc public var selectedItem: PillButtonBarItem? {
         get {
@@ -270,28 +276,8 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
 
-            updatePillButtonAppearance()
-        }
-    }
-
-    private func updatePillButtonBarTokens() {
-        for subview in stackView.arrangedSubviews {
-            if let pillButton = subview as? PillButton {
-                let pillButtonTokenSet = pillButton.tokenSet
-
-                /// Directly map our custom values to theirs.
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonBackgroundColor), forToken: .backgroundColor)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonBackgroundColorSelected), forToken: .backgroundColorSelected)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonBackgroundColorDisabled), forToken: .backgroundColorDisabled)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonBackgroundColorSelectedDisabled), forToken: .backgroundColorSelectedDisabled)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonTitleColor), forToken: .titleColor)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonTitleColorSelected), forToken: .titleColorSelected)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonTitleColorDisabled), forToken: .titleColorDisabled)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonTitleColorSelectedDisabled), forToken: .titleColorSelectedDisabled)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonEnabledUnreadDotColor), forToken: .enabledUnreadDotColor)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonDisabledUnreadDotColor), forToken: .disabledUnreadDotColor)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonUnreadDotSize), forToken: .unreadDotSize)
-                pillButtonTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .pillButtonFont), forToken: .font)
+            if pillButtonOverrideTokens != nil {
+                updatePillButtonAppearance()
             }
         }
     }
@@ -525,7 +511,9 @@ open class PillButtonBar: UIScrollView, TokenizedControlInternal {
     }
 
     private func updatePillButtonAppearance() {
-        updatePillButtonBarTokens()
+        for button in buttons {
+            button.tokenSet.replaceAllOverrides(with: pillButtonOverrideTokens)
+        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

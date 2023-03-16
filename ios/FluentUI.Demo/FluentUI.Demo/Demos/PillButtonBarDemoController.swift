@@ -79,6 +79,7 @@ class PillButtonBarDemoController: DemoController {
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
         let bar = PillButtonBar(pillButtonStyle: style)
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
@@ -221,7 +222,7 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         self.bars.forEach({ bar in
             let tokens = isOverrideEnabled ? perControlOverridePillButtonTokens : nil
-            bar.tokenSet.replaceAllOverrides(with: tokens)
+            bar.pillButtonOverrideTokens = tokens
         })
     }
 
@@ -239,50 +240,50 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
         ]
     }
 
-    private var perControlOverridePillButtonTokens: [PillButtonBarTokenSet.Tokens: ControlTokenValue] {
+    private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .pillButtonBackgroundColor: .dynamicColor {
+            .backgroundColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
                                     dark: GlobalTokens.sharedColors(.steel, .shade30))
             },
 
-            .pillButtonBackgroundColorSelected: .dynamicColor {
+            .backgroundColorSelected: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
                                     dark: GlobalTokens.sharedColors(.pumpkin, .shade30))
             },
 
-            .pillButtonBackgroundColorDisabled: .dynamicColor {
+            .backgroundColorDisabled: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
                                     dark: GlobalTokens.sharedColors(.darkTeal, .shade30))
             },
 
-            .pillButtonBackgroundColorSelectedDisabled: .dynamicColor {
+            .backgroundColorSelectedDisabled: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
                                     dark: GlobalTokens.sharedColors(.orchid, .shade30))
             },
 
-            .pillButtonTitleColor: .dynamicColor {
+            .titleColor: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
                                     dark: GlobalTokens.sharedColors(.steel, .tint40))
             },
 
-            .pillButtonTitleColorSelected: .dynamicColor {
+            .titleColorSelected: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
                                     dark: GlobalTokens.sharedColors(.pumpkin, .tint40))
             },
 
-            .pillButtonTitleColorDisabled: .dynamicColor {
+            .titleColorDisabled: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
                                     dark: GlobalTokens.sharedColors(.darkTeal, .tint40))
             },
 
-            .pillButtonTitleColorSelectedDisabled: .dynamicColor {
+            .titleColorSelectedDisabled: .dynamicColor {
                 return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
                                     dark: GlobalTokens.sharedColors(.orchid, .tint40))
             },
 
-            .pillButtonFont: .fontInfo {
-                return self.view.fluentTheme.aliasTokens.typography[.body1]
+            .font: .fontInfo {
+                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
             }
         ]
     }
