@@ -223,30 +223,21 @@ class BottomSheetDemoController: DemoController {
         }
 
         enum TextStyle: String, CaseIterable {
-            case title1
-            case title2
-            case title3
-            case body1
-            case body2
-            case caption1
-            case caption2
+            case heading1
+            case heading2
+            case heading3
+            case paragraph
 
             var font: UIFont {
                 switch self {
-                case .title1:
-                    return .systemFont(ofSize: 28, weight: .bold)
-                case .title2:
-                    return .systemFont(ofSize: 22, weight: .semibold)
-                case .title3:
-                    return .systemFont(ofSize: 20, weight: .semibold)
-                case .body1:
-                    return .systemFont(ofSize: 17, weight: .regular)
-                case .body2:
+                case .heading1:
+                    return .systemFont(ofSize: 25, weight: .bold)
+                case .heading2:
+                    return .systemFont(ofSize: 20, weight: .bold)
+                case .heading3:
+                    return .systemFont(ofSize: 17, weight: .semibold)
+                case .paragraph:
                     return .systemFont(ofSize: 15, weight: .regular)
-                case .caption1:
-                    return .systemFont(ofSize: 13, weight: .regular)
-                case .caption2:
-                    return .systemFont(ofSize: 12, weight: .regular)
                 }
             }
 
