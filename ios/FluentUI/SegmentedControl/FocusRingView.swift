@@ -79,3 +79,48 @@ class FocusRingView: UIView, TokenizedControlInternal {
     private let innerRingInset: CGFloat = 1.5
     private var ringViewConstraints: [NSLayoutConstraint] = []
 }
+
+protocol DrawsFocusRings {
+    var innerFocusRing: CALayer { get set }
+    var outerFocusRing: CALayer { get set }
+
+    func updateFocusRings(over layer: CALayer)
+}
+
+extension DrawsFocusRings {
+    func updateFocusRings(over layer: CALayer) {
+        let ringBounds = layer.bounds
+        outerFocusRing.frame = ringBounds
+        outerFocusRing.cornerRadius = layer.cornerRadius
+        outerFocusRing.cornerCurve = layer.cornerCurve
+        outerFocusRing.removeAllAnimations()
+
+        innerFocusRing.frame = ringBounds
+        innerFocusRing.cornerRadius = layer.cornerRadius
+        innerFocusRing.cornerCurve = layer.cornerCurve
+        innerFocusRing.removeAllAnimations()
+    }
+
+    func addRings(to layer: CALayer) {
+        // the inner ring needs to be added first to show under the outer ring.
+        layer.addSublayer(innerFocusRing)
+        layer.addSublayer(outerFocusRing)
+    }
+
+    func initializeRingLayer(isInnerRing: Bool) -> CALayer {
+        let color: FluentTheme.ColorToken
+        let width: GlobalTokens.StrokeWidthToken
+        if isInnerRing {
+            color = .strokeFocus1
+            width = .width30
+        } else {
+            color = .strokeFocus2
+            width = .width20
+        }
+        let ringLayer = CALayer()
+        ringLayer.borderColor = UIColor(dynamicColor: FluentTheme.shared.color(color)).cgColor
+        ringLayer.borderWidth = GlobalTokens.stroke(width)
+        ringLayer.isHidden = true
+        return ringLayer
+    }
+}
