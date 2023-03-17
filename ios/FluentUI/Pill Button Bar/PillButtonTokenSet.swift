@@ -11,53 +11,35 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
         /// The background color of the `PillButton`.
         case backgroundColor
 
-        /// The background color of the `PillButton` when selected.
-        case backgroundColorSelected
-
         /// The background color of the `PillButton` when disabled.
         case backgroundColorDisabled
+
+        /// The background color of the `PillButton` when selected.
+        case backgroundColorSelected
 
         /// The background color of the `PillButton` when selected and disabled.
         case backgroundColorSelectedDisabled
 
-        /// The color of the title of the `PillButton`.
-        case titleColor
-
-        /// The color of the title of the `PillButton` when selected.
-        case titleColorSelected
-
-        /// The color of the title of the `PillButton` when disabled.
-        case titleColorDisabled
-
-        /// The color of the title of the `PillButton` when selected and disabled.
-        case titleColorSelectedDisabled
+        /// The color of the unread dot when the `PillButton` is disabled.
+        case disabledUnreadDotColor
 
         /// The color of the unread dot when the `PillButton` is enabled.
         case enabledUnreadDotColor
 
-        /// The color of the unread dot when the `PillButton` is disabled.
-        case disabledUnreadDotColor
-
-        /// The distance of the content from the top of the `PillButton`.
-        case topInset
-
-        /// The distance of the content from the bottom of the `PillButton`.
-        case bottomInset
-
-        /// The distance of the content from the sides of the `PillButton`.
-        case horizontalInset
-
-        /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
-        case unreadDotOffsetX
-
-        /// The distance of the unread dot from the top of the content of the `PillButton`.
-        case unreadDotOffsetY
-
-        /// The size of the unread dot of the `PillButton`
-        case unreadDotSize
-
         /// The font used for the title of the `PillButton`.
         case font
+
+        /// The color of the title of the `PillButton`.
+        case titleColor
+
+        /// The color of the title of the `PillButton` when disabled.
+        case titleColorDisabled
+
+        /// The color of the title of the `PillButton` when selected.
+        case titleColorSelected
+
+        /// The color of the title of the `PillButton` when selected and disabled.
+        case titleColorSelectedDisabled
     }
 
     init(style: @escaping () -> PillButtonStyle) {
@@ -68,25 +50,13 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.background5).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
-                    }
-                }
-
-            case .backgroundColorSelected:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return theme.aliasTokens.colors[.brandBackground1]
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Selected].darkElevated)
+                        return DynamicColor(light: theme.color(.brandBackground2).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     }
                 }
 
@@ -94,13 +64,25 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.background5).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background3].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5].darkElevated)
+                        return DynamicColor(light: theme.color(.brandBackground2).light,
+                                            dark: theme.color(.background3).dark,
+                                            darkElevated: theme.color(.background5).darkElevated)
+                    }
+                }
+
+            case .backgroundColorSelected:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.brandBackground1)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.background1).light,
+                                            dark: theme.color(.background3Selected).dark,
+                                            darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
@@ -110,69 +92,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                     case .primary:
                         return theme.aliasTokens.colors[.brandBackground1]
                     case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background3Selected].dark,
-                                            darkElevated: theme.aliasTokens.colors[.background5Selected].darkElevated)
-                    }
-                }
-
-            case .titleColor:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return theme.aliasTokens.colors[.foreground2]
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground2].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foreground2].darkElevated)
-                    }
-                }
-
-            case .titleColorSelected:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foreground1].darkElevated)
-                    }
-                }
-
-            case .titleColorDisabled:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled1].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled1].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled1].darkElevated)
-                    }
-                }
-
-            case .titleColorSelectedDisabled:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled2].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled2].dark,
-                                            darkElevated: theme.aliasTokens.colors[.foregroundDisabled2].darkElevated)
-                    }
-                }
-
-            case .enabledUnreadDotColor:
-                return .dynamicColor {
-                    switch style() {
-                    case .primary:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
-                    case .onBrand:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
+                        return DynamicColor(light: theme.color(.background1).light,
+                                            dark: theme.color(.background3Selected).dark,
+                                            darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
@@ -180,36 +102,98 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 return .dynamicColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
+                        return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
+                        return theme.color(.brandForegroundDisabled1)
                     }
                 }
 
-            case .topInset:
-                return .float { 6.0 }
-
-            case .bottomInset:
-                return .float { 6.0 }
-
-            case .horizontalInset:
-                return .float { GlobalTokens.spacing(.size160) }
-
-            case .unreadDotOffsetX:
-                return .float { 6.0 }
-
-            case .unreadDotOffsetY:
-                return .float { 3.0 }
-
-            case .unreadDotSize:
-                return .float { 6.0 }
+            case .enabledUnreadDotColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return DynamicColor(light: theme.color(.brandForeground1).light,
+                                            dark: theme.color(.foreground1).dark)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
+                                            dark: theme.color(.foreground1).dark)
+                    }
+                }
 
             case .font:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .fontInfo { theme.typography(.body2) }
+
+            case .titleColor:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground2)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
+                                            dark: theme.color(.foreground2).dark,
+                                            darkElevated: theme.color(.foreground2).darkElevated)
+                    }
+                }
+
+            case .titleColorDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundDisabled1)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.brandForegroundDisabled1).light,
+                                            dark: theme.color(.foregroundDisabled1).dark,
+                                            darkElevated: theme.color(.foregroundDisabled1).darkElevated)
+                    }
+                }
+
+            case .titleColorSelected:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundOnColor)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.brandForeground1).light,
+                                            dark: theme.color(.foreground1).dark,
+                                            darkElevated: theme.color(.foreground1).darkElevated)
+                    }
+                }
+
+            case .titleColorSelectedDisabled:
+                return .dynamicColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.brandForegroundDisabled1)
+                    case .onBrand:
+                        return DynamicColor(light: theme.color(.brandForegroundDisabled2).light,
+                                            dark: theme.color(.foregroundDisabled2).dark,
+                                            darkElevated: theme.color(.foregroundDisabled2).darkElevated)
+                    }
+                }
             }
         }
     }
 
     /// Defines the style of the `PillButton`.
     var style: () -> PillButtonStyle
+}
+
+extension PillButtonTokenSet {
+    /// The distance of the content from the bottom of the `PillButton`.
+    static let bottomInset: CGFloat = GlobalTokens.spacing(.size60)
+
+    /// The distance of the content from the sides of the `PillButton`.
+    static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)
+
+    /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
+    static let unreadDotOffsetX: CGFloat = GlobalTokens.spacing(.size60)
+
+    /// The distance of the unread dot from the top of the content of the `PillButton`.
+    static let unreadDotOffsetY: CGFloat = 3.0
+
+    /// The size of the unread dot of the `PillButton`
+    static let unreadDotSize: CGFloat = GlobalTokens.spacing(.size60)
+
+    /// The distance of the content from the top of the `PillButton`.
+    static let topInset: CGFloat = GlobalTokens.spacing(.size60)
 }

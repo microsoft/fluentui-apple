@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: PillButton
 
@@ -12,10 +11,12 @@ import Combine
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateAppearance()
     }
 
@@ -37,17 +38,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.objectWillChange.sink { [weak self] _ in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                self?.updateAppearance()
-            }
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
         }
     }
 
@@ -93,8 +85,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     public var tokenSet: PillButtonTokenSet
 
-    private var tokenSetSink: AnyCancellable?
-
     lazy var unreadDotColor: UIColor = {
         UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
     }()
@@ -103,10 +93,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
         if #available(iOS 15.0, *) {
             var configuration = UIButton.Configuration.plain()
 
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: Constants.topInset,
-                                                                  leading: Constants.horizontalInset,
-                                                                  bottom: Constants.bottomInset,
-                                                                  trailing: Constants.horizontalInset)
+            configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
+                                                                  leading: PillButtonTokenSet.horizontalInset,
+                                                                  bottom: PillButtonTokenSet.bottomInset,
+                                                                  trailing: PillButtonTokenSet.horizontalInset)
             self.configuration = configuration
 
             // This updates the attributed title stored in self.configuration,
@@ -120,10 +110,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
             setTitle(pillBarItem.title, for: .normal)
             titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
 
-            contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
-                                             left: Constants.horizontalInset,
-                                             bottom: Constants.bottomInset,
-                                             right: Constants.horizontalInset)
+            contentEdgeInsets = UIEdgeInsets(top: PillButtonTokenSet.topInset,
+                                             left: PillButtonTokenSet.horizontalInset,
+                                             bottom: PillButtonTokenSet.bottomInset,
+                                             right: PillButtonTokenSet.horizontalInset)
         }
 
         layer.cornerRadius = PillButton.cornerRadius
@@ -148,18 +138,11 @@ open class PillButton: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let window = window, window.isEqual(notification.object) else {
-            return
-        }
-        tokenSet.update(window.fluentTheme)
-    }
-
     private func initUnreadDotLayer() -> CALayer {
         let unreadDotLayer = CALayer()
 
-        unreadDotLayer.bounds.size = CGSize(width: tokenSet[.unreadDotSize].float, height: tokenSet[.unreadDotSize].float)
-        unreadDotLayer.cornerRadius = tokenSet[.unreadDotSize].float / 2
+        unreadDotLayer.bounds.size = CGSize(width: PillButtonTokenSet.unreadDotSize, height: PillButtonTokenSet.unreadDotSize)
+        unreadDotLayer.cornerRadius = PillButtonTokenSet.unreadDotSize / 2
 
         return unreadDotLayer
     }
@@ -171,7 +154,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     private lazy var unreadDotLayer: CALayer = {
         let unreadDotLayer = CALayer()
-        let unreadDotSize = tokenSet[.unreadDotSize].float
+        let unreadDotSize = PillButtonTokenSet.unreadDotSize
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
         return unreadDotLayer
@@ -212,11 +195,11 @@ open class PillButton: UIButton, TokenizedControlInternal {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + tokenSet[.unreadDotOffsetX].float)
+                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotOffsetX)
             } else {
-                xPos = round(anchor.minX - tokenSet[.unreadDotOffsetX].float - tokenSet[.unreadDotSize].float)
+                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - PillButtonTokenSet.unreadDotSize)
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokenSet[.unreadDotOffsetY].float)
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotOffsetY)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
@@ -283,11 +266,5 @@ open class PillButton: UIButton, TokenizedControlInternal {
         } else {
             backgroundColor = resolvedBackgroundColor
         }
-    }
-
-    private struct Constants {
-        static let bottomInset: CGFloat = 6.0
-        static let horizontalInset: CGFloat = 16.0
-        static let topInset: CGFloat = 6.0
     }
 }
