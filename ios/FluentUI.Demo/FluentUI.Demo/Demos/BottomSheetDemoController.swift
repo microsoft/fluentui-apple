@@ -143,6 +143,147 @@ class BottomSheetDemoController: DemoController {
         presentedTransientSheets.append(secondarySheetController)
     }
 
+    @objc private func showMultilineCommandBar() {
+        let secondarySheetController = BottomSheetController(expandedContentView: multilineCommandBarView)
+        secondarySheetController.delegate = self
+        secondarySheetController.collapsedContentHeight = 230
+        secondarySheetController.shouldAlwaysFillWidth = true
+        secondarySheetController.shouldHideCollapsedContent = false
+        secondarySheetController.allowsSwipeToHide = true
+
+        addChild(secondarySheetController)
+        view.addSubview(secondarySheetController.view)
+        secondarySheetController.didMove(toParent: self)
+
+        NSLayoutConstraint.activate([
+            secondarySheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            secondarySheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            secondarySheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            secondarySheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        view.layoutIfNeeded()
+        secondarySheetController.isHidden = false
+    }
+
+    private lazy var multilineCommandBarView: UIStackView = {
+        func newItem(for command: CommandBarDemoController.Command, isEnabled: Bool = true, isSelected: Bool = false) -> CommandBarItem {
+            let commandBarItem = CommandBarItem(
+                iconImage: command.iconImage
+            )
+            return commandBarItem
+        }
+        let commandGroups: [[[CommandBarDemoController.Command]]] = [
+            [
+                [
+                    .textBold,
+                    .textItalic,
+                    .textUnderline,
+                    .textStrikethrough
+                ]
+            ],
+            [
+                [
+                    .bulletList,
+                    .numberList,
+                    .checklist,
+                    .link
+                ]
+            ],
+            [
+                [
+                    .arrowUndo,
+                    .arrowRedo
+                ],
+                [
+                    .add
+                ]
+            ]
+        ]
+        let rows: [MultilineCommandBarRow] = commandGroups.map { commandGroups in
+            commandGroups.map { commandGroup in
+                commandGroup.map { command in
+                    newItem(for: command)
+                }
+            }
+        }
+
+        let multilineCommandBar = MultilineCommandBar(rows: rows)
+        multilineCommandBar.tokenSet[.itemBackgroundColorSelected] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint50))
+        }
+        multilineCommandBar.tokenSet[.itemBackgroundColorPressed] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint50))
+        }
+        multilineCommandBar.tokenSet[.itemIconColorSelected] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint20))
+        }
+        multilineCommandBar.tokenSet[.itemIconColorPressed] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint20))
+        }
+
+        enum TextStyle: String, CaseIterable {
+            case title1
+            case title2
+            case title3
+            case body1
+            case body2
+            case caption1
+            case caption2
+
+            var font: UIFont {
+                switch self {
+                case .title1:
+                    return .systemFont(ofSize: 28, weight: .bold)
+                case .title2:
+                    return .systemFont(ofSize: 22, weight: .semibold)
+                case .title3:
+                    return .systemFont(ofSize: 20, weight: .semibold)
+                case .body1:
+                    return .systemFont(ofSize: 17, weight: .regular)
+                case .body2:
+                    return .systemFont(ofSize: 15, weight: .regular)
+                case .caption1:
+                    return .systemFont(ofSize: 13, weight: .regular)
+                case .caption2:
+                    return .systemFont(ofSize: 12, weight: .regular)
+                }
+            }
+
+            var textRepresentation: String {
+                rawValue.capitalized
+            }
+        }
+
+        var itemGroups: [CommandBarItemGroup] = []
+        for text in TextStyle.allCases {
+            let commandBarItem = CommandBarItem(iconImage: nil, title: text.textRepresentation, titleFont: text.font)
+            itemGroups.append([commandBarItem])
+        }
+        let commandBar = CommandBar(itemGroups: itemGroups, leadingItemGroups: nil)
+        commandBar.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
+            .init(light: GlobalTokens.neutralColors(.white),
+                  dark: GlobalTokens.neutralColors(.black))
+        }
+        commandBar.tokenSet[.itemBackgroundColorSelected] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint50))
+        }
+        commandBar.tokenSet[.itemBackgroundColorPressed] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint50))
+        }
+        commandBar.tokenSet[.itemIconColorSelected] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint20))
+        }
+        commandBar.tokenSet[.itemIconColorPressed] = .dynamicColor {
+            .init(light: GlobalTokens.sharedColors(.purple, .tint20))
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [commandBar, multilineCommandBar])
+        stackView.axis = .vertical
+
+        return stackView
+    }()
+
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
@@ -247,7 +388,8 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0)
             ],
             [
-                DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
+                DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet)),
+                DemoItem(title: "Show multiline command bar", type: .action, action: #selector(showMultilineCommandBar))
             ]
         ]
     }
