@@ -98,7 +98,6 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                     }
                 }
 
-                
             case .disabledUnreadDotColor:
                 return .dynamicColor {
                     switch style() {
@@ -121,7 +120,6 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                     }
                 }
 
-                
             case .font:
                 return .fontInfo { theme.typography(.body2) }
 
