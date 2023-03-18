@@ -79,7 +79,7 @@ extension UIFont {
         return fluent(fontInfo, shouldScale: shouldScale, contentSizeCategory: nil)
     }
 
-    static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
+    @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
         let traitCollection: UITraitCollection?
         if let contentSizeCategory = contentSizeCategory {
             traitCollection = .init(preferredContentSizeCategory: contentSizeCategory)
