@@ -9,7 +9,7 @@ class FocusRingView: UIView {
         super.init(frame: frame)
         isUserInteractionEnabled = false
 
-        layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.strokeFocus2]).cgColor
+        layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.color(.strokeFocus2)).cgColor
         layer.borderWidth = GlobalTokens.stroke(.width20)
 
         addSubview(innerFocusRing)
@@ -49,7 +49,7 @@ class FocusRingView: UIView {
     private var innerFocusRing: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.strokeFocus1]).cgColor
+        view.layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.color(.strokeFocus1)).cgColor
         view.layer.borderWidth = GlobalTokens.stroke(.width30)
 
         return view
