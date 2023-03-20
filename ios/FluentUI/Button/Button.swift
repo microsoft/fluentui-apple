@@ -10,7 +10,7 @@ import UIKit
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
+open class Button: UIButton, TokenizedControlInternal {
     @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
@@ -108,7 +108,6 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
     open func initialize() {
         layer.cornerRadius = tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
-        addRings(to: layer)
 
         titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
         titleLabel?.adjustsFontForContentSizeCategory = true
@@ -138,8 +137,7 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
             return
         }
 
-        innerFocusRing.isHidden = !isFocused
-        outerFocusRing.isHidden = !isFocused
+        focusRing.isHidden = !isFocused
         updateBackground()
         updateBorder()
     }
@@ -157,9 +155,6 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
         super.layoutSubviews()
 
         updateProposedTitleLabelWidth()
-        if isFocused {
-            updateFocusRings(over: layer)
-        }
     }
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
@@ -217,9 +212,6 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
                                                      size: { [weak self] in
         return self?.sizeCategory ?? .medium
     })
-
-    lazy var innerFocusRing: CALayer = initializeRingLayer(isInnerRing: true)
-    lazy var outerFocusRing: CALayer = initializeRingLayer(isInnerRing: false)
 
     private func updateTitle() {
         let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
@@ -362,7 +354,6 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
             borderColor = tokenSet[.borderPressedColor].dynamicColor
         } else if isFocused {
             borderColor = tokenSet[.borderFocusedColor].dynamicColor
-            updateFocusRings(over: layer)
         }else {
             borderColor = tokenSet[.borderColor].dynamicColor
         }
@@ -375,6 +366,16 @@ open class Button: UIButton, TokenizedControlInternal, DrawsFocusRings {
         let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
         return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
