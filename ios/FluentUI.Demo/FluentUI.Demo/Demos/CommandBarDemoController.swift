@@ -517,13 +517,13 @@ extension CommandBarDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .color { UIColor(light: GlobalTokens.sharedColor(.red, .primary)) }
+            .itemBackgroundColorRest: .color { GlobalTokens.sharedColor(.red, .primary) }
         ]
     }
 
     private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .color { UIColor(light: GlobalTokens.sharedColor(.grape, .primary)) }
+            .itemBackgroundColorRest: .color { GlobalTokens.sharedColor(.grape, .primary) }
         ]
     }
 }

@@ -41,11 +41,26 @@ struct NotificationDemoView: View {
     @State var showBackgroundGradient: Bool = false
 
     public var body: some View {
+        let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
-        let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
-        let blueStrikethroughAttribute = [.font: UIFont.preferredFont(forTextStyle: .body), NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
-        let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
+        let bothAttributes = [
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue,
+            .font: font,
+            .foregroundColor: UIColor.red
+        ] as [NSAttributedString.Key: Any]
+
+        let blueStrikethroughAttribute = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue
+        ] as [NSAttributedString.Key: Any]
+
+        let redPapyrusFontAttribute = [.font: font, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
         let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
+
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
@@ -256,7 +271,7 @@ struct NotificationDemoView: View {
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
             .imageColor: .color {
-                return UIColor(light: GlobalTokens.sharedColor(.orange, .primary))
+                return GlobalTokens.sharedColor(.orange, .primary)
             },
             .shadow: .shadowInfo {
                 return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),

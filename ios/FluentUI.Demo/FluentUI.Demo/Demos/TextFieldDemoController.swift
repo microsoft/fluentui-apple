@@ -116,7 +116,9 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
                                  dark: GlobalTokens.sharedColor(.cornflower, .shade30))
         let background = UIColor(light: GlobalTokens.sharedColor(.cornflower, .shade30),
                                  dark: GlobalTokens.sharedColor(.cornflower, .tint40))
-        let font = UIFont(name: "Times", size: 20.0)!
+        let font = UIFont(descriptor: .init(name: "Times", size: 20.0),
+                          size: 20.0)
+
         return [
             .assistiveTextColor: .color { foreground },
             .assistiveTextFont: .font { font },
@@ -137,7 +139,8 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
                                  dark: GlobalTokens.sharedColor(.lilac, .shade30))
         let background = UIColor(light: GlobalTokens.sharedColor(.lilac, .shade30),
                                  dark: GlobalTokens.sharedColor(.lilac, .tint40))
-        let font = UIFont(name: "Papyrus", size: 20.0)!
+        let font = UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                          size: 20.0)
         return [
             .assistiveTextColor: .color { foreground },
             .assistiveTextFont: .font { font },

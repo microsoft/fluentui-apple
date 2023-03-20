@@ -181,7 +181,10 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .font { UIFont(name: "Times", size: 20.0)! },
+            .titleFont: .font {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
+            },
             .backgroundColor: .color {
                 return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
                                dark: GlobalTokens.sharedColor(.marigold, .tint40))
@@ -196,7 +199,10 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .font { UIFont(name: "Papyrus", size: 20.0)! },
+            .titleFont: .font {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
+            },
             .backgroundColor: .color {
                 return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
                                dark: GlobalTokens.sharedColor(.orchid, .tint40))

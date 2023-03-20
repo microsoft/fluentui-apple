@@ -278,14 +278,14 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .color { UIColor(light: GlobalTokens.sharedColor(.red, .primary)) },
+            .defaultColor: .color { GlobalTokens.sharedColor(.red, .primary) },
             .thickness: .float { 20.0 }
         ]
     }
 
     private var perControlOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .color { UIColor(light: GlobalTokens.sharedColor(.green, .primary)) },
+            .defaultColor: .color { GlobalTokens.sharedColor(.green, .primary) },
             .thickness: .float { 10.0 }
         ]
     }

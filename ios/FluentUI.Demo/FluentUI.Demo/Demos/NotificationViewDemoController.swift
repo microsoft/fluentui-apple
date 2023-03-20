@@ -180,9 +180,10 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .neutralBarWithFontAttribute:
             let notification = MSFNotification(style: .neutralBar)
+            let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0),
+                              size: 30.0)
             notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.",
-                                                                      attributes: [.font: UIFont.init(name: "Papyrus",
-                                                                                                      size: 30.0)!,
+                                                                      attributes: [.font: font,
                                                                                    .foregroundColor: UIColor.red])
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")

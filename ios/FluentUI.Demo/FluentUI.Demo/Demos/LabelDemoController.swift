@@ -162,7 +162,8 @@ extension LabelDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
             .font: .font {
-                return UIFont(name: "Times", size: 20.0)!
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             },
             .textColor: .color {
                 return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
@@ -174,7 +175,8 @@ extension LabelDemoController: DemoAppearanceDelegate {
     private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
             .font: .font {
-                return UIFont(name: "Papyrus", size: 20.0)!
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
             },
             .textColor: .color {
                 return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30))
