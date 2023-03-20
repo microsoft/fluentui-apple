@@ -11,6 +11,16 @@ import SwiftUI
 public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    @objc public convenience override init() {
+        self.init(colorOverrides: nil, shadowOverrides: nil, typographyOverrides: nil)
+    }
+
+    /// Initializes and returns a new `FluentTheme`.
+    ///
     /// A `FluentTheme` receives any custom alias tokens on initialization via arguments here.
     /// Control tokens can be customized via `register(controlType:tokens:) `;
     /// see that method's description for additional information.
@@ -21,12 +31,13 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
-    public init(colorOverrides: [ColorToken: DynamicColor]? = nil,
+    public init(colorOverrides: [ColorToken: UIColor]? = nil,
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
-                typographyOverrides: [TypographyToken: FontInfo]? = nil) {
-        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: DynamicColor) in
+                typographyOverrides: [TypographyToken: UIFont]? = nil) {
+        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
             let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
-            return (newKey, value)
+            let newValue = value.dynamicColor ?? .init(light: .clear)
+            return (newKey, newValue)
         }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
 
         let fixedShadowOverrides = shadowOverrides?.map({ (key: ShadowToken, value: ShadowInfo) in
@@ -34,9 +45,10 @@ public class FluentTheme: NSObject, ObservableObject {
             return (newKey, value)
         }) ?? [(AliasTokens.ShadowTokens, ShadowInfo)]()
 
-        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: FontInfo) in
+        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: UIFont) in
             let newKey = AliasTokens.TypographyTokens(rawValue: key.rawValue)!
-            return (newKey, value)
+            let newValue = FontInfo(name: value.fontName, size: value.pointSize)
+            return (newKey, newValue)
         }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
 
         // Pass overrides to AliasTokens

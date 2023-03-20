@@ -178,8 +178,8 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
 public enum ControlTokenValue {
     case float(() -> CGFloat)
-    case dynamicColor(() -> DynamicColor)
-    case fontInfo(() -> FontInfo)
+    case color(() -> UIColor)
+    case font(() -> UIFont)
     case shadowInfo(() -> ShadowInfo)
 
     public var float: CGFloat {
@@ -191,21 +191,21 @@ public enum ControlTokenValue {
         }
     }
 
-    public var dynamicColor: DynamicColor {
-        if case .dynamicColor(let dynamicColor) = self {
-            return dynamicColor()
+    public var color: UIColor {
+        if case .color(let color) = self {
+            return color()
         } else {
-            assertionFailure("Cannot convert token to DynamicColor: \(self)")
+            assertionFailure("Cannot convert token to UIColor: \(self)")
             return fallbackColor
         }
     }
 
-    public var fontInfo: FontInfo {
-        if case .fontInfo(let fontInfo) = self {
-            return fontInfo()
+    public var font: UIFont {
+        if case .font(let font) = self {
+            return font()
         } else {
             assertionFailure("Cannot convert token to FontInfo: \(self)")
-            return FontInfo(size: 0.0)
+            return UIFont()
         }
     }
 
@@ -227,12 +227,12 @@ public enum ControlTokenValue {
 
     // MARK: - Helpers
 
-    private var fallbackColor: DynamicColor {
+    private var fallbackColor: UIColor {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
-        return DynamicColor(light: ColorValue(0xE3008C))
+        return UIColor(colorValue: ColorValue(0xE3008C))
 #else
-        return DynamicColor(light: ColorValue(0x000000))
+        return UIColor(colorValue: ColorValue(0x000000))
 #endif
     }
 }
@@ -244,10 +244,10 @@ extension ControlTokenValue: CustomStringConvertible {
         switch self {
         case .float(let float):
             return "ControlTokenValue.float (\(float())"
-        case .dynamicColor(let dynamicColor):
-            return "ControlTokenValue.dynamicColor (\(dynamicColor())"
-        case .fontInfo(let fontInfo):
-            return "ControlTokenValue.fontInfo (\(fontInfo())"
+        case .color(let color):
+            return "ControlTokenValue.color (\(color())"
+        case .font(let font):
+            return "ControlTokenValue.font (\(font())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         }
