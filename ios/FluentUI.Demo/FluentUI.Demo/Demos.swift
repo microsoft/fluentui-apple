@@ -29,6 +29,7 @@ struct Demos {
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
+        DemoDescriptor("MultilineCommandBar", MultilineCommandBarDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),

@@ -5,7 +5,16 @@
 
 import UIKit
 
-public typealias MultilineCommandBarRow = [CommandBarItemGroup]
+@objc(MSFMultilineCommandBarRow)
+public class MultilineCommandBarRow: NSObject {
+    var itemGroups: [CommandBarItemGroup] = []
+    var isScrollable: Bool = false
+
+    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool) {
+        self.itemGroups = itemGroups
+        self.isScrollable = isScrollable
+    }
+}
 
 @objc(MSFMultilineCommandBar)
 public class MultilineCommandBar: UIView, TokenizedControlInternal {
@@ -15,22 +24,28 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     @objc public init(rows: [MultilineCommandBarRow]) {
         self.tokenSet = CommandBarTokenSet()
 
-        itemGroupsViews = []
         rowsStackView = UIStackView()
         rowsStackView.axis = .vertical
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
+        itemGroupViews = []
 
         super.init(frame: .zero)
 
         addSubview(rowsStackView)
 
         for row in rows {
-            let itemGroupsView = CommandBarCommandGroupsView(itemGroups: row,
-                                                             tokenSet: tokenSet)
-            itemGroupsView.translatesAutoresizingMaskIntoConstraints = false
-            itemGroupsView.setEqualWidthGroups()
-            itemGroupsViews.append(itemGroupsView)
-            rowsStackView.addArrangedSubview(itemGroupsView)
+            if row.isScrollable {
+                let scrollableRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+                scrollableRow.translatesAutoresizingMaskIntoConstraints = false
+                rowsStackView.addArrangedSubview(scrollableRow)
+            } else {
+                let fixedRow = CommandBarCommandGroupsView(itemGroups: row.itemGroups,
+                                                           tokenSet: tokenSet)
+                fixedRow.translatesAutoresizingMaskIntoConstraints = false
+                fixedRow.setEqualWidthGroups()
+                rowsStackView.addArrangedSubview(fixedRow)
+                itemGroupViews.append(fixedRow)
+            }
         }
 
         NSLayoutConstraint.activate([
@@ -61,7 +76,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
     @available(*, message: "Changes on CommandBarItem objects will automatically trigger updates to their corresponding CommandBarButtons. Calls to this method are no longer necessary.")
     @objc public func updateButtonsState() {
-        for itemGroupView in itemGroupsViews {
+        for itemGroupView in itemGroupViews {
             itemGroupView.updateButtonsState()
         }
     }
@@ -82,10 +97,10 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     /// Container UIStackView that holds all rows of the MultilineCommandBar
     private var rowsStackView: UIStackView
 
-    private var itemGroupsViews: [CommandBarCommandGroupsView]
+    private var itemGroupViews: [CommandBarCommandGroupsView]
 
     private func updateButtonTokens() {
-        for itemGroupView in itemGroupsViews {
+        for itemGroupView in itemGroupViews {
             itemGroupView.updateButtonsShown()
         }
     }
