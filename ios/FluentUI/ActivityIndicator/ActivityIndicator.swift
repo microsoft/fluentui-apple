@@ -43,7 +43,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
         let side = ActivityIndicatorTokenSet.sideLength(size: state.size)
         let color: Color = {
             guard let stateUIColor = state.color else {
-                return Color(dynamicColor: tokenSet[.defaultColor].dynamicColor)
+                return Color(tokenSet[.defaultColor].color)
             }
 
             return Color(stateUIColor)

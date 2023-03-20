@@ -79,52 +79,52 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         super.init { [style, size] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
                     }
                 }
             case .backgroundFocusedColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1Selected)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
                     }
                 }
             case .backgroundDisabledColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent, .danger:
                         return theme.color(.background5)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     }
                 }
             case .backgroundPressedColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1Pressed)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
                     }
                 }
             case .borderColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .outline:
                         return theme.color(.brandStroke1)
                     case .dangerOutline:
@@ -132,10 +132,10 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderFocusedColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .outline:
                         return theme.color(.strokeFocus2)
                     case .dangerOutline:
@@ -143,19 +143,19 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderDisabledColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .outline, .dangerOutline:
                         return theme.color(.strokeDisabled)
                     }
                 }
             case .borderPressedColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .outline:
                         return theme.color(.brandStroke1Pressed)
                     case .dangerOutline:
@@ -181,7 +181,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent:
                         return theme.color(.foregroundOnColor)
@@ -194,9 +194,9 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundDisabledColor:
-                return .dynamicColor { theme.color(.foregroundDisabled1) }
+                return .color { theme.color(.foregroundDisabled1) }
             case .foregroundPressedColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .accent:
                         return theme.color(.foregroundOnColor)
@@ -209,7 +209,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .titleFont:
-                return .fontInfo {
+                return .font {
                     switch size() {
                     case .large:
                         return theme.typography(.body1Strong)

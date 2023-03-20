@@ -108,7 +108,7 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
                 }
             }
         }
-        .background(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
+        .background(Color(tokenSet[.backgroundColor].color))
         .fluentTokens(tokenSet, fluentTheme)
     }
 

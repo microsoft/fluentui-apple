@@ -77,7 +77,7 @@ public struct PersonaButton: View, TokenizedControlView {
             }
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
-        .background(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
+        .background(Color(tokenSet[.backgroundColor].color))
         .fluentTokens(tokenSet, fluentTheme)
     }
 
@@ -97,14 +97,14 @@ public struct PersonaButton: View, TokenizedControlView {
             Text(state.primaryText ?? "")
                 .lineLimit(1)
                 .frame(alignment: .center)
-                .font(.fluent(tokenSet[.labelFont].fontInfo))
-                .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
+                .font(.init(tokenSet[.labelFont].font))
+                .foregroundColor(Color(tokenSet[.labelColor].color))
             if state.buttonSize.shouldShowSubtitle {
                 Text(state.secondaryText ?? "")
                     .lineLimit(1)
                     .frame(alignment: .center)
-                    .font(.fluent(tokenSet[.sublabelFont].fontInfo))
-                    .foregroundColor(Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor))
+                    .font(.init(tokenSet[.sublabelFont].font))
+                    .foregroundColor(Color(tokenSet[.sublabelColor].color))
             }
         }
         .padding(.horizontal, PersonaButtonTokenSet.horizontalTextPadding)

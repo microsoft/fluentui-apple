@@ -108,7 +108,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -127,7 +127,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .foregroundColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -145,7 +145,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .imageColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -192,10 +192,10 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 return .float { 52.0 }
 
             case .outlineColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .primaryOutlineBar:
                         return theme.color(.stroke2)
                     }
@@ -214,10 +214,10 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .boldTextFont:
-                return .fontInfo { theme.typography(.body2Strong) }
+                return .font { theme.typography(.body2Strong) }
 
             case .regularTextFont:
-                return .fontInfo { theme.typography(.body2) }
+                return .font { theme.typography(.body2) }
             }
         }
     }

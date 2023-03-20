@@ -25,22 +25,22 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.brandTextColor].color.withAlphaComponent(0.4)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.dangerTextColor].color.withAlphaComponent(0.4)
             case .communication:
-                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.communicationTextColor].color.withAlphaComponent(0.4)
             }
         }
 
         func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
+                return tokenSet[.brandTextColor].color
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor)
+                return tokenSet[.dangerTextColor].color
             case .communication:
-                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor)
+                return tokenSet[.communicationTextColor].color
             }
         }
     }
@@ -59,7 +59,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
         let width = ceil(containerWidth / actionCount)
 
-        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        let actionTitleFont = tokenSet[.titleFont].font
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
@@ -68,7 +68,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public class func preferredWidth(action1Title: String, action2Title: String = "", tokenSet: TableViewCellTokenSet) -> CGFloat {
-        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        let actionTitleFont = tokenSet[.titleFont].font
         let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
         let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
 
@@ -231,7 +231,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func setupAction(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        button.titleLabel?.font = tokenSet[.titleFont].font
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
     }

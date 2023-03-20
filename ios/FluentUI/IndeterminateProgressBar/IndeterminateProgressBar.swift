@@ -33,8 +33,8 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
 
     public var body: some View {
         let height = IndeterminateProgressBarTokenSet.height
-        let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
-        let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        let gradientColor = Color(tokenSet[.gradientColor].color)
+        let backgroundColor = Color(tokenSet[.backgroundColor].color)
         let accessibilityLabel: String = {
             if let overriddenAccessibilityLabel = state.accessibilityLabel {
                 return overriddenAccessibilityLabel

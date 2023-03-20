@@ -136,7 +136,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
-                        .foregroundColor(Color(dynamicColor: tokenSet[.imageColor].dynamicColor))
+                        .foregroundColor(Color(tokenSet[.imageColor].color))
                 }
             }
         }
@@ -153,8 +153,8 @@ public struct FluentNotification: View, TokenizedControlView {
                         .accessibilityLabel(attributedTitle.string)
                 } else if let title = state.title {
                     Text(title)
-                        .font(.fluent(tokenSet[.boldTextFont].fontInfo))
-                        .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
+                        .font(.init(tokenSet[.boldTextFont].font))
+                        .foregroundColor(Color(tokenSet[.foregroundColor].color))
                 }
             }
         }
@@ -170,8 +170,8 @@ public struct FluentNotification: View, TokenizedControlView {
                     .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
                 Text(message)
-                    .font(.fluent(tokenSet[.regularTextFont].fontInfo))
-                    .foregroundColor(Color(dynamicColor: tokenSet[.foregroundColor].dynamicColor))
+                    .font(.init(tokenSet[.regularTextFont].font))
+                    .foregroundColor(Color(tokenSet[.foregroundColor].color))
             }
         }
 
@@ -190,15 +190,15 @@ public struct FluentNotification: View, TokenizedControlView {
         var button: some View {
             let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
-                let foregroundColor = tokenSet[.foregroundColor].dynamicColor
+                let foregroundColor = tokenSet[.foregroundColor].color
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
                         buttonAction()
                     }
                     .lineLimit(1)
-                    .foregroundColor(Color(dynamicColor: foregroundColor))
-                    .font(.fluent(tokenSet[.boldTextFont].fontInfo))
+                    .foregroundColor(Color(foregroundColor))
+                    .font(.init(tokenSet[.boldTextFont].font))
                     .hoverEffect()
                 } else {
                     SwiftUI.Button(action: {
@@ -213,7 +213,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                 .accessibilityLabel("Accessibility.Dismiss.Label".localized)
                         }
                     })
-                    .foregroundColor(Color(dynamicColor: foregroundColor))
+                    .foregroundColor(Color(foregroundColor))
                     .hoverEffect()
                 }
             }
@@ -267,7 +267,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
                 }
             } else {
-                Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                Color(tokenSet[.backgroundColor].color)
             }
         }
 
@@ -279,7 +279,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                         .border(width: tokenSet[.outlineWidth].float,
                                 edges: state.showFromBottom ? [.top] : [.bottom],
-                                color: Color(dynamicColor: tokenSet[.outlineColor].dynamicColor)).foregroundColor(.clear)
+                                color: Color(tokenSet[.outlineColor].color)).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))

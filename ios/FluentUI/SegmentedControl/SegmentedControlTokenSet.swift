@@ -62,104 +62,104 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         super.init { [style] token, theme in
             switch token {
             case .restTabColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.color(.background5).light,
-                                            dark: theme.color(.background5).dark)
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background5).dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.brandBackground2).light,
-                                            dark: theme.color(.background5).dark)
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background5).dark)
                     }
                 }
 
             case .selectedTabColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandBackground1)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.background1).light,
-                                            dark: theme.color(.background5Selected).dark)
+                        return UIColor(light: theme.color(.background1).light,
+                                       dark: theme.color(.background5Selected).dark)
                     }
                 }
 
             case .disabledTabColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.color(.background5).light,
-                                            dark: theme.color(.background5).dark)
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background5).dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.brandBackground2).light,
-                                            dark: theme.color(.background5).dark)
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background5).dark)
                     }
                 }
 
             case .disabledSelectedTabColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandBackground1)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.background1).light,
-                                            dark: theme.color(.background5Selected).dark)
+                        return UIColor(light: theme.color(.background1).light,
+                                       dark: theme.color(.background5Selected).dark)
                     }
                 }
 
             case .restLabelColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foreground2)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
-                                            dark: theme.color(.foreground2).dark)
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground2).dark)
                     }
                 }
 
             case .selectedLabelColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foregroundOnColor)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.brandForeground1).light,
-                                            dark: theme.color(.foreground1).dark)
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
                     }
                 }
 
             case .disabledLabelColor, .disabledUnreadDotColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foregroundDisabled1)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.brandForegroundDisabled1).light,
-                                            dark: theme.color(.foregroundDisabled1).dark)
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark)
                     }
                 }
 
             case .disabledSelectedLabelColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandForegroundDisabled1)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.brandForegroundDisabled2).light,
-                                            dark: theme.color(.foregroundDisabled2).dark)
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark)
                     }
                 }
 
             case .enabledUnreadDotColor:
-                return .dynamicColor {
+                return .color {
                     switch style() {
                     case .primaryPill:
-                        return DynamicColor(light: theme.color(.brandForeground1).light,
-                                            dark: theme.color(.foreground1).dark)
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
                     case .onBrandPill:
-                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
-                                            dark: theme.color(.foreground1).dark)
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground1).dark)
                     }
                 }
 
@@ -179,7 +179,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .font:
-                return .fontInfo { theme.typography(.body2) }
+                return .font { theme.typography(.body2) }
             }
         }
     }

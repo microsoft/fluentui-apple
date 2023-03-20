@@ -34,7 +34,7 @@ import SwiftUI
             colorToken = .foreground3
         }
 
-        return Color(dynamicColor: fluentTheme.color(colorToken))
+        return Color(fluentTheme.color(colorToken))
     }
 
     func image(isOutOfOffice: Bool) -> Image {

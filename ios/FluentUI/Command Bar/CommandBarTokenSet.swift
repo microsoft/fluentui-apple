@@ -49,43 +49,43 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
-                    DynamicColor(light: GlobalTokens.neutralColors(.grey98),
-                                 dark: GlobalTokens.neutralColors(.grey8))
+                return .color {
+                    UIColor(light: GlobalTokens.neutralColor(.grey98),
+                            dark: GlobalTokens.neutralColor(.grey8))
                 }
 
             case .groupBorderRadius:
                 return .float { GlobalTokens.corner(.radius120) }
 
             case .itemBackgroundColorRest:
-                return .dynamicColor { theme.color(.background5) }
+                return .color { theme.color(.background5) }
 
             case .itemBackgroundColorHover:
-                return .dynamicColor { theme.color(.background5) }
+                return .color { theme.color(.background5) }
 
             case .itemBackgroundColorPressed:
-                return .dynamicColor { theme.color(.background5Pressed) }
+                return .color { theme.color(.background5Pressed) }
 
             case .itemBackgroundColorSelected:
-                return .dynamicColor { theme.color(.brandBackgroundTint) }
+                return .color { theme.color(.brandBackgroundTint) }
 
             case .itemBackgroundColorDisabled:
-                return .dynamicColor { theme.color(.background5) }
+                return .color { theme.color(.background5) }
 
             case .itemIconColorRest:
-                return .dynamicColor { theme.color(.foreground1) }
+                return .color { theme.color(.foreground1) }
 
             case .itemIconColorHover:
-                return .dynamicColor { theme.color(.foreground1) }
+                return .color { theme.color(.foreground1) }
 
             case .itemIconColorPressed:
-                return .dynamicColor { theme.color(.foreground1) }
+                return .color { theme.color(.foreground1) }
 
             case .itemIconColorSelected:
-                return .dynamicColor { theme.color(.brandForegroundTint) }
+                return .color { theme.color(.brandForegroundTint) }
 
             case .itemIconColorDisabled:
-                return .dynamicColor { theme.color(.foregroundDisabled1) }
+                return .color { theme.color(.foregroundDisabled1) }
             }
         }
     }

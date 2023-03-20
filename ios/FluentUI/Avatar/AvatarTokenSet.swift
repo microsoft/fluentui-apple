@@ -75,10 +75,10 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .textFont:
-                return .fontInfo({
+                return .font({
                     switch size() {
                     case .size16, .size20:
-                        return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: 9, weight: .regular)
                     case .size24:
                         return theme.typography(.caption2)
                     case .size32:
@@ -86,14 +86,14 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     case .size40:
                         return theme.typography(.body2)
                     case .size56:
-                        return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size500), weight: .regular)
                     case .size72:
-                        return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size700), weight: .semibold)
                     }
                 })
 
             case .ringDefaultColor:
-                return .dynamicColor({
+                return .color({
                     switch style() {
                     case .default, .group, .accent, .outlinedPrimary:
                         return theme.color(.brandStroke1)
@@ -103,7 +103,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .ringGapColor:
-                return .dynamicColor({
+                return .color({
                     theme.color(.background1)
                 })
 
@@ -150,22 +150,22 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .borderColor:
-                return .dynamicColor({
+                return .color({
                     theme.color(.background1)
                 })
 
             case .activityForegroundColor:
-                return .dynamicColor({
+                return .color({
                     theme.color(.foreground1)
                 })
 
             case .activityBackgroundColor:
-                return .dynamicColor({
+                return .color({
                     theme.color(.background5)
                 })
 
             case .backgroundDefaultColor:
-                return .dynamicColor({
+                return .color({
                     switch style() {
                     case .default, .group:
                         return theme.color(.background1)
@@ -179,7 +179,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .foregroundDefaultColor:
-                return .dynamicColor({
+                return .color({
                     switch style() {
                     case .default, .group:
                         return theme.color(.brandForeground1)

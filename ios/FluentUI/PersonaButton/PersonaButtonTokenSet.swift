@@ -53,13 +53,13 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
         super.init { [size] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor { theme.color(.background1) }
+                return .color { theme.color(.background1) }
 
             case .labelColor:
-                return .dynamicColor { theme.color(.foreground1) }
+                return .color { theme.color(.foreground1) }
 
             case .labelFont:
-                return .fontInfo {
+                return .font {
                     switch size() {
                     case .small:
                         return theme.typography(.caption1)
@@ -69,10 +69,10 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
                 }
 
             case .sublabelColor:
-                return .dynamicColor { theme.color(.foreground3) }
+                return .color { theme.color(.foreground3) }
 
             case .sublabelFont:
-                return .fontInfo { theme.typography(.caption1) }
+                return .font { theme.typography(.caption1) }
             }
         }
     }
