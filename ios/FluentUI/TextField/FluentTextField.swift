@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Combine
 import UIKit
 
 @objc(MSFTextField)
@@ -147,13 +146,9 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             leadingImageView.centerYAnchor.constraint(equalTo: textfield.centerYAnchor)
         ])
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
         updateTokenizedValues()
 
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
     }
@@ -239,14 +234,6 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         return label
     }()
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateTokenizedValues()
-    }
-
     @objc private func editingChanged() {
         guard let onEditingChanged else {
             return
@@ -299,5 +286,4 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             updateTokenizedValues()
         }
     }
-    private var tokenSetSink: AnyCancellable?
 }

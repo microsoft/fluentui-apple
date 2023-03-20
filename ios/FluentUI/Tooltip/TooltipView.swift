@@ -9,6 +9,7 @@ import UIKit
 class TooltipView: UIView, Shadowable {
 
     init(anchorView: UIView,
+         hostViewController: UIViewController?,
          message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
@@ -17,6 +18,7 @@ class TooltipView: UIView, Shadowable {
          arrowMargin: CGFloat,
          tokenSet: TooltipTokenSet) {
         self.anchorView = anchorView
+        self.hostViewController = hostViewController
         self.message = message
         self.titleMessage = title
         self.preferredArrowDirection = preferredArrowDirection
@@ -312,10 +314,10 @@ class TooltipView: UIView, Shadowable {
         var idealPosition: CGFloat
         var maxPosition: CGFloat
         if arrowDirection.isVertical {
-            idealPosition = sourcePointInWindow.x - tooltipRect.minX - arrowWidth / 2
+            idealPosition = sourcePointInHost.x - tooltipRect.minX - arrowWidth / 2
             maxPosition = tooltipRect.width - arrowMargin - arrowWidth
         } else {
-            idealPosition = sourcePointInWindow.y - tooltipRect.minY - arrowWidth / 2
+            idealPosition = sourcePointInHost.y - tooltipRect.minY - arrowWidth / 2
             maxPosition = tooltipRect.height - arrowMargin - arrowWidth
         }
         return max(minPosition, min(idealPosition, maxPosition))
@@ -324,13 +326,13 @@ class TooltipView: UIView, Shadowable {
     private var idealTooltipOrigin: CGPoint {
         switch arrowDirection {
         case .up:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width / 2, y: sourcePointInWindow.y)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width / 2, y: sourcePointInHost.y)
         case .down:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width / 2, y: sourcePointInWindow.y - tooltipSize.height)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width / 2, y: sourcePointInHost.y - tooltipSize.height)
         case .left:
-            return CGPoint(x: sourcePointInWindow.x, y: sourcePointInWindow.y - tooltipSize.height / 2)
+            return CGPoint(x: sourcePointInHost.x, y: sourcePointInHost.y - tooltipSize.height / 2)
         case .right:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width, y: sourcePointInWindow.y - tooltipSize.height / 2)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width, y: sourcePointInHost.y - tooltipSize.height / 2)
         }
     }
 
@@ -352,13 +354,13 @@ class TooltipView: UIView, Shadowable {
         }
     }
 
-    private var sourcePointInWindow: CGPoint {
+    private var sourcePointInHost: CGPoint {
         guard let anchorView = anchorView else {
             assertionFailure("Can't find anchorView")
             return CGPoint.zero
         }
 
-        return anchorView.convert(sourcePointInAnchorView, to: window)
+        return anchorView.convert(sourcePointInAnchorView, to: hostViewController?.view ?? window)
     }
 
     private var boundingRect: CGRect {
@@ -381,7 +383,7 @@ class TooltipView: UIView, Shadowable {
             return inset
         }
 
-        let anchorViewFrame = anchorView.convert(anchorView.bounds, to: window)
+        let anchorViewFrame = anchorView.convert(anchorView.bounds, to: hostViewController?.view ?? window)
         switch arrowDirection {
         case .up:
             inset.top = max(anchorViewFrame.maxY - boundingRect.minY, 0)
@@ -396,6 +398,7 @@ class TooltipView: UIView, Shadowable {
     }
 
     private weak var anchorView: UIView?
+    private weak var hostViewController: UIViewController?
     private let message: String
     private let titleMessage: String?
     private let arrowImageView: UIImageView

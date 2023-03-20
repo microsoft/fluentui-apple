@@ -148,7 +148,13 @@ open class CommandBarItem: NSObject {
 	/// property will disable the `itemTappedHandler`. The customControlView must manually handle gesutres.
     @objc public var customControlView: (() -> UIView)?
 
-    @objc public lazy var menu: UIMenu? = nil // Only lazy property can be used with @available
+    @objc public lazy var menu: UIMenu? = nil { // Only lazy property can be used with @available
+        didSet {
+            if menu != oldValue {
+                propertyChangedUpdateBlock?(self, /* shouldUpdateGroupState */ false)
+            }
+        }
+    }
 
     @objc public lazy var showsMenuAsPrimaryAction: Bool = false
 

@@ -316,10 +316,10 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
 
         super.init(frame: .zero)
         setupColors()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.setupColors()
+        }
 
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -376,14 +376,6 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        setupColors()
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
