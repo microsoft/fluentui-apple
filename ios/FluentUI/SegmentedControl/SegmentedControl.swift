@@ -24,7 +24,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
            stackView.subviews.contains(nextFocusedView),
            let button = nextFocusedView as? SegmentPillButton {
             ringView.isHidden = false
-            focusedButton = button
             ringView.drawFocusRing(over: button)
         }
     }
@@ -96,7 +95,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
-    // |  |--ringView
+    // |  |--ringView (only added after the control has received focus)
     //
     // isFixedWidth = true:
     // pillContainerView (used to create 16pt inset on either side)
@@ -106,7 +105,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |.mask -> selectionView
     // |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |--pillMaskedImages (uses selectedLabelColor)
-    // |--ringView
+    // |--ringView (only added after the control has received focus)
 
     private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
@@ -146,10 +145,10 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return scrollView
     }()
-    private var ringView: FocusRingView = {
+    private lazy var ringView: FocusRingView = {
         let view = FocusRingView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
+        pillContainerView.addSubview(view)
 
         return view
     }()
@@ -206,7 +205,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         pillContainerView.addSubview(pillMaskedContentContainerView)
         addButtons(items: items)
         pillContainerView.addInteraction(UILargeContentViewerInteraction())
-        pillContainerView.addSubview(ringView)
         addSubview(pillContainerView)
 
         updateStackDistribution()
@@ -364,11 +362,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         updateGradientMaskColors()
         gradientMaskLayer.frame = layer.bounds
-
-        if needsRedrawFocus,
-        let focusedButton {
-            ringView.updateRingBounds(for: focusedButton)
-        }
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -380,11 +373,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         super.traitCollectionDidChange(previousTraitCollection)
         invalidateIntrinsicContentSize()
         setNeedsLayout()
-        if focusedButton != nil,
-           let previousTraitCollection,
-           previousTraitCollection.horizontalSizeClass != traitCollection.horizontalSizeClass {
-            needsRedrawFocus = true
-        }
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -646,9 +634,6 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private var maximumContentOffset: CGFloat {
         return (stackView.frame.size.width + 2 * Constants.pillContainerHorizontalInset) - scrollView.frame.size.width
     }
-
-    private var focusedButton: SegmentPillButton?
-    private var needsRedrawFocus: Bool = false
 }
 
 // MARK: UIScrollViewDelegate
