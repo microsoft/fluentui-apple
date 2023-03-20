@@ -30,7 +30,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         let section = AliasColorTokensDemoSection.allCases[indexPath.section]
         let row = section.rows[indexPath.row]
 
-        cell.backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[row])
+        cell.backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: fluentTheme.color(row))
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -45,7 +45,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         return cell
     }
 
-    private func textColor(for token: AliasTokens.ColorsTokens) -> UIColor {
+    private func textColor(for token: FluentTheme.ColorToken) -> UIColor {
         switch token {
         case .background1,
              .background1Pressed,
@@ -81,7 +81,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .successBackground1,
              .warningBackground1,
              .severeBackground1:
-            return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
+            return UIColor(dynamicColor: fluentTheme.color(.foreground1))
         case .foreground1,
              .foreground2,
              .foreground3,
@@ -103,12 +103,12 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .severeBackground2,
              .severeForeground1,
              .severeForeground2:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
+            return UIColor(dynamicColor: fluentTheme.color(.foregroundOnColor))
         case .foregroundLightStatic,
              .backgroundLightStatic,
              .backgroundLightStaticDisabled,
              .warningBackground2:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundDarkStatic])
+            return UIColor(dynamicColor: fluentTheme.color(.foregroundDarkStatic))
         case .brandForeground1,
              .brandForeground1Selected,
              .brandForegroundDisabled1,
@@ -126,14 +126,13 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .presenceDnd,
              .presenceAvailable,
              .presenceOof:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundLightStatic])
+            return UIColor(dynamicColor: fluentTheme.color(.foregroundLightStatic))
         }
     }
 
-    private var aliasTokens: AliasTokens {
-        return self.view.fluentTheme.aliasTokens
+    private var fluentTheme: FluentTheme {
+        return self.view.fluentTheme
     }
-
 }
 
 private enum AliasColorTokensDemoSection: CaseIterable {
@@ -167,7 +166,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
         }
     }
 
-    var rows: [AliasTokens.ColorsTokens] {
+    var rows: [FluentTheme.ColorToken] {
         switch self {
         case .neutralBackgrounds:
             return [.background1,
@@ -257,7 +256,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     }
 }
 
-private extension AliasTokens.ColorsTokens {
+private extension FluentTheme.ColorToken {
     var text: String {
         switch self {
         case .foreground1:

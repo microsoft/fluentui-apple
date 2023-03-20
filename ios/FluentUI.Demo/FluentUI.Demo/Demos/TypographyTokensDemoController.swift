@@ -18,12 +18,12 @@ class TypographyTokensDemoController: DemoTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AliasTokens.TypographyTokens.allCases.count
+        return FluentTheme.TypographyToken.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
-        let typographyToken = AliasTokens.TypographyTokens.allCases[indexPath.row]
+        let typographyToken = FluentTheme.TypographyToken.allCases[indexPath.row]
 
         cell.selectionStyle = .none
 
@@ -31,16 +31,12 @@ class TypographyTokensDemoController: DemoTableViewController {
         let text = "\(typographyToken.text)"
         contentConfiguration.attributedText = NSAttributedString(string: text,
                                                                  attributes: [
-                                                                    .font: UIFont.fluent(aliasTokens.typography[typographyToken])
+                                                                    .font: UIFont.fluent(view.fluentTheme.typography(typographyToken))
                                                                  ])
         contentConfiguration.textProperties.alignment = .center
         cell.contentConfiguration = contentConfiguration
 
         return cell
-    }
-
-    private var aliasTokens: AliasTokens {
-        return self.view.fluentTheme.aliasTokens
     }
 
     private struct Constants {
@@ -50,7 +46,7 @@ class TypographyTokensDemoController: DemoTableViewController {
 
 // MARK: - Private extensions
 
-private extension AliasTokens.TypographyTokens {
+private extension FluentTheme.TypographyToken {
     var text: String {
         switch self {
         case .display:

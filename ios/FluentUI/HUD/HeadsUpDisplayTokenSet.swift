@@ -27,7 +27,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
             switch token {
             case .backgroundColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.backgroundDarkStatic]
+                    return theme.color(.backgroundDarkStatic)
                 }
 
             case .cornerRadius:
@@ -43,7 +43,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
 
             case .labelColor:
                 return .dynamicColor {
-                    return theme.aliasTokens.colors[.foregroundLightStatic]
+                    return theme.color(.foregroundLightStatic)
                 }
             }
         }

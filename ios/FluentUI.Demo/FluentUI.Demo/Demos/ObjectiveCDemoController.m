@@ -30,8 +30,7 @@
     self.container = [self createVerticalContainer];
     self.scrollingContainer = [[UIScrollView alloc] initWithFrame:CGRectZero];
 
-    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
+    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBackground1];
     self.view.backgroundColor = [[UIColor alloc] initWithDynamicColor:primaryColor];
     [self setupTitleView];
 
@@ -76,7 +75,7 @@
 
 - (void)addLabelWithText:(NSString *)text
                textColor:(UIColor *)textColor {
-    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setText:text];
     [label setTextColor:textColor];
@@ -93,25 +92,28 @@
 
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
-    MSFAliasTokens *aliasTokens = [fluentTheme aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandBackground3];
+    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandForeground1];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Finally, add a shared-theme brand color (should be comm blue)
+    MSFFluentTheme *sharedTheme = [MSFFluentTheme sharedTheme];
+    MSFDynamicColor *sharedPrimaryColor = [sharedTheme colorForToken:MSFColorTokenBrandForeground1];
+    [self addLabelWithText:@"Test label with shared alias color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:sharedPrimaryColor]];
 }
 
 - (void)overridesButtonPressed:(id)sender {
     [[self view] setColorProvider:[[ObjectiveCDemoColorProviding alloc] init]];
 
-    MSFAliasTokens *aliasTokens = [[[self view] fluentTheme] aliasTokens];
-    MSFDynamicColor *primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
+    MSFDynamicColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBrandForeground1];
 
     [self addLabelWithText:@"Test label with override brand color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
 
     // Remove the overrides
     [[self view] resetFluentTheme];
-    aliasTokens = [[[self view] fluentTheme] aliasTokens];
-    primaryColor = [aliasTokens aliasColorForToken:MSFColorAliasTokensBrandForeground1];
+    primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBrandForeground1];
 
     [self addLabelWithText:@"Test label with override color removed"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
@@ -142,7 +144,7 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];
