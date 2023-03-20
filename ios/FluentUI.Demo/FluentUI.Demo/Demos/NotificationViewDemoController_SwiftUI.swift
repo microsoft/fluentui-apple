@@ -270,7 +270,7 @@ struct NotificationDemoView: View {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .color {
+            .imageColor: .uiColor {
                 return GlobalTokens.sharedColor(.orange, .primary)
             },
             .shadow: .shadowInfo {

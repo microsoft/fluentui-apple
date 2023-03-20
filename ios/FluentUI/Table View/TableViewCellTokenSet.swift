@@ -78,22 +78,22 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .color { theme.color(.background1) }
+                return .uiColor { theme.color(.background1) }
 
             case .backgroundGroupedColor:
-                return .color { theme.color(.backgroundCanvas) }
+                return .uiColor { theme.color(.backgroundCanvas) }
 
             case .cellBackgroundColor:
-                return .color { theme.color(.background1) }
+                return .uiColor { theme.color(.background1) }
 
             case .cellBackgroundGroupedColor:
-                return .color { theme.color(.background3) }
+                return .uiColor { theme.color(.background3) }
 
             case .cellBackgroundSelectedColor:
-                return .color { theme.color(.background1Pressed) }
+                return .uiColor { theme.color(.background1Pressed) }
 
             case .imageColor:
-                return .color { theme.color(.foreground3) }
+                return .uiColor { theme.color(.foreground3) }
 
             case .customViewDimensions:
                 return .float {
@@ -120,46 +120,46 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 }
 
             case .titleColor:
-                return .color { theme.color(.foreground1) }
+                return .uiColor { theme.color(.foreground1) }
 
             case .subtitleColor:
-                return .color { theme.color(.foreground2) }
+                return .uiColor { theme.color(.foreground2) }
 
             case .footerColor:
-                return .color { theme.color(.foreground2) }
+                return .uiColor { theme.color(.foreground2) }
 
             case .selectionIndicatorOffColor:
-                return .color { theme.color(.foreground3) }
+                return .uiColor { theme.color(.foreground3) }
 
             case .titleFont:
-                return .font { theme.typography(.body1) }
+                return .uiFont { theme.typography(.body1) }
 
             case .subtitleTwoLinesFont:
-                return .font { theme.typography(.caption1) }
+                return .uiFont { theme.typography(.caption1) }
 
             case .subtitleThreeLinesFont:
-                return .font { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2) }
 
             case .footerFont:
-                return .font { theme.typography(.caption1) }
+                return .uiFont { theme.typography(.caption1) }
 
             case .accessoryDisclosureIndicatorColor:
-                return .color { theme.color(.foreground3) }
+                return .uiColor { theme.color(.foreground3) }
 
             case .accessoryDetailButtonColor:
-                return .color { theme.color(.foreground3) }
+                return .uiColor { theme.color(.foreground3) }
 
             case .dangerTextColor:
-                return .color { theme.color(.dangerForeground2) }
+                return .uiColor { theme.color(.dangerForeground2) }
 
             case .brandTextColor:
-                return .color { theme.color(.brandForeground1) }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .booleanCellBrandColor:
-                return .color { theme.color(.brandBackground1) }
+                return .uiColor { theme.color(.brandBackground1) }
 
             case .communicationTextColor:
-                return .color {
+                return .uiColor {
                     UIColor(light: GlobalTokens.brandColor(.comm80),
                             dark: GlobalTokens.brandColor(.comm100))
                 }

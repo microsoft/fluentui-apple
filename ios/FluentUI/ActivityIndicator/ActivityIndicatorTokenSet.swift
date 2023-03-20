@@ -30,7 +30,7 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
         super.init { [size] token, _ in
             switch token {
             case .defaultColor:
-                return .color {
+                return .uiColor {
                     UIColor(light: GlobalTokens.neutralColor(.grey56),
                             dark: GlobalTokens.neutralColor(.grey72))
                 }

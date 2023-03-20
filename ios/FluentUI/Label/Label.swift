@@ -129,7 +129,7 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let labelFont = labelFont ?? tokenSet[.font].font
+        let labelFont = labelFont ?? tokenSet[.font].uiFont
         if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
             super.font = labelFont.withSize(maxFontSize)
         } else {
@@ -142,7 +142,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = labelTextColor ?? tokenSet[.textColor].color
+        super.textColor = labelTextColor ?? tokenSet[.textColor].uiColor
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

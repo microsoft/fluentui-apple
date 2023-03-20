@@ -128,7 +128,7 @@ public struct Avatar: View, TokenizedControlView {
         let hasRingInnerGap = state.hasRingInnerGap
         let ringThicknessToken: CGFloat = tokenSet[.ringThickness].float
         let accessoryBorderThicknessToken: CGFloat = tokenSet[.borderThickness].float
-        let accessoryBorderColorToken: UIColor = tokenSet[.borderColor].color
+        let accessoryBorderColorToken: UIColor = tokenSet[.borderColor].uiColor
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
 
@@ -147,15 +147,15 @@ public struct Avatar: View, TokenizedControlView {
         let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
 
         let foregroundColor: UIColor = state.foregroundColor ?? (
-            !shouldUseCalculatedColors ? tokenSet[.foregroundDefaultColor].color :
+            !shouldUseCalculatedColors ? tokenSet[.foregroundDefaultColor].uiColor :
                 CalculatedColors.foregroundColor(hashCode: colorHashCode))
         let backgroundColor: UIColor = state.backgroundColor ?? (
-            !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].color :
+            !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].uiColor :
                 CalculatedColors.backgroundColor(hashCode: colorHashCode))
-        let ringGapColor = Color(tokenSet[.ringGapColor].color).opacity(isTransparent ? 0 : 1)
+        let ringGapColor = Color(tokenSet[.ringGapColor].uiColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
         Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
-                                       tokenSet[.ringDefaultColor].color :
+                                       tokenSet[.ringDefaultColor].uiColor :
                                        CalculatedColors.ringColor(hashCode: colorHashCode)))
 
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
@@ -216,7 +216,7 @@ public struct Avatar: View, TokenizedControlView {
             } else {
                 Text(initialsString)
                     .foregroundColor(Color(foregroundColor))
-                    .font(.init(tokenSet[.textFont].font)) // shouldScale: false
+                    .font(.init(tokenSet[.textFont].uiFont)) // shouldScale: false
             }
         }
 
@@ -291,8 +291,8 @@ public struct Avatar: View, TokenizedControlView {
                 }()
                 let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
                 let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
-                let accessoryBackgroundColor: UIColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].color : accessoryBorderColorToken
-                let accessoryForegroundColor: Color = shouldDisplayActivity ? Color(tokenSet[.activityForegroundColor].color) : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)
+                let accessoryBackgroundColor: UIColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].uiColor : accessoryBorderColorToken
+                let accessoryForegroundColor: Color = shouldDisplayActivity ? Color(tokenSet[.activityForegroundColor].uiColor) : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)
                 let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
                 let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
                                                                                iconSize: accessoryBorderSize,

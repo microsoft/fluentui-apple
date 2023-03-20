@@ -161,11 +161,11 @@ extension LabelDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .font {
+            .font: .uiFont {
                 return UIFont(descriptor: .init(name: "Times", size: 20.0),
                               size: 20.0)
             },
-            .textColor: .color {
+            .textColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
                                dark: GlobalTokens.sharedColor(.marigold, .tint40))
             }
@@ -174,11 +174,11 @@ extension LabelDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .font {
+            .font: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
                               size: 20.0)
             },
-            .textColor: .color {
+            .textColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]

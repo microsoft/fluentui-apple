@@ -75,7 +75,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .textFont:
-                return .font({
+                return .uiFont({
                     switch size() {
                     case .size16, .size20:
                         return .systemFont(ofSize: 9, weight: .regular)
@@ -93,7 +93,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .ringDefaultColor:
-                return .color({
+                return .uiColor({
                     switch style() {
                     case .default, .group, .accent, .outlinedPrimary:
                         return theme.color(.brandStroke1)
@@ -103,7 +103,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .ringGapColor:
-                return .color({
+                return .uiColor({
                     theme.color(.background1)
                 })
 
@@ -150,22 +150,22 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .borderColor:
-                return .color({
+                return .uiColor({
                     theme.color(.background1)
                 })
 
             case .activityForegroundColor:
-                return .color({
+                return .uiColor({
                     theme.color(.foreground1)
                 })
 
             case .activityBackgroundColor:
-                return .color({
+                return .uiColor({
                     theme.color(.background5)
                 })
 
             case .backgroundDefaultColor:
-                return .color({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
                         return theme.color(.background1)
@@ -179,7 +179,7 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .foregroundDefaultColor:
-                return .color({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
                         return theme.color(.brandForeground1)

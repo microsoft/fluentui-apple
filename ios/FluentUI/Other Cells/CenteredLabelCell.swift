@@ -16,8 +16,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateAppearance() {
         setupBackgroundColors()
-        label.font = tokenSet[.titleFont].font
-        label.textColor = tokenSet[.brandTextColor].color
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
     }
 
     // Public to be able to change style without wrapping every property
@@ -58,8 +58,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     /// - Parameter text: The text to be displayed
     @objc open func setup(text: String) {
         label.text = text
-        label.font = tokenSet[.titleFont].font
-        label.textColor = tokenSet[.brandTextColor].color
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
         setNeedsLayout()
     }
 

@@ -40,10 +40,10 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .tooltipColor:
-                return .color { theme.color(.backgroundDarkStatic) }
+                return .uiColor { theme.color(.backgroundDarkStatic) }
 
             case .textColor:
-                return .color { theme.color(.foregroundLightStatic) }
+                return .uiColor { theme.color(.foregroundLightStatic) }
 
             case .shadowInfo:
                 return .shadowInfo { theme.shadow(.shadow16) }
@@ -52,10 +52,10 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
                 return .float { GlobalTokens.corner(.radius80) }
 
             case .messageLabelTextStyle:
-                return .font { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2) }
 
             case .titleLabelTextStyle:
-                return .font { theme.typography(.body1Strong) }
+                return .uiFont { theme.typography(.body1Strong) }
 
             case .maximumWidth:
                 return .float { 250.0 }

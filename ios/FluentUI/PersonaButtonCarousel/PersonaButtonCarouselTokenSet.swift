@@ -17,7 +17,7 @@ public class PersonaButtonCarouselTokenSet: ControlTokenSet<PersonaButtonCarouse
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .color { theme.color(.background1) }
+                return .uiColor { theme.color(.background1) }
             }
         }
     }

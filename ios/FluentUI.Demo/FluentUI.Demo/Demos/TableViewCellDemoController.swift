@@ -119,7 +119,7 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .color {
+            .cellBackgroundColor: .uiColor {
                 // "Berry"
                 return UIColor(light: GlobalTokens.sharedColor(.berry, .tint50),
                                dark: GlobalTokens.sharedColor(.berry, .shade40))
@@ -129,12 +129,12 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .color {
+            .cellBackgroundColor: .uiColor {
                 // "Brass"
                 return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
                                dark: GlobalTokens.sharedColor(.brass, .shade40))
             },
-            .accessoryDisclosureIndicatorColor: .color {
+            .accessoryDisclosureIndicatorColor: .uiColor {
                 // "Forest"
                 return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
                                dark: GlobalTokens.sharedColor(.forest, .shade40))

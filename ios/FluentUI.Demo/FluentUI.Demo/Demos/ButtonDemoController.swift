@@ -181,16 +181,16 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .font {
+            .titleFont: .uiFont {
                 return UIFont(descriptor: .init(name: "Times", size: 20.0),
                               size: 20.0)
             },
-            .backgroundColor: .color {
+            .backgroundColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
                                dark: GlobalTokens.sharedColor(.marigold, .tint40))
             },
-            .borderColor: .color { .clear },
-            .foregroundColor: .color {
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
                                dark: GlobalTokens.sharedColor(.marigold, .shade30))
             }
@@ -199,16 +199,16 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .font {
+            .titleFont: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
                               size: 20.0)
             },
-            .backgroundColor: .color {
+            .backgroundColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
                                dark: GlobalTokens.sharedColor(.orchid, .tint40))
             },
-            .borderColor: .color { .clear },
-            .foregroundColor: .color {
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
                                dark: GlobalTokens.sharedColor(.orchid, .shade30))
             }

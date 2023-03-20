@@ -203,13 +203,13 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         let selectedTabColor: UIColor
         let selectedContentColor: UIColor
         if isEnabled {
-            tabColor = tokenSet[.restTabColor].color
-            selectedTabColor = tokenSet[.selectedTabColor].color
-            selectedContentColor = tokenSet[.selectedLabelColor].color
+            tabColor = tokenSet[.restTabColor].uiColor
+            selectedTabColor = tokenSet[.selectedTabColor].uiColor
+            selectedContentColor = tokenSet[.selectedLabelColor].uiColor
         } else {
-            tabColor = tokenSet[.disabledTabColor].color
-            selectedTabColor = tokenSet[.disabledSelectedTabColor].color
-            selectedContentColor = tokenSet[.disabledSelectedLabelColor].color
+            tabColor = tokenSet[.disabledTabColor].uiColor
+            selectedTabColor = tokenSet[.disabledSelectedTabColor].uiColor
+            selectedContentColor = tokenSet[.disabledSelectedLabelColor].uiColor
         }
         stackView.backgroundColor = tabColor
         pillMaskedContentContainerView.backgroundColor = selectedTabColor
@@ -419,7 +419,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private let selectionChangeAnimationDuration: TimeInterval = 0.2
 
     private func updateButtons() {
-        let contentColor = isEnabled ? tokenSet[.restLabelColor].color : tokenSet[.disabledLabelColor].color
+        let contentColor = isEnabled ? tokenSet[.restLabelColor].uiColor : tokenSet[.disabledLabelColor].uiColor
         for (index, button) in buttons.enumerated() {
             button.updateTokenizedValues()
             button.setTitleColor(contentColor, for: .normal)

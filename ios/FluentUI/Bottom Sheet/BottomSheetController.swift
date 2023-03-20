@@ -460,7 +460,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateBackgroundColor() {
-        let backgroundColor = tokenSet[.backgroundColor].color
+        let backgroundColor = tokenSet[.backgroundColor].uiColor
         bottomSheetView.subviews[0].backgroundColor = backgroundColor
         overflowView.backgroundColor = backgroundColor
     }
@@ -545,7 +545,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         contentView.clipsToBounds = true
 
         // We need to set the background color of the embedding view otherwise the shadows will not display
-        bottomSheetView.backgroundColor = tokenSet[.backgroundColor].color
+        bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
         bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
         bottomSheetView.addSubview(contentView)
 

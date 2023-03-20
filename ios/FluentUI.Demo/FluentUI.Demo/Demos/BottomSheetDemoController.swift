@@ -420,7 +420,7 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .color { UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
+            .backgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
                                                dark: GlobalTokens.sharedColor(.plum, .shade30))
             }
         ]
@@ -428,7 +428,7 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .color { UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
+            .backgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
                                                dark: GlobalTokens.sharedColor(.forest, .shade30))
             }
         ]

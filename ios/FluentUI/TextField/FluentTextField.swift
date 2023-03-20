@@ -188,7 +188,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         guard let placeholder else {
             return nil
         }
-        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: tokenSet[.placeholderColor].color])
+        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: tokenSet[.placeholderColor].uiColor])
     }
 
     // The leadingImageView needs a container to be vertically centered on the
@@ -242,20 +242,20 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     private func updateTokenizedValues() {
-        backgroundColor = tokenSet[.backgroundColor].color
+        backgroundColor = tokenSet[.backgroundColor].uiColor
 
-        leadingImageView.tintColor = tokenSet[.leadingIconColor].color
+        leadingImageView.tintColor = tokenSet[.leadingIconColor].uiColor
 
-        titleLabel.font = tokenSet[.titleLabelFont].font
-        titleLabel.textColor = tokenSet[.titleLabelColor].color
-        assistiveTextLabel.font = tokenSet[.assistiveTextFont].font
-        assistiveTextLabel.textColor = tokenSet[.assistiveTextColor].color
+        titleLabel.font = tokenSet[.titleLabelFont].uiFont
+        titleLabel.textColor = tokenSet[.titleLabelColor].uiColor
+        assistiveTextLabel.font = tokenSet[.assistiveTextFont].uiFont
+        assistiveTextLabel.textColor = tokenSet[.assistiveTextColor].uiColor
 
-        separator.backgroundColor = tokenSet[.strokeColor].color
+        separator.backgroundColor = tokenSet[.strokeColor].uiColor
 
-        textfield.font = tokenSet[.inputTextFont].font
-        textfield.tintColor = tokenSet[.cursorColor].color
-        textfield.textColor = tokenSet[.inputTextColor].color
+        textfield.font = tokenSet[.inputTextFont].uiFont
+        textfield.tintColor = tokenSet[.cursorColor].uiColor
+        textfield.textColor = tokenSet[.inputTextColor].uiColor
         textfield.attributedPlaceholder = attributedPlaceholder
         textfield.clearButton.tokenSet[.foregroundColor] = tokenSet[.trailingIconColor]
     }

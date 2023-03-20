@@ -172,7 +172,7 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .font {
+            .font: .uiFont {
                 return UIFont(descriptor: .init(name: "Times", size: 20.0),
                               size: 20.0)
             }
@@ -181,7 +181,7 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .font {
+            .font: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 10.0),
                               size: 10.0)
             }

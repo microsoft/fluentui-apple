@@ -29,11 +29,11 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         super.init { [colorStyle] token, theme in
             switch token {
             case .font:
-                return .font {
+                return .uiFont {
                     return theme.typography(textStyle())
                 }
             case .textColor:
-                return .color {
+                return .uiColor {
                     switch colorStyle() {
                     case .regular:
                         return theme.color(.foreground1)

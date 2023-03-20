@@ -62,7 +62,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         super.init { [style] token, theme in
             switch token {
             case .restTabColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return UIColor(light: theme.color(.background5).light,
@@ -74,7 +74,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .selectedTabColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandBackground1)
@@ -85,7 +85,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .disabledTabColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return UIColor(light: theme.color(.background5).light,
@@ -97,7 +97,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .disabledSelectedTabColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandBackground1)
@@ -108,7 +108,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .restLabelColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foreground2)
@@ -119,7 +119,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .selectedLabelColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foregroundOnColor)
@@ -130,7 +130,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .disabledLabelColor, .disabledUnreadDotColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.foregroundDisabled1)
@@ -141,7 +141,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .disabledSelectedLabelColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return theme.color(.brandForegroundDisabled1)
@@ -152,7 +152,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 }
 
             case .enabledUnreadDotColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .primaryPill:
                         return UIColor(light: theme.color(.brandForeground1).light,
@@ -179,7 +179,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .font:
-                return .font { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2) }
             }
         }
     }

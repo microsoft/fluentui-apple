@@ -31,7 +31,7 @@ class SegmentPillButton: UIButton {
     let tokenSet: SegmentedControlTokenSet
 
     func updateTokenizedValues() {
-        titleLabel?.font = tokenSet[.font].font // shouldScale: false
+        titleLabel?.font = tokenSet[.font].uiFont // shouldScale: false
         let verticalInset = tokenSet[.verticalInset].float
         let horizontalInset = tokenSet[.horizontalInset].float
         if #available(iOS 15.0, *) {
@@ -41,10 +41,10 @@ class SegmentPillButton: UIButton {
                                                                   bottom: verticalInset,
                                                                   trailing: horizontalInset)
             configuration.background.backgroundColor = .clear
-            configuration.baseForegroundColor = tokenSet[.restLabelColor].color
+            configuration.baseForegroundColor = tokenSet[.restLabelColor].uiColor
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = self.tokenSet[.font].font // shouldScale: false
+                outgoing.font = self.tokenSet[.font].uiFont // shouldScale: false
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer
@@ -131,7 +131,7 @@ class SegmentPillButton: UIButton {
                 xPos = anchor.minX - tokenSet[.unreadDotOffsetX].float - tokenSet[.unreadDotSize].float
             }
             unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + tokenSet[.unreadDotOffsetY].float)
-            let unreadDotColor = isEnabled ? tokenSet[.enabledUnreadDotColor].color : tokenSet[.disabledUnreadDotColor].color
+            let unreadDotColor = isEnabled ? tokenSet[.enabledUnreadDotColor].uiColor : tokenSet[.disabledUnreadDotColor].uiColor
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }

@@ -178,8 +178,8 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
 public enum ControlTokenValue {
     case float(() -> CGFloat)
-    case color(() -> UIColor)
-    case font(() -> UIFont)
+    case uiColor(() -> UIColor)
+    case uiFont(() -> UIFont)
     case shadowInfo(() -> ShadowInfo)
 
     public var float: CGFloat {
@@ -191,18 +191,18 @@ public enum ControlTokenValue {
         }
     }
 
-    public var color: UIColor {
-        if case .color(let color) = self {
-            return color()
+    public var uiColor: UIColor {
+        if case .uiColor(let uiColor) = self {
+            return uiColor()
         } else {
             assertionFailure("Cannot convert token to UIColor: \(self)")
             return fallbackColor
         }
     }
 
-    public var font: UIFont {
-        if case .font(let font) = self {
-            return font()
+    public var uiFont: UIFont {
+        if case .uiFont(let uiFont) = self {
+            return uiFont()
         } else {
             assertionFailure("Cannot convert token to FontInfo: \(self)")
             return UIFont()
@@ -244,10 +244,10 @@ extension ControlTokenValue: CustomStringConvertible {
         switch self {
         case .float(let float):
             return "ControlTokenValue.float (\(float())"
-        case .color(let color):
-            return "ControlTokenValue.color (\(color())"
-        case .font(let font):
-            return "ControlTokenValue.font (\(font())"
+        case .uiColor(let uiColor):
+            return "ControlTokenValue.uiColor (\(uiColor())"
+        case .uiFont(let uiFont):
+            return "ControlTokenValue.uiFont (\(uiFont())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         }

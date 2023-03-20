@@ -49,7 +49,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .color {
+                return .uiColor {
                     UIColor(light: GlobalTokens.neutralColor(.grey98),
                             dark: GlobalTokens.neutralColor(.grey8))
                 }
@@ -58,34 +58,34 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
                 return .float { GlobalTokens.corner(.radius120) }
 
             case .itemBackgroundColorRest:
-                return .color { theme.color(.background5) }
+                return .uiColor { theme.color(.background5) }
 
             case .itemBackgroundColorHover:
-                return .color { theme.color(.background5) }
+                return .uiColor { theme.color(.background5) }
 
             case .itemBackgroundColorPressed:
-                return .color { theme.color(.background5Pressed) }
+                return .uiColor { theme.color(.background5Pressed) }
 
             case .itemBackgroundColorSelected:
-                return .color { theme.color(.brandBackgroundTint) }
+                return .uiColor { theme.color(.brandBackgroundTint) }
 
             case .itemBackgroundColorDisabled:
-                return .color { theme.color(.background5) }
+                return .uiColor { theme.color(.background5) }
 
             case .itemIconColorRest:
-                return .color { theme.color(.foreground1) }
+                return .uiColor { theme.color(.foreground1) }
 
             case .itemIconColorHover:
-                return .color { theme.color(.foreground1) }
+                return .uiColor { theme.color(.foreground1) }
 
             case .itemIconColorPressed:
-                return .color { theme.color(.foreground1) }
+                return .uiColor { theme.color(.foreground1) }
 
             case .itemIconColorSelected:
-                return .color { theme.color(.brandForegroundTint) }
+                return .uiColor { theme.color(.brandForegroundTint) }
 
             case .itemIconColorDisabled:
-                return .color { theme.color(.foregroundDisabled1) }
+                return .uiColor { theme.color(.foregroundDisabled1) }
             }
         }
     }

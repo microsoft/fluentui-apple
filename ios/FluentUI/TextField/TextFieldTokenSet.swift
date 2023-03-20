@@ -57,7 +57,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
         super.init { [state] token, theme in
             switch token {
             case .assistiveTextColor:
-                return .color {
+                return .uiColor {
                     switch state() {
                     case .unfocused, .focused:
                         return theme.color(.foreground2)
@@ -66,17 +66,17 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     }
                 }
             case .assistiveTextFont:
-                return .font { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2) }
             case .backgroundColor:
-                return .color { theme.color(.background1) }
+                return .uiColor { theme.color(.background1) }
             case .cursorColor:
-                return .color { theme.color(.foreground3) }
+                return .uiColor { theme.color(.foreground3) }
             case .inputTextColor:
-                return .color { theme.color(.foreground1) }
+                return .uiColor { theme.color(.foreground1) }
             case .inputTextFont:
-                return .font { theme.typography(.body1) }
+                return .uiFont { theme.typography(.body1) }
             case .leadingIconColor:
-                return .color {
+                return .uiColor {
                     switch state() {
                     case .unfocused, .error:
                         return theme.color(.foreground2)
@@ -85,9 +85,9 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     }
                 }
             case .placeholderColor:
-                return .color { theme.color(.foreground2) }
+                return .uiColor { theme.color(.foreground2) }
             case .strokeColor:
-                return .color {
+                return .uiColor {
                     switch state() {
                     case .unfocused:
                         return theme.color(.stroke1)
@@ -98,7 +98,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     }
                 }
             case .titleLabelColor:
-                return .color {
+                return .uiColor {
                     switch state() {
                     case .unfocused:
                         return theme.color(.foreground2)
@@ -109,9 +109,9 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     }
                 }
             case .titleLabelFont:
-                return .font { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2) }
             case .trailingIconColor:
-                return .color {
+                return .uiColor {
                     return theme.color(.foreground2)
                 }
             }

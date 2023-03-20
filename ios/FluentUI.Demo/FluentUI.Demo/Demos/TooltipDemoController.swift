@@ -174,7 +174,7 @@ extension TooltipDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tooltipColor: .color {
+            .tooltipColor: .uiColor {
                 // "Berry"
                 return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
                                dark: GlobalTokens.sharedColor(.berry, .tint20))
@@ -184,12 +184,12 @@ extension TooltipDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tooltipColor: .color {
+            .tooltipColor: .uiColor {
                 // "Brass"
                 return UIColor(light: GlobalTokens.sharedColor(.brass, .tint40),
                                dark: GlobalTokens.sharedColor(.brass, .shade30))
             },
-            .textColor: .color {
+            .textColor: .uiColor {
                 // "Forest"
                 return UIColor(light: GlobalTokens.sharedColor(.forest, .shade30),
                                dark: GlobalTokens.sharedColor(.forest, .tint40))

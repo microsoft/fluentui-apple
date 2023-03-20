@@ -56,12 +56,12 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokenSet: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .brandTextColor: .color {
+            .brandTextColor: .uiColor {
                 // "Charcoal"
                 return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
                                dark: GlobalTokens.sharedColor(.charcoal, .shade40))
             },
-            .booleanCellBrandColor: .color {
+            .booleanCellBrandColor: .uiColor {
                 // "Charcoal"
                 return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
                                dark: GlobalTokens.sharedColor(.charcoal, .shade40))
@@ -71,7 +71,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideOtherCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundGroupedColor: .color {
+            .cellBackgroundGroupedColor: .uiColor {
                 // "Charcoal"
                 return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
                                dark: GlobalTokens.sharedColor(.charcoal, .shade40))
@@ -81,7 +81,7 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundGroupedColor: .color {
+            .cellBackgroundGroupedColor: .uiColor {
                 // "Burgundy"
                 return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint50),
                                dark: GlobalTokens.sharedColor(.burgundy, .shade40))

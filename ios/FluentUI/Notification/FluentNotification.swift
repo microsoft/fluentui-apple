@@ -136,7 +136,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
-                        .foregroundColor(Color(tokenSet[.imageColor].color))
+                        .foregroundColor(Color(tokenSet[.imageColor].uiColor))
                 }
             }
         }
@@ -153,8 +153,8 @@ public struct FluentNotification: View, TokenizedControlView {
                         .accessibilityLabel(attributedTitle.string)
                 } else if let title = state.title {
                     Text(title)
-                        .font(.init(tokenSet[.boldTextFont].font))
-                        .foregroundColor(Color(tokenSet[.foregroundColor].color))
+                        .font(.init(tokenSet[.boldTextFont].uiFont))
+                        .foregroundColor(Color(tokenSet[.foregroundColor].uiColor))
                 }
             }
         }
@@ -170,8 +170,8 @@ public struct FluentNotification: View, TokenizedControlView {
                     .accessibilityLabel(attributedMessage.string)
             } else if let message = state.message {
                 Text(message)
-                    .font(.init(tokenSet[.regularTextFont].font))
-                    .foregroundColor(Color(tokenSet[.foregroundColor].color))
+                    .font(.init(tokenSet[.regularTextFont].uiFont))
+                    .foregroundColor(Color(tokenSet[.foregroundColor].uiColor))
             }
         }
 
@@ -190,7 +190,7 @@ public struct FluentNotification: View, TokenizedControlView {
         var button: some View {
             let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
-                let foregroundColor = tokenSet[.foregroundColor].color
+                let foregroundColor = tokenSet[.foregroundColor].uiColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
@@ -198,7 +198,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     }
                     .lineLimit(1)
                     .foregroundColor(Color(foregroundColor))
-                    .font(.init(tokenSet[.boldTextFont].font))
+                    .font(.init(tokenSet[.boldTextFont].uiFont))
                     .hoverEffect()
                 } else {
                     SwiftUI.Button(action: {
@@ -267,7 +267,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
                 }
             } else {
-                Color(tokenSet[.backgroundColor].color)
+                Color(tokenSet[.backgroundColor].uiColor)
             }
         }
 
@@ -279,7 +279,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                         .border(width: tokenSet[.outlineWidth].float,
                                 edges: state.showFromBottom ? [.top] : [.bottom],
-                                color: Color(tokenSet[.outlineColor].color)).foregroundColor(.clear)
+                                color: Color(tokenSet[.outlineColor].uiColor)).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))

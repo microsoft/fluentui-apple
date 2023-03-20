@@ -157,15 +157,15 @@ class CommandBarButton: UIButton {
     func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor = isSelected ? tokenSet[.itemIconColorSelected].color : tokenSet[.itemIconColorRest].color
+        let resolvedTintColor = isSelected ? tokenSet[.itemIconColorSelected].uiColor : tokenSet[.itemIconColorRest].uiColor
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = tokenSet[.itemBackgroundColorSelected].color
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorSelected].uiColor
             } else if isHighlighted {
-                resolvedBackgroundColor = tokenSet[.itemBackgroundColorPressed].color
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorPressed].uiColor
             } else {
-                resolvedBackgroundColor = tokenSet[.itemBackgroundColorRest].color
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorRest].uiColor
             }
         }
 
@@ -203,8 +203,8 @@ class CommandBarButton: UIButton {
 
 extension CommandBarButton: UIPointerInteractionDelegate {
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = isSelected ? tokenSet[.itemBackgroundColorSelected].color : tokenSet[.itemBackgroundColorHover].color
-        tintColor = isSelected ? tokenSet[.itemIconColorSelected].color : tokenSet[.itemIconColorHover].color
+        backgroundColor = isSelected ? tokenSet[.itemBackgroundColorSelected].uiColor : tokenSet[.itemBackgroundColorHover].uiColor
+        tintColor = isSelected ? tokenSet[.itemIconColorSelected].uiColor : tokenSet[.itemIconColorHover].uiColor
     }
 
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {

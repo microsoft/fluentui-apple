@@ -120,17 +120,17 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
                           size: 20.0)
 
         return [
-            .assistiveTextColor: .color { foreground },
-            .assistiveTextFont: .font { font },
-            .backgroundColor: .color { background },
-            .inputTextColor: .color { foreground },
-            .inputTextFont: .font { font },
-            .leadingIconColor: .color { foreground },
-            .placeholderColor: .color { foreground },
-            .strokeColor: .color { foreground },
-            .titleLabelColor: .color { foreground },
-            .titleLabelFont: .font { font },
-            .trailingIconColor: .color { foreground }
+            .assistiveTextColor: .uiColor { foreground },
+            .assistiveTextFont: .uiFont { font },
+            .backgroundColor: .uiColor { background },
+            .inputTextColor: .uiColor { foreground },
+            .inputTextFont: .uiFont { font },
+            .leadingIconColor: .uiColor { foreground },
+            .placeholderColor: .uiColor { foreground },
+            .strokeColor: .uiColor { foreground },
+            .titleLabelColor: .uiColor { foreground },
+            .titleLabelFont: .uiFont { font },
+            .trailingIconColor: .uiColor { foreground }
         ]
     }
 
@@ -142,17 +142,17 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
                           size: 20.0)
         return [
-            .assistiveTextColor: .color { foreground },
-            .assistiveTextFont: .font { font },
-            .backgroundColor: .color { background },
-            .inputTextColor: .color { foreground },
-            .inputTextFont: .font { font },
-            .leadingIconColor: .color { foreground },
-            .placeholderColor: .color { foreground },
-            .strokeColor: .color { foreground },
-            .titleLabelColor: .color { foreground },
-            .titleLabelFont: .font { font },
-            .trailingIconColor: .color { foreground }
+            .assistiveTextColor: .uiColor { foreground },
+            .assistiveTextFont: .uiFont { font },
+            .backgroundColor: .uiColor { background },
+            .inputTextColor: .uiColor { foreground },
+            .inputTextFont: .uiFont { font },
+            .leadingIconColor: .uiColor { foreground },
+            .placeholderColor: .uiColor { foreground },
+            .strokeColor: .uiColor { foreground },
+            .titleLabelColor: .uiColor { foreground },
+            .titleLabelFont: .uiFont { font },
+            .trailingIconColor: .uiColor { foreground }
         ]
     }
 }

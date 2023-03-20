@@ -79,7 +79,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         super.init { [style, size] token, theme in
             switch token {
             case .backgroundColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1)
@@ -90,7 +90,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .backgroundFocusedColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1Selected)
@@ -101,7 +101,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .backgroundDisabledColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent, .danger:
                         return theme.color(.background5)
@@ -110,7 +110,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .backgroundPressedColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent:
                         return theme.color(.brandBackground1Pressed)
@@ -121,7 +121,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
                         return .clear
@@ -132,7 +132,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderFocusedColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
                         return .clear
@@ -143,7 +143,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderDisabledColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
                         return .clear
@@ -152,7 +152,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .borderPressedColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
                         return .clear
@@ -181,7 +181,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent:
                         return theme.color(.foregroundOnColor)
@@ -194,9 +194,9 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundDisabledColor:
-                return .color { theme.color(.foregroundDisabled1) }
+                return .uiColor { theme.color(.foregroundDisabled1) }
             case .foregroundPressedColor:
-                return .color {
+                return .uiColor {
                     switch style() {
                     case .accent:
                         return theme.color(.foregroundOnColor)
@@ -209,7 +209,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .titleFont:
-                return .font {
+                return .uiFont {
                     switch size() {
                     case .large:
                         return theme.typography(.body1Strong)

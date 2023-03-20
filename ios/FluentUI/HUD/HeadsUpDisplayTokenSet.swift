@@ -26,7 +26,7 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .color {
+                return .uiColor {
                     return theme.color(.backgroundDarkStatic)
                 }
 
@@ -36,13 +36,13 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
                 }
 
             case .activityIndicatorColor:
-                return .color {
+                return .uiColor {
                     return UIColor(light: GlobalTokens.neutralColor(.grey56),
                                    dark: GlobalTokens.neutralColor(.grey72))
                 }
 
             case .labelColor:
-                return .color {
+                return .uiColor {
                     return theme.color(.foregroundLightStatic)
                 }
             }
