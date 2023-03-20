@@ -7,6 +7,7 @@ import UIKit
 class FocusRingView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
+        isUserInteractionEnabled = false
 
         layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.strokeFocus2]).cgColor
         layer.borderWidth = GlobalTokens.stroke(.width20)
