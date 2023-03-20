@@ -16,8 +16,8 @@ class LabelDemoController: DemoController {
 
         addLabel(text: "Text Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
 
-        for style in AliasTokens.TypographyTokens.allCases {
-            let fontInfo = view.fluentTheme.aliasTokens.typography[style]
+        for style in FluentTheme.TypographyToken.allCases {
+            let fontInfo = view.fluentTheme.typography(style)
             let fontWeight = UIFont.fluent(fontInfo).fontDescriptor.weightDescriptor
             let detailedDescription = "\(style.description) is \(fontWeight) \(Int(fontInfo.size))pt"
             dynamicLabels.append(addLabel(text: detailedDescription, style: style, colorStyle: .regular))
@@ -36,8 +36,8 @@ class LabelDemoController: DemoController {
     }
 
     @discardableResult
-    func addLabel(text: String, style: AliasTokens.TypographyTokens, colorStyle: TextColorStyle) -> Label {
-        let label = Label(style: style, colorStyle: colorStyle)
+    func addLabel(text: String, style: FluentTheme.TypographyToken, colorStyle: TextColorStyle) -> Label {
+        let label = Label(textStyle: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
         if colorStyle == .white {
@@ -49,9 +49,9 @@ class LabelDemoController: DemoController {
 
     @objc private func handleContentSizeCategoryDidChange() {
         for label in dynamicLabels {
-            let fontInfo = view.fluentTheme.aliasTokens.typography[label.style]
+            let fontInfo = view.fluentTheme.typography(label.textStyle)
             let fontWeight = UIFont.fluent(fontInfo).fontDescriptor.weightDescriptor
-            let detailedDescription = "\(label.style.description) is \(fontWeight) \(Int(fontInfo.size))pt"
+            let detailedDescription = "\(label.textStyle.description) is \(fontWeight) \(Int(fontInfo.size))pt"
             label.text = detailedDescription
         }
     }
@@ -74,7 +74,7 @@ extension TextColorStyle {
     }
 }
 
-extension AliasTokens.TypographyTokens {
+extension FluentTheme.TypographyToken {
     var description: String {
         switch self {
         case .display:

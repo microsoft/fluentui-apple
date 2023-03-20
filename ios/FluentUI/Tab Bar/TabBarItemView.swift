@@ -272,10 +272,10 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        let selectedColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.brandForeground1])
-        let unselectedImageColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground3])
-        let unselectedTextColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foreground2])
-        let disabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+        let selectedColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandForeground1))
+        let unselectedImageColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground3))
+        let unselectedTextColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground2))
+        let disabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundDisabled1))
 
         titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : unselectedTextColor) : disabledColor
         imageView.tintColor = isEnabled ? (isSelected ? selectedColor : unselectedImageColor) : disabledColor

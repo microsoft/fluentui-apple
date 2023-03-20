@@ -21,13 +21,28 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
-    public init(colorOverrides: [AliasTokens.ColorsTokens: DynamicColor]? = nil,
-                shadowOverrides: [AliasTokens.ShadowTokens: ShadowInfo]? = nil,
-                typographyOverrides: [AliasTokens.TypographyTokens: FontInfo]? = nil) {
+    public init(colorOverrides: [ColorToken: DynamicColor]? = nil,
+                shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
+                typographyOverrides: [TypographyToken: FontInfo]? = nil) {
+        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: DynamicColor) in
+            let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
+
+        let fixedShadowOverrides = shadowOverrides?.map({ (key: ShadowToken, value: ShadowInfo) in
+            let newKey = AliasTokens.ShadowTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.ShadowTokens, ShadowInfo)]()
+
+        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: FontInfo) in
+            let newKey = AliasTokens.TypographyTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
+
         // Pass overrides to AliasTokens
-        aliasTokens = .init(colorOverrides: colorOverrides,
-                            shadowOverrides: shadowOverrides,
-                            typographyOverrides: typographyOverrides)
+        aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
+                            shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
+                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides))
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
@@ -51,7 +66,14 @@ public class FluentTheme: NSObject, ObservableObject {
     /// The associated `AliasTokens` for this theme.
     @objc public let aliasTokens: AliasTokens
 
-    static var shared: FluentTheme = .init()
+    /// A shared, immutable, default `FluentTheme` instance.
+    ///
+    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
+    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
+    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
+    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
+    @objc(sharedTheme)
+    public static let shared: FluentTheme = .init()
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"

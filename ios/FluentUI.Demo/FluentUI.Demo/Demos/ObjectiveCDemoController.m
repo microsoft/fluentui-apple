@@ -75,7 +75,7 @@
 
 - (void)addLabelWithText:(NSString *)text
                textColor:(UIColor *)textColor {
-    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel *label = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     [label setTextAlignment:NSTextAlignmentCenter];
     [label setText:text];
     [label setTextColor:textColor];
@@ -92,9 +92,15 @@
 
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];
-    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandBackground3];
+    MSFDynamicColor *primaryColor = [fluentTheme colorForToken:MSFColorTokenBrandForeground1];
     [self addLabelWithText:@"Test label with alias color"
                  textColor:[[UIColor alloc] initWithDynamicColor:primaryColor]];
+
+    // Finally, add a shared-theme brand color (should be comm blue)
+    MSFFluentTheme *sharedTheme = [MSFFluentTheme sharedTheme];
+    MSFDynamicColor *sharedPrimaryColor = [sharedTheme colorForToken:MSFColorTokenBrandForeground1];
+    [self addLabelWithText:@"Test label with shared alias color"
+                 textColor:[[UIColor alloc] initWithDynamicColor:sharedPrimaryColor]];
 }
 
 - (void)overridesButtonPressed:(id)sender {
@@ -138,7 +144,7 @@
 }
 
 - (void)addTitleWithText:(NSString*)text {
-    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyAliasTokensBody1 colorStyle:MSFTextColorStyleRegular];
+    MSFLabel* titleLabel = [[MSFLabel alloc] initWithStyle:MSFTypographyTokenBody1 colorStyle:MSFTextColorStyleRegular];
     titleLabel.text = text;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.container addArrangedSubview:titleLabel];

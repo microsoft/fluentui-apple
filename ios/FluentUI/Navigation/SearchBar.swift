@@ -30,46 +30,46 @@ open class SearchBar: UIView, TokenizedControlInternal {
         func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background5])
+                return UIColor(dynamicColor: fluentTheme.color(.background5))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2].light, dark: fluentTheme.aliasTokens.colors[.background5].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.brandBackground2).light, dark: fluentTheme.color(.background5).dark))
             }
         }
 
         func cancelButtonColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground1))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground1).dark))
             }
         }
 
         func clearIconColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground2))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground2).dark))
             }
         }
 
         func placeholderColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground3))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground3).dark))
             }
         }
 
         func searchIconColor(fluentTheme: FluentTheme, isSearching: Bool = false) -> UIColor {
-            let searchBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-            let idleBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+            let searchBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground1).dark))
+            let idleBrandColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground3).dark))
 
             switch self {
             case .darkContent:
-                return isSearching ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+                return isSearching ? UIColor(dynamicColor: fluentTheme.color(.foreground1)) : UIColor(dynamicColor: fluentTheme.color(.foreground3))
             case .lightContent:
                 return isSearching ? searchBrandColor : idleBrandColor
             }
@@ -78,27 +78,27 @@ open class SearchBar: UIView, TokenizedControlInternal {
         func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground1))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground1).dark))
             }
         }
 
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground3))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground3).dark))
             }
         }
 
         func progressSpinnerColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .darkContent:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+                return UIColor(dynamicColor: fluentTheme.color(.foreground3))
             case .lightContent:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground3].dark))
+                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground3).dark))
             }
         }
     }
@@ -187,7 +187,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // user interaction point
     private lazy var searchTextField: SearchBarTextField = {
         let textField = SearchBarTextField()
-        textField.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.body1]).withSize(Constants.fontSize)
+        textField.font = UIFont.fluent(tokenSet.fluentTheme.typography(.body1)).withSize(Constants.fontSize)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -231,7 +231,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.body1])
+        button.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.typography(.body1))
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
