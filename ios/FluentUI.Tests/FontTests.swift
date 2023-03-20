@@ -43,10 +43,8 @@ class FontTests: XCTestCase {
     }
 
     func testScalingFontForContentSizeCategory() throws {
-        // `size` and `textStyle` should match under the "Large" setting here:
-        // https://developer.apple.com/design/human-interface-guidelines/foundations/typography/#:~:text=Dynamic-,Type,-sizes%20(iOS)
-        let size = 20.0
         let textStyle = UIFont.TextStyle.title3
+        let size = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle).pointSize
 
         let contentSizeCategories: [UIContentSizeCategory] = [.extraSmall, .small, .medium, .large, .extraLarge, .extraExtraLarge, .extraExtraExtraLarge, .accessibilityMedium, .accessibilityLarge, .accessibilityExtraLarge, .accessibilityExtraExtraLarge, .accessibilityExtraExtraExtraLarge]
 
