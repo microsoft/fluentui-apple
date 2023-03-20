@@ -25,25 +25,35 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         self.tokenSet = CommandBarTokenSet()
 
         rowsStackView = UIStackView()
-        rowsStackView.axis = .vertical
-        rowsStackView.translatesAutoresizingMaskIntoConstraints = false
+        innerStackView = UIStackView()
         itemGroupViews = []
 
         super.init(frame: .zero)
 
+        rowsStackView.axis = .vertical
+        rowsStackView.translatesAutoresizingMaskIntoConstraints = false
+        innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
+        innerStackView.translatesAutoresizingMaskIntoConstraints = false
+        innerStackView.distribution = .fillProportionally
+
         addSubview(rowsStackView)
+        rowsStackView.addArrangedSubview(innerStackView)
 
         for row in rows {
             if row.isScrollable {
                 let scrollableRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
                 scrollableRow.translatesAutoresizingMaskIntoConstraints = false
+                scrollableRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
+                    .init(light: GlobalTokens.neutralColors(.white),
+                          dark: GlobalTokens.neutralColors(.black))
+                }
                 rowsStackView.addArrangedSubview(scrollableRow)
             } else {
                 let fixedRow = CommandBarCommandGroupsView(itemGroups: row.itemGroups,
                                                            tokenSet: tokenSet)
                 fixedRow.translatesAutoresizingMaskIntoConstraints = false
                 fixedRow.setEqualWidthGroups()
-                rowsStackView.addArrangedSubview(fixedRow)
+                innerStackView.addArrangedSubview(fixedRow)
                 itemGroupViews.append(fixedRow)
             }
         }
@@ -56,6 +66,15 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateButtonTokens()
+        }
+    }
+
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if let previousTraitCollection = previousTraitCollection {
+            if previousTraitCollection.verticalSizeClass != traitCollection.verticalSizeClass {
+                innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
+            }
         }
     }
 
@@ -96,6 +115,8 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
     /// Container UIStackView that holds all rows of the MultilineCommandBar
     private var rowsStackView: UIStackView
+
+    private var innerStackView: UIStackView
 
     private var itemGroupViews: [CommandBarCommandGroupsView]
 
