@@ -11,7 +11,7 @@ import UIKit
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
             return
         }
 

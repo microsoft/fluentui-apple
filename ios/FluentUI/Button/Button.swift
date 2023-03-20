@@ -133,7 +133,7 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
             return
         }
 
@@ -354,7 +354,7 @@ open class Button: UIButton, TokenizedControlInternal {
             borderColor = tokenSet[.borderPressedColor].dynamicColor
         } else if isFocused {
             borderColor = tokenSet[.borderFocusedColor].dynamicColor
-        }else {
+        } else {
             borderColor = tokenSet[.borderColor].dynamicColor
         }
 
