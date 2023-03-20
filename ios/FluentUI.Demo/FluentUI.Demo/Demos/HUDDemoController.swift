@@ -290,7 +290,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideActivityHeadsUpDisplayTokens: [HeadsUpDisplayTokenSet.Tokens: ControlTokenValue] {
         let fluentTheme = self.view.fluentTheme
         return [
-            .backgroundColor: .dynamicColor { fluentTheme.color(.brandBackground1) }
+            .backgroundColor: .color { fluentTheme.color(.brandBackground1) }
         ]
     }
 
@@ -298,7 +298,7 @@ extension HUDDemoController: DemoAppearanceDelegate {
         let fluentTheme = self.view.fluentTheme
         return [
             .cornerRadius: .float { GlobalTokens.corner(.radius120) },
-            .labelColor: .dynamicColor { fluentTheme.color(.brandForeground1) }
+            .labelColor: .color { fluentTheme.color(.brandForeground1) }
         ]
     }
 }

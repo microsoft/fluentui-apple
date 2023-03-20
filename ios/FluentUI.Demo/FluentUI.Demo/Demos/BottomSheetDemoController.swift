@@ -420,16 +420,16 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),
-                                                           dark: GlobalTokens.sharedColors(.plum, .shade30))
+            .backgroundColor: .color { UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
+                                               dark: GlobalTokens.sharedColor(.plum, .shade30))
             }
         ]
     }
 
     private var perControlOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint40),
-                                                           dark: GlobalTokens.sharedColors(.forest, .shade30))
+            .backgroundColor: .color { UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
+                                               dark: GlobalTokens.sharedColor(.forest, .shade30))
             }
         ]
     }

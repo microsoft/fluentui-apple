@@ -244,10 +244,10 @@ struct NotificationDemoView: View {
 
     private var backgroundGradient: LinearGradientInfo {
         // It's a lovely blue-to-pink gradient
-        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.pink, .shade40)),
-                                      DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+        let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
+                                         dark: GlobalTokens.sharedColor(.pink, .shade40)),
+                                 UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
+                                         dark: GlobalTokens.sharedColor(.cyan, .shade40))]
         return LinearGradientInfo(colors: colors,
                                   startPoint: .init(x: 0.0, y: 1.0),
                                   endPoint: .init(x: 1.0, y: 0.0))
@@ -255,15 +255,15 @@ struct NotificationDemoView: View {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            .imageColor: .color {
+                return UIColor(light: GlobalTokens.sharedColor(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
                                   keyBlur: 10.0,
                                   xKey: 10.0,
                                   yKey: 10.0,
-                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
                                   ambientBlur: 100.0,
                                   xAmbient: -10.0,
                                   yAmbient: -10.0)

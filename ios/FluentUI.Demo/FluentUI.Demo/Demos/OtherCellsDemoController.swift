@@ -28,7 +28,7 @@ class OtherCellsDemoController: DemoController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
-        tableView.separatorColor = UIColor(dynamicColor: view.fluentTheme.color(.stroke2))
+        tableView.separatorColor = view.fluentTheme.color(.stroke2)
         tableView.tableFooterView = UIView(frame: .zero)
         view.addSubview(tableView)
     }
@@ -56,35 +56,35 @@ extension OtherCellsDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokenSet: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .brandTextColor: .dynamicColor {
+            .brandTextColor: .color {
                 // "Charcoal"
-                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
-                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
+                               dark: GlobalTokens.sharedColor(.charcoal, .shade40))
             },
-            .booleanCellBrandColor: .dynamicColor {
+            .booleanCellBrandColor: .color {
                 // "Charcoal"
-                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
-                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
+                               dark: GlobalTokens.sharedColor(.charcoal, .shade40))
             }
         ]
     }
 
     private var themeWideOverrideOtherCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundGroupedColor: .dynamicColor {
+            .cellBackgroundGroupedColor: .color {
                 // "Charcoal"
-                return DynamicColor(light: GlobalTokens.sharedColors(.charcoal, .tint50),
-                                    dark: GlobalTokens.sharedColors(.charcoal, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.charcoal, .tint50),
+                               dark: GlobalTokens.sharedColor(.charcoal, .shade40))
             }
         ]
     }
 
     private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundGroupedColor: .dynamicColor {
+            .cellBackgroundGroupedColor: .color {
                 // "Burgundy"
-                return DynamicColor(light: GlobalTokens.sharedColors(.burgundy, .tint50),
-                                    dark: GlobalTokens.sharedColors(.burgundy, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint50),
+                               dark: GlobalTokens.sharedColor(.burgundy, .shade40))
             }
         ]
     }

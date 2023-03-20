@@ -112,44 +112,44 @@ extension TextFieldDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
 
     private var themeWideOverrideTextFieldTokens: [TextFieldTokenSet.Tokens: ControlTokenValue] {
-        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.cornflower, .tint40),
-                                      dark: GlobalTokens.sharedColors(.cornflower, .shade30))
-        let background = DynamicColor(light: GlobalTokens.sharedColors(.cornflower, .shade30),
-                                      dark: GlobalTokens.sharedColors(.cornflower, .tint40))
-        let font = FontInfo(name: "Times", size: 20.0, weight: .regular)
+        let foreground = UIColor(light: GlobalTokens.sharedColor(.cornflower, .tint40),
+                                 dark: GlobalTokens.sharedColor(.cornflower, .shade30))
+        let background = UIColor(light: GlobalTokens.sharedColor(.cornflower, .shade30),
+                                 dark: GlobalTokens.sharedColor(.cornflower, .tint40))
+        let font = UIFont(name: "Times", size: 20.0)!
         return [
-            .assistiveTextColor: .dynamicColor { foreground },
-            .assistiveTextFont: .fontInfo { font },
-            .backgroundColor: .dynamicColor { background },
-            .inputTextColor: .dynamicColor { foreground },
-            .inputTextFont: .fontInfo { font },
-            .leadingIconColor: .dynamicColor { foreground },
-            .placeholderColor: .dynamicColor { foreground },
-            .strokeColor: .dynamicColor { foreground },
-            .titleLabelColor: .dynamicColor { foreground },
-            .titleLabelFont: .fontInfo { font },
-            .trailingIconColor: .dynamicColor { foreground }
+            .assistiveTextColor: .color { foreground },
+            .assistiveTextFont: .font { font },
+            .backgroundColor: .color { background },
+            .inputTextColor: .color { foreground },
+            .inputTextFont: .font { font },
+            .leadingIconColor: .color { foreground },
+            .placeholderColor: .color { foreground },
+            .strokeColor: .color { foreground },
+            .titleLabelColor: .color { foreground },
+            .titleLabelFont: .font { font },
+            .trailingIconColor: .color { foreground }
         ]
     }
 
     private var perControlOverrideTextFieldTokens: [TextFieldTokenSet.Tokens: ControlTokenValue] {
-        let foreground = DynamicColor(light: GlobalTokens.sharedColors(.lilac, .tint40),
-                                      dark: GlobalTokens.sharedColors(.lilac, .shade30))
-        let background = DynamicColor(light: GlobalTokens.sharedColors(.lilac, .shade30),
-                                      dark: GlobalTokens.sharedColors(.lilac, .tint40))
-        let font = FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
+        let foreground = UIColor(light: GlobalTokens.sharedColor(.lilac, .tint40),
+                                 dark: GlobalTokens.sharedColor(.lilac, .shade30))
+        let background = UIColor(light: GlobalTokens.sharedColor(.lilac, .shade30),
+                                 dark: GlobalTokens.sharedColor(.lilac, .tint40))
+        let font = UIFont(name: "Papyrus", size: 20.0)!
         return [
-            .assistiveTextColor: .dynamicColor { foreground },
-            .assistiveTextFont: .fontInfo { font },
-            .backgroundColor: .dynamicColor { background },
-            .inputTextColor: .dynamicColor { foreground },
-            .inputTextFont: .fontInfo { font },
-            .leadingIconColor: .dynamicColor { foreground },
-            .placeholderColor: .dynamicColor { foreground },
-            .strokeColor: .dynamicColor { foreground },
-            .titleLabelColor: .dynamicColor { foreground },
-            .titleLabelFont: .fontInfo { font },
-            .trailingIconColor: .dynamicColor { foreground }
+            .assistiveTextColor: .color { foreground },
+            .assistiveTextFont: .font { font },
+            .backgroundColor: .color { background },
+            .inputTextColor: .color { foreground },
+            .inputTextFont: .font { font },
+            .leadingIconColor: .color { foreground },
+            .placeholderColor: .color { foreground },
+            .strokeColor: .color { foreground },
+            .titleLabelColor: .color { foreground },
+            .titleLabelFont: .font { font },
+            .trailingIconColor: .color { foreground }
         ]
     }
 }

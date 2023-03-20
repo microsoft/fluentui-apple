@@ -11,7 +11,7 @@ class ShadowTokensDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.stencil2))
+        view.backgroundColor = view.fluentTheme.color(.stencil2)
 
         container.alignment = .center
         container.spacing = 120
@@ -41,11 +41,11 @@ private class ShadowView: UIView, Shadowable {
         layer.borderWidth = Constants.borderWidth
         layer.cornerRadius = Constants.cornerRadius
 
-        backgroundColor = UIColor(dynamicColor: fluentTheme.color(.background2))
+        backgroundColor = fluentTheme.color(.background2)
 
         label.text = title
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor(dynamicColor: fluentTheme.color(.foreground1))
+        label.textColor = fluentTheme.color(.foreground1)
         addSubview(label)
 
         setupLayoutConstraints()

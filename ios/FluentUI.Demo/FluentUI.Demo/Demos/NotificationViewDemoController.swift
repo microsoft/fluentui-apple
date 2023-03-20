@@ -66,7 +66,7 @@ class NotificationViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
         readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background4))
+        view.backgroundColor = view.fluentTheme.color(.background4)
 
         addTitle(text: "SwiftUI Demo")
         container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
@@ -213,10 +213,10 @@ class NotificationViewDemoController: DemoController {
             notification.state.message = "The background of this notification has been customized with a gradient."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             // It's a lovely blue-to-pink gradient
-            let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
-                                                       dark: GlobalTokens.sharedColors(.pink, .shade40)),
-                                          DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
-                                                       dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+            let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
+                                             dark: GlobalTokens.sharedColor(.pink, .shade40)),
+                                     UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
+                                             dark: GlobalTokens.sharedColor(.cyan, .shade40))]
             notification.state.backgroundGradient = LinearGradientInfo(colors: colors,
                                                                        startPoint: .init(x: 0.0, y: 1.0),
                                                                        endPoint: .init(x: 1.0, y: 0.0))
@@ -240,15 +240,15 @@ class NotificationViewDemoController: DemoController {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            .imageColor: .color {
+                return UIColor(light: GlobalTokens.sharedColor(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
                                   keyBlur: 10.0,
                                   xKey: 10.0,
                                   yKey: 10.0,
-                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
                                   ambientBlur: 100.0,
                                   xAmbient: -10.0,
                                   yAmbient: -10.0)

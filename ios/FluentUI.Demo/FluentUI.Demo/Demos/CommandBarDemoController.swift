@@ -163,7 +163,7 @@ class CommandBarDemoController: DemoController {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
+        textField.backgroundColor = view.fluentTheme.color(.background3)
         textField.placeholder = "Text Field"
 
         return textField
@@ -176,21 +176,21 @@ class CommandBarDemoController: DemoController {
 
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background4))
+        view.backgroundColor = view.fluentTheme.color(.background4)
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
         commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
-        commandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
+        commandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
 
         let itemCustomizationContainer = UIStackView()
         itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
         itemCustomizationContainer.axis = .vertical
-        itemCustomizationContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
+        itemCustomizationContainer.backgroundColor = view.fluentTheme.color(.background3)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -278,13 +278,13 @@ class CommandBarDemoController: DemoController {
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
         fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
-        fixedButtonCommandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
+        fixedButtonCommandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
         let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background3))
+        textFieldContainer.backgroundColor = view.fluentTheme.color(.background3)
         textFieldContainer.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
@@ -376,7 +376,7 @@ class CommandBarDemoController: DemoController {
         )
 
         commandBarItem.accentImage = command.accentImage
-        commandBarItem.accentImageTintColor = UIColor(dynamicColor: view.fluentTheme.color(.brandForeground1))
+        commandBarItem.accentImageTintColor = view.fluentTheme.color(.brandForeground1)
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
@@ -517,13 +517,13 @@ extension CommandBarDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+            .itemBackgroundColorRest: .color { UIColor(light: GlobalTokens.sharedColor(.red, .primary)) }
         ]
     }
 
     private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.grape, .primary)) }
+            .itemBackgroundColorRest: .color { UIColor(light: GlobalTokens.sharedColor(.grape, .primary)) }
         ]
     }
 }
@@ -534,7 +534,7 @@ extension CommandBarDemoController: CommandBarDelegate {
             let originalBackgroundColor = commandBar.backgroundColor
 
             UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
-                commandBar.backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.color(.brandBackground1))
+                commandBar.backgroundColor = self.view.fluentTheme.color(.brandBackground1)
             } completion: { _ in
                 commandBar.backgroundColor = originalBackgroundColor
             }

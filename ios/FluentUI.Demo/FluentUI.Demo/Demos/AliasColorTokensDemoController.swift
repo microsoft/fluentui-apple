@@ -30,7 +30,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         let section = AliasColorTokensDemoSection.allCases[indexPath.section]
         let row = section.rows[indexPath.row]
 
-        cell.backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: fluentTheme.color(row))
+        cell.backgroundConfiguration?.backgroundColor = fluentTheme.color(row)
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -81,7 +81,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .successBackground1,
              .warningBackground1,
              .severeBackground1:
-            return UIColor(dynamicColor: fluentTheme.color(.foreground1))
+            return fluentTheme.color(.foreground1)
         case .foreground1,
              .foreground2,
              .foreground3,
@@ -103,12 +103,12 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .severeBackground2,
              .severeForeground1,
              .severeForeground2:
-            return UIColor(dynamicColor: fluentTheme.color(.foregroundOnColor))
+            return fluentTheme.color(.foregroundOnColor)
         case .foregroundLightStatic,
              .backgroundLightStatic,
              .backgroundLightStaticDisabled,
              .warningBackground2:
-            return UIColor(dynamicColor: fluentTheme.color(.foregroundDarkStatic))
+            return fluentTheme.color(.foregroundDarkStatic)
         case .brandForeground1,
              .brandForeground1Selected,
              .brandForegroundDisabled1,
@@ -126,7 +126,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .presenceDnd,
              .presenceAvailable,
              .presenceOof:
-            return UIColor(dynamicColor: fluentTheme.color(.foregroundLightStatic))
+            return fluentTheme.color(.foregroundLightStatic)
         }
     }
 

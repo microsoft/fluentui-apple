@@ -78,8 +78,8 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let accentColor = UIColor(dynamicColor: view.fluentTheme.color(.foregroundOnColor))
-        let textColor = UIColor(dynamicColor: view.fluentTheme.color(.foreground1))
+        let accentColor = view.fluentTheme.color(.foregroundOnColor)
+        let textColor = view.fluentTheme.color(.foreground1)
         let pillButtonBackgroundColor = useCustomPillsColors ? accentColor : nil
         let pillSelectedButtonBackgroundColor = useCustomPillsColors ? textColor : nil
         let pillButtonTextColor = useCustomPillsColors ? textColor : nil
