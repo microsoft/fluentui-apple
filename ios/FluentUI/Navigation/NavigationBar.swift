@@ -167,9 +167,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         static let normalContentHeight: CGFloat = 44
         static let expandedContentHeight: CGFloat = 48
 
-        static let leftBarButtonItemLeadingMargin: CGFloat = 8
-        static let leftBarButtonItemTrailingMargin: CGFloat = 8
-        static let rightBarButtonItemHorizontalPadding: CGFloat = 10
+        static let leftBarButtonItemLeadingMargin: CGFloat = GlobalTokens.spacing(.size80)
+        static let leftBarButtonItemTrailingMargin: CGFloat = GlobalTokens.spacing(.size80)
+        static let rightBarButtonItemHorizontalPadding: CGFloat = GlobalTokens.spacing(.size100)
 
         static let obscuringAnimationDuration: TimeInterval = 0.12
         static let revealingAnimationDuration: TimeInterval = 0.25
@@ -335,6 +335,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+    private var subtitleObserver: NSKeyValueObservation?
+    private var titleAccessoryObserver: NSKeyValueObservation?
+    private var titleImageObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
     private var accessoryViewObserver: NSKeyValueObservation?
     private var topAccessoryViewObserver: NSKeyValueObservation?
@@ -483,6 +486,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         bottom.priority = .defaultHigh
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
+
+        if #available(iOS 15.0, *) {
+            // These are consistent with UIKit's default navigation bar
+            contentStackView.minimumContentSizeCategory = .large
+            contentStackView.maximumContentSizeCategory = .extraExtraLarge
+        }
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
@@ -568,7 +577,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateElementSizes() {
         titleView.avatarSize = currentAvatarSize
-        titleView.titleSize = currentTitleSize
         barHeight = currentBarHeight
     }
 
@@ -625,6 +633,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             self.navigationItemDidUpdate(item)
         }
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleAccessoryObserver = navigationItem.observe(\UINavigationItem.titleAccessory) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleImageObserver = navigationItem.observe(\UINavigationItem.titleImage) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
         accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
@@ -850,7 +867,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             // Use default behavior of requesting an accessory expansion
             customTitleView.delegate = self
         }
-        navigationItem.titleView = customTitleView
+        // For some strange reason, embedding the TwoLineTitleView inside a UIStackView
+        // makes its labels resize properly according to content size changes.
+        navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
     }
 
     // MARK: Content expansion/contraction

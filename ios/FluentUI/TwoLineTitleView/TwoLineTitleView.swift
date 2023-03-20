@@ -165,7 +165,7 @@ open class TwoLineTitleView: UIView {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
         label.style = .body1Strong
-        label.maxFontSize = 17
+        label.maxFontSize = fluentTheme.aliasTokens.typography[.body1Strong].size
         label.textAlignment = .center
         return label
     }()
@@ -186,7 +186,7 @@ open class TwoLineTitleView: UIView {
         let label = Label()
         label.lineBreakMode = .byTruncatingMiddle
         label.style = .caption1
-        label.maxFontSize = 12
+        label.maxFontSize = fluentTheme.aliasTokens.typography[.caption1].size
         return label
     }()
 
@@ -289,6 +289,9 @@ open class TwoLineTitleView: UIView {
 
         titleButtonLeadingImageView.image = titleImage
         titleButtonLeadingImageView.isHidden = titleImage == nil
+
+        let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
+        titleButtonLabel.maxFontSize = subtitleIsNilOrEmpty ? 0 : fluentTheme.aliasTokens.typography[.body1Strong].size
 
         setupButton(titleButton, label: titleButtonLabel, trailingImageView: titleButtonTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         // Check for strict equality for the subtitle button's interactivity.

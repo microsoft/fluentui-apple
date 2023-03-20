@@ -15,13 +15,10 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     }
 
     private struct Constants {
-        static let horizontalSpacing: CGFloat = 10
+        static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size100)
 
         static let compactAvatarSize: MSFAvatarSize = .size24
         static let avatarSize: MSFAvatarSize = .size32
-
-        // Once we are iOS 14 minimum, we can use Fonts.largeTitle.withSize() function instead
-        static let compactTitleFont = UIFont.systemFont(ofSize: 26, weight: .bold)
     }
 
     var personaData: Persona? {
@@ -82,19 +79,6 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
             titleButton.setTitleColor(colorForStyle, for: .normal)
             twoLineTitleView.currentStyle = style == .primary ? .primary : .system
             avatar?.state.style = style == .primary ? .default : .accent
-        }
-    }
-
-    var titleSize: NavigationBar.ElementSize = .automatic {
-        didSet {
-            switch titleSize {
-            case .automatic:
-                return
-            case .contracted:
-                titleButton.titleLabel?.font = Constants.compactTitleFont
-            case .expanded:
-                titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
-            }
         }
     }
 
@@ -229,7 +213,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
 
         // title button setup
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
+        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1], shouldScale: false) // Don't scale because navigation bar height doesn't scale either
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
@@ -248,10 +232,6 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     }
 
     private func expansionAnimation() {
-        if titleSize == .automatic {
-            titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1])
-        }
-
         if avatarSize == .automatic {
             avatar?.state.size = Constants.avatarSize
         }
@@ -260,10 +240,6 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     }
 
     private func contractionAnimation() {
-        if titleSize == .automatic {
-            titleButton.titleLabel?.font = Constants.compactTitleFont
-        }
-
         if avatarSize == .automatic {
             avatar?.state.size = Constants.compactAvatarSize
         }
@@ -354,7 +330,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     /// - Parameter animated: to animate the block or not
     func expand(animated: Bool) {
         // Exit early if neither element's size is automatic
-        guard titleSize == .automatic || avatarSize == .automatic else {
+        guard avatarSize == .automatic else {
             return
         }
 
@@ -371,7 +347,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     /// - Parameter animated: to animate the block or not
     func contract(animated: Bool) {
         // Exit early if neither element's size is automatic
-        guard titleSize == .automatic || avatarSize == .automatic else {
+        guard avatarSize == .automatic else {
             return
         }
         if animated {

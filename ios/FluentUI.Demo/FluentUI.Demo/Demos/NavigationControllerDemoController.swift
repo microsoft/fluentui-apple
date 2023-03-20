@@ -85,7 +85,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
     }
 
     @objc func showSystemTitleWithShyAccessory() {
@@ -93,7 +93,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
@@ -101,7 +101,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
@@ -131,7 +131,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithPillSegment() {
-        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(compatibleWith: .primary), contractNavigationBarOnScroll: false)
     }
 
     private enum LeadingItem {
@@ -223,11 +223,11 @@ class NavigationControllerDemoController: DemoController {
         return searchBar
     }
 
-    private func createSegmentedControl() -> UIView {
+    private func createSegmentedControl(compatibleWith style: NavigationBar.Style) -> UIView {
         let segmentItems: [SegmentItem] = [
             SegmentItem(title: "First"),
             SegmentItem(title: "Second")]
-        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        let pillControl = SegmentedControl(items: segmentItems, style: style == .system ? .primaryPill : .onBrandPill)
         pillControl.shouldSetEqualWidthForSegments = false
         pillControl.isFixedWidth = false
         pillControl.contentInset = .zero
@@ -329,6 +329,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         },
         13: TitleViewFeature(name: "Leading, image, disclosure") {
             $0.usesLargeTitle = true
+            $0.subtitle = ""
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+        },
+        14: TitleViewFeature(name: "Centered, image, disclosure") {
             $0.subtitle = ""
             $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
