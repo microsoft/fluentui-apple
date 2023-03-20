@@ -216,7 +216,7 @@ public struct Avatar: View, TokenizedControlView {
             } else {
                 Text(initialsString)
                     .foregroundColor(Color(foregroundColor))
-                    .font(.init(tokenSet[.textFont].uiFont)) // shouldScale: false
+                    .font(.init(tokenSet[.textFont].uiFont))
             }
         }
 

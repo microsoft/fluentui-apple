@@ -142,7 +142,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = titleFont // shouldScale: false
+            titleLabel?.font = titleFont
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -210,12 +210,12 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = titleFont // shouldScale: false
+        attributedTitle.font = titleFont
         configuration?.attributedTitle = attributedTitle
 
         let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = self.titleFont // shouldScale: false
+            outgoing.font = self.titleFont
             return outgoing
         }
         configuration?.titleTextAttributesTransformer = attributedTitleTransformer

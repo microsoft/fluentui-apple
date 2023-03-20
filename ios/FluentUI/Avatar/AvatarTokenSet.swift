@@ -80,11 +80,11 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                     case .size16, .size20:
                         return .systemFont(ofSize: 9, weight: .regular)
                     case .size24:
-                        return theme.typography(.caption2)
+                        return theme.typography(.caption2, adjustsForContentSizeCategory: false)
                     case .size32:
-                        return theme.typography(.caption1)
+                        return theme.typography(.caption1, adjustsForContentSizeCategory: false)
                     case .size40:
-                        return theme.typography(.body2)
+                        return theme.typography(.body2, adjustsForContentSizeCategory: false)
                     case .size56:
                         return .systemFont(ofSize: GlobalTokens.fontSize(.size500), weight: .regular)
                     case .size72:

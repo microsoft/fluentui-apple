@@ -49,7 +49,7 @@ public extension PillButton {
     }
 
     static func titleFont(for fluentTheme: FluentTheme) -> UIFont {
-        return fluentTheme.typography(.body2)
+        return fluentTheme.typography(.body2, adjustsForContentSizeCategory: false)
     }
 
     // MARK: selected state

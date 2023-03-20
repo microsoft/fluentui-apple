@@ -31,7 +31,7 @@ class SegmentPillButton: UIButton {
     let tokenSet: SegmentedControlTokenSet
 
     func updateTokenizedValues() {
-        titleLabel?.font = tokenSet[.font].uiFont // shouldScale: false
+        titleLabel?.font = tokenSet[.font].uiFont
         let verticalInset = tokenSet[.verticalInset].float
         let horizontalInset = tokenSet[.horizontalInset].float
         if #available(iOS 15.0, *) {
@@ -44,7 +44,7 @@ class SegmentPillButton: UIButton {
             configuration.baseForegroundColor = tokenSet[.restLabelColor].uiColor
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = self.tokenSet[.font].uiFont // shouldScale: false
+                outgoing.font = self.tokenSet[.font].uiFont
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer

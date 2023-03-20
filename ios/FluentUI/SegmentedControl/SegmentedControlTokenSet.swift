@@ -179,7 +179,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .font:
-                return .uiFont { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2, adjustsForContentSizeCategory: false) }
             }
         }
     }

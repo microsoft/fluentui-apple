@@ -150,8 +150,9 @@ public extension FluentTheme {
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Returns: A `FontInfo` for the given token.
-    @objc(typographyForToken:)
-    func typography(_ token: TypographyToken) -> UIFont {
-        return UIFont.fluent(aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!])
+    @objc(typographyForToken:adjustsForContentSizeCategory:)
+    func typography(_ token: TypographyToken, adjustsForContentSizeCategory: Bool = true) -> UIFont {
+        return UIFont.fluent(aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!],
+                             shouldScale: adjustsForContentSizeCategory)
     }
 }
