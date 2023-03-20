@@ -4,32 +4,37 @@
 //
 import UIKit
 
-class FocusRingView: UIView, TokenizedControlInternal {
-    open override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        guard let newWindow else {
-            return
-        }
-        tokenSet.update(newWindow.fluentTheme)
-        updateRingColors()
-    }
-    
-
-    public override init(frame: CGRect) {
+class FocusRingView: UIView {
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.addSublayer(outerFocusRing)
-        layer.addSublayer(innerFocusRing)
-        updateRingColors()
+
+        layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.strokeFocus2]).cgColor
+        layer.borderWidth = GlobalTokens.stroke(.width20)
+
+        addSubview(innerFocusRing)
+
+        NSLayoutConstraint.activate([
+            topAnchor.constraint(equalTo: innerFocusRing.topAnchor),
+            leadingAnchor.constraint(equalTo: innerFocusRing.leadingAnchor),
+            trailingAnchor.constraint(equalTo: innerFocusRing.trailingAnchor),
+            bottomAnchor.constraint(equalTo: innerFocusRing.bottomAnchor)
+        ])
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    var tokenSet: EmptyTokenSet = .init()
-
     func drawFocusRing(over view: UIView) {
+        let viewLayer = view.layer
+        let cornerRadius = viewLayer.cornerRadius
+        let cornerCurve = viewLayer.cornerCurve
+        let innerLayer = innerFocusRing.layer
+        innerLayer.cornerRadius = cornerRadius
+        innerLayer.cornerCurve = cornerCurve
+        layer.cornerRadius = cornerRadius
+        layer.cornerCurve = cornerCurve
+
         NSLayoutConstraint.deactivate(ringViewConstraints)
         ringViewConstraints = [
             topAnchor.constraint(equalTo: view.topAnchor),
@@ -38,45 +43,17 @@ class FocusRingView: UIView, TokenizedControlInternal {
             bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ]
         NSLayoutConstraint.activate(ringViewConstraints)
-        updateRingBounds(for: view)
     }
 
-    func updateRingBounds(for view: UIView) {
-        let viewLayer = view.layer
-        let ringBounds = view.bounds
-        outerFocusRing.frame = ringBounds
-        outerFocusRing.cornerRadius = viewLayer.cornerRadius
-        outerFocusRing.cornerCurve = viewLayer.cornerCurve
-        outerFocusRing.removeAllAnimations()
+    private var innerFocusRing: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.borderColor = UIColor(dynamicColor: FluentTheme.shared.aliasTokens.colors[.strokeFocus1]).cgColor
+        view.layer.borderWidth = GlobalTokens.stroke(.width30)
 
-        let ringOrigin = ringBounds.origin
-        innerFocusRing.cornerRadius = viewLayer.cornerRadius
-        innerFocusRing.cornerCurve = viewLayer.cornerCurve
-        innerFocusRing.frame = CGRect(x: ringOrigin.x + innerRingInset,
-                                      y: ringOrigin.y + innerRingInset,
-                                      width: ringBounds.width - innerRingInset * 2,
-                                      height: ringBounds.height - innerRingInset * 2)
-        innerFocusRing.removeAllAnimations()
-    }
-
-    func updateRingColors() {
-        innerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus1]).cgColor
-        outerFocusRing.borderColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeFocus2]).cgColor
-    }
-
-    private let innerFocusRing: CALayer = {
-        let innerRing = CALayer()
-        innerRing.borderWidth = GlobalTokens.stroke(.width10)
-
-        return innerRing
+        return view
     }()
-    private let outerFocusRing: CALayer = {
-        let outerRing = CALayer()
-        outerRing.borderWidth = GlobalTokens.stroke(.width20)
 
-        return outerRing
-    }()
-    private let innerRingInset: CGFloat = 1.5
     private var ringViewConstraints: [NSLayoutConstraint] = []
 }
 
