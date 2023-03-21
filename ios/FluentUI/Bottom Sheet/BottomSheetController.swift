@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 @objc(MSFBottomSheetControllerDelegate)
 public protocol BottomSheetControllerDelegate: AnyObject {
@@ -53,19 +52,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
         super.init(nibName: nil, bundle: nil)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-            strongSelf.updateAppearance()
-        }
     }
 
     @available(*, unavailable)
@@ -407,6 +393,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         constraints.append(contentsOf: makeLayoutGuideConstraints())
 
         NSLayoutConstraint.activate(constraints)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     // MARK: - Shadow Layers
@@ -460,7 +451,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
     public var tokenSet: BottomSheetTokenSet = .init()
 
-    var tokenSetSink: AnyCancellable?
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
     private func updateAppearance() {
@@ -484,13 +474,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private func updateCornerRadius() {
         bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.view.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
     }
 
     private lazy var overflowView: UIView = UIView()

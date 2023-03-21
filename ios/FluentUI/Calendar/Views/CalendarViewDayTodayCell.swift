@@ -36,12 +36,11 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
                     dateLabelText: dateLabelText,
                     indicatorLevel: indicatorLevel)
 
-        configureBackgroundColor()
-        configureFontColor()
+        updateAppearance()
     }
 
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
+    override func updateAppearance() {
+        super.updateAppearance()
         configureBackgroundColor()
         configureFontColor()
     }

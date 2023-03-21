@@ -67,6 +67,13 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - 44   // navigation bar - design: 44, system: 44
     }
 
+    convenience init() {
+        self.init(frame: .zero)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
+    }
+
     override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
@@ -145,6 +152,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
 
     var lockedInContractedState: Bool = false
     weak var parentController: ShyHeaderController?
+    weak var paddingView: UIView?
 
     var navigationBarIsHidden: Bool = false {
         didSet {
@@ -170,6 +178,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
         let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         backgroundColor = color
+        paddingView?.backgroundColor = color
     }
 
     private let contentStackView = UIStackView()

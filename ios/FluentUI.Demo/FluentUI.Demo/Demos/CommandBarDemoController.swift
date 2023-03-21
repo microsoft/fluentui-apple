@@ -246,6 +246,14 @@ class CommandBarDemoController: DemoController {
         itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
         itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
 
+        let disableMenuItemsStackView = createHorizontalStackView()
+        disableMenuItemsStackView.addArrangedSubview(createLabelWithText("Disable Undo Menu Items"))
+        let disableMenuItemsSwitch: UISwitch = UISwitch()
+        disableMenuItemsSwitch.isOn = false
+        disableMenuItemsSwitch.addTarget(self, action: #selector(disableMenuItemValueChanged), for: .valueChanged)
+        disableMenuItemsStackView.addArrangedSubview(disableMenuItemsSwitch)
+        itemCustomizationContainer.addArrangedSubview(disableMenuItemsStackView)
+
         let itemHiddenStackView = createHorizontalStackView()
         itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
         let itemHiddenSwitch: UISwitch = UISwitch()
@@ -418,6 +426,22 @@ class CommandBarDemoController: DemoController {
         }
 
         item.isEnabled = sender.isOn
+    }
+
+    @objc func disableMenuItemValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[4][0] else {
+            return
+        }
+
+        if sender.isOn {
+            let disabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), attributes: .disabled, handler: { _ in }),
+                                            UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), attributes: .disabled, handler: { _ in })])
+            item.menu = disabledMenu
+        } else {
+            let enabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+                                            UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
+            item.menu = enabledMenu
+        }
     }
 
     @objc func itemHiddenValueChanged(sender: UISwitch!) {

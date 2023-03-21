@@ -3,9 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
-import CoreGraphics // for CGFloat
 import Combine
+import UIKit
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -59,6 +58,23 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         self.defaults = defaults
     }
 
+    deinit {
+        deregisterOnUpdate()
+    }
+
+    /// Removes all `onUpdate`-based observing. Useful if you are re-registering the same tokenSet
+    /// for a new instance of a control (see `Tooltip` for an example).
+    func deregisterOnUpdate() {
+        if let notificationObserver {
+            NotificationCenter.default.removeObserver(notificationObserver,
+                                                      name: .didChangeTheme,
+                                                      object: nil)
+        }
+        changeSink = nil
+        notificationObserver = nil
+        onUpdate = nil
+    }
+
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
     ///
     /// - Parameter fluentTheme: The current `FluentTheme` for the control's environment.
@@ -68,22 +84,16 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
-    /// Simplifies the process of observing changes to this token set.
-    ///
-    /// - Parameter receiveValue: A callback to be invoked after the token set has completed updating.
-    ///
-    /// - Returns: An `AnyCancellable` to track this observation.
-    func sinkChanges(receiveValue: @escaping () -> Void) -> AnyCancellable {
-        return self.objectWillChange.sink { [receiveValue] in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                receiveValue()
-            }
-        }
-    }
-
     // Internal accessor and setter functions for the override dictionary
 
+    /// Returns the current override value for a given token, or nil if none exists.
+    ///
+    /// This API will check `valueOverrides` first for local overrides, and `fluentTheme.tokens(for:)`
+    /// second, returning the first of those to be non-nil, or nil if both are unset.
+    ///
+    /// - Parameter token: The token key to fetch any existing override for.
+    ///
+    /// - Returns: the active override value for a given token, or nil if none exists.
     func overrideValue(forToken token: T) -> ControlTokenValue? {
         if let value = valueOverrides?[token] {
             return value
@@ -93,11 +103,57 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         return nil
     }
 
+    /// Sets an override value for a given token key.
+    ///
+    /// - Parameter value: The value to set as an override.
+    /// - Parameter token: The token key whose value should be set.
     func setOverrideValue(_ value: ControlTokenValue?, forToken token: T) {
         if valueOverrides == nil {
             valueOverrides = [:]
         }
         valueOverrides?[token] = value
+    }
+
+    /// Registers an observing control for update calls.
+    ///
+    /// The `onUpdate` callback will be invoked in two cases:
+    /// 1. A new override value has been set on this `ControlTokenSet`.
+    /// 2. A `Notification.Name.didChangeTheme` notification was fired for either `control` or one of its superviews.
+    ///
+    /// Note: consecutive calls to this method will no-op; only the first invocation will be recognized. If you need to change
+    /// the view requesting updates, invoke `deregisterOnUpdate()` before calling `registerOnUpdate` a second time.
+    ///
+    /// - Parameter control: The `UIView` instance that wishes to observe.
+    /// - Parameter onUpdate: A callback to run whenever `control` should update itself.
+    func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
+        guard self.onUpdate == nil,
+              changeSink == nil,
+              notificationObserver == nil else {
+            assertionFailure("Attempting to double-register for tokenSet updates!")
+            return
+        }
+        self.onUpdate = onUpdate
+
+        changeSink = self.objectWillChange.sink { [weak self] in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.onUpdate?()
+            }
+        }
+
+        // Register for notifications in order to call update() when the theme changes.
+        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                      object: nil,
+                                                                      queue: nil) { [weak self, weak control] notification in
+            guard let strongSelf = self,
+                  let themeView = notification.object as? UIView,
+                  let control,
+                  control.isDescendant(of: themeView)
+            else {
+                return
+            }
+            strongSelf.update(themeView.fluentTheme)
+        }
     }
 
     /// The current `FluentTheme` associated with this `ControlTokenSet`.
@@ -108,6 +164,15 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// Reference to the default value lookup function for this control.
     private var defaults: ((_ token: T, _ theme: FluentTheme) -> ControlTokenValue)?
+
+    /// Holds the sink for any changes to the control token set.
+    private var changeSink: AnyCancellable?
+
+    /// Stores the notification handler for .didChangeTheme notifications.
+    private var notificationObserver: NSObjectProtocol?
+
+    /// A callback to be invoked after the token set has completed updating.
+    private var onUpdate: (() -> Void)?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.

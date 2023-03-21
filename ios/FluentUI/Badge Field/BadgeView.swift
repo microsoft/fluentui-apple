@@ -395,10 +395,10 @@ open class BadgeView: UIView, TokenizedControlInternal {
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+            self?.updateFonts()
+        }
 
         defer {
             self.dataSource = dataSource
@@ -409,15 +409,6 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors()
-        updateFonts()
     }
 
     private func updateFonts() {
