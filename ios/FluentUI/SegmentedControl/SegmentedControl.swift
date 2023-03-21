@@ -15,6 +15,19 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         static let iPadMinimumWidth: CGFloat = 375
     }
 
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        if let previouslyFocusedView = context.previouslyFocusedView,
+           stackView.subviews.contains(previouslyFocusedView) {
+            ringView.isHidden = true
+        }
+        if let nextFocusedView = context.nextFocusedView,
+           stackView.subviews.contains(nextFocusedView),
+           let button = nextFocusedView as? SegmentPillButton {
+            ringView.isHidden = false
+            ringView.drawFocusRing(over: button)
+        }
+    }
+
     open var isEnabled: Bool = true {
         didSet {
             for button in buttons {
@@ -82,6 +95,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |  |.mask -> selectionView
     // |  |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |  |--pillMaskedImages (uses selectedLabelColor)
+    // |  |--ringView (only added after the control has received focus)
     //
     // isFixedWidth = true:
     // pillContainerView (used to create 16pt inset on either side)
@@ -91,6 +105,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     // |  |.mask -> selectionView
     // |  |--pillMaskedLabels (uses selectedLabelColor)
     // |  |--pillMaskedImages (uses selectedLabelColor)
+    // |--ringView (only added after the control has received focus)
 
     private var buttons = [SegmentPillButton]()
     private let selectionView: UIView = {
@@ -130,6 +145,14 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
         return scrollView
     }()
+    private lazy var ringView: FocusRingView = {
+        let view = FocusRingView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        pillContainerView.addSubview(view)
+
+        return view
+    }()
+
     private var pillMaskedLabels = [UILabel?]()
     private var pillMaskedImages = [UIImageView?]()
     private var pillContainerViewConstraints: [NSLayoutConstraint] = []
