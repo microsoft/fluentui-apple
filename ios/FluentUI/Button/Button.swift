@@ -133,12 +133,13 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style == .accent || style == .danger,
-              (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
             return
         }
 
+        focusRing.isHidden = !isFocused
         updateBackground()
+        updateBorder()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -351,6 +352,8 @@ open class Button: UIButton, TokenizedControlInternal {
             borderColor = tokenSet[.borderDisabledColor].dynamicColor
         } else if isHighlighted {
             borderColor = tokenSet[.borderPressedColor].dynamicColor
+        } else if isFocused {
+            borderColor = tokenSet[.borderFocusedColor].dynamicColor
         } else {
             borderColor = tokenSet[.borderColor].dynamicColor
         }
@@ -363,6 +366,16 @@ open class Button: UIButton, TokenizedControlInternal {
         let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
         return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?

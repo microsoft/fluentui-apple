@@ -136,10 +136,8 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     switch style() {
                     case .accent, .subtle, .danger, .dangerSubtle:
                         return DynamicColor(light: ColorValue.clear)
-                    case .outline:
+                    case .outline, .dangerOutline:
                         return theme.color(.strokeFocus2)
-                    case .dangerOutline:
-                        return theme.color(.dangerForeground2)
                     }
                 }
             case .borderDisabledColor:

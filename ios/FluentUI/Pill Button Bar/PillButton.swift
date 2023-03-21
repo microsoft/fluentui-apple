@@ -10,6 +10,13 @@ import UIKit
 /// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
+            return
+        }
+
+        focusRing.isHidden = !isFocused
+    }
 
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
@@ -318,4 +325,14 @@ open class PillButton: UIButton, TokenizedControlInternal {
         static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
         static let unreadDotSize: CGFloat = 6.0
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 }
