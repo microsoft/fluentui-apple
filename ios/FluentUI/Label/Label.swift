@@ -127,6 +127,7 @@ open class Label: UILabel, TokenizedControlInternal {
 
     @objc private func handleContentSizeCategoryDidChange() {
         if adjustsFontForContentSizeCategory {
+            labelFont = nil
             updateFont()
         }
     }
