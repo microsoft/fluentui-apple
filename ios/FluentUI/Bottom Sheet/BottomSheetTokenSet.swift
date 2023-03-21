@@ -17,7 +17,7 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetTokenSet.Tokens> {
             switch token {
             case .backgroundColor:
                 return .uiColor { UIColor(light: theme.color(.background2).light,
-                                        dark: theme.color(.background2).dark)
+                                          dark: theme.color(.background2).dark)
                 }
             case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius120) }
