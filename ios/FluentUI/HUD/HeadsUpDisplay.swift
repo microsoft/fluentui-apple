@@ -55,7 +55,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
+                        .color(tokenSet[.activityIndicatorColor].uiColor)
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -71,14 +71,14 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(Color(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
+                        .foregroundColor(Color(tokenSet[.activityIndicatorColor].uiColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
+                        .foregroundColor(Color(tokenSet[.labelColor].uiColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
@@ -92,7 +92,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
                       maxSize: HeadsUpDisplayTokenSet.maxSize)
         .background(Rectangle()
-                        .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
+                        .fill(Color(tokenSet[.backgroundColor].uiColor))
                         .frame(maxWidth: .infinity,
                                maxHeight: .infinity,
                                alignment: .center)

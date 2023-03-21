@@ -13,116 +13,104 @@
 
 @implementation ObjectiveCDemoColorProviding
 
-- (UIColor * _Nullable)brandBackgroundColor:(MSFFluentTheme * _Nonnull)theme {
-    MSFColorValue *lightColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensTint40];
-    MSFColorValue *darkColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensShade30];
+- (UIColor *)brandBackgroundColor {
+    UIColor *lightColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                            token:MSFGlobalTokensSharedColorTint40];
+    UIColor *darkColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                           token:MSFGlobalTokensSharedColorShade30];
 
-    MSFDynamicColor *dynamicColor = [[MSFDynamicColor alloc] initWithLight:lightColor
-                                                             lightHighContrast:nil
-                                                             lightElevated:nil
-                                                 lightElevatedHighContrast:nil
-                                                                      dark:darkColor
-                                                          darkHighContrast:nil
-                                                              darkElevated:nil
-                                                  darkElevatedHighContrast:nil];
+    UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
+                                                      dark:darkColor];
 
-    return [[UIColor alloc] initWithDynamicColor:dynamicColor];
+    return dynamicColor;
 }
 
-- (UIColor * _Nullable)brandForegroundColor:(MSFFluentTheme * _Nonnull)theme {
-    MSFColorValue *lightColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensShade30];
-    MSFColorValue *darkColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                token:MSFSharedColorsTokensTint40];
+- (UIColor *)brandForegroundColor {
+    UIColor *lightColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                            token:MSFGlobalTokensSharedColorShade30];
+    UIColor *darkColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                           token:MSFGlobalTokensSharedColorTint40];
 
-    MSFDynamicColor *dynamicColor = [[MSFDynamicColor alloc] initWithLight:lightColor
-                                                             lightHighContrast:nil
-                                                             lightElevated:nil
-                                                 lightElevatedHighContrast:nil
-                                                                      dark:darkColor
-                                                          darkHighContrast:nil
-                                                              darkElevated:nil
-                                                  darkElevatedHighContrast:nil];
+    UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
+                                                      dark:darkColor];
 
-    return [[UIColor alloc] initWithDynamicColor:dynamicColor];
+    return dynamicColor;
 }
 
-- (UIColor * _Nullable)brandStrokeColor:(MSFFluentTheme * _Nonnull)theme {
+- (UIColor *)brandStrokeColor {
     return nil;
 }
 
-- (UIColor * _Nullable)brandBackground1For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground1 {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground1PressedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground1Pressed {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground1SelectedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground1Selected {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground2For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground2 {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground2PressedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground2Pressed {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground2SelectedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground2Selected {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackground3For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackground3 {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackgroundDisabledFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackgroundDisabled {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandBackgroundTintFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandBackgroundColor:theme];
+- (UIColor *)brandBackgroundTint {
+    return [self brandBackgroundColor];
 }
 
-- (UIColor * _Nullable)brandForeground1For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForeground1 {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandForeground1PressedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForeground1Pressed {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandForeground1SelectedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForeground1Selected {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandForegroundDisabled1For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForegroundDisabled1 {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandForegroundDisabled2For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForegroundDisabled2 {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandForegroundTintFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandForegroundColor:theme];
+- (UIColor *)brandForegroundTint {
+    return [self brandForegroundColor];
 }
 
-- (UIColor * _Nullable)brandStroke1For:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandStrokeColor:theme];
+- (UIColor *)brandStroke1 {
+    return [self brandStrokeColor];
 }
 
-- (UIColor * _Nullable)brandStroke1PressedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandStrokeColor:theme];
+- (UIColor *)brandStroke1Pressed {
+    return [self brandStrokeColor];
 }
 
-- (UIColor * _Nullable)brandStroke1SelectedFor:(MSFFluentTheme * _Nonnull)theme {
-    return [self brandStrokeColor:theme];
+- (UIColor *)brandStroke1Selected {
+    return [self brandStrokeColor];
 }
 
 @end

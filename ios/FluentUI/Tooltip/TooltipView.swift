@@ -28,7 +28,7 @@ class TooltipView: UIView, Shadowable {
 
         let arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
-        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
+        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(tokenSet[.tooltipColor].uiColor, renderingMode: .alwaysOriginal)
 
         super.init(frame: .zero)
 
@@ -89,9 +89,9 @@ class TooltipView: UIView, Shadowable {
     }
 
     func updateFonts() {
-        messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        messageLabel.font = tokenSet[.messageLabelTextStyle].uiFont
         if let titleLabel = titleLabel {
-            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+            titleLabel.font = tokenSet[.titleLabelTextStyle].uiFont
         }
     }
 
@@ -232,9 +232,9 @@ class TooltipView: UIView, Shadowable {
     }
 
     private func updateColors() {
-        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
-        arrowImageView.image = arrowImageView.image?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
+        let textColor = tokenSet[.textColor].uiColor
+        backgroundView.backgroundColor = tokenSet[.tooltipColor].uiColor
+        arrowImageView.image = arrowImageView.image?.withTintColor(tokenSet[.tooltipColor].uiColor, renderingMode: .alwaysOriginal)
         messageLabel.textColor = textColor
         titleLabel?.textColor = textColor
     }
@@ -305,7 +305,7 @@ class TooltipView: UIView, Shadowable {
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
         let boundingWidth = isAccessibilityContentSize ? size.width : min(tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal), size.width)
-        return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
+        return text.preferredSize(for: tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].uiFont, width: boundingWidth)
     }
 
     private var arrowPosition: CGFloat {
@@ -414,7 +414,7 @@ class TooltipView: UIView, Shadowable {
         let view = UIView()
         view.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         view.layer.cornerCurve = .continuous
-        view.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        view.backgroundColor = tokenSet[.tooltipColor].uiColor
 
         return view
     }()
@@ -432,8 +432,8 @@ class TooltipView: UIView, Shadowable {
 
     private lazy var messageLabel: UILabel = {
         let label = Label()
-        label.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        label.font = tokenSet[.messageLabelTextStyle].uiFont
+        label.textColor = tokenSet[.textColor].uiColor
         label.numberOfLines = 0
         label.lineBreakStrategy = []
         label.isAccessibilityElement = false
@@ -443,8 +443,8 @@ class TooltipView: UIView, Shadowable {
     private lazy var titleLabel: UILabel? = {
         if let title = titleMessage {
             let label = Label()
-            label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
-            label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+            label.font = tokenSet[.titleLabelTextStyle].uiFont
+            label.textColor = tokenSet[.textColor].uiColor
             label.numberOfLines = 0
             label.lineBreakStrategy = []
             label.isAccessibilityElement = false

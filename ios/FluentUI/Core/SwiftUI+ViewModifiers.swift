@@ -117,11 +117,11 @@ struct ShadowModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .shadow(color: Color(dynamicColor: shadowInfo.ambientColor),
+            .shadow(color: Color(shadowInfo.ambientColor),
                     radius: shadowInfo.ambientBlur,
                     x: shadowInfo.xAmbient,
                     y: shadowInfo.yAmbient)
-            .shadow(color: Color(dynamicColor: shadowInfo.keyColor),
+            .shadow(color: Color(shadowInfo.keyColor),
                     radius: shadowInfo.keyBlur,
                     x: shadowInfo.xKey,
                     y: shadowInfo.yKey)

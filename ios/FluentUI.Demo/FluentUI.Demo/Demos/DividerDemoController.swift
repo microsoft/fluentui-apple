@@ -111,8 +111,8 @@ class DividerDemoController: DemoTableViewController {
 
     private func makeDivider(orientation: MSFDividerOrientation = .horizontal, spacing: MSFDividerSpacing, customColor: Bool) -> MSFDivider {
         let divider = MSFDivider(orientation: orientation, spacing: spacing)
-        if customColor, let color = self.view.window?.fluentTheme.aliasTokens.brandColors[.primary] {
-            divider.tokenSet[.color] = .dynamicColor({ color })
+        if customColor, let color = self.view.window?.fluentTheme.brandColors(.primary) {
+            divider.tokenSet[.color] = .color({ color })
         }
 
         dividers.append(divider)
@@ -212,13 +212,13 @@ extension DividerDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .color: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+            .color: .uiColor { GlobalTokens.sharedColors(.red, .primary) }
         ]
     }
 
     private var perControlOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .color: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.green, .primary)) }
+            .color: .uiColor { GlobalTokens.sharedColors(.green, .primary) }
         ]
     }
 }

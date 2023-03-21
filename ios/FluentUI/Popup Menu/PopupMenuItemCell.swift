@@ -193,24 +193,24 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private func updateColors() {
-        accessoryImageView.tintColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        accessoryImageView.tintColor = fluentTheme.color(.foreground3)
 
         if let item = item {
             _imageView.tintColor = isSelected
-                ? item.imageSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                ? item.imageSelectedColor ?? fluentTheme.color(.brandForeground1)
             : item.imageColor
             titleLabel.textColor = isSelected
-            ? item.titleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            ? item.titleSelectedColor ?? fluentTheme.color(.brandForeground1)
                 : item.titleColor
             subtitleLabel.textColor = isSelected
-                ? item.subtitleSelectedColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+                ? item.subtitleSelectedColor ?? fluentTheme.color(.brandForeground1)
                 : item.subtitleColor
             backgroundColor = item.backgroundColor
         }
 
         if isSelected && item?.isAccessoryCheckmarkVisible == true {
             _accessoryType = .checkmark
-            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? fluentTheme.color(.brandForeground1)
         } else {
             _accessoryType = .none
         }

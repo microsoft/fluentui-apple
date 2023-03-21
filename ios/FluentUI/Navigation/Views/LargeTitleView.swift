@@ -100,10 +100,10 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
     private var colorForStyle: UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
+            return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                           dark: fluentTheme.color(.foreground1).dark)
         case .system:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            return fluentTheme.color(.foreground1)
         }
     }
 
@@ -213,7 +213,7 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
 
         // title button setup
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.title1], shouldScale: false) // Don't scale because navigation bar height doesn't scale either
+        titleButton.titleLabel?.font = fluentTheme.typography(.title1, adjustsForContentSizeCategory: false)
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left

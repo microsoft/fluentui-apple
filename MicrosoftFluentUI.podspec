@@ -134,11 +134,12 @@ fi', :execution_position => :before_compile }
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
-  end
+  # Temporarily removed while this is not part of our main project
+  # s.subspec 'Divider_ios' do |divider_ios|
+  #   divider_ios.platform = :ios
+  #   divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+  #   divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
+  # end
 
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios

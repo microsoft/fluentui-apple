@@ -31,8 +31,8 @@ class DemoListViewController: DemoTableViewController {
         self.theme = theme
         if let provider = self.provider {
             window.setColorProvider(provider)
-            let aliasTokens = self.view.fluentTheme.aliasTokens
-            let primaryColor = UIColor(dynamicColor: aliasTokens.colors[.brandBackground1])
+            let fluentTheme = self.view.fluentTheme
+            let primaryColor = fluentTheme.color(.brandBackground1)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             FluentUIFramework.initializeAppearance(with: UIColor(light: UIColor(colorValue: GlobalTokens.brandColors(.comm80)), dark: UIColor(colorValue: GlobalTokens.brandColors(.comm90))))
@@ -106,9 +106,7 @@ class DemoListViewController: DemoTableViewController {
             }
             cellTypeButton.menu = UIMenu(title: "Type", children: [insetGroupedType, plainType])
             cellTypeButton.showsMenuAsPrimaryAction = true
-            let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 28))
-            stackView.addArrangedSubview(cellTypeButton)
-            cell.setup(title: demo.title, customAccessoryView: stackView)
+            cell.setup(title: demo.title, customAccessoryView: cellTypeButton)
         } else {
             cell.setup(title: demo.title, accessoryType: .disclosureIndicator)
         }

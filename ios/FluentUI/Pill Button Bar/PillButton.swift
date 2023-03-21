@@ -10,6 +10,13 @@ import UIKit
 /// An `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
+            return
+        }
+
+        focusRing.isHidden = !isFocused
+    }
 
     /// Set `backgroundColor` to customize background color of the pill button
     @objc open var customBackgroundColor: UIColor? {
@@ -82,7 +89,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
 
-    lazy var titleFont: FontInfo = PillButton.titleFont(for: tokenSet.fluentTheme)
+    lazy var titleFont: UIFont = PillButton.titleFont(for: tokenSet.fluentTheme)
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -142,7 +149,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = UIFont.fluent(titleFont, shouldScale: false)
+            titleLabel?.font = titleFont
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -210,12 +217,12 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = UIFont.fluent(titleFont, shouldScale: false)
+        attributedTitle.font = titleFont
         configuration?.attributedTitle = attributedTitle
 
         let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont.fluent(self.titleFont, shouldScale: false)
+            outgoing.font = self.titleFont
             return outgoing
         }
         configuration?.titleTextAttributesTransformer = attributedTitleTransformer
@@ -318,4 +325,14 @@ open class PillButton: UIButton, TokenizedControlInternal {
         static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
         static let unreadDotSize: CGFloat = 6.0
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 }

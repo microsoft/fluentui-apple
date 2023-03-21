@@ -27,29 +27,29 @@ public extension PillButton {
     static func normalBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background5].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5].darkElevated))
+            return UIColor(light: fluentTheme.color(.background5).light,
+                           dark: fluentTheme.color(.background3).dark,
+                           darkElevated: fluentTheme.color(.background5).darkElevated)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandBackground2).light,
+                           dark: fluentTheme.color(.background3).dark,
+                           darkElevated: fluentTheme.color(.background5).darkElevated)
         }
     }
 
     static func titleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            return fluentTheme.color(.foreground2)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foreground2].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foreground2].darkElevated))
+            return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                           dark: fluentTheme.color(.foreground2).dark,
+                           darkElevated: fluentTheme.color(.foreground2).darkElevated)
         }
     }
 
-    static func titleFont(for fluentTheme: FluentTheme) -> FontInfo {
-        return fluentTheme.aliasTokens.typography[.body2]
+    static func titleFont(for fluentTheme: FluentTheme) -> UIFont {
+        return fluentTheme.typography(.body2, adjustsForContentSizeCategory: false)
     }
 
     // MARK: selected state
@@ -57,23 +57,23 @@ public extension PillButton {
     static func selectedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
+            return fluentTheme.color(.brandBackground1)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background1].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3Selected].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5Selected].darkElevated))
+            return UIColor(light: fluentTheme.color(.background1).light,
+                           dark: fluentTheme.color(.background3Selected).dark,
+                           darkElevated: fluentTheme.color(.background5Selected).darkElevated)
         }
     }
 
     static func selectedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+            return fluentTheme.color(.foregroundOnColor)
 
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foreground1].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandForeground1).light,
+                           dark: fluentTheme.color(.foreground1).dark,
+                           darkElevated: fluentTheme.color(.foreground1).darkElevated)
         }
     }
 
@@ -86,11 +86,11 @@ public extension PillButton {
     static func disabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+            return fluentTheme.color(.foregroundDisabled1)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foregroundDisabled1].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foregroundDisabled1].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandForegroundDisabled1).light,
+                           dark: fluentTheme.color(.foregroundDisabled1).dark,
+                           darkElevated: fluentTheme.color(.foregroundDisabled1).darkElevated)
         }
     }
 
@@ -98,23 +98,23 @@ public extension PillButton {
     static func selectedDisabledBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1])
+            return fluentTheme.color(.brandBackground1)
 
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background1].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3Selected].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5Selected].darkElevated))
+            return UIColor(light: fluentTheme.color(.background1).light,
+                           dark: fluentTheme.color(.background3Selected).dark,
+                           darkElevated: fluentTheme.color(.background5Selected).darkElevated)
         }
     }
 
     static func selectedDisabledTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1])
+            return fluentTheme.color(.brandForegroundDisabled1)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForegroundDisabled2].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foregroundDisabled2].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foregroundDisabled2].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandForegroundDisabled2).light,
+                           dark: fluentTheme.color(.foregroundDisabled2).dark,
+                           darkElevated: fluentTheme.color(.foregroundDisabled2).darkElevated)
         }
     }
 
@@ -123,24 +123,24 @@ public extension PillButton {
     static func highlightedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background5Pressed].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3Pressed].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5Pressed].darkElevated))
+            return UIColor(light: fluentTheme.color(.background5Pressed).light,
+                           dark: fluentTheme.color(.background3Pressed).dark,
+                           darkElevated: fluentTheme.color(.background5Pressed).darkElevated)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground2Pressed].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3Pressed].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background5Pressed].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandBackground2Pressed).light,
+                           dark: fluentTheme.color(.background3Pressed).dark,
+                           darkElevated: fluentTheme.color(.background5Pressed).darkElevated)
         }
     }
 
     static func highlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            return fluentTheme.color(.foreground1)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foreground1].darkElevated))
+            return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                           dark: fluentTheme.color(.foreground1).dark,
+                           darkElevated: fluentTheme.color(.foreground1).darkElevated)
         }
     }
 
@@ -149,22 +149,22 @@ public extension PillButton {
     static func selectedHighlightedBackgroundColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandBackground1Pressed])
+            return fluentTheme.color(.brandBackground1Pressed)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background1].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.background3Pressed].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.background3Pressed].darkElevated))
+            return UIColor(light: fluentTheme.color(.background1).light,
+                           dark: fluentTheme.color(.background3Pressed).dark,
+                           darkElevated: fluentTheme.color(.background3Pressed).darkElevated)
         }
     }
 
     static func selectedHighlightedTitleColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor])
+            return fluentTheme.color(.foregroundOnColor)
         case .onBrand:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandForeground1Pressed].light,
-                                                      dark: fluentTheme.aliasTokens.colors[.foreground1].dark,
-                                                      darkElevated: fluentTheme.aliasTokens.colors[.foreground1].darkElevated))
+            return UIColor(light: fluentTheme.color(.brandForeground1Pressed).light,
+                           dark: fluentTheme.color(.foreground1).dark,
+                           darkElevated: fluentTheme.color(.foreground1).darkElevated)
         }
     }
 
@@ -173,21 +173,21 @@ public extension PillButton {
     static func enabledUnreadDotColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]),
-                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]))
+            return UIColor(light: fluentTheme.color(.brandForeground1),
+                           dark: fluentTheme.color(.foreground2))
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundOnColor]),
-                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]))
+            return UIColor(light: fluentTheme.color(.foregroundOnColor),
+                           dark: fluentTheme.color(.foreground1))
         }
     }
 
     static func disabledUnreadDotColor(for fluentTheme: FluentTheme, for style: PillButtonStyle) -> UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1])
+            return fluentTheme.color(.foregroundDisabled1)
         case .onBrand:
-            return UIColor(light: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForegroundDisabled1]),
-                           dark: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foregroundDisabled1]))
+            return UIColor(light: fluentTheme.color(.brandForegroundDisabled1),
+                           dark: fluentTheme.color(.foregroundDisabled1))
         }
     }
 }
