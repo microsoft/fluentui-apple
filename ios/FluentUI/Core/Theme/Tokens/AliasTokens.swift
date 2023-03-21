@@ -5,6 +5,9 @@
 
 import SwiftUI
 
+/// Alias Tokens represent a unified set of semantic values to be used by Fluent UI.
+///
+/// Values are derived from the Fluent UI design token system at https://github.com/microsoft/fluentui-design-tokens.
 @objc(MSFAliasTokens)
 public final class AliasTokens: NSObject {
 

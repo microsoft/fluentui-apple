@@ -36,7 +36,7 @@ public class FluentTheme: NSObject, ObservableObject {
                 typographyOverrides: [TypographyToken: UIFont]? = nil) {
         let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
             let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
-            let newValue = value.dynamicColor ?? .init(light: .clear)
+            let newValue = value.dynamicColor!
             return (newKey, newValue)
         }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
 
