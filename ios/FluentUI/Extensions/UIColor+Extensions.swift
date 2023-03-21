@@ -59,6 +59,27 @@ extension UIColor {
         }
     }
 
+    /// Creates a dynamic color object that returns the appropriate light or dark color value based on the current
+    /// rendering context.
+    ///
+    /// Convenience wrapper for
+    ///`init(light:lightHighContrast:lightElevated:lightElevatedHighContrast:dark:darkHighContrast:darkElevated:darkElevatedHighContrast:)`
+    /// to simplify Objective-C consumption.
+    ///
+    /// - Parameter light: The default color for a light context. Required.
+    /// - Parameter dark: The override color for a dark context. Required.
+    @objc public convenience init(light: UIColor,
+                                  dark: UIColor) {
+        self.init(light: light,
+                  lightHighContrast: nil,
+                  lightElevated: nil,
+                  lightElevatedHighContrast: nil,
+                  dark: dark,
+                  darkHighContrast: nil,
+                  darkElevated: nil,
+                  darkElevatedHighContrast: nil)
+    }
+
     /// `DynamicColor` representation of the `UIColor` object.
     /// Requires the `UIColor` to be able to resolve its color values for at least the `.light` user interface style.
     public var dynamicColor: DynamicColor? {

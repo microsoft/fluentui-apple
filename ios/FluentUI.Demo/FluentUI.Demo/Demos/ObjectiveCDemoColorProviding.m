@@ -20,13 +20,7 @@
                                                            token:MSFGlobalTokensSharedColorShade30];
 
     UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
-                                         lightHighContrast:nil
-                                             lightElevated:nil
-                                 lightElevatedHighContrast:nil
-                                                      dark:darkColor
-                                          darkHighContrast:nil
-                                              darkElevated:nil
-                                  darkElevatedHighContrast:nil];
+                                                      dark:darkColor];
 
     return dynamicColor;
 }
@@ -38,13 +32,7 @@
                                                            token:MSFGlobalTokensSharedColorTint40];
 
     UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
-                                         lightHighContrast:nil
-                                             lightElevated:nil
-                                 lightElevatedHighContrast:nil
-                                                      dark:darkColor
-                                          darkHighContrast:nil
-                                              darkElevated:nil
-                                  darkElevatedHighContrast:nil];
+                                                      dark:darkColor];
 
     return dynamicColor;
 }
