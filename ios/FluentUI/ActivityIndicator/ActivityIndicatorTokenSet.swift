@@ -30,9 +30,9 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
         super.init { [size] token, _ in
             switch token {
             case .defaultColor:
-                return .dynamicColor {
-                    DynamicColor(light: GlobalTokens.neutralColors(.grey56),
-                                 dark: GlobalTokens.neutralColors(.grey72))
+                return .uiColor {
+                    UIColor(light: GlobalTokens.neutralColor(.grey56),
+                            dark: GlobalTokens.neutralColor(.grey72))
                 }
 
             case .thickness:

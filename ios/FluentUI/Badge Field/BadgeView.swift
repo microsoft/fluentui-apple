@@ -144,17 +144,17 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             switch style {
             case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandForegroundTint))
+                return tokenSet.fluentTheme.color(.brandForegroundTint)
             case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.warningForeground1))
+                return tokenSet.fluentTheme.color(.warningForeground1)
             case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.dangerForeground1))
+                return tokenSet.fluentTheme.color(.dangerForeground1)
             case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground2))
+                return tokenSet.fluentTheme.color(.foreground2)
             case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.severeForeground1))
+                return tokenSet.fluentTheme.color(.severeForeground1)
             case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.successForeground1))
+                return tokenSet.fluentTheme.color(.successForeground1)
             }
         }
         set {
@@ -174,15 +174,15 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
             switch style {
             case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundOnColor))
+                return tokenSet.fluentTheme.color(.foregroundOnColor)
             case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundDarkStatic))
+                return tokenSet.fluentTheme.color(.foregroundDarkStatic)
             case .error,
                  .severeWarning,
                  .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundLightStatic))
+                return tokenSet.fluentTheme.color(.foregroundLightStatic)
             case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground1))
+                return tokenSet.fluentTheme.color(.foreground1)
             }
         }
         set {
@@ -200,9 +200,10 @@ open class BadgeView: UIView, TokenizedControlInternal {
                 return customDisabledLabelTextColor
             }
 
-            let textDisabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundDisabled1))
+            let textDisabledColor = tokenSet.fluentTheme.color(.foregroundDisabled1)
             if style == .default {
-                return UIColor(light: UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandForegroundDisabled1)), dark: textDisabledColor)
+                return UIColor(light: tokenSet.fluentTheme.color(.brandForegroundDisabled1),
+                               dark: textDisabledColor)
             } else {
                 return textDisabledColor
             }
@@ -223,17 +224,17 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             switch style {
             case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandBackgroundTint))
+                return tokenSet.fluentTheme.color(.brandBackgroundTint)
             case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.warningBackground1))
+                return tokenSet.fluentTheme.color(.warningBackground1)
             case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.dangerBackground1))
+                return tokenSet.fluentTheme.color(.dangerBackground1)
             case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.background5))
+                return tokenSet.fluentTheme.color(.background5)
             case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.severeBackground1))
+                return tokenSet.fluentTheme.color(.severeBackground1)
             case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.successBackground1))
+                return tokenSet.fluentTheme.color(.successBackground1)
             }
         }
         set {
@@ -252,17 +253,17 @@ open class BadgeView: UIView, TokenizedControlInternal {
             }
             switch style {
             case .default:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandBackground1))
+                return tokenSet.fluentTheme.color(.brandBackground1)
             case .warning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.warningBackground2))
+                return tokenSet.fluentTheme.color(.warningBackground2)
             case .error:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.dangerBackground2))
+                return tokenSet.fluentTheme.color(.dangerBackground2)
             case .neutral:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.background5Selected))
+                return tokenSet.fluentTheme.color(.background5Selected)
             case .severeWarning:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.severeBackground2))
+                return tokenSet.fluentTheme.color(.severeBackground2)
             case .success:
-                return UIColor(dynamicColor: tokenSet.fluentTheme.color(.successBackground2))
+                return tokenSet.fluentTheme.color(.successBackground2)
             }
         }
         set {
@@ -289,9 +290,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
                 return customDisabledBackgroundColor
             }
 
-            let backgroundDisabledColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.background5))
+            let backgroundDisabledColor = tokenSet.fluentTheme.color(.background5)
             if style == .default {
-                return UIColor(light: UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandBackground3)), dark: backgroundDisabledColor)
+                return UIColor(light: tokenSet.fluentTheme.color(.brandBackground3), dark: backgroundDisabledColor)
             } else {
                 return backgroundDisabledColor
             }
@@ -414,9 +415,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
     private func updateFonts() {
         switch size {
         case .small:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.typography(.caption1))
+            label.font = tokenSet.fluentTheme.typography(.caption1)
         case .medium:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.typography(.body2))
+            label.font = tokenSet.fluentTheme.typography(.body2)
         }
     }
 

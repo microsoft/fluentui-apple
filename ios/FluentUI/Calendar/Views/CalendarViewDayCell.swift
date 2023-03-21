@@ -105,9 +105,9 @@ class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
 
         super.init(frame: frame)
 
-        dateLabel.font = UIFont.fluent(fluentTheme.typography(.body1))
-        dotView.color = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground3))
-        dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground3))
+        dateLabel.font = fluentTheme.typography(.body1)
+        dotView.color = tokenSet.fluentTheme.color(.foreground3)
+        dateLabel.textColor = tokenSet.fluentTheme.color(.foreground3)
 
         contentView.addSubview(selectionOverlayView)
         contentView.addSubview(dateLabel)
@@ -120,8 +120,8 @@ class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
 
     func updateAppearance() {
         updateViews()
-        dotView.color = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground3))
-        dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground3))
+        dotView.color = tokenSet.fluentTheme.color(.foreground3)
+        dateLabel.textColor = tokenSet.fluentTheme.color(.foreground3)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -209,26 +209,28 @@ class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
     private func updateViews() {
         switch textStyle {
         case .primary:
-            dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground1))
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foreground1)
         case .secondary:
-            dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foreground2))
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foreground2)
         }
 
         switch backgroundStyle {
         case .primary:
-            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: tokenSet.fluentTheme.color(.background2).light, dark: tokenSet.fluentTheme.color(.background2).dark))
+            contentView.backgroundColor = UIColor(light: tokenSet.fluentTheme.color(.background2).light,
+                                                  dark: tokenSet.fluentTheme.color(.background2).dark)
         case .secondary:
-            contentView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: tokenSet.fluentTheme.color(.backgroundCanvas).light, dark: tokenSet.fluentTheme.color(.backgroundCanvas).dark))
+            contentView.backgroundColor = UIColor(light: tokenSet.fluentTheme.color(.backgroundCanvas).light,
+                                                  dark: tokenSet.fluentTheme.color(.backgroundCanvas).dark)
         }
 
         if isHighlighted || isSelected {
             dotView.isHidden = true
-            dateLabel.textColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.foregroundOnColor))
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foregroundOnColor)
         } else {
             dotView.isHidden = false
         }
 
-        selectionOverlayView.activeColor = UIColor(dynamicColor: tokenSet.fluentTheme.color(.brandBackground1))
+        selectionOverlayView.activeColor = tokenSet.fluentTheme.color(.brandBackground1)
 
         setNeedsLayout()
     }

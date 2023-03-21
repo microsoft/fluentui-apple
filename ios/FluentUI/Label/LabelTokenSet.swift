@@ -29,18 +29,18 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         super.init { [colorStyle] token, theme in
             switch token {
             case .font:
-                return .fontInfo {
+                return .uiFont {
                     return theme.typography(textStyle())
                 }
             case .textColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch colorStyle() {
                     case .regular:
                         return theme.color(.foreground1)
                     case .secondary:
                         return theme.color(.foreground2)
                     case .white:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white))
+                        return theme.color(.foregroundLightStatic)
                     case .primary:
                         return theme.color(.brandForeground1)
                     case .error:

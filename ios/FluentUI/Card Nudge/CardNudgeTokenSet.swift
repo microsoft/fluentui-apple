@@ -59,29 +59,29 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .accentColor:
-                return .dynamicColor {
+                return .uiColor {
                     theme.color(.brandForeground1)
                 }
 
             case .backgroundColor:
                 switch style() {
                 case .standard:
-                    return .dynamicColor {
+                    return .uiColor {
                         theme.color(.backgroundCanvas)
                     }
                 case .outline:
-                    return .dynamicColor {
+                    return .uiColor {
                         theme.color(.background1)
                     }
             }
 
             case .buttonBackgroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     theme.color(.brandBackgroundTint)
                 }
 
             case .buttonForegroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     theme.color(.brandForegroundTint)
                 }
 
@@ -98,11 +98,11 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             case .outlineColor:
                 switch style() {
                 case .standard:
-                    return .dynamicColor {
+                    return .uiColor {
                         theme.color(.backgroundCanvas)
                     }
                 case .outline:
-                    return .dynamicColor {
+                    return .uiColor {
                         theme.color(.stroke2)
                     }
                 }
@@ -113,22 +113,22 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 }
 
             case .subtitleTextColor:
-                return .dynamicColor {
+                return .uiColor {
                     theme.color(.foreground2)
                 }
 
             case .textColor:
-                return .dynamicColor {
+                return .uiColor {
                     theme.color(.foreground1)
                 }
 
             case .titleFont:
-                return .fontInfo {
+                return .uiFont {
                     theme.typography(.body2Strong)
                 }
 
             case .subtitleFont:
-                return .fontInfo {
+                return .uiFont {
                     theme.typography(.caption1)
                 }
             }

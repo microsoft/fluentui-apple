@@ -109,7 +109,7 @@ open class Button: UIButton, TokenizedControlInternal {
         layer.cornerRadius = tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
-        titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        titleLabel?.font = tokenSet[.titleFont].uiFont
         titleLabel?.adjustsFontForContentSizeCategory = true
 
         if #available(iOS 15, *) {
@@ -117,7 +117,7 @@ open class Button: UIButton, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
+                outgoing.font = self.tokenSet[.titleFont].uiFont
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer
@@ -214,15 +214,15 @@ open class Button: UIButton, TokenizedControlInternal {
     })
 
     private func updateTitle() {
-        let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
+        let foregroundColor = tokenSet[.foregroundColor].uiColor
         setTitleColor(foregroundColor, for: .normal)
         setTitleColor(foregroundColor, for: .focused)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
+        setTitleColor(tokenSet[.foregroundPressedColor].uiColor, for: .highlighted)
+        setTitleColor(tokenSet[.foregroundDisabledColor].uiColor, for: .disabled)
 
         if #available(iOS 15.0, *) {
         } else {
-            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+            titleLabel?.font = tokenSet[.titleFont].uiFont
         }
 
         updateProposedTitleLabelWidth()
@@ -231,9 +231,9 @@ open class Button: UIButton, TokenizedControlInternal {
     private func updateImage() {
         let isDisplayingImage = image != nil
 
-        let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
-        let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
-        let disabledColor = UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor)
+        let normalColor = tokenSet[.foregroundColor].uiColor
+        let highlightedColor = tokenSet[.foregroundPressedColor].uiColor
+        let disabledColor = tokenSet[.foregroundDisabledColor].uiColor
         let needsSetImage = isDisplayingImage && image(for: .normal) == nil
 
         if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
@@ -329,36 +329,36 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     private func updateBackground() {
-        let backgroundColor: DynamicColor
+        let backgroundColor: UIColor
 
         if !isEnabled {
-            backgroundColor = tokenSet[.backgroundDisabledColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundDisabledColor].uiColor
         } else if isHighlighted {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else if isFocused {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else {
-            backgroundColor = tokenSet[.backgroundColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundColor].uiColor
         }
 
-        self.backgroundColor = UIColor(dynamicColor: backgroundColor)
+        self.backgroundColor = backgroundColor
         layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {
-        let borderColor: DynamicColor
+        let borderColor: UIColor
 
         if !isEnabled {
-            borderColor = tokenSet[.borderDisabledColor].dynamicColor
+            borderColor = tokenSet[.borderDisabledColor].uiColor
         } else if isHighlighted {
-            borderColor = tokenSet[.borderPressedColor].dynamicColor
+            borderColor = tokenSet[.borderPressedColor].uiColor
         } else if isFocused {
-            borderColor = tokenSet[.borderFocusedColor].dynamicColor
+            borderColor = tokenSet[.borderFocusedColor].uiColor
         } else {
-            borderColor = tokenSet[.borderColor].dynamicColor
+            borderColor = tokenSet[.borderColor].uiColor
         }
 
-        layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
+        layer.borderColor = borderColor.resolvedColor(with: traitCollection).cgColor
         layer.borderWidth = tokenSet[.borderWidth].float
     }
 

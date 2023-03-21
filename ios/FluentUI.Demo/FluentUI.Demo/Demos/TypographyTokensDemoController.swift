@@ -31,7 +31,7 @@ class TypographyTokensDemoController: DemoTableViewController {
         let text = "\(typographyToken.text)"
         contentConfiguration.attributedText = NSAttributedString(string: text,
                                                                  attributes: [
-                                                                    .font: UIFont.fluent(view.fluentTheme.typography(typographyToken))
+                                                                    .font: view.fluentTheme.typography(typographyToken)
                                                                  ])
         contentConfiguration.textProperties.alignment = .center
         cell.contentConfiguration = contentConfiguration

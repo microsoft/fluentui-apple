@@ -92,7 +92,7 @@ class LargeTitleView: UIView {
             case .contracted:
                 titleButton.titleLabel?.font = Constants.compactTitleFont
             case .expanded:
-                titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.typography(.title1))
+                titleButton.titleLabel?.font = fluentTheme.typography(.title1)
             }
         }
     }
@@ -115,10 +115,10 @@ class LargeTitleView: UIView {
     private var colorForStyle: UIColor {
         switch style {
         case .primary:
-            return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                                      dark: fluentTheme.color(.foreground1).dark))
+            return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                           dark: fluentTheme.color(.foreground1).dark)
         case .system:
-            return UIColor(dynamicColor: fluentTheme.color(.foreground1))
+            return fluentTheme.color(.foreground1)
         }
     }
 
@@ -212,7 +212,7 @@ class LargeTitleView: UIView {
         // title button setup
         contentStackView.addArrangedSubview(titleButton)
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.typography(.title1))
+        titleButton.titleLabel?.font = fluentTheme.typography(.title1)
         titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
@@ -232,7 +232,7 @@ class LargeTitleView: UIView {
 
     private func expansionAnimation() {
         if titleSize == .automatic {
-            titleButton.titleLabel?.font = UIFont.fluent(fluentTheme.typography(.title1))
+            titleButton.titleLabel?.font = fluentTheme.typography(.title1)
         }
 
         if avatarSize == .automatic {

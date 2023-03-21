@@ -89,7 +89,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
     lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
 
-    lazy var titleFont: FontInfo = PillButton.titleFont(for: tokenSet.fluentTheme)
+    lazy var titleFont: UIFont = PillButton.titleFont(for: tokenSet.fluentTheme)
 
     @objc public static let cornerRadius: CGFloat = 16.0
 
@@ -149,7 +149,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = UIFont.fluent(titleFont, shouldScale: false)
+            titleLabel?.font = titleFont
 
             contentEdgeInsets = UIEdgeInsets(top: Constants.topInset,
                                              left: Constants.horizontalInset,
@@ -217,12 +217,12 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = UIFont.fluent(titleFont, shouldScale: false)
+        attributedTitle.font = titleFont
         configuration?.attributedTitle = attributedTitle
 
         let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont.fluent(self.titleFont, shouldScale: false)
+            outgoing.font = self.titleFont
             return outgoing
         }
         configuration?.titleTextAttributesTransformer = attributedTitleTransformer

@@ -14,39 +14,27 @@
 @implementation ObjectiveCDemoColorProviding
 
 - (UIColor *)brandBackgroundColor {
-    MSFColorValue *lightColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensTint40];
-    MSFColorValue *darkColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensShade30];
+    UIColor *lightColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                            token:MSFGlobalTokensSharedColorTint40];
+    UIColor *darkColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                           token:MSFGlobalTokensSharedColorShade30];
 
-    MSFDynamicColor *dynamicColor = [[MSFDynamicColor alloc] initWithLight:lightColor
-                                                             lightHighContrast:nil
-                                                             lightElevated:nil
-                                                 lightElevatedHighContrast:nil
-                                                                      dark:darkColor
-                                                          darkHighContrast:nil
-                                                              darkElevated:nil
-                                                  darkElevatedHighContrast:nil];
+    UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
+                                                      dark:darkColor];
 
-    return [[UIColor alloc] initWithDynamicColor:dynamicColor];
+    return dynamicColor;
 }
 
 - (UIColor *)brandForegroundColor {
-    MSFColorValue *lightColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                  token:MSFSharedColorsTokensShade30];
-    MSFColorValue *darkColor = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsOrchid
-                                                                token:MSFSharedColorsTokensTint40];
+    UIColor *lightColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                            token:MSFGlobalTokensSharedColorShade30];
+    UIColor *darkColor = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetOrchid
+                                                           token:MSFGlobalTokensSharedColorTint40];
 
-    MSFDynamicColor *dynamicColor = [[MSFDynamicColor alloc] initWithLight:lightColor
-                                                             lightHighContrast:nil
-                                                             lightElevated:nil
-                                                 lightElevatedHighContrast:nil
-                                                                      dark:darkColor
-                                                          darkHighContrast:nil
-                                                              darkElevated:nil
-                                                  darkElevatedHighContrast:nil];
+    UIColor *dynamicColor = [[UIColor alloc] initWithLight:lightColor
+                                                      dark:darkColor];
 
-    return [[UIColor alloc] initWithDynamicColor:dynamicColor];
+    return dynamicColor;
 }
 
 - (UIColor *)brandStrokeColor {

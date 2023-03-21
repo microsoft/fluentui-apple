@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
+import UIKit
 
 public extension FluentTheme {
     @objc(MSFColorToken)
@@ -131,10 +131,10 @@ public extension FluentTheme {
     /// Returns the color value for the given token.
     ///
     /// - Parameter token: The `ColorsTokens` value to be retrieved.
-    /// - Returns: A `DynamicColor` for the given token.
+    /// - Returns: A `UIColor` for the given token.
     @objc(colorForToken:)
-    func color(_ token: ColorToken) -> DynamicColor {
-        return aliasTokens.colors[AliasTokens.ColorsTokens(rawValue: token.rawValue)!]
+    func color(_ token: ColorToken) -> UIColor {
+        return UIColor(dynamicColor: aliasTokens.colors[AliasTokens.ColorsTokens(rawValue: token.rawValue)!])
     }
 
     /// Returns the shadow value for the given token.
@@ -150,8 +150,9 @@ public extension FluentTheme {
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Returns: A `FontInfo` for the given token.
-    @objc(typographyForToken:)
-    func typography(_ token: TypographyToken) -> FontInfo {
-        return aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!]
+    @objc(typographyForToken:adjustsForContentSizeCategory:)
+    func typography(_ token: TypographyToken, adjustsForContentSizeCategory: Bool = true) -> UIFont {
+        return UIFont.fluent(aliasTokens.typography[AliasTokens.TypographyTokens(rawValue: token.rawValue)!],
+                             shouldScale: adjustsForContentSizeCategory)
     }
 }

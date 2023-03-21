@@ -17,9 +17,9 @@ class LabelDemoController: DemoController {
         addLabel(text: "Text Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
 
         for style in FluentTheme.TypographyToken.allCases {
-            let fontInfo = view.fluentTheme.typography(style)
-            let fontWeight = UIFont.fluent(fontInfo).fontDescriptor.weightDescriptor
-            let detailedDescription = "\(style.description) is \(fontWeight) \(Int(fontInfo.size))pt"
+            let font = view.fluentTheme.typography(style)
+            let fontWeight = font.fontDescriptor.weightDescriptor
+            let detailedDescription = "\(style.description) is \(fontWeight) \(Int(font.pointSize))pt"
             dynamicLabels.append(addLabel(text: detailedDescription, style: style, colorStyle: .regular))
         }
 
@@ -49,9 +49,9 @@ class LabelDemoController: DemoController {
 
     @objc private func handleContentSizeCategoryDidChange() {
         for label in dynamicLabels {
-            let fontInfo = view.fluentTheme.typography(label.textStyle)
-            let fontWeight = UIFont.fluent(fontInfo).fontDescriptor.weightDescriptor
-            let detailedDescription = "\(label.textStyle.description) is \(fontWeight) \(Int(fontInfo.size))pt"
+            let font = view.fluentTheme.typography(label.textStyle)
+            let fontWeight = font.fontDescriptor.weightDescriptor
+            let detailedDescription = "\(label.textStyle.description) is \(fontWeight) \(Int(font.pointSize))pt"
             label.text = detailedDescription
         }
     }
@@ -161,23 +161,25 @@ extension LabelDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Times", size: 20.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             },
-            .textColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
-                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
+            .textColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
             }
         ]
     }
 
     private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Papyrus", size: 20.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
             },
-            .textColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30))
+            .textColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]
     }

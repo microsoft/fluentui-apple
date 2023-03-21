@@ -28,7 +28,7 @@ class SegmentedControlDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.color(.background1))
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         readmeString = "A segmented control lets someone select one option from a set of two or more segments in a single, horizontal container.\n\nSegmented controls work well for changing states of elements or views within a single context, like filtering search results. It’s best not to use them to initiate actions or navigate to a new page. To let people navigate between the main sections of an app, use the tab bar."
 
@@ -172,16 +172,18 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Times", size: 20.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             }
         ]
     }
 
     private var perControlOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 10.0),
+                              size: 10.0)
             }
         ]
     }

@@ -32,27 +32,27 @@ public protocol ColorProviding {
     @objc var brandStroke1Selected: UIColor { get }
 }
 
-private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: DynamicColor] {
-    var brandColors: [FluentTheme.ColorToken: DynamicColor] = [:]
+private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: UIColor] {
+    var brandColors: [FluentTheme.ColorToken: UIColor] = [:]
 
-    brandColors[.brandBackground1] = provider.brandBackground1.dynamicColor
-    brandColors[.brandBackground1Pressed] = provider.brandBackground1Pressed.dynamicColor
-    brandColors[.brandBackground1Selected] = provider.brandBackground1Selected.dynamicColor
-    brandColors[.brandBackground2] = provider.brandBackground2.dynamicColor
-    brandColors[.brandBackground2Pressed] = provider.brandBackground2Pressed.dynamicColor
-    brandColors[.brandBackground2Selected] = provider.brandBackground2Selected.dynamicColor
-    brandColors[.brandBackground3] = provider.brandBackground3.dynamicColor
-    brandColors[.brandBackgroundTint] = provider.brandBackgroundTint.dynamicColor
-    brandColors[.brandBackgroundDisabled] = provider.brandBackgroundDisabled.dynamicColor
-    brandColors[.brandForeground1] = provider.brandForeground1.dynamicColor
-    brandColors[.brandForeground1Pressed] = provider.brandForeground1Pressed.dynamicColor
-    brandColors[.brandForeground1Selected] = provider.brandForeground1Selected.dynamicColor
-    brandColors[.brandForegroundTint] = provider.brandForegroundTint.dynamicColor
-    brandColors[.brandForegroundDisabled1] = provider.brandForegroundDisabled1.dynamicColor
-    brandColors[.brandForegroundDisabled2] = provider.brandForegroundDisabled2.dynamicColor
-    brandColors[.brandStroke1] = provider.brandStroke1.dynamicColor
-    brandColors[.brandStroke1Pressed] = provider.brandStroke1Pressed.dynamicColor
-    brandColors[.brandStroke1Selected] = provider.brandStroke1Selected.dynamicColor
+    brandColors[.brandBackground1] = provider.brandBackground1
+    brandColors[.brandBackground1Pressed] = provider.brandBackground1Pressed
+    brandColors[.brandBackground1Selected] = provider.brandBackground1Selected
+    brandColors[.brandBackground2] = provider.brandBackground2
+    brandColors[.brandBackground2Pressed] = provider.brandBackground2Pressed
+    brandColors[.brandBackground2Selected] = provider.brandBackground2Selected
+    brandColors[.brandBackground3] = provider.brandBackground3
+    brandColors[.brandBackgroundTint] = provider.brandBackgroundTint
+    brandColors[.brandBackgroundDisabled] = provider.brandBackgroundDisabled
+    brandColors[.brandForeground1] = provider.brandForeground1
+    brandColors[.brandForeground1Pressed] = provider.brandForeground1Pressed
+    brandColors[.brandForeground1Selected] = provider.brandForeground1Selected
+    brandColors[.brandForegroundTint] = provider.brandForegroundTint
+    brandColors[.brandForegroundDisabled1] = provider.brandForegroundDisabled1
+    brandColors[.brandForegroundDisabled2] = provider.brandForegroundDisabled2
+    brandColors[.brandStroke1] = provider.brandStroke1
+    brandColors[.brandStroke1Pressed] = provider.brandStroke1Pressed
+    brandColors[.brandStroke1Selected] = provider.brandStroke1Selected
 
     return brandColors
 }

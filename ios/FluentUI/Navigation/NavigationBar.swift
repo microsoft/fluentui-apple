@@ -65,28 +65,31 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground2).dark))
+                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                               dark: fluentTheme.color(.foreground2).dark)
             case .system:
-                return UIColor(dynamicColor: fluentTheme.color(.foreground2))
+                return fluentTheme.color(.foreground2)
             }
         }
 
         func titleColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.foregroundOnColor).light, dark: fluentTheme.color(.foreground1).dark))
+                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                               dark: fluentTheme.color(.foreground1).dark)
             case .system:
-                return UIColor(dynamicColor: fluentTheme.color(.foreground1))
+                return fluentTheme.color(.foreground1)
             }
         }
 
         public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
-            let defaultColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.brandBackground1).light, dark: fluentTheme.color(.background3).dark))
+            let defaultColor = UIColor(light: fluentTheme.color(.brandBackground1).light,
+                                       dark: fluentTheme.color(.background3).dark)
             switch self {
             case .primary, .default:
                 return defaultColor
             case .system:
-                return UIColor(dynamicColor: fluentTheme.color(.background3))
+                return fluentTheme.color(.background3)
             case .custom:
                 return customColor ?? defaultColor
             }

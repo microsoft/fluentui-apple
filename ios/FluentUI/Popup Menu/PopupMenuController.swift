@@ -117,7 +117,7 @@ open class PopupMenuController: DrawerController {
     }
 
     /// set `separatorColor` to customize separator colors of  PopupMenuItem cells and the drawer
-    @objc open var separatorColor: UIColor = { return UIColor(dynamicColor: FluentTheme.shared.color(.stroke2)) }() {
+    @objc open var separatorColor: UIColor = { return FluentTheme.shared.color(.stroke2) }() {
         didSet {
             guard let separator = separator else {
                 return
@@ -224,7 +224,7 @@ open class PopupMenuController: DrawerController {
     }
 
     private func updateDescriptionLabelColor() {
-        descriptionLabel.textColor = UIColor(dynamicColor: tableView.fluentTheme.color(.foreground2))
+        descriptionLabel.textColor = tableView.fluentTheme.color(.foreground2)
     }
 
     @objc override func themeDidChange(_ notification: Notification) {

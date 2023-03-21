@@ -222,20 +222,20 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     public func updateColors() {
-        let tabColor: DynamicColor
-        let selectedTabColor: DynamicColor
+        let tabColor: UIColor
+        let selectedTabColor: UIColor
         let selectedContentColor: UIColor
         if isEnabled {
-            tabColor = tokenSet[.restTabColor].dynamicColor
-            selectedTabColor = tokenSet[.selectedTabColor].dynamicColor
-            selectedContentColor = UIColor(dynamicColor: tokenSet[.selectedLabelColor].dynamicColor)
+            tabColor = tokenSet[.restTabColor].uiColor
+            selectedTabColor = tokenSet[.selectedTabColor].uiColor
+            selectedContentColor = tokenSet[.selectedLabelColor].uiColor
         } else {
-            tabColor = tokenSet[.disabledTabColor].dynamicColor
-            selectedTabColor = tokenSet[.disabledSelectedTabColor].dynamicColor
-            selectedContentColor = UIColor(dynamicColor: tokenSet[.disabledSelectedLabelColor].dynamicColor)
+            tabColor = tokenSet[.disabledTabColor].uiColor
+            selectedTabColor = tokenSet[.disabledSelectedTabColor].uiColor
+            selectedContentColor = tokenSet[.disabledSelectedLabelColor].uiColor
         }
-        stackView.backgroundColor = UIColor(dynamicColor: tabColor)
-        pillMaskedContentContainerView.backgroundColor = UIColor(dynamicColor: selectedTabColor)
+        stackView.backgroundColor = tabColor
+        pillMaskedContentContainerView.backgroundColor = selectedTabColor
         for maskedLabel in pillMaskedLabels {
             guard let maskedLabel = maskedLabel else {
                 continue
@@ -442,7 +442,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     private let selectionChangeAnimationDuration: TimeInterval = 0.2
 
     private func updateButtons() {
-        let contentColor = isEnabled ? UIColor(dynamicColor: tokenSet[.restLabelColor].dynamicColor) : UIColor(dynamicColor: tokenSet[.disabledLabelColor].dynamicColor)
+        let contentColor = isEnabled ? tokenSet[.restLabelColor].uiColor : tokenSet[.disabledLabelColor].uiColor
         for (index, button) in buttons.enumerated() {
             button.updateTokenizedValues()
             button.setTitleColor(contentColor, for: .normal)

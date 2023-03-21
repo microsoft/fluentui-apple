@@ -164,8 +164,8 @@ open class PeoplePicker: BadgeField {
             self.pickPersona(persona: persona)
         }
         personaListView.searchDirectoryDelegate = self
-        personaListView.backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.color(.background2).light,
-                                                                             dark: fluentTheme.color(.background2).dark))
+        personaListView.backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
+                                                  dark: fluentTheme.color(.background2).dark)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)

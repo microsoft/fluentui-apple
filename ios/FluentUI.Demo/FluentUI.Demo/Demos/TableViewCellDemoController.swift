@@ -119,25 +119,25 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .dynamicColor {
+            .cellBackgroundColor: .uiColor {
                 // "Berry"
-                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .tint50),
-                                    dark: GlobalTokens.sharedColors(.berry, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .tint50),
+                               dark: GlobalTokens.sharedColor(.berry, .shade40))
             }
         ]
     }
 
     private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .dynamicColor {
+            .cellBackgroundColor: .uiColor {
                 // "Brass"
-                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint50),
-                                    dark: GlobalTokens.sharedColors(.brass, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
+                               dark: GlobalTokens.sharedColor(.brass, .shade40))
             },
-            .accessoryDisclosureIndicatorColor: .dynamicColor {
+            .accessoryDisclosureIndicatorColor: .uiColor {
                 // "Forest"
-                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint10),
-                                    dark: GlobalTokens.sharedColors(.forest, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
+                               dark: GlobalTokens.sharedColor(.forest, .shade40))
             },
             .customViewTrailingMargin: .float {
                 return 0
@@ -167,10 +167,10 @@ extension TableViewCellDemoController {
         if section.title == "Inverted double line cell" {
             cell.setup(
                 attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: UIFont.fluent(fluentTheme.typography(.body1)),
+                                                    attributes: [.font: fluentTheme.typography(.body1),
                                                                  .foregroundColor: UIColor.purple]),
                 attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: UIFont.fluent(fluentTheme.typography(.caption1)),
+                                                       attributes: [.font: fluentTheme.typography(.caption1),
                                                                     .foregroundColor: UIColor.red]),
                 footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
                 customView: TableViewSampleData.createCustomView(imageName: item.image),
