@@ -212,13 +212,13 @@ extension DividerDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .color: .color { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+            .color: .uiColor { GlobalTokens.sharedColors(.red, .primary) }
         ]
     }
 
     private var perControlOverrideDividerTokens: [DividerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .color: .color { DynamicColor(light: GlobalTokens.sharedColors(.green, .primary)) }
+            .color: .uiColor { GlobalTokens.sharedColors(.green, .primary) }
         ]
     }
 }
