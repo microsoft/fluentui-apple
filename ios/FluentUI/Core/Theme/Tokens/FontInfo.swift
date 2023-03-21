@@ -47,7 +47,7 @@ public class FontInfo: NSObject {
         return textStyle
     }
 
-    private static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
+    fileprivate static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
         (34.0, .largeTitle),
         (28.0, .title),
         (22.0, .title2),
@@ -76,22 +76,44 @@ public extension Font {
 
 extension UIFont {
     @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
-        let unscaledFont: UIFont
+        return fluent(fontInfo, shouldScale: shouldScale, contentSizeCategory: nil)
+    }
+
+    @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
+        let traitCollection: UITraitCollection?
+        if let contentSizeCategory = contentSizeCategory {
+            traitCollection = .init(preferredContentSizeCategory: contentSizeCategory)
+        } else {
+            traitCollection = nil
+        }
+
+        let weight = uiWeight(fontInfo.weight)
 
         if let name = fontInfo.name,
            let font = UIFont(name: name, size: fontInfo.size) {
             // Named font
-            unscaledFont = font.withWeight(uiWeight(fontInfo.weight))
+            let unscaledFont = font.withWeight(weight)
+            if shouldScale {
+                let fontMetrics = UIFontMetrics(forTextStyle: uiTextStyle(fontInfo.textStyle))
+                return fontMetrics.scaledFont(for: unscaledFont, compatibleWith: traitCollection)
+            } else {
+                return unscaledFont
+            }
         } else {
             // System font
-            unscaledFont = .systemFont(ofSize: fontInfo.size, weight: uiWeight(fontInfo.weight))
-        }
+            if !shouldScale {
+                return .systemFont(ofSize: fontInfo.size, weight: weight)
+            }
 
-        if shouldScale {
-            let fontMetrics = UIFontMetrics(forTextStyle: uiTextStyle(fontInfo.textStyle))
-            return fontMetrics.scaledFont(for: unscaledFont)
-        } else {
-            return unscaledFont
+            let textStyle = uiTextStyle(fontInfo.textStyle)
+            if FontInfo.sizeTuples.contains(where: { $0.size == fontInfo.size }) {
+                // System-recognized font size, let the OS scale it for us
+                return UIFont.preferredFont(forTextStyle: textStyle, compatibleWith: traitCollection).withWeight(weight)
+            }
+
+            // Custom font size, we need to scale it ourselves
+            let fontMetrics = UIFontMetrics(forTextStyle: textStyle)
+            return fontMetrics.scaledFont(for: .systemFont(ofSize: fontInfo.size, weight: weight), compatibleWith: traitCollection)
         }
     }
 
