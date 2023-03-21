@@ -35,9 +35,9 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
         innerStackView.translatesAutoresizingMaskIntoConstraints = false
         innerStackView.distribution = .fillProportionally
+        innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
 
         addSubview(rowsStackView)
-        rowsStackView.addArrangedSubview(innerStackView)
 
         for row in rows {
             if row.isScrollable {
@@ -48,6 +48,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
                           dark: GlobalTokens.neutralColors(.black))
                 }
                 rowsStackView.addArrangedSubview(scrollableRow)
+                rowsStackView.addArrangedSubview(innerStackView)
             } else {
                 let fixedRow = CommandBarCommandGroupsView(itemGroups: row.itemGroups,
                                                            tokenSet: tokenSet)
@@ -74,6 +75,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         if let previousTraitCollection = previousTraitCollection {
             if previousTraitCollection.verticalSizeClass != traitCollection.verticalSizeClass {
                 innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
+                innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
             }
         }
     }
