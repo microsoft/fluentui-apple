@@ -415,6 +415,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private func updateFonts() {
         titleButtonLabel.font = tokenSet[.titleFont].uiFont
         subtitleButtonLabel.font = tokenSet[.subtitleFont].uiFont
+
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
     }
 
     open override func layoutSubviews() {
