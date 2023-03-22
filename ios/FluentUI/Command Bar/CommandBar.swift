@@ -224,7 +224,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
-        containerView.addSubview(mainCommandGroupsView)
 
         return containerView
     }()
