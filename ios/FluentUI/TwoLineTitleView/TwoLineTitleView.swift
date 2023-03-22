@@ -52,17 +52,6 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 
 @objc(MSFTwoLineTitleView)
 open class TwoLineTitleView: UIView, TokenizedControlInternal {
-    private struct Constants {
-        static let titleButtonLabelMarginBottomRegular: CGFloat = GlobalTokens.spacing(.sizeNone)
-        static let titleButtonLabelMarginBottomCompact: CGFloat = -GlobalTokens.spacing(.size20)
-        static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.icon(.size160)
-        static let titleButtonLeadingImageMargin: CGFloat = GlobalTokens.spacing(.size40)
-        static let titleButtonLeadingImageTotalPadding: CGFloat = titleButtonLeadingImageSize + titleButtonLeadingImageMargin
-        static let colorAnimationDuration: TimeInterval = 0.2
-        static let colorAlpha: CGFloat = 1.0
-        static let colorHighlightedAlpha: CGFloat = 0.4
-    }
-
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
         case primary
@@ -179,7 +168,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var titleButtonTrailingImageView = UIImageView()
 
     private var titleButtonLeadingImageAreaWidth: CGFloat {
-        return titleButtonLeadingImageView.image != nil ? 2 * Constants.titleButtonLeadingImageTotalPadding : 0
+        return titleButtonLeadingImageView.image != nil ? 2 * TokenSetType.LeadingImageConstants.totalPadding : 0
     }
 
     private let subtitleButton = EasyTapButton()
@@ -366,15 +355,17 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     private func setupColor(highlighted: Bool, animated: Bool, onLabel label: UILabel, onImageViews imageViews: [UIImageView]) {
         // Highlighting is never animated to match iOS
-        let duration = !highlighted && animated ? Constants.colorAnimationDuration : 0
+        let duration = !highlighted && animated ? TokenSetType.ColorConstants.animationDuration : 0
 
         UIView.animate(withDuration: duration) {
+            let alpha = TokenSetType.ColorConstants.alpha(highlighted: highlighted)
+
             // Button label
-            label.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+            label.alpha = alpha
 
             // Button image views
             imageViews.forEach {
-                $0.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+                $0.alpha = alpha
             }
         }
     }
@@ -433,10 +424,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        let isCompact = traitCollection.verticalSizeClass == .compact
-
         let titleButtonHeight = titleButtonLabel.font.lineHeight
-        let titleBottomMargin = isCompact ? Constants.titleButtonLabelMarginBottomCompact : Constants.titleButtonLabelMarginBottomRegular
+        let titleBottomMargin = TokenSetType.titleSpacing(for: traitCollection.verticalSizeClass)
         let subtitleButtonHeight = subtitleButtonLabel.font.lineHeight
         let totalContentHeight = titleButtonHeight + titleBottomMargin + subtitleButtonHeight
         var top = ceil((bounds.height - totalContentHeight) / 2.0)
@@ -463,14 +452,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         if titleButtonLeadingImageView.image != nil {
             titleButtonLeadingImageView.frame = CGRect(
-                origin: CGPoint(x: titleButtonLabel.frame.minX - Constants.titleButtonLeadingImageTotalPadding, y: 0),
-                size: CGSize(width: Constants.titleButtonLeadingImageSize, height: Constants.titleButtonLeadingImageSize))
+                origin: CGPoint(x: titleButtonLabel.frame.minX - TokenSetType.LeadingImageConstants.totalPadding, y: 0),
+                size: CGSize(width: TokenSetType.LeadingImageConstants.size, height: TokenSetType.LeadingImageConstants.size))
             titleButtonLeadingImageView.centerInSuperview(horizontally: false, vertically: true)
 
             if alignment == .leading {
                 // Shift everything over so the leading image lines up with the leading side instead of the text
                 titleButton.subviews.forEach {
-                    $0.frame.origin.x += Constants.titleButtonLeadingImageTotalPadding
+                    $0.frame.origin.x += TokenSetType.LeadingImageConstants.totalPadding
                 }
             }
         }

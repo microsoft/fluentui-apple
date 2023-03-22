@@ -56,3 +56,27 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
         }
     }
 }
+
+extension TwoLineTitleViewTokenSet {
+    enum ColorConstants {
+        static func alpha(highlighted: Bool) -> CGFloat {
+            highlighted ? 0.4 : 1
+        }
+        static let animationDuration: TimeInterval = 0.2
+    }
+
+    enum LeadingImageConstants {
+        static let size = GlobalTokens.icon(.size160)
+        static let margin = GlobalTokens.spacing(.size40)
+        static let totalPadding: CGFloat = size + margin
+    }
+
+    static func titleSpacing(for verticalSizeClass: UIUserInterfaceSizeClass) -> CGFloat {
+        switch verticalSizeClass {
+        case .compact:
+            return -GlobalTokens.spacing(.size20)
+        default:
+            return GlobalTokens.spacing(.sizeNone)
+        }
+    }
+}
