@@ -236,9 +236,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0A0516BC2940A3CE006DE0A2 /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
-		0A0516BD2940A3CE006DE0A2 /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
-		0A0516BE2940A3CE006DE0A2 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -539,17 +536,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A0516BB2940A3CE006DE0A2 /* Divider */ = {
-			isa = PBXGroup;
-			children = (
-				0A0516BC2940A3CE006DE0A2 /* DividerTokenSet.swift */,
-				0A0516BD2940A3CE006DE0A2 /* MSFDivider.swift */,
-				0A0516BE2940A3CE006DE0A2 /* Divider.swift */,
-			);
-			name = Divider;
-			path = FluentUI/Divider;
-			sourceTree = SOURCE_ROOT;
-		};
 		1168630122E131A20088B302 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,7 +870,6 @@
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
-				0A0516BB2940A3CE006DE0A2 /* Divider */,
 				5314DFEF25F003C60099271A /* DotView */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				5314DFF525F007020099271A /* EasyTapButton */,
