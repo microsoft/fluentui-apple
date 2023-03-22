@@ -36,6 +36,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
         for row in rows {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+            multilineCommandBarRow.isScrollable = row.isScrollable
             multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
 
             if row.isScrollable {
