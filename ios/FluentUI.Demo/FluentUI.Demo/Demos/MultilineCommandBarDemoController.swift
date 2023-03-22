@@ -84,12 +84,12 @@ class MultilineCommandBarDemoController: DemoController {
             rows.append(MultilineCommandBarRow(itemGroups: itemGroups, isScrollable: commandRow == commandRows.first))
         }
 
-        let multilineCommandBar = MultilineCommandBar(rows: rows)
+        multilineCommandBar = MultilineCommandBar(rows: rows)
 
-        return multilineCommandBar
+        return MultilineCommandBar(rows: rows)
     }()
 
-//    private var multilineCommandBar: MultilineCommandBar
+    private var multilineCommandBar: MultilineCommandBar?
 
     private func newItem(for command: Command) -> CommandBarItem {
         switch command {
@@ -210,54 +210,54 @@ class MultilineCommandBarDemoController: DemoController {
     }
 }
 
-//extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
-//    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
-//        guard let fluentTheme = self.view.window?.fluentTheme else {
-//            return
-//        }
-//        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
-//                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
-//    }
-//
-//    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-//        multilineCommandBar.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
-//    }
-//
-//    func isThemeWideOverrideApplied() -> Bool {
-//        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self)?.isEmpty == false
-//    }
-//
-//    // MARK: - Custom tokens
-//    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
-//        return [
-//            .itemBackgroundColorSelected: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-//            },
-//            .itemBackgroundColorPressed: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-//            },
-//            .itemIconColorSelected: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-//            },
-//            .itemIconColorPressed: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-//            }
-//        ]
-//    }
-//    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
-//        return [
-//            .itemBackgroundColorSelected: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-//            },
-//            .itemBackgroundColorPressed: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-//            },
-//            .itemIconColorSelected: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-//            },
-//            .itemIconColorPressed: .dynamicColor {
-//                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-//            }
-//        ]
-//    }
-//}
+extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        multilineCommandBar?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
+            },
+            .itemBackgroundColorPressed: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
+            },
+            .itemIconColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
+            },
+            .itemIconColorPressed: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
+            }
+        ]
+    }
+    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
+            },
+            .itemBackgroundColorPressed: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
+            },
+            .itemIconColorSelected: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
+            },
+            .itemIconColorPressed: .dynamicColor {
+                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
+            }
+        ]
+    }
+}

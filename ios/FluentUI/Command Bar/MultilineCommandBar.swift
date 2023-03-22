@@ -25,38 +25,27 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         self.tokenSet = CommandBarTokenSet()
 
         rowsStackView = UIStackView()
-        innerStackView = UIStackView()
-        itemGroupViews = []
+        commandBarRowViews = []
 
         super.init(frame: .zero)
 
         rowsStackView.axis = .vertical
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
-        innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
-        innerStackView.translatesAutoresizingMaskIntoConstraints = false
-        innerStackView.distribution = .fillProportionally
-        innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
 
         addSubview(rowsStackView)
 
         for row in rows {
+            let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+            multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
+
             if row.isScrollable {
-                let scrollableRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
-                scrollableRow.translatesAutoresizingMaskIntoConstraints = false
-                scrollableRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
+                multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
                     .init(light: GlobalTokens.neutralColors(.white),
                           dark: GlobalTokens.neutralColors(.black))
                 }
-                rowsStackView.addArrangedSubview(scrollableRow)
-                rowsStackView.addArrangedSubview(innerStackView)
-            } else {
-                let fixedRow = CommandBarCommandGroupsView(itemGroups: row.itemGroups,
-                                                           tokenSet: tokenSet)
-                fixedRow.translatesAutoresizingMaskIntoConstraints = false
-                fixedRow.setEqualWidthGroups()
-                innerStackView.addArrangedSubview(fixedRow)
-                itemGroupViews.append(fixedRow)
             }
+            rowsStackView.addArrangedSubview(multilineCommandBarRow)
+            commandBarRowViews.append(multilineCommandBarRow)
         }
 
         NSLayoutConstraint.activate([
@@ -66,19 +55,19 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateButtonTokens()
+            self?.updateCommandBarRows()
         }
     }
 
-    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if let previousTraitCollection = previousTraitCollection {
-            if previousTraitCollection.verticalSizeClass != traitCollection.verticalSizeClass {
-                innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
-                innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
-            }
-        }
-    }
+//    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        if let previousTraitCollection = previousTraitCollection {
+//            if previousTraitCollection.verticalSizeClass != traitCollection.verticalSizeClass {
+//                innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
+//                innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
+//            }
+//        }
+//    }
 
     public override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
@@ -86,20 +75,12 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             return
         }
         tokenSet.update(newWindow.fluentTheme)
-        updateButtonTokens()
+        updateCommandBarRows()
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    /// Apply `isEnabled` and `isSelected` state from `CommandBarItem` to the buttons
-    @available(*, message: "Changes on CommandBarItem objects will automatically trigger updates to their corresponding CommandBarButtons. Calls to this method are no longer necessary.")
-    @objc public func updateButtonsState() {
-        for itemGroupView in itemGroupViews {
-            itemGroupView.updateButtonsState()
-        }
     }
 
     // MARK: Overrides
@@ -118,13 +99,11 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     /// Container UIStackView that holds all rows of the MultilineCommandBar
     private var rowsStackView: UIStackView
 
-    private var innerStackView: UIStackView
+    private var commandBarRowViews: [CommandBar]
 
-    private var itemGroupViews: [CommandBarCommandGroupsView]
-
-    private func updateButtonTokens() {
-        for itemGroupView in itemGroupViews {
-            itemGroupView.updateButtonsShown()
+    private func updateCommandBarRows() {
+        for commandBarRowView in commandBarRowViews {
+            commandBarRowView.updateButtonTokens()
         }
     }
 }
