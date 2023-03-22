@@ -125,11 +125,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    public typealias TokenSetKeyType = TwoLineTitleViewTokenSet.Tokens
-    public lazy var tokenSet: TwoLineTitleViewTokenSet = .init(style: { [weak self] in
-        self?.currentStyle ?? .system
-    })
-
     @objc open var titleAccessibilityHint: String? {
         get { return titleButton.accessibilityHint }
         set { titleButton.accessibilityHint = newValue }
@@ -147,6 +142,11 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         get { return subtitleButton.accessibilityTraits }
         set { subtitleButton.accessibilityTraits = newValue }
     }
+
+    public typealias TokenSetKeyType = TwoLineTitleViewTokenSet.Tokens
+    public lazy var tokenSet: TwoLineTitleViewTokenSet = .init(style: { [weak self] in
+        self?.currentStyle ?? .system
+    })
 
     @objc public weak var delegate: TwoLineTitleViewDelegate?
 
