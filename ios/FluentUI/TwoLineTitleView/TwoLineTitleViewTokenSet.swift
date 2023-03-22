@@ -5,11 +5,19 @@
 
 import UIKit
 
+/// Design token set for the `TwoLineTitleView` control.
 public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// Describes the color of the subtitle.
         case subtitleColor
+
+        /// Describes the font used for the subtitle.
         case subtitleFont
+
+        /// Describes the color of the title.
         case titleColor
+
+        /// Describes the font used for the title.
         case titleFont
     }
 
