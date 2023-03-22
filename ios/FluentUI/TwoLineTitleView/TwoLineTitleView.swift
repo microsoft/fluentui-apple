@@ -420,6 +420,16 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         setNeedsLayout()
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        applyStyle()
+        updateFonts()
+    }
+
     open override func layoutSubviews() {
         super.layoutSubviews()
 
