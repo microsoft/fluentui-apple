@@ -196,7 +196,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // user interaction point
     private lazy var searchTextField: SearchBarTextField = {
         let textField = SearchBarTextField()
-        textField.font = tokenSet.fluentTheme.typography(.body1).withSize(Constants.fontSize)
+        textField.font = tokenSet.fluentTheme.typography(.body1)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
