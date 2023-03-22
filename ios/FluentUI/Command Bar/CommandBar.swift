@@ -224,6 +224,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
+        containerView.addSubview(mainCommandGroupsView)
 
         return containerView
     }()
@@ -241,7 +242,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }()
 
     private lazy var scrollViewConstraints: [NSLayoutConstraint] = {
-        return [scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
+        return [scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+                scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
                 containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
                 containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)]
@@ -268,8 +270,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         commandBarContainerStackView.addArrangedSubview(containerView)
         commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
 
-        containerView.addSubview(mainCommandGroupsView)
-
         updateViewHierarchy()
 
         NSLayoutConstraint.activate([
@@ -294,14 +294,13 @@ public class CommandBar: UIView, TokenizedControlInternal {
         if isScrollable {
             mainCommandGroupsView.removeFromSuperview()
             scrollView.addSubview(mainCommandGroupsView)
-            addSubview(scrollView)
+            containerView.addSubview(scrollView)
 
             NSLayoutConstraint.activate(scrollViewConstraints)
         } else {
             scrollView.removeFromSuperview()
             mainCommandGroupsView.removeFromSuperview()
-            addSubview(mainCommandGroupsView)
-            layer.mask = nil
+            containerView.addSubview(mainCommandGroupsView)
 
             NSLayoutConstraint.deactivate(scrollViewConstraints)
         }
