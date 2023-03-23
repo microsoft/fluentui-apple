@@ -32,7 +32,7 @@ class MultilineCommandBarDemoController: DemoController {
     }
 
     private lazy var multilineCommandBarView: UIView = {
-        let commandRows: [[[Command]]] = [
+        let portraitCommandRows: [[[Command]]] = [
             [
                 [
                     .heading1
@@ -73,20 +73,61 @@ class MultilineCommandBarDemoController: DemoController {
                 ]
             ]
         ]
-
-        var rows: [MultilineCommandBarRow] = []
-        for commandRow in commandRows {
-            let itemGroups: [CommandBarItemGroup] = commandRow.map { commandGroup in
+        let portraitRows: [MultilineCommandBarRow] = portraitCommandRows.map { commandGroups in
+            MultilineCommandBarRow(itemGroups: (commandGroups.map { commandGroup in
                 commandGroup.map { command in
                     newItem(for: command)
                 }
-            }
-            rows.append(MultilineCommandBarRow(itemGroups: itemGroups, isScrollable: commandRow == commandRows.first))
+            }), isScrollable: commandGroups == portraitCommandRows.first)
         }
 
-        multilineCommandBar = MultilineCommandBar(rows: rows)
+        let landscapeCommandRows: [[[Command]]] = [
+            [
+                [
+                    .heading1
+                ],
+                [
+                    .heading2
+                ],
+                [
+                    .heading3
+                ],
+                [
+                    .paragraph
+                ]
+            ],
+            [
+                [
+                    .textBold,
+                    .textItalic,
+                    .textUnderline,
+                    .textStrikethrough
+                ],
+                [
+                    .bulletList,
+                    .numberList,
+                    .checklist,
+                    .link
+                ],
+                [
+                    .arrowUndo,
+                    .arrowRedo
+                ],
+                [
+                    .add
+                ]
+            ]
+        ]
+        let landscapeRows: [MultilineCommandBarRow] = landscapeCommandRows.map { commandGroups in
+            MultilineCommandBarRow(itemGroups: (commandGroups.map { commandGroup in
+                commandGroup.map { command in
+                    newItem(for: command)
+                }
+            }), isScrollable: commandGroups == landscapeCommandRows.first)
+        }
 
-        return MultilineCommandBar(rows: rows)
+        multilineCommandBar = MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
+        return MultilineCommandBar(portraitRows: landscapeRows)
     }()
 
     private var multilineCommandBar: MultilineCommandBar?

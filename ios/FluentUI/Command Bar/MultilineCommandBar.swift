@@ -21,8 +21,10 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - Public methods
 
-    @objc public init(rows: [MultilineCommandBarRow]) {
+    @objc public init(portraitRows: [MultilineCommandBarRow], landscapeRows: [MultilineCommandBarRow]? = nil) {
         self.tokenSet = CommandBarTokenSet()
+        self.portraitRows = portraitRows
+        self.landscapeRows = landscapeRows
 
         rowsStackView = UIStackView()
         commandBarRowViews = []
@@ -32,21 +34,10 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         rowsStackView.axis = .vertical
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(rowsStackView)
-
-        for row in rows {
-            let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
-            multilineCommandBarRow.isScrollable = row.isScrollable
-            multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
-
-            if row.isScrollable {
-                multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
-                    .init(light: GlobalTokens.neutralColors(.white),
-                          dark: GlobalTokens.neutralColors(.black))
-                }
-            }
-            rowsStackView.addArrangedSubview(multilineCommandBarRow)
-            commandBarRowViews.append(multilineCommandBarRow)
+        if traitCollection.verticalSizeClass == .compact && landscapeRows != nil {
+            addRows(rows: &(self.landscapeRows)!)
+        } else {
+            addRows(rows: &self.portraitRows)
         }
 
         NSLayoutConstraint.activate([
@@ -60,15 +51,21 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-//    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        if let previousTraitCollection = previousTraitCollection {
-//            if previousTraitCollection.verticalSizeClass != traitCollection.verticalSizeClass {
-//                innerStackView.axis = traitCollection.verticalSizeClass == .regular ? .vertical : .horizontal
-//                innerStackView.spacing = traitCollection.verticalSizeClass == .regular ? 1 : 8
-//            }
-//        }
-//    }
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if landscapeRows != nil {
+            if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
+                rowsStackView.removeFromSuperview()
+                removeRows()
+                if traitCollection.verticalSizeClass == .regular {
+                    addRows(rows: &self.portraitRows)
+                } else {
+                    addRows(rows: &(self.landscapeRows)!)
+                }
+            }
+        }
+    }
 
     public override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
@@ -97,10 +94,38 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
     // MARK: - Private
 
-    /// Container UIStackView that holds all rows of the MultilineCommandBar
+    private var portraitRows: [MultilineCommandBarRow]
+
+    private var landscapeRows: [MultilineCommandBarRow]?
+
     private var rowsStackView: UIStackView
 
     private var commandBarRowViews: [CommandBar]
+
+    private func addRows(rows: inout [MultilineCommandBarRow]) {
+        addSubview(rowsStackView)
+        for row in rows {
+            let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+            multilineCommandBarRow.isScrollable = row.isScrollable
+            multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
+
+            if row == rows.first {
+                multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
+                    .init(light: GlobalTokens.neutralColors(.white),
+                          dark: GlobalTokens.neutralColors(.black))
+                }
+            }
+            rowsStackView.addArrangedSubview(multilineCommandBarRow)
+            commandBarRowViews.append(multilineCommandBarRow)
+        }
+    }
+
+    private func removeRows() {
+        rowsStackView.removeFromSuperview()
+        rowsStackView.subviews.forEach { rowView in
+            rowView.removeFromSuperview()
+        }
+    }
 
     private func updateCommandBarRows() {
         for commandBarRowView in commandBarRowViews {
