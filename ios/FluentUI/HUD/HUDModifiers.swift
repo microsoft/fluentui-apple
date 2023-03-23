@@ -61,13 +61,7 @@ struct SquareShapedViewModifier: ViewModifier {
 
                         // Don't let the size be bigger than
                         // the maximum defined by the caller.
-                        let maximumCalculatedSize = min(maxSize,
-                                                        minimumCalculatedSize)
-
-                        // Ensures the View does not shrink compared to its
-                        // previous size (calculated based on its content).
-                        size = max(size,
-                                   maximumCalculatedSize)
+                        size = min(maxSize, minimumCalculatedSize)
                     }
 
                     return viewDimensions[HorizontalAlignment.center]
@@ -79,7 +73,7 @@ struct SquareShapedViewModifier: ViewModifier {
     }
 
     init(minSize: CGFloat, maxSize: CGFloat) {
-        size = minSize
+        size = maxSize
         self.minSize = minSize
         self.maxSize = maxSize
     }
