@@ -51,7 +51,6 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
         if landscapeRows != nil {
             if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
-                rowsStackView.removeFromSuperview()
                 removeRows()
                 if traitCollection.verticalSizeClass == .regular {
                     addRows(rows: &self.portraitRows)
