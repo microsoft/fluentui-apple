@@ -29,9 +29,21 @@ class TwoLineTitleViewDemoController: DemoController {
         return twoLineTitleView
     }
 
-    private static func makeStandardTitleView(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: TwoLineTitleView.Alignment = .center, interactivePart: TwoLineTitleView.InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: TwoLineTitleView.AccessoryType = .none) -> TwoLineTitleView {
+    private static func makeStandardTitleView(title: String,
+                                              titleImage: UIImage? = nil,
+                                              subtitle: String? = nil,
+                                              alignment: TwoLineTitleView.Alignment = .center,
+                                              interactivePart: TwoLineTitleView.InteractivePart = .none,
+                                              animatesWhenPressed: Bool = true,
+                                              accessoryType: TwoLineTitleView.AccessoryType = .none) -> TwoLineTitleView {
         let twoLineTitleView = createDemoTitleView()
-        twoLineTitleView.setup(title: title, titleImage: titleImage, subtitle: subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
+        twoLineTitleView.setup(title: title,
+                               titleImage: titleImage,
+                               subtitle: subtitle,
+                               alignment: alignment,
+                               interactivePart: interactivePart,
+                               animatesWhenPressed: animatesWhenPressed,
+                               accessoryType: accessoryType)
         return twoLineTitleView
     }
 
