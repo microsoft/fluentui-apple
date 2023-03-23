@@ -107,7 +107,7 @@ extension TwoLineTitleViewDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideTokens: [TwoLineTitleViewTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleColor: .uiColor { GlobalTokens.sharedColor(.orange, .primary) },
+            .titleColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
             .subtitleColor: .uiColor { GlobalTokens.sharedColor(.red, .primary) }
         ]
     }
@@ -116,7 +116,7 @@ extension TwoLineTitleViewDemoController: DemoAppearanceDelegate {
         return [
             .titleColor: .uiColor { GlobalTokens.sharedColor(.blue, .primary) },
             .titleFont: .uiFont { UIFont(descriptor: .init(name: "Papyrus", size: 12), size: 12) },
-            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
+            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.orange, .primary) },
             .subtitleFont: .uiFont { UIFont(descriptor: .init(name: "Papyrus", size: 10), size: 10) }
         ]
     }
