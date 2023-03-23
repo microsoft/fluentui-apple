@@ -34,7 +34,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     @objc public func show(with message: String,
                            title: String?,
                            for anchorView: UIView,
-                           with hostViewController: UIViewController? = nil,
+                           in hostViewController: UIViewController? = nil,
                            preferredArrowDirection: ArrowDirection = .down,
                            offset: CGPoint = CGPoint(x: 0, y: 0),
                            dismissOn dismissMode: DismissMode = .tapAnywhere,
@@ -97,8 +97,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
                 }
             }
         }
-
-        tooltipViewController.didMove(toParent: hostViewController)
+        tooltipViewController.didMove(toParent: hostVC)
 
         // Animate tooltip
         tooltipView.alpha = 0.0
@@ -132,7 +131,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         show(with: message,
              title: title,
              for: anchorView,
-             with: nil,
+             in: nil,
              preferredArrowDirection: preferredArrowDirection,
              offset: offset,
              dismissOn: dismissMode,
@@ -158,7 +157,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
         show(with: message,
              title: nil,
              for: anchorView,
-             with: nil,
+             in: nil,
              preferredArrowDirection: preferredArrowDirection,
              offset: offset,
              dismissOn: dismissMode,
