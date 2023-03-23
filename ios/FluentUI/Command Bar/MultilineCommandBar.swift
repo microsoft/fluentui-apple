@@ -40,11 +40,6 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             addRows(rows: &self.portraitRows)
         }
 
-        NSLayoutConstraint.activate([
-            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
-        ])
-
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateCommandBarRows()
@@ -118,9 +113,19 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             rowsStackView.addArrangedSubview(multilineCommandBarRow)
             commandBarRowViews.append(multilineCommandBarRow)
         }
+
+        NSLayoutConstraint.activate([
+            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ])
     }
 
     private func removeRows() {
+        NSLayoutConstraint.deactivate([
+            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+        ])
+
         rowsStackView.removeFromSuperview()
         rowsStackView.subviews.forEach { rowView in
             rowView.removeFromSuperview()

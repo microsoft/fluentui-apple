@@ -127,7 +127,7 @@ class MultilineCommandBarDemoController: DemoController {
         }
 
         multilineCommandBar = MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
-        return MultilineCommandBar(portraitRows: landscapeRows)
+        return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
     }()
 
     private var multilineCommandBar: MultilineCommandBar?
