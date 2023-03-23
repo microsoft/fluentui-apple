@@ -196,6 +196,9 @@ extension SearchBarDemoController: DemoAppearanceDelegate {
                 return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
                                                           dark: GlobalTokens.sharedColors(.lime, .tint40)))
             },
+            .cancelButtonColor: .uiColor {
+                return .red
+            },
             .placeholderColor: .uiColor {
                 return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
                                                           dark: GlobalTokens.sharedColors(.berry, .tint40)))

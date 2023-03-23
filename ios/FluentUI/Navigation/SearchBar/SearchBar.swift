@@ -366,7 +366,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchIconImageView.tintColor = tokenSet[.inactiveSearchIconColor].uiColor
         searchTextField.textColor = tokenSet[.textColor].uiColor
         // used for cursor or selection handle
-        searchTextField.tintColor = tokenSet[.tintColor].uiColor
+        searchTextField.tintColor = tokenSet[.searchCursorColor].uiColor
         clearButton.tintColor = tokenSet[.clearIconColor].uiColor
         progressSpinner.state.color = tokenSet[.progressSpinnerColor].uiColor
         cancelButton.setTitleColor(tokenSet[.cancelButtonColor].uiColor, for: .normal)
