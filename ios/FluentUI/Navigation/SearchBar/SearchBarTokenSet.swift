@@ -136,6 +136,8 @@ extension SearchBarTokenSet {
     static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
     static let clearButtonTrailingInset: CGFloat = 10
     static let cancelButtonLeadingInset: CGFloat = 8.0
+    static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
+    static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
     static var searchIconInsettedWidth: CGFloat {
         searchIconImageViewDimension + searchIconInset
     }
