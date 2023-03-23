@@ -58,10 +58,11 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
 }
 
 extension TwoLineTitleViewTokenSet {
+    static let textColorAnimationDuration: TimeInterval = 0.2
+
     static func textColorAlpha(highlighted: Bool) -> CGFloat {
         highlighted ? 0.4 : 1
     }
-    static let textColorAnimationDuration: TimeInterval = 0.2
 
     static let leadingImageSize = GlobalTokens.icon(.size160)
     static let leadingImageMargin = GlobalTokens.spacing(.size40)
