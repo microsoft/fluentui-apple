@@ -12,7 +12,7 @@ class TwoLineTitleViewDemoController: DemoController {
 
         // Give it a visible margin so we can confirm it centers properly
         twoLineTitleView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        twoLineTitleView.layer.borderWidth = 1
+        twoLineTitleView.layer.borderWidth = GlobalTokens.stroke(.width10)
         twoLineTitleView.layer.borderColor = GlobalTokens.neutralColor(.grey50).cgColor
 
         return twoLineTitleView
