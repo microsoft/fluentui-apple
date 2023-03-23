@@ -188,7 +188,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-    // Whether or not the CommandBar is scrollable
+    /// Whether or not the CommandBar is scrollable
     public var isScrollable: Bool = true {
         didSet {
             updateViewHierarchy()
