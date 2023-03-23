@@ -51,7 +51,7 @@ class TwoLineTitleViewDemoController: DemoController {
         makeStandardTitleView(title: "Title here", subtitle: "Optional subtitle", animatesWhenPressed: false),
         makeStandardTitleView(title: "Custom image", titleImage: UIImage(named: "ic_fluent_star_16_regular"), animatesWhenPressed: false),
         makeStandardTitleView(title: "This one", subtitle: "can be tapped", interactivePart: .all),
-        makeStandardTitleView(title: "All the bells", titleImage: UIImage(named: "ic_fluent_star_16_regular"), subtitle: "and whistles", alignment: .leading, interactivePart: .subtitle, accessoryType: .disclosure)
+        makeStandardTitleView(title: "All the bells", titleImage: UIImage(named: "ic_fluent_star_16_regular"), subtitle: "and whistles", alignment: .leading, interactivePart: .subtitle, accessoryType: .downArrow)
     ]
 
     private let navigationExamples: [TwoLineTitleView] = [
