@@ -126,16 +126,16 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
 }
 
 extension SearchBarTokenSet {
-    static let searchTextFieldBackgroundHeight: CGFloat = 36.0
-    static let searchIconImageViewDimension: CGFloat = 20
-    static let searchIconInset: CGFloat = 10.0
-    static let searchTextFieldLeadingInset: CGFloat = 10.0
-    static let searchTextFieldVerticalInset: CGFloat = 2
-    static let searchTextFieldInteractionMinWidth: CGFloat = 50
-    static let clearButtonLeadingInset: CGFloat = 10
-    static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
-    static let clearButtonTrailingInset: CGFloat = 10
-    static let cancelButtonLeadingInset: CGFloat = 8.0
+    static let searchTextFieldBackgroundHeight: CGFloat = GlobalTokens.spacing(.size360)
+    static let searchIconImageViewDimension: CGFloat = GlobalTokens.spacing(.size200)
+    static let searchIconInset: CGFloat = GlobalTokens.spacing(.size100)
+    static let searchTextFieldLeadingInset: CGFloat = GlobalTokens.spacing(.size100)
+    static let searchTextFieldVerticalInset: CGFloat = GlobalTokens.spacing(.size20)
+    static let searchTextFieldInteractionMinWidth: CGFloat = 50.0
+    static let clearButtonLeadingInset: CGFloat = GlobalTokens.spacing(.size100)
+    static let clearButtonWidth: CGFloat = GlobalTokens.spacing(.size80) + GlobalTokens.spacing(.size160) + GlobalTokens.spacing(.size80)   // padding + image + padding
+    static let clearButtonTrailingInset: CGFloat = GlobalTokens.spacing(.size100)
+    static let cancelButtonLeadingInset: CGFloat = GlobalTokens.spacing(.size80)
     static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
     static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
     static var searchIconInsettedWidth: CGFloat {
@@ -143,5 +143,13 @@ extension SearchBarTokenSet {
     }
     static var clearButtonInsettedWidth: CGFloat {
         clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
+    }
+}
+
+public extension SearchBar {
+    @objc(MSFSearchBarStyle)
+    enum Style: Int {
+        case lightContent
+        case darkContent
     }
 }

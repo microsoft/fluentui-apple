@@ -23,12 +23,6 @@ public protocol SearchBarDelegate: AnyObject {
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)
 open class SearchBar: UIView, TokenizedControlInternal {
-    @objc(MSFSearchBarStyle)
-    public enum Style: Int {
-        case lightContent
-        case darkContent
-    }
-
     @objc open var hidesNavigationBarDuringSearch: Bool = true {
         didSet {
             if oldValue != hidesNavigationBarDuringSearch && isActive {
