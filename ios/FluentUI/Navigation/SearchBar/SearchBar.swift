@@ -83,7 +83,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // user interaction point
     private lazy var searchTextField: SearchBarTextField = {
         let textField = SearchBarTextField()
-        textField.font = tokenSet.fluentTheme.typography(.body1)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -127,7 +126,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = tokenSet.fluentTheme.typography(.body1)
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
@@ -180,6 +178,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColorsForStyle()
+            self?.updateFonts()
         }
     }
 
@@ -190,6 +189,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         updateColorsForStyle()
+        updateFonts()
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -371,6 +371,11 @@ open class SearchBar: UIView, TokenizedControlInternal {
         progressSpinner.state.color = tokenSet[.progressSpinnerColor].uiColor
         cancelButton.setTitleColor(tokenSet[.cancelButtonColor].uiColor, for: .normal)
         attributePlaceholderText()
+    }
+
+    private func updateFonts() {
+        searchTextField.font = tokenSet[.font].uiFont
+        cancelButton.titleLabel?.font = tokenSet[.font].uiFont
     }
 
     private func updateSearchingColors() {
