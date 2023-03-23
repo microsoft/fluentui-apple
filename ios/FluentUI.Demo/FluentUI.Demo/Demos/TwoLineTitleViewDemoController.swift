@@ -7,8 +7,65 @@ import FluentUI
 import UIKit
 
 class TwoLineTitleViewDemoController: DemoController {
-    private let displayedNavigationItem = UINavigationItem()
-    private let twoLineTitleView = TwoLineTitleView()
+    private static func createDemoTitleView() -> TwoLineTitleView {
+        let twoLineTitleView = TwoLineTitleView()
+
+        // Give it a visible margin so we can confirm it centers properly
+        twoLineTitleView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        twoLineTitleView.layer.borderWidth = 1
+        twoLineTitleView.layer.borderColor = GlobalTokens.neutralColor(.grey50).cgColor
+
+        return twoLineTitleView
+    }
+
+    private static func makeNavigationTitleView(_ navigationItemModifier: (UINavigationItem) -> Void) -> TwoLineTitleView {
+        let twoLineTitleView = createDemoTitleView()
+
+        let aNavigationItem = UINavigationItem()
+        navigationItemModifier(aNavigationItem)
+
+        twoLineTitleView.setup(navigationItem: aNavigationItem)
+
+        return twoLineTitleView
+    }
+
+    private static func makeStandardTitleView(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: TwoLineTitleView.Alignment = .center, interactivePart: TwoLineTitleView.InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: TwoLineTitleView.AccessoryType = .none) -> TwoLineTitleView {
+        let twoLineTitleView = createDemoTitleView()
+        twoLineTitleView.setup(title: title, titleImage: titleImage, subtitle: subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
+        return twoLineTitleView
+    }
+
+    private let setupExamples: [TwoLineTitleView] = [
+        makeStandardTitleView(title: "Title here", subtitle: "Optional subtitle", animatesWhenPressed: false),
+        makeStandardTitleView(title: "Custom image", titleImage: UIImage(named: "ic_fluent_star_16_regular"), animatesWhenPressed: false),
+        makeStandardTitleView(title: "This one", subtitle: "can be tapped", interactivePart: .all),
+        makeStandardTitleView(title: "All the bells", titleImage: UIImage(named: "ic_fluent_star_16_regular"), subtitle: "and whistles", alignment: .leading, interactivePart: .subtitle, accessoryType: .disclosure)
+    ]
+
+    private let navigationExamples: [TwoLineTitleView] = [
+        makeNavigationTitleView {
+            $0.title = "Title here"
+        },
+        makeNavigationTitleView {
+            $0.title = "Another title"
+            $0.subtitle = "With a subtitle"
+        },
+        makeNavigationTitleView {
+            $0.title = "This one"
+            $0.subtitle = "has an image"
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+        },
+        makeNavigationTitleView {
+            $0.title = "This one"
+            $0.subtitle = "has a disclosure chevron"
+            $0.titleAccessory = .init(location: .title, style: .disclosure)
+        },
+        makeNavigationTitleView {
+            $0.title = "They can also be"
+            $0.subtitle = "leading-aligned"
+            $0.usesLargeTitle = true
+        }
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,16 +73,15 @@ class TwoLineTitleViewDemoController: DemoController {
 
         container.alignment = .leading
 
-        twoLineTitleView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        twoLineTitleView.layer.borderWidth = 1
+        addTitle(text: "Made by calling TwoLineTitleView.setup")
+        setupExamples.forEach {
+            addRow(items: [$0])
+        }
 
-        displayedNavigationItem.title = "Title"
-        displayedNavigationItem.titleImage = UIImage(systemName: "f.circle")
-        displayedNavigationItem.subtitle = "Subtitle"
-        displayedNavigationItem.usesLargeTitle = false
-
-        twoLineTitleView.setup(navigationItem: displayedNavigationItem)
-        addRow(items: [twoLineTitleView])
+        addTitle(text: "Made from UINavigationItem")
+        navigationExamples.forEach {
+            addRow(items: [$0])
+        }
     }
 }
 
@@ -40,7 +96,9 @@ extension TwoLineTitleViewDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        twoLineTitleView.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideTokens : nil)
+        (setupExamples + navigationExamples).forEach {
+            $0.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideTokens : nil)
+        }
     }
 
     func isThemeWideOverrideApplied() -> Bool {
