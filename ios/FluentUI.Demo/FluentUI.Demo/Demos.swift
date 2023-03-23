@@ -36,7 +36,8 @@ struct Demos {
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
         DemoDescriptor("Text Field", TextFieldDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self),
+        DemoDescriptor("TwoLineTitleView", TwoLineTitleViewDemoController.self)
     ]
 
     static let fluent2DesignTokens: [DemoDescriptor] = [

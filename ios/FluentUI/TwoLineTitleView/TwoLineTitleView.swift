@@ -51,18 +51,7 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 // MARK: - TwoLineTitleView
 
 @objc(MSFTwoLineTitleView)
-open class TwoLineTitleView: UIView {
-    private struct Constants {
-        static let titleButtonLabelMarginBottomRegular: CGFloat = GlobalTokens.spacing(.sizeNone)
-        static let titleButtonLabelMarginBottomCompact: CGFloat = -GlobalTokens.spacing(.size20)
-        static let titleButtonLeadingImageSize: CGFloat = GlobalTokens.icon(.size160)
-        static let titleButtonLeadingImageMargin: CGFloat = GlobalTokens.spacing(.size40)
-        static let titleButtonLeadingImageTotalPadding: CGFloat = titleButtonLeadingImageSize + titleButtonLeadingImageMargin
-        static let colorAnimationDuration: TimeInterval = 0.2
-        static let colorAlpha: CGFloat = 1.0
-        static let colorHighlightedAlpha: CGFloat = 0.4
-    }
-
+open class TwoLineTitleView: UIView, TokenizedControlInternal {
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
         case primary
@@ -143,6 +132,11 @@ open class TwoLineTitleView: UIView {
         set { subtitleButton.accessibilityTraits = newValue }
     }
 
+    public typealias TokenSetKeyType = TwoLineTitleViewTokenSet.Tokens
+    public lazy var tokenSet: TwoLineTitleViewTokenSet = .init(style: { [weak self] in
+        self?.currentStyle ?? .system
+    })
+
     @objc public weak var delegate: TwoLineTitleViewDelegate?
 
     private var alignment: Alignment = .center
@@ -174,7 +168,7 @@ open class TwoLineTitleView: UIView {
     private var titleButtonTrailingImageView = UIImageView()
 
     private var titleButtonLeadingImageAreaWidth: CGFloat {
-        return titleButtonLeadingImageView.image != nil ? 2 * Constants.titleButtonLeadingImageTotalPadding : 0
+        return titleButtonLeadingImageView.image != nil ? 2 * TokenSetType.leadingImageTotalPadding : 0
     }
 
     private let subtitleButton = EasyTapButton()
@@ -203,6 +197,14 @@ open class TwoLineTitleView: UIView {
         self.currentStyle = .system
 
         super.init(frame: frame)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.applyStyle()
+            strongSelf.updateFonts()
+        }
 
         applyStyle()
 
@@ -240,18 +242,6 @@ open class TwoLineTitleView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
         updateFonts()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        applyStyle()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -329,25 +319,14 @@ open class TwoLineTitleView: UIView {
     // MARK: Highlighting
 
     private func applyStyle() {
-        switch currentStyle {
-        case .system:
-            titleButtonLabel.textColor = fluentTheme.color(.foreground1)
-            subtitleButtonLabel.textColor = fluentTheme.color(.foreground2)
-            titleButtonLeadingImageView.tintColor = fluentTheme.color(.foreground2)
-            titleButtonTrailingImageView.tintColor = fluentTheme.color(.foreground2)
-        case .primary:
-            titleButtonLabel.textColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                                 dark: fluentTheme.color(.foreground1).dark)
-            subtitleButtonLabel.textColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                                    dark: fluentTheme.color(.foreground2).dark)
-            titleButtonLeadingImageView.tintColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                                            dark: fluentTheme.color(.foreground2).dark)
-            titleButtonTrailingImageView.tintColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                                             dark: fluentTheme.color(.foreground2).dark)
-        }
+        let titleColor = tokenSet[.titleColor].uiColor
+        titleButtonLabel.textColor = titleColor
+        titleButtonLeadingImageView.tintColor = titleColor
+        titleButtonTrailingImageView.tintColor = titleColor
 
-        // unlike title accessory image view, subtitle accessory image view should be the same color as subtitle label
-        subtitleButtonImageView.tintColor = subtitleButtonLabel.textColor
+        let subtitleColor = tokenSet[.subtitleColor].uiColor
+        subtitleButtonLabel.textColor = subtitleColor
+        subtitleButtonImageView.tintColor = subtitleColor
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {
@@ -364,15 +343,17 @@ open class TwoLineTitleView: UIView {
 
     private func setupColor(highlighted: Bool, animated: Bool, onLabel label: UILabel, onImageViews imageViews: [UIImageView]) {
         // Highlighting is never animated to match iOS
-        let duration = !highlighted && animated ? Constants.colorAnimationDuration : 0
+        let duration = !highlighted && animated ? TokenSetType.textColorAnimationDuration : 0
 
         UIView.animate(withDuration: duration) {
+            let alpha = TokenSetType.textColorAlpha(highlighted: highlighted)
+
             // Button label
-            label.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+            label.alpha = alpha
 
             // Button image views
             imageViews.forEach {
-                $0.alpha = (highlighted) ? Constants.colorHighlightedAlpha : Constants.colorAlpha
+                $0.alpha = alpha
             }
         }
     }
@@ -411,17 +392,28 @@ open class TwoLineTitleView: UIView {
     }
 
     private func updateFonts() {
-        titleButtonLabel.font = fluentTheme.typography(.body1Strong)
-        subtitleButtonLabel.font = fluentTheme.typography(.caption1)
+        titleButtonLabel.font = tokenSet[.titleFont].uiFont
+        subtitleButtonLabel.font = tokenSet[.subtitleFont].uiFont
+
+        invalidateIntrinsicContentSize()
+        setNeedsLayout()
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        applyStyle()
+        updateFonts()
     }
 
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        let isCompact = traitCollection.verticalSizeClass == .compact
-
         let titleButtonHeight = titleButtonLabel.font.lineHeight
-        let titleBottomMargin = isCompact ? Constants.titleButtonLabelMarginBottomCompact : Constants.titleButtonLabelMarginBottomRegular
+        let titleBottomMargin = TokenSetType.titleSpacing(for: traitCollection.verticalSizeClass)
         let subtitleButtonHeight = subtitleButtonLabel.font.lineHeight
         let totalContentHeight = titleButtonHeight + titleBottomMargin + subtitleButtonHeight
         var top = ceil((bounds.height - totalContentHeight) / 2.0)
@@ -448,14 +440,14 @@ open class TwoLineTitleView: UIView {
 
         if titleButtonLeadingImageView.image != nil {
             titleButtonLeadingImageView.frame = CGRect(
-                origin: CGPoint(x: titleButtonLabel.frame.minX - Constants.titleButtonLeadingImageTotalPadding, y: 0),
-                size: CGSize(width: Constants.titleButtonLeadingImageSize, height: Constants.titleButtonLeadingImageSize))
+                origin: CGPoint(x: titleButtonLabel.frame.minX - TokenSetType.leadingImageTotalPadding, y: 0),
+                size: CGSize(width: TokenSetType.leadingImageSize, height: TokenSetType.leadingImageSize))
             titleButtonLeadingImageView.centerInSuperview(horizontally: false, vertically: true)
 
             if alignment == .leading {
                 // Shift everything over so the leading image lines up with the leading side instead of the text
                 titleButton.subviews.forEach {
-                    $0.frame.origin.x += Constants.titleButtonLeadingImageTotalPadding
+                    $0.frame.origin.x += TokenSetType.leadingImageTotalPadding
                 }
             }
         }
