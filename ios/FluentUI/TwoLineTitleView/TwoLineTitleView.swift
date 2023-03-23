@@ -168,7 +168,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var titleButtonTrailingImageView = UIImageView()
 
     private var titleButtonLeadingImageAreaWidth: CGFloat {
-        return titleButtonLeadingImageView.image != nil ? 2 * TokenSetType.LeadingImageConstants.totalPadding : 0
+        return titleButtonLeadingImageView.image != nil ? 2 * TokenSetType.leadingImageTotalPadding : 0
     }
 
     private let subtitleButton = EasyTapButton()
@@ -343,10 +343,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     private func setupColor(highlighted: Bool, animated: Bool, onLabel label: UILabel, onImageViews imageViews: [UIImageView]) {
         // Highlighting is never animated to match iOS
-        let duration = !highlighted && animated ? TokenSetType.ColorConstants.animationDuration : 0
+        let duration = !highlighted && animated ? TokenSetType.textColorAnimationDuration : 0
 
         UIView.animate(withDuration: duration) {
-            let alpha = TokenSetType.ColorConstants.alpha(highlighted: highlighted)
+            let alpha = TokenSetType.textColorAlpha(highlighted: highlighted)
 
             // Button label
             label.alpha = alpha
@@ -440,14 +440,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         if titleButtonLeadingImageView.image != nil {
             titleButtonLeadingImageView.frame = CGRect(
-                origin: CGPoint(x: titleButtonLabel.frame.minX - TokenSetType.LeadingImageConstants.totalPadding, y: 0),
-                size: CGSize(width: TokenSetType.LeadingImageConstants.size, height: TokenSetType.LeadingImageConstants.size))
+                origin: CGPoint(x: titleButtonLabel.frame.minX - TokenSetType.leadingImageTotalPadding, y: 0),
+                size: CGSize(width: TokenSetType.leadingImageSize, height: TokenSetType.leadingImageSize))
             titleButtonLeadingImageView.centerInSuperview(horizontally: false, vertically: true)
 
             if alignment == .leading {
                 // Shift everything over so the leading image lines up with the leading side instead of the text
                 titleButton.subviews.forEach {
-                    $0.frame.origin.x += TokenSetType.LeadingImageConstants.totalPadding
+                    $0.frame.origin.x += TokenSetType.leadingImageTotalPadding
                 }
             }
         }

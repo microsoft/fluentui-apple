@@ -58,18 +58,14 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
 }
 
 extension TwoLineTitleViewTokenSet {
-    enum ColorConstants {
-        static func alpha(highlighted: Bool) -> CGFloat {
-            highlighted ? 0.4 : 1
-        }
-        static let animationDuration: TimeInterval = 0.2
+    static func textColorAlpha(highlighted: Bool) -> CGFloat {
+        highlighted ? 0.4 : 1
     }
+    static let textColorAnimationDuration: TimeInterval = 0.2
 
-    enum LeadingImageConstants {
-        static let size = GlobalTokens.icon(.size160)
-        static let margin = GlobalTokens.spacing(.size40)
-        static let totalPadding: CGFloat = size + margin
-    }
+    static let leadingImageSize = GlobalTokens.icon(.size160)
+    static let leadingImageMargin = GlobalTokens.spacing(.size40)
+    static let leadingImageTotalPadding: CGFloat = leadingImageSize + leadingImageMargin
 
     static func titleSpacing(for verticalSizeClass: UIUserInterfaceSizeClass) -> CGFloat {
         switch verticalSizeClass {
