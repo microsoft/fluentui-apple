@@ -102,6 +102,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
             multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
+            multilineCommandBarRow.centerAligned = traitCollection.verticalSizeClass == .compact
 
             if row == rows.first {
                 multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
@@ -114,15 +115,15 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         }
 
         NSLayoutConstraint.activate([
-            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
 
     private func removeRows() {
         NSLayoutConstraint.deactivate([
-            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
 
         rowsStackView.removeFromSuperview()
