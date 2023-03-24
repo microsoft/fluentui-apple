@@ -34,4 +34,7 @@ jobs:
         branch: tdbuild
         labels: Automated PR
         branch-suffix: timestamp
-    
+    - name: Create Pull Request
+      run: git checkout -b 'tdbuild`date +%s`'; git push --set-upstream origin huwilkes/PRActions`date +%s`; gh pr create -B main -H tdbuild`date +%s` --title '[Localization] Localized Resource Files' --body  'Latest localized resource files from Touchdown Build' -l 'Automated PR'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
