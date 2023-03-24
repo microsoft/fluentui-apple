@@ -154,6 +154,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     }
 }
 
+// MARK: DemoAppearanceDelegate
+
 extension SearchBarDemoController: DemoAppearanceDelegate {
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
         guard let fluentTheme = self.view.window?.fluentTheme else {
@@ -183,6 +185,16 @@ extension SearchBarDemoController: DemoAppearanceDelegate {
             .textColor: .uiColor {
                 return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
                                                           dark: GlobalTokens.neutralColors(.grey98)))
+            },
+            .font: .uiFont {
+                return self.view.fluentTheme.typography(.body1Strong)
+            },
+            .progressSpinnerColor: .uiColor {
+                return .green
+            },
+            .activeSearchIconColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                         dark: GlobalTokens.sharedColors(.lime, .tint40)))
             }
         ]
     }
