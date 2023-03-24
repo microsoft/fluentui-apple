@@ -24,7 +24,11 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     @objc public init(portraitRows: [MultilineCommandBarRow], landscapeRows: [MultilineCommandBarRow]? = nil) {
         self.tokenSet = CommandBarTokenSet()
         self.portraitRows = portraitRows
-        self.landscapeRows = landscapeRows
+        if let landscapeRows = landscapeRows {
+            self.landscapeRows = landscapeRows
+        } else {
+            self.landscapeRows = portraitRows
+        }
 
         rowsStackView = UIStackView()
         commandBarRowViews = []
@@ -34,8 +38,8 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         rowsStackView.axis = .vertical
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        if traitCollection.verticalSizeClass == .compact && landscapeRows != nil {
-            addRows(rows: &(self.landscapeRows)!)
+        if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
+            addRows(rows: &self.landscapeRows)
         } else {
             addRows(rows: &self.portraitRows)
         }
@@ -49,14 +53,12 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if landscapeRows != nil {
-            if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
-                removeRows()
-                if traitCollection.verticalSizeClass == .regular {
-                    addRows(rows: &self.portraitRows)
-                } else {
-                    addRows(rows: &(self.landscapeRows)!)
-                }
+        if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
+            removeRows()
+            if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
+                addRows(rows: &self.landscapeRows)
+            } else {
+                addRows(rows: &self.portraitRows)
             }
         }
     }
@@ -90,7 +92,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
     private var portraitRows: [MultilineCommandBarRow]
 
-    private var landscapeRows: [MultilineCommandBarRow]?
+    private var landscapeRows: [MultilineCommandBarRow]
 
     private var rowsStackView: UIStackView
 
@@ -102,7 +104,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
             multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
-            multilineCommandBarRow.centerAligned = traitCollection.verticalSizeClass == .compact
+            multilineCommandBarRow.centerAligned = traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass
 
             if row == rows.first {
                 multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
