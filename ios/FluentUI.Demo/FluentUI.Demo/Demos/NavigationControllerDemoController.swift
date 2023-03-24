@@ -646,10 +646,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let view = navigationBar?.barButtonItemView(with: BarButtonItemTag.threeDay.rawValue) else {
             return
         }
+
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
+                            title: nil,
                             for: view,
+                            in: self.navigationController,
                             preferredArrowDirection: .up,
-                            dismissOn: .tapAnywhere)
+                            dismissOn: .tapAnywhere
+        )
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        Tooltip.shared.hide()
     }
 
     @objc private func dismissSelf() {
