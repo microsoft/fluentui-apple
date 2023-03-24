@@ -26,6 +26,6 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
     - name: Create Pull Request
-      run: scripts/create_localization_pr `date +%s`
+      run: scripts/create_localization_pr.sh
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
