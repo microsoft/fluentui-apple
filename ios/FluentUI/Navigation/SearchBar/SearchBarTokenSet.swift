@@ -20,10 +20,10 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
         /// The color of the placeholder text
         case placeholderColor
 
-        /// The color of the search icon when search is active
+        /// The color of the search icon when the user is typing
         case activeSearchIconColor
 
-        /// The color of the search icon the search is inactive
+        /// The color of the search icon when the user isn't typing
         case inactiveSearchIconColor
 
         /// The color of the user's input text in the SearchBar
