@@ -26,6 +26,6 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
     - name: Create Pull Request
-      run: git checkout -b 'tdbuild`date +%s`'; git push --set-upstream origin huwilkes/PRActions`date +%s`; gh pr create -B main -H tdbuild`date +%s` --title '[Localization] Localized Resource Files' --body  'Latest localized resource files from Touchdown Build' -l 'Automated PR'
+      run: git checkout -b 'tdbuild`date +%s`'; git push --set-upstream origin tdbuild`date +%s`; gh pr create -B main -H tdbuild`date +%s` --title '[Localization] Localized Resource Files' --body  'Latest localized resource files from Touchdown Build' -l 'Automated PR'
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
