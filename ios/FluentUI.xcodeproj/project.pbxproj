@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A00C92429CD2F6E00BC4EEA /* DividerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00C92129CD2F6E00BC4EEA /* DividerTokenSet.swift */; };
+		0A00C92529CD2F6E00BC4EEA /* MSFDivider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00C92229CD2F6E00BC4EEA /* MSFDivider.swift */; };
+		0A00C92629CD2F6E00BC4EEA /* Divider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A00C92329CD2F6E00BC4EEA /* Divider.swift */; };
 		0A3CD0B127BCA36000DBE728 /* HeaderModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */; };
 		0A3CD0B327BDD26B00DBE728 /* MSFList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3CD0B227BDD26A00DBE728 /* MSFList.swift */; };
 		0AA874162600237A00D47421 /* PersonaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA874142600237A00D47421 /* PersonaView.swift */; };
@@ -258,6 +261,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0A00C92129CD2F6E00BC4EEA /* DividerTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
+		0A00C92229CD2F6E00BC4EEA /* MSFDivider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
+		0A00C92329CD2F6E00BC4EEA /* Divider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		0A3CD0B027BCA36000DBE728 /* HeaderModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderModifiers.swift; sourceTree = "<group>"; };
 		0A3CD0B227BDD26A00DBE728 /* MSFList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFList.swift; sourceTree = "<group>"; };
 		0AA874142600237A00D47421 /* PersonaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaView.swift; sourceTree = "<group>"; };
@@ -430,8 +436,6 @@
 		D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6A012492810764B00C90535 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonTokenSet.swift; sourceTree = "<group>"; };
-		EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
-		EC02A5F4274DD19500E81B3E /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
@@ -586,6 +590,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A00C92029CD2F6E00BC4EEA /* Divider */ = {
+			isa = PBXGroup;
+			children = (
+				0A00C92129CD2F6E00BC4EEA /* DividerTokenSet.swift */,
+				0A00C92229CD2F6E00BC4EEA /* MSFDivider.swift */,
+				0A00C92329CD2F6E00BC4EEA /* Divider.swift */,
+			);
+			path = Divider;
+			sourceTree = "<group>";
+		};
 		0AA8741326001F0500D47421 /* Persona */ = {
 			isa = PBXGroup;
 			children = (
@@ -779,7 +793,6 @@
 			isa = PBXGroup;
 			children = (
 				536AEF2E25F1EC0300A36206 /* Button */,
-				EC6A71E8273DB98F0076A586 /* Divider */,
 				536AEF3225F1EC0300A36206 /* List */,
 				0AA8741326001F0500D47421 /* Persona */,
 				4B1C06D228B7EB0300A5F941 /* Shimmer */,
@@ -999,6 +1012,7 @@
 				FC414E1D258876D400069E73 /* Command Bar */,
 				A5CEC16B20D98EBF0016922A /* Core */,
 				FD599D0021347FA0008845EE /* Date Time Pickers */,
+				0A00C92029CD2F6E00BC4EEA /* Divider */,
 				5314DFEF25F003C60099271A /* DotView */,
 				A5B87AF2211E13D00038C37C /* Drawer */,
 				5314DFF525F007020099271A /* EasyTapButton */,
@@ -1179,15 +1193,6 @@
 				CCC18C2B2501B22F00BE830E /* CardView.swift */,
 			);
 			path = Card;
-			sourceTree = "<group>";
-		};
-		EC6A71E8273DB98F0076A586 /* Divider */ = {
-			isa = PBXGroup;
-			children = (
-				EC02A5F227472EF400E81B3E /* DividerTokenSet.swift */,
-				EC02A5F4274DD19500E81B3E /* MSFDivider.swift */,
-			);
-			path = Divider;
 			sourceTree = "<group>";
 		};
 		EC98E2AB2980C0C000B9DF91 /* TextField */ = {
@@ -1632,12 +1637,14 @@
 				0AD70F5B26E80A5D008774EC /* CommandBarTokenSet.swift in Sources */,
 				D6F4098927470E7F001B80D4 /* PillButtonTokenSet.swift in Sources */,
 				EC65F790292EDCEF002A1A23 /* ButtonLegacyTokenSet.swift in Sources */,
+				0A00C92529CD2F6E00BC4EEA /* MSFDivider.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
 				53097D05270288FB00A6E4DC /* MSFButton.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
+				0A00C92429CD2F6E00BC4EEA /* DividerTokenSet.swift in Sources */,
 				53229A0027FE108400C016A2 /* MSFHeadsUpDisplay.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipViewController.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
@@ -1673,6 +1680,7 @@
 				5314E1A625F01A7C0099271A /* BooleanCell.swift in Sources */,
 				92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */,
 				925D461D26FD133600179583 /* GlobalTokens.swift in Sources */,
+				0A00C92629CD2F6E00BC4EEA /* Divider.swift in Sources */,
 				9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */,
 				927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */,
 				5314E0F225F012C80099271A /* ShyHeaderView.swift in Sources */,
