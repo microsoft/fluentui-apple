@@ -73,6 +73,9 @@ struct SquareShapedViewModifier: ViewModifier {
     }
 
     init(minSize: CGFloat, maxSize: CGFloat) {
+        // Starts size at maxSize to give long labels enough space.
+        // If the HUD contents will fit in a smaller size,
+        // calculations with viewDimensions will shrink the HUD.
         size = maxSize
         self.minSize = minSize
         self.maxSize = maxSize
