@@ -8,11 +8,14 @@ import UIKit
 @objc(MSFMultilineCommandBarRow)
 public class MultilineCommandBarRow: NSObject {
     var itemGroups: [CommandBarItemGroup] = []
-    var isScrollable: Bool = false
+    var isScrollable: Bool
+    // only applies to scrollable rows
+    var centerAligned: Bool
 
-    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool) {
+    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool, centerAligned: Bool = false) {
         self.itemGroups = itemGroups
         self.isScrollable = isScrollable
+        self.centerAligned = centerAligned
     }
 }
 
@@ -104,7 +107,7 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
             multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
-            multilineCommandBarRow.centerAligned = traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass
+            multilineCommandBarRow.centerAligned = row.centerAligned
 
             if row == rows.first {
                 multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
