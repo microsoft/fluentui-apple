@@ -47,7 +47,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
     }
 
-    @objc open var style: Style = .lightContent {
+    @objc open var style: Style = SearchBarTokenSet.defaultStyle {
         didSet {
             updateColorsForStyle()
         }
