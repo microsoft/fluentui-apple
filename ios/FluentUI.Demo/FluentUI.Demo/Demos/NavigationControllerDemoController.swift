@@ -284,59 +284,66 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NavigationBarTitleAccessoryDelegate {
     struct TitleViewFeature {
         var name: String
-        var apply: (UINavigationItem) -> Void
+        var apply: (ChildViewController) -> Void
     }
 
     lazy var titleViewFeaturesByRow: [Int: TitleViewFeature] = [
         4: TitleViewFeature(name: "Large title") {
-            $0.usesLargeTitle = true
+            $0.navigationItem.usesLargeTitle = true
         },
         5: TitleViewFeature(name: "Leading-aligned, two titles") {
-            $0.usesLargeTitle = true
-            $0.subtitle = "Subtitle"
+            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.subtitle = "Subtitle"
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
-            $0.subtitle = "Press me!"
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
+            $0.navigationItem.subtitle = "Press me!"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
         },
         7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
-            $0.usesLargeTitle = true
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.subtitle = "Subtitle"
+            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
         },
         8: TitleViewFeature(name: "Centered, image, subtitle") {
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.subtitle = "Subtitle"
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
         },
         9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
-            $0.usesLargeTitle = true
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.subtitle = "Subtitle"
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         10: TitleViewFeature(name: "Centered, image, down arrow, subtitle") {
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.subtitle = "Subtitle"
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         11: TitleViewFeature(name: "Leading, down arrow") {
-            $0.usesLargeTitle = true
-            $0.subtitle = ""
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.subtitle = ""
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         12: TitleViewFeature(name: "Centered, down arrow") {
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         13: TitleViewFeature(name: "Leading, image, disclosure") {
-            $0.usesLargeTitle = true
-            $0.subtitle = ""
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.subtitle = ""
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         },
         14: TitleViewFeature(name: "Centered, image, disclosure") {
-            $0.subtitle = ""
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.subtitle = ""
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+        },
+        15: TitleViewFeature(name: "Centered, collapsible search bar") {
+            let searchBar = SearchBar()
+            searchBar.style = $0.navigationItem.navigationBarStyle == .system ? .darkContent : .lightContent
+            searchBar.placeholderText = "Search"
+            $0.navigationItem.accessoryView = searchBar
+            $0.navigationItem.contentScrollView = $0.tableView
         }
     ]
 
@@ -550,7 +557,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 controller.navigationItem.navigationBarStyle = .system
             }
             if let feature = titleViewFeaturesByRow[row] {
-                feature.apply(controller.navigationItem)
+                feature.apply(controller)
             }
             navigationController?.pushViewController(controller, animated: true)
         }
