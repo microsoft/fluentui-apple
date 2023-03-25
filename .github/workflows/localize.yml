@@ -26,12 +26,6 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v3.5.0
-      with:
-        commit-message: Latest localized resource files from Touchdown Build
-        title: '[Localization] Localized Resource Files'
-        body: 'Latest localized resource files from Touchdown Build'
-        branch: tdbuild
-        labels: Automated PR
-        branch-suffix: timestamp
-    
+      run: scripts/create_localization_pr.sh
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
