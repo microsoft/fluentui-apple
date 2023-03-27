@@ -11,10 +11,7 @@ class MultilineCommandBarDemoController: DemoController {
         super.viewDidLoad()
 
         let bottomSheetController = BottomSheetController(expandedContentView: multilineCommandBar)
-        bottomSheetController.collapsedContentHeight = 230
-        bottomSheetController.shouldAlwaysFillWidth = true
-        bottomSheetController.shouldHideCollapsedContent = false
-        bottomSheetController.allowsSwipeToHide = true
+        bottomSheetController.preferredExpandedContentHeight = 230
 
         addChild(bottomSheetController)
         view.addSubview(bottomSheetController.view)
