@@ -53,6 +53,15 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         }
     }
 
+    public override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateCommandBarRows()
+    }
+
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -64,15 +73,6 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
                 addRows(rows: &self.portraitRows)
             }
         }
-    }
-
-    public override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        guard let newWindow else {
-            return
-        }
-        tokenSet.update(newWindow.fluentTheme)
-        updateCommandBarRows()
     }
 
     @available(*, unavailable)
