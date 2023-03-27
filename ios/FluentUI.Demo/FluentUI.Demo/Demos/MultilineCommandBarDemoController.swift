@@ -10,7 +10,7 @@ class MultilineCommandBarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let bottomSheetController = BottomSheetController(expandedContentView: multilineCommandBarView)
+        let bottomSheetController = BottomSheetController(expandedContentView: multilineCommandBar)
         bottomSheetController.collapsedContentHeight = 230
         bottomSheetController.shouldAlwaysFillWidth = true
         bottomSheetController.shouldHideCollapsedContent = false
@@ -31,7 +31,7 @@ class MultilineCommandBarDemoController: DemoController {
         bottomSheetController.isHidden = false
     }
 
-    private lazy var multilineCommandBarView: UIView = {
+    private lazy var multilineCommandBar: MultilineCommandBar = {
         let portraitCommandRows: [[[Command]]] = [
             [
                 [
@@ -126,11 +126,8 @@ class MultilineCommandBarDemoController: DemoController {
             }), isScrollable: commandGroups == landscapeCommandRows.first, centerAligned: commandGroups == landscapeCommandRows.first)
         }
 
-        multilineCommandBar = MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
         return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
     }()
-
-    private var multilineCommandBar: MultilineCommandBar?
 
     private func newItem(for command: Command) -> CommandBarItem {
         switch command {
@@ -261,7 +258,7 @@ extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        multilineCommandBar?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
+        multilineCommandBar.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
     }
 
     func isThemeWideOverrideApplied() -> Bool {
