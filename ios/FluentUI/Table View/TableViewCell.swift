@@ -131,29 +131,23 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     @objc public static var largeHeight: CGFloat { return height(title: "", subtitle: " ", footer: " ") }
 
     /// TableViewCell colors with obj-c support
-    @objc public static func tableBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.background1))
+    @objc public static var tableBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundColor].dynamicColor)
     }
-    @objc public static func tableBackgroundGroupedColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.backgroundCanvas))
+    @objc public static var tableBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundGroupedColor].dynamicColor)
     }
-    @objc public static func tableCellBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.background1))
+    @objc public static var tableCellBackgroundColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundColor].dynamicColor)
     }
-    @objc public static func tableCellBackgroundGroupedColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.background3))
+    @objc public static var tableCellBackgroundGroupedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundGroupedColor].dynamicColor)
     }
-    @objc public static func tableCellBackgroundSelectedColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.background1Pressed))
+    @objc public static var tableCellBackgroundSelectedColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundSelectedColor].dynamicColor)
     }
-    @objc public static func tableCellImageColor(fluentTheme: FluentTheme?) -> UIColor {
-        let theme = fluentTheme ?? .shared
-        return UIColor(dynamicColor: theme.color(.foreground3))
+    @objc public static var tableCellImageColor: UIColor {
+        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.imageColor].dynamicColor)
     }
 
     /// Identifier string for TableViewCell

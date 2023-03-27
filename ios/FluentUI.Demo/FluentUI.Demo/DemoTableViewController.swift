@@ -22,7 +22,7 @@ class DemoTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor(fluentTheme: view.fluentTheme)
+        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
         tableView.separatorStyle = .none
 
         configureAppearancePopover()
