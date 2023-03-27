@@ -1101,12 +1101,12 @@
 			isa = PBXGroup;
 			children = (
 				FC414E1E258876FB00069E73 /* CommandBar.swift */,
-				3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */,
 				FC414E4E2588B65C00069E73 /* CommandBarItem.swift */,
 				FC414E2A25887A4B00069E73 /* CommandBarButton.swift */,
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 				94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */,
 				0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */,
+				3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";
