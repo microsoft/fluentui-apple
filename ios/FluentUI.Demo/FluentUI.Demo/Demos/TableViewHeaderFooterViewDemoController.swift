@@ -27,7 +27,7 @@ class TableViewHeaderFooterViewDemoController: DemoController {
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
+        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor(fluentTheme: view.fluentTheme)
         tableView.separatorStyle = .none
         return tableView
     }
