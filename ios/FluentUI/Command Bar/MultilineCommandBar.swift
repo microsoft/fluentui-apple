@@ -120,14 +120,18 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         }
 
         NSLayoutConstraint.activate([
+            rowsStackView.topAnchor.constraint(equalTo: topAnchor),
             rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            rowsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
     }
 
     private func removeRows() {
         NSLayoutConstraint.deactivate([
+            rowsStackView.topAnchor.constraint(equalTo: topAnchor),
             rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            rowsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
 
