@@ -271,7 +271,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
-    var titleView = LargeTitleView() {
+    var titleView = AvatarTitleView() {
         willSet {
             titleView.removeFromSuperview()
         }

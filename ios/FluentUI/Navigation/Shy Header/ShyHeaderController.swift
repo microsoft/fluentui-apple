@@ -254,8 +254,8 @@ class ShyHeaderController: UIViewController {
             }
         }
 
-        // if the originator is a LargeTitleView, make sure it belongs to this heirarchy
-        if let originatorTitleView = expansionRequestOriginator as? LargeTitleView {
+        // if the originator is an AvatarTitleView, make sure it belongs to this hierarchy
+        if let originatorTitleView = expansionRequestOriginator as? AvatarTitleView {
             guard originatorTitleView == msfNavigationController?.msfNavigationBar.titleView else {
                 return false
             }
