@@ -75,7 +75,7 @@ class MultilineCommandBarDemoController: DemoController {
                 commandGroup.map { command in
                     newItem(for: command)
                 }
-            }), isScrollable: commandGroups == portraitCommandRows.first)
+            }), isScrollable: commandGroups == portraitCommandRows.first, centerAligned: commandGroups == portraitCommandRows.first)
         }
 
         let landscapeCommandRows: [[[Command]]] = [
