@@ -20,12 +20,11 @@ public class MultilineCommandBarRow: NSObject {
 }
 
 @objc(MSFMultilineCommandBar)
-public class MultilineCommandBar: UIView, TokenizedControlInternal {
+public class MultilineCommandBar: BottomSheetController {
 
     // MARK: - Public methods
 
     @objc public init(portraitRows: [MultilineCommandBarRow], landscapeRows: [MultilineCommandBarRow]? = nil) {
-        self.tokenSet = CommandBarTokenSet()
         self.portraitRows = portraitRows
         if let landscapeRows = landscapeRows {
             self.landscapeRows = landscapeRows
@@ -34,9 +33,8 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         }
 
         rowsStackView = UIStackView()
-        commandBarRowViews = []
 
-        super.init(frame: .zero)
+        super.init(expandedContentView: UIView())
 
         rowsStackView.axis = .vertical
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,20 +44,6 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         } else {
             addRows(rows: &self.portraitRows)
         }
-
-        // Update appearance whenever `tokenSet` changes.
-        tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateCommandBarRows()
-        }
-    }
-
-    public override func willMove(toWindow newWindow: UIWindow?) {
-        super.willMove(toWindow: newWindow)
-        guard let newWindow else {
-            return
-        }
-        tokenSet.update(newWindow.fluentTheme)
-        updateCommandBarRows()
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -80,17 +64,6 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    // MARK: Overrides
-
-    public override var intrinsicContentSize: CGSize {
-        .zero
-    }
-
-    // MARK: - TokenizedControl
-
-    public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
-    public var tokenSet: CommandBarTokenSet
-
     // MARK: - Private
 
     private var portraitRows: [MultilineCommandBarRow]
@@ -99,10 +72,8 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
 
     private var rowsStackView: UIStackView
 
-    private var commandBarRowViews: [CommandBar]
-
     private func addRows(rows: inout [MultilineCommandBarRow]) {
-        addSubview(rowsStackView)
+        expandedContentView.addSubview(rowsStackView)
         for row in rows {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
@@ -116,34 +87,23 @@ public class MultilineCommandBar: UIView, TokenizedControlInternal {
                 }
             }
             rowsStackView.addArrangedSubview(multilineCommandBarRow)
-            commandBarRowViews.append(multilineCommandBarRow)
         }
 
         NSLayoutConstraint.activate([
-            rowsStackView.topAnchor.constraint(equalTo: topAnchor),
-            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            rowsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
+            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16)
         ])
     }
 
     private func removeRows() {
         NSLayoutConstraint.deactivate([
-            rowsStackView.topAnchor.constraint(equalTo: topAnchor),
-            rowsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            rowsStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            rowsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
+            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16)
         ])
 
         rowsStackView.removeFromSuperview()
         rowsStackView.subviews.forEach { rowView in
             rowView.removeFromSuperview()
-        }
-    }
-
-    private func updateCommandBarRows() {
-        for commandBarRowView in commandBarRowViews {
-            commandBarRowView.updateButtonTokens()
         }
     }
 }

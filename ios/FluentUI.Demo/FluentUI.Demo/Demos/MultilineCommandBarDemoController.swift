@@ -10,22 +10,18 @@ class MultilineCommandBarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let bottomSheetController = BottomSheetController(expandedContentView: multilineCommandBar)
-        bottomSheetController.preferredExpandedContentHeight = 230
-
-        addChild(bottomSheetController)
-        view.addSubview(bottomSheetController.view)
-        bottomSheetController.didMove(toParent: self)
+        addChild(multilineCommandBar)
+        view.addSubview(multilineCommandBar.view)
+        multilineCommandBar.didMove(toParent: self)
 
         NSLayoutConstraint.activate([
-            bottomSheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomSheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            bottomSheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            multilineCommandBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            multilineCommandBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            multilineCommandBar.view.topAnchor.constraint(equalTo: view.topAnchor),
+            multilineCommandBar.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
         view.layoutIfNeeded()
-        bottomSheetController.isHidden = false
     }
 
     private lazy var multilineCommandBar: MultilineCommandBar = {
@@ -242,57 +238,5 @@ class MultilineCommandBarDemoController: DemoController {
         var textRepresentation: String {
             rawValue.capitalized
         }
-    }
-}
-
-extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
-    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
-        guard let fluentTheme = self.view.window?.fluentTheme else {
-            return
-        }
-        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
-    }
-
-    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        multilineCommandBar.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideCommandBarTokens : nil)
-    }
-
-    func isThemeWideOverrideApplied() -> Bool {
-        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self)?.isEmpty == false
-    }
-
-    // MARK: - Custom tokens
-    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
-        return [
-            .itemBackgroundColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-            },
-            .itemBackgroundColorPressed: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-            },
-            .itemIconColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-            },
-            .itemIconColorPressed: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-            }
-        ]
-    }
-    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
-        return [
-            .itemBackgroundColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-            },
-            .itemBackgroundColorPressed: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint50))
-            },
-            .itemIconColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-            },
-            .itemIconColorPressed: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.purple, .tint20))
-            }
-        ]
     }
 }
