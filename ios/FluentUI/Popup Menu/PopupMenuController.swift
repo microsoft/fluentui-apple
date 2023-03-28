@@ -227,8 +227,10 @@ open class PopupMenuController: DrawerController {
         descriptionLabel.textColor = tableView.fluentTheme.color(.foreground2)
     }
 
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
         updateDescriptionLabelColor()
     }
 

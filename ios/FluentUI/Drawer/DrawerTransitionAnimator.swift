@@ -99,7 +99,7 @@ class DrawerTransitionAnimator: NSObject {
         return rect
     }
 
-	private func currentRect(for presentedView: UIView) -> CGRect {
+    private func currentRect(for presentedView: UIView) -> CGRect {
         return presentedView.frame.inset(by: DrawerShadowView.shadowOffsetForPresentedView(with: self.presentationDirection, offset: self.containerOffset))
     }
 

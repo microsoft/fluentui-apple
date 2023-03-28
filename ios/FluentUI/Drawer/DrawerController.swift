@@ -97,21 +97,22 @@ public protocol DrawerControllerDelegate: AnyObject {
  */
 
 @objc(MSFDrawerController)
-open class DrawerController: UIViewController {
-    @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(light: fluentTheme.color(.background2).light,
-                       dark: fluentTheme.color(.background2).dark)
+open class DrawerController: UIViewController, TokenizedControlInternal {
+    /// DrawerController colors with obj-c support
+    @objc public static func drawerBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
+        let theme = fluentTheme ?? .shared
+        return UIColor(light: theme.color(.background2).light,
+                       dark: theme.color(.background2).dark)
     }
-
-    @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(light: fluentTheme.color(.background4).light,
-                       dark: fluentTheme.color(.background4).dark)
+    @objc public static func popoverBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
+        let theme = fluentTheme ?? .shared
+        return UIColor(light: theme.color(.background4).light,
+                       dark: theme.color(.background4).dark)
     }
 
     private struct Constants {
         static let resistanceCoefficient: CGFloat = 0.1
         static let resizingThreshold: CGFloat = 30
-        static let shadowOffset: CGFloat = 8
     }
 
     private enum PresentationStyle: Int {
@@ -120,23 +121,16 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open lazy var backgroundColor: UIColor = drawerBackgroundColor(fluentTheme: view.fluentTheme) {
+    @objc lazy open var backgroundColor: UIColor = tokenSet[.drawerContentBackground].uiColor {
         didSet {
-            useCustomBackgroundColor = true
             if isViewLoaded {
                 view.backgroundColor = backgroundColor
             }
+
+            tokenSet[.popoverContentBackground] = .uiColor { self.backgroundColor }
+            tokenSet[.navigationBarBackground] = .uiColor { self.backgroundColor }
+            tokenSet[.drawerContentBackground] = .uiColor { self.backgroundColor }
         }
-    }
-
-    private func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(light: fluentTheme.color(.background2).light,
-                       dark: fluentTheme.color(.background2).dark)
-    }
-
-    private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(light: fluentTheme.color(.background4).light,
-                       dark: fluentTheme.color(.background4).dark)
     }
 
     /**
@@ -265,9 +259,13 @@ open class DrawerController: UIViewController {
     }
 
     /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor = .clear {
+    @objc open var resizingHandleViewBackgroundColor: UIColor? {
         didSet {
-            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+            // TODO: Update this to conform to the new pattern after the conclusion of the sub-token discussion
+            guard let resizingHandleView = resizingHandleView else {
+                return
+            }
+            resizingHandleView.customBackgroundColor = resizingHandleViewBackgroundColor
         }
     }
 
@@ -393,7 +391,7 @@ open class DrawerController: UIViewController {
 
     /// Shadow is required if background is transparent
     var shadowOffset: CGFloat {
-        return presentationBackground == .none ? Constants.shadowOffset : 0
+        return presentationBackground == .none ? DrawerTokenSet.shadowOffset : 0
     }
 
     private let sourceView: UIView?
@@ -418,7 +416,6 @@ open class DrawerController: UIViewController {
 
     private var containerViewCenterObservation: NSKeyValueObservation?
 
-    private var useCustomBackgroundColor: Bool = false
     /// for iPad split mode, navigation bar has a different dark elevated color, and if it is a `.down` presentation style, match `Colors.NavigationBar.background` elevated color
     private var useNavigationBarBackgroundColor: Bool = false
 
@@ -442,19 +439,6 @@ open class DrawerController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         initialize()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
-              return
-        }
-
-        updateBackgroundColor()
     }
 
     /**
@@ -484,6 +468,22 @@ open class DrawerController: UIViewController {
     open func initialize() {
         modalPresentationStyle = .custom
         transitioningDelegate = self
+
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateBackgroundColor()
+        }
+    }
+
+    private func updateBackgroundColor() {
+        let color: UIColor
+        if presentationController is UIPopoverPresentationController {
+            color = tokenSet[.popoverContentBackground].uiColor
+        } else if useNavigationBarBackgroundColor {
+            color = tokenSet[.navigationBarBackground].uiColor
+        } else {
+            color = tokenSet[.drawerContentBackground].uiColor
+        }
+        view.backgroundColor = color
     }
 
     open func willDismiss() {
@@ -522,25 +522,13 @@ open class DrawerController: UIViewController {
 
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tokenSet.update(fluentTheme)
 
         // Configure the resizing handle view according to resizing behaviour and disable the gesture recogniser(if any) till view actually appears
         updateResizingHandleView()
         resizingGestureRecognizer?.isEnabled = false
 
         updateBackgroundColor()
-    }
-
-    private func updateBackgroundColor() {
-        // if DrawerController is shown in UIPopoverPresentationController then we want to show different darkElevated color
-        if !useCustomBackgroundColor {
-            if presentationController is UIPopoverPresentationController {
-                backgroundColor = popoverBackgroundColor(fluentTheme: view.fluentTheme)
-            } else if useNavigationBarBackgroundColor {
-                backgroundColor = view.fluentTheme.color(.background3)
-            } else {
-                backgroundColor = drawerBackgroundColor(fluentTheme: view.fluentTheme)
-            }
-        }
     }
 
     open override func viewDidAppear(_ animated: Bool) {
@@ -596,6 +584,11 @@ open class DrawerController: UIViewController {
     open override func accessibilityPerformEscape() -> Bool {
         return dismissPresentingViewController(animated: true)
     }
+
+    public typealias TokenSetKeyType = DrawerTokenSet.Tokens
+    public var tokenSet: DrawerTokenSet = .init()
+
+    var fluentTheme: FluentTheme { return view.fluentTheme }
 
     // Change of presentation direction's orientation is not supported
     private func presentationDirection(for view: UIView) -> DrawerPresentationDirection {
@@ -760,7 +753,7 @@ open class DrawerController: UIViewController {
            if showsResizingHandle {
                if resizingHandleView == nil {
                    resizingHandleView = ResizingHandleView()
-                   resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+                   resizingHandleView?.customBackgroundColor = resizingHandleViewBackgroundColor
                }
            } else {
                resizingHandleView = nil
@@ -997,10 +990,11 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             useNavigationBarBackgroundColor = (direction.isVertical && source.traitCollection.userInterfaceLevel == .elevated)
 
             let drawerPresentationController = DrawerPresentationController(presentedViewController: presented,
-                                                presentingViewController: presenting,
-                                                source: source,
-                                                presentationDirection: direction,
-                                                adjustHeightForKeyboard: adjustsHeightForKeyboard)
+                                                                            presentingViewController: presenting,
+                                                                            source: source,
+                                                                            presentationDirection: direction,
+                                                                            adjustHeightForKeyboard: adjustsHeightForKeyboard,
+                                                                            drawerTokenSet: tokenSet)
             drawerPresentationController.drawerPresentationControllerDelegate = self
             return drawerPresentationController
         case .popover:
