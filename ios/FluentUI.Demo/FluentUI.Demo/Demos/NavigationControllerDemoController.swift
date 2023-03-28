@@ -940,3 +940,32 @@ class CustomGradient {
         return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
     }
 }
+
+extension NavigationControllerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let window = self.view.window else {
+            return
+        }
+        let fluentTheme = window.fluentTheme
+
+        NSLog("themeWideOverrideDidChange to \(isOverrideEnabled) for window \(window) with theme \(fluentTheme)")
+
+        fluentTheme.register(tokenSetType: NavigationBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        // Ignored since we don't have any navigation controllers spawned when this gets toggled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: NavigationBarTokenSet.self) != nil
+    }
+
+    private var themeWideOverrideTokens: [NavigationBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .titleColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
+            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.red, .primary) }
+        ]
+    }
+}
