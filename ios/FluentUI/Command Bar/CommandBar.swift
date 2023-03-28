@@ -277,6 +277,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
 
         updateViewHierarchy()
+        updateMainCommandGroupsViewConstraints()
 
         NSLayoutConstraint.activate([
             commandBarContainerStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
