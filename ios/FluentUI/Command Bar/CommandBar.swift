@@ -199,13 +199,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-    /// Whether or not the buttons in the CommandBar are centered
-    public var centerAligned: Bool = false {
-        didSet {
-            updateMainCommandGroupsViewConstraints()
-        }
-    }
-
     /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
     public weak var delegate: CommandBarDelegate?
 
@@ -316,20 +309,12 @@ public class CommandBar: UIView, TokenizedControlInternal {
     private func updateMainCommandGroupsViewConstraints() {
         NSLayoutConstraint.deactivate(mainCommandGroupsViewConstraints)
         if isScrollable {
-            if centerAligned {
-                mainCommandGroupsViewConstraints = [
-                    mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-                    scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
-                    mainCommandGroupsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
-                ]
-            } else {
-                mainCommandGroupsViewConstraints = [
-                    mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-                    mainCommandGroupsView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-                    scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
-                    scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsView.trailingAnchor)
-                ]
-            }
+            mainCommandGroupsViewConstraints = [
+                scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: mainCommandGroupsView.widthAnchor),
+                mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+                scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
+                mainCommandGroupsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+            ]
         } else {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.topAnchor.constraint(equalTo: containerView.topAnchor),

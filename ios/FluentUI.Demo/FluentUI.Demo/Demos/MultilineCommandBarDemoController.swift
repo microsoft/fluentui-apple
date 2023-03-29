@@ -116,7 +116,7 @@ class MultilineCommandBarDemoController: DemoController {
                 commandGroup.map { command in
                     newItem(for: command)
                 }
-            }), isScrollable: commandGroups == landscapeCommandRows.first, centerAligned: commandGroups == landscapeCommandRows.first)
+            }), isScrollable: commandGroups == landscapeCommandRows.first)
         }
 
         return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)

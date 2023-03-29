@@ -37,6 +37,7 @@ public class MultilineCommandBar: BottomSheetController {
         super.init(expandedContentView: UIView())
 
         rowsStackView.axis = .vertical
+        rowsStackView.distribution = .equalCentering
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
 
         if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
@@ -78,7 +79,6 @@ public class MultilineCommandBar: BottomSheetController {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
             multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
-            multilineCommandBarRow.centerAligned = row.centerAligned
 
             if row == rows.first {
                 multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
@@ -91,14 +91,20 @@ public class MultilineCommandBar: BottomSheetController {
 
         NSLayoutConstraint.activate([
             rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
-            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16)
+            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
+            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
+            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
         ])
+
+        preferredExpandedContentHeight = 230
     }
 
     private func removeRows() {
         NSLayoutConstraint.deactivate([
             rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
-            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16)
+            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
+            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
+            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
         ])
 
         rowsStackView.removeFromSuperview()
