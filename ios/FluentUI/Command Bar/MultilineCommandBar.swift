@@ -33,7 +33,8 @@ public class MultilineCommandBar: BottomSheetController {
         }
 
         rowsStackView = UIStackView()
-        super.init(expandedContentView: rowsStackView)
+        super.init(expandedContentView: UIView())
+        expandedContentView.addSubview(rowsStackView)
 
         rowsStackView.axis = .vertical
         rowsStackView.distribution = .equalCentering
@@ -44,6 +45,13 @@ public class MultilineCommandBar: BottomSheetController {
         } else {
             addRows(rows: &self.portraitRows)
         }
+
+        NSLayoutConstraint.activate([
+            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
+            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
+            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
+            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
+        ])
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -74,32 +82,23 @@ public class MultilineCommandBar: BottomSheetController {
 
     private func addRows(rows: inout [MultilineCommandBarRow]) {
         for row in rows {
-            let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
-            multilineCommandBarRow.isScrollable = row.isScrollable
-            multilineCommandBarRow.translatesAutoresizingMaskIntoConstraints = false
+            let rowView = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+            rowView.isScrollable = row.isScrollable
+            rowView.translatesAutoresizingMaskIntoConstraints = false
 
             if row == rows.first {
-                multilineCommandBarRow.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
+                rowView.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
                     .init(light: GlobalTokens.neutralColors(.white),
                           dark: GlobalTokens.neutralColors(.black))
                 }
             }
-            rowsStackView.addArrangedSubview(multilineCommandBarRow)
-            NSLayoutConstraint.activate([
-                multilineCommandBarRow.leadingAnchor.constraint(equalTo: rowsStackView.leadingAnchor, constant: 16),
-                multilineCommandBarRow.trailingAnchor.constraint(equalTo: rowsStackView.trailingAnchor, constant: -16)
-            ])
+            rowsStackView.addArrangedSubview(rowView)
         }
         preferredExpandedContentHeight = rowsStackView.frame.height
     }
 
     private func removeRows() {
         rowsStackView.subviews.forEach { rowView in
-            NSLayoutConstraint.deactivate([
-                rowView.leadingAnchor.constraint(equalTo: rowsStackView.leadingAnchor, constant: 16),
-                rowView.trailingAnchor.constraint(equalTo: rowsStackView.trailingAnchor, constant: -16)
-            ])
-
             rowView.removeFromSuperview()
         }
     }
