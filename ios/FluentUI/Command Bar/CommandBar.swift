@@ -244,8 +244,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
         return [scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
                 scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)]
+                scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)]
     }()
 
     private let containerMaskLayer: CAGradientLayer = {
@@ -310,17 +310,17 @@ public class CommandBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.deactivate(mainCommandGroupsViewConstraints)
         if isScrollable {
             mainCommandGroupsViewConstraints = [
-                scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: mainCommandGroupsView.widthAnchor),
+                mainCommandGroupsView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
                 mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-                scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
+                mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
                 mainCommandGroupsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
             ]
         } else {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.topAnchor.constraint(equalTo: containerView.topAnchor),
                 mainCommandGroupsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-                containerView.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
-                containerView.trailingAnchor.constraint(equalTo: mainCommandGroupsView.trailingAnchor)
+                mainCommandGroupsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                mainCommandGroupsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
             ]
         }
         NSLayoutConstraint.activate(mainCommandGroupsViewConstraints)
