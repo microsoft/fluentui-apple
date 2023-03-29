@@ -51,6 +51,15 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         markLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors()
+    }
+
     public typealias TokenSetKeyType = ResizingHandleTokenSet.Tokens
     public var tokenSet = ResizingHandleTokenSet()
 

@@ -145,6 +145,9 @@
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
 		6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */; };
 		6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
+		6F050B6929D3D16D0070D3D5 /* SideTabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6829D3D16D0070D3D5 /* SideTabBarTokenSet.swift */; };
+		6F050B6B29D3D1900070D3D5 /* TabBarItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6A29D3D1900070D3D5 /* TabBarItemTokenSet.swift */; };
+		6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6C29D3D1A90070D3D5 /* TabBarTokenSet.swift */; };
 		6F3CB7F029D3A2B700284353 /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */; };
 		6F3CB7F229D3A5DE00284353 /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */; };
 		6FBFD62629CBB5F1002F3C81 /* SearchBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */; };
@@ -295,6 +298,9 @@
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
 		6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabelButton.swift; sourceTree = "<group>"; };
+		6F050B6829D3D16D0070D3D5 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
+		6F050B6A29D3D1900070D3D5 /* TabBarItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemTokenSet.swift; sourceTree = "<group>"; };
+		6F050B6C29D3D1A90070D3D5 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
 		6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTokenSet.swift; sourceTree = "<group>"; };
@@ -560,8 +566,11 @@
 			isa = PBXGroup;
 			children = (
 				7D0931C224AAAC8C0072458A /* SideTabBar.swift */,
+				6F050B6829D3D16D0070D3D5 /* SideTabBarTokenSet.swift */,
 				118D9847230BBA2300BC0B72 /* TabBarItem.swift */,
+				6F050B6A29D3D1900070D3D5 /* TabBarItemTokenSet.swift */,
 				1168630222E131CF0088B302 /* TabBarItemView.swift */,
+				6F050B6C29D3D1A90070D3D5 /* TabBarTokenSet.swift */,
 				1168630322E131CF0088B302 /* TabBarView.swift */,
 			);
 			path = "Tab Bar";
@@ -1507,6 +1516,7 @@
 				5373D5652694D65C0032A3B4 /* AvatarTokenSet.swift in Sources */,
 				5314E06125F00EFD0099271A /* CalendarViewDayCell.swift in Sources */,
 				929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */,
+				6F050B6929D3D16D0070D3D5 /* SideTabBarTokenSet.swift in Sources */,
 				9231491328BF026A001B033E /* HeadsUpDisplay.swift in Sources */,
 				5314E12A25F016230099271A /* PillButton.swift in Sources */,
 				4BF01D9A27B37CF8005B32F2 /* NotificationTokenSet.swift in Sources */,
@@ -1553,6 +1563,7 @@
 				4BDBE18928EC9E6F00314696 /* ShimmerTokenSet.swift in Sources */,
 				2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */,
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
+				6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */,
 				92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */,
@@ -1636,6 +1647,7 @@
 				9231491428BF026A001B033E /* MSFHeadsUpDisplay.swift in Sources */,
 				5314E13425F016370099271A /* PopupMenuItem.swift in Sources */,
 				ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */,
+				6F050B6B29D3D1900070D3D5 /* TabBarItemTokenSet.swift in Sources */,
 				5314E13825F016370099271A /* PopupMenuSection.swift in Sources */,
 				5314E07C25F00F1A0099271A /* DateTimePickerViewLayout.swift in Sources */,
 				5314E11625F015EA0099271A /* PersonaBadgeViewDataSource.swift in Sources */,
