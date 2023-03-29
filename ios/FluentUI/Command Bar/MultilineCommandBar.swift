@@ -33,8 +33,7 @@ public class MultilineCommandBar: BottomSheetController {
         }
 
         rowsStackView = UIStackView()
-
-        super.init(expandedContentView: UIView())
+        super.init(expandedContentView: rowsStackView)
 
         rowsStackView.axis = .vertical
         rowsStackView.distribution = .equalCentering
@@ -74,7 +73,6 @@ public class MultilineCommandBar: BottomSheetController {
     private var rowsStackView: UIStackView
 
     private func addRows(rows: inout [MultilineCommandBarRow]) {
-        expandedContentView.addSubview(rowsStackView)
         for row in rows {
             let multilineCommandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             multilineCommandBarRow.isScrollable = row.isScrollable
@@ -87,28 +85,21 @@ public class MultilineCommandBar: BottomSheetController {
                 }
             }
             rowsStackView.addArrangedSubview(multilineCommandBarRow)
+            NSLayoutConstraint.activate([
+                multilineCommandBarRow.leadingAnchor.constraint(equalTo: rowsStackView.leadingAnchor, constant: 16),
+                multilineCommandBarRow.trailingAnchor.constraint(equalTo: rowsStackView.trailingAnchor, constant: -16)
+            ])
         }
-
-        NSLayoutConstraint.activate([
-            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
-            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
-            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
-            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
-        ])
-
-        preferredExpandedContentHeight = 230
+        preferredExpandedContentHeight = rowsStackView.frame.height
     }
 
     private func removeRows() {
-        NSLayoutConstraint.deactivate([
-            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
-            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
-            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
-            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
-        ])
-
-        rowsStackView.removeFromSuperview()
         rowsStackView.subviews.forEach { rowView in
+            NSLayoutConstraint.deactivate([
+                rowView.leadingAnchor.constraint(equalTo: rowsStackView.leadingAnchor, constant: 16),
+                rowView.trailingAnchor.constraint(equalTo: rowsStackView.trailingAnchor, constant: -16)
+            ])
+
             rowView.removeFromSuperview()
         }
     }
