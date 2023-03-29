@@ -9,13 +9,10 @@ import UIKit
 public class MultilineCommandBarRow: NSObject {
     var itemGroups: [CommandBarItemGroup] = []
     var isScrollable: Bool
-    // only applies to scrollable rows
-    var centerAligned: Bool
 
-    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool, centerAligned: Bool = false) {
+    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool) {
         self.itemGroups = itemGroups
         self.isScrollable = isScrollable
-        self.centerAligned = centerAligned
     }
 }
 
