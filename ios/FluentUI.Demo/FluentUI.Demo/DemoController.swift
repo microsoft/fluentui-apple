@@ -137,7 +137,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = view.fluentTheme.color(.background1)
+        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)
@@ -170,7 +170,7 @@ class DemoController: UIViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                              style: .plain,
                                              target: self,
-                                             action: #selector(showAppearancePopover))
+                                             action: #selector(showAppearancePopover(_:)))
         let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
                                            style: .plain,
                                            target: self,
@@ -184,10 +184,19 @@ class DemoController: UIViewController {
         self.present(readmeViewController, animated: true, completion: nil)
     }
 
-    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.popoverPresentationController?.barButtonItem = sender
+    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
+        if let barButtonItem = sender as? UIBarButtonItem {
+            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
+        } else if let sourceView = sender as? UIView {
+            appearanceController.popoverPresentationController?.sourceView = sourceView
+            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
+        }
         appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
+        presenter.present(appearanceController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject) {
+        showAppearancePopover(sender, presenter: self)
     }
 
     var readmeString: String?

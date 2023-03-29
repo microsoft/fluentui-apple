@@ -105,6 +105,7 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
+        controller.tokenSet.replaceAllOverrides(with: perControlOverrideEnabled ? perControlOverrideDrawerTokens : nil)
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -123,6 +124,7 @@ class DrawerDemoController: DemoController {
         return controller
     }
 
+    var perControlOverrideEnabled: Bool = false
     private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
 
     @objc private func customContentNavigationController(content: UIView) -> UINavigationController {
@@ -423,5 +425,44 @@ extension DrawerDemoController: DrawerControllerDelegate {
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
         expandButton?.setTitle(controller.isExpanded ? "Return to normal" : "Expand", for: .normal)
+    }
+}
+
+extension DrawerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: DrawerTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideDrawerTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: DrawerTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
+                                                                                    dark: GlobalTokens.sharedColors(.plum, .tint60)))
+            }
+        ]
+    }
+
+    private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackground: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
+                                                                                    dark: GlobalTokens.sharedColors(.forest, .tint60)))
+            },
+            .shadow: .shadowInfo {
+                self.view.fluentTheme.aliasTokens.shadow[.shadow02]
+            }
+        ]
     }
 }
