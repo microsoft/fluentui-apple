@@ -314,7 +314,7 @@ class DrawerPresentationController: UIPresentationController {
         }
 
         if separator.superview != nil {
-            separator.frame = frameForDivider(in: contentView.frame, withThickness: separator.frame.height)
+            separator.frame = frameForSeparator(in: contentView.frame, withThickness: separator.frame.height)
         }
         updateBackgroundAccessibilityFrame()
     }
@@ -469,7 +469,7 @@ class DrawerPresentationController: UIPresentationController {
         return frame
     }
 
-    private func frameForDivider(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
+    private func frameForSeparator(in bounds: CGRect, withThickness thickness: CGFloat) -> CGRect {
         return CGRect(
             x: bounds.minX,
             y: presentationDirection == .down ? bounds.minY : bounds.maxY - thickness,
