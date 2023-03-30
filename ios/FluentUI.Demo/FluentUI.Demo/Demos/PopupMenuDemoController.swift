@@ -166,7 +166,6 @@ class PopupMenuDemoController: DemoController {
         controller.addItems(items)
 
         controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
@@ -196,7 +195,6 @@ class PopupMenuDemoController: DemoController {
         controller.addItems(items)
 
         controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
@@ -240,6 +238,12 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
         return [
             .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
                                                          dark: GlobalTokens.sharedColor(.forest, .tint60))
+            },
+            .resizingHandleMarkColor: .uiColor {
+                .red
+            },
+            .resizingHandleBackgroundColor: .uiColor {
+                .blue
             }
         ]
     }

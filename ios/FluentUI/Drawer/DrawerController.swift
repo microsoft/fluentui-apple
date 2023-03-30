@@ -258,17 +258,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
     }
 
-    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
-    @objc open var resizingHandleViewBackgroundColor: UIColor? {
-        didSet {
-            // TODO: Update this to conform to the new pattern after the conclusion of the sub-token discussion
-            guard let resizingHandleView = resizingHandleView else {
-                return
-            }
-            resizingHandleView.customBackgroundColor = resizingHandleViewBackgroundColor
-        }
-    }
-
     /**
      Set `isExpanded` to `true` to maximize the drawer's height to fill the device screen vertically minus the safe areas. Set to `false` to restore it to the normal size.
 
