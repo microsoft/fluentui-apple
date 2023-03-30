@@ -101,10 +101,11 @@ public protocol DrawerControllerDelegate: AnyObject {
 open class DrawerController: UIViewController, TokenizedControlInternal {
     /// DrawerController colors with obj-c support
     @objc public static var drawerBackgroundColor: UIColor {
-        UIColor(dynamicColor: DrawerTokenSet()[.drawerContentBackground].dynamicColor)
+        return DrawerTokenSet()[.drawerContentBackground].uiColor
     }
+
     @objc public static var popoverBackgroundColor: UIColor {
-        UIColor(dynamicColor: DrawerTokenSet()[.popoverContentBackground].dynamicColor)
+        return DrawerTokenSet()[.popoverContentBackground].uiColor
     }
 
     private struct Constants {

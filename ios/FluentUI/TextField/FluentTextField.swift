@@ -188,7 +188,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         guard let placeholder else {
             return nil
         }
-        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: UIColor(dynamicColor: tokenSet[.placeholderColor].dynamicColor)])
+        return NSAttributedString(string: placeholder, attributes: [.foregroundColor: tokenSet[.placeholderColor].uiColor])
     }
 
     // The leadingImageView needs a container to be vertically centered on the
@@ -242,20 +242,20 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
     }
 
     private func updateTokenizedValues() {
-        backgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        backgroundColor = tokenSet[.backgroundColor].uiColor
 
-        leadingImageView.tintColor = UIColor(dynamicColor: tokenSet[.leadingIconColor].dynamicColor)
+        leadingImageView.tintColor = tokenSet[.leadingIconColor].uiColor
 
-        titleLabel.font = UIFont.fluent(tokenSet[.titleLabelFont].fontInfo)
-        titleLabel.textColor = UIColor(dynamicColor: tokenSet[.titleLabelColor].dynamicColor)
-        assistiveTextLabel.font = UIFont.fluent(tokenSet[.assistiveTextFont].fontInfo)
-        assistiveTextLabel.textColor = UIColor(dynamicColor: tokenSet[.assistiveTextColor].dynamicColor)
+        titleLabel.font = tokenSet[.titleLabelFont].uiFont
+        titleLabel.textColor = tokenSet[.titleLabelColor].uiColor
+        assistiveTextLabel.font = tokenSet[.assistiveTextFont].uiFont
+        assistiveTextLabel.textColor = tokenSet[.assistiveTextColor].uiColor
 
-        separator.backgroundColor = UIColor(dynamicColor: tokenSet[.strokeColor].dynamicColor)
+        separator.backgroundColor = tokenSet[.strokeColor].uiColor
 
-        textfield.font = UIFont.fluent(tokenSet[.inputTextFont].fontInfo)
-        textfield.tintColor = UIColor(dynamicColor: tokenSet[.cursorColor].dynamicColor)
-        textfield.textColor = UIColor(dynamicColor: tokenSet[.inputTextColor].dynamicColor)
+        textfield.font = tokenSet[.inputTextFont].uiFont
+        textfield.tintColor = tokenSet[.cursorColor].uiColor
+        textfield.textColor = tokenSet[.inputTextColor].uiColor
         textfield.attributedPlaceholder = attributedPlaceholder
         textfield.clearButton.tokenSet[.foregroundColor] = tokenSet[.trailingIconColor]
     }

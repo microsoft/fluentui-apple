@@ -29,37 +29,28 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
     /// `title` color
     @objc public var titleColor: UIColor {
         get {
-            return UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+            return tokenSet[.titleColor].uiColor
         }
         set {
-            guard let newColor = newValue.dynamicColor else {
-                return
-            }
-            tokenSet[.titleColor] = .dynamicColor { newColor }
+            tokenSet[.titleColor] = .uiColor { newValue }
         }
     }
     /// `subtitle` color
     @objc public var subtitleColor: UIColor {
         get {
-            return UIColor(dynamicColor: tokenSet[.subtitleColor].dynamicColor)
+            return tokenSet[.subtitleColor].uiColor
         }
         set {
-            guard let newColor = newValue.dynamicColor else {
-                return
-            }
-            tokenSet[.subtitleColor] = .dynamicColor { newColor }
+            tokenSet[.subtitleColor] = .uiColor { newValue }
         }
     }
     /// `image` tint color if it is rendered as template
     @objc public var imageColor: UIColor {
         get {
-            return UIColor(dynamicColor: tokenSet[.imageColor].dynamicColor)
+            return tokenSet[.imageColor].uiColor
         }
         set {
-            guard let newColor = newValue.dynamicColor else {
-                return
-            }
-            tokenSet[.imageColor] = .dynamicColor { newColor }
+            tokenSet[.imageColor] = .uiColor { newValue }
         }
     }
     /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used

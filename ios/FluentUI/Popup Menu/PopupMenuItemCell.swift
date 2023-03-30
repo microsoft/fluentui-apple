@@ -201,17 +201,17 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         subtitleLabel.alpha = alpha
         customAccessoryView?.alpha = alpha
 
-        updateSelectionColors()
+        updateColors()
 
         _imageView.isHighlighted = isSelected
     }
 
-    private func updateSelectionColors() {
+    private func updateColors() {
         guard let item = item else {
             _accessoryType = .none
             return
         }
-        let brandColor = UIColor(dynamicColor: item.tokenSet[.brandTextColor].dynamicColor)
+        let brandColor = item.tokenSet[.brandTextColor].uiColor
         let imageColor: UIColor
         let titleColor: UIColor
         let subtitleColor: UIColor

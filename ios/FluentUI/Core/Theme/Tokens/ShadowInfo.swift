@@ -21,11 +21,11 @@ public class ShadowInfo: NSObject {
     ///   - ambientBlur: The blur of the ambient shadow.
     ///   - xAmbient: The horizontal offset of the ambient shadow.
     ///   - yAmbient: The vertical offset of the ambient shadow.
-    public init(keyColor: DynamicColor,
+    public init(keyColor: UIColor,
                 keyBlur: CGFloat,
                 xKey: CGFloat,
                 yKey: CGFloat,
-                ambientColor: DynamicColor,
+                ambientColor: UIColor,
                 ambientBlur: CGFloat,
                 xAmbient: CGFloat,
                 yAmbient: CGFloat) {
@@ -40,7 +40,7 @@ public class ShadowInfo: NSObject {
     }
 
     /// The color of the key shadow.
-    @objc public let keyColor: DynamicColor
+    @objc public let keyColor: UIColor
 
     /// The blur of the key shadow.
     @objc public let keyBlur: CGFloat
@@ -52,7 +52,7 @@ public class ShadowInfo: NSObject {
     @objc public let yKey: CGFloat
 
     /// The color of the ambient shadow.
-    @objc public let ambientColor: DynamicColor
+    @objc public let ambientColor: UIColor
 
     /// The blur of the ambient shadow.
     @objc public let ambientBlur: CGFloat
@@ -92,7 +92,7 @@ public extension ShadowInfo {
         let layer = CALayer()
 
         layer.frame = view.bounds
-        layer.shadowColor = UIColor(dynamicColor: isAmbientShadow ? ambientColor : keyColor).cgColor
+        layer.shadowColor = (isAmbientShadow ? ambientColor : keyColor).cgColor
         layer.shadowRadius = isAmbientShadow ? ambientBlur : keyBlur
 
         // The shadowOpacity needs to be set to 1 since the alpha is already set through shadowColor

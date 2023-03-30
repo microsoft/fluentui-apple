@@ -44,7 +44,8 @@ class CalendarViewWeekdayHeadingView: UIView {
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light, dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
+                                  dark: fluentTheme.color(.background2).dark)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,9 +110,9 @@ class CalendarViewWeekdayHeadingView: UIView {
             let label = UILabel()
             label.textAlignment = .center
             label.text = weekdaySymbol
-            label.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
+            label.font = fluentTheme.typography(.caption2)
             label.showsLargeContentViewer = true
-            label.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+            label.textColor = fluentTheme.color(.foreground2)
             headingLabels.append(label)
             addSubview(label)
         }

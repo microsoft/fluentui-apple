@@ -76,7 +76,7 @@ open class ShimmerLinesView: ShimmerView {
         for i in 0..<desiredLineCount {
             let lineLayer = i < viewCoverLayers.count ? viewCoverLayers[i] : CALayer()
             lineLayer.cornerRadius = tokenSet[.labelCornerRadius].float >= 0 ? tokenSet[.labelCornerRadius].float : tokenSet[.cornerRadius].float
-            lineLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.tintColor].dynamicColor).cgColor
+            lineLayer.backgroundColor = tokenSet[.tintColor].uiColor.cgColor
 
             // Add layer
             newLineLayers.append(lineLayer)

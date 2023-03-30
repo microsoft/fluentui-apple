@@ -362,7 +362,7 @@ class DrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        let backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        let backgroundColor = view.fluentTheme.color(.background3)
 
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
@@ -473,7 +473,7 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        drawer.resizingHandleViewBackgroundColor = view.fluentTheme.color(.background3)
         drawer.contentScrollView = personaListView
     }
 

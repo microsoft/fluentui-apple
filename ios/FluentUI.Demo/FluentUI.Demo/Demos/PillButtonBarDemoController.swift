@@ -78,8 +78,20 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let bar = PillButtonBar(pillButtonStyle: style)
-        bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
+        let accentColor = view.fluentTheme.color(.foregroundOnColor)
+        let textColor = view.fluentTheme.color(.foreground1)
+        let pillButtonBackgroundColor = useCustomPillsColors ? accentColor : nil
+        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? textColor : nil
+        let pillButtonTextColor = useCustomPillsColors ? textColor : nil
+        let pillSelectedButtontextColor = useCustomPillsColors ? accentColor : nil
+        let pillButtonUnreadDotColor = useCustomPillsColors ? textColor : nil
+
+        let bar = PillButtonBar(pillButtonStyle: style,
+                                pillButtonBackgroundColor: pillButtonBackgroundColor,
+                                selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor,
+                                pillButtonTextColor: pillButtonTextColor,
+                                selectedPillButtonTextColor: pillSelectedButtontextColor,
+                                pillButtonUnreadDotColor: pillButtonUnreadDotColor)
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self

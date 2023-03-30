@@ -49,7 +49,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundStyleType = TableViewCellBackgroundStyleType.custom
-        cell.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+        cell.backgroundColor = view.fluentTheme.color(.background2)
         cell.setup(title: TableViewHeaderFooterSampleData.itemTitle)
         var isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
         if tableView.style == .grouped {

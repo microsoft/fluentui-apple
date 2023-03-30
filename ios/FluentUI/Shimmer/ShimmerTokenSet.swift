@@ -69,19 +69,17 @@ public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
                 }
 
             case .tintColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .concealing:
-                        return theme.aliasTokens.colors[.stencil2]
+                        return theme.color(.stencil2)
                     case .revealing:
-                        return theme.aliasTokens.colors[.stencil1]
+                        return theme.color(.stencil1)
                     }
                 }
 
             case .darkGradient:
-                return .dynamicColor {
-                    return DynamicColor(light: GlobalTokens.neutralColors(.black))
-                }
+                return .uiColor { theme.color(.foregroundDarkStatic) }
 
             case .shimmerWidth:
                 return .float { 180.0 }

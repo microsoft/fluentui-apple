@@ -213,9 +213,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
     private func updateFonts() {
         switch sizeCategory {
         case .small:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1])
+            label.font = tokenSet.fluentTheme.typography(.caption1)
         case .medium:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.body2])
+            label.font = tokenSet.fluentTheme.typography(.body2)
         }
     }
 

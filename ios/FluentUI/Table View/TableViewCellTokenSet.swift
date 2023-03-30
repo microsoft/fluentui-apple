@@ -78,22 +78,22 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .uiColor { theme.color(.background1) }
 
             case .backgroundGroupedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.backgroundCanvas] }
+                return .uiColor { theme.color(.backgroundCanvas) }
 
             case .cellBackgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .uiColor { theme.color(.background1) }
 
             case .cellBackgroundGroupedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background3] }
+                return .uiColor { theme.color(.background3) }
 
             case .cellBackgroundSelectedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1Pressed] }
+                return .uiColor { theme.color(.background1Pressed) }
 
             case .imageColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .customViewDimensions:
                 return .float {
@@ -120,48 +120,48 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
                 }
 
             case .titleColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .uiColor { theme.color(.foreground1) }
 
             case .subtitleColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
+                return .uiColor { theme.color(.foreground2) }
 
             case .footerColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
+                return .uiColor { theme.color(.foreground2) }
 
             case .selectionIndicatorOffColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .titleFont:
-                return .fontInfo { theme.aliasTokens.typography[.body1] }
+                return .uiFont { theme.typography(.body1) }
 
             case .subtitleTwoLinesFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption1] }
+                return .uiFont { theme.typography(.caption1) }
 
             case .subtitleThreeLinesFont:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .uiFont { theme.typography(.body2) }
 
             case .footerFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption1] }
+                return .uiFont { theme.typography(.caption1) }
 
             case .accessoryDisclosureIndicatorColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .accessoryDetailButtonColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .dangerTextColor:
-                return .dynamicColor { theme.aliasTokens.colors[.dangerForeground2] }
+                return .uiColor { theme.color(.dangerForeground2) }
 
             case .brandTextColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .booleanCellBrandColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandBackground1] }
+                return .uiColor { theme.color(.brandBackground1) }
 
             case .communicationTextColor:
-                return .dynamicColor {
-                    DynamicColor(light: GlobalTokens.brandColors(.comm80),
-                                 dark: GlobalTokens.brandColors(.comm100))
+                return .uiColor {
+                    UIColor(light: GlobalTokens.brandColor(.comm80),
+                            dark: GlobalTokens.brandColor(.comm100))
                 }
             }
         }
