@@ -205,16 +205,28 @@ extension TwoLineTitleViewDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideTokens: [TwoLineTitleViewTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
-            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.red, .primary) }
+            .titleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.green, .primary),
+                        dark: GlobalTokens.sharedColor(.green, .tint30))
+            },
+            .subtitleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.red, .primary),
+                        dark: GlobalTokens.sharedColor(.red, .tint30))
+            }
         ]
     }
 
     private var perControlOverrideTokens: [TwoLineTitleViewTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleColor: .uiColor { GlobalTokens.sharedColor(.blue, .primary) },
+            .titleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.blue, .primary),
+                        dark: GlobalTokens.sharedColor(.blue, .tint30))
+            },
             .titleFont: .uiFont { UIFont(descriptor: .init(name: "Papyrus", size: 12), size: 12) },
-            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.orange, .primary) },
+            .subtitleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.orange, .primary),
+                        dark: GlobalTokens.sharedColor(.orange, .tint30))
+            },
             .subtitleFont: .uiFont { UIFont(descriptor: .init(name: "Papyrus", size: 10), size: 10) }
         ]
     }
