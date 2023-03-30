@@ -142,6 +142,7 @@
 		53E2EE0527860D010086D30D /* MSFActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE0427860D010086D30D /* MSFActivityIndicator.swift */; };
 		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
 		566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */ = {isa = PBXBuildFile; fileRef = 566C664828CB97210032314C /* module.modulemap */; };
+		66512A3829D3B30D003CF303 /* AvatarTitleViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66512A3729D3B30D003CF303 /* AvatarTitleViewTokenSet.swift */; };
 		66963D0A29CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66963D0929CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift */; };
 		66963D1029CE244D006F5FA9 /* NavigationBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66963D0F29CE244D006F5FA9 /* NavigationBarTokenSet.swift */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
@@ -292,6 +293,7 @@
 		53FC90F925673627008A06FD /* FluentUILib_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUILib_common.xcconfig; sourceTree = "<group>"; };
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		566C664828CB97210032314C /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		66512A3729D3B30D003CF303 /* AvatarTitleViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleViewTokenSet.swift; sourceTree = "<group>"; };
 		66963D0929CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTitleViewTokenSet.swift; sourceTree = "<group>"; };
 		66963D0F29CE244D006F5FA9 /* NavigationBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarTokenSet.swift; sourceTree = "<group>"; };
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
@@ -1183,6 +1185,7 @@
 			isa = PBXGroup;
 			children = (
 				FD41C87A22DD13230086F899 /* AvatarTitleView.swift */,
+				66512A3729D3B30D003CF303 /* AvatarTitleViewTokenSet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1487,6 +1490,7 @@
 				923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,
+				66512A3829D3B30D003CF303 /* AvatarTitleViewTokenSet.swift in Sources */,
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
