@@ -106,6 +106,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showTopMenuWithSectionsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         controller.addSections([
             PopupMenuSection(title: "Canada", items: [
@@ -131,6 +133,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showTopMenuWithScrollableItemsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
         controller.addItems(items)
@@ -140,6 +144,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showCustomColorsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = [
             PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
@@ -168,6 +174,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showNoDismissalItemsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = [
             PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { self.calendarLayout = .agenda }),
@@ -196,5 +204,43 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showObjCDemo(sender: UIButton) {
         navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
+    }
+
+    private var perControlOverrideEnabled: Bool = false
+}
+
+extension PopupMenuDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverridePopupMenuTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: PopupMenuTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                         dark: GlobalTokens.sharedColor(.plum, .tint60))
+            }
+        ]
+    }
+
+    private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                         dark: GlobalTokens.sharedColor(.forest, .tint60))
+            }
+        ]
     }
 }
