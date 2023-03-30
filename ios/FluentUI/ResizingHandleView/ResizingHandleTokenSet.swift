@@ -21,7 +21,7 @@ public class ResizingHandleTokenSet: ControlTokenSet<ResizingHandleTokenSet.Toke
             switch token {
             case .markColor:
                 return .uiColor {
-                    return UIColor(dynamicColor: theme.aliasTokens.colors[.strokeAccessible])
+                    return theme.color(.strokeAccessible)
                 }
 
             case .backgroundColor:

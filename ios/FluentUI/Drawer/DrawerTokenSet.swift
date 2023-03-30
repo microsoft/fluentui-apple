@@ -12,13 +12,19 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         case cornerRadius
 
         /// Color used for the background of the content of the `Drawer` control.
-        case drawerContentBackground
+        case drawerContentBackgroundColor
 
         /// Color used for the navigation bar of the `Drawer` control.
-        case navigationBarBackground
+        case navigationBarBackgroundColor
 
         /// Color used for the background of the popover style `Drawer` control.
-        case popoverContentBackground
+        case popoverContentBackgroundColor
+
+        /// Color used for the background of the `ResizingHandleView` layer
+        case resizingHandleLayerColor
+
+        /// Color used for the background of the `ResizingHandleView`
+        case resizingHandleBackgroundColor
 
         /// `ShadowInfo` for the shadow used in the `Drawer` control.
         case shadow
@@ -32,21 +38,31 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                     GlobalTokens.corner(.radius120)
                 })
 
-            case .drawerContentBackground:
+            case .drawerContentBackgroundColor:
                 return .uiColor({
                     UIColor(light: theme.color(.background2).light,
                             dark: theme.color(.background2).dark)
                 })
 
-            case .navigationBarBackground:
+            case .navigationBarBackgroundColor:
                 return .uiColor({
                     theme.color(.background3)
                 })
 
-            case .popoverContentBackground:
+            case .popoverContentBackgroundColor:
                 return .uiColor({
                     UIColor(light: theme.color(.background4).light,
                             dark: theme.color(.background4).dark)
+                })
+
+            case .resizingHandleLayerColor:
+                return .uiColor({
+                    theme.color(.strokeAccessible)
+                })
+
+            case .resizingHandleBackgroundColor:
+                return .uiColor({
+                    .clear
                 })
 
             case .shadow:

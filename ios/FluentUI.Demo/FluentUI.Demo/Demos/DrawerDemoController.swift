@@ -449,7 +449,7 @@ extension DrawerDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
+            .drawerContentBackgroundColor: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
                                                                                     dark: GlobalTokens.sharedColors(.plum, .tint60)))
             }
         ]
@@ -457,7 +457,7 @@ extension DrawerDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
+            .drawerContentBackgroundColor: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
                                                                                     dark: GlobalTokens.sharedColors(.forest, .tint60)))
             },
             .shadow: .shadowInfo {

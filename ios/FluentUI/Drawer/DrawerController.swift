@@ -121,15 +121,15 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     }
 
     /// Set `backgroundColor` to customize background color of the drawer
-    @objc open lazy var backgroundColor: UIColor = tokenSet[.drawerContentBackground].uiColor {
+    @objc open lazy var backgroundColor: UIColor = tokenSet[.drawerContentBackgroundColor].uiColor {
         didSet {
             if isViewLoaded {
                 view.backgroundColor = backgroundColor
             }
 
-            tokenSet[.popoverContentBackground] = .uiColor { self.backgroundColor }
-            tokenSet[.navigationBarBackground] = .uiColor { self.backgroundColor }
-            tokenSet[.drawerContentBackground] = .uiColor { self.backgroundColor }
+            tokenSet[.popoverContentBackgroundColor] = .uiColor { self.backgroundColor }
+            tokenSet[.navigationBarBackgroundColor] = .uiColor { self.backgroundColor }
+            tokenSet[.drawerContentBackgroundColor] = .uiColor { self.backgroundColor }
         }
     }
 
@@ -477,11 +477,11 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     private func updateBackgroundColor() {
         let color: UIColor
         if presentationController is UIPopoverPresentationController {
-            color = tokenSet[.popoverContentBackground].uiColor
+            color = tokenSet[.popoverContentBackgroundColor].uiColor
         } else if useNavigationBarBackgroundColor {
-            color = tokenSet[.navigationBarBackground].uiColor
+            color = tokenSet[.navigationBarBackgroundColor].uiColor
         } else {
-            color = tokenSet[.drawerContentBackground].uiColor
+            color = tokenSet[.drawerContentBackgroundColor].uiColor
         }
         view.backgroundColor = color
     }
