@@ -91,7 +91,7 @@ public class MultilineCommandBar: BottomSheetController {
             }
             rowsStackView.addArrangedSubview(rowView)
         }
-        preferredExpandedContentHeight = rowsStackView.frame.height
+        preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
     }
 
     private func removeRows() {

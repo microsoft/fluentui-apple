@@ -120,6 +120,8 @@ public class CommandBar: UIView, TokenizedControlInternal {
         scrollView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
     }
 
+    // MARK: Overrides
+
     public override func layoutSubviews() {
         super.layoutSubviews()
 
