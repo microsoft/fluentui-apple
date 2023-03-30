@@ -37,85 +37,85 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundTintColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.brandBackgroundTint]
+                        return theme.color(.brandBackgroundTint)
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerBackground1]
+                        return theme.color(.dangerBackground1)
                     case .severeWarning:
-                        return theme.aliasTokens.colors[.severeBackground1]
+                        return theme.color(.severeBackground1)
                     case .warning:
-                        return theme.aliasTokens.colors[.warningBackground1]
+                        return theme.color(.warningBackground1)
                     case .success:
-                        return theme.aliasTokens.colors[.successBackground1]
+                        return theme.color(.successBackground1)
                     case .neutral:
-                        return theme.aliasTokens.colors[.background5]
+                        return theme.color(.background5)
                     }
                 }
             case .backgroundFilledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerBackground2]
+                        return theme.color(.dangerBackground2)
                     case .severeWarning:
-                        return theme.aliasTokens.colors[.severeBackground2]
+                        return theme.color(.severeBackground2)
                     case .warning:
-                        return theme.aliasTokens.colors[.warningBackground2]
+                        return theme.color(.warningBackground2)
                     case .success:
-                        return theme.aliasTokens.colors[.successBackground2]
+                        return theme.color(.successBackground2)
                     case .neutral:
-                        return theme.aliasTokens.colors[.background5Selected]
+                        return theme.color(.background5Selected)
                     }
                 }
             case .backgroundDisabledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.brandBackground3]
+                        return theme.color(.brandBackground3)
                     case .danger, .severeWarning, .warning, .success, .neutral:
-                        return theme.aliasTokens.colors[.background5]
+                        return theme.color(.background5)
                     }
                 }
             case .foregroundTintColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.brandForegroundTint]
+                        return theme.color(.brandForegroundTint)
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     case .severeWarning:
-                        return theme.aliasTokens.colors[.severeForeground1]
+                        return theme.color(.severeForeground1)
                     case .warning:
-                        return theme.aliasTokens.colors[.warningForeground1]
+                        return theme.color(.warningForeground1)
                     case .success:
-                        return theme.aliasTokens.colors[.successForeground1]
+                        return theme.color(.successForeground1)
                     case .neutral:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     }
                 }
             case .foregroundFilledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .danger, .severeWarning, .success:
-                        return theme.aliasTokens.colors[.foregroundLightStatic]
+                        return theme.color(.foregroundLightStatic)
                     case .warning:
-                        return theme.aliasTokens.colors[.foregroundDarkStatic]
+                        return theme.color(.foregroundDarkStatic)
                     case .neutral:
-                        return theme.aliasTokens.colors[.foreground1]
+                        return theme.color(.foreground1)
                     }
                 }
             case .foregroundDisabledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .default:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
+                        return theme.color(.brandForegroundDisabled1)
                     case .danger, .severeWarning, .warning, .success, .neutral:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
+                        return theme.color(.foregroundDisabled1)
                     }
                 }
             case .borderRadius:

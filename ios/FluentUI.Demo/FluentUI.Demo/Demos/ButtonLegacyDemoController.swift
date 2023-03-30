@@ -162,30 +162,30 @@ extension ButtonLegacyDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonLegacyTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
-                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
+            .titleFont: .uiFont { return UIFont(descriptor: .init(name: "Times", size: 20.0), size: 20.0) },
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                                    dark: GlobalTokens.sharedColor(.marigold, .tint40))
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
-                                    dark: GlobalTokens.sharedColors(.marigold, .shade30))
+            .borderColor: .uiColor { UIColor(light: .clear) },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
+                                    dark: GlobalTokens.sharedColor(.marigold, .shade30))
             }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonLegacyTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
+            .titleFont: .uiFont { return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0) },
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                                    dark: GlobalTokens.sharedColor(.orchid, .tint40))
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
+            .borderColor: .uiColor { UIColor(light: .clear) },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                                    dark: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]
     }

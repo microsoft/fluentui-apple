@@ -62,13 +62,10 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
     /// background color of PopupMenuItem corresponding cell
     @objc public var backgroundColor: UIColor {
         get {
-            return UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+            return tokenSet[.cellBackgroundColor].uiColor
         }
         set {
-            guard let newColor = newValue.dynamicColor else {
-                return
-            }
-            tokenSet[.cellBackgroundColor] = .dynamicColor { newColor }
+            tokenSet[.cellBackgroundColor] = .uiColor { newValue }
         }
     }
     /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used

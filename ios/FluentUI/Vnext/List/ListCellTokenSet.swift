@@ -134,34 +134,34 @@ public class ListCellTokenSet: ControlTokenSet<ListCellTokenSet.Tokens> {
             switch token {
 
             case .disclosureIconForegroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .labelColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .uiColor { theme.color(.foreground1) }
 
             case .labelSelectedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .leadingViewColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .sublabelColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
+                return .uiColor { theme.color(.foreground2) }
 
             case .sublabelSelectedColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .trailingItemForegroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
 
             case .trailingItemSelectedForegroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.brandForeground1] }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .uiColor { theme.color(.background1) }
 
             case .highlightedBackgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1Pressed] }
+                return .uiColor { theme.color(.background1Pressed) }
 
             case .cellHeightOneLine:
                 return .float { GlobalTokens.spacing(.size480) }
@@ -215,13 +215,13 @@ public class ListCellTokenSet: ControlTokenSet<ListCellTokenSet.Tokens> {
                 return .float { GlobalTokens.spacing(.size80) }
 
             case .footnoteFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption1] }
+                return .uiFont { theme.typography(.caption1) }
 
             case .sublabelFont:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .uiFont { theme.typography(.body2) }
 
             case .labelFont:
-                return .fontInfo { theme.aliasTokens.typography[.body1] }
+                return .uiFont { theme.typography(.body1) }
             }
         }
     }

@@ -78,20 +78,8 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let accentColor = view.fluentTheme.color(.foregroundOnColor)
-        let textColor = view.fluentTheme.color(.foreground1)
-        let pillButtonBackgroundColor = useCustomPillsColors ? accentColor : nil
-        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? textColor : nil
-        let pillButtonTextColor = useCustomPillsColors ? textColor : nil
-        let pillSelectedButtontextColor = useCustomPillsColors ? accentColor : nil
-        let pillButtonUnreadDotColor = useCustomPillsColors ? textColor : nil
-
-        let bar = PillButtonBar(pillButtonStyle: style,
-                                pillButtonBackgroundColor: pillButtonBackgroundColor,
-                                selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor,
-                                pillButtonTextColor: pillButtonTextColor,
-                                selectedPillButtonTextColor: pillSelectedButtontextColor,
-                                pillButtonUnreadDotColor: pillButtonUnreadDotColor)
+        let bar = PillButtonBar(pillButtonStyle: style)
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
@@ -189,23 +177,23 @@ class PillButtonBarDemoController: DemoController {
     private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         let theme = FluentTheme()
         return [
-            .backgroundColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+            .backgroundColor: .uiColor { theme.color(.strokeFocus1) },
 
-            .backgroundColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+            .backgroundColorSelected: .uiColor { theme.color(.strokeFocus2) },
 
-            .backgroundColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+            .backgroundColorDisabled: .uiColor { theme.color(.strokeFocus1) },
 
-            .backgroundColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+            .backgroundColorSelectedDisabled: .uiColor { theme.color(.strokeFocus1) },
 
-            .titleColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+            .titleColor: .uiColor { theme.color(.strokeFocus2) },
 
-            .titleColorSelected: .dynamicColor { theme.aliasTokens.colors[.strokeFocus1] },
+            .titleColorSelected: .uiColor { theme.color(.strokeFocus1) },
 
-            .titleColorDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+            .titleColorDisabled: .uiColor { theme.color(.strokeFocus2) },
 
-            .titleColorSelectedDisabled: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] },
+            .titleColorSelectedDisabled: .uiColor { theme.color(.strokeFocus2) },
 
-            .enabledUnreadDotColor: .dynamicColor { theme.aliasTokens.colors[.strokeFocus2] }
+            .enabledUnreadDotColor: .uiColor { theme.color(.strokeFocus2) }
         ]
     }
 }
@@ -246,57 +234,55 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Times", size: 15.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 15.0), size: 15.0)
             }
         ]
     }
 
     private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
-                                    dark: GlobalTokens.sharedColors(.steel, .shade30))
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .tint40),
+                               dark: GlobalTokens.sharedColor(.steel, .shade30))
             },
 
-            .backgroundColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                                    dark: GlobalTokens.sharedColors(.pumpkin, .shade30))
+            .backgroundColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .shade30))
             },
 
-            .backgroundColorDisabled: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                                    dark: GlobalTokens.sharedColors(.darkTeal, .shade30))
+            .backgroundColorDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .shade30))
             },
 
-            .backgroundColorSelectedDisabled: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
+            .backgroundColorSelectedDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
             },
 
-            .titleColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
-                                    dark: GlobalTokens.sharedColors(.steel, .tint40))
+            .titleColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .shade30),
+                               dark: GlobalTokens.sharedColor(.steel, .tint40))
             },
 
-            .titleColorSelected: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
-                                    dark: GlobalTokens.sharedColors(.pumpkin, .tint40))
+            .titleColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .shade30),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40))
             },
 
-            .titleColorDisabled: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
-                                    dark: GlobalTokens.sharedColors(.darkTeal, .tint40))
+            .titleColorDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .shade30),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40))
             },
 
-            .titleColorSelectedDisabled: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
+            .titleColorSelectedDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
             },
 
-            .font: .fontInfo {
-                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
-            }
+            .font: .uiFont { return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0) }
         ]
     }
 }

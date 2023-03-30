@@ -50,18 +50,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
         }
     }
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
-
-    lazy var unreadDotColor: UIColor = customUnreadDotColor ?? PillButton.enabledUnreadDotColor(for: tokenSet.fluentTheme, for: style)
-
     lazy var titleFont: UIFont = PillButton.titleFont(for: tokenSet.fluentTheme)
-
-    @objc public static let cornerRadius: CGFloat = 16.0
-
-    @objc public let pillBarItem: PillButtonBarItem
-
-    @objc public let style: PillButtonStyle
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -105,9 +94,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     public var tokenSet: PillButtonTokenSet
 
-    lazy var unreadDotColor: UIColor = {
-        UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
-    }()
+    lazy var unreadDotColor: UIColor = { tokenSet[.enabledUnreadDotColor].uiColor }()
 
     private func setupView() {
         if #available(iOS 15.0, *) {
@@ -245,37 +232,37 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
         if isSelected {
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelected].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorSelected].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorSelected].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColorSelected].uiColor, for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelectedDisabled].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorSelectedDisabled].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorSelectedDisabled].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColorSelectedDisabled].uiColor, for: .normal)
                 }
             }
         } else {
             unreadDotColor = isEnabled
-                        ? UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
-                        : UIColor(dynamicColor: tokenSet[.disabledUnreadDotColor].dynamicColor)
+                        ? tokenSet[.enabledUnreadDotColor].uiColor
+                        : tokenSet[.disabledUnreadDotColor].uiColor
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColor].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColor].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColor].uiColor, for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorDisabled].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorDisabled].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorDisabled].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor), for: .disabled)
+                    setTitleColor(tokenSet[.titleColorDisabled].uiColor, for: .disabled)
                 }
             }
         }

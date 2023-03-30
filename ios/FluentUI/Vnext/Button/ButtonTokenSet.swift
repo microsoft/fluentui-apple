@@ -216,28 +216,28 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 }
 
             case .textFont:
-                return .fontInfo {
+                return .uiFont {
                     switch style() {
                     case .primary, .secondary, .ghost:
                         switch size() {
                         case .small, .medium:
-                            return theme.aliasTokens.typography[.caption1Strong]
+                            return theme.typography(.caption1Strong, adjustsForContentSizeCategory: false)
                         case .large:
-                            return theme.aliasTokens.typography[.body1Strong]
+                            return theme.typography(.body1Strong, adjustsForContentSizeCategory: false)
                         }
                     case .accentFloating:
                         switch size() {
                         case .small, .medium:
-                            return theme.aliasTokens.typography[.body2Strong]
+                            return theme.typography(.body2Strong, adjustsForContentSizeCategory: false)
                         case .large:
-                            return theme.aliasTokens.typography[.body1Strong]
+                            return theme.typography(.body1Strong, adjustsForContentSizeCategory: false)
                         }
                     case .subtleFloating:
                         switch size() {
                         case .small, .medium:
-                            return theme.aliasTokens.typography[.body2Strong]
+                            return theme.typography(.body2Strong, adjustsForContentSizeCategory: false)
                         case .large:
-                            return theme.aliasTokens.typography[.body1Strong]
+                            return theme.typography(.body1Strong, adjustsForContentSizeCategory: false)
                         }
                     }
                 }
@@ -256,213 +256,213 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 }
 
             case .textColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .textColorHover:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .textColorPressed:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1Pressed]
+                        return theme.color(.brandForeground1Pressed)
                     }
                 }
 
             case .textColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .textColorDisabled:
-                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
+                return .uiColor { theme.color(.foregroundDisabled1) }
 
             case .borderColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     }
                 }
 
             case .borderColorHover:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.colors[.brandStroke1]
+                        return theme.color(.brandStroke1)
                     case .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     }
                 }
             case .borderColorPressed:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.colors[.brandStroke1Pressed]
+                        return theme.color(.brandStroke1Pressed)
                     case .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     }
                 }
             case .borderColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.colors[.brandStroke1]
+                        return theme.color(.brandStroke1)
                     case .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     }
                 }
             case .borderColorDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .secondary, .accentFloating, .subtleFloating:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
+                        return theme.color(.foregroundDisabled1)
                     case .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     }
                 }
 
             case .backgroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .secondary, .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.background1]
+                        return theme.color(.background1)
                     }
                 }
 
             case .backgroundColorHover:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .secondary, .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.background1]
+                        return theme.color(.background1)
                     }
                 }
 
             case .backgroundColorPressed:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.brandBackground1Pressed]
+                        return theme.color(.brandBackground1Pressed)
                     case .secondary, .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.background1Pressed]
+                        return theme.color(.background1Pressed)
                     }
                 }
 
             case .backgroundColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.brandBackground1Pressed]
+                        return theme.color(.brandBackground1Pressed)
                     case .secondary, .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.background1Pressed]
+                        return theme.color(.background1Pressed)
                     }
                 }
 
             case .backgroundColorDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.backgroundDisabled]
+                        return theme.color(.backgroundDisabled)
                     case .secondary, .ghost:
-                        return DynamicColor(light: ColorValue.clear)
+                        return UIColor.clear
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.background1]
+                        return theme.color(.background1)
                     }
                 }
 
             case .iconColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .iconColorHover:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .iconColorPressed:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1Pressed]
+                        return theme.color(.brandForeground1Pressed)
                     }
                 }
 
             case .iconColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary, .accentFloating:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .subtleFloating:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .secondary, .ghost:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
 
             case .iconColorDisabled:
-                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
+                return .uiColor { theme.color(.foregroundDisabled1) }
 
             case .restShadow:
                 return .shadowInfo { theme.aliasTokens.shadow[.shadow08] }

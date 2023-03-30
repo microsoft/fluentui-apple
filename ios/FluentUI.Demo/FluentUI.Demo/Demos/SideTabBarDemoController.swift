@@ -348,40 +348,40 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideSideTabBarTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tabBarItemSelectedColor: .dynamicColor {
-                return .init(light: GlobalTokens.sharedColors(.burgundy, .tint10),
-                             lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
-                             dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                             darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40))
+            .tabBarItemSelectedColor: .uiColor {
+                return .init(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                             lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                             dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
             },
-            .tabBarItemUnselectedColor: .dynamicColor {
-                return .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
-                             lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
-                             dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                             darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40))
+            .tabBarItemUnselectedColor: .uiColor {
+                return .init(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                             lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                             dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
             }
         ]
     }
 
     private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tabBarItemTitleLabelFontPortrait: .fontInfo {
-                return .init(size: 15, weight: .bold)
+            .tabBarItemTitleLabelFontPortrait: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 15.0), size: 15.0)
             },
-            .tabBarItemTitleLabelFontLandscape: .fontInfo {
-                return .init(size: 15, weight: .bold)
+            .tabBarItemTitleLabelFontLandscape: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 15.0), size: 15.0)
             },
-            .tabBarItemSelectedColor: .dynamicColor {
-                return .init(light: GlobalTokens.sharedColors(.burgundy, .tint10),
-                             lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
-                             dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                             darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40))
+            .tabBarItemSelectedColor: .uiColor {
+                return .init(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                             lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                             dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
             },
-            .tabBarItemUnselectedColor: .dynamicColor {
-                return .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
-                             lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
-                             dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                             darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40))
+            .tabBarItemUnselectedColor: .uiColor {
+                return .init(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                             lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                             dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                             darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
             }
         ]
     }

@@ -33,20 +33,18 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                 })
 
             case .drawerContentBackground:
-                return .dynamicColor({
-                    DynamicColor(light: theme.color(.background2).light,
-                                 dark: theme.color(.background2).dark)
+                return .uiColor({
+                    theme.color(.background2)
                 })
 
             case .navigationBarBackground:
-                return .dynamicColor({
+                return .uiColor({
                     theme.color(.background3)
                 })
 
             case .popoverContentBackground:
-                return .dynamicColor({
-                    DynamicColor(light: theme.color(.background4).light,
-                                 dark: theme.color(.background4).dark)
+                return .uiColor({
+                    theme.color(.background4)
                 })
 
             case .shadow:

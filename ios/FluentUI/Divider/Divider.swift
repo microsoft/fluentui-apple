@@ -42,7 +42,7 @@ public struct FluentDivider: View, TokenizedControlView {
 
     public var body: some View {
         let isHorizontal = state.orientation == .horizontal
-        let color = Color(tokenSet[.color].color)
+        let color = Color(tokenSet[.color].uiColor)
         let padding = tokenSet[.padding].float
 
         return Rectangle()

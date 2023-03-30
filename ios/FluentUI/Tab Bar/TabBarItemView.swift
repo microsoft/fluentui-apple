@@ -206,7 +206,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor(dynamicColor: tokenSet[.unselectedColor].dynamicColor)
+        imageView.tintColor = tokenSet[.unselectedColor].uiColor
 
         if canResizeImage {
             let sizeConstraints = (
@@ -226,7 +226,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = UIColor(dynamicColor: tokenSet[.unselectedColor].dynamicColor)
+        titleLabel.textColor = tokenSet[.unselectedColor].uiColor
 
         return titleLabel
     }()
@@ -280,7 +280,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         if isInPortraitMode {
             container.axis = .vertical
             container.spacing = TabBarItemTokenSet.spacingVertical
-            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelFontPortrait].fontInfo, shouldScale: false)
+            titleLabel.font = tokenSet[.titleLabelFontPortrait].uiFont
 
             if canResizeImage {
                 suggestImageSize = titleLabel.isHidden ? tokenSet[.portraitImageSize].float : tokenSet[.portraitImageWithLabelSize].float
@@ -288,7 +288,7 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         } else {
             container.axis = .horizontal
             container.spacing = TabBarItemTokenSet.spacingHorizontal
-            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelFontLandscape].fontInfo, shouldScale: false)
+            titleLabel.font = tokenSet[.titleLabelFontLandscape].uiFont
             if canResizeImage {
                  suggestImageSize = tokenSet[.landscapeImageSize].float
             }

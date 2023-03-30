@@ -58,21 +58,21 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { GlobalTokens.icon(.size240) }
 
             case .selectedColor:
-                return .dynamicColor {
+                return .uiColor {
                     return theme.color(.brandForeground1)
                 }
 
             case .titleLabelFontPortrait:
-                return .fontInfo { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2) }
 
             case .titleLabelFontLandscape:
-                return .fontInfo { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2) }
 
             case .unreadDotSize:
                 return .float { 8.0 }
 
             case .unselectedColor:
-                return .dynamicColor {
+                return .uiColor {
                     return theme.color(.foreground3)
                 }
             }

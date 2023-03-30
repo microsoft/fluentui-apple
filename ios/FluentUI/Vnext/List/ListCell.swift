@@ -280,15 +280,15 @@ struct MSFListCellView: View, TokenizedControlView {
     var body: some View {
         let labelColor: Color
         let sublabelColor: Color
-        let trailingItemColor: DynamicColor
+        let trailingItemColor: Color
         if state.isSelected {
-            labelColor = Color(dynamicColor: tokenSet[.labelSelectedColor].dynamicColor)
-            sublabelColor = Color(dynamicColor: tokenSet[.sublabelSelectedColor].dynamicColor)
-            trailingItemColor = tokenSet[.trailingItemSelectedForegroundColor].dynamicColor
+            labelColor = Color(tokenSet[.labelSelectedColor].uiColor)
+            sublabelColor = Color(tokenSet[.sublabelSelectedColor].uiColor)
+            trailingItemColor = Color(tokenSet[.trailingItemSelectedForegroundColor].uiColor)
         } else {
-            labelColor = Color(dynamicColor: tokenSet[.labelColor].dynamicColor)
-            sublabelColor = Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor)
-            trailingItemColor = tokenSet[.trailingItemForegroundColor].dynamicColor
+            labelColor = Color(tokenSet[.labelColor].uiColor)
+            sublabelColor = Color(tokenSet[.sublabelColor].uiColor)
+            trailingItemColor = Color(tokenSet[.trailingItemForegroundColor].uiColor)
         }
         let horizontalCellPadding: CGFloat = tokenSet[.horizontalCellPadding].float
         let leadingViewAreaSize: CGFloat = tokenSet[.leadingViewAreaSize].float
@@ -323,7 +323,7 @@ struct MSFListCellView: View, TokenizedControlView {
                         if !title.isEmpty {
                             Text(title)
                                 .animation(nil, value: title)
-                                .font(.fluent(tokenSet[.labelFont].fontInfo))
+                                .font(.init(tokenSet[.labelFont].uiFont))
                                 .foregroundColor(labelColor)
                                 .lineLimit(state.titleLineLimit == 0 ? nil : state.titleLineLimit)
                         }
@@ -342,8 +342,8 @@ struct MSFListCellView: View, TokenizedControlView {
                         }
                         if !state.subtitle.isEmpty {
                             Text(state.subtitle)
-                                .font(.fluent(state.footnote.isEmpty ?
-                                                            tokenSet[.footnoteFont].fontInfo : tokenSet[.sublabelFont].fontInfo))
+                                .font(.init(state.footnote.isEmpty ?
+                                                            tokenSet[.footnoteFont].uiFont : tokenSet[.sublabelFont].uiFont))
                                 .foregroundColor(sublabelColor)
                                 .lineLimit(state.subtitleLineLimit == 0 ? nil : state.subtitleLineLimit)
                         }
@@ -362,7 +362,7 @@ struct MSFListCellView: View, TokenizedControlView {
                         }
                         if !state.footnote.isEmpty {
                             Text(state.footnote)
-                                .font(.fluent(tokenSet[.footnoteFont].fontInfo))
+                                .font(.init(tokenSet[.footnoteFont].uiFont))
                                 .foregroundColor(sublabelColor)
                                 .lineLimit(state.footnoteLineLimit == 0 ? nil : state.footnoteLineLimit)
                         }
@@ -392,8 +392,8 @@ struct MSFListCellView: View, TokenizedControlView {
                         let disclosureSize = tokenSet[.disclosureSize].float
                         Image(uiImage: accessoryIcon)
                             .resizable()
-                            .foregroundColor(Color(dynamicColor: isDisclosure ?
-                                                   tokenSet[.disclosureIconForegroundColor].dynamicColor : trailingItemColor))
+                            .foregroundColor(isDisclosure ?
+                                                   Color(tokenSet[.disclosureIconForegroundColor].uiColor) : trailingItemColor)
                             .frame(width: isDisclosure ? disclosureSize : trailingItemSize,
                                    height: isDisclosure ? disclosureSize : trailingItemSize)
                             .padding(.leading, isDisclosure ? tokenSet[.disclosureInterspace].float : tokenSet[.iconInterspace].float)
@@ -481,14 +481,14 @@ struct ListCellButtonStyle: ButtonStyle {
     private func backgroundColor(_ isPressed: Bool = false) -> Color {
         let highlightedBackgroundColor: Color = {
             guard let stateHighlightedBackgroundColor = state.highlightedBackgroundColor else {
-                return Color(dynamicColor: tokenSet[.highlightedBackgroundColor].dynamicColor)
+                return Color(tokenSet[.highlightedBackgroundColor].uiColor)
             }
             return Color(stateHighlightedBackgroundColor)
         }()
 
         let backgroundColor: Color = {
             guard let stateBackgroundColor = state.backgroundColor else {
-                return Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                return Color(tokenSet[.backgroundColor].uiColor)
             }
             return Color(stateBackgroundColor)
         }()

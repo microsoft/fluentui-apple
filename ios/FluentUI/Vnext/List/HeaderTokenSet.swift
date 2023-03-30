@@ -44,15 +44,15 @@ public class HeaderTokenSet: ControlTokenSet<HeaderTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .uiColor { theme.color(.background1) }
 
             case .textColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .standard:
-                        return theme.aliasTokens.colors[.foreground1]
+                        return theme.color(.foreground1)
                     case .subtle:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     }
                 }
 
@@ -79,12 +79,12 @@ public class HeaderTokenSet: ControlTokenSet<HeaderTokenSet.Tokens> {
                 return .float { GlobalTokens.spacing(.size160) }
 
             case .textFont:
-                return .fontInfo {
+                return .uiFont {
                     switch style() {
                     case .standard:
-                        return theme.aliasTokens.typography[.body1Strong]
+                        return theme.typography(.body1Strong)
                     case .subtle:
-                        return theme.aliasTokens.typography[.caption1]
+                        return theme.typography(.caption1)
                     }
                 }
             }
