@@ -20,13 +20,13 @@ public class ResizingHandleTokenSet: ControlTokenSet<ResizingHandleTokenSet.Toke
         super.init { token, theme in
             switch token {
             case .markColor:
-                return .dynamicColor {
-                    return theme.aliasTokens.colors[.strokeAccessible]
+                return .uiColor {
+                    return theme.color(.strokeAccessible)
                 }
 
             case .backgroundColor:
-                return .dynamicColor {
-                    DynamicColor(light: ColorValue.clear)
+                return .uiColor {
+                    UIColor.clear
                 }
             }
         }

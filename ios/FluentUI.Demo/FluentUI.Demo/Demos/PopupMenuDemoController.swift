@@ -248,16 +248,16 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
-                                                                   dark: GlobalTokens.sharedColors(.plum, .tint60))
+            .drawerContentBackground: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                         dark: GlobalTokens.sharedColor(.plum, .tint60))
             }
         ]
     }
 
     private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
-                                                                   dark: GlobalTokens.sharedColors(.forest, .tint60))
+            .drawerContentBackground: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                         dark: GlobalTokens.sharedColor(.forest, .tint60))
             }
         ]
     }

@@ -213,9 +213,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
     private func updateFonts() {
         switch sizeCategory {
         case .small:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1])
+            label.font = tokenSet.fluentTheme.typography(.caption1)
         case .medium:
-            label.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.body2])
+            label.font = tokenSet.fluentTheme.typography(.body2)
         }
     }
 
@@ -292,12 +292,12 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateBackgroundColor() {
-        backgroundView.backgroundColor = UIColor(dynamicColor: isActive ? (isSelected ? tokenSet[.backgroundFilledColor].dynamicColor : tokenSet[.backgroundTintColor].dynamicColor) : tokenSet[.backgroundDisabledColor].dynamicColor)
+        backgroundView.backgroundColor = isActive ? (isSelected ? tokenSet[.backgroundFilledColor].uiColor : tokenSet[.backgroundTintColor].uiColor) : tokenSet[.backgroundDisabledColor].uiColor
         super.backgroundColor = .clear
     }
 
     private func updateLabelTextColor() {
-        label.textColor = UIColor(dynamicColor: isActive ? (isSelected ? tokenSet[.foregroundFilledColor].dynamicColor : tokenSet[.foregroundTintColor].dynamicColor) : tokenSet[.foregroundDisabledColor].dynamicColor)
+        label.textColor = isActive ? (isSelected ? tokenSet[.foregroundFilledColor].uiColor : tokenSet[.foregroundTintColor].uiColor) : tokenSet[.foregroundDisabledColor].uiColor
     }
 
     @objc private func badgeTapped() {

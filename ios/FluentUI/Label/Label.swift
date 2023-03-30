@@ -17,12 +17,21 @@ open class Label: UILabel, TokenizedControlInternal {
             updateTextColor()
         }
     }
-    @objc open var style: AliasTokens.TypographyTokens = .body1 {
+    @objc open var style: AliasTokens.TypographyTokens {
+        get {
+            return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
+        }
+        set {
+            self.textStyle = FluentTheme.TypographyToken(rawValue: newValue.rawValue)!
+        }
+    }
+    @objc open var textStyle: FluentTheme.TypographyToken = .body1 {
         didSet {
             labelFont = nil
             updateFont()
         }
     }
+
     /**
      The maximum allowed size point for the receiver's font. This property can be used
      to restrict the largest size of the label when scaling due to Dynamic Type. The
@@ -65,17 +74,28 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = LabelTokenSet.Tokens
-    lazy public var tokenSet: LabelTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .body1
+    lazy public var tokenSet: LabelTokenSet = .init(textStyle: { [weak self] in
+        return self?.textStyle ?? .body1
     },
                                                     colorStyle: { [weak self] in
         return self?.colorStyle ?? .regular
     })
 
+    @objc convenience public init() {
+        self.init(textStyle: .body1, colorStyle: .regular)
+    }
+
     @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
+        super.init(frame: .zero)
         self.style = style
         self.colorStyle = colorStyle
+        initialize()
+    }
+
+    @objc public init(textStyle: FluentTheme.TypographyToken = .body1, colorStyle: TextColorStyle = .regular) {
         super.init(frame: .zero)
+        self.textStyle = textStyle
+        self.colorStyle = colorStyle
         initialize()
     }
 
@@ -110,7 +130,7 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let labelFont = labelFont ?? UIFont.fluent(tokenSet[.font].fontInfo)
+        let labelFont = labelFont ?? tokenSet[.font].uiFont
         if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
             super.font = labelFont.withSize(maxFontSize)
         } else {
@@ -123,7 +143,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = labelTextColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        super.textColor = labelTextColor ?? tokenSet[.textColor].uiColor
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

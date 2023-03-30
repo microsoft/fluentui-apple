@@ -26,8 +26,8 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
-                    return theme.aliasTokens.colors[.backgroundDarkStatic]
+                return .uiColor {
+                    return theme.color(.backgroundDarkStatic)
                 }
 
             case .cornerRadius:
@@ -36,14 +36,14 @@ public class HeadsUpDisplayTokenSet: ControlTokenSet<HeadsUpDisplayTokenSet.Toke
                 }
 
             case .activityIndicatorColor:
-                return .dynamicColor {
-                    return DynamicColor(light: GlobalTokens.neutralColors(.grey56),
-                                        dark: GlobalTokens.neutralColors(.grey72))
+                return .uiColor {
+                    return UIColor(light: GlobalTokens.neutralColor(.grey56),
+                                   dark: GlobalTokens.neutralColor(.grey72))
                 }
 
             case .labelColor:
-                return .dynamicColor {
-                    return theme.aliasTokens.colors[.foregroundLightStatic]
+                return .uiColor {
+                    return theme.color(.foregroundLightStatic)
                 }
             }
         }

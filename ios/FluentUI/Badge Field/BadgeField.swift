@@ -210,7 +210,7 @@ open class BadgeField: UIView {
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background1])
+        backgroundColor = fluentTheme.color(.background1)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -246,7 +246,7 @@ open class BadgeField: UIView {
     }
 
     private func setupTextField(_ textField: UITextField) {
-        textField.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
+        textField.font = fluentTheme.typography(.body1)
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress

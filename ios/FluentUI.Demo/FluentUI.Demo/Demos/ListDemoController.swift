@@ -135,11 +135,11 @@ class ListDemoController: DemoController {
 
         switch imageType {
         case "title":
-            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground1])
+            customView.tintColor = theme.color(.foreground1)
         case "subtitle":
-            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground2])
+            customView.tintColor = theme.color(.foreground2)
         default:
-            customView.tintColor = UIColor(dynamicColor: theme.aliasTokens.colors[.foreground3])
+            customView.tintColor = theme.color(.foreground3)
         }
         return customView
     }

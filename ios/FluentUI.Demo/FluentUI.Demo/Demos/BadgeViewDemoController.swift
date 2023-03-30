@@ -61,24 +61,24 @@ class BadgeViewDemoController: DemoController {
             let badge = createBadge(text: "Kat Larsson", style: style, sizeCategory: sizeCategory, isEnabled: isEnabled)
             if overrideColor {
                 if isEnabled {
-                    badge.tokenSet[.backgroundTintColor] = .dynamicColor {
-                        .init(light: GlobalTokens.sharedColors(.purple, .primary))
+                    badge.tokenSet[.backgroundTintColor] = .uiColor {
+                        .init(light: GlobalTokens.sharedColor(.purple, .primary))
                     }
-                    badge.tokenSet[.backgroundFilledColor] = .dynamicColor {
-                        .init(light: GlobalTokens.sharedColors(.darkTeal, .tint20))
+                    badge.tokenSet[.backgroundFilledColor] = .uiColor {
+                        .init(light: GlobalTokens.sharedColor(.darkTeal, .tint20))
                     }
-                    badge.tokenSet[.foregroundTintColor] = .dynamicColor {
-                        .init(light: GlobalTokens.neutralColors(.grey94))
+                    badge.tokenSet[.foregroundTintColor] = .uiColor {
+                        .init(light: GlobalTokens.neutralColor(.grey94))
                     }
-                    badge.tokenSet[.foregroundFilledColor] = .dynamicColor {
-                        .init(light: GlobalTokens.neutralColors(.grey88))
+                    badge.tokenSet[.foregroundFilledColor] = .uiColor {
+                        .init(light: GlobalTokens.neutralColor(.grey88))
                     }
                 } else {
-                    badge.tokenSet[.backgroundDisabledColor] = .dynamicColor {
-                        .init(light: GlobalTokens.neutralColors(.grey88))
+                    badge.tokenSet[.backgroundDisabledColor] = .uiColor {
+                        .init(light: GlobalTokens.neutralColor(.grey88))
                     }
-                    badge.tokenSet[.foregroundDisabledColor] = .dynamicColor {
-                        .init(light: GlobalTokens.neutralColors(.grey26))
+                    badge.tokenSet[.foregroundDisabledColor] = .uiColor {
+                        .init(light: GlobalTokens.neutralColor(.grey26))
                     }
                 }
             }
@@ -111,11 +111,11 @@ class BadgeViewDemoController: DemoController {
                 customView: customView,
                 customViewVerticalPadding: 3
             )
-            badge.tokenSet[.backgroundDisabledColor] = .dynamicColor {
-                .init(light: GlobalTokens.sharedColors(.purple, .primary))
+            badge.tokenSet[.backgroundDisabledColor] = .uiColor {
+                .init(light: GlobalTokens.sharedColor(.purple, .primary))
             }
-            badge.tokenSet[.foregroundDisabledColor] = .dynamicColor {
-                .init(light: GlobalTokens.neutralColors(.white))
+            badge.tokenSet[.foregroundDisabledColor] = .uiColor {
+                .init(light: GlobalTokens.neutralColor(.white))
             }
             addRow(text: sizeCategory.description, items: [badge])
         }
@@ -157,42 +157,42 @@ extension BadgeViewDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideBadgeViewTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundTintColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.plum, .tint40),
-                                    dark: GlobalTokens.sharedColors(.plum, .shade30))
+            .backgroundTintColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
+                               dark: GlobalTokens.sharedColor(.plum, .shade30))
             },
-            .backgroundFilledColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
-                                    dark: GlobalTokens.sharedColors(.berry, .tint40))
+            .backgroundFilledColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
+                               dark: GlobalTokens.sharedColor(.berry, .tint40))
             },
-            .foregroundTintColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                    dark: GlobalTokens.neutralColors(.grey98))
+            .foregroundTintColor: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.neutralColor(.grey98))
             },
-            .foregroundFilledColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                    dark: GlobalTokens.neutralColors(.black))
+            .foregroundFilledColor: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.neutralColor(.black))
             }
         ]
     }
 
     private var perControlOverrideBadgeViewTokens: [BadgeViewTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundTintColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint40),
-                                    dark: GlobalTokens.sharedColors(.forest, .shade30))
+            .backgroundTintColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
+                               dark: GlobalTokens.sharedColor(.forest, .shade30))
             },
-            .backgroundFilledColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .shade30),
-                                    dark: GlobalTokens.sharedColors(.seafoam, .tint40))
+            .backgroundFilledColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.seafoam, .shade30),
+                               dark: GlobalTokens.sharedColor(.seafoam, .tint40))
             },
-            .foregroundTintColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.neutralColors(.black),
-                                    dark: GlobalTokens.neutralColors(.white))
+            .foregroundTintColor: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.black),
+                               dark: GlobalTokens.neutralColor(.white))
             },
-            .foregroundFilledColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                    dark: GlobalTokens.neutralColors(.black))
+            .foregroundFilledColor: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.neutralColor(.black))
             }
         ]
     }

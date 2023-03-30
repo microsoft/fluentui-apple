@@ -64,7 +64,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: AliasTokens.TypographyTokens = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: FluentTheme.TypographyToken = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -76,7 +76,7 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if !text.isEmpty {
-            let label = Label(style: textStyle, colorStyle: .regular)
+            let label = Label(textStyle: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
@@ -134,7 +134,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)

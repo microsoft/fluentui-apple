@@ -329,13 +329,13 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .textFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) }
+            .textFont: .uiFont { return UIFont(descriptor: .init(name: "Times", size: 20.0), size: 20.0) }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .textFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) }
+            .textFont: .uiFont { return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0) }
         ]
     }
 }

@@ -362,7 +362,7 @@ class DrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        let backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        let backgroundColor = view.fluentTheme.color(.background3)
 
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
@@ -473,7 +473,7 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        drawer.resizingHandleViewBackgroundColor = view.fluentTheme.color(.background3)
         drawer.contentScrollView = personaListView
     }
 
@@ -579,16 +579,16 @@ extension DrawerDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
-                                                                   dark: GlobalTokens.sharedColors(.plum, .tint60))
+            .drawerContentBackground: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                                   dark: GlobalTokens.sharedColor(.plum, .tint60))
             }
         ]
     }
 
     private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackground: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
-                                                                   dark: GlobalTokens.sharedColors(.forest, .tint60))
+            .drawerContentBackground: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                                   dark: GlobalTokens.sharedColor(.forest, .tint60))
             },
             .shadow: .shadowInfo {
                 self.view.fluentTheme.aliasTokens.shadow[.shadow02]

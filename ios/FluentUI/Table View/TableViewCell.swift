@@ -39,11 +39,11 @@ public enum TableViewCellAccessoryType: Int {
         case .none:
             return nil
         case .disclosureIndicator:
-            return UIColor(dynamicColor: tokenSet[.accessoryDisclosureIndicatorColor].dynamicColor)
+            return tokenSet[.accessoryDisclosureIndicatorColor].uiColor
         case .detailButton:
-            return UIColor(dynamicColor: tokenSet[.accessoryDetailButtonColor].dynamicColor)
+            return tokenSet[.accessoryDetailButtonColor].uiColor
         case .checkmark:
-            return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
+            return fluentTheme.color(.brandForeground1)
         }
     }
 
@@ -73,9 +73,9 @@ public enum TableViewCellBackgroundStyleType: Int {
     func defaultColor(tokenSet: TableViewCellTokenSet) -> UIColor? {
         switch self {
         case .plain:
-            return UIColor(dynamicColor: tokenSet[.cellBackgroundColor].dynamicColor)
+            return tokenSet[.cellBackgroundColor].uiColor
         case .grouped:
-            return UIColor(dynamicColor: tokenSet[.cellBackgroundGroupedColor].dynamicColor)
+            return tokenSet[.cellBackgroundGroupedColor].uiColor
         case .clear:
             return .clear
         case .custom:
@@ -132,22 +132,22 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     /// TableViewCell colors with obj-c support
     @objc public static var tableBackgroundColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundColor].uiColor
     }
     @objc public static var tableBackgroundGroupedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundGroupedColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.backgroundGroupedColor].uiColor
     }
     @objc public static var tableCellBackgroundColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundColor].uiColor
     }
     @objc public static var tableCellBackgroundGroupedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundGroupedColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundGroupedColor].uiColor
     }
     @objc public static var tableCellBackgroundSelectedColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundSelectedColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.cellBackgroundSelectedColor].uiColor
     }
     @objc public static var tableCellImageColor: UIColor {
-        UIColor(dynamicColor: TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.imageColor].dynamicColor)
+        TableViewCellTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })[.imageColor].uiColor
     }
 
     /// Identifier string for TableViewCell
@@ -332,7 +332,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             titleHeight: labelSize(text: title,
                                    attributedText: attributedTitle,
                                    isAttributedTextSet: isAttributedTitleSet,
-                                   font: titleFont ?? UIFont.fluent(tokenSet[.titleFont].fontInfo),
+                                   font: titleFont ?? tokenSet[.titleFont].uiFont,
                                    numberOfLines: titleNumberOfLines,
                                    textAreaWidth: textAreaWidth,
                                    leadingAccessoryView: titleLeadingAccessoryView,
@@ -342,7 +342,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             subtitleHeight: labelSize(text: subtitle,
                                       attributedText: attributedSubtitle,
                                       isAttributedTextSet: isAttributedSubtitleSet,
-                                      font: subtitleFont ?? UIFont.fluent(layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].fontInfo : tokenSet[.subtitleThreeLinesFont].fontInfo),
+                                      font: subtitleFont ?? (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont),
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -352,7 +352,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             footerHeight: labelSize(text: footer,
                                     attributedText: attributedFooter,
                                     isAttributedTextSet: isAttributedFooterSet,
-                                    font: footerFont ?? UIFont.fluent(tokenSet[.subtitleThreeLinesFont].fontInfo),
+                                    font: footerFont ?? tokenSet[.subtitleThreeLinesFont].uiFont,
                                     numberOfLines: footerNumberOfLines,
                                     textAreaWidth: textAreaWidth,
                                     leadingAccessoryView: footerLeadingAccessoryView,
@@ -496,7 +496,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         var textAreaWidth = Self.labelPreferredWidth(text: title,
                                                      attributedText: attributedTitle,
                                                      isAttributedTextSet: isAttributedTitleSet,
-                                                     font: titleFont ?? UIFont.fluent(tokenSet[.titleFont].fontInfo),
+                                                     font: titleFont ?? tokenSet[.titleFont].uiFont,
                                                      leadingAccessoryView: titleLeadingAccessoryView,
                                                      trailingAccessoryView: titleTrailingAccessoryView,
                                                      labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -505,7 +505,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             let subtitleWidth = Self.labelPreferredWidth(text: subtitle,
                                                          attributedText: attributedSubtitle,
                                                          isAttributedTextSet: isAttributedSubtitleSet,
-                                                         font: subtitleFont ?? UIFont.fluent(layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].fontInfo : tokenSet[.subtitleThreeLinesFont].fontInfo),
+                                                         font: subtitleFont ?? (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont),
                                                          leadingAccessoryView: subtitleLeadingAccessoryView,
                                                          trailingAccessoryView: subtitleTrailingAccessoryView,
                                                          labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -515,7 +515,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                 let footerWidth = Self.labelPreferredWidth(text: footer,
                                                            attributedText: attributedFooter,
                                                            isAttributedTextSet: isAttributedFooterSet,
-                                                           font: footerFont ?? UIFont.fluent(tokenSet[.footerFont].fontInfo),
+                                                           font: footerFont ?? tokenSet[.footerFont].uiFont,
                                                            leadingAccessoryView: footerLeadingAccessoryView,
                                                            trailingAccessoryView: footerTrailingAccessoryView,
                                                            labelAccessoryViewMarginTrailing: labelAccessoryViewMarginTrailing,
@@ -648,7 +648,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let customAccessoryViewAreaWidth: CGFloat
         if let customAccessoryView = customAccessoryView {
             // Trigger layout so we can have the frame calculated correctly at this point in time
-            customAccessoryView.layoutIfNeeded()
+            customAccessoryView.sizeToFit()
             customAccessoryViewAreaWidth = customAccessoryView.frame.width + customAccessoryViewMarginLeading
         } else {
             customAccessoryViewAreaWidth = 0
@@ -865,7 +865,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         let unreadDotSize = TableViewCellTokenSet.unreadDotDimensions
         unreadDotLayer.bounds.size = CGSize(width: unreadDotSize, height: unreadDotSize)
         unreadDotLayer.cornerRadius = unreadDotSize / 2
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.booleanCellBrandColor].dynamicColor).cgColor
+        unreadDotLayer.backgroundColor = tokenSet[.booleanCellBrandColor].uiColor.cgColor
         return unreadDotLayer
     }()
 
@@ -1209,13 +1209,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
     private func updateFonts() {
         if !isAttributedTitleSet {
-            titleLabel.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+            titleLabel.font = tokenSet[.titleFont].uiFont
         }
         if !isAttributedSubtitleSet {
-            subtitleLabel.font = UIFont.fluent(layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].fontInfo : tokenSet[.subtitleThreeLinesFont].fontInfo)
+            subtitleLabel.font = (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont)
         }
         if !isAttributedFooterSet {
-            footerLabel.font = UIFont.fluent(tokenSet[.footerFont].fontInfo)
+            footerLabel.font = tokenSet[.footerFont].uiFont
         }
     }
 
@@ -1446,13 +1446,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     public func updateTextColors() {
         if !isUsingCustomTextColors {
             if !isAttributedTitleSet {
-                titleLabel.textColor = UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+                titleLabel.textColor = tokenSet[.titleColor].uiColor
             }
             if !isAttributedSubtitleSet {
-                subtitleLabel.textColor = UIColor(dynamicColor: tokenSet[.subtitleColor].dynamicColor)
+                subtitleLabel.textColor = tokenSet[.subtitleColor].uiColor
             }
             if !isAttributedFooterSet {
-                footerLabel.textColor = UIColor(dynamicColor: tokenSet[.footerColor].dynamicColor)
+                footerLabel.textColor = tokenSet[.footerColor].uiColor
             }
         }
     }
@@ -1875,7 +1875,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         if backgroundStyleType != .custom {
             // Customize the background color to use the tint color when the cell is highlighted or selected.
             if state.isHighlighted || state.isSelected || state.isFocused {
-                backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: tokenSet[.cellBackgroundSelectedColor].dynamicColor)
+                backgroundConfiguration?.backgroundColor = tokenSet[.cellBackgroundSelectedColor].uiColor
             } else {
                 backgroundConfiguration?.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
             }
@@ -1962,8 +1962,8 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.brandTextColor].dynamicColor : tokenSet[.selectionIndicatorOffColor].dynamicColor)
-        unreadDotLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).cgColor
+        selectionImageView.tintColor = isSelected ? tokenSet[.brandTextColor].uiColor : tokenSet[.selectionIndicatorOffColor].uiColor
+        unreadDotLayer.backgroundColor = tokenSet[.brandTextColor].uiColor.cgColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

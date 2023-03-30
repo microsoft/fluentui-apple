@@ -35,7 +35,7 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
 
         super.init(frame: frame)
 
-        monthLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
+        monthLabel.font = fluentTheme.typography(.caption2)
         updateMonthLabelColor()
         contentView.addSubview(monthLabel)
     }
@@ -46,7 +46,7 @@ class CalendarViewDayMonthCell: CalendarViewDayCell {
     }
 
     private func updateMonthLabelColor() {
-        monthLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        monthLabel.textColor = fluentTheme.color(.foreground2)
     }
 
     required init?(coder aDecoder: NSCoder) {

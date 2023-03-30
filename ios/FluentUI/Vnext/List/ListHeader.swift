@@ -18,7 +18,7 @@ struct Header: View, TokenizedControlView {
     var body: some View {
         let backgroundColor: Color = {
             guard let stateBackgroundColor = state.backgroundColor else {
-                return Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                return Color(tokenSet[.backgroundColor].uiColor)
             }
             return Color(stateBackgroundColor)
         }()
@@ -26,8 +26,8 @@ struct Header: View, TokenizedControlView {
         HStack(spacing: 0) {
             if let title = state.title, !title.isEmpty {
                 Text(title)
-                    .font(.fluent(tokenSet[.textFont].fontInfo))
-                    .foregroundColor(Color(dynamicColor: tokenSet[.textColor].dynamicColor))
+                    .font(.init(tokenSet[.textFont].uiFont))
+                    .foregroundColor(Color(tokenSet[.textColor].uiColor))
             }
             Spacer()
         }

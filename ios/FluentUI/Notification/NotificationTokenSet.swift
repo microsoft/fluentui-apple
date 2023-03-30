@@ -108,57 +108,57 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandBackgroundTint]
+                        return theme.color(.brandBackgroundTint)
                     case .neutralToast:
-                        return theme.aliasTokens.colors[.background4]
+                        return theme.color(.background4)
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.colors[.background1]
+                        return theme.color(.background1)
                     case .neutralBar:
-                        return theme.aliasTokens.colors[.background5]
+                        return theme.color(.background5)
                     case .dangerToast:
-                        return theme.aliasTokens.colors[.dangerBackground1]
+                        return theme.color(.dangerBackground1)
                     case .warningToast:
-                        return theme.aliasTokens.colors[.warningBackground1]
+                        return theme.color(.warningBackground1)
                     }
                 }
 
             case .foregroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandForegroundTint]
+                        return theme.color(.brandForegroundTint)
                     case .neutralToast,
                             .neutralBar:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .dangerToast:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     case .warningToast:
-                        return theme.aliasTokens.colors[.warningForeground1]
+                        return theme.color(.warningForeground1)
                     }
                 }
 
             case .imageColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.aliasTokens.colors[.brandForegroundTint]
+                        return theme.color(.brandForegroundTint)
                     case .neutralToast,
                             .neutralBar:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .dangerToast:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     case .warningToast:
-                        return theme.aliasTokens.colors[.warningForeground1]
+                        return theme.color(.warningForeground1)
                     }
                 }
 
@@ -192,12 +192,12 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 return .float { 52.0 }
 
             case .outlineColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
-                        return DynamicColor(light: ColorValue.clear)
+                        return .clear
                     case .primaryOutlineBar:
-                        return theme.aliasTokens.colors[.stroke2]
+                        return theme.color(.stroke2)
                     }
                 }
 
@@ -207,17 +207,17 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
             case .shadow:
                 return .shadowInfo {
                     if style().isToast {
-                        return theme.aliasTokens.shadow[.shadow16]
+                        return theme.shadow(.shadow16)
                     } else {
-                        return theme.aliasTokens.shadow[.clear]
+                        return theme.shadow(.clear)
                     }
                 }
 
             case .boldTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.body2Strong] }
+                return .uiFont { theme.typography(.body2Strong) }
 
             case .regularTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .uiFont { theme.typography(.body2) }
             }
         }
     }

@@ -21,7 +21,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         let markLayer = CALayer()
         markLayer.bounds.size = Constants.markSize
         markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.markColor].dynamicColor).cgColor
+        markLayer.backgroundColor = tokenSet[.markColor].uiColor.cgColor
         return markLayer
     }()
 
@@ -32,6 +32,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
+        updateMarkLayerBackgroundColor()
         updateColors()
         layer.addSublayer(markLayer)
 
@@ -47,6 +48,11 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
                 self?.updateColors()
             }
         }
+        updateMarkLayerBackgroundColor()
+   }
+
+    private func updateMarkLayerBackgroundColor() {
+        markLayer.backgroundColor = fluentTheme.color(.strokeAccessible).cgColor
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -79,8 +85,8 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        markLayer.backgroundColor = UIColor(dynamicColor: tokenSet[.markColor].dynamicColor).cgColor
-        backgroundColor = customBackgroundColor ?? UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        markLayer.backgroundColor = tokenSet[.markColor].uiColor.cgColor
+        backgroundColor = customBackgroundColor ?? tokenSet[.backgroundColor].uiColor
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

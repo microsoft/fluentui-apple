@@ -172,7 +172,7 @@ class TableViewCellSampleData: TableViewSampleData {
         stackView.axis = .vertical
 
         let label = Label(style: .caption1)
-        label.textColor = UIColor(dynamicColor: stackView.fluentTheme.aliasTokens.colors[.foreground3])
+        label.textColor = stackView.fluentTheme.color(.foreground3)
         label.text = text
         stackView.addArrangedSubview(label)
 
@@ -189,7 +189,7 @@ class TableViewCellSampleData: TableViewSampleData {
 
         if withBorder {
             container.layer.borderWidth = 0.5
-            container.layer.borderColor = UIColor(dynamicColor: stackView.fluentTheme.aliasTokens.colors[.foreground3]).cgColor
+            container.layer.borderColor = stackView.fluentTheme.color(.foreground3).cgColor
             container.layer.cornerRadius = 3
         }
 

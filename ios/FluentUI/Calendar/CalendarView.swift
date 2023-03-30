@@ -68,7 +68,7 @@ class CalendarView: UIView {
     }
 
     private func updateCollectionViewBackgroundColor() {
-        collectionView.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background2])
+        collectionView.backgroundColor = fluentTheme.color(.background2)
     }
 
     required init?(coder aDecoder: NSCoder) {

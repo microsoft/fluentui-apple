@@ -12,83 +12,48 @@ import UIKit
 @objc(MSFColorProviding)
 public protocol ColorProviding {
     /// If this protocol is not conformed to, communicationBlue variants will be used
-    @objc func brandBackground1(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground1Pressed(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground1Selected(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground2(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground2Pressed(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground2Selected(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackground3(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackgroundTint(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandBackgroundDisabled(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForeground1(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForeground1Pressed(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForeground1Selected(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForegroundTint(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForegroundDisabled1(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandForegroundDisabled2(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandStroke1(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandStroke1Pressed(for themeable: FluentThemeable) -> UIColor?
-    @objc func brandStroke1Selected(for themeable: FluentThemeable) -> UIColor?
+    @objc var brandBackground1: UIColor { get }
+    @objc var brandBackground1Pressed: UIColor { get }
+    @objc var brandBackground1Selected: UIColor { get }
+    @objc var brandBackground2: UIColor { get }
+    @objc var brandBackground2Pressed: UIColor { get }
+    @objc var brandBackground2Selected: UIColor { get }
+    @objc var brandBackground3: UIColor { get }
+    @objc var brandBackgroundTint: UIColor { get }
+    @objc var brandBackgroundDisabled: UIColor { get }
+    @objc var brandForeground1: UIColor { get }
+    @objc var brandForeground1Pressed: UIColor { get }
+    @objc var brandForeground1Selected: UIColor { get }
+    @objc var brandForegroundTint: UIColor { get }
+    @objc var brandForegroundDisabled1: UIColor { get }
+    @objc var brandForegroundDisabled2: UIColor { get }
+    @objc var brandStroke1: UIColor { get }
+    @objc var brandStroke1Pressed: UIColor { get }
+    @objc var brandStroke1Selected: UIColor { get }
 }
 
-private func brandColorOverrides(provider: ColorProviding,
-                                 for themeable: FluentThemeable) -> [AliasTokens.ColorsTokens: DynamicColor] {
-    var brandColors: [AliasTokens.ColorsTokens: DynamicColor] = [:]
-    if let brandBackground1 = provider.brandBackground1(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground1] = brandBackground1
-    }
-    if let brandBackground1Pressed = provider.brandBackground1Pressed(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground1Pressed] = brandBackground1Pressed
-    }
-    if let brandBackground1Selected = provider.brandBackground1Selected(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground1Selected] = brandBackground1Selected
-    }
-    if let brandBackground2 = provider.brandBackground2(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground2] = brandBackground2
-    }
-    if let brandBackground2Pressed = provider.brandBackground2Pressed(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground2Pressed] = brandBackground2Pressed
-    }
-    if let brandBackground2Selected = provider.brandBackground2Selected(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground2Selected] = brandBackground2Selected
-    }
-    if let brandBackground3 = provider.brandBackground3(for: themeable)?.dynamicColor {
-        brandColors[.brandBackground3] = brandBackground3
-    }
-    if let brandBackgroundTint = provider.brandBackgroundTint(for: themeable)?.dynamicColor {
-        brandColors[.brandBackgroundTint] = brandBackgroundTint
-    }
-    if let brandBackgroundDisabled = provider.brandBackgroundDisabled(for: themeable)?.dynamicColor {
-        brandColors[.brandBackgroundDisabled] = brandBackgroundDisabled
-    }
-    if let brandForeground1 = provider.brandForeground1(for: themeable)?.dynamicColor {
-        brandColors[.brandForeground1] = brandForeground1
-    }
-    if let brandForeground1Pressed = provider.brandForeground1Pressed(for: themeable)?.dynamicColor {
-        brandColors[.brandForeground1Pressed] = brandForeground1Pressed
-    }
-    if let brandForeground1Selected = provider.brandForeground1Selected(for: themeable)?.dynamicColor {
-        brandColors[.brandForeground1Selected] = brandForeground1Selected
-    }
-    if let brandForegroundTint = provider.brandForegroundTint(for: themeable)?.dynamicColor {
-        brandColors[.brandForegroundTint] = brandForegroundTint
-    }
-    if let brandForegroundDisabled1 = provider.brandForegroundDisabled1(for: themeable)?.dynamicColor {
-        brandColors[.brandForegroundDisabled1] = brandForegroundDisabled1
-    }
-    if let brandForegroundDisabled2 = provider.brandForegroundDisabled2(for: themeable)?.dynamicColor {
-        brandColors[.brandForegroundDisabled2] = brandForegroundDisabled2
-    }
-    if let brandStroke1 = provider.brandStroke1(for: themeable)?.dynamicColor {
-        brandColors[.brandStroke1] = brandStroke1
-    }
-    if let brandStroke1Pressed = provider.brandStroke1Pressed(for: themeable)?.dynamicColor {
-        brandColors[.brandStroke1Pressed] = brandStroke1Pressed
-    }
-    if let brandStroke1Selected = provider.brandStroke1Selected(for: themeable)?.dynamicColor {
-        brandColors[.brandStroke1Selected] = brandStroke1Selected
-    }
+private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: UIColor] {
+    var brandColors: [FluentTheme.ColorToken: UIColor] = [:]
+
+    brandColors[.brandBackground1] = provider.brandBackground1
+    brandColors[.brandBackground1Pressed] = provider.brandBackground1Pressed
+    brandColors[.brandBackground1Selected] = provider.brandBackground1Selected
+    brandColors[.brandBackground2] = provider.brandBackground2
+    brandColors[.brandBackground2Pressed] = provider.brandBackground2Pressed
+    brandColors[.brandBackground2Selected] = provider.brandBackground2Selected
+    brandColors[.brandBackground3] = provider.brandBackground3
+    brandColors[.brandBackgroundTint] = provider.brandBackgroundTint
+    brandColors[.brandBackgroundDisabled] = provider.brandBackgroundDisabled
+    brandColors[.brandForeground1] = provider.brandForeground1
+    brandColors[.brandForeground1Pressed] = provider.brandForeground1Pressed
+    brandColors[.brandForeground1Selected] = provider.brandForeground1Selected
+    brandColors[.brandForegroundTint] = provider.brandForegroundTint
+    brandColors[.brandForegroundDisabled1] = provider.brandForegroundDisabled1
+    brandColors[.brandForegroundDisabled2] = provider.brandForegroundDisabled2
+    brandColors[.brandStroke1] = provider.brandStroke1
+    brandColors[.brandStroke1Pressed] = provider.brandStroke1Pressed
+    brandColors[.brandStroke1Selected] = provider.brandStroke1Selected
+
     return brandColors
 }
 
@@ -102,7 +67,7 @@ private func brandColorOverrides(provider: ColorProviding,
     @objc(setColorProvider:)
     func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well
-        let brandColors = brandColorOverrides(provider: provider, for: self)
+        let brandColors = brandColorOverrides(provider: provider)
         let fluentTheme = FluentTheme(colorOverrides: brandColors)
         self.fluentTheme = fluentTheme
     }

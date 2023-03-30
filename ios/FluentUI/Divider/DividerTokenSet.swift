@@ -37,7 +37,7 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
                 }
 
             case .color:
-                return .dynamicColor { theme.aliasTokens.colors[.stroke2] }
+                return .uiColor { theme.color(.stroke2) }
             }
         }
     }

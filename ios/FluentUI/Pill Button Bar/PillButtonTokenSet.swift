@@ -47,59 +47,59 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.color(.background5).light,
-                                            dark: theme.color(.background3).dark,
-                                            darkElevated: theme.color(.background5).darkElevated)
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background3).dark,
+                                       darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.brandBackground2).light,
-                                            dark: theme.color(.background3).dark,
-                                            darkElevated: theme.color(.background5).darkElevated)
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background3).dark,
+                                       darkElevated: theme.color(.background5).darkElevated)
                     }
                 }
 
             case .backgroundColorDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.color(.background5).light,
-                                            dark: theme.color(.background3).dark,
-                                            darkElevated: theme.color(.background5).darkElevated)
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background3).dark,
+                                       darkElevated: theme.color(.background5).darkElevated)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.brandBackground2).light,
-                                            dark: theme.color(.background3).dark,
-                                            darkElevated: theme.color(.background5).darkElevated)
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background3).dark,
+                                       darkElevated: theme.color(.background5).darkElevated)
                     }
                 }
 
             case .backgroundColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.brandBackground1)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.background1).light,
-                                            dark: theme.color(.background3Selected).dark,
-                                            darkElevated: theme.color(.background5Selected).darkElevated)
+                        return UIColor(light: theme.color(.background1).light,
+                                       dark: theme.color(.background3Selected).dark,
+                                       darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
             case .backgroundColorSelectedDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.background1).light,
-                                            dark: theme.color(.background3Selected).dark,
-                                            darkElevated: theme.color(.background5Selected).darkElevated)
+                        return UIColor(light: theme.color(.background1).light,
+                                       dark: theme.color(.background3Selected).dark,
+                                       darkElevated: theme.color(.background5Selected).darkElevated)
                     }
                 }
 
             case .disabledUnreadDotColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.foregroundDisabled1)
@@ -109,65 +109,65 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonTokenSet.Tokens> {
                 }
 
             case .enabledUnreadDotColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
-                        return DynamicColor(light: theme.color(.brandForeground1).light,
-                                            dark: theme.color(.foreground1).dark)
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
-                                            dark: theme.color(.foreground1).dark)
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground1).dark)
                     }
                 }
 
             case .font:
-                return .fontInfo { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2) }
 
             case .titleColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.foreground2)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.foregroundOnColor).light,
-                                            dark: theme.color(.foreground2).dark,
-                                            darkElevated: theme.color(.foreground2).darkElevated)
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground2).dark,
+                                       darkElevated: theme.color(.foreground2).darkElevated)
                     }
                 }
 
             case .titleColorDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.brandForegroundDisabled1).light,
-                                            dark: theme.color(.foregroundDisabled1).dark,
-                                            darkElevated: theme.color(.foregroundDisabled1).darkElevated)
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark,
+                                       darkElevated: theme.color(.foregroundDisabled1).darkElevated)
                     }
                 }
 
             case .titleColorSelected:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.foregroundOnColor)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.brandForeground1).light,
-                                            dark: theme.color(.foreground1).dark,
-                                            darkElevated: theme.color(.foreground1).darkElevated)
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark,
+                                       darkElevated: theme.color(.foreground1).darkElevated)
                     }
                 }
 
             case .titleColorSelectedDisabled:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
                     case .primary:
                         return theme.color(.brandForegroundDisabled1)
                     case .onBrand:
-                        return DynamicColor(light: theme.color(.brandForegroundDisabled2).light,
-                                            dark: theme.color(.foregroundDisabled2).dark,
-                                            darkElevated: theme.color(.foregroundDisabled2).darkElevated)
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark,
+                                       darkElevated: theme.color(.foregroundDisabled2).darkElevated)
                     }
                 }
             }

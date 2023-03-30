@@ -10,6 +10,13 @@ import UIKit
 /// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
+            return
+        }
+
+        focusRing.isHidden = !isFocused
+    }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
@@ -42,6 +49,8 @@ open class PillButton: UIButton, TokenizedControlInternal {
             self?.updateAppearance()
         }
     }
+
+    lazy var titleFont: UIFont = PillButton.titleFont(for: tokenSet.fluentTheme)
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -85,9 +94,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     public var tokenSet: PillButtonTokenSet
 
-    lazy var unreadDotColor: UIColor = {
-        UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
-    }()
+    lazy var unreadDotColor: UIColor = { tokenSet[.enabledUnreadDotColor].uiColor }()
 
     private func setupView() {
         if #available(iOS 15.0, *) {
@@ -108,7 +115,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         } else {
             setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+            titleLabel?.font = titleFont
 
             contentEdgeInsets = UIEdgeInsets(top: PillButtonTokenSet.topInset,
                                              left: PillButtonTokenSet.horizontalInset,
@@ -172,12 +179,12 @@ open class PillButton: UIButton, TokenizedControlInternal {
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)
-        attributedTitle.font = UIFont.fluent(tokenSet[.font].fontInfo, shouldScale: false)
+        attributedTitle.font = titleFont
         configuration?.attributedTitle = attributedTitle
 
         let attributedTitleTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont.fluent(self.tokenSet[.font].fontInfo, shouldScale: false)
+            outgoing.font = self.titleFont
             return outgoing
         }
         configuration?.titleTextAttributesTransformer = attributedTitleTransformer
@@ -225,37 +232,37 @@ open class PillButton: UIButton, TokenizedControlInternal {
 
         if isSelected {
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelected].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorSelected].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorSelected].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelected].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColorSelected].uiColor, for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorSelectedDisabled].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorSelectedDisabled].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorSelectedDisabled].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorSelectedDisabled].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColorSelectedDisabled].uiColor, for: .normal)
                 }
             }
         } else {
             unreadDotColor = isEnabled
-                        ? UIColor(dynamicColor: tokenSet[.enabledUnreadDotColor].dynamicColor)
-                        : UIColor(dynamicColor: tokenSet[.disabledUnreadDotColor].dynamicColor)
+                        ? tokenSet[.enabledUnreadDotColor].uiColor
+                        : tokenSet[.disabledUnreadDotColor].uiColor
             if isEnabled {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColor].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColor].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColor].dynamicColor), for: .normal)
+                    setTitleColor(tokenSet[.titleColor].uiColor, for: .normal)
                 }
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.backgroundColorDisabled].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.backgroundColorDisabled].uiColor
                 if #available(iOS 15.0, *) {
-                    resolvedTitleColor = UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor)
+                    resolvedTitleColor = tokenSet[.titleColorDisabled].uiColor
                 } else {
-                    setTitleColor(UIColor(dynamicColor: tokenSet[.titleColorDisabled].dynamicColor), for: .disabled)
+                    setTitleColor(tokenSet[.titleColorDisabled].uiColor, for: .disabled)
                 }
             }
         }
@@ -267,4 +274,22 @@ open class PillButton: UIButton, TokenizedControlInternal {
             backgroundColor = resolvedBackgroundColor
         }
     }
+
+    private struct Constants {
+        static let bottomInset: CGFloat = 6.0
+        static let horizontalInset: CGFloat = 16.0
+        static let topInset: CGFloat = 6.0
+        static let unreadDotOffset = CGPoint(x: 6.0, y: 3.0)
+        static let unreadDotSize: CGFloat = 6.0
+    }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 }

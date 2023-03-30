@@ -59,30 +59,30 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
         super.init { [style] token, theme in
             switch token {
             case .accentColor:
-                return .dynamicColor {
-                    theme.aliasTokens.colors[.brandForeground1]
+                return .uiColor {
+                    theme.color(.brandForeground1)
                 }
 
             case .backgroundColor:
                 switch style() {
                 case .standard:
-                    return .dynamicColor {
-                        theme.aliasTokens.colors[.backgroundCanvas]
+                    return .uiColor {
+                        theme.color(.backgroundCanvas)
                     }
                 case .outline:
-                    return .dynamicColor {
-                        theme.aliasTokens.colors[.background1]
+                    return .uiColor {
+                        theme.color(.background1)
                     }
             }
 
             case .buttonBackgroundColor:
-                return .dynamicColor {
-                    theme.aliasTokens.colors[.brandBackgroundTint]
+                return .uiColor {
+                    theme.color(.brandBackgroundTint)
                 }
 
             case .buttonForegroundColor:
-                return .dynamicColor {
-                    theme.aliasTokens.colors[.brandForegroundTint]
+                return .uiColor {
+                    theme.color(.brandForegroundTint)
                 }
 
             case .circleRadius:
@@ -98,12 +98,12 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
             case .outlineColor:
                 switch style() {
                 case .standard:
-                    return .dynamicColor {
-                        theme.aliasTokens.colors[.backgroundCanvas]
+                    return .uiColor {
+                        theme.color(.backgroundCanvas)
                     }
                 case .outline:
-                    return .dynamicColor {
-                        theme.aliasTokens.colors[.stroke2]
+                    return .uiColor {
+                        theme.color(.stroke2)
                     }
                 }
 
@@ -113,23 +113,23 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                 }
 
             case .subtitleTextColor:
-                return .dynamicColor {
-                    theme.aliasTokens.colors[.foreground2]
+                return .uiColor {
+                    theme.color(.foreground2)
                 }
 
             case .textColor:
-                return .dynamicColor {
-                    theme.aliasTokens.colors[.foreground1]
+                return .uiColor {
+                    theme.color(.foreground1)
                 }
 
             case .titleFont:
-                return .fontInfo {
-                    theme.aliasTokens.typography[.body2Strong]
+                return .uiFont {
+                    theme.typography(.body2Strong)
                 }
 
             case .subtitleFont:
-                return .fontInfo {
-                    theme.aliasTokens.typography[.caption1]
+                return .uiFont {
+                    theme.typography(.caption1)
                 }
             }
         }
