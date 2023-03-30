@@ -468,10 +468,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     open func initialize() {
         modalPresentationStyle = .custom
         transitioningDelegate = self
-
-        tokenSet.registerOnUpdate(for: view) { [weak self] in
-            self?.updateBackgroundColor()
-        }
     }
 
     private func updateBackgroundColor() {
@@ -517,6 +513,10 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
                 (self.presentationController as? DrawerPresentationController)?.updateContentViewFrame(animated: true)
                 (self.presentationController as? UIPopoverPresentationController)?.preferredContentSizeDidChange(forChildContentContainer: self)
             }
+        }
+
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateBackgroundColor()
         }
     }
 
