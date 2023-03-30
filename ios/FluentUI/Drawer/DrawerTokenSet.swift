@@ -20,8 +20,8 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         /// Color used for the background of the popover style `Drawer` control.
         case popoverContentBackgroundColor
 
-        /// Color used for the background of the `ResizingHandleView` layer
-        case resizingHandleLayerColor
+        /// Color used for the background of the `ResizingHandleView` mark
+        case resizingHandleMarkColor
 
         /// Color used for the background of the `ResizingHandleView`
         case resizingHandleBackgroundColor
@@ -55,7 +55,7 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
                             dark: theme.color(.background4).dark)
                 })
 
-            case .resizingHandleLayerColor:
+            case .resizingHandleMarkColor:
                 return .uiColor({
                     theme.color(.strokeAccessible)
                 })

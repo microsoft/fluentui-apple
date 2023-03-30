@@ -287,7 +287,6 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = view.fluentTheme.color(.background3)
         drawer.contentScrollView = personaListView
     }
 
@@ -462,6 +461,9 @@ extension DrawerDemoController: DemoAppearanceDelegate {
             },
             .shadow: .shadowInfo {
                 self.view.fluentTheme.aliasTokens.shadow[.shadow02]
+            },
+            .resizingHandleMarkColor: .uiColor {
+                .red
             }
         ]
     }

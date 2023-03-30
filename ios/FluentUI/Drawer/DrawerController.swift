@@ -480,6 +480,15 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             color = tokenSet[.drawerContentBackgroundColor].uiColor
         }
         view.backgroundColor = color
+        updateHandleViewColors()
+    }
+
+    private func updateHandleViewColors() {
+        guard let handleViewTokenSet = resizingHandleView?.tokenSet else {
+            return
+        }
+        handleViewTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .resizingHandleMarkColor), forToken: .markColor)
+        handleViewTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .resizingHandleBackgroundColor), forToken: .backgroundColor)
     }
 
     open func willDismiss() {
@@ -753,7 +762,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
            if showsResizingHandle {
                if resizingHandleView == nil {
                    resizingHandleView = ResizingHandleView()
-                   resizingHandleView?.customBackgroundColor = resizingHandleViewBackgroundColor
                }
            } else {
                resizingHandleView = nil
