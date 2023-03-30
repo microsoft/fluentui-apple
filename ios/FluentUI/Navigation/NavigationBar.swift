@@ -474,7 +474,17 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         guard let newWindow else {
             return
         }
+
         tokenSet.update(newWindow.fluentTheme)
+        titleView.tokenSet.update(newWindow.fluentTheme)
+        titleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont,
+            .largeTitleFont: .largeTitleFont
+        ])
+
         updateColors(for: topItem)
     }
 
@@ -827,6 +837,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
 
         let customTitleView = TwoLineTitleView(style: style == .primary ? .primary : .system)
+        customTitleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont
+        ])
         customTitleView.setup(navigationItem: navigationItem)
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion
