@@ -158,8 +158,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private lazy var titleButtonLabel: Label = {
         let label = Label()
         label.lineBreakMode = .byTruncatingTail
-        label.style = .body1Strong
-        label.maxFontSize = fluentTheme.aliasTokens.typography[.body1Strong].size
+        label.tokenSet[.font] = tokenSet[.titleFont]
         label.textAlignment = .center
         return label
     }()
@@ -179,8 +178,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private lazy var subtitleButtonLabel: Label = {
         let label = Label()
         label.lineBreakMode = .byTruncatingMiddle
-        label.style = .caption1
-        label.maxFontSize = fluentTheme.aliasTokens.typography[.caption1].size
+        label.tokenSet[.font] = tokenSet[.subtitleFont]
         return label
     }()
 
@@ -280,14 +278,17 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleButtonLeadingImageView.image = titleImage
         titleButtonLeadingImageView.isHidden = titleImage == nil
 
-        let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
-        titleButtonLabel.maxFontSize = subtitleIsNilOrEmpty ? 0 : fluentTheme.aliasTokens.typography[.body1Strong].size
-
         setupButton(titleButton, label: titleButtonLabel, trailingImageView: titleButtonTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll stretch the title button to adjust the hit area
         // while still only keeping one button active from an accessibility standpoint.
         setupButton(subtitleButton, label: subtitleButtonLabel, trailingImageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+
+        if #available(iOS 15.0, *) {
+            let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
+            minimumContentSizeCategory = .large
+            maximumContentSizeCategory = subtitleIsNilOrEmpty ? .extraExtraLarge : .large
+        }
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
@@ -392,8 +393,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        titleButtonLabel.font = tokenSet[.titleFont].uiFont
-        subtitleButtonLabel.font = tokenSet[.subtitleFont].uiFont
+        titleButtonLabel.tokenSet[.font] = tokenSet[.titleFont]
+        subtitleButtonLabel.tokenSet[.font] = tokenSet[.subtitleFont]
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()

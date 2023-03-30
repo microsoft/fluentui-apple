@@ -948,10 +948,8 @@ extension NavigationControllerDemoController: DemoAppearanceDelegate {
         }
         let fluentTheme = window.fluentTheme
 
-        NSLog("themeWideOverrideDidChange to \(isOverrideEnabled) for window \(window) with theme \(fluentTheme)")
-
         fluentTheme.register(tokenSetType: NavigationBarTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideTokens : nil)
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTokens(fluentTheme) : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
@@ -962,10 +960,24 @@ extension NavigationControllerDemoController: DemoAppearanceDelegate {
         return self.view.window?.fluentTheme.tokens(for: NavigationBarTokenSet.self) != nil
     }
 
-    private var themeWideOverrideTokens: [NavigationBarTokenSet.Tokens: ControlTokenValue] {
+    private func themeWideOverrideTokens(_ theme: FluentTheme) -> [NavigationBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
-            .subtitleColor: .uiColor { GlobalTokens.sharedColor(.red, .primary) }
+            .titleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.green, .primary),
+                        dark: GlobalTokens.sharedColor(.green, .tint30))
+            },
+            .titleFont: .uiFont { theme.typography(.caption1Strong) },
+            .subtitleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.red, .primary),
+                        dark: GlobalTokens.sharedColor(.red, .tint30))
+            },
+            .subtitleFont: .uiFont {
+                theme.typography(.caption2)
+            },
+            .buttonTintColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.orange, .primary),
+                        dark: GlobalTokens.sharedColor(.orange, .tint30))
+            }
         ]
     }
 }
