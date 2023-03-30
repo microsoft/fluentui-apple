@@ -96,8 +96,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
-    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return Style.system.backgroundColor(fluentTheme: fluentTheme)
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
+        return Style.system.backgroundColor(fluentTheme: fluentTheme ?? .shared)
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
