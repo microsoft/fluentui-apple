@@ -632,7 +632,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     private var maximumContentOffset: CGFloat {
-        return (stackView.frame.size.width + 2 * Constants.pillContainerHorizontalInset) - scrollView.frame.size.width
+        return contentInset.leading + stackView.frame.size.width + contentInset.trailing - scrollView.frame.size.width
     }
 }
 
