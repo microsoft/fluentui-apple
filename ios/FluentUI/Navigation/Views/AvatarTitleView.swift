@@ -75,7 +75,6 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     var style: Style = .primary {
         didSet {
             updateAppearance()
-            titleButton.setTitleColor(tokenSet[.titleColor].uiColor, for: .normal)
             twoLineTitleView.currentStyle = style == .primary ? .primary : .system
             avatar?.state.style = style == .primary ? .default : .accent
         }
