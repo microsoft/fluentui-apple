@@ -60,17 +60,6 @@ class MultilineCommandBarDemoController: DemoController {
         return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
     }()
 
-    private func newItem(for command: Command) -> CommandBarItem {
-        switch command {
-        case .heading1, .heading2, .heading3, .paragraph:
-            return CommandBarItem(iconImage: nil, title: command.title, titleFont: command.titleFont)
-        default:
-            return CommandBarItem(
-                iconImage: command.iconImage
-            )
-        }
-    }
-
     enum Command: CaseIterable {
         case heading1
         case heading2
