@@ -21,6 +21,7 @@ public protocol CommandBarDelegate: AnyObject {
 public class CommandBar: UIView, TokenizedControlInternal {
     // Hierarchy:
     //
+    // isScrollable = true
     // commandBarContainerStackView
     // |--leadingCommandGroupsView
     // |--|--buttons
@@ -31,6 +32,18 @@ public class CommandBar: UIView, TokenizedControlInternal {
     // |--|  |  |--subviews
     // |--|  |  |  |--stackView
     // |--|  |  |  |  |--buttons (fill scrollView content)
+    // |--trailingCommandGroupsView
+    // |--|--buttons
+    //
+    // isScrollable = false
+    // commandBarContainerStackView
+    // |--leadingCommandGroupsView
+    // |--|--buttons
+    // |--containerView
+    // |--|--layer.mask -> containerMaskLayer (fill containerView)
+    // |--|--subviews
+    // |--|  |--stackView
+    // |--|  |  |--buttons (fill scrollView content)
     // |--trailingCommandGroupsView
     // |--|--buttons
 
