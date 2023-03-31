@@ -122,6 +122,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     // MARK: Overrides
 
+    public override var intrinsicContentSize: CGSize {
+        .zero
+    }
+
     public override func layoutSubviews() {
         super.layoutSubviews()
 
