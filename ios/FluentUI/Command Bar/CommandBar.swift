@@ -312,8 +312,9 @@ public class CommandBar: UIView, TokenizedControlInternal {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
                 mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor),
                 mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-                mainCommandGroupsView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor)
+                mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
             ]
         } else {
             mainCommandGroupsViewConstraints = [
