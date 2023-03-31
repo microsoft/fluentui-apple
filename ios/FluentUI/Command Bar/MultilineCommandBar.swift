@@ -21,12 +21,12 @@ public class MultilineCommandBar: BottomSheetController {
 
     // MARK: - Public methods
 
-    @objc public init(portraitRows: [MultilineCommandBarRow], landscapeRows: [MultilineCommandBarRow]? = nil) {
-        self.portraitRows = portraitRows
-        if let landscapeRows = landscapeRows {
-            self.landscapeRows = landscapeRows
+    @objc public init(compactRows: [MultilineCommandBarRow], regularRows: [MultilineCommandBarRow]? = nil) {
+        self.compactRows = compactRows
+        if let regularRows = regularRows {
+            self.regularRows = regularRows
         } else {
-            self.landscapeRows = portraitRows
+            self.regularRows = compactRows
         }
 
         rowsStackView = UIStackView()
@@ -37,9 +37,9 @@ public class MultilineCommandBar: BottomSheetController {
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
 
         if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
-            addRows(rows: &self.landscapeRows)
+            addRows(rows: &self.regularRows)
         } else {
-            addRows(rows: &self.portraitRows)
+            addRows(rows: &self.compactRows)
         }
 
         NSLayoutConstraint.activate([
@@ -56,9 +56,9 @@ public class MultilineCommandBar: BottomSheetController {
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             removeRows()
             if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
-                addRows(rows: &self.landscapeRows)
+                addRows(rows: &self.regularRows)
             } else {
-                addRows(rows: &self.portraitRows)
+                addRows(rows: &self.compactRows)
             }
         }
     }
@@ -70,9 +70,9 @@ public class MultilineCommandBar: BottomSheetController {
 
     // MARK: - Private
 
-    private var portraitRows: [MultilineCommandBarRow]
+    private var compactRows: [MultilineCommandBarRow]
 
-    private var landscapeRows: [MultilineCommandBarRow]
+    private var regularRows: [MultilineCommandBarRow]
 
     private var rowsStackView: UIStackView
 

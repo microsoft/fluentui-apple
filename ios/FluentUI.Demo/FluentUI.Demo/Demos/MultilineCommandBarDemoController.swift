@@ -35,7 +35,7 @@ class MultilineCommandBarDemoController: DemoController {
                 )
             }
         }
-        let portraitRows: [MultilineCommandBarRow] = [
+        let compactRows: [MultilineCommandBarRow] = [
             MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
                                                 [commandBarItems[1]],
                                                 [commandBarItems[2]],
@@ -46,7 +46,7 @@ class MultilineCommandBarDemoController: DemoController {
                                                 [commandBarItems[14]]])
         ]
 
-        let landscapeRows: [MultilineCommandBarRow] = [
+        let regularRows: [MultilineCommandBarRow] = [
             MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
                                                 [commandBarItems[1]],
                                                 [commandBarItems[2]],
@@ -57,7 +57,7 @@ class MultilineCommandBarDemoController: DemoController {
                                                 [commandBarItems[14]]])
         ]
 
-        return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
+        return MultilineCommandBar(compactRows: compactRows, regularRows: regularRows)
     }()
 
     enum Command: CaseIterable {
