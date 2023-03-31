@@ -24,100 +24,38 @@ class MultilineCommandBarDemoController: DemoController {
         view.layoutIfNeeded()
     }
 
-    private lazy var multilineCommandBar: MultilineCommandBar = {
-        let portraitCommandRows: [[[Command]]] = [
-            [
-                [
-                    .heading1
-                ],
-                [
-                    .heading2
-                ],
-                [
-                    .heading3
-                ],
-                [
-                    .paragraph
-                ]
-            ],
-            [
-                [
-                    .textBold,
-                    .textItalic,
-                    .textUnderline,
-                    .textStrikethrough
-                ]
-            ],
-            [
-                [
-                    .bulletList,
-                    .numberList,
-                    .checklist,
-                    .link
-                ]
-            ],
-            [
-                [
-                    .arrowUndo,
-                    .arrowRedo
-                ],
-                [
-                    .add
-                ]
-            ]
-        ]
-        let portraitRows: [MultilineCommandBarRow] = portraitCommandRows.map { commandGroups in
-            MultilineCommandBarRow(itemGroups: (commandGroups.map { commandGroup in
-                commandGroup.map { command in
-                    newItem(for: command)
-                }
-            }), isScrollable: commandGroups == portraitCommandRows.first)
+    private var multilineCommandBar: MultilineCommandBar = {
+        let commandBarItems: [CommandBarItem] = Command.allCases.map { command -> CommandBarItem in
+            switch command {
+            case .heading1, .heading2, .heading3, .paragraph:
+                return CommandBarItem(iconImage: nil, title: command.title, titleFont: command.titleFont)
+            default:
+                return CommandBarItem(
+                    iconImage: command.iconImage
+                )
+            }
         }
+        let portraitRows: [MultilineCommandBarRow] = [
+            MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
+                                                [commandBarItems[1]],
+                                                [commandBarItems[2]],
+                                                [commandBarItems[3]]], isScrollable: true),
+            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[4...7])]),
+            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[8...11])]),
+            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[12...13]),
+                                                [commandBarItems[14]]])
+        ]
 
-        let landscapeCommandRows: [[[Command]]] = [
-            [
-                [
-                    .heading1
-                ],
-                [
-                    .heading2
-                ],
-                [
-                    .heading3
-                ],
-                [
-                    .paragraph
-                ]
-            ],
-            [
-                [
-                    .textBold,
-                    .textItalic,
-                    .textUnderline,
-                    .textStrikethrough
-                ],
-                [
-                    .bulletList,
-                    .numberList,
-                    .checklist,
-                    .link
-                ],
-                [
-                    .arrowUndo,
-                    .arrowRedo
-                ],
-                [
-                    .add
-                ]
-            ]
+        let landscapeRows: [MultilineCommandBarRow] = [
+            MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
+                                                [commandBarItems[1]],
+                                                [commandBarItems[2]],
+                                                [commandBarItems[3]]], isScrollable: true),
+            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[4...7]),
+                                                Array(commandBarItems[8...11]),
+                                                Array(commandBarItems[12...13]),
+                                                [commandBarItems[14]]])
         ]
-        let landscapeRows: [MultilineCommandBarRow] = landscapeCommandRows.map { commandGroups in
-            MultilineCommandBarRow(itemGroups: (commandGroups.map { commandGroup in
-                commandGroup.map { command in
-                    newItem(for: command)
-                }
-            }), isScrollable: commandGroups == landscapeCommandRows.first)
-        }
 
         return MultilineCommandBar(portraitRows: portraitRows, landscapeRows: landscapeRows)
     }()
@@ -133,7 +71,7 @@ class MultilineCommandBarDemoController: DemoController {
         }
     }
 
-    enum Command {
+    enum Command: CaseIterable {
         case heading1
         case heading2
         case heading3
