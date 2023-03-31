@@ -229,7 +229,7 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
     private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
             .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
-                                                         dark: GlobalTokens.sharedColor(.plum, .tint60))
+                                                              dark: GlobalTokens.sharedColor(.plum, .tint60))
             }
         ]
     }
@@ -237,7 +237,7 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
     private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
             .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
-                                                         dark: GlobalTokens.sharedColor(.forest, .tint60))
+                                                              dark: GlobalTokens.sharedColor(.forest, .tint60))
             },
             .resizingHandleMarkColor: .uiColor {
                 .red

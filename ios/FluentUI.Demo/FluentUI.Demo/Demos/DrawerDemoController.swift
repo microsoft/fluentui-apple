@@ -448,16 +448,16 @@ extension DrawerDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackgroundColor: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.plum, .shade30),
-                                                                                    dark: GlobalTokens.sharedColors(.plum, .tint60)))
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                              dark: GlobalTokens.sharedColor(.plum, .tint60))
             }
         ]
     }
 
     private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackgroundColor: .uiColor { UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade40),
-                                                                                    dark: GlobalTokens.sharedColors(.forest, .tint60)))
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                              dark: GlobalTokens.sharedColor(.forest, .tint60))
             },
             .shadow: .shadowInfo {
                 self.view.fluentTheme.aliasTokens.shadow[.shadow02]

@@ -243,43 +243,43 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
     private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
             .backgroundColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.steel, .shade30)))
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .tint40),
+                               dark: GlobalTokens.sharedColor(.steel, .shade30))
             },
 
             .backgroundColorSelected: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.pumpkin, .shade30)))
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .shade30))
             },
 
             .backgroundColorDisabled: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.darkTeal, .shade30)))
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .shade30))
             },
 
             .backgroundColorSelectedDisabled: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.orchid, .shade30)))
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
             },
 
             .titleColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.steel, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.steel, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .shade30),
+                               dark: GlobalTokens.sharedColor(.steel, .tint40))
             },
 
             .titleColorSelected: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.pumpkin, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.pumpkin, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .shade30),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40))
             },
 
             .titleColorDisabled: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.darkTeal, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .shade30),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40))
             },
 
             .titleColorSelectedDisabled: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.orchid, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
             },
 
             .font: .uiFont {

@@ -218,16 +218,16 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideTabBarTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
         return [
             .tabBarItemSelectedColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.burgundy, .tint10),
-                                                          lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
-                                                          dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                                                          darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
             },
             .tabBarItemUnselectedColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
-                                                          lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                                                          darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
             }
         ]
     }
@@ -241,16 +241,16 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
                 return UIFont.fluent(FontInfo(size: 15, weight: .bold))
             },
             .tabBarItemSelectedColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.burgundy, .tint10),
-                                                          lightHighContrast: GlobalTokens.sharedColors(.pumpkin, .tint10),
-                                                          dark: GlobalTokens.sharedColors(.darkTeal, .tint40),
-                                                          darkHighContrast: GlobalTokens.sharedColors(.teal, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
             },
             .tabBarItemUnselectedColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.darkTeal, .tint20),
-                                                          lightHighContrast: GlobalTokens.sharedColors(.teal, .tint40),
-                                                          dark: GlobalTokens.sharedColors(.pumpkin, .tint40),
-                                                          darkHighContrast: GlobalTokens.sharedColors(.burgundy, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
             }
         ]
     }
