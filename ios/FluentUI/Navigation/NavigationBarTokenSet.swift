@@ -81,9 +81,9 @@ public class NavigationBarTokenSet: ControlTokenSet<NavigationBarTokenSet.Tokens
 }
 
 public extension NavigationBar {
-    static func backgroundColor(forStyle style: Style, theme: FluentTheme) -> UIColor {
+    static func backgroundColor(forStyle style: Style, theme: FluentTheme?) -> UIColor {
         let tokenSet = TokenSetType { style }
-        tokenSet.fluentTheme = theme
+        tokenSet.fluentTheme = theme ?? .shared
         return tokenSet[.backgroundColor].uiColor
     }
 }
