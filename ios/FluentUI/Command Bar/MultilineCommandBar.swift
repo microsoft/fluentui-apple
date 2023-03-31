@@ -34,7 +34,6 @@ public class MultilineCommandBar: BottomSheetController {
         expandedContentView.addSubview(rowsStackView)
 
         rowsStackView.axis = .vertical
-        rowsStackView.distribution = .equalCentering
         rowsStackView.translatesAutoresizingMaskIntoConstraints = false
 
         if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
