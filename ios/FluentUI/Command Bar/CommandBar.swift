@@ -353,7 +353,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
-    public func updateButtonTokens() {
+    private func updateButtonTokens() {
         leadingCommandGroupsView.updateButtonsShown()
         mainCommandGroupsView.updateButtonsShown()
         trailingCommandGroupsView.updateButtonsShown()
