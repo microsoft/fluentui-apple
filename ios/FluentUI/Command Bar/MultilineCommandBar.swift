@@ -82,10 +82,10 @@ public class MultilineCommandBar: BottomSheetController {
             rowView.isScrollable = row.isScrollable
             rowView.translatesAutoresizingMaskIntoConstraints = false
 
-            if row == rows.first {
-                rowView.tokenSet[.itemBackgroundColorRest] = .dynamicColor {
-                    .init(light: GlobalTokens.neutralColors(.white),
-                          dark: GlobalTokens.neutralColors(.black))
+            if row.isScrollable {
+                rowView.tokenSet[.itemBackgroundColorRest] = .uiColor {
+                    UIColor(light: GlobalTokens.neutralColor(.white),
+                            dark: GlobalTokens.neutralColor(.black))
                 }
             }
             rowsStackView.addArrangedSubview(rowView)
