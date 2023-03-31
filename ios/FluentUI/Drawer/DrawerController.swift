@@ -99,13 +99,13 @@ public protocol DrawerControllerDelegate: AnyObject {
 @objc(MSFDrawerController)
 open class DrawerController: UIViewController {
     @objc public static func drawerBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        return UIColor(light: fluentTheme.color(.background2).light,
+                       dark: fluentTheme.color(.background2).dark)
     }
 
     @objc public static func popoverBackground(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+        return UIColor(light: fluentTheme.color(.background4).light,
+                       dark: fluentTheme.color(.background4).dark)
     }
 
     private struct Constants {
@@ -130,13 +130,13 @@ open class DrawerController: UIViewController {
     }
 
     private func drawerBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background2].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background2].dark))
+        return UIColor(light: fluentTheme.color(.background2).light,
+                       dark: fluentTheme.color(.background2).dark)
     }
 
     private func popoverBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.background4].light,
-                                                  dark: fluentTheme.aliasTokens.colors[.background4].dark))
+        return UIColor(light: fluentTheme.color(.background4).light,
+                       dark: fluentTheme.color(.background4).dark)
     }
 
     /**
@@ -536,7 +536,7 @@ open class DrawerController: UIViewController {
             if presentationController is UIPopoverPresentationController {
                 backgroundColor = popoverBackgroundColor(fluentTheme: view.fluentTheme)
             } else if useNavigationBarBackgroundColor {
-                backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+                backgroundColor = view.fluentTheme.color(.background3)
             } else {
                 backgroundColor = drawerBackgroundColor(fluentTheme: view.fluentTheme)
             }

@@ -16,7 +16,7 @@ import SwiftUI
     ///   - locations: An optional array of values defining the location of each gradient stop. Must be in the range `[0, 1]`.
     ///   - startPoint: The starting point for this gradient. Values should range from 0.0 to 1.0.
     ///   - endPoint: The ending point for this gradient. Values should range from 0.0 to 1.0.
-    public init(colors: [DynamicColor],
+    public init(colors: [UIColor],
                 locations: [CGFloat]? = nil,
                 startPoint: CGPoint,
                 endPoint: CGPoint) {
@@ -27,7 +27,7 @@ import SwiftUI
     }
 
     /// The array of colors to apply to this linear gradient.
-    public let colors: [DynamicColor]
+    public let colors: [UIColor]
 
     /// An optional array of values defining the location of each gradient stop.
     ///
@@ -49,14 +49,14 @@ extension LinearGradient {
         if let locations = gradientInfo.locations {
             // Map the colors and locations together.
             let stops: [Gradient.Stop] = zip(gradientInfo.colors, locations).map({ (color, location) in
-                return Gradient.Stop(color: Color(dynamicColor: color),
+                return Gradient.Stop(color: Color(color),
                                      location: location)
             })
             self.init(stops: stops,
                       startPoint: UnitPoint(x: gradientInfo.startPoint.x, y: gradientInfo.startPoint.y),
                       endPoint: UnitPoint(x: gradientInfo.endPoint.x, y: gradientInfo.endPoint.y))
         } else {
-            self.init(colors: gradientInfo.colors.map({ Color(dynamicColor: $0) }),
+            self.init(colors: gradientInfo.colors.map({ Color($0) }),
                       startPoint: UnitPoint(x: gradientInfo.startPoint.x, y: gradientInfo.startPoint.y),
                       endPoint: UnitPoint(x: gradientInfo.endPoint.x, y: gradientInfo.endPoint.y))
         }

@@ -199,7 +199,7 @@ class NavigationControllerDemoController: DemoController {
         stackView.alignment = .center
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-        button.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
+        button.tintColor = view.fluentTheme.color(.foregroundLightStatic)
         stackView.addArrangedSubview(button)
         return stackView
     }
@@ -545,10 +545,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let view = navigationBar?.barButtonItemView(with: BarButtonItemTag.threeDay.rawValue) else {
             return
         }
+
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
+                            title: nil,
                             for: view,
+                            in: self.navigationController,
                             preferredArrowDirection: .up,
-                            dismissOn: .tapAnywhere)
+                            dismissOn: .tapAnywhere
+        )
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        Tooltip.shared.hide()
     }
 
     @objc private func dismissSelf() {

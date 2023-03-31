@@ -17,7 +17,7 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        let font = UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1])
+        let font = FluentTheme.shared.typography(.body1)
         return max(Constants.verticalPadding * 2 + font.lineHeight, Constants.baseHeight)
     }
 
@@ -39,7 +39,7 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal
 
         textLabel?.textAlignment = .center
         textLabel?.showsLargeContentViewer = true
-        textLabel?.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1])
+        textLabel?.font = fluentTheme.typography(.body1)
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextLabelColor()
@@ -78,6 +78,6 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal
     }
 
     private func updateTextLabelColor() {
-        textLabel?.textColor = emphasized ? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1]) : UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
+        textLabel?.textColor = emphasized ? fluentTheme.color(.brandForeground1) : fluentTheme.color(.foreground2)
     }
 }

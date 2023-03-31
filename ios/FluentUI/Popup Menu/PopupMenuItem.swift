@@ -28,19 +28,19 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
 
     /// `title` color
     @objc public var titleColor: UIColor {
-        get { return customTitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1]) }
+        get { return customTitleColor ?? fluentTheme.color(.foreground1) }
         set { customTitleColor = newValue }
     }
     var customTitleColor: UIColor?
     /// `subtitle` color
     @objc public var subtitleColor: UIColor {
-        get { return customSubtitleColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+        get { return customSubtitleColor ?? fluentTheme.color(.foreground2) }
         set { customSubtitleColor = newValue }
     }
     var customSubtitleColor: UIColor?
     /// `image` tint color if it is rendered as template
     @objc public var imageColor: UIColor {
-        get { return customImageColor ?? UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2]) }
+        get { return customImageColor ?? fluentTheme.color(.foreground2) }
         set { customImageColor = newValue }
     }
     var customImageColor: UIColor?

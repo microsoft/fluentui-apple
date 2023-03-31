@@ -45,9 +45,8 @@
 
     UIView *view = [self view];
     [view addSubview:stack];
-    MSFAliasTokens *aliasTokens = [[view fluentTheme] aliasTokens];
-    MSFDynamicColor *background1 = [aliasTokens aliasColorForToken:MSFColorAliasTokensBackground1];
-    [view setBackgroundColor:[[UIColor alloc] initWithDynamicColor:background1]];
+    UIColor *background1 = [[view fluentTheme] colorForToken:MSFColorTokenBackground1];
+    [view setBackgroundColor:background1];
 
     UILayoutGuide *safeArea = [view safeAreaLayoutGuide];
     [NSLayoutConstraint activateConstraints:@[

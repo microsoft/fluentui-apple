@@ -22,29 +22,29 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         case textColor
     }
 
-    init(style: @escaping () -> AliasTokens.TypographyTokens,
+    init(textStyle: @escaping () -> FluentTheme.TypographyToken,
          colorStyle: @escaping () -> TextColorStyle) {
-        self.style = style
+        self.textStyle = textStyle
         self.colorStyle = colorStyle
         super.init { [colorStyle] token, theme in
             switch token {
             case .font:
-                return .fontInfo {
-                    return theme.aliasTokens.typography[style()]
+                return .uiFont {
+                    return theme.typography(textStyle())
                 }
             case .textColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch colorStyle() {
                     case .regular:
-                        return theme.aliasTokens.colors[.foreground1]
+                        return theme.color(.foreground1)
                     case .secondary:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .white:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white))
+                        return theme.color(.foregroundLightStatic)
                     case .primary:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                        return theme.color(.dangerForeground2)
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
     }
 
     /// Defines the text typography style of the label.
-    var style: () -> AliasTokens.TypographyTokens
+    var textStyle: () -> FluentTheme.TypographyToken
     /// Defines the text color style of the label.
     var colorStyle: () -> TextColorStyle
 }

@@ -153,3 +153,75 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         }
     }
 }
+
+// MARK: DemoAppearanceDelegate
+
+extension SearchBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: SearchBarTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideSearchBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for searchBar in searchBars {
+            searchBar.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideSearchBarTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: SearchBarTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideSearchBarTokens: [SearchBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                                         dark: GlobalTokens.sharedColors(.berry, .tint40)))
+            },
+            .textColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                          dark: GlobalTokens.neutralColors(.grey98)))
+            },
+            .font: .uiFont {
+                return self.view.fluentTheme.typography(.body1Strong)
+            },
+            .progressSpinnerColor: .uiColor {
+                return .green
+            },
+            .activeSearchIconColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                         dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            }
+        ]
+    }
+
+    private var perControlOverrideSearchBarTokens: [SearchBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return self.view.fluentTheme.color(.dangerBackground1)
+            },
+            .textColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            },
+            .cancelButtonColor: .uiColor {
+                return .red
+            },
+            .placeholderColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.berry, .tint40)))
+            },
+            .inactiveSearchIconColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            },
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 12), size: 12)
+            }
+        ]
+    }
+}

@@ -48,7 +48,7 @@ open class ResizingHandleView: UIView {
    }
 
     private func updateMarkLayerBackgroundColor() {
-        markLayer.backgroundColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.strokeAccessible]).cgColor
+        markLayer.backgroundColor = fluentTheme.color(.strokeAccessible).cgColor
     }
 
     public required init?(coder aDecoder: NSCoder) {
