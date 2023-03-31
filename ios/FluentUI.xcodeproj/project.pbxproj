@@ -146,6 +146,7 @@
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
 		6ED5E55126D3D39400D8BE81 /* BadgeLabelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */; };
 		6ED5E55226D3D39400D8BE81 /* UIBarButtonItem+BadgeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */; };
+		6FBFD62629CBB5F1002F3C81 /* SearchBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */; };
 		8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
 		8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
 		8035CADE2638E435007B3FD1 /* CommandingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CADC2638E435007B3FD1 /* CommandingSection.swift */; };
@@ -294,6 +295,7 @@
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
 		6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+BadgeValue.swift"; sourceTree = "<group>"; };
 		6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabelButton.swift; sourceTree = "<group>"; };
+		6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTokenSet.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
 		8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingController.swift; sourceTree = "<group>"; };
@@ -718,6 +720,15 @@
 			path = xcode;
 			sourceTree = "<group>";
 		};
+		6FBFD62429CBB5B9002F3C81 /* SearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				FD41C87E22DD13230086F899 /* SearchBar.swift */,
+				6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */,
+			);
+			path = SearchBar;
+			sourceTree = "<group>";
+		};
 		80B1F6F52628CDEB004DFEE5 /* Bottom Sheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -1135,11 +1146,11 @@
 			children = (
 				FD41C87F22DD13230086F899 /* NavigationController.swift */,
 				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
-				FD41C87E22DD13230086F899 /* SearchBar.swift */,
 				6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */,
+				6FBFD62429CBB5B9002F3C81 /* SearchBar */,
 				FD41C87222DD13230086F899 /* Helpers */,
 				FD41C86F22DD13230086F899 /* Shy Header */,
 				FD41C87922DD13230086F899 /* Views */,
@@ -1483,6 +1494,7 @@
 				EC98E2AD2980C15C00B9DF91 /* FluentTextField.swift in Sources */,
 				5314E0A925F010070099271A /* DrawerTransitionAnimator.swift in Sources */,
 				5314E06525F00EFD0099271A /* CalendarViewDayMonthCell.swift in Sources */,
+				6FBFD62629CBB5F1002F3C81 /* SearchBarTokenSet.swift in Sources */,
 				5314E08B25F00F2D0099271A /* CommandBarItem.swift in Sources */,
 				5314E06225F00EFD0099271A /* CalendarViewDayTodayCell.swift in Sources */,
 				EC98E2B0298D978C00B9DF91 /* FluentTextFieldInternal.swift in Sources */,

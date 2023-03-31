@@ -23,121 +23,6 @@ public protocol SearchBarDelegate: AnyObject {
 /// Drop-in replacement for UISearchBar that allows for more customization
 @objc(MSFSearchBar)
 open class SearchBar: UIView, TokenizedControlInternal {
-    @objc(MSFSearchBarStyle)
-    public enum Style: Int {
-        case lightContent, darkContent
-
-        func backgroundColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.background5)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.brandBackground2).light,
-                               dark: fluentTheme.color(.background5).dark)
-            }
-        }
-
-        func cancelButtonColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground1)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground1).dark)
-            }
-        }
-
-        func clearIconColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground2)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground2).dark)
-            }
-        }
-
-        func placeholderColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground3)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground3).dark)
-            }
-        }
-
-        func searchIconColor(fluentTheme: FluentTheme, isSearching: Bool = false) -> UIColor {
-            let searchBrandColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                           dark: fluentTheme.color(.foreground1).dark)
-            let idleBrandColor = UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                                         dark: fluentTheme.color(.foreground3).dark)
-
-            switch self {
-            case .darkContent:
-                return isSearching ? fluentTheme.color(.foreground1) : fluentTheme.color(.foreground3)
-            case .lightContent:
-                return isSearching ? searchBrandColor : idleBrandColor
-            }
-        }
-
-        func textColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground1)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground1).dark)
-            }
-        }
-
-        func tintColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground3)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground3).dark)
-            }
-        }
-
-        func progressSpinnerColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .darkContent:
-                return fluentTheme.color(.foreground3)
-            case .lightContent:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground3).dark)
-            }
-        }
-    }
-
-    private struct Constants {
-        static let searchTextFieldCornerRadius: CGFloat = 10.0
-        static let searchTextFieldBackgroundHeight: CGFloat = 36.0
-        static let searchIconImageViewDimension: CGFloat = 20
-        static let searchIconInset: CGFloat = 10.0
-        static let searchTextFieldLeadingInset: CGFloat = 10.0
-        static let searchTextFieldVerticalInset: CGFloat = 2
-        static let searchTextFieldInteractionMinWidth: CGFloat = 50
-        static let clearButtonLeadingInset: CGFloat = 10
-        static let clearButtonWidth: CGFloat = 8 + 16 + 8   // padding + image + padding
-        static let clearButtonTrailingInset: CGFloat = 10
-        static let cancelButtonLeadingInset: CGFloat = 8.0
-        static let fontSize: CGFloat = 17
-        static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
-        static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
-
-        static let defaultStyle: Style = .lightContent
-
-        static var searchIconInsettedWidth: CGFloat {
-            searchIconImageViewDimension + searchIconInset
-        }
-        static var clearButtonInsettedWidth: CGFloat {
-            clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
-        }
-    }
-
     @objc open var hidesNavigationBarDuringSearch: Bool = true {
         didSet {
             if oldValue != hidesNavigationBarDuringSearch && isActive {
@@ -150,7 +35,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
     }
 
-    @objc open var cornerRadius: CGFloat = Constants.searchTextFieldCornerRadius {
+    @objc lazy open var cornerRadius: CGFloat = tokenSet[.searchTextFieldCornerRadius].float {
         didSet {
             searchTextField.layer.cornerRadius = cornerRadius
         }
@@ -162,7 +47,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
     }
 
-    @objc open var style: Style = Constants.defaultStyle {
+    @objc open var style: Style = SearchBarTokenSet.defaultStyle {
         didSet {
             updateColorsForStyle()
         }
@@ -175,8 +60,10 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
     weak var navigationController: NavigationController?
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
+    public typealias TokenSetKeyType = SearchBarTokenSet.Tokens
+    public lazy var tokenSet: SearchBarTokenSet = .init(style: { [weak self] in
+        self?.style ?? .lightContent
+    })
 
     // used to hide the cancelButton in non-active states
     private var searchTextFieldBackgroundViewTrailingConstraint: NSLayoutConstraint?
@@ -196,7 +83,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // user interaction point
     private lazy var searchTextField: SearchBarTextField = {
         let textField = SearchBarTextField()
-        textField.font = tokenSet.fluentTheme.typography(.body1).withSize(Constants.fontSize)
         textField.delegate = self
         textField.returnKeyType = .search
         textField.enablesReturnKeyAutomatically = true
@@ -216,8 +102,8 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = style.backgroundColor(fluentTheme: tokenSet.fluentTheme)
-        backgroundView.layer.cornerRadius = Constants.searchTextFieldCornerRadius
+        backgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        backgroundView.layer.cornerRadius = tokenSet[.searchTextFieldCornerRadius].float
         return backgroundView
     }()
 
@@ -240,7 +126,6 @@ open class SearchBar: UIView, TokenizedControlInternal {
     // hidden when the textfield is not active
     private lazy var cancelButton: UIButton = {
         let button = UIButton(type: .system)
-        button.titleLabel?.font = tokenSet.fluentTheme.typography(.body1)
         button.setTitle("Common.Cancel".localized, for: .normal)
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
@@ -293,6 +178,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColorsForStyle()
+            self?.updateFonts()
         }
     }
 
@@ -303,6 +189,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         updateColorsForStyle()
+        updateFonts()
     }
 
     open override var intrinsicContentSize: CGSize {
@@ -310,7 +197,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        return CGSize(width: size.width, height: Constants.searchTextFieldBackgroundHeight)
+        return CGSize(width: size.width, height: SearchBarTokenSet.searchTextFieldBackgroundHeight)
     }
 
     private func startSearch() {
@@ -326,7 +213,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
             // Using delayed async to work around a bug on iOS when it restores responder status for the text field when controller appears (due to navigation controller's pop action) even though text field resigned responder status before a detail controller was pushed
             let isTransitioning = navigationController?.transitionCoordinator != nil
-            DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? Constants.navigationBarTransitionHidingDelay : 0)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + (isTransitioning ? SearchBarTokenSet.navigationBarTransitionHidingDelay : 0)) {
                 self.hideNavigationBar(animated: true)
             }
         }
@@ -366,7 +253,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
             searchTextField.attributedPlaceholder = nil
             return
         }
-        let newAttributes = [NSAttributedString.Key.foregroundColor: style.placeholderColor(fluentTheme: tokenSet.fluentTheme)]
+        let newAttributes = [NSAttributedString.Key.foregroundColor: tokenSet[.placeholderColor].uiColor]
         let attributedPlaceholderText = NSAttributedString(string: newPlaceholder, attributes: newAttributes)
         searchTextField.attributedPlaceholder = attributedPlaceholderText
     }
@@ -386,7 +273,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
         constraints.append(searchTextFieldBackgroundView.leadingAnchor.constraint(equalTo: leadingAnchor))
         constraints.append(searchTextFieldBackgroundView.centerYAnchor.constraint(equalTo: centerYAnchor))
-        constraints.append(searchTextFieldBackgroundView.heightAnchor.constraint(equalToConstant: Constants.searchTextFieldBackgroundHeight))
+        constraints.append(searchTextFieldBackgroundView.heightAnchor.constraint(equalToConstant: SearchBarTokenSet.searchTextFieldBackgroundHeight))
         let searchTextFieldBackgroundViewTrailing = searchTextFieldBackgroundView.trailingAnchor.constraint(equalTo: trailingAnchor)
         searchTextFieldBackgroundViewTrailingConstraint = searchTextFieldBackgroundViewTrailing
         constraints.append(searchTextFieldBackgroundViewTrailing)
@@ -395,8 +282,8 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchTextFieldBackgroundView.addSubview(searchIconImageViewContainerView)
         searchIconImageViewContainerView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(searchIconImageViewContainerView.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.leadingAnchor, constant: Constants.searchIconInset))
-        constraints.append(searchIconImageViewContainerView.widthAnchor.constraint(equalToConstant: Constants.searchIconImageViewDimension))
+        constraints.append(searchIconImageViewContainerView.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.leadingAnchor, constant: SearchBarTokenSet.searchIconInset))
+        constraints.append(searchIconImageViewContainerView.widthAnchor.constraint(equalToConstant: SearchBarTokenSet.searchIconImageViewDimension))
         constraints.append(searchIconImageViewContainerView.heightAnchor.constraint(equalTo: searchIconImageViewContainerView.widthAnchor))
         constraints.append(searchIconImageViewContainerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
@@ -404,8 +291,8 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchIconImageViewContainerView.addSubview(searchIconImageView)
         searchIconImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(searchIconImageView.widthAnchor.constraint(equalToConstant: Constants.searchIconImageViewDimension))
-        constraints.append(searchIconImageView.heightAnchor.constraint(equalToConstant: Constants.searchIconImageViewDimension))
+        constraints.append(searchIconImageView.widthAnchor.constraint(equalToConstant: SearchBarTokenSet.searchIconImageViewDimension))
+        constraints.append(searchIconImageView.heightAnchor.constraint(equalToConstant: SearchBarTokenSet.searchIconImageViewDimension))
         constraints.append(searchIconImageView.centerXAnchor.constraint(equalTo: searchIconImageViewContainerView.centerXAnchor))
         constraints.append(searchIconImageView.centerYAnchor.constraint(equalTo: searchIconImageViewContainerView.centerYAnchor))
 
@@ -414,8 +301,8 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
 
         constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
-        constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * Constants.searchTextFieldVerticalInset))
-        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchTextFieldLeadingInset))
+        constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * SearchBarTokenSet.searchTextFieldVerticalInset))
+        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: SearchBarTokenSet.searchTextFieldLeadingInset))
         textFieldLeadingConstraint = constraints.last
 
         // progressSpinner
@@ -423,18 +310,18 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchTextFieldBackgroundView.addSubview(progressSpinnerView)
         progressSpinnerView.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(progressSpinnerView.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(progressSpinnerView.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: SearchBarTokenSet.clearButtonLeadingInset))
         constraints.append(progressSpinnerView.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
-        constraints.append(progressSpinnerView.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(progressSpinnerView.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * SearchBarTokenSet.clearButtonTrailingInset))
         constraints.append(progressSpinnerView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
         // clearButton
         searchTextFieldBackgroundView.addSubview(clearButton)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(clearButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: Constants.clearButtonLeadingInset))
+        constraints.append(clearButton.leadingAnchor.constraint(equalTo: searchTextField.trailingAnchor, constant: SearchBarTokenSet.clearButtonLeadingInset))
         constraints.append(clearButton.heightAnchor.constraint(equalTo: clearButton.widthAnchor))
-        constraints.append(clearButton.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * Constants.clearButtonTrailingInset))
+        constraints.append(clearButton.trailingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: -1 * SearchBarTokenSet.clearButtonTrailingInset))
         constraints.append(clearButton.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
 
         // cancelButton
@@ -443,7 +330,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         cancelButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         cancelButton.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        constraints.append(cancelButton.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: Constants.cancelButtonLeadingInset))
+        constraints.append(cancelButton.leadingAnchor.constraint(equalTo: searchTextFieldBackgroundView.trailingAnchor, constant: SearchBarTokenSet.cancelButtonLeadingInset))
         constraints.append(cancelButton.centerYAnchor.constraint(equalTo: centerYAnchor))
         let cancelButtonTrailing = cancelButton.trailingAnchor.constraint(equalTo: trailingAnchor)
         cancelButtonTrailingConstraint = cancelButtonTrailing
@@ -460,14 +347,14 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
         searchTextFieldBackgroundView.addSubview(leadingView)
 
-        let leadingViewRenderWidth = searchTextFieldBackgroundView.frame.size.width - Constants.searchIconInsettedWidth - Constants.searchTextFieldLeadingInset - Constants.searchTextFieldInteractionMinWidth - Constants.clearButtonInsettedWidth
+        let leadingViewRenderWidth = searchTextFieldBackgroundView.frame.size.width - SearchBarTokenSet.searchIconInsettedWidth - SearchBarTokenSet.searchTextFieldLeadingInset - SearchBarTokenSet.searchTextFieldInteractionMinWidth - SearchBarTokenSet.clearButtonInsettedWidth
         let leadingViewRenderSize = CGSize(width: leadingViewRenderWidth, height: searchTextFieldBackgroundView.frame.size.height)
         let leadingViewSize = leadingView.sizeThatFits(leadingViewRenderSize)
         leadingView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: Constants.searchIconInset),
-            leadingView.trailingAnchor.constraint(equalTo: searchTextField.leadingAnchor, constant: -Constants.searchTextFieldLeadingInset),
+            leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: SearchBarTokenSet.searchIconInset),
+            leadingView.trailingAnchor.constraint(equalTo: searchTextField.leadingAnchor, constant: -SearchBarTokenSet.searchTextFieldLeadingInset),
             leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor),
             leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width),
             leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height)
@@ -475,23 +362,28 @@ open class SearchBar: UIView, TokenizedControlInternal {
     }
 
     private func updateColorsForStyle() {
-        searchTextFieldBackgroundView.backgroundColor = style.backgroundColor(fluentTheme: tokenSet.fluentTheme)
-        searchIconImageView.tintColor = style.searchIconColor(fluentTheme: tokenSet.fluentTheme)
-        searchTextField.textColor = style.textColor(fluentTheme: tokenSet.fluentTheme)
+        searchTextFieldBackgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        searchIconImageView.tintColor = tokenSet[.inactiveSearchIconColor].uiColor
+        searchTextField.textColor = tokenSet[.textColor].uiColor
         // used for cursor or selection handle
-        searchTextField.tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        clearButton.tintColor = style.clearIconColor(fluentTheme: tokenSet.fluentTheme)
-        progressSpinner.state.color = style.progressSpinnerColor(fluentTheme: tokenSet.fluentTheme)
-        cancelButton.setTitleColor(style.cancelButtonColor(fluentTheme: tokenSet.fluentTheme), for: .normal)
+        searchTextField.tintColor = tokenSet[.searchCursorColor].uiColor
+        clearButton.tintColor = tokenSet[.clearIconColor].uiColor
+        progressSpinner.state.color = tokenSet[.progressSpinnerColor].uiColor
+        cancelButton.setTitleColor(tokenSet[.cancelButtonColor].uiColor, for: .normal)
         attributePlaceholderText()
     }
 
+    private func updateFonts() {
+        searchTextField.font = tokenSet[.font].uiFont
+        cancelButton.titleLabel?.font = tokenSet[.font].uiFont
+    }
+
     private func updateSearchingColors() {
-        searchIconImageView.tintColor = style.searchIconColor(fluentTheme: tokenSet.fluentTheme, isSearching: true)
+        searchIconImageView.tintColor = tokenSet[.activeSearchIconColor].uiColor
     }
 
     private func updateRestingColors() {
-        searchIconImageView.tintColor = style.searchIconColor(fluentTheme: tokenSet.fluentTheme)
+        searchIconImageView.tintColor = tokenSet[.inactiveSearchIconColor].uiColor
     }
 
     // MARK: - UIActions
@@ -552,7 +444,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     /// Shows the Cancel button via its layer's alpha property
     /// Also updates the UI to show the Cancel button via autolayout
     private func showCancelButton() {
-        UIView.animate(withDuration: Constants.cancelButtonShowHideAnimationDuration, animations: {
+        UIView.animate(withDuration: SearchBarTokenSet.cancelButtonShowHideAnimationDuration, animations: {
             self.cancelButton.alpha = 1.0
             self.searchTextFieldBackgroundViewTrailingConstraint?.isActive = false
             self.cancelButtonTrailingConstraint?.isActive = true
@@ -564,7 +456,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
     /// Hides the Cancel button via its layer's alpha property
     /// Also updates the UI to hide the Cancel button via autolayout
     private func hideCancelButton() {
-        UIView.animate(withDuration: Constants.cancelButtonShowHideAnimationDuration, animations: {
+        UIView.animate(withDuration: SearchBarTokenSet.cancelButtonShowHideAnimationDuration, animations: {
             self.cancelButton.alpha = 0.0
             self.cancelButtonTrailingConstraint?.isActive = false
             self.searchTextFieldBackgroundViewTrailingConstraint?.isActive = true
