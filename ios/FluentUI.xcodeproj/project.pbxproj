@@ -219,12 +219,11 @@
 		D64D8E12283D798D00D8D7D1 /* SideTabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */; };
 		D6A0124A2810764B00C90535 /* TabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6A012492810764B00C90535 /* TabBarTokenSet.swift */; };
 		D6F4098927470E7F001B80D4 /* PillButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */; };
+		EC04E65829C27359005F8BA0 /* FocusRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04E65729C27359005F8BA0 /* FocusRingView.swift */; };
 		EC0A83E2299711920010ED3E /* HeadsUpDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17327F77EB700B01E0D /* HeadsUpDisplay.swift */; };
 		EC24DBC828BD95980026EF92 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */; };
 		EC24DBCA28BD99860026EF92 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */; };
 		EC27B8662807A63C00A40B9A /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */; };
-		EC04E65829C27359005F8BA0 /* FocusRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC04E65729C27359005F8BA0 /* FocusRingView.swift */; };
-		EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */; };
 		EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D727BF348700FD048D /* MSFAvatar.swift */; };
 		EC5982DA27C703EE00FD048D /* ShapeCutout.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982D927C703ED00FD048D /* ShapeCutout.swift */; };
 		EC5982DC27CEC02100FD048D /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */; };
@@ -440,11 +439,10 @@
 		D64D8E11283D798D00D8D7D1 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6A012492810764B00C90535 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
 		D6F4098827470E7F001B80D4 /* PillButtonTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonTokenSet.swift; sourceTree = "<group>"; };
+		EC04E65729C27359005F8BA0 /* FocusRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRingView.swift; sourceTree = "<group>"; };
 		EC24DBC728BD95980026EF92 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		EC24DBC928BD99860026EF92 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		EC27B8652807A63C00A40B9A /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
-		EC04E65729C27359005F8BA0 /* FocusRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRingView.swift; sourceTree = "<group>"; };
-		EC1C31722923022E00CF052C /* SegmentedControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlTokenSet.swift; sourceTree = "<group>"; };
 		EC5982D727BF348700FD048D /* MSFAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFAvatar.swift; sourceTree = "<group>"; };
 		EC5982D927C703ED00FD048D /* ShapeCutout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeCutout.swift; sourceTree = "<group>"; };
 		EC5982DB27CEC02100FD048D /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
@@ -795,7 +793,7 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
-		536AEF2125F1EC0300A36206 /* Vnext */ = {
+		536AEF2125F1EC0300A36206 /* SwiftUI Experiments */ = {
 			isa = PBXGroup;
 			children = (
 				536AEF2E25F1EC0300A36206 /* Button */,
@@ -803,7 +801,7 @@
 				0AA8741326001F0500D47421 /* Persona */,
 				4B1C06D228B7EB0300A5F941 /* Shimmer */,
 			);
-			path = Vnext;
+			path = "SwiftUI Experiments";
 			sourceTree = "<group>";
 		};
 		536AEF2E25F1EC0300A36206 /* Button */ = {
@@ -1056,7 +1054,7 @@
 				5314DFF325F006060099271A /* TouchForwardingView */,
 				5314DFF825F008870099271A /* TwoLineTitleView */,
 				C0938E42235E8EAF00256251 /* Utilities */,
-				536AEF2125F1EC0300A36206 /* Vnext */,
+				536AEF2125F1EC0300A36206 /* SwiftUI Experiments */,
 				A5CEC17020D996120016922A /* Resources */,
 				A5CEC25720E6A64E0016922A /* Configuration */,
 			);
