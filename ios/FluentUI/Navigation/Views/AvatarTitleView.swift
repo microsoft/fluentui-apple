@@ -5,10 +5,10 @@
 
 import UIKit
 
-// MARK: LargeTitleView
+// MARK: AvatarTitleView
 
 /// Large Header and custom profile button container
-class LargeTitleView: UIView, TwoLineTitleViewDelegate {
+class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
     enum Style: Int {
         case primary
         case system
@@ -218,12 +218,12 @@ class LargeTitleView: UIView, TwoLineTitleViewDelegate {
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        titleButton.addTarget(self, action: #selector(LargeTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
+        titleButton.addTarget(self, action: #selector(AvatarTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
         titleButton.setContentCompressionResistancePriority(.required,
                                                             for: .horizontal)
 
         // tap gesture for entire titleView
-        tapGesture.addTarget(self, action: #selector(LargeTitleView.handleTitleViewTapped(sender:)))
+        tapGesture.addTarget(self, action: #selector(AvatarTitleView.handleTitleViewTapped(sender:)))
         addGestureRecognizer(tapGesture)
 
         titleButton.showsLargeContentViewer = true
