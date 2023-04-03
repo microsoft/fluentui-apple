@@ -97,6 +97,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'CommandBar_ios' do |commandbar_ios|
     commandbar_ios.platform = :ios
+    commandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
     commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     commandbar_ios.source_files = ["ios/FluentUI/Command Bar/**/*.{swift,h}"]
   end
