@@ -17,7 +17,7 @@ public class MultilineCommandBarRow: NSObject {
 }
 
 @objc(MSFMultilineCommandBar)
-public class MultilineCommandBar: BottomSheetController {
+public class MultilineCommandBar: UIViewController {
 
     // MARK: - Public methods
 
@@ -28,26 +28,33 @@ public class MultilineCommandBar: BottomSheetController {
         } else {
             self.regularRows = compactRows
         }
+        super.init(nibName: nil, bundle: nil)
+    }
 
-        rowsStackView = UIStackView()
-        super.init(expandedContentView: UIView())
-        expandedContentView.addSubview(rowsStackView)
+    public override func loadView() {
+        view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
 
-        rowsStackView.axis = .vertical
-        rowsStackView.translatesAutoresizingMaskIntoConstraints = false
+        let sheetController = BottomSheetController(expandedContentView: rowsStackView)
+        addChild(sheetController)
+        view.addSubview(sheetController.view)
+        sheetController.didMove(toParent: self)
 
         if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
             addRows(rows: &self.regularRows)
         } else {
             addRows(rows: &self.compactRows)
         }
+        sheetController.preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
 
         NSLayoutConstraint.activate([
-            rowsStackView.topAnchor.constraint(equalTo: expandedContentView.topAnchor),
-            rowsStackView.leadingAnchor.constraint(equalTo: expandedContentView.leadingAnchor, constant: 16),
-            rowsStackView.trailingAnchor.constraint(equalTo: expandedContentView.trailingAnchor, constant: -16),
-            rowsStackView.bottomAnchor.constraint(equalTo: expandedContentView.bottomAnchor)
+            sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            sheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+
+        bottomSheetController = sheetController
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -60,6 +67,7 @@ public class MultilineCommandBar: BottomSheetController {
             } else {
                 addRows(rows: &self.compactRows)
             }
+            bottomSheetController?.preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         }
     }
 
@@ -70,11 +78,18 @@ public class MultilineCommandBar: BottomSheetController {
 
     // MARK: - Private
 
+    private var rowsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
     private var compactRows: [MultilineCommandBarRow]
 
     private var regularRows: [MultilineCommandBarRow]
 
-    private var rowsStackView: UIStackView
+    private var bottomSheetController: BottomSheetController?
 
     private func addRows(rows: inout [MultilineCommandBarRow]) {
         for row in rows {
@@ -90,7 +105,6 @@ public class MultilineCommandBar: BottomSheetController {
             }
             rowsStackView.addArrangedSubview(rowView)
         }
-        preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
     }
 
     private func removeRows() {
