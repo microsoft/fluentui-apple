@@ -102,8 +102,20 @@ public class MultilineCommandBar: UIViewController {
                     UIColor(light: GlobalTokens.neutralColor(.white),
                             dark: GlobalTokens.neutralColor(.black))
                 }
+                rowsStackView.addArrangedSubview(rowView)
+            } else {
+                let containerView = UIView()
+                containerView.translatesAutoresizingMaskIntoConstraints = false
+                containerView.addSubview(rowView)
+
+                NSLayoutConstraint.activate([
+                    rowView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                    rowView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+                    rowView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                    rowView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+                ])
+                rowsStackView.addArrangedSubview(containerView)
             }
-            rowsStackView.addArrangedSubview(rowView)
         }
     }
 
