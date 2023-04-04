@@ -32,19 +32,25 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     private var searchBars: [SearchBar] = []
 
     let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
+        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "Canvas"),
+                                                        SegmentItem(title: "Hosted"),
+                                                        SegmentItem(title: "Brand")],
                                                 style: .primaryPill)
 
         return segmentedControl
     }()
 
     @objc private func updateSearchbars() {
-        if segmentedControl.selectedSegmentIndex == 1 {
+        if segmentedControl.selectedSegmentIndex == 2 {
             searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
-            updateSearchBarsStyles(to: .canvas)
-        } else {
-            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
             updateSearchBarsStyles(to: .brand)
+        } else if segmentedControl.selectedSegmentIndex == 1 {
+            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .hosted)
+        } else {
+            searchBarsStackView.backgroundColor = UIColor(light: view.fluentTheme.color(.background5).light,
+                                                          dark: view.fluentTheme.color(.background1))
+            updateSearchBarsStyles(to: .canvas)
         }
     }
 
@@ -109,7 +115,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
         let searchBar = SearchBar(frame: .zero)
         searchBar.delegate = self
-        searchBar.style = .brand // we want the opposite as we're not embedded in the header
+        searchBar.style = .canvas
         searchBar.placeholderText = placeholderText
         searchBar.hidesNavigationBarDuringSearch = false
         searchBar.autocorrectionType = autocorrectionType
