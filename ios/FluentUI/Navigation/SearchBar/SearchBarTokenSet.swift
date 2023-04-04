@@ -49,9 +49,11 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .backgroundColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas:
+                        return theme.color(.background3)
+                    case .hosted:
                         return theme.color(.background5)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.brandBackground2).light,
                                        dark: theme.color(.background5).dark)
                     }
@@ -59,9 +61,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .cancelButtonColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground1)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -69,29 +71,31 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .clearIconColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas:
                         return theme.color(.foreground2)
-                    case .lightContent:
+                    case .hosted:
+                        return theme.color(.foreground3)
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
-                                       dark: theme.color(.foreground2).dark)
+                                       dark: theme.color(.foreground3).dark)
                     }
                 })
             case .placeholderColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
-                        return theme.color(.foreground3)
-                    case .lightContent:
+                    case .canvas, .hosted:
+                        return theme.color(.foreground2)
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
-                                       dark: theme.color(.foreground3).dark)
+                                       dark: theme.color(.foreground2).dark)
                     }
                 })
             case .activeSearchIconColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground1)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -99,9 +103,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .inactiveSearchIconColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground3)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -109,9 +113,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .textColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground1)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -119,9 +123,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .searchCursorColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground3)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -129,9 +133,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .progressSpinnerColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent:
+                    case .canvas, .hosted:
                         return theme.color(.foreground3)
-                    case .lightContent:
+                    case .brand:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -166,7 +170,7 @@ extension SearchBarTokenSet {
     static var clearButtonInsettedWidth: CGFloat {
         clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
     }
-    static let defaultStyle: SearchBar.Style = .lightContent
+    static let defaultStyle: SearchBar.Style = .canvas
     static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
     static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 }
@@ -176,7 +180,8 @@ extension SearchBarTokenSet {
 public extension SearchBar {
     @objc(MSFSearchBarStyle)
     enum Style: Int {
-        case lightContent
-        case darkContent
+        case canvas
+        case hosted
+        case brand
     }
 }

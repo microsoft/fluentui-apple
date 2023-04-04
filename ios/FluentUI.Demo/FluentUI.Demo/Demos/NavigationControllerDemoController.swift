@@ -64,11 +64,11 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithSystemStyleAndShyAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .brand), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .brand), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
@@ -76,7 +76,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithShyAccessory() {
-        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .brand), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
@@ -98,11 +98,11 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showWithTopSearchBar() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .brand), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
     @objc func showSearchChangingStyleEverySecond() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
+        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .brand), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
     }
 
     @objc func showLargeTitleWithPillSegment() {
@@ -178,7 +178,7 @@ class NavigationControllerDemoController: DemoController {
         }
     }
 
-    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
+    private func createAccessoryView(with style: SearchBar.Style = .canvas) -> SearchBar {
         let searchBar = SearchBar()
         searchBar.style = style
         searchBar.placeholderText = "Search"
