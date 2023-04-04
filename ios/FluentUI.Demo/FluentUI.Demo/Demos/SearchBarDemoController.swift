@@ -44,7 +44,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
             updateSearchBarsStyles(to: .canvas)
         } else {
             searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
-            updateSearchBarsStyles(to: .hosted)
+            updateSearchBarsStyles(to: .brand)
         }
     }
 

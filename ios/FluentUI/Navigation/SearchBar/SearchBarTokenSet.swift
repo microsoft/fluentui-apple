@@ -170,7 +170,7 @@ extension SearchBarTokenSet {
     static var clearButtonInsettedWidth: CGFloat {
         clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
     }
-    static let defaultStyle: SearchBar.Style = .canvas
+    static let defaultStyle: SearchBar.Style = .brand
     static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
     static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 }
