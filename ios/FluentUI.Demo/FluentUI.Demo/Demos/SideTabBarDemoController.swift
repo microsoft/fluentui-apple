@@ -360,10 +360,10 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
     private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
         return [
             .tabBarItemTitleLabelFontPortrait: .uiFont {
-                return UIFont.fluent(FontInfo(size: 15, weight: .bold))
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             },
             .tabBarItemTitleLabelFontLandscape: .uiFont {
-                return UIFont.fluent(FontInfo(size: 15, weight: .bold))
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             },
             .tabBarItemSelectedColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),

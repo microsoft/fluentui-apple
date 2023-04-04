@@ -235,7 +235,7 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
     private var themeWideOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
         return [
             .font: .uiFont {
-                return UIFont.fluent(FontInfo(name: "Times", size: 15.0, weight: .regular))
+                return UIFont(descriptor: .init(name: "Times", size: 15.0), size: 15.0)
             }
         ]
     }
@@ -283,7 +283,7 @@ extension PillButtonBarDemoController: DemoAppearanceDelegate {
             },
 
             .font: .uiFont {
-                return UIFont.fluent(FontInfo(name: "Papyrus", size: 10.0, weight: .regular))
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             }
         ]
     }
