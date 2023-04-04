@@ -14,10 +14,10 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
         /// Defines the background color of the  of the `TabBarItem` when not selected.
         case tabBarItemUnselectedColor
 
-        /// Font info for the title label when in portrait view
+        /// Font info for the title label when in portrait view.
         case tabBarItemTitleLabelFontPortrait
 
-        /// Font info for the title label when in landscape view
+        /// Font info for the title label when in landscape view.
         case tabBarItemTitleLabelFontLandscape
 
     }
@@ -54,12 +54,12 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
 }
 
 extension TabBarTokenSet {
-    /// The height of the `TabBar` when in portrait view on a phone
+    /// The height of the `TabBar` when in portrait view on a phone.
     static let phonePortraitHeight: CGFloat = 48.0
 
-    /// The height of the `TabBar` when in landscape view on a phone
+    /// The height of the `TabBar` when in landscape view on a phone.
     static let phoneLandscapeHeight: CGFloat = 40.0
 
-    /// The height of the `TabBar` when on a non-phone device
+    /// The height of the `TabBar` when on a non-phone device.
     static let padHeight: CGFloat = 48.0
 }

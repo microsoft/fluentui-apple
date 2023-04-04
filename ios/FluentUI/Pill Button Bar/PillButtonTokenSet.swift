@@ -191,7 +191,7 @@ extension PillButtonTokenSet {
     /// The distance of the unread dot from the top of the content of the `PillButton`.
     static let unreadDotOffsetY: CGFloat = 3.0
 
-    /// The size of the unread dot of the `PillButton`
+    /// The size of the unread dot of the `PillButton`.
     static let unreadDotSize: CGFloat = GlobalTokens.spacing(.size60)
 
     /// The distance of the content from the top of the `PillButton`.

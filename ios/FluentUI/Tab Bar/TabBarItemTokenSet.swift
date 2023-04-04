@@ -8,31 +8,31 @@ import UIKit
 /// Internal design token set for the `TabBarItem`.
 class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
     enum Tokens: TokenSetKey {
-        /// The width of the `BadgeLabel` border
+        /// The width of the `BadgeLabel` border.
         case badgeBorderWidth
 
-        /// The radii of the four corners of the `BadgeLabel`
+        /// The radii of the four corners of the `BadgeLabel`.
         case badgeCornerRadii
 
-        /// The size of the image associated with the `TabBarItem` when the device is in landscape mode
+        /// The size of the image associated with the `TabBarItem` when the device is in landscape mode.
         case landscapeImageSize
 
-        /// The size of the image associated with the `TabBarItem` when the device is in portrait mode
+        /// The size of the image associated with the `TabBarItem` when the device is in portrait mode.
         case portraitImageSize
 
-        /// The size of the image associated with the `TabBarItem` when the device is in portrait mode and has a label
+        /// The size of the image associated with the `TabBarItem` when the device is in portrait mode and has a label.
         case portraitImageWithLabelSize
 
         /// Defines the background color of the  of the `TabBarItem` when selected.
         case selectedColor
 
-        /// Font info for the title label when in portrait view
+        /// Font info for the title label when in portrait view.
         case titleLabelFontPortrait
 
-        /// Font info for the title label when in landscape view
+        /// Font info for the title label when in landscape view.
         case titleLabelFontLandscape
 
-        /// The size of the unread dot
+        /// The size of the unread dot.
         case unreadDotSize
 
         /// Defines the background color of the  of the `TabBarItem` when not selected.
@@ -81,42 +81,42 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 }
 
 extension TabBarItemTokenSet {
-    /// The  height of the `BadgeLabel` associated with this `TabBarItem`
+    /// The  height of the `BadgeLabel` associated with this `TabBarItem`.
     static let badgeHeight: CGFloat = GlobalTokens.spacing(.size160)
 
-    /// The horizontal padding for the `BadgeLabel`
+    /// The horizontal padding for the `BadgeLabel`.
     static let badgeHorizontalPadding: CGFloat = GlobalTokens.spacing(.size100)
 
-    /// The minimum width of the `BadgeLabel` associated with this `TabBarItem`
+    /// The minimum width of the `BadgeLabel` associated with this `TabBarItem`.
     static let badgeMinWidth: CGFloat = GlobalTokens.spacing(.size160)
 
-    /// The vertical offset of the `BadgeLabel` associated with this `TabBarItem` when the device is in portrait mode
+    /// The vertical offset of the `BadgeLabel` associated with this `TabBarItem` when the device is in portrait mode.
     static let badgePortraitTitleVerticalOffset: CGFloat = -GlobalTokens.spacing(.size20)
 
-    /// The vertical offset of the `Badge` associated with this `TabBarItem`
+    /// The vertical offset of the `Badge` associated with this `TabBarItem`.
     static let badgeVerticalOffset: CGFloat = -GlobalTokens.spacing(.size40)
 
-    /// The default maximum width of the `BadgeLabel` associated with this `TabBarItem`, if not otherwise overridden
+    /// The default maximum width of the `BadgeLabel` associated with this `TabBarItem`, if not otherwise overridden.
     static let defaultBadgeMaxWidth: CGFloat = GlobalTokens.spacing(.size360)
 
-    /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is multiple digits
+    /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is multiple digits.
     static let multiDigitBadgeHorizontalOffset: CGFloat = GlobalTokens.spacing(.size120)
 
-    /// The X offset of the unread dot
+    /// The X offset of the unread dot.
     static let unreadDotOffsetX: CGFloat = GlobalTokens.spacing(.size40)
 
-    /// The Y offset of the unread dot
+    /// The Y offset of the unread dot.
     static let unreadDotOffsetY: CGFloat = GlobalTokens.spacing(.size200)
 
-    /// The X offset of the unread dot in portrait mode
+    /// The X offset of the unread dot in portrait mode.
     static let unreadDotPortraitOffsetX: CGFloat = GlobalTokens.spacing(.size60)
 
-    /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is a single digit
+    /// The horizontal offset of the `BadgeLabel` associated with this `TabBarItem` when the bade value is a single digit.
     static let singleDigitBadgeHorizontalOffset: CGFloat = 14.0
 
-    /// The horizontal spacing of the `TabBarItem` within the TabBar
+    /// The horizontal spacing of the `TabBarItem` within the TabBar.
     static let spacingHorizontal: CGFloat = GlobalTokens.spacing(.size80)
 
-    /// The vertical spacing of the `TabBarItem` within the TabBar
+    /// The vertical spacing of the `TabBarItem` within the TabBar.
     static let spacingVertical: CGFloat = 3.0
 }

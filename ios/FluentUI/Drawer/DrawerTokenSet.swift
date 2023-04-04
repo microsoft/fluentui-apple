@@ -20,10 +20,10 @@ public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
         /// Color used for the background of the popover style `Drawer` control.
         case popoverContentBackgroundColor
 
-        /// Color used for the background of the `ResizingHandleView` mark
+        /// Color used for the background of the `ResizingHandleView` mark.
         case resizingHandleMarkColor
 
-        /// Color used for the background of the `ResizingHandleView`
+        /// Color used for the background of the `ResizingHandleView`.
         case resizingHandleBackgroundColor
 
         /// `ShadowInfo` for the shadow used in the `Drawer` control.
