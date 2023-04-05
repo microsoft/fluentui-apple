@@ -22,7 +22,11 @@ public class MultilineCommandBar: UIViewController {
     // MARK: - Public methods
 
     @objc public init(compactRows: [MultilineCommandBarRow], regularRows: [MultilineCommandBarRow]? = nil) {
+        if compactRows.isEmpty {
+            assertionFailure("compactRows can not empty.")
+        }
         self.compactRows = compactRows
+
         if let regularRows = regularRows {
             self.regularRows = regularRows
         } else {
