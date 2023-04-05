@@ -86,7 +86,7 @@ open class CommandingItem: NSObject {
     @objc open var accessibilityIdentifier: String?
 
     /// Applications can use this to keep track of items.
-	@objc public var tag: Int = 0
+    @objc public var tag: Int = 0
 
     /// Indicates whether `isOn` should be toggled automatically before `action` is called.
     @objc public let isToggleable: Bool
