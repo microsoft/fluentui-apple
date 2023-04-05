@@ -13,6 +13,12 @@ class MultilineCommandBarDemoController: DemoController {
         addChild(multilineCommandBar)
         view.addSubview(multilineCommandBar.view)
         multilineCommandBar.didMove(toParent: self)
+        multilineCommandBar.scrollableRowOverrideTokens = [
+            .itemBackgroundColorRest: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                           dark: GlobalTokens.neutralColor(.grey12))
+            }
+        ]
 
         NSLayoutConstraint.activate([
             multilineCommandBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
