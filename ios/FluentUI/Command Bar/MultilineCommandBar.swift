@@ -100,6 +100,10 @@ public class MultilineCommandBar: UIViewController {
 
     private var bottomSheetController: BottomSheetController?
 
+    private struct Constants {
+        static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
+    }
+
     private func addRows(rows: inout [MultilineCommandBarRow]) {
         for row in rows {
             let commandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
@@ -120,9 +124,9 @@ public class MultilineCommandBar: UIViewController {
 
                 NSLayoutConstraint.activate([
                     commandBarRow.topAnchor.constraint(equalTo: containerView.topAnchor),
-                    commandBarRow.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+                    commandBarRow.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constants.horizontalPadding),
                     commandBarRow.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                    commandBarRow.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+                    commandBarRow.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constants.horizontalPadding)
                 ])
                 rowsStackView.addArrangedSubview(containerView)
             }
