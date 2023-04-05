@@ -631,6 +631,9 @@ open class BottomCommandingController: UIViewController {
         itemView.accessibilityTraits.insert(.button)
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
+        if let accessibilityIdentifier = item.accessibilityIdentifier {
+            itemView.accessibilityIdentifier = accessibilityIdentifier
+        }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -665,6 +668,9 @@ open class BottomCommandingController: UIViewController {
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
         cell.backgroundColor = tableViewBackgroundColor
+        if let accessibilityIdentifier = item.accessibilityIdentifier {
+            cell.accessibilityIdentifier = accessibilityIdentifier
+        }
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)

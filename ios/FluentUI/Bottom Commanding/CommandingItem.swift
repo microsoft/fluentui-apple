@@ -82,6 +82,9 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// The accessibility identifier of the command item.
+    @objc open var accessibilityIdentifier: String?
+
     /// Applications can use this to keep track of items.
 	@objc public var tag: Int = 0
 

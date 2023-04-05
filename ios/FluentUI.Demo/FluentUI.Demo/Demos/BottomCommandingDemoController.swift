@@ -58,7 +58,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var badgeCommand: CommandingItem = {
         let badge = BadgeView(dataSource: BadgeViewDataSource(text: "Badge"))
-        let item = CommandingItem(title: "Badge Item ", image: homeImage, action: commandAction)
+        let item = CommandingItem(title: "Badge Item", image: homeImage, action: commandAction)
         item.trailingView = badge
         return item
     }()
