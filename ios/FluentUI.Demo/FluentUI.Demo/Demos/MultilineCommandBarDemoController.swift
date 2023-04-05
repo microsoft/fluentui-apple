@@ -179,7 +179,8 @@ extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        multilineCommandBar.commandBarOverrideTokens = isOverrideEnabled ? perControlOverrideCommandBarTokens : nil
+        multilineCommandBar.scrollableRowOverrideTokens = isOverrideEnabled ? perControlOverrideScrollableCommandBarTokens : nil
+        multilineCommandBar.fixedRowOverrideTokens = isOverrideEnabled ? perControlOverrideFixedCommandBarTokens : nil
     }
 
     func isThemeWideOverrideApplied() -> Bool {
@@ -204,7 +205,28 @@ extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
         ]
     }
 
-    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+    private var perControlOverrideScrollableCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorRest: .uiColor {
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.neutralColor(.grey12))
+            },
+            .itemBackgroundColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemBackgroundColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemIconColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            },
+            .itemIconColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            }
+        ]
+    }
+
+    private var perControlOverrideFixedCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
             .itemBackgroundColorSelected: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
