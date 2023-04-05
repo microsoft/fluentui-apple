@@ -206,7 +206,7 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        let tokens = (isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
+        let tokens = isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil
         tabBarView?.tokenSet.replaceAllOverrides(with: tokens)
     }
 
