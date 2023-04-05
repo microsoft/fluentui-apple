@@ -167,3 +167,57 @@ class MultilineCommandBarDemoController: DemoController {
         }
     }
 }
+
+extension MultilineCommandBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: CommandBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideCommandBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        multilineCommandBar.commandBarOverrideTokens = isOverrideEnabled ? perControlOverrideCommandBarTokens : nil
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: CommandBarTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemBackgroundColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemIconColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            },
+            .itemIconColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            }
+        ]
+    }
+
+    private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .itemBackgroundColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemBackgroundColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint50))
+            },
+            .itemIconColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            },
+            .itemIconColorPressed: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.purple, .tint20))
+            }
+        ]
+    }
+}

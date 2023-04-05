@@ -68,12 +68,19 @@ public class MultilineCommandBar: UIViewController {
                 addRows(rows: &self.compactRows)
             }
             bottomSheetController?.preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            updateCommandBarAppearance()
         }
     }
 
     @available(*, unavailable)
     public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    public var commandBarOverrideTokens: [CommandBarTokenSet.Tokens: ControlTokenValue]? {
+        didSet {
+            updateCommandBarAppearance()
+        }
     }
 
     // MARK: - Private
@@ -89,30 +96,33 @@ public class MultilineCommandBar: UIViewController {
 
     private var regularRows: [MultilineCommandBarRow]
 
+    private var commandBarRows = [CommandBar]()
+
     private var bottomSheetController: BottomSheetController?
 
     private func addRows(rows: inout [MultilineCommandBarRow]) {
         for row in rows {
-            let rowView = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
-            rowView.isScrollable = row.isScrollable
-            rowView.translatesAutoresizingMaskIntoConstraints = false
+            let commandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
+            commandBarRow.isScrollable = row.isScrollable
+            commandBarRow.translatesAutoresizingMaskIntoConstraints = false
+            commandBarRows.append(commandBarRow)
 
             if row.isScrollable {
-                rowView.tokenSet[.itemBackgroundColorRest] = .uiColor {
+                commandBarRow.tokenSet[.itemBackgroundColorRest] = .uiColor {
                     UIColor(light: GlobalTokens.neutralColor(.white),
                             dark: GlobalTokens.neutralColor(.black))
                 }
-                rowsStackView.addArrangedSubview(rowView)
+                rowsStackView.addArrangedSubview(commandBarRow)
             } else {
                 let containerView = UIView()
                 containerView.translatesAutoresizingMaskIntoConstraints = false
-                containerView.addSubview(rowView)
+                containerView.addSubview(commandBarRow)
 
                 NSLayoutConstraint.activate([
-                    rowView.topAnchor.constraint(equalTo: containerView.topAnchor),
-                    rowView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-                    rowView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-                    rowView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
+                    commandBarRow.topAnchor.constraint(equalTo: containerView.topAnchor),
+                    commandBarRow.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+                    commandBarRow.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                    commandBarRow.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16)
                 ])
                 rowsStackView.addArrangedSubview(containerView)
             }
@@ -120,8 +130,14 @@ public class MultilineCommandBar: UIViewController {
     }
 
     private func removeRows() {
-        rowsStackView.subviews.forEach { rowView in
-            rowView.removeFromSuperview()
+        rowsStackView.subviews.forEach { commandBarRow in
+            commandBarRow.removeFromSuperview()
+        }
+    }
+
+    private func updateCommandBarAppearance() {
+        for commandBarRow in commandBarRows {
+            commandBarRow.tokenSet.replaceAllOverrides(with: commandBarOverrideTokens)
         }
     }
 }
