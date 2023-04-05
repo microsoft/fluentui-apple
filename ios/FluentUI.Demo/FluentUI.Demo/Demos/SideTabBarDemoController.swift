@@ -226,6 +226,14 @@ class SideTabBarDemoController: DemoController {
         modifyBadgeNumbers(increment: -1)
     }
 
+    /// Custom presentation logic to let `contentViewController` present the appearance popover.
+    @objc private func showAppearancePopoverLocal(_ sender: AnyObject) {
+        guard let contentViewController = contentViewController else {
+            return
+        }
+        super.showAppearancePopover(sender, presenter: contentViewController)
+    }
+
     private let optionsCellItems: [CellItem] = {
         return [CellItem(title: "Show Avatar View", type: .boolean, action: #selector(toggleAvatarView(_:)), isOn: true),
                 CellItem(title: "Show top item titles", type: .boolean, action: #selector(toggleShowTopItemTitles(_:))),
@@ -234,7 +242,8 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
                 CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
-                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar)),
+                CellItem(title: "Show Appearance Popover", type: .action, action: #selector(showAppearancePopoverLocal(_:)))
         ]
     }()
 }
@@ -307,6 +316,68 @@ extension SideTabBarDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
+    }
+}
+
+// MARK: - SideTabBarDemoController: DemoAppearanceDelegate
+extension SideTabBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = contentViewController?.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: SideTabBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideSideTabBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = (isOverrideEnabled ? perControlOverrideSideTabBarItemTokens : nil)
+        sideTabBar.tokenSet.replaceAllOverrides(with: tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return contentViewController?.view.window?.fluentTheme.tokens(for: SideTabBarTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideSideTabBarTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            }
+        ]
+    }
+
+    private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemTitleLabelFontPortrait: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
+            },
+            .tabBarItemTitleLabelFontLandscape: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
+            },
+            .tabBarItemSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            }
+        ]
     }
 }
 

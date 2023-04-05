@@ -88,7 +88,7 @@ public extension ShadowInfo {
         view.layer.insertSublayer(keyShadow, below: ambientShadow)
     }
 
-    private func initializeShadowLayer(view: UIView, isAmbientShadow: Bool = false) -> CALayer {
+    func initializeShadowLayer(view: UIView, isAmbientShadow: Bool = false) -> CALayer {
         let layer = CALayer()
 
         layer.frame = view.bounds
