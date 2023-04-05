@@ -23,7 +23,7 @@ public class MultilineCommandBar: UIViewController {
 
     @objc public init(compactRows: [MultilineCommandBarRow], regularRows: [MultilineCommandBarRow]? = nil) {
         if compactRows.isEmpty {
-            assertionFailure("compactRows can not empty.")
+            assertionFailure("compactRows can not be empty.")
         }
         self.compactRows = compactRows
 
@@ -45,9 +45,9 @@ public class MultilineCommandBar: UIViewController {
         sheetController.didMove(toParent: self)
 
         if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
-            addRows(rows: &self.regularRows)
+            addRows(rows: self.regularRows)
         } else {
-            addRows(rows: &self.compactRows)
+            addRows(rows: self.compactRows)
         }
         sheetController.preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
 
@@ -67,9 +67,9 @@ public class MultilineCommandBar: UIViewController {
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
             removeRows()
             if traitCollection.horizontalSizeClass == traitCollection.verticalSizeClass {
-                addRows(rows: &self.regularRows)
+                addRows(rows: self.regularRows)
             } else {
-                addRows(rows: &self.compactRows)
+                addRows(rows: self.compactRows)
             }
             bottomSheetController?.preferredExpandedContentHeight = rowsStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
             updateCommandBarAppearance()
@@ -108,7 +108,7 @@ public class MultilineCommandBar: UIViewController {
         static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
     }
 
-    private func addRows(rows: inout [MultilineCommandBarRow]) {
+    private func addRows(rows: [MultilineCommandBarRow]) {
         for row in rows {
             let commandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             commandBarRow.isScrollable = row.isScrollable
