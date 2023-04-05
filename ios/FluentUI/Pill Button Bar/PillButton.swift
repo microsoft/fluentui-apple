@@ -11,6 +11,14 @@ import UIKit
 @objc(MSFPillButton)
 open class PillButton: UIButton, TokenizedControlInternal {
 
+    open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
+            return
+        }
+
+        focusRing.isHidden = !isFocused
+    }
+
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
@@ -217,6 +225,16 @@ open class PillButton: UIButton, TokenizedControlInternal {
             }
         }
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 
     private func updateAppearance() {
         // TODO: Once iOS 14 support is dropped, these should be converted to constants (let) that will be initialized by the logic below.
