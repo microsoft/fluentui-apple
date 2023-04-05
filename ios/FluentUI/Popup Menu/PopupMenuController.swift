@@ -5,8 +5,6 @@
 
 import UIKit
 
-// MARK: - PopupMenuController Colors
-
 /**
  `PopupMenuController` is used to present a popup menu that slides from top or bottom depending on `presentationDirection`. Use `presentationOrigin` to specify the vertical offset (in screen coordinates) from which to show popup menu. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and bottom of the screen for `.up` presentation.
 
@@ -18,9 +16,19 @@ import UIKit
 open class PopupMenuController: DrawerController {
     private struct Constants {
         static let minimumContentWidth: CGFloat = 250
-        static let descriptionHorizontalMargin: CGFloat = 16
-        static let descriptionVerticalMargin: CGFloat = 12
     }
+
+    public typealias TokenSetKeyType = PopupMenuTokenSet.Tokens
+    public typealias TokenSetType = PopupMenuTokenSet
+    public override var tokenSet: DrawerTokenSet {
+        get {
+            return popupTokenSet
+        }
+        set {
+            assertionFailure("PopupMenuController tokens must be set through popupTokenSet")
+        }
+    }
+    public var popupTokenSet: PopupMenuTokenSet = .init()
 
     open override var contentView: UIView? { get { return super.contentView } set { } }
 
@@ -63,13 +71,6 @@ open class PopupMenuController: DrawerController {
             }
         }
         return height
-    }
-
-    /// Set `backgroundColor` to customize background color of controller' view and its tableView
-    open override var backgroundColor: UIColor {
-        didSet {
-            tableView.backgroundColor = backgroundColor
-        }
     }
 
     override var tracksContentHeight: Bool { return false }
@@ -158,10 +159,10 @@ open class PopupMenuController: DrawerController {
         descriptionLabel.fitIntoSuperview(
             usingConstraints: true,
             margins: UIEdgeInsets(
-                top: Constants.descriptionVerticalMargin,
-                left: Constants.descriptionHorizontalMargin,
-                bottom: Constants.descriptionVerticalMargin,
-                right: Constants.descriptionHorizontalMargin
+                top: verticalMargin,
+                left: horizontalMargin,
+                bottom: verticalMargin,
+                right: horizontalMargin
             )
         )
 
@@ -176,6 +177,7 @@ open class PopupMenuController: DrawerController {
                 separator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         }
+
         return view
     }()
     private let descriptionLabel: Label = {
@@ -217,19 +219,10 @@ open class PopupMenuController: DrawerController {
         super.initialize()
         initTableView()
         updateDescriptionLabelColor()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
     }
 
     private func updateDescriptionLabelColor() {
         descriptionLabel.textColor = tableView.fluentTheme.color(.foreground2)
-    }
-
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
-        updateDescriptionLabelColor()
     }
 
     open override func didDismiss() {
