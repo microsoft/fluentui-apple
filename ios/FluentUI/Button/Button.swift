@@ -87,7 +87,7 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: size.width, height: size.height)) ?? .zero
+        var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
         contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
