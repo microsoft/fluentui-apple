@@ -21,10 +21,10 @@ class MultilineCommandBarDemoController: DemoController {
         ]
 
         NSLayoutConstraint.activate([
-            multilineCommandBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            multilineCommandBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             multilineCommandBar.view.topAnchor.constraint(equalTo: view.topAnchor),
-            multilineCommandBar.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            multilineCommandBar.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            multilineCommandBar.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            multilineCommandBar.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
 
         view.layoutIfNeeded()
