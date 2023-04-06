@@ -96,6 +96,9 @@ open class ControlHostingView: UIView {
     }
 
     private let hostingController: UIHostingController = {
+        // We no longer need the workarounds from `FluentUIHostingController` in
+        // iOS 16, but we still need it for 14 and 15. Once we drop 14/15, we
+        // can just delete the entire class.
         if #unavailable(iOS 16) {
             let controller = FluentUIHostingController.init(rootView: AnyView(EmptyView()))
             controller.disableSafeAreaInsets()
