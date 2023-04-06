@@ -15,8 +15,7 @@ open class CalendarConfiguration: NSObject {
         static let endYearsInterval: Int = 10
     }
 
-    // swiftlint:disable:next explicit_type_interface
-    @objc public static let `default` = CalendarConfiguration()
+    @objc public static let `default`: CalendarConfiguration = .init()
 
     /// By default, this is Sunday ('1')
     @objc open var firstWeekday: Int = Calendar.current.firstWeekday
