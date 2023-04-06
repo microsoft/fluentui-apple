@@ -10,7 +10,7 @@ public class MultilineCommandBarRow: NSObject {
     var itemGroups: [CommandBarItemGroup] = []
     var isScrollable: Bool
 
-    public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool = false) {
+    @objc public init(itemGroups: [CommandBarItemGroup], isScrollable: Bool = false) {
         self.itemGroups = itemGroups
         self.isScrollable = isScrollable
     }
