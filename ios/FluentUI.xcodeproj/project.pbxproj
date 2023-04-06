@@ -582,6 +582,14 @@
 			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
+		3AABE97B29DF4CAC00406C6E /* MultilineCommandBar */ = {
+			isa = PBXGroup;
+			children = (
+				3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */,
+			);
+			path = MultilineCommandBar;
+			sourceTree = "<group>";
+		};
 		497DC2D62418585D008D86F8 /* Pill Button Bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -926,6 +934,7 @@
 				B483323121CC71700022B4CC /* HUD */,
 				5314DFF425F0069C0099271A /* IndeterminateProgressBar */,
 				5314DFF025F0042E0099271A /* Label */,
+				3AABE97B29DF4CAC00406C6E /* MultilineCommandBar */,
 				FD41C86D22DD12A20086F899 /* Navigation */,
 				4BA9B8B5279F2940007536F5 /* Notification */,
 				5314DFF925F008F10099271A /* Obscurable */,
@@ -1144,7 +1153,6 @@
 				FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */,
 				94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */,
 				0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */,
-				3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */,
 			);
 			path = "Command Bar";
 			sourceTree = "<group>";

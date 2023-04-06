@@ -97,7 +97,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'CommandBar_ios' do |commandbar_ios|
     commandbar_ios.platform = :ios
-    commandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
     commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     commandbar_ios.source_files = ["ios/FluentUI/Command Bar/**/*.{swift,h}"]
   end
@@ -182,6 +181,14 @@ fi', :execution_position => :before_compile }
     label_ios.platform = :ios
     label_ios.dependency 'MicrosoftFluentUI/Core_ios'
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
+  end
+
+  s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
+    multilinecommandbar_ios.platform = :ios
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/CommandBar_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    multilinecommandbar_ios.source_files = ["ios/FluentUI/MultilineCommandBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Navigation_ios' do |navigation_ios|
