@@ -43,14 +43,14 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     @objc private func updateSearchbars() {
         if segmentedControl.selectedSegmentIndex == 2 {
             searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
-            updateSearchBarsStyles(to: .brand)
+            updateSearchBarsStyles(to: .onBrand)
         } else if segmentedControl.selectedSegmentIndex == 1 {
             searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
-            updateSearchBarsStyles(to: .hosted)
+            updateSearchBarsStyles(to: .onNavigationBar)
         } else {
             searchBarsStackView.backgroundColor = UIColor(light: view.fluentTheme.color(.background5).light,
                                                           dark: view.fluentTheme.color(.background1))
-            updateSearchBarsStyles(to: .canvas)
+            updateSearchBarsStyles(to: .onCanvas)
         }
     }
 
@@ -115,7 +115,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
         let searchBar = SearchBar(frame: .zero)
         searchBar.delegate = self
-        searchBar.style = .canvas
+        searchBar.style = .onCanvas
         searchBar.placeholderText = placeholderText
         searchBar.hidesNavigationBarDuringSearch = false
         searchBar.autocorrectionType = autocorrectionType
