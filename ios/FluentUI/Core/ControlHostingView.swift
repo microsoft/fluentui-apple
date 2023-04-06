@@ -95,7 +95,15 @@ open class ControlHostingView: UIView {
         )
     }
 
-    private let hostingController: UIHostingController = .init(rootView: AnyView(EmptyView()))
+    private let hostingController: UIHostingController = {
+        if #unavailable(iOS 16) {
+            let controller = FluentUIHostingController.init(rootView: AnyView(EmptyView()))
+            controller.disableSafeAreaInsets()
+            return controller
+        } else {
+            return UIHostingController.init(rootView: AnyView(EmptyView()))
+        }
+    }()
     private let controlView: AnyView
     private var themeObserver: NSObjectProtocol?
 }
