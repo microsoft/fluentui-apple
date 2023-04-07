@@ -57,7 +57,7 @@ open class Button: UIButton, TokenizedControlInternal {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
@@ -87,7 +87,7 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? size.width : proposedTitleLabelWidth, height: size.width)) ?? .zero
+        var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
         contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
@@ -149,12 +149,6 @@ open class Button: UIButton, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         update()
-    }
-
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updateProposedTitleLabelWidth()
     }
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
@@ -225,7 +219,7 @@ open class Button: UIButton, TokenizedControlInternal {
             titleLabel?.font = tokenSet[.titleFont].uiFont
         }
 
-        updateProposedTitleLabelWidth()
+        invalidateIntrinsicContentSize()
     }
 
     private func updateImage() {
@@ -252,7 +246,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         if needsSetImage {
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -268,7 +262,7 @@ open class Button: UIButton, TokenizedControlInternal {
             highlightedImageTintColor = nil
             disabledImageTintColor = nil
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -284,19 +278,6 @@ open class Button: UIButton, TokenizedControlInternal {
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
-        }
-    }
-
-    private func updateProposedTitleLabelWidth() {
-        if bounds.width > 0.0 {
-            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
-            if let image = image(for: .normal) {
-                labelWidth -= image.size.width
-            }
-
-            if labelWidth > 0.0 {
-                proposedTitleLabelWidth = labelWidth
-            }
         }
     }
 
@@ -383,13 +364,4 @@ open class Button: UIButton, TokenizedControlInternal {
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
-
-    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
-    private var proposedTitleLabelWidth: CGFloat = 0.0 {
-        didSet {
-            if proposedTitleLabelWidth != oldValue {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
 }
