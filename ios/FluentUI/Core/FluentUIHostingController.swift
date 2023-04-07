@@ -40,6 +40,7 @@ extension UIView {
 }
 
 /// FluentUI specific implementation of the UIHostingController which adds a workaround for disabling safeAreaInsets for its view.
+@available(iOS, deprecated: 16)
 class FluentUIHostingController: UIHostingController<AnyView> {
 
     /// iOS 15.0 fix for UIHostingController that does not automatically resize to hug subviews
