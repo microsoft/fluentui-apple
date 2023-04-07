@@ -151,12 +151,6 @@ open class Button: UIButton, TokenizedControlInternal {
         update()
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        invalidateIntrinsicContentSize()
-    }
-
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
         var rect = CGRect.zero
         if #available(iOS 15, *) {
