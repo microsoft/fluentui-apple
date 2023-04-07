@@ -15,8 +15,8 @@ class MultilineCommandBarDemoController: DemoController {
         multilineCommandBar.didMove(toParent: self)
         multilineCommandBar.scrollableRowOverrideTokens = [
             .itemBackgroundColorRest: .uiColor {
-                return UIColor(light: GlobalTokens.neutralColor(.white),
-                               dark: GlobalTokens.neutralColor(.grey12))
+                return UIColor(light: self.view.fluentTheme.color(.background2).light,
+                               dark: self.view.fluentTheme.color(.background2).dark)
             }
         ]
 
