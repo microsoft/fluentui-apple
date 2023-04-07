@@ -35,13 +35,9 @@ open class ControlHostingView: UIView {
     /// the control view in an `AnyView.`
     ///
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
-    init(_ controlView: AnyView, disableSafeAreaInsets: Bool = true) {
+    init(_ controlView: AnyView) {
         self.controlView = controlView
         super.init(frame: .zero)
-
-        if disableSafeAreaInsets {
-            hostingController.disableSafeAreaInsets()
-        }
 
         // We need to observe theme changes, and use them to update our wrapped control.
         NotificationCenter.default.addObserver(self,
@@ -55,7 +51,7 @@ open class ControlHostingView: UIView {
     }
 
     required public init?(coder: NSCoder) {
-		preconditionFailure("init(coder:) has not been implemented")
+        preconditionFailure("init(coder:) has not been implemented")
     }
 
     /// Adds `hostingController.view` to ourselves as a subview, and enables necessary constraints.
@@ -99,7 +95,18 @@ open class ControlHostingView: UIView {
         )
     }
 
-    private let hostingController: FluentUIHostingController = .init(rootView: AnyView(EmptyView()))
+    private let hostingController: UIHostingController = {
+        // We no longer need the workarounds from `FluentUIHostingController` in
+        // iOS 16, but we still need it for 14 and 15. Once we drop 14/15, we
+        // can just delete the entire class.
+        if #unavailable(iOS 16) {
+            let controller = FluentUIHostingController.init(rootView: AnyView(EmptyView()))
+            controller.disableSafeAreaInsets()
+            return controller
+        } else {
+            return UIHostingController.init(rootView: AnyView(EmptyView()))
+        }
+    }()
     private let controlView: AnyView
     private var themeObserver: NSObjectProtocol?
 }
