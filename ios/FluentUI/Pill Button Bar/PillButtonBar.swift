@@ -5,14 +5,6 @@
 
 import UIKit
 
-// MARK: PillButtonBarDelegate
-
-@objc(MSFPillButtonBarDelegate)
-public protocol PillButtonBarDelegate {
-    /// Called after the button representing the item is tapped in the UI.
-    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
-}
-
 // MARK: PillButtonBarItem
 
 /// `PillButtonBarItem` is an item that can be presented as a pill shaped text button.
@@ -70,91 +62,30 @@ open class PillButtonBarItem: NSObject {
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
 open class PillButtonBar: UIScrollView {
-    private struct Constants {
-        static let maxButtonsSpacing: CGFloat = 10.0
-        static let minButtonsSpacing: CGFloat = 8.0
-        static let minButtonVisibleWidth: CGFloat = 20.0
-        static let minButtonWidth: CGFloat = 56.0
-        static let minHeight: CGFloat = 28.0
-        static let sideInset: CGFloat = 16.0
+    open override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        updatePillButtonAppearance()
     }
 
-    @objc public weak var barDelegate: PillButtonBarDelegate?
+    open override func layoutSubviews() {
+        super.layoutSubviews()
 
-    @objc public var centerAligned: Bool = false {
-        didSet {
-            adjustAlignment()
+        if bounds.width == 0 {
+            return
         }
-    }
 
-    @objc public var items: [PillButtonBarItem]? {
-        didSet {
-            clearButtons()
-
-            if let items = items {
-                addButtonsWithItems(items)
-            }
-
-            setNeedsLayout()
-            needsButtonSizeReconfiguration = true
-        }
-    }
-
-    @objc public let pillButtonStyle: PillButtonStyle
-
-    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
-    @objc public var selectedItem: PillButtonBarItem? {
-        get {
-            return selectedButton?.pillBarItem
-        }
-        set {
-            if let item = newValue, let index = indexOfButtonWithItem(item) {
-                selectedButton = buttons[index]
+        if needsButtonSizeReconfiguration {
+            ensureMinimumButtonWidth()
+            updateHeightConstraint()
+            adjustButtonsForCurrentScrollFrame()
+            needsButtonSizeReconfiguration = false
+            if let selectedButton = selectedButton {
+                layoutIfNeeded()
+                scrollButtonToVisible(selectedButton)
             }
         }
     }
-
-    private var buttonExtraSidePadding: CGFloat = 0.0
-
-    private var buttons = [PillButton]()
-
-    private var lastKnownScrollFrameWidth: CGFloat = 0.0
-
-    private var needsButtonSizeReconfiguration: Bool = false
-
-    private var selectedButton: PillButton? {
-        willSet {
-            selectedButton?.isSelected = false
-        }
-
-        didSet {
-            if let button = selectedButton {
-                button.isSelected = true
-            }
-        }
-    }
-
-    private var stackView: UIStackView = {
-        let view = UIStackView()
-        view.distribution = .fillProportionally
-        view.alignment = .center
-        view.spacing = Constants.minButtonsSpacing
-        return view
-    }()
-
-    private var customPillButtonBackgroundColor: UIColor?
-    private var customSelectedPillButtonBackgroundColor: UIColor?
-    private var customPillButtonTextColor: UIColor?
-    private var customSelectedPillButtonTextColor: UIColor?
-    private var customPillButtonUnreadDotColor: UIColor?
-
-    private var leadingConstraint: NSLayoutConstraint?
-
-    private var centerConstraint: NSLayoutConstraint?
-
-    private var heightConstraint: NSLayoutConstraint?
-
-    private var trailingConstraint: NSLayoutConstraint?
 
     public override var bounds: CGRect {
         didSet {
@@ -170,75 +101,12 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    /// Initializes the PillButtonBar using the provided style and color overrides.
+    /// Initializes the PillButtonBar using the provided style.
     ///
     /// - Parameters:
     ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
-    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary) {
-        self.init(pillButtonStyle: pillButtonStyle,
-                  pillButtonBackgroundColor: nil,
-                  selectedPillButtonBackgroundColor: nil,
-                  pillButtonTextColor: nil,
-                  selectedPillButtonTextColor: nil,
-                  pillButtonUnreadDotColor: nil)
-    }
-
-    /// Initializes the PillButtonBar using the provided style and color overrides.
-    ///
-    /// - Parameters:
-    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
-    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
-    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
-                                  pillButtonBackgroundColor: UIColor? = nil) {
-        self.init(pillButtonStyle: pillButtonStyle,
-                  pillButtonBackgroundColor: pillButtonBackgroundColor,
-                  selectedPillButtonBackgroundColor: nil,
-                  pillButtonTextColor: nil,
-                  selectedPillButtonTextColor: nil,
-                  pillButtonUnreadDotColor: nil)
-    }
-
-    /// Initializes the PillButtonBar using the provided style and color overrides.
-    ///
-    /// - Parameters:
-    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
-    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
-    ///   - selectedPillButtonBackgroundColor: The color override for the background color of the selected pill button
-    ///   - pillButtonTextColor: The color override for the text of the pill buttons
-    ///   - selectedPillButtonTextColor: The color override for the text of the selected pill button
-    ///   - pillButtonUnreadDotColor: The color override for the unread dot for the pill buttons
-    @objc public convenience init(pillButtonStyle: PillButtonStyle = .primary,
-                                  pillButtonBackgroundColor: UIColor? = nil,
-                                  selectedPillButtonBackgroundColor: UIColor? = nil,
-                                  pillButtonTextColor: UIColor? = nil,
-                                  selectedPillButtonTextColor: UIColor? = nil,
-                                  pillButtonUnreadDotColor: UIColor? = nil) {
-        self.init(pillButtonStyle: pillButtonStyle,
-                  pillButtonBackgroundColor: pillButtonBackgroundColor,
-                  selectedPillButtonBackgroundColor: selectedPillButtonBackgroundColor,
-                  pillButtonTextColor: pillButtonTextColor,
-                  selectedPillButtonTextColor: selectedPillButtonTextColor)
-        self.customPillButtonUnreadDotColor = pillButtonUnreadDotColor
-    }
-
-    /// Initializes the PillButtonBar using the provided style and color overrides.
-    ///
-    /// - Parameters:
-    ///   - pillButtonStyle: The style override for the pill buttons in this pill button bar
-    ///   - pillButtonBackgroundColor: The color override for the background color of the pill buttons
-    ///   - selectedPillButtonBackgroundColor: The color override for the background color of the selected pill button
-    ///   - pillButtonTextColor: The color override for the text of the pill buttons
-    ///   - selectedPillButtonTextColor: The color override for the text of the selected pill button
-    @objc public init(pillButtonStyle: PillButtonStyle = .primary,
-                      pillButtonBackgroundColor: UIColor? = nil,
-                      selectedPillButtonBackgroundColor: UIColor? = nil,
-                      pillButtonTextColor: UIColor? = nil,
-                      selectedPillButtonTextColor: UIColor? = nil) {
+    @objc public init(pillButtonStyle: PillButtonStyle = .primary) {
         self.pillButtonStyle = pillButtonStyle
-        self.customPillButtonBackgroundColor = pillButtonBackgroundColor
-        self.customSelectedPillButtonBackgroundColor = selectedPillButtonBackgroundColor
-        self.customPillButtonTextColor = pillButtonTextColor
-        self.customSelectedPillButtonTextColor = selectedPillButtonTextColor
         super.init(frame: .zero)
         setupScrollView()
         setupStackView()
@@ -300,23 +168,94 @@ open class PillButtonBar: UIScrollView {
         buttons[index].isEnabled = true
     }
 
-    open override func layoutSubviews() {
-        super.layoutSubviews()
+    @objc public weak var barDelegate: PillButtonBarDelegate?
 
-        if bounds.width == 0 {
-            return
+    @objc public var centerAligned: Bool = false {
+        didSet {
+            adjustAlignment()
         }
+    }
 
-        if needsButtonSizeReconfiguration {
-            ensureMinimumButtonWidth()
-            updateHeightConstraint()
-            adjustButtonsForCurrentScrollFrame()
-            needsButtonSizeReconfiguration = false
-            if let selectedButton = selectedButton {
-                layoutIfNeeded()
-                scrollButtonToVisible(selectedButton)
+    @objc public var items: [PillButtonBarItem]? {
+        didSet {
+            clearButtons()
+
+            if let items = items {
+                addButtonsWithItems(items)
+            }
+
+            setNeedsLayout()
+            needsButtonSizeReconfiguration = true
+        }
+    }
+
+    @objc public let pillButtonStyle: PillButtonStyle
+
+    public var pillButtonOverrideTokens: [PillButtonTokenSet.Tokens: ControlTokenValue]? {
+        didSet {
+            updatePillButtonAppearance()
+        }
+    }
+
+    /// If set to nil, the previously selected item will be deselected and there won't be any items selected
+    @objc public var selectedItem: PillButtonBarItem? {
+        get {
+            return selectedButton?.pillBarItem
+        }
+        set {
+            if let item = newValue, let index = indexOfButtonWithItem(item) {
+                selectedButton = buttons[index]
             }
         }
+    }
+
+    private var buttonExtraSidePadding: CGFloat = 0.0
+
+    private var buttons = [PillButton]()
+
+    private var lastKnownScrollFrameWidth: CGFloat = 0.0
+
+    private var needsButtonSizeReconfiguration: Bool = false
+
+    private var selectedButton: PillButton? {
+        willSet {
+            selectedButton?.isSelected = false
+        }
+
+        didSet {
+            if let button = selectedButton {
+                button.isSelected = true
+            }
+        }
+    }
+
+    private lazy var stackView: UIStackView = initStackView()
+
+    private struct Constants {
+        /// Maximum spacing between `PillButton` controls
+        static let maxButtonsSpacing: CGFloat = 10.0
+
+        /// Minimum spacing between `PillButton` controls
+        static let minButtonsSpacing: CGFloat = GlobalTokens.spacing(.size80)
+
+        /// Minimum width of the last button that must be showing on screen when the `PillButtonBar` loads or redraws
+        static let minButtonVisibleWidth: CGFloat = GlobalTokens.spacing(.size200)
+
+        /// Minimum width of a `PillButton`
+        static let minButtonWidth: CGFloat = 56.0
+
+        /// Minimum height of the `PillButtonBar`
+        static let minHeight: CGFloat = 28.0
+
+        /// Offset from the leading edge when the `PillButtonBar` loads or redraws
+        static let sideInset: CGFloat = GlobalTokens.spacing(.size160)
+    }
+
+    private func initStackView() -> UIStackView {
+        let view = UIStackView()
+        view.alignment = .center
+        view.spacing = Constants.minButtonsSpacing
+        return view
     }
 
     private func addButtonsWithItems(_ items: [PillButtonBarItem]) {
@@ -336,24 +275,8 @@ open class PillButtonBar: UIScrollView {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
 
-            if let customButtonBackgroundColor = self.customPillButtonBackgroundColor {
-                button.customBackgroundColor = customButtonBackgroundColor
-            }
-
-            if let customSelectedButtonBackgroundColor = self.customSelectedPillButtonBackgroundColor {
-                button.customSelectedBackgroundColor = customSelectedButtonBackgroundColor
-            }
-
-            if let customButtonTextColor = self.customPillButtonTextColor {
-                button.customTextColor = customButtonTextColor
-            }
-
-            if let customSelectedButtonTextColor = self.customSelectedPillButtonTextColor {
-                button.customSelectedTextColor = customSelectedButtonTextColor
-            }
-
-            if let customPillButtonUnreadDotColor = self.customPillButtonUnreadDotColor {
-                button.customUnreadDotColor = customPillButtonUnreadDotColor
+            if pillButtonOverrideTokens != nil {
+                updatePillButtonAppearance()
             }
         }
     }
@@ -377,7 +300,7 @@ open class PillButtonBar: UIScrollView {
     ///  a new spacing and padding that will shift the last visible button farther in the view.
     private func adjustButtonsForCurrentScrollFrame() {
         var visibleWidth = frame.width - (Constants.minButtonsSpacing + Constants.minButtonVisibleWidth)
-        var visibleButtonsWidth = Constants.sideInset
+        var visibleButtonsWidth: CGFloat = Constants.sideInset
         var visibleButtonCount = 0
         for button in buttons {
             button.layoutIfNeeded()
@@ -579,12 +502,26 @@ open class PillButtonBar: UIScrollView {
     }
 
     private func updateHeightConstraint() {
-        var maxHeight = Constants.minHeight
+        var maxHeight: CGFloat = Constants.minHeight
         buttons.forEach { maxHeight = max(maxHeight, $0.frame.size.height) }
         if let heightConstraint = heightConstraint, maxHeight != heightConstraint.constant {
             heightConstraint.constant = maxHeight
         }
     }
+
+    private func updatePillButtonAppearance() {
+        for button in buttons {
+            button.tokenSet.replaceAllOverrides(with: pillButtonOverrideTokens)
+        }
+    }
+
+    private var leadingConstraint: NSLayoutConstraint?
+
+    private var centerConstraint: NSLayoutConstraint?
+
+    private var heightConstraint: NSLayoutConstraint?
+
+    private var trailingConstraint: NSLayoutConstraint?
 }
 
 // MARK: PillButtonBar UIPointerInteractionDelegate
@@ -621,14 +558,12 @@ extension PillButtonBar: UIPointerInteractionDelegate {
 
         return UIPointerStyle(effect: pointerEffect, shape: nil)
     }
+}
 
-    public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        guard let index = region.identifier as? Int else {
-            return
-        }
-        if customPillButtonBackgroundColor == nil && index < buttons.count {
-            let pillButton = buttons[index]
-            pillButton.customBackgroundColor = nil
-        }
-    }
+// MARK: PillButtonBarDelegate
+
+@objc(MSFPillButtonBarDelegate)
+public protocol PillButtonBarDelegate {
+    /// Called after the button representing the item is tapped in the UI.
+    @objc optional func pillBar(_ pillBar: PillButtonBar, didSelectItem item: PillButtonBarItem, atIndex index: Int)
 }
