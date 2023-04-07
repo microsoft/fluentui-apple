@@ -104,6 +104,10 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
+    func setEqualWidthGroups() {
+        buttonGroupsStackView.distribution = .fillEqually
+    }
+
     // MARK: - Private properties
 
     private var buttonGroupsStackView: UIStackView

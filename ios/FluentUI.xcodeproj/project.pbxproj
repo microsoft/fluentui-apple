@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
+		3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B2E373D2991CB53008929B4 /* BottomSheetTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E373C2991CB53008929B4 /* BottomSheetTokenSet.swift */; };
 		4B4A2F2129A7E83100570CD4 /* LabelTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */; };
@@ -253,6 +254,7 @@
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTokenSet.swift; sourceTree = "<group>"; };
+		3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineCommandBar.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
 		497DC2D824185885008D86F8 /* PillButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
@@ -578,6 +580,14 @@
 				1168630322E131CF0088B302 /* TabBarView.swift */,
 			);
 			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		3AABE97B29DF4CAC00406C6E /* MultilineCommandBar */ = {
+			isa = PBXGroup;
+			children = (
+				3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */,
+			);
+			path = MultilineCommandBar;
 			sourceTree = "<group>";
 		};
 		497DC2D62418585D008D86F8 /* Pill Button Bar */ = {
@@ -924,6 +934,7 @@
 				B483323121CC71700022B4CC /* HUD */,
 				5314DFF425F0069C0099271A /* IndeterminateProgressBar */,
 				5314DFF025F0042E0099271A /* Label */,
+				3AABE97B29DF4CAC00406C6E /* MultilineCommandBar */,
 				FD41C86D22DD12A20086F899 /* Navigation */,
 				4BA9B8B5279F2940007536F5 /* Notification */,
 				5314DFF925F008F10099271A /* Obscurable */,
@@ -1499,6 +1510,7 @@
 				53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */,
 				532FE3D626EA6D74007539C0 /* ActivityIndicatorModifiers.swift in Sources */,
 				5314E2F525F025C60099271A /* CalendarConfiguration.swift in Sources */,
+				3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */,
 				923DB9D4274CB65700D8E58A /* TokenizedControl.swift in Sources */,
 				5314E06B25F00F100099271A /* DateTimePicker.swift in Sources */,
 				5314E2BB25F024C60099271A /* CALayer+Extensions.swift in Sources */,

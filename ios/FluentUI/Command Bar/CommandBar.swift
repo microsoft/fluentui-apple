@@ -13,14 +13,15 @@ public protocol CommandBarDelegate: AnyObject {
 }
 
 /**
- `CommandBar` is a horizontal scrollable list of icon buttons divided by groups.
- Set the `delegate` property to receive callbacks when scroll events occur.
- Provide `itemGroups` in `init` to set the buttons in the scrollable area. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
+ `CommandBar` is a horizontal list of icon buttons divided by groups.
+ For scrollable CommandBars, set the `delegate` property to receive callbacks when scroll events occur.
+ Provide `itemGroups` in `init` to set the buttons in the CommandBar. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
 public class CommandBar: UIView, TokenizedControlInternal {
     // Hierarchy:
     //
+    // isScrollable = true
     // commandBarContainerStackView
     // |--leadingCommandGroupsView
     // |--|--buttons
@@ -31,6 +32,18 @@ public class CommandBar: UIView, TokenizedControlInternal {
     // |--|  |  |--subviews
     // |--|  |  |  |--stackView
     // |--|  |  |  |  |--buttons (fill scrollView content)
+    // |--trailingCommandGroupsView
+    // |--|--buttons
+    //
+    // isScrollable = false
+    // commandBarContainerStackView
+    // |--leadingCommandGroupsView
+    // |--|--buttons
+    // |--containerView
+    // |--|--layer.mask -> containerMaskLayer (fill containerView)
+    // |--|--subviews
+    // |--|  |--stackView
+    // |--|  |  |--buttons (fill scrollView content)
     // |--trailingCommandGroupsView
     // |--|--buttons
 
@@ -158,7 +171,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
     public var tokenSet: CommandBarTokenSet
 
-    /// Scrollable items shown in the center of the CommandBar
+    /// Items shown in the center of the CommandBar
     public var itemGroups: [CommandBarItemGroup] {
         get {
             mainCommandGroupsView.itemGroups
@@ -188,6 +201,17 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
+    /// Whether or not the CommandBar is scrollable
+    public var isScrollable: Bool = true {
+        didSet {
+            updateViewHierarchy()
+            updateMainCommandGroupsViewConstraints()
+            if !isScrollable {
+                mainCommandGroupsView.setEqualWidthGroups()
+            }
+        }
+    }
+
     /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
     public weak var delegate: CommandBarDelegate?
 
@@ -205,20 +229,14 @@ public class CommandBar: UIView, TokenizedControlInternal {
     /// View holding the items pinned to the trailing end of the CommandBar
     private var trailingCommandGroupsView: CommandBarCommandGroupsView
 
+    private var mainCommandGroupsViewConstraints: [NSLayoutConstraint] = []
+
     // MARK: Views and Layers
 
     private lazy var containerView: CommandBarContainerView = {
         let containerView = CommandBarContainerView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.mask = containerMaskLayer
-
-        containerView.addSubview(scrollView)
-        NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor)
-        ])
 
         return containerView
     }()
@@ -232,17 +250,15 @@ public class CommandBar: UIView, TokenizedControlInternal {
         scrollView.alwaysBounceHorizontal = true
         scrollView.delegate = self
 
-        scrollView.addSubview(mainCommandGroupsView)
-        NSLayoutConstraint.activate([
-            scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
-
-            mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-            mainCommandGroupsView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
-            scrollView.contentLayoutGuide.bottomAnchor.constraint(equalTo: mainCommandGroupsView.bottomAnchor),
-            scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsView.trailingAnchor)
-        ])
-
         return scrollView
+    }()
+
+    private lazy var scrollViewConstraints: [NSLayoutConstraint] = {
+        return [scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+                scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                scrollView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)]
     }()
 
     private let containerMaskLayer: CAGradientLayer = {
@@ -266,11 +282,14 @@ public class CommandBar: UIView, TokenizedControlInternal {
         commandBarContainerStackView.addArrangedSubview(containerView)
         commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
 
+        updateViewHierarchy()
+        updateMainCommandGroupsViewConstraints()
+
         NSLayoutConstraint.activate([
-            commandBarContainerStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            commandBarContainerStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            commandBarContainerStackView.topAnchor.constraint(equalTo: topAnchor),
-            commandBarContainerStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            commandBarContainerStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            commandBarContainerStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            commandBarContainerStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            commandBarContainerStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
@@ -282,6 +301,43 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
 
         scrollView.contentInset = scrollViewContentInset()
+    }
+
+    private func updateViewHierarchy() {
+        if isScrollable {
+            mainCommandGroupsView.removeFromSuperview()
+            scrollView.addSubview(mainCommandGroupsView)
+            containerView.addSubview(scrollView)
+
+            NSLayoutConstraint.activate(scrollViewConstraints)
+        } else {
+            scrollView.removeFromSuperview()
+            mainCommandGroupsView.removeFromSuperview()
+            containerView.addSubview(mainCommandGroupsView)
+
+            NSLayoutConstraint.deactivate(scrollViewConstraints)
+        }
+    }
+
+    private func updateMainCommandGroupsViewConstraints() {
+        NSLayoutConstraint.deactivate(mainCommandGroupsViewConstraints)
+        if isScrollable {
+            mainCommandGroupsViewConstraints = [
+                mainCommandGroupsView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
+                mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor),
+                mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+                mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
+            ]
+        } else {
+            mainCommandGroupsViewConstraints = [
+                mainCommandGroupsView.topAnchor.constraint(equalTo: containerView.topAnchor),
+                mainCommandGroupsView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+                mainCommandGroupsView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+                mainCommandGroupsView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+            ]
+        }
+        NSLayoutConstraint.activate(mainCommandGroupsViewConstraints)
     }
 
     private func scrollViewContentInset() -> UIEdgeInsets {
