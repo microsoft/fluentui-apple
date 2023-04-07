@@ -199,14 +199,14 @@ public struct AvatarGroup: View, TokenizedControlView {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     avatarView(at: index, for: avatar)
-                        .transition(AnyTransition.opacity)
+                        .transition(AnyTransition.move(edge: .leading))
                 }
 
                 if hasOverflow {
                     VStack {
                         overflowAvatar
                     }
-                    .transition(AnyTransition.opacity)
+                    .transition(AnyTransition.move(edge: .leading))
                 }
             }
             .animation(animation, value: state.avatars)
