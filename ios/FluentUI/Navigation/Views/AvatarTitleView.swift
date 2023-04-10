@@ -7,19 +7,17 @@ import UIKit
 
 // MARK: AvatarTitleView
 
-/// Large Header and custom profile button container
-class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
+/// A helper view used by `NavigationBar` capable of displaying a large title and an avatar.
+class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegate {
     enum Style: Int {
         case primary
         case system
     }
 
-    private struct Constants {
-        static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size100)
-
-        static let compactAvatarSize: MSFAvatarSize = .size24
-        static let avatarSize: MSFAvatarSize = .size32
-    }
+    typealias TokenSetKeyType = AvatarTitleViewTokenSet.Tokens
+    lazy var tokenSet: AvatarTitleViewTokenSet = .init(style: { [weak self] in
+        self?.style ?? .primary
+    })
 
     var personaData: Persona? {
         didSet {
@@ -48,9 +46,9 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
             case .automatic:
                 return
             case .contracted:
-                avatar?.state.size = Constants.compactAvatarSize
+                avatar?.state.size = TokenSetType.compactAvatarSize
             case .expanded:
-                avatar?.state.size = Constants.avatarSize
+                avatar?.state.size = TokenSetType.avatarSize
             }
         }
     }
@@ -76,7 +74,7 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
 
     var style: Style = .primary {
         didSet {
-            titleButton.setTitleColor(colorForStyle, for: .normal)
+            updateAppearance()
             twoLineTitleView.currentStyle = style == .primary ? .primary : .system
             avatar?.state.style = style == .primary ? .default : .accent
         }
@@ -95,16 +93,6 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
         }
 
         return avatar
-    }
-
-    private var colorForStyle: UIColor {
-        switch style {
-        case .primary:
-            return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                           dark: fluentTheme.color(.foreground1).dark)
-        case .system:
-            return fluentTheme.color(.foreground1)
-        }
     }
 
     private var avatar: MSFAvatar? // circular view displaying the profile information
@@ -158,18 +146,32 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
         setupAccessibility()
         twoLineTitleView.delegate = self
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+    // MARK: - Theme updates
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
             return
         }
-        titleButton.setTitleColor(colorForStyle, for: .normal)
+        tokenSet.update(newWindow.fluentTheme)
+    }
+
+    @objc private func updateAppearance() {
+        titleButton.setTitleColor(tokenSet[.titleColor].uiColor, for: .normal)
+        titleButton.titleLabel?.font = tokenSet[.largeTitleFont].uiFont
+
         twoLineTitleView.currentStyle = style == .primary ? .primary : .system
+        twoLineTitleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont
+        ])
     }
 
     // MARK: - Base Construction Methods
@@ -179,16 +181,16 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
     // Also constructs gesture recognizers
     private func setupLayout() {
         // contentStackView layout
-        contentStackView.spacing = Constants.horizontalSpacing
+        contentStackView.spacing = TokenSetType.contentStackViewSpacing
         contentStackView.alignment = .center
         contain(view: contentStackView, withInsets: UIEdgeInsets(top: 0,
-                                                                 left: 8,
+                                                                 left: TokenSetType.contentStackViewHorizontalInset,
                                                                  bottom: 0,
-                                                                 right: 8))
+                                                                 right: TokenSetType.contentStackViewHorizontalInset))
         // Avatar setup
         let preferredFallbackImageStyle: MSFAvatarStyle = style == .primary ? .default : .accent
         let avatar = MSFAvatar(style: preferredFallbackImageStyle,
-                               size: Constants.avatarSize)
+                               size: TokenSetType.avatarSize)
         let avatarState = avatar.state
         avatarState.primaryText = personaData?.name
         avatarState.secondaryText = personaData?.email
@@ -213,14 +215,14 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
 
         // title button setup
         titleButton.setTitle(nil, for: .normal)
-        titleButton.titleLabel?.font = fluentTheme.typography(.title1, adjustsForContentSizeCategory: false)
-        titleButton.setTitleColor(colorForStyle, for: .normal)
         titleButton.titleLabel?.textAlignment = .left
         titleButton.contentHorizontalAlignment = .left
         titleButton.titleLabel?.adjustsFontSizeToFitWidth = true
         titleButton.addTarget(self, action: #selector(AvatarTitleView.titleButtonTapped(sender:)), for: .touchUpInside)
         titleButton.setContentCompressionResistancePriority(.required,
                                                             for: .horizontal)
+
+        updateAppearance()
 
         // tap gesture for entire titleView
         tapGesture.addTarget(self, action: #selector(AvatarTitleView.handleTitleViewTapped(sender:)))
@@ -233,7 +235,7 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
 
     private func expansionAnimation() {
         if avatarSize == .automatic {
-            avatar?.state.size = Constants.avatarSize
+            avatar?.state.size = TokenSetType.avatarSize
         }
 
         layoutIfNeeded()
@@ -241,7 +243,7 @@ class AvatarTitleView: UIView, TwoLineTitleViewDelegate {
 
     private func contractionAnimation() {
         if avatarSize == .automatic {
-            avatar?.state.size = Constants.compactAvatarSize
+            avatar?.state.size = TokenSetType.compactAvatarSize
         }
 
         layoutIfNeeded()

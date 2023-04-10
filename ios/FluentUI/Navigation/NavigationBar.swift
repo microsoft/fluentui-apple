@@ -107,43 +107,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case primary
         case system
         case custom
-
-        func tintColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primary, .default, .custom:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground2).dark)
-            case .system:
-                return fluentTheme.color(.foreground2)
-            }
-        }
-
-        func titleColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primary, .default, .custom:
-                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
-                               dark: fluentTheme.color(.foreground1).dark)
-            case .system:
-                return fluentTheme.color(.foreground1)
-            }
-        }
-
-        public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
-            let defaultColor = UIColor(light: fluentTheme.color(.brandBackground1).light,
-                                       dark: fluentTheme.color(.background3).dark)
-            switch self {
-            case .primary, .default:
-                return defaultColor
-            case .system:
-                return fluentTheme.color(.background3)
-            case .custom:
-                return customColor ?? defaultColor
-            }
-        }
     }
 
-    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return Style.system.backgroundColor(fluentTheme: fluentTheme)
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
+        return backgroundColor(for: .system, theme: fluentTheme)
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -158,8 +125,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case alwaysHidden
     }
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
+    public typealias TokenSetKeyType = NavigationBarTokenSet.Tokens
+    public lazy var tokenSet: NavigationBarTokenSet = .init(style: { [weak self] in
+        self?.style ?? NavigationBar.defaultStyle
+    })
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
 
@@ -504,7 +473,17 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         guard let newWindow else {
             return
         }
+
         tokenSet.update(newWindow.fluentTheme)
+        titleView.tokenSet.update(newWindow.fluentTheme)
+        titleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont,
+            .largeTitleFont: .largeTitleFont
+        ])
+
         updateColors(for: topItem)
     }
 
@@ -589,9 +568,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         standardAppearance.backgroundColor = color
         backgroundView.backgroundColor = color
-        tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        tintColor = tokenSet[.buttonTintColor].uiColor
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
+        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
 
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance
@@ -857,6 +836,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
 
         let customTitleView = TwoLineTitleView(style: style == .primary ? .primary : .system)
+        customTitleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont
+        ])
         customTitleView.setup(navigationItem: navigationItem)
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion

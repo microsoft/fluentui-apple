@@ -40,10 +40,10 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
     @objc private func updateSearchbars() {
         if segmentedControl.selectedSegmentIndex == 1 {
-            searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
+            searchBarsStackView.backgroundColor = NavigationBar.backgroundColor(for: .primary, theme: view.fluentTheme)
             updateSearchBarsStyles(to: .lightContent)
         } else {
-            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            searchBarsStackView.backgroundColor = NavigationBar.backgroundColor(for: .system, theme: view.fluentTheme)
             updateSearchBarsStyles(to: .darkContent)
         }
     }

@@ -54,7 +54,7 @@ class DemoTableViewController: UITableViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(showAppearancePopover))
-        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
                                            style: .plain,
                                            target: self,
                                            action: #selector(showReadmePopover))

@@ -47,12 +47,15 @@ class ColoredPillBackgroundView: UIView {
     }
 
     func updateBackgroundColor() {
-        switch style {
+        let style: NavigationBar.Style
+        switch self.style {
         case .neutral:
-            backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: fluentTheme)
+            style = .system
         case .brand:
-            backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: fluentTheme)
+            style = .primary
         }
+
+        backgroundColor = NavigationBar.backgroundColor(for: style, theme: fluentTheme)
     }
 
     let style: ColoredPillBackgroundStyle
