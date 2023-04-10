@@ -12,14 +12,19 @@ class TableViewCellDemoController: DemoTableViewController {
     let sections: [TableViewSampleData.Section] = TableViewCellSampleData.sections
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .grouped)
+        super.init(style: .insetGrouped)
+    }
+
+    override init(style: UITableView.Style) {
+        super.init(style: style)
+        self.isGrouped = (style == .insetGrouped || style == .grouped)
     }
 
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    private var isGrouped: Bool = false {
+    private var isGrouped: Bool = true {
         didSet {
             updateTableView()
         }
@@ -48,10 +53,6 @@ class TableViewCellDemoController: DemoTableViewController {
         }
     }
 
-    private var styleButtonTitle: String {
-        return isGrouped ? "Switch to Plain style" : "Switch to Grouped style"
-    }
-
     private var editButton: UIBarButtonItem?
 
     private var overrideTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue]?
@@ -68,22 +69,6 @@ class TableViewCellDemoController: DemoTableViewController {
         let editButton = UIBarButtonItem(title: "Select", style: .plain, target: self, action: #selector(selectionBarButtonTapped))
         navigationItem.rightBarButtonItems?.append(editButton)
         self.editButton = editButton
-
-        toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: styleButtonTitle, style: .plain, target: self, action: #selector(styleBarButtonTapped)),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        ]
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.isToolbarHidden = false
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.isToolbarHidden = true
     }
 
     @objc private func selectionBarButtonTapped(sender: UIBarButtonItem) {
@@ -97,11 +82,6 @@ class TableViewCellDemoController: DemoTableViewController {
         isInSelectionMode = !isInSelectionMode
     }
 
-    @objc private func styleBarButtonTapped(sender: UIBarButtonItem) {
-        isGrouped = !isGrouped
-        sender.title = styleButtonTitle
-    }
-
     private func updateNavigationTitle() {
         if isInSelectionMode {
             let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
@@ -112,7 +92,7 @@ class TableViewCellDemoController: DemoTableViewController {
     }
 
     private func updateTableView() {
-        tableView.backgroundColor = isGrouped ? Colors.tableBackgroundGrouped : Colors.tableBackground
+        tableView.backgroundColor = isGrouped ? TableViewCell.tableBackgroundGroupedColor : TableViewCell.tableBackgroundColor
         tableView.reloadData()
     }
 }
@@ -139,25 +119,25 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .dynamicColor {
+            .cellBackgroundColor: .uiColor {
                 // "Berry"
-                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .tint50),
-                                    dark: GlobalTokens.sharedColors(.berry, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .tint50),
+                               dark: GlobalTokens.sharedColor(.berry, .shade40))
             }
         ]
     }
 
     private var perControlOverrideTableViewCellTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .dynamicColor {
+            .cellBackgroundColor: .uiColor {
                 // "Brass"
-                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint50),
-                                    dark: GlobalTokens.sharedColors(.brass, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
+                               dark: GlobalTokens.sharedColor(.brass, .shade40))
             },
-            .accessoryDisclosureIndicatorColor: .dynamicColor {
+            .accessoryDisclosureIndicatorColor: .uiColor {
                 // "Forest"
-                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .tint10),
-                                    dark: GlobalTokens.sharedColors(.forest, .shade40))
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
+                               dark: GlobalTokens.sharedColor(.forest, .shade40))
             },
             .customViewTrailingMargin: .float {
                 return 0
@@ -178,18 +158,19 @@ extension TableViewCellDemoController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell, let fluentTheme = view?.fluentTheme else {
             return UITableViewCell()
         }
+
         let section = sections[indexPath.section]
         let item = section.item
         if section.title == "Inverted double line cell" {
             cell.setup(
                 attributedTitle: NSAttributedString(string: item.text1,
-                                                    attributes: [.font: TextStyle.footnote.font,
+                                                    attributes: [.font: fluentTheme.typography(.body1),
                                                                  .foregroundColor: UIColor.purple]),
                 attributedSubtitle: NSAttributedString(string: item.text2,
-                                                       attributes: [.font: TextStyle.body.font,
+                                                       attributes: [.font: fluentTheme.typography(.caption1),
                                                                     .foregroundColor: UIColor.red]),
                 footer: TableViewCellSampleData.hasFullLengthLabelAccessoryView(at: indexPath) ? "" : item.text3,
                 customView: TableViewSampleData.createCustomView(imageName: item.image),
@@ -229,8 +210,11 @@ extension TableViewCellDemoController {
 
         cell.backgroundStyleType = isGrouped ? .grouped : .plain
         cell.topSeparatorType = isGrouped && indexPath.row == 0 ? .full : .none
-        let isLastInSection = indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
-        cell.bottomSeparatorType = isLastInSection ? .full : .inset
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            cell.bottomSeparatorType = isGrouped ? .none : .full
+        } else {
+            cell.bottomSeparatorType = .inset
+        }
 
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
@@ -247,6 +231,7 @@ extension TableViewCellDemoController {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
         header?.setup(style: section.headerStyle, title: section.title)
+        header?.tableViewCellStyle = tableView.style == .plain ? .plain : .grouped
         return header
     }
 

@@ -28,14 +28,7 @@ let package = Package(
             path: "public"
         ),
         .target(
-            name: "FluentUIResources",
-            path: "apple"
-        ),
-        .target(
             name: "FluentUI_ios",
-            dependencies: [
-                .target(name: "FluentUIResources")
-            ],
             path: "ios/FluentUI",
             exclude: [
                 "Avatar/Avatar.resources.xcfilelist",
@@ -54,9 +47,6 @@ let package = Package(
         ),
         .target(
             name: "FluentUI_macos",
-            dependencies: [
-                .target(name: "FluentUIResources")
-            ],
             path: "macos/FluentUI",
             exclude: [
                 "FluentUI-Info.plist"

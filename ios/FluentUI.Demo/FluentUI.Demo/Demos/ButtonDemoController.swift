@@ -14,57 +14,85 @@ class ButtonDemoController: DemoController {
         container.alignment = .leading
 
         for style in ButtonStyle.allCases {
-            addTitle(text: style.description)
+            for size in ButtonSizeCategory.allCases {
+                addTitle(text: style.description + ", " + size.description)
 
-            let button = createButton(with: style,
-                                      title: "Button")
-            let disabledButton = createButton(with: style,
-                                              title: "Button",
-                                              isEnabled: false)
-            let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
-            titleButtonStack.spacing = 20
-            titleButtonStack.distribution = .fillProportionally
-            container.addArrangedSubview(titleButtonStack)
+                let button = createButton(with: style,
+                                          sizeCategory: size,
+                                          title: "Text")
+                let disabledButton = createButton(with: style,
+                                                  sizeCategory: size,
+                                                  title: "Text",
+                                                  isEnabled: false)
+                let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
+                titleButtonStack.spacing = 20
+                titleButtonStack.distribution = .fillProportionally
+                container.addArrangedSubview(titleButtonStack)
 
-            if let image = style.image {
-                let iconButton = createButton(with: style,
-                                              title: "Button",
-                                              image: image)
-                let disabledIconButton = createButton(with: style,
-                                                      title: "Button",
-                                                      image: image,
-                                                      isEnabled: false)
-                let titleImageButtonStack = UIStackView(arrangedSubviews: [iconButton, disabledIconButton])
-                titleImageButtonStack.spacing = 20
-                titleImageButtonStack.distribution = .fillProportionally
-                container.addArrangedSubview(titleImageButtonStack)
-
-                let iconOnlyButton = createButton(with: style,
+                if let image = size.image {
+                    let iconButton = createButton(with: style,
+                                                  sizeCategory: size,
+                                                  title: "Text",
                                                   image: image)
-                let disabledIconOnlyButton = createButton(with: style,
+                    let disabledIconButton = createButton(with: style,
+                                                          sizeCategory: size,
+                                                          title: "Text",
                                                           image: image,
                                                           isEnabled: false)
-                let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
-                imageButtonStack.spacing = 20
-                imageButtonStack.distribution = .fillProportionally
-                container.addArrangedSubview(imageButtonStack)
+                    let titleImageButtonStack = UIStackView(arrangedSubviews: [iconButton, disabledIconButton])
+                    titleImageButtonStack.spacing = 20
+                    titleImageButtonStack.distribution = .fillProportionally
+                    container.addArrangedSubview(titleImageButtonStack)
+
+                    let iconOnlyButton = createButton(with: style,
+                                                      sizeCategory: size,
+                                                      image: image)
+                    let disabledIconOnlyButton = createButton(with: style,
+                                                              sizeCategory: size,
+                                                              image: image,
+                                                              isEnabled: false)
+                    let imageButtonStack = UIStackView(arrangedSubviews: [iconOnlyButton, disabledIconOnlyButton])
+                    imageButtonStack.spacing = 20
+                    imageButtonStack.distribution = .fillProportionally
+                    container.addArrangedSubview(imageButtonStack)
+                }
             }
         }
 
         addTitle(text: "With multi-line title")
-        let button = createButton(with: .primaryFilled,
+        let button = createButton(with: .accent,
                                   title: "Longer Text Button")
-        let iconButton = createButton(with: .primaryFilled,
+        let iconButton = createButton(with: .accent,
                                       title: "Longer Text Button",
-                                      image: ButtonStyle.primaryFilled.image)
+                                      image: ButtonSizeCategory.large.image)
         addRow(items: [button])
         addRow(items: [iconButton])
 
         container.addArrangedSubview(UIView())
+
+        let customButton = createButton(with: .accent, sizeCategory: .small, title: "ToolBar Test Button")
+        let buttonBarItem = UIBarButtonItem.init(customView: customButton)
+        customButton.sizeToFit()
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            buttonBarItem,
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        ]
     }
 
-    private func createButton(with style: ButtonStyle, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> Button {
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.isToolbarHidden = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+
+    private func createButton(with style: ButtonStyle, sizeCategory: ButtonSizeCategory = .large, title: String? = nil, image: UIImage? = nil, isEnabled: Bool = true) -> Button {
         let button = Button(style: style)
+        button.sizeCategory = sizeCategory
         if let title = title {
             button.setTitle(title, for: .normal)
             button.titleLabel?.numberOfLines = 0
@@ -91,30 +119,39 @@ class ButtonDemoController: DemoController {
 extension ButtonStyle {
     var description: String {
         switch self {
-        case .borderless:
-            return "Borderless"
-        case .dangerFilled:
-            return "Danger filled"
+        case .accent:
+            return "Accent"
+        case .outline:
+            return "Outline"
+        case .subtle:
+            return "Subtle"
+        case .danger:
+            return "Danger"
         case .dangerOutline:
             return "Danger outline"
-        case .primaryFilled:
-            return "Primary filled"
-        case .primaryOutline:
-            return "Primary outline"
-        case .secondaryOutline:
-            return "Secondary outline"
-        case .tertiaryOutline:
-            return "Tertiary outline"
+        case .dangerSubtle:
+            return "Danger subtle"
+        }
+    }
+}
+
+extension ButtonSizeCategory {
+    var description: String {
+        switch self {
+        case .large:
+            return "large"
+        case .medium:
+            return "medium"
+        case .small:
+            return "small"
         }
     }
 
     var image: UIImage? {
         switch self {
-        case .dangerFilled, .dangerOutline, .primaryFilled, .primaryOutline:
-            return UIImage(named: "Placeholder_24")!
-        case .secondaryOutline, .borderless:
+        case .large, .medium:
             return UIImage(named: "Placeholder_20")!
-        case .tertiaryOutline:
+        case .small:
             return nil
         }
     }
@@ -144,30 +181,36 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
-                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
+            .titleFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
-                                    dark: GlobalTokens.sharedColors(.marigold, .shade30))
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
+            },
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
+                               dark: GlobalTokens.sharedColor(.marigold, .shade30))
             }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
+            .titleFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
+            },
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]
     }

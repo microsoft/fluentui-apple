@@ -30,14 +30,14 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
                 return .float {
                     switch spacing() {
                     case .none:
-                        return GlobalTokens.spacing(.none)
+                        return GlobalTokens.spacing(.sizeNone)
                     case .medium:
-                        return GlobalTokens.spacing(.medium)
+                        return GlobalTokens.spacing(.size160)
                     }
                 }
 
             case .color:
-                return .dynamicColor { theme.aliasTokens.strokeColors[.neutral2] }
+                return .color { theme.color(.stroke2) }
             }
         }
     }
@@ -46,5 +46,5 @@ public class DividerTokenSet: ControlTokenSet<DividerTokenSet.Tokens> {
     let spacing: () -> MSFDividerSpacing
 
     /// The default thickness for the divider: half pt.
-    static var thickness: CGFloat { return 0.5 }
+    static var thickness: CGFloat { return GlobalTokens.stroke(.width05) }
 }

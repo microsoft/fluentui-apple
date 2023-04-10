@@ -5,51 +5,45 @@
 
 import UIKit
 
-// MARK: DateTimePicker Colors
-extension Colors {
-  struct DateTimePicker {
-    static var background = UIColor(light: surfacePrimary, dark: gray900)
-    static var text: UIColor = textSecondary
-  }
-}
-
 // MARK: - DateTimePickerViewComponentCell
 
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
-class DateTimePickerViewComponentCell: UITableViewCell {
+class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
-        static let maximumFontSize: CGFloat = 33.0
-        static let normalTextColor: UIColor = Colors.DateTimePicker.text
     }
 
     static let identifier: String = "DateTimePickerViewComponentCell"
 
     class var idealHeight: CGFloat {
-        return max(Constants.verticalPadding * 2 + Fonts.body.lineHeight, Constants.baseHeight)
+        let font = FluentTheme.shared.typography(.body1)
+        return max(Constants.verticalPadding * 2 + font.lineHeight, Constants.baseHeight)
     }
 
     var emphasized: Bool = false {
         didSet {
-            if emphasized {
-                textLabel?.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Fonts.headline, maximumPointSize: Constants.maximumFontSize)
-            } else {
-                textLabel?.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
-            }
             updateTextLabelColor()
         }
     }
 
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
-        backgroundColor = Colors.DateTimePicker.background
+        backgroundColor = .clear
+
+        updateTextLabelColor()
 
         textLabel?.textAlignment = .center
-        textLabel?.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
-        textLabel?.textColor = Constants.normalTextColor
         textLabel?.showsLargeContentViewer = true
+        textLabel?.font = fluentTheme.typography(.body1)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateTextLabelColor()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -74,14 +68,16 @@ class DateTimePickerViewComponentCell: UITableViewCell {
         // Override -> No highlight
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateTextLabelColor()
     }
 
     private func updateTextLabelColor() {
-        if let window = window {
-            textLabel?.textColor = emphasized ? Colors.primary(for: window) : Constants.normalTextColor
-        }
+        textLabel?.textColor = emphasized ? fluentTheme.color(.brandForeground1) : fluentTheme.color(.foreground2)
     }
 }

@@ -9,7 +9,8 @@ import UIKit
  `PopupMenuItem` represents a menu item inside `PopupMenuController`.
  */
 @objc(MSFPopupMenuItem)
-open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
+open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
+    public var fluentTheme: FluentTheme
 
     @objc public var cellClass: PopupMenuItemTemplateCell.Type
 
@@ -26,20 +27,48 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
     @objc public var isSelected: Bool = false
 
     /// `title` color
-    @objc public var titleColor: UIColor = Colors.Table.Cell.title
+    @objc public var titleColor: UIColor {
+        get {
+            return tokenSet[.titleColor].uiColor
+        }
+        set {
+            tokenSet[.titleColor] = .uiColor { newValue }
+        }
+    }
     /// `subtitle` color
-    @objc public var subtitleColor: UIColor = Colors.Table.Cell.subtitle
+    @objc public var subtitleColor: UIColor {
+        get {
+            return tokenSet[.subtitleColor].uiColor
+        }
+        set {
+            tokenSet[.subtitleColor] = .uiColor { newValue }
+        }
+    }
     /// `image` tint color if it is rendered as template
-    @objc public var imageColor: UIColor = Colors.Table.Cell.image
-    /// `title` color when`isSelected` is true. If unset, Colors.primary will be used
+    @objc public var imageColor: UIColor {
+        get {
+            return tokenSet[.imageColor].uiColor
+        }
+        set {
+            tokenSet[.imageColor] = .uiColor { newValue }
+        }
+    }
+    /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var titleSelectedColor: UIColor?
-    /// `subtitle` color when`isSelected` is true.  If unset, Colors.primary will be used
+    /// `subtitle` color when`isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var subtitleSelectedColor: UIColor?
-    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  Is unset, Colors.primary will be used
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
-    @objc public var backgroundColor: UIColor = .clear
-    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, Colors.primary will be used
+    @objc public var backgroundColor: UIColor {
+        get {
+            return tokenSet[.cellBackgroundColor].uiColor
+        }
+        set {
+            tokenSet[.cellBackgroundColor] = .uiColor { newValue }
+        }
+    }
+    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
     @objc public var accessoryCheckmarkColor: UIColor?
 
     @objc public let onSelected: (() -> Void)?
@@ -59,6 +88,7 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         self.executionMode = executionMode
         self.onSelected = onSelected
         self.isAccessoryCheckmarkVisible = isAccessoryCheckmarkVisible
+        self.fluentTheme = FluentTheme.shared
         super.init()
     }
 
@@ -67,4 +97,8 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem {
         let selectedImage = generateSelectedImage ? nil : image
         self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected, isAccessoryCheckmarkVisible: isAccessoryCheckmarkVisible)
     }
+
+    lazy var tokenSet: PopupMenuItemTokenSet = {
+        PopupMenuItemTokenSet(customViewSize: { self.image != nil ? .small : .zero })
+    }()
 }

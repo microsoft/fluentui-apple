@@ -18,7 +18,7 @@ class TableViewCellSampleData: TableViewSampleData {
             items: [
                 Item(text1: "Contoso Survey",
                      image: "excelIcon",
-                     text1LeadingAccessoryView: { createIconsAccessoryView(images: ["success-12x12"]) })
+                     text1LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -27,7 +27,7 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      image: "excelIcon",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
             ],
             isUnreadDotVisible: true
         ),
@@ -36,7 +36,7 @@ class TableViewCellSampleData: TableViewSampleData {
             items: [
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) })
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
             ]
         ),
         Section(
@@ -46,7 +46,7 @@ class TableViewCellSampleData: TableViewSampleData {
                      text2: "Research Notes",
                      text3: "22 views",
                      image: "excelIcon",
-                     text2TrailingAccessoryView: { createIconsAccessoryView(images: ["shared-12x12", "success-12x12"]) },
+                     text2TrailingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "success-12x12"]) },
                      text3TrailingAccessoryView: { createProgressAccessoryView() })
             ],
             hasFullLengthLabelAccessoryView: true
@@ -57,7 +57,7 @@ class TableViewCellSampleData: TableViewSampleData {
                 Item(text1: "Contoso Survey",
                      text2: "Research Notes",
                      text1TrailingAccessoryView: { createTextAccessoryView(text: "8:13 AM") },
-                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["success-12x12"]) },
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_lock_closed_20_regular"]) },
                      text2TrailingAccessoryView: { createIconsAccessoryView(images: ["at-12x12"], rightAligned: true) })
             ]
         ),
@@ -97,7 +97,7 @@ class TableViewCellSampleData: TableViewSampleData {
     ]
 
     static var customAccessoryView: UIView {
-        let label = Label(style: .body, colorStyle: .secondary)
+        let label = Label(style: .body1, colorStyle: .secondary)
         label.text = "PowerPoint Presentation"
         label.sizeToFit()
         label.numberOfLines = 0
@@ -171,8 +171,8 @@ class TableViewCellSampleData: TableViewSampleData {
         stackView.distribution = .fill
         stackView.axis = .vertical
 
-        let label = Label(style: .footnote)
-        label.textColor = Colors.textSecondary
+        let label = Label(style: .caption1)
+        label.textColor = stackView.fluentTheme.color(.foreground3)
         label.text = text
         stackView.addArrangedSubview(label)
 
@@ -189,7 +189,7 @@ class TableViewCellSampleData: TableViewSampleData {
 
         if withBorder {
             container.layer.borderWidth = 0.5
-            container.layer.borderColor = Colors.textSecondary.cgColor
+            container.layer.borderColor = stackView.fluentTheme.color(.foreground3).cgColor
             container.layer.cornerRadius = 3
         }
 

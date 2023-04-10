@@ -128,7 +128,7 @@ public struct Avatar: View, TokenizedControlView {
         let hasRingInnerGap = state.hasRingInnerGap
         let ringThicknessToken: CGFloat = tokenSet[.ringThickness].float
         let accessoryBorderThicknessToken: CGFloat = tokenSet[.borderThickness].float
-        let accessoryBorderColorToken: DynamicColor = tokenSet[.borderColor].dynamicColor
+        let accessoryBorderColorToken: UIColor = tokenSet[.borderColor].uiColor
         let isTransparent = state.isTransparent
         let isOutOfOffice = state.isOutOfOffice
 
@@ -146,17 +146,17 @@ public struct Avatar: View, TokenizedControlView {
 
         let colorHashCode = CalculatedColors.initialsHashCode(fromPrimaryText: state.primaryText, secondaryText: state.secondaryText)
 
-        let foregroundColor = state.foregroundColor?.dynamicColor ?? (
-            !shouldUseCalculatedColors ? tokenSet[.foregroundDefaultColor].dynamicColor :
+        let foregroundColor: UIColor = state.foregroundColor ?? (
+            !shouldUseCalculatedColors ? tokenSet[.foregroundDefaultColor].uiColor :
                 CalculatedColors.foregroundColor(hashCode: colorHashCode))
-        let backgroundColor = state.backgroundColor?.dynamicColor ?? (
-            !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].dynamicColor :
+        let backgroundColor: UIColor = state.backgroundColor ?? (
+            !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].uiColor :
                 CalculatedColors.backgroundColor(hashCode: colorHashCode))
-        let ringGapColor = Color(dynamicColor: tokenSet[.ringGapColor].dynamicColor).opacity(isTransparent ? 0 : 1)
+        let ringGapColor = Color(tokenSet[.ringGapColor].uiColor).opacity(isTransparent ? 0 : 1)
         let ringColor = !isRingVisible ? Color.clear :
-        Color(dynamicColor: state.ringColor?.dynamicColor ?? ( !shouldUseCalculatedColors ?
-                                                               tokenSet[.ringDefaultColor].dynamicColor :
-                                                               CalculatedColors.ringColor(hashCode: colorHashCode)))
+        Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
+                                       tokenSet[.ringDefaultColor].uiColor :
+                                       CalculatedColors.ringColor(hashCode: colorHashCode)))
 
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
@@ -179,17 +179,44 @@ public struct Avatar: View, TokenizedControlView {
                         defaultAccessibilityText)
         }()
 
+#if DEBUG
+            let accessibilityIdentifier: String = {
+                let imageDescription: String = state.image != nil ? "image" : initialsString != "" ? "initials" : "icon"
+                let ringDescription: String = {
+                    if !state.isRingVisible {
+                        return "no ring"
+                    }
+                    if state.imageBasedRingColor == nil {
+                        return state.hasRingInnerGap ? "a default ring with an inner gap" : "a default ring with no inner gap"
+                    }
+                    return state.hasRingInnerGap ? "an image based ring with an inner gap" : "an image based ring with no inner gap"
+                }()
+                let presenceActivityDescription: String = {
+                    if shouldDisplayActivity {
+                        return "activity \(state.activityStyle.rawValue)"
+                    } else {
+                        return state.isOutOfOffice ? "presence out of office" : "presence \(state.presence.rawValue)"
+                    }
+                }()
+
+                if let title: String = state.primaryText ?? state.secondaryText {
+                    return "Avatar of \(title)'s \(imageDescription) with \(ringDescription) and \(presenceActivityDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+                }
+                return "Avatar of an \(imageDescription) with \(ringDescription) and presence \(presenceActivityDescription) in size \(AvatarTokenSet.avatarSize(state.size)) and style \(state.style.rawValue)"
+            }()
+#endif
+
         @ViewBuilder
         var avatarContent: some View {
             if let image = avatarImageInfo.image {
                 Image(uiImage: image)
                     .renderingMode(avatarImageInfo.renderingMode)
                     .resizable()
-                    .foregroundColor(Color(dynamicColor: foregroundColor))
+                    .foregroundColor(Color(foregroundColor))
             } else {
                 Text(initialsString)
-                    .foregroundColor(Color(dynamicColor: foregroundColor))
-                    .font(.fluent(tokenSet[.textFont].fontInfo, shouldScale: false))
+                    .foregroundColor(Color(foregroundColor))
+                    .font(.init(tokenSet[.textFont].uiFont))
             }
         }
 
@@ -224,7 +251,7 @@ public struct Avatar: View, TokenizedControlView {
                 avatarContent
                     .background(Rectangle()
                         .frame(width: avatarSize, height: avatarSize, alignment: .center)
-                        .foregroundColor(Color(dynamicColor: backgroundColor)))
+                        .foregroundColor(Color(backgroundColor)))
                     .frame(width: avatarSize, height: avatarSize, alignment: .center)
                     .contentShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
                     .clipShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
@@ -235,7 +262,7 @@ public struct Avatar: View, TokenizedControlView {
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
                                 .overlay(Circle()
-                                            .foregroundColor(Color(dynamicColor: backgroundColor))
+                                            .foregroundColor(Color(backgroundColor))
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                                             .overlay(avatarContent
                                                         .frame(width: avatarImageSize * avatarImageSizeRatio,
@@ -264,7 +291,8 @@ public struct Avatar: View, TokenizedControlView {
                 }()
                 let accessoryIconSize: CGFloat = shouldDisplayActivity ? AvatarTokenSet.activityIconBackgroundSize(size) : AvatarTokenSet.presenceIconSize(size)
                 let accessoryBorderSize: CGFloat = accessoryIconSize + (accessoryBorderThicknessToken * 2)
-                let accessoryBackgroundColor: DynamicColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].dynamicColor : accessoryBorderColorToken
+                let accessoryBackgroundColor: UIColor = shouldDisplayActivity ? tokenSet[.activityBackgroundColor].uiColor : accessoryBorderColorToken
+                let accessoryForegroundColor: Color = shouldDisplayActivity ? Color(tokenSet[.activityForegroundColor].uiColor) : presence.color(isOutOfOffice: isOutOfOffice, fluentTheme: fluentTheme)
                 let accessoryIconOffset: CGFloat = shouldDisplayActivity ? accessoryBorderThicknessToken * 3 : accessoryBorderThicknessToken
                 let accessoryCutoutCoordinates: CGPoint = accessoryCoordinates(iconOffset: accessoryIconOffset,
                                                                                iconSize: accessoryBorderSize,
@@ -294,7 +322,7 @@ public struct Avatar: View, TokenizedControlView {
                     .modifyIf(shouldDisplayActivity, { thisView in
                         thisView
                             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(dynamicColor: accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
+                                .foregroundColor(Color(accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
                                 .frame(width: accessoryBorderSize, height: accessoryBorderSize, alignment: .center)
                                 .contentShape(Circle())
                                 .frame(width: accessoryBorderFrameSideRelativeToOuterRing, height: accessoryBorderFrameSideRelativeToOuterRing,
@@ -305,7 +333,7 @@ public struct Avatar: View, TokenizedControlView {
                     .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
                         thisView
                             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(dynamicColor: accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
+                                .foregroundColor(Color(accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
                                 .frame(width: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        height: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        alignment: .center)
@@ -315,7 +343,7 @@ public struct Avatar: View, TokenizedControlView {
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
-                                            .foregroundColor(shouldDisplayActivity ? Color.clear : presence.color(isOutOfOffice: isOutOfOffice)))
+                                            .foregroundColor(accessoryForegroundColor))
                                         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
@@ -359,6 +387,9 @@ public struct Avatar: View, TokenizedControlView {
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
             .accessibility(value: Text(presence.string() ?? ""))
+#if DEBUG
+            .accessibilityIdentifier(accessibilityIdentifier)
+#endif
             .fluentTokens(tokenSet, fluentTheme)
     }
 
@@ -438,22 +469,22 @@ public struct Avatar: View, TokenizedControlView {
 
     /// Handles calculating colors for Avatar foreground and background.
     private struct CalculatedColors {
-        static func backgroundColor(hashCode: Int) -> DynamicColor {
+        static func backgroundColor(hashCode: Int) -> UIColor {
             let colorSet = colors[hashCode % colors.count]
-            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .tint40),
-                                dark: GlobalTokens.sharedColors(colorSet, .shade30))
+            return UIColor(light: GlobalTokens.sharedColor(colorSet, .tint40),
+                           dark: GlobalTokens.sharedColor(colorSet, .shade30))
         }
 
-        static func foregroundColor(hashCode: Int) -> DynamicColor {
+        static func foregroundColor(hashCode: Int) -> UIColor {
             let colorSet = colors[hashCode % colors.count]
-            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .shade30),
-                                dark: GlobalTokens.sharedColors(colorSet, .tint40))
+            return UIColor(light: GlobalTokens.sharedColor(colorSet, .shade30),
+                           dark: GlobalTokens.sharedColor(colorSet, .tint40))
         }
 
-        static func ringColor(hashCode: Int) -> DynamicColor {
+        static func ringColor(hashCode: Int) -> UIColor {
             let colorSet = colors[hashCode % colors.count]
-            return DynamicColor(light: GlobalTokens.sharedColors(colorSet, .primary),
-                                dark: GlobalTokens.sharedColors(colorSet, .tint30))
+            return UIColor(light: GlobalTokens.sharedColor(colorSet, .primary),
+                           dark: GlobalTokens.sharedColor(colorSet, .tint30))
         }
 
         static func initialsHashCode(fromPrimaryText primaryText: String?, secondaryText: String?) -> Int {
@@ -478,7 +509,7 @@ public struct Avatar: View, TokenizedControlView {
             return hash
         }
 
-        private static var colors: [GlobalTokens.SharedColorSets] = [
+        private static var colors: [GlobalTokens.SharedColorSet] = [
             .darkRed,
             .cranberry,
             .red,

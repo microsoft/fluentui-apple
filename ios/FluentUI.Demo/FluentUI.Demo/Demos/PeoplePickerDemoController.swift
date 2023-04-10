@@ -93,6 +93,7 @@ class PeoplePickerDemoController: DemoController {
         peoplePicker.hidePersonaListViewWhenNoSuggestedPersonas = variant.hidePersonaListViewWhenNoSuggestedPersonas
         peoplePicker.showsAvatar = variant.showsAvatar
         peoplePicker.delegate = self
+        peoplePicker.isActive = true
         peoplePickers.append(peoplePicker)
         container.addArrangedSubview(peoplePicker)
     }
@@ -103,7 +104,7 @@ class PeoplePickerDemoController: DemoController {
         asyncImageRow.alignment = .center
         asyncImageRow.distribution = .equalSpacing
 
-        let asyncImageLabel = Label(style: .subhead, colorStyle: .regular)
+        let asyncImageLabel = Label()
         asyncImageLabel.text = "Load persona images asynchronously"
 
         asyncImageRow.addArrangedSubview(asyncImageLabel)

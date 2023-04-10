@@ -11,6 +11,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         static let badgeViewCornerRadius: CGFloat = 10
         static let badgeViewSideLength: CGFloat = 20
         static let badgeViewMaxFontSize: CGFloat = 40
+        static let searchBarStackviewMargin: CGFloat = 16
     }
 
     private lazy var searchBarWithBadgeView: SearchBar =
@@ -28,23 +29,77 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         return buildBadgeView(text: "Kat Larsson", customView: imageView)
     }()
 
+    private var searchBars: [SearchBar] = []
+
+    let segmentedControl: SegmentedControl = {
+        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
+                                                style: .primaryPill)
+
+        return segmentedControl
+    }()
+
+    @objc private func updateSearchbars() {
+        if segmentedControl.selectedSegmentIndex == 1 {
+            searchBarsStackView.backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .lightContent)
+        } else {
+            searchBarsStackView.backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: view.fluentTheme)
+            updateSearchBarsStyles(to: .darkContent)
+        }
+    }
+
+    private func updateSearchBarsStyles(to style: SearchBar.Style) {
+        for searchBar in searchBars {
+            searchBar.style = style
+        }
+    }
+
+    // Used to change the SearchBars' background color between brand and system styles
+    private let searchBarsStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.layoutMargins = UIEdgeInsets(top: Constants.searchBarStackviewMargin,
+                                               left: Constants.searchBarStackviewMargin,
+                                               bottom: Constants.searchBarStackviewMargin,
+                                               right: Constants.searchBarStackviewMargin)
+        stackView.axis = .vertical
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.spacing = Constants.searchBarStackviewMargin
+        return stackView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "no autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "autocorrect")
 
-        container.addArrangedSubview(searchBarNoAutocorrect)
-        container.addArrangedSubview(searchBarAutocorrect)
-        container.addArrangedSubview(searchBarWithBadgeView)
-        container.addArrangedSubview(searchBarWithAvatarBadgeView)
+        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
+
+        container.addArrangedSubview(segmentedControl)
+        container.addArrangedSubview(UIView())
+
+        for searchBar in searchBars {
+            searchBarsStackView.addArrangedSubview(searchBar)
+        }
+
+        container.addArrangedSubview(searchBarsStackView)
+
+        segmentedControl.onSelectAction = { [weak self] (_, _) in
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.updateSearchbars()
+        }
+
+        updateSearchbars()
     }
 
     func buildBadgeView(text: String, customView: UIView? = nil) -> UIView {
         let dataSource = BadgeViewDataSource(text: text, customView: customView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
-        badge.disabledBackgroundColor = Colors.Palette.blueMagenta20.color
+        badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
         badge.disabledLabelTextColor = .white
         badge.isActive = false
         badge.maxFontSize = Constants.badgeViewMaxFontSize
@@ -96,5 +151,77 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             alert.dismiss(animated: false)
         }
+    }
+}
+
+// MARK: DemoAppearanceDelegate
+
+extension SearchBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: SearchBarTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideSearchBarTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for searchBar in searchBars {
+            searchBar.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideSearchBarTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: SearchBarTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideSearchBarTokens: [SearchBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                                         dark: GlobalTokens.sharedColors(.berry, .tint40)))
+            },
+            .textColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                          dark: GlobalTokens.neutralColors(.grey98)))
+            },
+            .font: .uiFont {
+                return self.view.fluentTheme.typography(.body1Strong)
+            },
+            .progressSpinnerColor: .uiColor {
+                return .green
+            },
+            .activeSearchIconColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
+                                                         dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            }
+        ]
+    }
+
+    private var perControlOverrideSearchBarTokens: [SearchBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return self.view.fluentTheme.color(.dangerBackground1)
+            },
+            .textColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            },
+            .cancelButtonColor: .uiColor {
+                return .red
+            },
+            .placeholderColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.berry, .tint40)))
+            },
+            .inactiveSearchIconColor: .uiColor {
+                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
+                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+            },
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 12), size: 12)
+            }
+        ]
     }
 }

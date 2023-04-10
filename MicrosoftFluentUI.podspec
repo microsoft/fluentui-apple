@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.12.0'
+  s.version          = '0.16.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
   s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.7"
+  s.swift_version = "5.7.1"
   s.module_name = 'FluentUI'
 
 
@@ -103,8 +103,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
-    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
@@ -135,11 +134,12 @@ fi', :execution_position => :before_compile }
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
-  end
+  # Temporarily removed while this is not part of our main project
+  # s.subspec 'Divider_ios' do |divider_ios|
+  #   divider_ios.platform = :ios
+  #   divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+  #   divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
+  # end
 
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios
@@ -181,6 +181,14 @@ fi', :execution_position => :before_compile }
     label_ios.platform = :ios
     label_ios.dependency 'MicrosoftFluentUI/Core_ios'
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
+  end
+
+  s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
+    multilinecommandbar_ios.platform = :ios
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/CommandBar_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    multilinecommandbar_ios.source_files = ["ios/FluentUI/MultilineCommandBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Navigation_ios' do |navigation_ios|
@@ -298,6 +306,15 @@ fi', :execution_position => :before_compile }
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
   end
 
+  s.subspec 'TextField_ios' do |textfield_ios|
+    textfield_ios.platform = :ios
+    textfield_ios.dependency 'MicrosoftFluentUI/Button_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    textfield_ios.preserve_paths = ["ios/FluentUI/TextField/TextField.resources.xcfilelist"]
+    textfield_ios.source_files = ["ios/FluentUI/TextField/**/*.{swift,h}"]
+  end
+
   s.subspec 'Tooltip_ios' do |tooltip_ios|
     tooltip_ios.platform = :ios
     tooltip_ios.dependency 'MicrosoftFluentUI/Label_ios'
@@ -357,8 +374,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 

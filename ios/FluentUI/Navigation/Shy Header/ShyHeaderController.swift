@@ -66,16 +66,16 @@ class ShyHeaderController: UIViewController {
     private var contentScrollViewObservation: NSKeyValueObservation?
     private var previousContentScrollViewTraits = ContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
-    init(contentViewController: UIViewController) {
+    // The context of the parent controller used to pull the correct FluentTheme to update visuals
+    weak var containingView: UIView?
+
+    init(contentViewController: UIViewController, containingView: UIView?) {
         self.contentViewController = contentViewController
-        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
-        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        self.containingView = containingView
 
         super.init(nibName: nil, bundle: nil)
 
-        shyHeaderView.maxHeightChanged = { [weak self] in
-            self?.updatePadding()
-        }
+        setupShyHeaderView()
 
         loadViewIfNeeded()
         addChild(contentViewController)
@@ -121,10 +121,6 @@ class ShyHeaderController: UIViewController {
 
         updatePadding()
         setupNotificationObservers()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         updateNavigationBarStyle()
     }
 
@@ -208,6 +204,16 @@ class ShyHeaderController: UIViewController {
         view.bringSubviewToFront(paddingView)
     }
 
+    private func setupShyHeaderView() {
+        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
+        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        shyHeaderView.paddingView = paddingView
+        shyHeaderView.parentController = self
+        shyHeaderView.maxHeightChanged = { [weak self] in
+            self?.updatePadding()
+        }
+    }
+
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
         // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
@@ -258,14 +264,14 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-    private func updateBackgroundColor(with item: UINavigationItem, window: UIWindow) {
-        let color = item.navigationBarColor(for: window)
+    private func updateBackgroundColor(with item: UINavigationItem) {
+        let color = item.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
         navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [weak self] item, _ in
-            self?.updateBackgroundColor(with: item, window: window)
+            self?.updateBackgroundColor(with: item)
         }
     }
 
@@ -523,10 +529,9 @@ class ShyHeaderController: UIViewController {
 
     /// Updates based on the current navigation bar style.
     private func updateNavigationBarStyle() {
-        if let window = view.window,
-            let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
             shyHeaderView.navigationBarStyle = actualStyle
-            updateBackgroundColor(with: actualItem, window: window)
+            updateBackgroundColor(with: actualItem)
         }
     }
 

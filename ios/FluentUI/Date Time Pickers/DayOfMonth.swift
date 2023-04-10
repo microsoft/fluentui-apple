@@ -59,7 +59,7 @@ public enum DayOfWeek: Int {
         return daysOfWeek
     }
 
-    private static let weekdaySymbols = Calendar.sharedCalendarWithTimeZone(nil).weekdaySymbols
+    private static let weekdaySymbols: [String] = Calendar.sharedCalendarWithTimeZone(nil).weekdaySymbols
 
     public var label: String {
         return DayOfWeek.weekdaySymbols[rawValue]

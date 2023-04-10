@@ -40,29 +40,22 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
         super.init { token, theme in
             switch token {
             case .tooltipColor:
-                return .dynamicColor { DynamicColor(light: ColorValue(r: 33.0 / 255.0,
-                                                                      g: 33.0 / 255.0,
-                                                                      b: 33.0 / 255.0,
-                                                                      a: 0.95),
-                                                    dark: theme.aliasTokens.brandColors[.primary].dark)
-                }
+                return .uiColor { theme.color(.backgroundDarkStatic) }
 
             case .textColor:
-                return .dynamicColor { DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                    dark: GlobalTokens.neutralColors(.black))
-                }
+                return .uiColor { theme.color(.foregroundLightStatic) }
 
             case .shadowInfo:
-                return .shadowInfo { theme.aliasTokens.shadow[.shadow16] }
+                return .shadowInfo { theme.shadow(.shadow16) }
 
             case .backgroundCornerRadius:
-                return .float { GlobalTokens.borderRadius(.large) }
+                return .float { GlobalTokens.corner(.radius80) }
 
             case .messageLabelTextStyle:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .uiFont { theme.typography(.body2) }
 
             case .titleLabelTextStyle:
-                return .fontInfo { theme.aliasTokens.typography[.body1Strong] }
+                return .uiFont { theme.typography(.body1Strong) }
 
             case .maximumWidth:
                 return .float { 250.0 }
@@ -81,18 +74,18 @@ public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
 extension TooltipTokenSet {
 
     /// The horizontal padding between the text and edges of the tooltip.
-    static let paddingHorizontal: CGFloat = GlobalTokens.spacing(.small)
+    static let paddingHorizontal: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical padding between the text and edges of the tooltip with both a title and message.
-    static let paddingVerticalWithTitle: CGFloat = GlobalTokens.spacing(.small)
+    static let paddingVerticalWithTitle: CGFloat = GlobalTokens.spacing(.size120)
 
     /// The vertical padding between the text and edges of the tooltip with just a message.
-    static let paddingVerticalWithoutTitle: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let paddingVerticalWithoutTitle: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The vertical spacing between the title and message.
-    static let spacingVertical: CGFloat = GlobalTokens.spacing(.xSmall)
+    static let spacingVertical: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The margins from the window's safe area insets used for laying out the tooltip.
-    static let screenMargin: CGFloat = GlobalTokens.spacing(.medium)
+    static let screenMargin: CGFloat = GlobalTokens.spacing(.size160)
 
 }

@@ -49,7 +49,7 @@ class DemoController: UIViewController {
 
     @discardableResult
     func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> Label {
-        let description = Label(style: .subhead, colorStyle: .regular)
+        let description = Label()
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
@@ -59,7 +59,7 @@ class DemoController: UIViewController {
     }
 
     func addTitle(text: String) {
-        let titleLabel = Label(style: .headline)
+        let titleLabel = Label(style: .body1Strong)
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
@@ -67,7 +67,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: FluentTheme.TypographyToken = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -79,7 +79,7 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if !text.isEmpty {
-            let label = Label(style: textStyle, colorStyle: .regular)
+            let label = Label(textStyle: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
@@ -124,7 +124,7 @@ class DemoController: UIViewController {
         stackView.alignment = .center
         stackView.spacing = Constants.stackViewSpacing
 
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = labelText
         stackView.addArrangedSubview(label)
 
@@ -137,7 +137,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.surfacePrimary
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)
@@ -170,7 +170,7 @@ class DemoController: UIViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                              style: .plain,
                                              target: self,
-                                             action: #selector(showAppearancePopover))
+                                             action: #selector(showAppearancePopover(_:)))
         let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
                                            style: .plain,
                                            target: self,
@@ -184,10 +184,19 @@ class DemoController: UIViewController {
         self.present(readmeViewController, animated: true, completion: nil)
     }
 
-    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.popoverPresentationController?.barButtonItem = sender
+    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
+        if let barButtonItem = sender as? UIBarButtonItem {
+            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
+        } else if let sourceView = sender as? UIView {
+            appearanceController.popoverPresentationController?.sourceView = sourceView
+            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
+        }
         appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
+        presenter.present(appearanceController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject) {
+        showAppearancePopover(sender, presenter: self)
     }
 
     var readmeString: String?

@@ -76,7 +76,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 return cell
             }
 
-            let titleLabel = Label(style: .body, colorStyle: .regular)
+            let titleLabel = Label()
             titleLabel.text = activityIndicatorSize.description
             titleLabel.numberOfLines = 0
 
@@ -171,7 +171,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
         MSFActivityIndicatorSize.allCases.forEach { size in
             let indicator = MSFActivityIndicator(size: size)
             indicator.state.isAnimating = true
-            indicator.state.color = Colors.communicationBlue
+            indicator.state.color = UIColor(colorValue: GlobalTokens.brandColors(.comm80))
             customColorIndicators.updateValue(indicator, forKey: size)
         }
 
@@ -278,14 +278,14 @@ extension ActivityIndicatorDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) },
+            .defaultColor: .uiColor { GlobalTokens.sharedColor(.red, .primary) },
             .thickness: .float { 20.0 }
         ]
     }
 
     private var perControlOverrideActivityIndicatorTokens: [ActivityIndicatorTokenSet.Tokens: ControlTokenValue] {
         return [
-            .defaultColor: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.green, .primary)) },
+            .defaultColor: .uiColor { GlobalTokens.sharedColor(.green, .primary) },
             .thickness: .float { 10.0 }
         ]
     }

@@ -35,69 +35,177 @@ enum DemoColorTheme: CaseIterable {
 }
 
 class DemoColorDefaultTheme: NSObject, ColorProviding {
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return Colors.communicationBlue
+    var brandBackground1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                                  dark: GlobalTokens.brandColors(.comm100)))
     }
 
-    func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint10.color
+    var brandBackground1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                                  dark: GlobalTokens.brandColors(.comm140)))
     }
 
-    func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint20.color
+    var brandBackground1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                                  dark: GlobalTokens.brandColors(.comm120)))
     }
 
-    func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint30.color
+    var brandBackground2: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm70)))
     }
 
-    func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueTint40.color
+    var brandBackground2Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm40)))
     }
 
-    func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade10.color
+    var brandBackground2Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80)))
     }
 
-    func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade20.color
+    var brandBackground3: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                                  dark: GlobalTokens.brandColors(.comm120)))
     }
 
-    func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        Colors.Palette.communicationBlueShade30.color
+    var brandBackgroundTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm150),
+                                                  dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    var brandBackgroundDisabled: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                                  dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    var brandForeground1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                                  dark: GlobalTokens.brandColors(.comm100)))
+    }
+
+    var brandForeground1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                                  dark: GlobalTokens.brandColors(.comm140)))
+    }
+
+    var brandForeground1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                                  dark: GlobalTokens.brandColors(.comm120)))
+    }
+
+    var brandForegroundTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                                  dark: GlobalTokens.brandColors(.comm130)))
+    }
+
+    var brandForegroundDisabled1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm90)))
+    }
+
+    var brandForegroundDisabled2: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm140),
+                                                  dark: GlobalTokens.brandColors(.comm40)))
+    }
+
+    var brandStroke1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm80),
+                                                  dark: GlobalTokens.brandColors(.comm100)))
+    }
+
+    var brandStroke1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm50),
+                                                  dark: GlobalTokens.brandColors(.comm140)))
+    }
+
+    var brandStroke1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
+                                                  dark: GlobalTokens.brandColors(.comm120)))
     }
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
-    func primaryColor(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryColor")
+    var brandBackground1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
     }
 
-    func primaryTint10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint10Color")
+    var brandBackground1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
     }
 
-    func primaryTint20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint20Color")
+    var brandBackground1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
     }
 
-    func primaryTint30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint30Color")
+    var brandBackground2: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B)))
     }
 
-    func primaryTint40Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryTint40Color")
+    var brandBackground2Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x052912)))
     }
 
-    func primaryShade10Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade10Color")
+    var brandBackground2Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325)))
     }
 
-    func primaryShade20Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade20Color")
+    var brandBackground3: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325)))
     }
 
-    func primaryShade30Color(for window: UIWindow) -> UIColor? {
-        return UIColor(named: "Colors/DemoPrimaryShade30Color")
+    var brandBackgroundTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xCAEAD8),
+                                                  dark: ColorValue(0x094624)))
+    }
+
+    var brandBackgroundDisabled: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xA0D8B9),
+                                                  dark: ColorValue(0x0A5325)))
+    }
+
+    var brandForeground1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
+    }
+
+    var brandForeground1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
+    }
+
+    var brandForeground1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
+    }
+
+    var brandForegroundTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0C5F32),
+                                                  dark: ColorValue(0x60BD82)))
+    }
+
+    var brandForegroundDisabled1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x37A660),
+                                                  dark: ColorValue(0x218D51)))
+    }
+
+    var brandForegroundDisabled2: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xCAEAD8),
+                                                  dark: ColorValue(0x0F703B)))
+    }
+
+    var brandStroke1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
+    }
+
+    var brandStroke1Pressed: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0A5325),
+                                                  dark: ColorValue(0xCAEAD8)))
+    }
+
+    var brandStroke1Selected: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
+                                                  dark: ColorValue(0x60BD82)))
     }
 }

@@ -48,25 +48,6 @@ public protocol BadgeViewDelegate {
     func didTapSelectedBadge(_ badge: BadgeView)
 }
 
-// MARK: - Badge Colors
-
-private extension Colors {
-    struct Badge {
-        static var background: UIColor = .clear
-        static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
-        static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
-        static var backgroundErrorSelected: UIColor = error
-        static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
-        static var backgroundWarningSelected: UIColor = warning
-        static var textSelected: UIColor = textOnAccent
-        static var textDisabled: UIColor = textSecondary
-        static var textError: UIColor = Palette.dangerShade20.color
-        static var textErrorSelected: UIColor = textOnAccent
-        static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
-        static var textWarningSelected: UIColor = .black
-    }
-}
-
 // MARK: - BadgeView
 
 /**
@@ -75,12 +56,15 @@ private extension Colors {
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
 @objc(MSFBadgeView)
-open class BadgeView: UIView {
+open class BadgeView: UIView, TokenizedControlInternal {
     @objc(MSFBadgeViewStyle)
     public enum Style: Int {
         case `default`
         case warning
         case error
+        case neutral
+        case severeWarning
+        case success
     }
 
     @objc(MSFBadgeViewSize)
@@ -88,12 +72,12 @@ open class BadgeView: UIView {
         case small
         case medium
 
-        var labelTextStyle: TextStyle {
+        var labelTextStyle: FluentTheme.TypographyToken {
             switch self {
             case .small:
-                return .footnote
+                return .caption1
             case .medium:
-                return .subhead
+                return .body2
             }
         }
 
@@ -160,15 +144,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
+                return tokenSet.fluentTheme.color(.brandForegroundTint)
             case .warning:
-                return Colors.Badge.textWarning
+                return tokenSet.fluentTheme.color(.warningForeground1)
             case .error:
-                return Colors.Badge.textError
+                return tokenSet.fluentTheme.color(.dangerForeground1)
+            case .neutral:
+                return tokenSet.fluentTheme.color(.foreground2)
+            case .severeWarning:
+                return tokenSet.fluentTheme.color(.severeForeground1)
+            case .success:
+                return tokenSet.fluentTheme.color(.successForeground1)
             }
-            return nil
         }
         set {
             if labelTextColor != newValue {
@@ -187,11 +174,15 @@ open class BadgeView: UIView {
 
             switch style {
             case .default:
-                return Colors.Badge.textSelected
+                return tokenSet.fluentTheme.color(.foregroundOnColor)
             case .warning:
-                return Colors.Badge.textWarningSelected
-            case .error:
-                return Colors.Badge.textErrorSelected
+                return tokenSet.fluentTheme.color(.foregroundDarkStatic)
+            case .error,
+                 .severeWarning,
+                 .success:
+                return tokenSet.fluentTheme.color(.foregroundLightStatic)
+            case .neutral:
+                return tokenSet.fluentTheme.color(.foreground1)
             }
         }
         set {
@@ -208,7 +199,14 @@ open class BadgeView: UIView {
             if let customDisabledLabelTextColor = _disabledLabelTextColor {
                 return customDisabledLabelTextColor
             }
-            return style == .default ? Colors.Badge.textDisabled : (isSelected ? self.selectedLabelTextColor : self.labelTextColor)
+
+            let textDisabledColor = tokenSet.fluentTheme.color(.foregroundDisabled1)
+            if style == .default {
+                return UIColor(light: tokenSet.fluentTheme.color(.brandForegroundDisabled1),
+                               dark: textDisabledColor)
+            } else {
+                return textDisabledColor
+            }
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -226,15 +224,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primaryTint40(for: window)
-                }
+                return tokenSet.fluentTheme.color(.brandBackgroundTint)
             case .warning:
-                return Colors.Badge.backgroundWarning
+                return tokenSet.fluentTheme.color(.warningBackground1)
             case .error:
-                return Colors.Badge.backgroundError
+                return tokenSet.fluentTheme.color(.dangerBackground1)
+            case .neutral:
+                return tokenSet.fluentTheme.color(.background5)
+            case .severeWarning:
+                return tokenSet.fluentTheme.color(.severeBackground1)
+            case .success:
+                return tokenSet.fluentTheme.color(.successBackground1)
             }
-            return nil
         }
         set {
             if backgroundColor != newValue {
@@ -252,15 +253,18 @@ open class BadgeView: UIView {
             }
             switch style {
             case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
+                return tokenSet.fluentTheme.color(.brandBackground1)
             case .warning:
-                return Colors.Badge.backgroundWarningSelected
+                return tokenSet.fluentTheme.color(.warningBackground2)
             case .error:
-                return Colors.Badge.backgroundErrorSelected
+                return tokenSet.fluentTheme.color(.dangerBackground2)
+            case .neutral:
+                return tokenSet.fluentTheme.color(.background5Selected)
+            case .severeWarning:
+                return tokenSet.fluentTheme.color(.severeBackground2)
+            case .success:
+                return tokenSet.fluentTheme.color(.successBackground2)
             }
-            return nil
         }
         set {
             if selectedBackgroundColor != newValue {
@@ -285,7 +289,13 @@ open class BadgeView: UIView {
             if let customDisabledBackgroundColor = _disabledBackgroundColor {
                 return customDisabledBackgroundColor
             }
-            return style == .default ? Colors.Badge.backgroundDisabled : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
+
+            let backgroundDisabledColor = tokenSet.fluentTheme.color(.background5)
+            if style == .default {
+                return UIColor(light: tokenSet.fluentTheme.color(.brandBackground3), dark: backgroundDisabledColor)
+            } else {
+                return backgroundDisabledColor
+            }
         }
         set {
             if disabledBackgroundColor != newValue {
@@ -317,6 +327,9 @@ open class BadgeView: UIView {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
+
     private var style: Style = .default {
         didSet {
             updateColors()
@@ -325,7 +338,7 @@ open class BadgeView: UIView {
 
     private var size: Size = .medium {
         didSet {
-            label.style = size.labelTextStyle
+            label.textStyle = size.labelTextStyle
             invalidateIntrinsicContentSize()
         }
     }
@@ -378,15 +391,34 @@ open class BadgeView: UIView {
         isAccessibilityElement = true
         accessibilityTraits = .button
 
-        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(invalidateIntrinsicContentSize),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+            self?.updateFonts()
+        }
 
         defer {
             self.dataSource = dataSource
         }
+
+        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    private func updateFonts() {
+        switch size {
+        case .small:
+            label.font = tokenSet.fluentTheme.typography(.caption1)
+        case .medium:
+            label.font = tokenSet.fluentTheme.typography(.body2)
+        }
     }
 
     open override func layoutSubviews() {
@@ -439,9 +471,14 @@ open class BadgeView: UIView {
         return CGSize(width: max(minWidth, min(width, maxWidth)), height: min(height, maxHeight))
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateColors()
+        updateFonts()
     }
 
     private func customViewSize(for size: CGSize) -> CGSize? {
@@ -458,7 +495,7 @@ open class BadgeView: UIView {
 
     private func updateBackgroundColor() {
         backgroundView.backgroundColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
-        super.backgroundColor = Colors.Badge.background
+        super.backgroundColor = .clear
     }
 
     private func updateLabelTextColor() {
@@ -476,5 +513,8 @@ open class BadgeView: UIView {
 
     // MARK: Accessibility
 
-    open override var accessibilityLabel: String? { get { return label.text } set { } }
+    open override var accessibilityLabel: String? {
+        get { return dataSource?.accessibilityLabel ?? label.text }
+        set { }
+    }
 }

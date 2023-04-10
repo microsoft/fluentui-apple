@@ -17,22 +17,22 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 
 /// `TableViewHeaderFooterView` is used to present a section header or footer with a `title` and an optional accessory button.
 /// Set the `TableViewHeaderFooterView.Style` of the view to specify its visual style. The `default` and `headerPrimary` style may be used for headers.
-/// The `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists. Use `divider` and `dividerHighlighted` as headers for plain lists.
+/// The `footer` style, which lays out the `title` near the top of the view, may be used for footers in grouped lists.
 /// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
 /// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
-open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
+open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedControlInternal {
     @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
     public enum AccessoryButtonStyle: Int {
         case regular
         case primary
 
-        func textColor(for window: UIWindow) -> UIColor {
+        func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .regular:
-                return Colors.Table.HeaderFooter.accessoryButtonText
+                return fluentTheme.color(.foreground2)
             case .primary:
-                return UIColor(light: Colors.primaryShade10(for: window), dark: Colors.primary(for: window))
+                return fluentTheme.color(.brandForeground1)
             }
         }
     }
@@ -41,41 +41,24 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc(MSFTableViewHeaderFooterViewStyle)
     public enum Style: Int {
         case header
-        case divider
-        case dividerHighlighted
         case footer
         case headerPrimary
 
-        func backgroundColor(for window: UIWindow) -> UIColor {
-            switch self {
-            case .header, .footer, .headerPrimary:
-                return Colors.Table.HeaderFooter.background
-            case .divider:
-                return Colors.Table.HeaderFooter.backgroundDivider
-            case .dividerHighlighted:
-                return UIColor(light: Colors.primaryTint40(for: window), dark: Colors.surfaceSecondary)
-            }
-        }
-
-        func textColor(for window: UIWindow) -> UIColor {
+        func textColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .header, .footer:
-                return Colors.Table.HeaderFooter.text
-            case .divider:
-                return Colors.Table.HeaderFooter.textDivider
-            case .dividerHighlighted:
-                return Colors.primary(for: window)
+                return fluentTheme.color(.foreground2)
             case .headerPrimary:
-                return Colors.textPrimary
+                return fluentTheme.color(.foreground1)
             }
         }
 
         func textFont() -> UIFont {
             switch self {
             case .headerPrimary:
-                return Constants.primaryTitleTextStyle.font
-            case .header, .footer, .divider, .dividerHighlighted:
-                return Constants.titleTextStyle.font
+                return FluentTheme.shared.typography(.body1Strong)
+            case .header, .footer:
+                return FluentTheme.shared.typography(.caption1)
             }
         }
     }
@@ -86,12 +69,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         static let titleDefaultTopMargin: CGFloat = 24
         static let titleDefaultBottomMargin: CGFloat = 8
         static let titleDividerVerticalMargin: CGFloat = 3
-        static let primaryTitleTextStyle: TextStyle = .headline
-        static let titleTextStyle: TextStyle = .footnote
 
         static let accessoryViewBottomMargin: CGFloat = 2
         static let accessoryViewMarginLeft: CGFloat = 8
-        static var accessoryButtonTextStyle: TextStyle = .button2
     }
 
     @objc public static var identifier: String { return String(describing: self) }
@@ -113,8 +93,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
         case .headerPrimary:
             verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
-        case .divider, .dividerHighlighted:
-            verticalMargin = Constants.titleDividerVerticalMargin * 2
         }
 
         if let accessoryView = accessoryView {
@@ -185,6 +163,15 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     @objc open var onAccessoryButtonTapped: (() -> Void)?
     @objc open var onHeaderViewTapped: (() -> Void)?
 
+    /// configure this variable to change the appropriate background color based on what type of TableViewCell style it is associated with
+    @objc public var tableViewCellStyle: TableViewCellBackgroundStyleType = .grouped {
+        didSet {
+            if tableViewCellStyle != oldValue {
+                updateTitleAndBackgroundColors()
+            }
+        }
+    }
+
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
 
     open override var intrinsicContentSize: CGSize {
@@ -218,6 +205,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
             }
         }
     }
+
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
     private var style: Style = .header {
         didSet {
@@ -277,6 +267,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         contentView.addGestureRecognizer(tapGesture)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateTitleAndBackgroundColors()
+            self?.updateAccessoryButtonTitleColor()
+        }
     }
 
     // MARK: Setup
@@ -366,7 +361,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
         updateTitleViewFont()
         switch style {
-        case .header, .divider, .dividerHighlighted, .headerPrimary:
+        case .header, .headerPrimary:
             titleView.accessibilityTraits.insert(.header)
         case .footer:
             titleView.accessibilityTraits.remove(.header)
@@ -394,9 +389,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         case .header, .footer, .headerPrimary:
             titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
             titleHeight = contentView.frame.height - titleYOffset - Constants.titleDefaultBottomMargin
-        case .divider, .dividerHighlighted:
-            titleYOffset = Constants.titleDividerVerticalMargin
-            titleHeight = contentView.frame.height - (Constants.titleDividerVerticalMargin * 2)
         }
 
         if let leadingView = leadingView {
@@ -464,8 +456,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
         )
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         updateTitleAndBackgroundColors()
         updateAccessoryButtonTitleColor()
     }
@@ -483,21 +479,26 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView {
     }
 
     private func updateTitleAndBackgroundColors() {
-        if let window = window {
-            titleView.textColor = style.textColor(for: window)
-            backgroundView?.backgroundColor = style.backgroundColor(for: window)
-            titleView.font = style.textFont()
+        titleView.textColor = style.textColor(fluentTheme: tokenSet.fluentTheme)
+
+        if tableViewCellStyle == .grouped {
+            backgroundView?.backgroundColor = tokenSet.fluentTheme.color(.backgroundCanvas)
+        } else if tableViewCellStyle == .plain {
+            backgroundView?.backgroundColor = tokenSet.fluentTheme.color(.background1)
+        } else {
+            backgroundView?.backgroundColor = .clear
         }
+
+        titleView.font = style.textFont()
+        titleView.updateLinkTextColor(tokenSet.fluentTheme)
     }
 
     private func updateAccessoryButtonTitleColor() {
-        if let window = window {
-            accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(for: window), for: .normal)
-        }
+        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(fluentTheme: tokenSet.fluentTheme), for: .normal)
     }
 
     private func updateAccessoryButtonTitleStyle() {
-        accessoryButton?.titleLabel?.font = Constants.accessoryButtonTextStyle.font
+        accessoryButton?.titleLabel?.font = tokenSet.fluentTheme.typography(.caption1Strong)
         updateAccessoryButtonTitleColor()
     }
 
@@ -544,7 +545,11 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        linkTextAttributes = [.foregroundColor: Colors.Table.HeaderFooter.textLink]
+        updateLinkTextColor(fluentTheme)
+    }
+
+    func updateLinkTextColor(_ fluentTheme: FluentTheme) {
+        linkTextAttributes = [.foregroundColor: fluentTheme.color(.brandForeground1)]
     }
 
     required init?(coder: NSCoder) {

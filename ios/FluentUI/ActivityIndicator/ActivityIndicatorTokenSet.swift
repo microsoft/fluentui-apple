@@ -27,10 +27,13 @@ public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSe
 
     init(size: @escaping () -> MSFActivityIndicatorSize) {
         self.size = size
-        super.init { [size] token, theme in
+        super.init { [size] token, _ in
             switch token {
             case .defaultColor:
-                return .dynamicColor { theme.aliasTokens.foregroundColors[.neutral4] }
+                return .uiColor {
+                    UIColor(light: GlobalTokens.neutralColor(.grey56),
+                            dark: GlobalTokens.neutralColor(.grey72))
+                }
 
             case .thickness:
                 return .float {

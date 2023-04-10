@@ -18,8 +18,6 @@ class CalendarViewWeekdayHeadingView: UIView {
             static let compactHeight: CGFloat = 26.0
             static let regularHeight: CGFloat = 48.0
         }
-
-        static let maximumFontSize: CGFloat = 26.0
     }
 
     private var firstWeekday: Int?
@@ -31,6 +29,23 @@ class CalendarViewWeekdayHeadingView: UIView {
         self.headerStyle = headerStyle
 
         super.init(frame: .zero)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
+                                  dark: fluentTheme.color(.background2).dark)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -70,11 +85,10 @@ class CalendarViewWeekdayHeadingView: UIView {
         flipSubviewsForRTL()
     }
 
-    override func didMoveToWindow() {
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
         super.didMoveToWindow()
-        if let window = window {
-            backgroundColor = headerStyle == .dark ? Colors.primary(for: window) : Colors.Calendar.WeekdayHeading.Light.background
-        }
+        updateBackgroundColor()
     }
 
     func setup(horizontalSizeClass: UIUserInterfaceSizeClass, firstWeekday: Int) {
@@ -92,21 +106,13 @@ class CalendarViewWeekdayHeadingView: UIView {
 
         let weekdaySymbols: [String] = horizontalSizeClass == .regular ? Calendar.current.shortStandaloneWeekdaySymbols : Calendar.current.veryShortStandaloneWeekdaySymbols
 
-        for (index, weekdaySymbol) in weekdaySymbols.enumerated() {
+        for weekdaySymbol in weekdaySymbols {
             let label = UILabel()
             label.textAlignment = .center
             label.text = weekdaySymbol
-            label.font = UIFontMetrics(forTextStyle: .caption1).scaledFont(for: Fonts.caption1, maximumPointSize: Constants.maximumFontSize)
+            label.font = fluentTheme.typography(.caption2)
             label.showsLargeContentViewer = true
-
-            switch headerStyle {
-            case .light:
-                label.textColor = (index == 0 || index == 6) ? Colors.Calendar.WeekdayHeading.Light.textWeekend : Colors.Calendar.WeekdayHeading.Light.textRegular
-
-            case .dark:
-                label.textColor = (index == 0 || index == 6) ? Colors.Calendar.WeekdayHeading.Dark.textWeekend : Colors.Calendar.WeekdayHeading.Dark.textRegular
-            }
-
+            label.textColor = fluentTheme.color(.foreground2)
             headingLabels.append(label)
             addSubview(label)
         }

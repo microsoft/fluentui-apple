@@ -255,25 +255,25 @@ extension CardNudgeDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .dynamicColor {
-                DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .tint50),
-                             dark: GlobalTokens.sharedColors(.hotPink, .shade40))
+            .backgroundColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint50),
+                        dark: GlobalTokens.sharedColor(.hotPink, .shade40))
             },
             .outlineWidth: .float {
                 10.0
             },
-            .outlineColor: .dynamicColor {
-                DynamicColor(light: GlobalTokens.sharedColors(.darkRed, .tint50),
-                             dark: GlobalTokens.sharedColors(.darkRed, .shade40))
+            .outlineColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.darkRed, .tint50),
+                        dark: GlobalTokens.sharedColor(.darkRed, .shade40))
             }
         ]
     }
 
     private var perControlOverrideCardNudgeTokens: [CardNudgeTokenSet.Tokens: ControlTokenValue] {
         return [
-            .backgroundColor: .dynamicColor {
-                DynamicColor(light: GlobalTokens.sharedColors(.seafoam, .tint50),
-                             dark: GlobalTokens.sharedColors(.seafoam, .shade40))
+            .backgroundColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.seafoam, .tint50),
+                        dark: GlobalTokens.sharedColor(.seafoam, .shade40))
             }
         ]
     }

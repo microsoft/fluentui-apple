@@ -7,8 +7,15 @@ import UIKit
 
 // MARK: BadgeLabel
 
-class BadgeLabel: UILabel {
-    var shouldUseWindowColor: Bool = false
+class BadgeLabel: UILabel, TokenizedControlInternal {
+    var shouldUseWindowColor: Bool = false {
+        didSet {
+            updateColors()
+        }
+    }
+
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    var tokenSet: EmptyTokenSet = .init()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,21 +30,35 @@ class BadgeLabel: UILabel {
     /// Base function for initialization
     private func initBase() {
         layer.masksToBounds = true
-        backgroundColor = Colors.Palette.dangerPrimary.color
-        textColor = .white
         textAlignment = .center
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        guard shouldUseWindowColor, let window = window else {
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
             return
         }
-        textColor = UIColor(light: Colors.primary(for: window), dark: .white)
-        backgroundColor = UIColor(light: .white, dark: Colors.primary(for: window))
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors()
+    }
+
+    private func updateColors() {
+        let colorValues = tokenSet.fluentTheme.color
+        if shouldUseWindowColor {
+            textColor = UIColor(light: colorValues(.brandForeground1).light,
+                                dark: GlobalTokens.neutralColor(.white))
+            backgroundColor = UIColor(light: GlobalTokens.neutralColor(.white),
+                                      dark: colorValues(.brandBackground1).dark)
+        } else {
+            textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
+            backgroundColor = colorValues(.dangerBackground2)
+        }
     }
 
     private struct Constants {

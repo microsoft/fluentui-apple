@@ -6,10 +6,12 @@
 import FluentUI
 import UIKit
 
-class BottomSheetDemoController: UIViewController {
+class BottomSheetDemoController: DemoController {
 
-    override func loadView() {
-        view = UIView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        readmeString = "Bottom sheets are helpful for enabling a simple task that people can complete before returning to the parent view."
 
         let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +36,11 @@ class BottomSheetDemoController: UIViewController {
         self.addChild(bottomSheetViewController)
         view.addSubview(bottomSheetViewController.view)
         bottomSheetViewController.didMove(toParent: self)
+
+        // If we're hosting a VC view in the bottom sheet, the VC itself needs to be a child of the bottom sheet VC
+        // This is important to ensure safe area changes propagate correctly.
+        bottomSheetViewController.addChild(contentNavigationController)
+        contentNavigationController.didMove(toParent: bottomSheetViewController)
 
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -102,7 +109,7 @@ class BottomSheetDemoController: UIViewController {
             secondarySheetController.setIsHidden(true, animated: true)
         }))
 
-        dismissButton.style = .primaryFilled
+        dismissButton.style = .accent
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(dismissButton)
 
@@ -139,7 +146,7 @@ class BottomSheetDemoController: UIViewController {
     private lazy var personaListView: UIScrollView = {
         let personaListView = PersonaListView()
         personaListView.personaList = samplePersonas
-        personaListView.backgroundColor = Colors.navigationBarBackground
+        personaListView.backgroundColor = .clear
         personaListView.translatesAutoresizingMaskIntoConstraints = false
         return personaListView
     }()
@@ -150,7 +157,7 @@ class BottomSheetDemoController: UIViewController {
         view.addSubview(personaListView)
 
         let bottomView = UIView()
-        bottomView.backgroundColor = Colors.surfaceQuaternary
+        bottomView.backgroundColor = .clear
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bottomView)
 
@@ -198,7 +205,7 @@ class BottomSheetDemoController: UIViewController {
 
     private let headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Colors.surfaceQuaternary
+        view.backgroundColor = .clear
 
         let label = Label()
         label.text = "Header view"
@@ -390,5 +397,40 @@ extension BottomSheetDemoController: BottomSheetControllerDelegate {
         bottomSheetController.willMove(toParent: nil)
         bottomSheetController.removeFromParent()
         bottomSheetController.view.removeFromSuperview()
+    }
+}
+
+extension BottomSheetDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: BottomSheetTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideBottomSheetTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        bottomSheetViewController?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideBottomSheetTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: BottomSheetTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
+                                                 dark: GlobalTokens.sharedColor(.plum, .shade30))
+            }
+        ]
+    }
+
+    private var perControlOverrideBottomSheetTokens: [BottomSheetTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
+                                                 dark: GlobalTokens.sharedColor(.forest, .shade30))
+            }
+        ]
     }
 }

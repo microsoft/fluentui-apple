@@ -430,13 +430,9 @@ open class BottomCommandingController: UIViewController {
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
         let bottomBarView = UIView()
-        let bottomBarLayer = bottomBarView.layer
-        bottomBarLayer.shadowColor = Constants.BottomBar.Shadow.color
-        bottomBarLayer.shadowOpacity = Constants.BottomBar.Shadow.opacity
-        bottomBarLayer.shadowRadius = Constants.BottomBar.Shadow.radius
 
         let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = Constants.BottomBar.backgroundColor
+        roundedCornerView.backgroundColor = bottomBarBackgroundColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
         roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
         roundedCornerView.layer.cornerCurve = .continuous
@@ -521,7 +517,7 @@ open class BottomCommandingController: UIViewController {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = Constants.tableViewBackgroundColor
+        tableView.backgroundColor = tableViewBackgroundColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
@@ -635,6 +631,7 @@ open class BottomCommandingController: UIViewController {
         itemView.accessibilityTraits.insert(.button)
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
+        itemView.accessibilityIdentifier = item.accessibilityIdentifier
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -651,7 +648,7 @@ open class BottomCommandingController: UIViewController {
 
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
-        iconView.tintColor = Constants.tableViewIconTintColor
+        iconView.tintColor = tableViewIconTintColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
             booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
@@ -660,10 +657,16 @@ open class BottomCommandingController: UIViewController {
                 item.action?(item)
             }
         } else {
-            cell.setup(title: item.title ?? "", customView: iconView)
+            if let trailingView = item.trailingView {
+                cell.setup(title: item.title ?? "", customView: iconView, customAccessoryView: trailingView)
+            } else {
+                cell.setup(title: item.title ?? "", customView: iconView)
+            }
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
+        cell.backgroundColor = tableViewBackgroundColor
+        cell.accessibilityIdentifier = item.accessibilityIdentifier
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
@@ -870,21 +873,21 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
+    private lazy var tableViewIconTintColor: UIColor = GlobalTokens.neutralColor(.grey50)
+    private lazy var tableViewBackgroundColor: UIColor = view.fluentTheme.color(.background2)
+    private lazy var bottomBarBackgroundColor: UIColor = view.fluentTheme.color(.background2)
+
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
 
-        static let tableViewIconTintColor: UIColor = Colors.textSecondary
-        static let tableViewBackgroundColor: UIColor = Colors.NavigationBar.background
-
         struct BottomBar {
             static let height: CGFloat = 80
             static let cornerRadius: CGFloat = 14
-            static let backgroundColor: UIColor = Colors.NavigationBar.background
 
-            static let bottomOffset: CGFloat = 10
+            static let bottomOffset: CGFloat = 8
             static let hiddenBottomOffset: CGFloat = -110
             static let heroStackLeadingTrailingMargin: CGFloat = 8
             static let heroStackTopMargin: CGFloat = 20
@@ -894,17 +897,11 @@ open class BottomCommandingController: UIViewController {
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
             static let moreButtonTitle: String = "CommandingBottomBar.More".localized
-
-            struct Shadow {
-                static let color: CGColor = UIColor.black.cgColor
-                static let opacity: Float = 0.14
-                static let radius: CGFloat = 8
-            }
         }
 
         struct BottomSheet {
-            static let headerHeight: CGFloat = 64
-            static let headerTopMargin: CGFloat = 4
+            static let headerHeight: CGFloat = 66
+            static let headerTopMargin: CGFloat = 8
             static let headerLeadingTrailingMargin: CGFloat = 8
         }
     }
@@ -965,6 +962,7 @@ extension BottomCommandingController: UITableViewDelegate {
         var configuredHeader: UIView?
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
+            header.tableViewCellStyle = .clear
             configuredHeader = header
         }
 
@@ -1004,6 +1002,10 @@ extension BottomCommandingController: CommandingItemDelegate {
     }
 
     func commandingItem(_ item: CommandingItem, didChangeLargeImageTo value: UIImage?) {
+        reloadView(from: item)
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeTrailingViewTo value: UIView?) {
         reloadView(from: item)
     }
 

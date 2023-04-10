@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: - Button
 
@@ -12,9 +11,17 @@ import Combine
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, TokenizedControlInternal {
-    @objc open var style: ButtonStyle = .secondaryOutline {
+    @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
+                update()
+            }
+        }
+    }
+
+    @objc open var sizeCategory: ButtonSizeCategory = .medium {
+        didSet {
+            if sizeCategory != oldValue {
                 update()
             }
         }
@@ -48,9 +55,9 @@ open class Button: UIButton, TokenizedControlInternal {
 
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
-            isUsingCustomContentEdgeInsets = true
+            isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
@@ -76,29 +83,33 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override var intrinsicContentSize: CGSize {
-        var size = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? .greatestFiniteMagnitude : proposedTitleLabelWidth, height: .greatestFiniteMagnitude)) ?? .zero
-        size.width = ceil(size.width + edgeInsets.leading + edgeInsets.trailing)
-        size.height = ceil(max(size.height, ButtonTokenSet.minContainerHeight(style)) + edgeInsets.top + edgeInsets.bottom)
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
+        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
+        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
-            size.width += image.size.width
+            contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                size.width += ButtonTokenSet.titleImageSpacing(style)
+                contentSize.width += ButtonTokenSet.titleImageSpacing(sizeCategory)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                size.width -= ButtonTokenSet.titleImageSpacing(style)
+                contentSize.width -= ButtonTokenSet.titleImageSpacing(sizeCategory)
             }
         }
 
-        return size
+        return contentSize
     }
 
     open func initialize() {
         layer.cornerRadius = tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
-        titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        titleLabel?.font = tokenSet[.titleFont].uiFont
         titleLabel?.adjustsFontForContentSizeCategory = true
 
         if #available(iOS 15, *) {
@@ -106,7 +117,7 @@ open class Button: UIButton, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming
-                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
+                outgoing.font = self.tokenSet[.titleFont].uiFont
                 return outgoing
             }
             configuration.titleTextAttributesTransformer = titleTransformer
@@ -115,35 +126,29 @@ open class Button: UIButton, TokenizedControlInternal {
 
         update()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style == .primaryFilled || style == .dangerFilled,
-              (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
             return
         }
 
-        updateBackgroundColor()
+        focusRing.isHidden = !isFocused
+        updateBackground()
+        updateBorder()
     }
 
-    open override func didMoveToWindow() {
-        tokenSet.update(fluentTheme)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
         update()
-    }
-
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updateProposedTitleLabelWidth()
     }
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
@@ -169,7 +174,7 @@ open class Button: UIButton, TokenizedControlInternal {
         return rect
     }
 
-    @objc public init(style: ButtonStyle = .secondaryOutline) {
+    @objc public init(style: ButtonStyle = .outline) {
         self.style = style
         super.init(frame: .zero)
         initialize()
@@ -193,40 +198,36 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-    }
-
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .primaryFilled
+        return self?.style ?? .outline
+    },
+                                                     size: { [weak self] in
+        return self?.sizeCategory ?? .medium
     })
 
     private func updateTitle() {
-        let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
+        let foregroundColor = tokenSet[.foregroundColor].uiColor
         setTitleColor(foregroundColor, for: .normal)
         setTitleColor(foregroundColor, for: .focused)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
+        setTitleColor(tokenSet[.foregroundPressedColor].uiColor, for: .highlighted)
+        setTitleColor(tokenSet[.foregroundDisabledColor].uiColor, for: .disabled)
 
         if #available(iOS 15.0, *) {
         } else {
-            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+            titleLabel?.font = tokenSet[.titleFont].uiFont
         }
 
-        updateProposedTitleLabelWidth()
+        invalidateIntrinsicContentSize()
     }
 
     private func updateImage() {
-        let isDisplayingImage = style != .tertiaryOutline && image != nil
+        let isDisplayingImage = image != nil
 
-        let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
-        let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
-        let disabledColor = UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor)
+        let normalColor = tokenSet[.foregroundColor].uiColor
+        let highlightedColor = tokenSet[.foregroundPressedColor].uiColor
+        let disabledColor = tokenSet[.foregroundDisabledColor].uiColor
         let needsSetImage = isDisplayingImage && image(for: .normal) == nil
 
         if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
@@ -245,7 +246,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         if needsSetImage {
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -261,7 +262,7 @@ open class Button: UIButton, TokenizedControlInternal {
             highlightedImageTintColor = nil
             disabledImageTintColor = nil
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -272,7 +273,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private func update() {
         updateTitle()
         updateImage()
-        updateBackgroundColor()
+        updateBackground()
         updateBorder()
 
         if !isUsingCustomContentEdgeInsets {
@@ -280,23 +281,10 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
-    private func updateProposedTitleLabelWidth() {
-        if bounds.width > 0.0 {
-            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
-            if let image = image(for: .normal) {
-                labelWidth -= image.size.width
-            }
-
-            if labelWidth > 0.0 {
-                proposedTitleLabelWidth = labelWidth
-            }
-        }
-    }
-
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(style)
+        var spacing = ButtonTokenSet.titleImageSpacing(sizeCategory)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -321,57 +309,59 @@ open class Button: UIButton, TokenizedControlInternal {
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
-    private func updateBackgroundColor() {
-        let backgroundColor: DynamicColor
+    private func updateBackground() {
+        let backgroundColor: UIColor
 
         if !isEnabled {
-            backgroundColor = tokenSet[.backgroundDisabledColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundDisabledColor].uiColor
         } else if isHighlighted {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else if isFocused {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else {
-            backgroundColor = tokenSet[.backgroundColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundColor].uiColor
         }
 
-        self.backgroundColor = UIColor(dynamicColor: backgroundColor)
+        self.backgroundColor = backgroundColor
+        layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {
-        let borderColor: DynamicColor
+        let borderColor: UIColor
 
         if !isEnabled {
-            borderColor = tokenSet[.borderDisabledColor].dynamicColor
+            borderColor = tokenSet[.borderDisabledColor].uiColor
         } else if isHighlighted {
-            borderColor = tokenSet[.borderPressedColor].dynamicColor
+            borderColor = tokenSet[.borderPressedColor].uiColor
+        } else if isFocused {
+            borderColor = tokenSet[.borderFocusedColor].uiColor
         } else {
-            borderColor = tokenSet[.borderColor].dynamicColor
+            borderColor = tokenSet[.borderColor].uiColor
         }
 
-        layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
+        layer.borderColor = borderColor.resolvedColor(with: traitCollection).cgColor
         layer.borderWidth = tokenSet[.borderWidth].float
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(style)
-        let verticalPadding = ButtonTokenSet.verticalPadding(style)
-        return NSDirectionalEdgeInsets(top: verticalPadding, leading: horizontalPadding, bottom: verticalPadding, trailing: horizontalPadding)
+        let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
-    private var tokenSetSink: AnyCancellable?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
-
-    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
-    private var proposedTitleLabelWidth: CGFloat = 0.0 {
-        didSet {
-            if proposedTitleLabelWidth != oldValue {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
 }

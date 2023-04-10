@@ -36,6 +36,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
         /// The color of the border around the presence/activity.
         case borderColor
 
+        /// The foreground color of the activity.
+        case activityForegroundColor
+
         /// The background color of the activity.
         case activityBackgroundColor
 
@@ -56,67 +59,63 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch style() {
                     case .default, .accent, .outlined, .outlinedPrimary, .overflow:
-                        return GlobalTokens.borderRadius(.none)
+                        return GlobalTokens.corner(.radiusNone)
                     case .group:
                         switch size() {
                         case .size16, .size20:
-                            return GlobalTokens.borderRadius(.small)
+                            return GlobalTokens.corner(.radius20)
                         case .size24, .size32:
-                            return GlobalTokens.borderRadius(.medium)
+                            return GlobalTokens.corner(.radius40)
                         case .size40, .size56:
-                            return GlobalTokens.borderRadius(.large)
+                            return GlobalTokens.corner(.radius80)
                         case .size72:
-                            return GlobalTokens.borderRadius(.xLarge)
+                            return GlobalTokens.corner(.radius120)
                         }
                     }
                 })
 
             case .textFont:
-                return .fontInfo({
+                return .uiFont({
                     switch size() {
                     case .size16, .size20:
-                        return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: 9, weight: .regular)
                     case .size24:
-                        return theme.aliasTokens.typography[.caption2]
+                        return theme.typography(.caption2, adjustsForContentSizeCategory: false)
                     case .size32:
-                        return theme.aliasTokens.typography[.caption1]
+                        return theme.typography(.caption1, adjustsForContentSizeCategory: false)
                     case .size40:
-                        return theme.aliasTokens.typography[.body2]
+                        return theme.typography(.body2, adjustsForContentSizeCategory: false)
                     case .size56:
-                        return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size500), weight: .regular)
                     case .size72:
-                        return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size700), weight: .semibold)
                     }
                 })
 
             case .ringDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
-                    case .default, .group:
-                        return theme.aliasTokens.brandColors[.tint10]
-                    case .accent:
-                        return theme.aliasTokens.brandColors[.shade10]
+                    case .default, .group, .accent, .outlinedPrimary:
+                        return theme.color(.brandStroke1)
                     case .outlined, .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutralDisabled]
-                    case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint10].light, dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.color(.strokeAccessible)
                     }
                 })
 
             case .ringGapColor:
-                return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                return .uiColor({
+                    theme.color(.background1)
                 })
 
             case .ringThickness:
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24:
-                        return GlobalTokens.borderSize(.thin)
+                        return GlobalTokens.stroke(.width10)
                     case .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -124,9 +123,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -134,9 +133,9 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16, .size20, .size24, .size32, .size40, .size56:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     case .size72:
-                        return GlobalTokens.borderSize(.thicker)
+                        return GlobalTokens.stroke(.width40)
                     }
                 })
 
@@ -144,51 +143,52 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 return .float({
                     switch size() {
                     case .size16:
-                        return GlobalTokens.borderSize(.none)
+                        return GlobalTokens.stroke(.widthNone)
                     case .size20, .size24, .size32, .size40, .size56, .size72:
-                        return GlobalTokens.borderSize(.thick)
+                        return GlobalTokens.stroke(.width20)
                     }
                 })
 
             case .borderColor:
-                return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral1]
+                return .uiColor({
+                    theme.color(.background1)
+                })
+
+            case .activityForegroundColor:
+                return .uiColor({
+                    theme.color(.foreground1)
                 })
 
             case .activityBackgroundColor:
-                return .dynamicColor({
-                    theme.aliasTokens.backgroundColors[.neutral4]
+                return .uiColor({
+                    theme.color(.background5)
                 })
 
             case .backgroundDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: GlobalTokens.neutralColors(.white), dark: theme.aliasTokens.brandColors[.primary].dark)
+                        return theme.color(.background1)
                     case .accent:
-                        return theme.aliasTokens.brandColors[.primary]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey94), dark: GlobalTokens.neutralColors(.grey26))
+                        return theme.color(.brandBackground1)
+                    case .outlined, .overflow:
+                        return theme.color(.background5)
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.tint40].light, dark: GlobalTokens.neutralColors(.grey26))
-                    case .overflow:
-                        return theme.aliasTokens.backgroundColors[.neutral4]
+                        return theme.color(.brandBackgroundTint)
                     }
                 })
 
             case .foregroundDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.black))
+                        return theme.color(.brandForeground1)
                     case .accent:
-                        return theme.aliasTokens.foregroundColors[.neutralInverted]
-                    case .outlined:
-                        return .init(light: GlobalTokens.neutralColors(.grey42), dark: GlobalTokens.neutralColors(.grey78))
+                        return theme.color(.foregroundOnColor)
+                    case .outlined, .overflow:
+                        return theme.color(.foreground2)
                     case .outlinedPrimary:
-                        return .init(light: theme.aliasTokens.brandColors[.primary].light, dark: GlobalTokens.neutralColors(.grey78))
-                    case .overflow:
-                        return theme.aliasTokens.foregroundColors[.neutral3]
+                        return theme.color(.brandForegroundTint)
                     }
                 })
             }
@@ -232,11 +232,11 @@ extension AvatarTokenSet {
         case .size16:
             return 0
         case .size20, .size24, .size32:
-            return GlobalTokens.iconSize(.xxxSmall)
+            return GlobalTokens.icon(.size100)
         case .size40, .size56:
-            return GlobalTokens.iconSize(.xxSmall)
+            return GlobalTokens.icon(.size120)
         case .size72:
-            return GlobalTokens.iconSize(.small)
+            return GlobalTokens.icon(.size200)
         }
     }
 
@@ -246,7 +246,7 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40, .size56:
-            return GlobalTokens.borderRadius(.medium)
+            return GlobalTokens.corner(.radius40)
         }
     }
 
@@ -256,9 +256,9 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
-            return GlobalTokens.iconSize(.xSmall)
+            return GlobalTokens.icon(.size160)
         case .size56:
-            return GlobalTokens.iconSize(.medium)
+            return GlobalTokens.icon(.size240)
         }
     }
 
@@ -268,9 +268,9 @@ extension AvatarTokenSet {
         case .size16, .size20, .size24, .size32, .size72:
             return 0
         case .size40:
-            return GlobalTokens.iconSize(.small)
+            return GlobalTokens.icon(.size200)
         case .size56:
-            return GlobalTokens.iconSize(.large)
+            return GlobalTokens.icon(.size280)
         }
     }
 }

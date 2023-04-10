@@ -56,11 +56,18 @@ class BottomCommandingDemoController: UIViewController {
         CommandingItem(title: "Boolean Item " + String($0), image: homeImage, action: commandAction, isToggleable: true)
     }
 
+    private lazy var badgeCommand: CommandingItem = {
+        let badge = BadgeView(dataSource: BadgeViewDataSource(text: "Badge"))
+        let item = CommandingItem(title: "Badge Item", image: homeImage, action: commandAction)
+        item.trailingView = badge
+        return item
+    }()
+
     private lazy var shortCommandSectionList: [CommandingSection] = [
         CommandingSection(title: "Section 1", items:
         Array(1...2).map {
             CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
-        } + booleanCommands)
+        } + booleanCommands + [badgeCommand])
     ]
 
     private lazy var longCommandSectionList: [CommandingSection] = shortCommandSectionList
@@ -264,7 +271,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var customPopoverViewController: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = Colors.navigationBarBackground
+        viewController.view.backgroundColor = view.fluentTheme.color(.background3)
         viewController.preferredContentSize = CGSize(width: 300, height: 300)
         viewController.modalPresentationStyle = .popover
 
@@ -280,9 +287,9 @@ class BottomCommandingDemoController: UIViewController {
         return viewController
     }()
 
-    private let homeImage = UIImage(named: "Home_24")!
-    private let homeSelectedImage = UIImage(named: "Home_Selected_24")!
-    private let boldImage = UIImage(named: "textBold24Regular")!
+    private let homeImage: UIImage = .init(named: "Home_24")!
+    private let homeSelectedImage: UIImage = .init(named: "Home_Selected_24")!
+    private let boldImage: UIImage = .init(named: "textBold24Regular")!
 
     private var heroIconChanged: Bool = false
     private var listIconChanged: Bool = false

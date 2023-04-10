@@ -53,7 +53,7 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar {
+open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -62,38 +62,42 @@ open class NavigationBar: UINavigationBar {
         case system
         case custom
 
-        var tintColor: UIColor {
+        func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return Colors.Navigation.Primary.tint
+                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                               dark: fluentTheme.color(.foreground2).dark)
             case .system:
-                return Colors.Navigation.System.tint
+                return fluentTheme.color(.foreground2)
             }
         }
 
-        var titleColor: UIColor {
+        func titleColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
             case .primary, .default, .custom:
-                return Colors.Navigation.Primary.title
+                return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
+                               dark: fluentTheme.color(.foreground1).dark)
             case .system:
-                return Colors.Navigation.System.title
+                return fluentTheme.color(.foreground1)
             }
         }
 
-        func backgroundColor(for window: UIWindow, customColor: UIColor?) -> UIColor {
+        public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
+            let defaultColor = UIColor(light: fluentTheme.color(.brandBackground1).light,
+                                       dark: fluentTheme.color(.background3).dark)
             switch self {
             case .primary, .default:
-                return defaultBackgroundColor(for: window)
+                return defaultColor
             case .system:
-                return Colors.Navigation.System.background
+                return fluentTheme.color(.background3)
             case .custom:
-                return customColor ?? defaultBackgroundColor(for: window)
+                return customColor ?? defaultColor
             }
         }
+    }
 
-        func defaultBackgroundColor(for window: UIWindow) -> UIColor {
-            return UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
-        }
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
+        return Style.system.backgroundColor(fluentTheme: fluentTheme)
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -107,6 +111,9 @@ open class NavigationBar: UINavigationBar {
         case automatic
         case alwaysHidden
     }
+
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
 
@@ -295,6 +302,7 @@ open class NavigationBar: UINavigationBar {
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
+
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
@@ -349,6 +357,10 @@ open class NavigationBar: UINavigationBar {
         updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors(for: self?.topItem)
+        }
     }
 
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {
@@ -423,6 +435,15 @@ open class NavigationBar: UINavigationBar {
         )
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors(for: topItem)
+    }
+
     /// Guarantees that the custom UI remains on top of the subview stack
     /// Fetches the current navigation item and triggers a UI update
     open override func layoutSubviews() {
@@ -430,11 +451,6 @@ open class NavigationBar: UINavigationBar {
         bringSubviewToFront(backgroundView)
         bringSubviewToFront(contentStackView)
         updateAccessibilityElements()
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateColors(for: topItem)
     }
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -499,29 +515,27 @@ open class NavigationBar: UINavigationBar {
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-        if let window = window {
-            let color = navigationItem?.navigationBarColor(for: window)
+        let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
 
-            switch style {
-            case .primary, .default, .custom:
-                titleView.style = .light
-            case .system:
-                titleView.style = .dark
-            }
+        switch style {
+        case .primary, .default, .custom:
+            titleView.style = .primary
+        case .system:
+            titleView.style = .system
+        }
 
-            standardAppearance.backgroundColor = color
-            backgroundView.backgroundColor = color
-            tintColor = style.tintColor
-            standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
-            standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor
+        standardAppearance.backgroundColor = color
+        backgroundView.backgroundColor = color
+        tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
-            // Update the scroll edge appearance to match the new standard appearance
-            scrollEdgeAppearance = standardAppearance
+        // Update the scroll edge appearance to match the new standard appearance
+        scrollEdgeAppearance = standardAppearance
 
-            navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
-                // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
-                self.updateColors(for: navigationItem)
-            }
+        navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
+            // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
+            self.updateColors(for: navigationItem)
         }
     }
 

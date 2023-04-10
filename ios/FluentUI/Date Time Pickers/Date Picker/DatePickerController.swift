@@ -141,6 +141,19 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         if !mode.singleSelection && rangePresentation == .tabbed {
             initSegmentedControl()
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+        updateBarButtonColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -168,11 +181,16 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
-            view.backgroundColor = Colors.Toolbar.background
         }
+        updateBackgroundColor()
         view.addSubview(calendarView)
 
         initNavigationBar()
+    }
+
+    private func updateBackgroundColor() {
+        view.backgroundColor = UIColor(light: view.fluentTheme.color(.background2).light,
+                                       dark: view.fluentTheme.color(.background2).dark)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -198,9 +216,12 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-        }
+        updateBarButtonColors()
+    }
+
+    private func updateBarButtonColors() {
+        navigationItem.rightBarButtonItem?.tintColor = view.fluentTheme.color(.brandForeground1)
+        navigationItem.leftBarButtonItem?.tintColor = view.fluentTheme.color(.foreground2)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -488,7 +509,7 @@ extension DatePickerController: CalendarViewLayoutDelegate {
 extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
 
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary
@@ -498,7 +519,7 @@ extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
     ) -> CalendarViewDayCellBackgroundStyle {
 
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary

@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
 import SwiftUI
 
 /// Base class that allows for customization of global, alias, and control tokens.
@@ -10,12 +11,51 @@ import SwiftUI
 public class FluentTheme: NSObject, ObservableObject {
     /// Initializes and returns a new `FluentTheme`.
     ///
-    /// Once created, a `FluentTheme` can have its `AliasTokens` customized by setting custom values on the
-    ///  `aliasTokens` property. Control tokens can be customized via `register(controlType:tokens:) `.
-    ///  See the descriptions of those two for additional information.
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
     ///
-    /// - Returns: An initialized `FluentTheme` instance.
-    public override init() { }
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    @objc public convenience override init() {
+        self.init(colorOverrides: nil, shadowOverrides: nil, typographyOverrides: nil)
+    }
+
+    /// Initializes and returns a new `FluentTheme`.
+    ///
+    /// A `FluentTheme` receives any custom alias tokens on initialization via arguments here.
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
+    ///
+    /// - Parameters:
+    ///   - colorOverrides: A `Dictionary` of override values mapped to `ColorTokens`.
+    ///   - shadowOverrides: A `Dictionary` of override values mapped to `ShadowTokens`.
+    ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    public init(colorOverrides: [ColorToken: UIColor]? = nil,
+                shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
+                typographyOverrides: [TypographyToken: UIFont]? = nil) {
+        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
+            let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
+            let newValue = value.dynamicColor!
+            return (newKey, newValue)
+        }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
+
+        let fixedShadowOverrides = shadowOverrides?.map({ (key: ShadowToken, value: ShadowInfo) in
+            let newKey = AliasTokens.ShadowTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.ShadowTokens, ShadowInfo)]()
+
+        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: UIFont) in
+            let newKey = AliasTokens.TypographyTokens(rawValue: key.rawValue)!
+            let newValue = FontInfo(name: value.fontName, size: value.pointSize)
+            return (newKey, newValue)
+        }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
+
+        // Pass overrides to AliasTokens
+        aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
+                            shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
+                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides))
+    }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
     ///
@@ -36,9 +76,16 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     /// The associated `AliasTokens` for this theme.
-    @objc public let aliasTokens: AliasTokens = .init()
+    @objc public let aliasTokens: AliasTokens
 
-    static var shared: FluentTheme = .init()
+    /// A shared, immutable, default `FluentTheme` instance.
+    ///
+    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
+    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
+    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
+    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
+    @objc(sharedTheme)
+    public static let shared: FluentTheme = .init()
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
@@ -50,11 +97,15 @@ public class FluentTheme: NSObject, ObservableObject {
 // MARK: - FluentThemeable
 
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
-public protocol FluentThemeable {
+@objc public protocol FluentThemeable {
     var fluentTheme: FluentTheme { get set }
 }
 
 public extension Notification.Name {
+    /// The notification that will fire when a new `FluentTheme` is set on a view.
+    ///
+    /// The `object` for the fired `Notification` will be the `UIView` whose `fluentTheme` has changed.
+    /// Listeners will likely only want to redraw if they are a descendent of this view.
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
 }
 

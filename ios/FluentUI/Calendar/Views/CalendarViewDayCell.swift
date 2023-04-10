@@ -50,12 +50,11 @@ let calendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
 
 // MARK: - CalendarViewDayCell
 
-class CalendarViewDayCell: UICollectionViewCell {
+class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
     struct Constants {
         static let borderWidth: CGFloat = 0.5
-        static let dotDiameter: CGFloat = 4.0
+        static let dotDiameter: CGFloat = 6.0
         static let fadedVisualStateAlphaMultiplier: CGFloat = 0.2
-        static let maximumFontSize: CGFloat = 33.0
     }
 
     class var identifier: String { return "CalendarViewDayCell" }
@@ -83,6 +82,9 @@ class CalendarViewDayCell: UICollectionViewCell {
     let dateLabel: UILabel
     let dotView: DotView
 
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    let tokenSet: EmptyTokenSet = .init()
+
     override init(frame: CGRect) {
         // Initialize subviews
         //
@@ -94,21 +96,32 @@ class CalendarViewDayCell: UICollectionViewCell {
         selectionOverlayView.isUserInteractionEnabled = false
 
         dateLabel = UILabel(frame: .zero)
-        dateLabel.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
         dateLabel.textAlignment = .center
-        dateLabel.textColor = Colors.Calendar.Day.textPrimary
         dateLabel.showsLargeContentViewer = true
 
         dotView = DotView()
-        dotView.color = Colors.Calendar.Day.textPrimary
         dotView.alpha = 0.0  // Initial `visualState` is `.Normal` without dots
         dotView.isUserInteractionEnabled = false
 
         super.init(frame: frame)
 
+        dateLabel.font = fluentTheme.typography(.body1)
+        dotView.color = tokenSet.fluentTheme.color(.foreground3)
+        dateLabel.textColor = tokenSet.fluentTheme.color(.foreground3)
+
         contentView.addSubview(selectionOverlayView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(dotView)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
+    }
+
+    func updateAppearance() {
+        updateViews()
+        dotView.color = tokenSet.fluentTheme.color(.foreground3)
+        dateLabel.textColor = tokenSet.fluentTheme.color(.foreground3)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -184,27 +197,40 @@ class CalendarViewDayCell: UICollectionViewCell {
         )
     }
 
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateViews()
+    }
+
     private func updateViews() {
         switch textStyle {
         case .primary:
-            dateLabel.textColor = Colors.Calendar.Day.textPrimary
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foreground1)
         case .secondary:
-            dateLabel.textColor = Colors.Calendar.Day.textSecondary
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foreground2)
         }
 
         switch backgroundStyle {
         case .primary:
-            contentView.backgroundColor = Colors.Calendar.Day.backgroundPrimary
+            contentView.backgroundColor = UIColor(light: tokenSet.fluentTheme.color(.background2).light,
+                                                  dark: tokenSet.fluentTheme.color(.background2).dark)
         case .secondary:
-            contentView.backgroundColor = Colors.Calendar.Day.backgroundSecondary
+            contentView.backgroundColor = UIColor(light: tokenSet.fluentTheme.color(.backgroundCanvas).light,
+                                                  dark: tokenSet.fluentTheme.color(.backgroundCanvas).dark)
         }
 
         if isHighlighted || isSelected {
             dotView.isHidden = true
-            dateLabel.textColor = Colors.Calendar.Day.textSelected
+            dateLabel.textColor = tokenSet.fluentTheme.color(.foregroundOnColor)
         } else {
             dotView.isHidden = false
         }
+
+        selectionOverlayView.activeColor = tokenSet.fluentTheme.color(.brandBackground1)
 
         setNeedsLayout()
     }
@@ -236,12 +262,10 @@ private class SelectionOverlayView: UIView {
         }
     }
 
-    private var activeColor: UIColor {
-        if selected,
-            let window = window {
-            return Colors.primary(for: window)
+    var activeColor: UIColor = .clear {
+        didSet {
+            setupActiveViews()
         }
-        return Colors.Calendar.Day.circleHighlighted
     }
 
     // Lazy load views as every additional subview impacts the "Calendar"
@@ -273,11 +297,6 @@ private class SelectionOverlayView: UIView {
         }
 
         flipSubviewsForRTL()
-    }
-
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        setupActiveViews()
     }
 
     private func setupActiveViews() {

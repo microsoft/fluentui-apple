@@ -5,42 +5,33 @@
 
 import UIKit
 
-// MARK: ResizingHandle Colors
-
-private extension Colors {
-    struct ResizingHandle {
-        public static var mark: UIColor = iconSecondary
-    }
-}
-
 // MARK: - ResizingHandleView
 
 @objc(MSFResizingHandleView)
-open class ResizingHandleView: UIView {
-    private struct Constants {
-        static let markSize = CGSize(width: 36, height: 4)
-        static let markCornerRadius: CGFloat = 2
-    }
-
+open class ResizingHandleView: UIView, TokenizedControlInternal {
     @objc public static let height: CGFloat = 20
 
-    private let markLayer: CALayer = {
+    private lazy var markLayer: CALayer = {
         let markLayer = CALayer()
-        markLayer.bounds.size = Constants.markSize
-        markLayer.cornerRadius = Constants.markCornerRadius
-        markLayer.backgroundColor = Colors.ResizingHandle.mark.cgColor
+        markLayer.bounds.size = ResizingHandleTokenSet.markSize
+        markLayer.cornerRadius = ResizingHandleTokenSet.markCornerRadius
+        markLayer.backgroundColor = tokenSet[.markColor].uiColor.cgColor
         return markLayer
     }()
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
         self.frame.size.height = ResizingHandleView.height
         autoresizingMask = .flexibleWidth
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         isUserInteractionEnabled = false
+        updateColors()
         layer.addSublayer(markLayer)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -58,5 +49,29 @@ open class ResizingHandleView: UIView {
     open override func layoutSubviews() {
         super.layoutSubviews()
         markLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors()
+    }
+
+    public typealias TokenSetKeyType = ResizingHandleTokenSet.Tokens
+    public var tokenSet = ResizingHandleTokenSet()
+
+    /// Internal custom color to preserve deprecated Drawer API (resizingHandleViewBackgroundColor)
+    var customBackgroundColor: UIColor? {
+        didSet {
+            updateColors()
+        }
+    }
+
+    private func updateColors() {
+        markLayer.backgroundColor = tokenSet[.markColor].uiColor.cgColor
+        backgroundColor = customBackgroundColor ?? tokenSet[.backgroundColor].uiColor
     }
 }

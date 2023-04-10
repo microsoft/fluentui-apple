@@ -27,38 +27,32 @@ class ColoredPillBackgroundView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    @objc func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
         updateBackgroundColor()
     }
 
-    @objc func themeDidChange() {
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+
+        // Note: We usually do updates during `willMove(toWindow:)` to ensure that there's no "flash" of the
+        // old color in cases whre the view is briefly visible before this API is called. However, the
+        // public APIs for easily hooking into theme changes have not yet been exposed, so this demo
+        // controller is not in a position to easily follow those rules. This will be sufficient for our
+        // current needs, but it's technically less correct than I'd like.
+        // TODO: update this to use proper theme updating hooks once they're built
         updateBackgroundColor()
     }
 
     func updateBackgroundColor() {
-        let lightColor: UIColor
-        let darkColor: UIColor
         switch style {
         case .neutral:
-            if let fluentTheme = window?.fluentTheme {
-                lightColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral1])
-                darkColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral4])
-            } else {
-                lightColor = Colors.navigationBarBackground
-                darkColor = Colors.navigationBarBackground
-            }
+            backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: fluentTheme)
         case .brand:
-            if let fluentTheme = window?.fluentTheme {
-                lightColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.brandRest])
-                darkColor = UIColor(dynamicColor: fluentTheme.aliasTokens.backgroundColors[.neutral4])
-            } else {
-                lightColor = Colors.communicationBlue
-                darkColor = Colors.navigationBarBackground
-            }
+            backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: fluentTheme)
         }
-
-        backgroundColor = UIColor(light: lightColor, dark: darkColor)
     }
 
     let style: ColoredPillBackgroundStyle

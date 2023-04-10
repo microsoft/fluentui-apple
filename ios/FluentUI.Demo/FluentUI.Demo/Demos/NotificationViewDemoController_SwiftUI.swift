@@ -41,11 +41,26 @@ struct NotificationDemoView: View {
     @State var showBackgroundGradient: Bool = false
 
     public var body: some View {
+        let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
-        let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
-        let blueStrikethroughAttribute = [.font: UIFont.preferredFont(forTextStyle: .body), NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
-        let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
+        let bothAttributes = [
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue,
+            .font: font,
+            .foregroundColor: UIColor.red
+        ] as [NSAttributedString.Key: Any]
+
+        let blueStrikethroughAttribute = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue
+        ] as [NSAttributedString.Key: Any]
+
+        let redPapyrusFontAttribute = [.font: font, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
         let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
+
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
@@ -56,9 +71,64 @@ struct NotificationDemoView: View {
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
 
+#if DEBUG
+        let accessibilityIdentifier: String = {
+            var identifier: String = "Notification View with"
+
+            if hasTitle {
+                if hasAttribute {
+                    identifier += " attributed title \"\(title)\""
+                } else {
+                    identifier += " title \"\(title)\""
+                }
+            } else {
+                identifier += " no title"
+            }
+
+            if hasMessage {
+                if hasAttribute {
+                    identifier += ", attributed message \"\(message)\""
+                } else {
+                    identifier += ", message \"\(message)\""
+                }
+            } else {
+                identifier += ", no message"
+            }
+
+            if image != nil {
+                identifier += ", an image"
+            }
+
+            if actionButtonTitle != "" {
+                identifier += ", and an action button titled \"\(actionButtonTitle)\""
+            } else {
+                if trailingImage != nil {
+                    identifier += ", and a trailing image"
+                } else {
+                    identifier += ", and a dismiss button"
+                }
+            }
+
+            identifier += " in style \(style.rawValue)"
+
+            if !(MSFNotificationStyle.primaryBar.rawValue...MSFNotificationStyle.neutralBar.rawValue ~= style.rawValue) {
+                if isFlexibleWidthToast {
+                    identifier += " that is flexible in width"
+                } else {
+                    identifier += " that is not flexible in width"
+                }
+            }
+
+            return identifier
+        }()
+ #endif
+
         VStack {
             Rectangle()
                 .foregroundColor(.clear)
+#if DEBUG
+                .accessibilityIdentifier(accessibilityIdentifier)
+#endif
                 .presentNotification(isPresented: .constant(true), isBlocking: false) {
                     FluentNotification(style: style,
                                        isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
@@ -189,10 +259,10 @@ struct NotificationDemoView: View {
 
     private var backgroundGradient: LinearGradientInfo {
         // It's a lovely blue-to-pink gradient
-        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.pink, .shade40)),
-                                      DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+        let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
+                                         dark: GlobalTokens.sharedColor(.pink, .shade40)),
+                                 UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
+                                         dark: GlobalTokens.sharedColor(.cyan, .shade40))]
         return LinearGradientInfo(colors: colors,
                                   startPoint: .init(x: 0.0, y: 1.0),
                                   endPoint: .init(x: 1.0, y: 0.0))
@@ -200,18 +270,18 @@ struct NotificationDemoView: View {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            .imageColor: .uiColor {
+                return GlobalTokens.sharedColor(.orange, .primary)
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(colorOne: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
-                                  blurOne: 10.0,
-                                  xOne: 10.0,
-                                  yOne: 10.0,
-                                  colorTwo: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
-                                  blurTwo: 100.0,
-                                  xTwo: -10.0,
-                                  yTwo: -10.0)
+                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
+                                  keyBlur: 10.0,
+                                  xKey: 10.0,
+                                  yKey: 10.0,
+                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
+                                  ambientBlur: 100.0,
+                                  xAmbient: -10.0,
+                                  yAmbient: -10.0)
             }
         ]
     }

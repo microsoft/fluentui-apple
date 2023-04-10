@@ -72,24 +72,6 @@ public enum CardSize: Int, CaseIterable {
         }
     }
 
-    var primaryTextStyle: TextStyle {
-        switch self {
-        case .small:
-            return .caption1
-        case .large:
-            return .subhead
-        }
-    }
-
-    var secondaryTextStyle: TextStyle {
-        switch self {
-        case .small:
-            return .caption2
-        case .large:
-            return .footnote
-        }
-    }
-
     func labelHeight(for sizeCategory: UIContentSizeCategory) -> CGFloat {
         var height: CGFloat = 0
         switch self {
@@ -169,7 +151,8 @@ public enum CardSize: Int, CaseIterable {
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
 @objc(MSFCardView)
-open class CardView: UIView {
+open class CardView: UIView, Shadowable, TokenizedControlInternal {
+
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
 
@@ -226,7 +209,7 @@ open class CardView: UIView {
     }
 
     /// Set `customBackgroundColor` in order to set the background color when using the custom color style
-    @objc open var customBackgroundColor: UIColor = Constants.defaultBackgroundColor {
+    @objc open lazy var customBackgroundColor: UIColor = tokenSet.fluentTheme.color(.background2) {
         didSet {
             if customBackgroundColor != oldValue {
                 setupColors()
@@ -235,7 +218,7 @@ open class CardView: UIView {
     }
 
     /// Set `customTitleColor` in order to set the title's text color when using the custom color style
-    @objc open var customTitleColor: UIColor = Colors.textPrimary {
+    @objc open lazy var customTitleColor: UIColor = tokenSet.fluentTheme.color(.foreground1) {
         didSet {
             if customTitleColor != oldValue {
                 setupColors()
@@ -244,7 +227,7 @@ open class CardView: UIView {
     }
 
     /// Set `customSubtitleColor` in order to set the subtitle's text color when using the custom color style
-    @objc open var customSubtitleColor: UIColor = Colors.textSecondary {
+    @objc open lazy var customSubtitleColor: UIColor = tokenSet.fluentTheme.color(.foreground2) {
         didSet {
             if customSubtitleColor != oldValue {
                 setupColors()
@@ -253,7 +236,7 @@ open class CardView: UIView {
     }
 
     /// Set `customIconTintColor` in order to set the icon's tint color when using the custom color style
-    @objc open var customIconTintColor: UIColor = Colors.iconSecondary {
+    @objc open lazy var customIconTintColor: UIColor = tokenSet.fluentTheme.color(.foreground2) {
         didSet {
             if customIconTintColor != oldValue {
                 setupColors()
@@ -262,7 +245,7 @@ open class CardView: UIView {
     }
 
     /// Set `customBorderColor` in order to set the border's color when using the custom color style
-    @objc open var customBorderColor: UIColor = Constants.defaultBorderColor {
+    @objc open lazy var customBorderColor: UIColor = tokenSet.fluentTheme.color(.stroke1) {
         didSet {
             if customBorderColor != oldValue {
                 setupColors()
@@ -279,6 +262,9 @@ open class CardView: UIView {
         }
     }
 
+    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
+
     /// The size of the card.
     private var size: CardSize = .small
 
@@ -287,7 +273,7 @@ open class CardView: UIView {
 
     /// The label for the Card's title
     private let primaryLabel: Label = {
-        let primaryLabel = Label()
+        let primaryLabel = Label(style: .body2)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.colorStyle = .primary
         return primaryLabel
@@ -295,7 +281,7 @@ open class CardView: UIView {
 
     /// The label for the Card's subtitle
     private let secondaryLabel: Label = {
-        let secondaryLabel = Label()
+        let secondaryLabel = Label(style: .caption1)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.colorStyle = .secondary
         return secondaryLabel
@@ -329,6 +315,11 @@ open class CardView: UIView {
         iconView = UIImageView(image: icon)
 
         super.init(frame: .zero)
+        setupColors()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.setupColors()
+        }
 
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -340,14 +331,12 @@ open class CardView: UIView {
         primaryLabel.text = title
         primaryLabel.numberOfLines = twoLineTitle ? Constants.twoLineTitle : Constants.defaultTitleNumberOfLines
         primaryLabel.textAlignment = .natural
-        primaryLabel.style = size.primaryTextStyle
         addSubview(primaryLabel)
 
         // Subtitle
         if let secondaryText = secondaryText {
             secondaryLabel.text = secondaryText
             secondaryLabel.textAlignment = .natural
-            secondaryLabel.style = size.secondaryTextStyle
             addSubview(secondaryLabel)
         }
 
@@ -370,14 +359,23 @@ open class CardView: UIView {
         setupLayoutConstraints()
     }
 
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadow()
+    }
+
+    // MARK: - Shadow Layers
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
+
+    private func updateShadow() {
+        let shadowInfo = tokenSet.fluentTheme.shadow(.shadow02)
+        shadowInfo.applyShadow(to: self)
+    }
+
     @available(*, unavailable)
     @objc public required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        setupColors()
     }
 
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -393,11 +391,9 @@ open class CardView: UIView {
                 // Update border color
                 switch colorStyle {
                 case .appColor:
-                    if let window = window {
-                        layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
-                    }
+                    layer.borderColor = tokenSet.fluentTheme.color(.stroke1).cgColor
                 case .neutral:
-                    layer.borderColor = Constants.defaultBorderColor.cgColor
+                    layer.borderColor = tokenSet.fluentTheme.color(.stroke1).cgColor
                 case .custom:
                     layer.borderColor = customBorderColor.cgColor
                 }
@@ -405,23 +401,30 @@ open class CardView: UIView {
         }
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        setupColors()
+    }
+
     /// Set up the background color of the card and update the icon and text color if necessary
     private func setupColors() {
         switch colorStyle {
         case .appColor:
-            primaryLabel.textColor = UIColor(light: .black, dark: Colors.gray100)
-            secondaryLabel.textColor = UIColor(light: Colors.gray600, dark: Colors.gray400)
-            iconView.tintColor = UIColor(light: Colors.gray600, dark: Colors.gray500)
-            if let window = window {
-                backgroundColor = UIColor(light: Colors.primaryTint40(for: window), dark: Colors.primaryTint30(for: window))
-                layer.borderColor = UIColor(light: Colors.primaryTint30(for: window), dark: .clear).cgColor
-            }
+            primaryLabel.textColor = tokenSet.fluentTheme.color(.foreground1)
+            secondaryLabel.textColor = tokenSet.fluentTheme.color(.foreground2)
+            iconView.tintColor = tokenSet.fluentTheme.color(.brandForeground1)
+            backgroundColor = tokenSet.fluentTheme.color(.background2)
+            layer.borderColor = tokenSet.fluentTheme.color(.stroke1).cgColor
         case .neutral:
-            backgroundColor = Constants.defaultBackgroundColor
-            primaryLabel.textColor = Colors.textPrimary
-            secondaryLabel.textColor = Colors.textSecondary
-            iconView.tintColor = Colors.iconSecondary
-            layer.borderColor = Constants.defaultBorderColor.cgColor
+            backgroundColor = tokenSet.fluentTheme.color(.background2)
+            primaryLabel.textColor = tokenSet.fluentTheme.color(.foreground1)
+            secondaryLabel.textColor = tokenSet.fluentTheme.color(.foreground2)
+            iconView.tintColor = tokenSet.fluentTheme.color(.foreground2)
+            layer.borderColor = tokenSet.fluentTheme.color(.stroke1).cgColor
         case .custom:
             backgroundColor = customBackgroundColor
             primaryLabel.textColor = customTitleColor
@@ -432,8 +435,6 @@ open class CardView: UIView {
     }
 
     private struct Constants {
-        static let defaultBackgroundColor = UIColor(light: .white, dark: Colors.gray900)
-        static let defaultBorderColor = UIColor(light: Colors.dividerOnPrimary, dark: .clear)
         static let iconWidth: CGFloat = 24
         static let iconHeight: CGFloat = 24
         static let borderRadius: CGFloat = 8.0
@@ -462,7 +463,7 @@ open class CardView: UIView {
         layoutConstraints.append(contentsOf: [
             iconView.centerYAnchor.constraint(equalTo: centerYAnchor),
             primaryLabel.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: Constants.horizontalContentSpacing),
-            widthAnchor.constraint(equalToConstant: size.width),
+            widthAnchor.constraint(equalToConstant: customWidth),
             heightConstraint,
             iconView.widthAnchor.constraint(equalToConstant: Constants.iconWidth),
             iconView.heightAnchor.constraint(equalToConstant: Constants.iconHeight),
