@@ -435,6 +435,38 @@ open class Button: NSButton {
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
+	
+	/// This is used to store the Button's style corresponding to the active state of the Window to which it is added, to be able to retrieve
+	/// it when restoring the button's style when the window transitions from inactive back to active.
+	private var activeWindowButtonStyle: ButtonStyle?
+	
+	public override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+		
+		// Hook in Notification Handler for Button's inactive window state which transitions the button
+		// to it's Secondary Style, stripping it of all its colors
+		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
+											   object: nil,
+											   queue: nil) {[weak self] _ in
+			guard let strongSelf = self, strongSelf.style != .secondary else {
+				return
+			}
+			strongSelf.activeWindowButtonStyle = strongSelf.style
+			strongSelf.style = .secondary
+		}
+		
+		// Hook in Notifiaction Handler for Button's active window state which transitions the button
+		// back to it's main style stored away before the window bacame inactive
+		NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
+											   object: nil,
+											   queue: nil) {[weak self] _ in
+			guard let strongSelf = self, let storedActiveWindowButtonStyle = strongSelf.activeWindowButtonStyle else {
+				return
+			}
+			strongSelf.style = storedActiveWindowButtonStyle
+			strongSelf.activeWindowButtonStyle = nil
+		}
+	}
 }
 
 // MARK: - ButtonCell
