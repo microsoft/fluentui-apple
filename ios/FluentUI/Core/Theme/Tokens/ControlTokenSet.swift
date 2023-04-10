@@ -60,7 +60,7 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// - Parameter otherTokenSet: The token set we will be pulling values from.
     /// - Parameter mapping: A `Dictionary` that maps our own tokens that we wish to override with
     /// their corresponding tokens in `otherTokenSet`.
-    public func setOverrides<U>(from otherTokenSet: ControlTokenSet<U>, mapping: [T: U]) {
+    func setOverrides<U>(from otherTokenSet: ControlTokenSet<U>, mapping: [T: U]) {
         // Make a copy so we write all the values at once
         var valueOverrideCopy = valueOverrides ?? [:]
         mapping.forEach { (thisToken, otherToken) in
