@@ -3,7 +3,9 @@
 ## Overview
 `MultilineCommandBar` is a vertical list of `CommandBars`, hosted in a `BottomSheetController`.
 
-![MultilineCommandBar.png](.attachments/MultilineCommandBar.png)
+| Compact Mode | Regular Mode |
+| - | - |
+| ![MultilineCommandBar-Compact.png](.attachments/MultilineCommandBar-Compact.png) | ![MultilineCommandBar-Regular.png](.attachments/MultilineCommandBar-Regular.png) |
 
 ## Usage
 ### UIKit
