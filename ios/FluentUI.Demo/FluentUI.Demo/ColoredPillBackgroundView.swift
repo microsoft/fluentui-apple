@@ -55,7 +55,7 @@ class ColoredPillBackgroundView: UIView {
             style = .primary
         }
 
-        backgroundColor = NavigationBar.backgroundColor(forStyle: style, theme: fluentTheme)
+        backgroundColor = NavigationBar.backgroundColor(for: style, theme: fluentTheme)
     }
 
     let style: ColoredPillBackgroundStyle
