@@ -320,14 +320,13 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     // MARK: Highlighting
 
     private func applyStyle() {
-        let titleColor = tokenSet[.titleColor].uiColor
-        titleButtonLabel.textColor = titleColor
+        titleButtonLabel.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .titleColor), forToken: .textColor)
+        let titleColor = titleButtonLabel.tokenSet[.textColor].uiColor
         titleButtonLeadingImageView.tintColor = titleColor
         titleButtonTrailingImageView.tintColor = titleColor
 
-        let subtitleColor = tokenSet[.subtitleColor].uiColor
-        subtitleButtonLabel.textColor = subtitleColor
-        subtitleButtonImageView.tintColor = subtitleColor
+        subtitleButtonLabel.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .subtitleColor), forToken: .textColor)
+        subtitleButtonImageView.tintColor = subtitleButtonLabel.tokenSet[.textColor].uiColor
     }
 
     private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {
@@ -393,8 +392,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        titleButtonLabel.tokenSet[.font] = tokenSet[.titleFont]
-        subtitleButtonLabel.tokenSet[.font] = tokenSet[.subtitleFont]
+        titleButtonLabel.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .titleFont), forToken: .font)
+        subtitleButtonLabel.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .subtitleFont), forToken: .font)
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
