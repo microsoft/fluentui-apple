@@ -64,7 +64,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         // Make a copy so we write all the values at once
         var valueOverrideCopy = valueOverrides ?? [:]
         mapping.forEach { (thisToken, otherToken) in
-            valueOverrideCopy[thisToken] = otherTokenSet[otherToken]
+            if let overrideToken = otherTokenSet.overrideValue(forToken: otherToken) {
+                valueOverrideCopy[thisToken] = overrideToken
+            }
         }
         valueOverrides = valueOverrideCopy
     }

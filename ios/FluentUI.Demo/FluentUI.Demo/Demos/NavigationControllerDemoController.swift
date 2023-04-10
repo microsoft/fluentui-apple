@@ -971,9 +971,6 @@ extension NavigationControllerDemoController: DemoAppearanceDelegate {
                 UIColor(light: GlobalTokens.sharedColor(.red, .primary),
                         dark: GlobalTokens.sharedColor(.red, .tint30))
             },
-            .subtitleFont: .uiFont {
-                theme.typography(.caption2)
-            },
             .buttonTintColor: .uiColor {
                 UIColor(light: GlobalTokens.sharedColor(.orange, .primary),
                         dark: GlobalTokens.sharedColor(.orange, .tint30))
