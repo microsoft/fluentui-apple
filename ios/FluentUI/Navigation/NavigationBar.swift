@@ -109,7 +109,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case custom
     }
 
-    @available(*, deprecated, renamed: "backgroundColor(for:theme:)", message: "NavigationBar has been tokenized. Use the replacement method, passing in .system for the style.")
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
         return backgroundColor(for: .system, theme: fluentTheme)
     }
