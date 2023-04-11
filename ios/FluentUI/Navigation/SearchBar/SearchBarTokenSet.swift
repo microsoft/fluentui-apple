@@ -180,9 +180,9 @@ extension SearchBarTokenSet {
 public extension SearchBar {
     @objc(MSFSearchBarStyle)
     enum Style: Int {
-        @available(*, deprecated, message: "lightContent is now deprecated. Please use onCanvas.")
+        @available(*, deprecated, message: "lightContent is now deprecated. Please use onBrandNavigationBar.")
         case lightContent
-        @available(*, deprecated, message: "darkContent is now deprecated. Please use onBrand.")
+        @available(*, deprecated, message: "darkContent is now deprecated. Please use onCanvas.")
         case darkContent
         case onCanvas
         case onSystemNavigationBar
