@@ -253,6 +253,42 @@ open class Button: NSButton {
 		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
 		path.fill()
 	}
+	
+	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
+	private var isWindowInactive: Bool? {
+		didSet {
+			guard oldValue != isWindowInactive else {
+				return
+			}
+
+			setColorValues(forStyle: style, accentColor: accentColor, isWindowInactive: isWindowInactive ?? false)
+			needsDisplay = true
+		}
+	}
+
+	public override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+
+		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
+											   object: nil,
+											   queue: nil) {[weak self] _ in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.isWindowInactive = true
+		}
+
+		NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
+											   object: nil,
+											   queue: nil) {[weak self] _ in
+			guard let strongSelf = self else {
+				return
+			}
+			strongSelf.isWindowInactive = false
+		}
+	}
+	
+	
 
 	open override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
@@ -315,16 +351,16 @@ open class Button: NSButton {
 		}
 	}
 
-	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor, isWindowInactive: Bool = false) {
 		switch forStyle {
 		case .primary:
-			contentTintColorRest = ButtonColor.neutralInverted
+			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
 			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-			backgroundColorRest = accentColor
+			backgroundColorRest = isWindowInactive ? ButtonColor.neutralBackground2 : accentColor
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-			borderColorRest = .clear
+			borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
 			borderColorPressed = .clear
 			borderColorDisabled = .clear
 		case .secondary:
@@ -348,7 +384,7 @@ open class Button: NSButton {
 			borderColorPressed = .clear
 			borderColorDisabled = .clear
 		case .borderless:
-			contentTintColorRest = accentColor
+			contentTintColorRest = isWindowInactive ? .textColor : accentColor
 			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
 			backgroundColorRest = .clear
@@ -369,9 +405,12 @@ open class Button: NSButton {
 			guard oldValue != accentColor else {
 				return
 			}
-			// Recompute relevant state-specific colors appropriate to the style
-			setColorValues(forStyle: style, accentColor: accentColor)
-			needsDisplay = true
+
+			if (isWindowInactive == nil || !(isWindowInactive ?? false)) {
+				// Recompute relevant state-specific colors appropriate to the style
+				setColorValues(forStyle: style, accentColor: accentColor)
+				needsDisplay = true
+			}
 		}
 	}
 
@@ -382,8 +421,11 @@ open class Button: NSButton {
 			guard oldValue != style else {
 				return
 			}
-			setColorValues(forStyle: style, accentColor: accentColor)
-			needsDisplay = true
+
+			if (isWindowInactive == nil || !(isWindowInactive ?? false)) {
+				setColorValues(forStyle: style, accentColor: accentColor)
+				needsDisplay = true
+			}
 		}
 	}
 
@@ -434,38 +476,6 @@ open class Button: NSButton {
 		}
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
-	}
-	
-	/// This is used to store the Button's style corresponding to the active state of the Window to which it is added, to be able to retrieve
-	/// it when restoring the button's style when the window transitions from inactive back to active.
-	private var activeWindowButtonStyle: ButtonStyle?
-	
-	public override func viewDidMoveToWindow() {
-		super.viewDidMoveToWindow()
-		
-		// Hook in Notification Handler for Button's inactive window state which transitions the button
-		// to it's Secondary Style, stripping it of all its colors
-		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
-											   object: nil,
-											   queue: nil) {[weak self] _ in
-			guard let strongSelf = self, strongSelf.style != .secondary else {
-				return
-			}
-			strongSelf.activeWindowButtonStyle = strongSelf.style
-			strongSelf.style = .secondary
-		}
-		
-		// Hook in Notifiaction Handler for Button's active window state which transitions the button
-		// back to it's main style stored away before the window bacame inactive
-		NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
-											   object: nil,
-											   queue: nil) {[weak self] _ in
-			guard let strongSelf = self, let storedActiveWindowButtonStyle = strongSelf.activeWindowButtonStyle else {
-				return
-			}
-			strongSelf.style = storedActiveWindowButtonStyle
-			strongSelf.activeWindowButtonStyle = nil
-		}
 	}
 }
 
