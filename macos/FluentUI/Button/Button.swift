@@ -260,7 +260,7 @@ open class Button: NSButton {
 			guard oldValue != isWindowInactive else {
 				return
 			}
-
+			// Re-compute the Button's color values for the latest Window State, and re-render it
 			setColorValues(forStyle: style, accentColor: accentColor, isWindowInactive: isWindowInactive ?? false)
 			needsDisplay = true
 		}
@@ -269,6 +269,7 @@ open class Button: NSButton {
 	public override func viewDidMoveToWindow() {
 		super.viewDidMoveToWindow()
 
+		// Hook in Notification Handles to capture the Window's active and inactive states
 		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
 											   object: nil,
 											   queue: nil) {[weak self] _ in
