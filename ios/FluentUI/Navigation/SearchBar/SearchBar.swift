@@ -62,7 +62,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
 
     public typealias TokenSetKeyType = SearchBarTokenSet.Tokens
     public lazy var tokenSet: SearchBarTokenSet = .init(style: { [weak self] in
-        self?.style ?? .onBrand
+        self?.style ?? .onBrandNavigationBar
     })
 
     // used to hide the cancelButton in non-active states

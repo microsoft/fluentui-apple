@@ -51,9 +51,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
                     switch style() {
                     case .lightContent, .onCanvas:
                         return theme.color(.background3)
-                    case .onNavigationBar:
+                    case .onSystemNavigationBar:
                         return theme.color(.background5)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.brandBackground2).light,
                                        dark: theme.color(.background5).dark)
                     }
@@ -61,9 +61,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .cancelButtonColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground1)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -73,9 +73,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
                     switch style() {
                     case .lightContent, .onCanvas:
                         return theme.color(.foreground2)
-                    case .onNavigationBar:
+                    case .onSystemNavigationBar:
                         return theme.color(.foreground3)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -83,9 +83,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .placeholderColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground2)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground2).dark)
                     }
@@ -93,9 +93,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .activeSearchIconColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground1)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -103,9 +103,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .inactiveSearchIconColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground3)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -113,9 +113,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .textColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground1)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -123,9 +123,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .searchCursorColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground3)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -133,9 +133,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .progressSpinnerColor:
                 return .uiColor({
                     switch style() {
-                    case .lightContent, .onCanvas, .onNavigationBar:
+                    case .lightContent, .onCanvas, .onSystemNavigationBar:
                         return theme.color(.foreground3)
-                    case .darkContent, .onBrand:
+                    case .darkContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground3).dark)
                     }
@@ -170,7 +170,7 @@ extension SearchBarTokenSet {
     static var clearButtonInsettedWidth: CGFloat {
         clearButtonLeadingInset + clearButtonWidth + clearButtonTrailingInset
     }
-    static let defaultStyle: SearchBar.Style = .onBrand
+    static let defaultStyle: SearchBar.Style = .onBrandNavigationBar
     static let cancelButtonShowHideAnimationDuration: TimeInterval = 0.25
     static let navigationBarTransitionHidingDelay: TimeInterval = 0.5
 }
@@ -185,7 +185,7 @@ public extension SearchBar {
         @available(*, deprecated, message: "darkContent is now deprecated. Please use onBrand.")
         case darkContent
         case onCanvas
-        case onNavigationBar
-        case onBrand
+        case onSystemNavigationBar
+        case onBrandNavigationBar
     }
 }
