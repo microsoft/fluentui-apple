@@ -253,7 +253,7 @@ open class Button: NSButton {
 		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
 		path.fill()
 	}
-	
+
 	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
 	private var isWindowInactive: Bool? {
 		didSet {
@@ -288,8 +288,6 @@ open class Button: NSButton {
 			strongSelf.isWindowInactive = false
 		}
 	}
-	
-	
 
 	open override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
@@ -407,7 +405,7 @@ open class Button: NSButton {
 				return
 			}
 
-			if (isWindowInactive == nil || !(isWindowInactive ?? false)) {
+			if isWindowInactive == nil || !(isWindowInactive ?? false) {
 				// Recompute relevant state-specific colors appropriate to the style
 				setColorValues(forStyle: style, accentColor: accentColor)
 				needsDisplay = true
@@ -423,7 +421,7 @@ open class Button: NSButton {
 				return
 			}
 
-			if (isWindowInactive == nil || !(isWindowInactive ?? false)) {
+			if isWindowInactive == nil || !(isWindowInactive ?? false) {
 				setColorValues(forStyle: style, accentColor: accentColor)
 				needsDisplay = true
 			}
