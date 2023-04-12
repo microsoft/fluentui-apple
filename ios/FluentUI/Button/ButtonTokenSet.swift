@@ -15,6 +15,17 @@ public enum ButtonStyle: Int, CaseIterable {
     case danger
     case dangerOutline
     case dangerSubtle
+    case fabAccent
+    case fabSubtle
+
+    public var isFab: Bool {
+        switch self {
+        case .fabAccent, .fabSubtle:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: ButtonSizeCategory
@@ -70,6 +81,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
 
         /// Defines the font of the title of the button
         case titleFont
+
+        /// Defines the shadow of the button
+        case shadow
+
+        /// Defines the shadow of the button when focused, disabled, or pressed
+        case shadowFocusedDisabledPressed
     }
 
     init(style: @escaping () -> ButtonStyle,
@@ -81,18 +98,20 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .backgroundColor:
                 return .uiColor {
                     switch style() {
-                    case .accent:
+                    case .accent, .fabAccent:
                         return theme.color(.brandBackground1)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
+                    case .fabSubtle:
+                        return theme.color(.background1)
                     }
                 }
             case .backgroundFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent:
+                    case .accent, .fabAccent, .fabSubtle:
                         return theme.color(.brandBackground1Selected)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
@@ -107,23 +126,29 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.background5)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
+                    case .fabAccent:
+                        return theme.color(.brandBackgroundDisabled)
+                    case .fabSubtle:
+                        return theme.color(.background1)
                     }
                 }
             case .backgroundPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent:
+                    case .accent, .fabAccent:
                         return theme.color(.brandBackground1Pressed)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
+                    case .fabSubtle:
+                        return theme.color(.background1Pressed)
                     }
                 }
             case .borderColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
                         return .clear
                     case .outline:
                         return theme.color(.brandStroke1)
@@ -134,7 +159,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
                         return .clear
                     case .outline, .dangerOutline:
                         return theme.color(.strokeFocus2)
@@ -143,7 +168,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderDisabledColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
                         return .clear
                     case .outline, .dangerOutline:
                         return theme.color(.strokeDisabled)
@@ -152,7 +177,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
                         return .clear
                     case .outline:
                         return theme.color(.brandStroke1Pressed)
@@ -163,7 +188,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderWidth:
                 return .float {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
                         return GlobalTokens.stroke(.widthNone)
                     case .outline, .dangerOutline:
                         return GlobalTokens.stroke(.width10)
@@ -171,17 +196,22 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 }
             case .cornerRadius:
                 return .float {
-                    switch size() {
-                    case .large:
-                        return GlobalTokens.corner(.radius120)
-                    case .medium, .small:
-                        return GlobalTokens.corner(.radius80)
+                    switch style().isFab {
+                    case true:
+                        return GlobalTokens.corner(.radiusCircular)
+                    case false:
+                        switch size() {
+                        case .large:
+                            return GlobalTokens.corner(.radius120)
+                        case .medium, .small:
+                            return GlobalTokens.corner(.radius80)
+                        }
                     }
                 }
             case .foregroundColor:
                 return .uiColor {
                     switch style() {
-                    case .accent:
+                    case .accent, .fabAccent:
                         return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
                         return theme.color(.brandForeground1)
@@ -189,6 +219,8 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
                         return theme.color(.dangerForeground2)
+                    case .fabSubtle:
+                        return theme.color(.foreground2)
                     }
                 }
             case .foregroundDisabledColor:
@@ -196,7 +228,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .foregroundPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent:
+                    case .accent, .fabAccent:
                         return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
                         return theme.color(.brandForeground1Pressed)
@@ -204,6 +236,8 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
                         return theme.color(.dangerForeground2)
+                    case .fabSubtle:
+                        return theme.color(.foreground2)
                     }
                 }
             case .titleFont:
@@ -213,6 +247,24 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.typography(.body1Strong)
                     case .medium, .small:
                         return theme.typography(.caption1Strong)
+                    }
+                }
+            case .shadow:
+                return .shadowInfo {
+                    switch style().isFab {
+                    case true:
+                        return theme.shadow(.shadow08)
+                    case false:
+                        return theme.shadow(.clear)
+                    }
+                }
+            case .shadowFocusedDisabledPressed:
+                return .shadowInfo {
+                    switch style().isFab {
+                    case true:
+                        return theme.shadow(.shadow02)
+                    case false:
+                        return theme.shadow(.clear)
                     }
                 }
             }
@@ -225,36 +277,77 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
 
 extension ButtonTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ size: ButtonSizeCategory) -> CGFloat {
+    static func horizontalPadding(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        switch style.isFab {
+        case true:
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size160)
+            case .small:
+                return GlobalTokens.spacing(.size120)
+            default:
+                return 0
+            }
+        case false:
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size200)
+            case .medium:
+                return GlobalTokens.spacing(.size120)
+            case .small:
+                return GlobalTokens.spacing(.size80)
+            }
+        }
+    }
+
+    /// The value for the right padding between the content of the button and the frame for a FAB button with text.
+    static func fabWithTextRightPadding(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
-        case .medium:
-            return GlobalTokens.spacing(.size120)
         case .small:
-            return GlobalTokens.spacing(.size80)
+            return GlobalTokens.spacing(.size160)
+        default:
+            return 0
         }
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ size: ButtonSizeCategory) -> CGFloat {
-        switch size {
-        case .large:
-            return 52
-        case .medium:
-            return 40
-        case .small:
-            return 28
+    static func minContainerHeight(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        switch style.isFab {
+        case true:
+            switch size {
+            case .large:
+                return 56
+            case .small:
+                return 48
+            default:
+                return 0
+            }
+        case false:
+            switch size {
+            case .large:
+                return 52
+            case .medium:
+                return 40
+            case .small:
+                return 28
+            }
         }
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ size: ButtonSizeCategory) -> CGFloat {
-        switch size {
-        case .large, .medium:
+    static func titleImageSpacing(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        switch style.isFab {
+        case true:
             return GlobalTokens.spacing(.size80)
-        case .small:
-            return GlobalTokens.spacing(.size40)
+        case false:
+            switch size {
+            case .large, .medium:
+                return GlobalTokens.spacing(.size80)
+            case .small:
+                return GlobalTokens.spacing(.size40)
+            }
         }
     }
 }

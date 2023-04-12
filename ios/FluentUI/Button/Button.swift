@@ -10,7 +10,7 @@ import UIKit
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, TokenizedControlInternal {
+open class Button: UIButton, Shadowable, TokenizedControlInternal {
     @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
@@ -89,16 +89,16 @@ open class Button: UIButton, TokenizedControlInternal {
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
+        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(sizeCategory)
+                contentSize.width += ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonTokenSet.titleImageSpacing(sizeCategory)
+                contentSize.width -= ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
             }
         }
 
@@ -140,6 +140,7 @@ open class Button: UIButton, TokenizedControlInternal {
         focusRing.isHidden = !isFocused
         updateBackground()
         updateBorder()
+        updateShadow()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -199,6 +200,8 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .outline
@@ -275,6 +278,7 @@ open class Button: UIButton, TokenizedControlInternal {
         updateImage()
         updateBackground()
         updateBorder()
+        updateShadow()
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
@@ -284,7 +288,7 @@ open class Button: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(sizeCategory)
+        var spacing = ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -343,9 +347,15 @@ open class Button: UIButton, TokenizedControlInternal {
         layer.borderWidth = tokenSet[.borderWidth].float
     }
 
+    private func updateShadow() {
+        let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowFocusedDisabledPressed].shadowInfo : tokenSet[.shadow].shadowInfo
+        shadowInfo.applyShadow(to: self)
+    }
+
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
-        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
+        let leftPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let rightPadding = style.isFab && titleLabel?.text != nil ? ButtonTokenSet.fabWithTextRightPadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: leftPadding, bottom: 0, trailing: rightPadding)
     }
 
     private lazy var focusRing: FocusRingView = {

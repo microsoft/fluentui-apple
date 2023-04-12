@@ -15,6 +15,10 @@ class ButtonDemoController: DemoController {
 
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
+                if style.isFab && size == .medium {
+                    continue
+                }
+
                 addTitle(text: style.description + ", " + size.description)
 
                 let button = createButton(with: style,
@@ -27,9 +31,12 @@ class ButtonDemoController: DemoController {
                 let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
                 titleButtonStack.spacing = 20
                 titleButtonStack.distribution = .fillProportionally
+                if style == .fabSubtle {
+                    titleButtonStack.backgroundColor = .black
+                }
                 container.addArrangedSubview(titleButtonStack)
 
-                if let image = size.image {
+                if let image = size.image ?? style.image {
                     let iconButton = createButton(with: style,
                                                   sizeCategory: size,
                                                   title: "Text",
@@ -131,6 +138,19 @@ extension ButtonStyle {
             return "Danger outline"
         case .dangerSubtle:
             return "Danger subtle"
+        case .fabAccent:
+            return "FAB accent"
+        case .fabSubtle:
+            return "FAB subtle"
+        }
+    }
+
+    var image: UIImage? {
+        switch self.isFab {
+        case true:
+            return UIImage(named: "Placeholder_24")!
+        case false:
+            return nil
         }
     }
 }
