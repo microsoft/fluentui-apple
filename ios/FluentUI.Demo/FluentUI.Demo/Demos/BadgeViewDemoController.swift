@@ -62,23 +62,23 @@ class BadgeViewDemoController: DemoController {
             if overrideColor {
                 if isEnabled {
                     badge.tokenSet[.backgroundTintColor] = .uiColor {
-                        .init(light: GlobalTokens.sharedColor(.purple, .primary))
+                        GlobalTokens.sharedColor(.purple, .primary)
                     }
                     badge.tokenSet[.backgroundFilledColor] = .uiColor {
-                        .init(light: GlobalTokens.sharedColor(.darkTeal, .tint20))
+                        GlobalTokens.sharedColor(.darkTeal, .tint20)
                     }
                     badge.tokenSet[.foregroundTintColor] = .uiColor {
-                        .init(light: GlobalTokens.neutralColor(.grey94))
+                        GlobalTokens.neutralColor(.grey94)
                     }
                     badge.tokenSet[.foregroundFilledColor] = .uiColor {
-                        .init(light: GlobalTokens.neutralColor(.grey88))
+                        GlobalTokens.neutralColor(.grey88)
                     }
                 } else {
                     badge.tokenSet[.backgroundDisabledColor] = .uiColor {
-                        .init(light: GlobalTokens.neutralColor(.grey88))
+                        GlobalTokens.neutralColor(.grey88)
                     }
                     badge.tokenSet[.foregroundDisabledColor] = .uiColor {
-                        .init(light: GlobalTokens.neutralColor(.grey26))
+                        GlobalTokens.neutralColor(.grey26)
                     }
                 }
             }
@@ -112,10 +112,10 @@ class BadgeViewDemoController: DemoController {
                 customViewVerticalPadding: 3
             )
             badge.tokenSet[.backgroundDisabledColor] = .uiColor {
-                .init(light: GlobalTokens.sharedColor(.purple, .primary))
+                GlobalTokens.sharedColor(.purple, .primary)
             }
             badge.tokenSet[.foregroundDisabledColor] = .uiColor {
-                .init(light: GlobalTokens.neutralColor(.white))
+                GlobalTokens.neutralColor(.white)
             }
             addRow(text: sizeCategory.description, items: [badge])
         }
