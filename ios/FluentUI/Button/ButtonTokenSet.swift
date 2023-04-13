@@ -196,16 +196,11 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                 }
             case .cornerRadius:
                 return .float {
-                    switch style().isFab {
-                    case true:
-                        return GlobalTokens.corner(.radiusCircular)
-                    case false:
-                        switch size() {
-                        case .large:
-                            return GlobalTokens.corner(.radius120)
-                        case .medium, .small:
-                            return GlobalTokens.corner(.radius80)
-                        }
+                    switch size() {
+                    case .large:
+                        return GlobalTokens.corner(.radius120)
+                    case .medium, .small:
+                        return GlobalTokens.corner(.radius80)
                     }
                 }
             case .foregroundColor:

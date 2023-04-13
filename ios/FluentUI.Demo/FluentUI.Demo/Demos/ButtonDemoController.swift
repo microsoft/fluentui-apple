@@ -31,9 +31,6 @@ class ButtonDemoController: DemoController {
                 let titleButtonStack = UIStackView(arrangedSubviews: [button, disabledButton])
                 titleButtonStack.spacing = 20
                 titleButtonStack.distribution = .fillProportionally
-                if style == .fabSubtle {
-                    titleButtonStack.backgroundColor = .black
-                }
                 container.addArrangedSubview(titleButtonStack)
 
                 if let image = size.image ?? style.image {
