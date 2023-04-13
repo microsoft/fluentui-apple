@@ -61,6 +61,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         case primary
         case system
         case custom
+        case customGradient
 
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
@@ -68,6 +69,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                 return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
                                dark: fluentTheme.color(.foreground2).dark)
             case .system:
+                return fluentTheme.color(.foreground2)
+            case .customGradient:
                 return fluentTheme.color(.foreground2)
             }
         }
@@ -77,7 +80,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             case .primary, .default, .custom:
                 return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
                                dark: fluentTheme.color(.foreground1).dark)
-            case .system:
+            case .system, .customGradient:
                 return fluentTheme.color(.foreground1)
             }
         }
@@ -92,6 +95,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                 return fluentTheme.color(.background3)
             case .custom:
                 return customColor ?? defaultColor
+            case .customGradient:
+                return fluentTheme.color(.background1)
             }
         }
     }
@@ -520,12 +525,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
-        case .system:
+        case .system, .customGradient:
             titleView.style = .system
         }
 
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = color
+        backgroundView.backgroundColor = (style == .customGradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)

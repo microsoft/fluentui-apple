@@ -120,7 +120,7 @@ class NavigationControllerDemoController: DemoController {
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
-        content.navigationItem.navigationBarStyle = style
+        content.navigationItem.navigationBarStyle = .customGradient
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
@@ -168,7 +168,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .primary
             case .primary:
                 newStyle = .system
-            case .system:
+            case .system, .customGradient:
                 newStyle = .custom
             }
 
