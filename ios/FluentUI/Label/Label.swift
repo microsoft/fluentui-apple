@@ -107,6 +107,10 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
+        // textColor and font in the tokenSet are assigned in super.init to a default value and so we need to remove the override
+        tokenSet.removeOverride(.textColor)
+        tokenSet.removeOverride(.font)
+
         updateFont()
         updateTextColor()
         adjustsFontForContentSizeCategory = true
