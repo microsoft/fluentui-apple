@@ -295,8 +295,8 @@ extension ButtonTokenSet {
         }
     }
 
-    /// The value for the right padding between the content of the button and the frame for a FAB button with text.
-    static func fabWithTextRightPadding(_ size: ButtonSizeCategory) -> CGFloat {
+    /// The value for the right padding between the content of the button and the frame for a FAB button with an icon and text.
+    static func fabAlternativePadding(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
