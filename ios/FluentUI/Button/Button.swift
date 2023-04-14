@@ -106,8 +106,8 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerCurve = .continuous
         layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerCurve = .continuous
 
         titleLabel?.font = tokenSet[.titleFont].uiFont
         titleLabel?.adjustsFontForContentSizeCategory = true
