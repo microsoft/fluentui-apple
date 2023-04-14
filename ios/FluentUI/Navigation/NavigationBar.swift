@@ -101,8 +101,36 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
+    @objc public var gradient: CAGradientLayer?
+    @objc public var gradientMask: CAGradientLayer?
+
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         return Style.system.backgroundColor(fluentTheme: fluentTheme)
+    }
+
+    private func updateGradient() {
+        if style != .customGradient {
+            return
+        }
+
+        guard let gradient = gradient else {
+            assertionFailure("gradient cannot be nil when using the customGradient style")
+            return
+        }
+
+        gradient.frame = bounds
+
+        if let customGradientMask = gradientMask {
+            customGradientMask.frame = gradient.bounds
+            gradient.mask = customGradientMask
+        }
+
+        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+
+        standardAppearance.backgroundImage = gradientImage
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -532,11 +560,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         standardAppearance.backgroundColor = color
         backgroundView.backgroundColor = (style == .customGradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = (style == .customGradient && titleView.window != nil) ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance
+        updateGradient()
 
         navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
             // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
@@ -647,6 +676,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             leftBarButtonItemsStackView.isHidden = true
         }
         refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
+        if let items = navigationItem.rightBarButtonItems, style == .customGradient {
+            for button in items {
+                button.tintColor = .clear
+            }
+        }
     }
 
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {

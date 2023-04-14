@@ -67,6 +67,25 @@ open class NavigationController: UINavigationController {
         super.init(coder: aDecoder)
     }
 
+    let gradient: CAGradientLayer = {
+        let redColor = UIColor(colorValue: ColorValue(0xAE7EE1)).withAlphaComponent(0.4).cgColor
+        let blueColor = UIColor(colorValue: ColorValue(0x4162FF)).withAlphaComponent(0.4).cgColor
+        let gradient = CAGradientLayer()
+        gradient.type = .conic
+        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: -1)
+        gradient.colors = [blueColor, redColor, blueColor]
+        gradient.locations = [0.48, 0.5, 0.52]
+        return gradient
+    }()
+
+    let gradientMask: CAGradientLayer = {
+        let gradientMask = CAGradientLayer()
+        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientMask.locations = [0.3, 1]
+        return gradientMask
+    }()
+
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,6 +100,8 @@ open class NavigationController: UINavigationController {
 
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
+        msfNavigationBar.gradient = gradient
+        msfNavigationBar.gradientMask = gradientMask
     }
 
     open override func viewWillLayoutSubviews() {
