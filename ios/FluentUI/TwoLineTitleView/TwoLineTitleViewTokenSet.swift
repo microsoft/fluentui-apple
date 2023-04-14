@@ -36,7 +36,7 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
                 }
             case .subtitleFont:
                 return .uiFont {
-                    theme.typography(.caption1)
+                    theme.typography(Self.defaultSubtitleStyle)
                 }
             case .titleColor:
                 return .uiColor {
@@ -50,7 +50,7 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
                 }
             case .titleFont:
                 return .uiFont {
-                    theme.typography(.body1Strong)
+                    theme.typography(Self.defaultTitleStyle)
                 }
             }
         }
@@ -63,6 +63,9 @@ extension TwoLineTitleViewTokenSet {
     static func textColorAlpha(highlighted: Bool) -> CGFloat {
         highlighted ? 0.4 : 1
     }
+
+    static let defaultTitleStyle: FluentTheme.TypographyToken = .body1Strong
+    static let defaultSubtitleStyle: FluentTheme.TypographyToken = .caption1
 
     static let leadingImageSize = GlobalTokens.icon(.size160)
     static let leadingImageMargin = GlobalTokens.spacing(.size40)

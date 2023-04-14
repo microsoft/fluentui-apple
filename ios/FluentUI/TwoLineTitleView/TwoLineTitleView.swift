@@ -156,9 +156,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private lazy var titleButtonLabel: Label = {
-        let label = Label()
+        let label = Label(textStyle: TokenSetType.defaultTitleStyle)
         label.lineBreakMode = .byTruncatingTail
-        label.tokenSet[.font] = tokenSet[.titleFont]
         label.textAlignment = .center
         return label
     }()
@@ -176,9 +175,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private lazy var subtitleButtonLabel: Label = {
-        let label = Label()
+        let label = Label(textStyle: TokenSetType.defaultSubtitleStyle)
         label.lineBreakMode = .byTruncatingMiddle
-        label.tokenSet[.font] = tokenSet[.subtitleFont]
         return label
     }()
 
@@ -238,8 +236,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         subtitleButtonLabel.showsLargeContentViewer = true
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
-
-        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -320,12 +316,26 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     // MARK: Highlighting
 
     private func applyStyle() {
-        let titleColor = tokenSet[.titleColor].uiColor
+        let titleColor: UIColor
+        if let parentOverrideToken = tokenSet.overrideValue(forToken: .titleColor) {
+            titleColor = parentOverrideToken.uiColor
+        } else if let titleLabelOverrideToken = titleButtonLabel.tokenSet.overrideValue(forToken: .textColor) {
+            titleColor = titleLabelOverrideToken.uiColor
+        } else {
+            titleColor = tokenSet[.titleColor].uiColor
+        }
         titleButtonLabel.textColor = titleColor
         titleButtonLeadingImageView.tintColor = titleColor
         titleButtonTrailingImageView.tintColor = titleColor
 
-        let subtitleColor = tokenSet[.subtitleColor].uiColor
+        let subtitleColor: UIColor
+        if let parentOverrideToken = tokenSet.overrideValue(forToken: .subtitleColor) {
+            subtitleColor = parentOverrideToken.uiColor
+        } else if let subtitleLabelOverrideToken = subtitleButtonLabel.tokenSet.overrideValue(forToken: .textColor) {
+            subtitleColor = subtitleLabelOverrideToken.uiColor
+        } else {
+            subtitleColor = tokenSet[.subtitleColor].uiColor
+        }
         subtitleButtonLabel.textColor = subtitleColor
         subtitleButtonImageView.tintColor = subtitleColor
     }
@@ -393,8 +403,25 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        titleButtonLabel.font = tokenSet[.titleFont].uiFont
-        subtitleButtonLabel.font = tokenSet[.subtitleFont].uiFont
+        let titleFont: UIFont
+        if let parentOverrideToken = tokenSet.overrideValue(forToken: .titleFont) {
+            titleFont = parentOverrideToken.uiFont
+        } else if let titleLabelOverrideToken = titleButtonLabel.tokenSet.overrideValue(forToken: .font) {
+            titleFont = titleLabelOverrideToken.uiFont
+        } else {
+            titleFont = tokenSet[.titleFont].uiFont
+        }
+        titleButtonLabel.font = titleFont
+
+        let subtitleFont: UIFont
+        if let parentOverrideToken = tokenSet.overrideValue(forToken: .subtitleFont) {
+            subtitleFont = parentOverrideToken.uiFont
+        } else if let subtitleLabelOverrideToken = subtitleButtonLabel.tokenSet.overrideValue(forToken: .font) {
+            subtitleFont = subtitleLabelOverrideToken.uiFont
+        } else {
+            subtitleFont = tokenSet[.subtitleFont].uiFont
+        }
+        subtitleButtonLabel.font = subtitleFont
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
