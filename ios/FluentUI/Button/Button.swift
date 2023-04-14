@@ -106,7 +106,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFab ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
         titleLabel?.font = tokenSet[.titleFont].uiFont
@@ -327,7 +327,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
 
         self.backgroundColor = backgroundColor
-        layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFab ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {

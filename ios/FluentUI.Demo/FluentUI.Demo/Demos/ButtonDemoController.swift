@@ -33,7 +33,7 @@ class ButtonDemoController: DemoController {
                 titleButtonStack.distribution = .fillProportionally
                 container.addArrangedSubview(titleButtonStack)
 
-                if let image = size.image ?? style.image {
+                if let image = style.image ?? size.image {
                     let iconButton = createButton(with: style,
                                                   sizeCategory: size,
                                                   title: "Text",
