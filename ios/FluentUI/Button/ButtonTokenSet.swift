@@ -15,12 +15,12 @@ public enum ButtonStyle: Int, CaseIterable {
     case danger
     case dangerOutline
     case dangerSubtle
-    case fabAccent
-    case fabSubtle
+    case floatingAccent
+    case floatingSubtle
 
     public var isFab: Bool {
         switch self {
-        case .fabAccent, .fabSubtle:
+        case .floatingAccent, .floatingSubtle:
             return true
         default:
             return false
@@ -98,20 +98,20 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .backgroundColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .fabAccent:
+                    case .accent, .floatingAccent:
                         return theme.color(.brandBackground1)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
-                    case .fabSubtle:
+                    case .floatingSubtle:
                         return theme.color(.background1)
                     }
                 }
             case .backgroundFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .fabAccent, .fabSubtle:
+                    case .accent, .floatingAccent, .floatingSubtle:
                         return theme.color(.brandBackground1Selected)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
@@ -126,29 +126,29 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.background5)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
-                    case .fabAccent:
+                    case .floatingAccent:
                         return theme.color(.brandBackgroundDisabled)
-                    case .fabSubtle:
+                    case .floatingSubtle:
                         return theme.color(.background1)
                     }
                 }
             case .backgroundPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .fabAccent:
+                    case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Pressed)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
-                    case .fabSubtle:
+                    case .floatingSubtle:
                         return theme.color(.background1Pressed)
                     }
                 }
             case .borderColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline:
                         return theme.color(.brandStroke1)
@@ -159,7 +159,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .dangerOutline:
                         return theme.color(.strokeFocus2)
@@ -168,7 +168,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderDisabledColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .dangerOutline:
                         return theme.color(.strokeDisabled)
@@ -177,7 +177,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline:
                         return theme.color(.brandStroke1Pressed)
@@ -188,7 +188,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .borderWidth:
                 return .float {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .fabAccent, .fabSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return GlobalTokens.stroke(.widthNone)
                     case .outline, .dangerOutline:
                         return GlobalTokens.stroke(.width10)
@@ -206,7 +206,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .foregroundColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .fabAccent:
+                    case .accent, .floatingAccent:
                         return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
                         return theme.color(.brandForeground1)
@@ -214,7 +214,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
                         return theme.color(.dangerForeground2)
-                    case .fabSubtle:
+                    case .floatingSubtle:
                         return theme.color(.foreground2)
                     }
                 }
@@ -223,7 +223,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .foregroundPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .fabAccent:
+                    case .accent, .floatingAccent:
                         return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
                         return theme.color(.brandForeground1Pressed)
@@ -231,7 +231,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                         return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
                         return theme.color(.dangerForeground2)
-                    case .fabSubtle:
+                    case .floatingSubtle:
                         return theme.color(.foreground2)
                     }
                 }

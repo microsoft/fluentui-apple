@@ -135,9 +135,9 @@ extension ButtonStyle {
             return "Danger outline"
         case .dangerSubtle:
             return "Danger subtle"
-        case .fabAccent:
+        case .floatingAccent:
             return "FAB accent"
-        case .fabSubtle:
+        case .floatingSubtle:
             return "FAB subtle"
         }
     }
