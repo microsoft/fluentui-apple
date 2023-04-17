@@ -106,11 +106,11 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithGradientStyleAndShyAccessory() {
-        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithGradientStyleAndFixedAccessory() {
-        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithGradientStyleAndPillSegment() {
@@ -126,7 +126,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithGradientStyleAndShyAccessory() {
-        presentController(withLargeTitle: false, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+        presentController(withLargeTitle: false, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
