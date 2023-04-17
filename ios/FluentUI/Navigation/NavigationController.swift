@@ -32,7 +32,7 @@ open class NavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return (msfNavigationBar.style == .system || msfNavigationBar.style == .customGradient) ? .default : .lightContent
+        return (msfNavigationBar.style == .system || msfNavigationBar.style == .gradient) ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
@@ -48,6 +48,14 @@ open class NavigationController: UINavigationController {
 
     @objc public convenience init() {
         self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
+    }
+
+    @objc public convenience init(rootViewController: UIViewController,
+                                  gradient: CAGradientLayer,
+                                  mask: CAGradientLayer?) {
+        self.init(rootViewController: rootViewController)
+        msfNavigationBar.gradient = gradient
+        msfNavigationBar.gradientMask = mask
     }
 
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
@@ -67,25 +75,6 @@ open class NavigationController: UINavigationController {
         super.init(coder: aDecoder)
     }
 
-    let gradient: CAGradientLayer = {
-        let redColor = UIColor(colorValue: ColorValue(0xAE7EE1)).withAlphaComponent(0.4).cgColor
-        let blueColor = UIColor(colorValue: ColorValue(0x4162FF)).withAlphaComponent(0.4).cgColor
-        let gradient = CAGradientLayer()
-        gradient.type = .conic
-        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
-        gradient.endPoint = CGPoint(x: 0.5, y: -1)
-        gradient.colors = [blueColor, redColor, blueColor]
-        gradient.locations = [0.48, 0.5, 0.52]
-        return gradient
-    }()
-
-    let gradientMask: CAGradientLayer = {
-        let gradientMask = CAGradientLayer()
-        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
-        gradientMask.locations = [0.3, 1]
-        return gradientMask
-    }()
-
     open override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,8 +89,6 @@ open class NavigationController: UINavigationController {
 
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
-        msfNavigationBar.gradient = gradient
-        msfNavigationBar.gradientMask = gradientMask
     }
 
     open override func viewWillLayoutSubviews() {

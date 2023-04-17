@@ -26,9 +26,16 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithSystemStyleAndPillSegment)))
 
+        addTitle(text: "Large Title with Gradient style")
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithGradientStyle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithGradientStyleAndShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithGradientStyleAndFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithGradientStyleAndPillSegment)))
+
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"gradient\" with collapsible search bar", action: #selector(showRegularTitleWithGradientStyleAndShyAccessory)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -42,6 +49,25 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
+
+    let gradient: CAGradientLayer = {
+        let redColor = UIColor(colorValue: ColorValue(0xAE7EE1)).withAlphaComponent(0.4).cgColor
+        let blueColor = UIColor(colorValue: ColorValue(0x4162FF)).withAlphaComponent(0.4).cgColor
+        let gradient = CAGradientLayer()
+        gradient.type = .conic
+        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: -1)
+        gradient.colors = [blueColor, redColor, blueColor]
+        gradient.locations = [0.48, 0.5, 0.52]
+        return gradient
+    }()
+
+    let gradientMask: CAGradientLayer = {
+        let gradientMask = CAGradientLayer()
+        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientMask.locations = [0.3, 1]
+        return gradientMask
+    }()
 
     @objc func showLargeTitle() {
         presentController(withLargeTitle: true)
@@ -75,12 +101,32 @@ class NavigationControllerDemoController: DemoController {
         presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
     }
 
+    @objc func showLargeTitleWithGradientStyle() {
+        presentController(withLargeTitle: true, style: .gradient)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndShyAccessory() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndFixedAccessory() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndPillSegment() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+    }
+
     @objc func showRegularTitleWithShyAccessory() {
         presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
         presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showRegularTitleWithGradientStyleAndShyAccessory() {
+        presentController(withLargeTitle: false, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
@@ -120,7 +166,7 @@ class NavigationControllerDemoController: DemoController {
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
         content.navigationItem.usesLargeTitle = useLargeTitle
-        content.navigationItem.navigationBarStyle = .customGradient
+        content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
@@ -133,7 +179,12 @@ class NavigationControllerDemoController: DemoController {
             changeStyleContinuously(in: content.navigationItem)
         }
 
-        let controller = NavigationController(rootViewController: content)
+        let controller: NavigationController
+        if style == .gradient {
+            controller = NavigationController(rootViewController: content, gradient: gradient, mask: gradientMask)
+        } else {
+            controller = NavigationController(rootViewController: content)
+        }
         if showAvatar {
             controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
@@ -168,7 +219,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .primary
             case .primary:
                 newStyle = .system
-            case .system, .customGradient:
+            case .system, .gradient:
                 newStyle = .custom
             }
 

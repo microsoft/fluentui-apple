@@ -61,7 +61,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         case primary
         case system
         case custom
-        case customGradient
+        case gradient
 
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
@@ -70,7 +70,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                                dark: fluentTheme.color(.foreground2).dark)
             case .system:
                 return fluentTheme.color(.foreground2)
-            case .customGradient:
+            case .gradient:
                 return fluentTheme.color(.foreground2)
             }
         }
@@ -80,7 +80,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             case .primary, .default, .custom:
                 return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
                                dark: fluentTheme.color(.foreground1).dark)
-            case .system, .customGradient:
+            case .system, .gradient:
                 return fluentTheme.color(.foreground1)
             }
         }
@@ -95,7 +95,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                 return fluentTheme.color(.background3)
             case .custom:
                 return customColor ?? defaultColor
-            case .customGradient:
+            case .gradient:
                 return fluentTheme.color(.background1)
             }
         }
@@ -109,7 +109,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     }
 
     private func updateGradient() {
-        if !applyGradient || (style != .customGradient) {
+        if !applyGradient || (style != .gradient) {
             return
         }
 
@@ -322,7 +322,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     }
     internal var applyGradient: Bool = true {
         didSet {
-            if !applyGradient {
+            if !applyGradient && style == .gradient {
                 standardAppearance.backgroundImage = nil
             }
         }
@@ -555,18 +555,19 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let shouldSetTitleColors: Bool = (style == .gradient && showsLargeTitle)
 
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
-        case .system, .customGradient:
+        case .system, .gradient:
             titleView.style = .system
         }
 
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = (style == .customGradient) ? .clear : color
+        backgroundView.backgroundColor = (style == .gradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = (style == .customGradient && showsLargeTitle) ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldSetTitleColors ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
         // Update the scroll edge appearance to match the new standard appearance
@@ -639,6 +640,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         let button = BadgeLabelButton(type: .system)
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
+
+        if #available(iOS 16.0, *), let usesLargeTitle = topItem?.usesLargeTitle, usesLargeTitle {
+            item.isHidden = true
+        } else {
+            // Fallback on earlier versions
+        }
 
         if #available(iOS 15.0, *) {
             let insets: NSDirectionalEdgeInsets
