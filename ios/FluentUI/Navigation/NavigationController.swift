@@ -32,7 +32,7 @@ open class NavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return msfNavigationBar.style == .system ? .default : .lightContent
+        return (msfNavigationBar.style == .system || msfNavigationBar.style == .customGradient) ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
@@ -118,6 +118,16 @@ open class NavigationController: UINavigationController {
 
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(wrapViewControllerIfNeeded(viewController), animated: animated)
+        msfNavigationBar.applyGradient = false
+    }
+
+    @discardableResult
+    open override func popViewController(animated: Bool) -> UIViewController? {
+        super.popViewController(animated: animated)
+        if self.topViewController == viewControllers.first {
+            msfNavigationBar.applyGradient = true
+        }
+        return nil
     }
 
     open override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
@@ -156,7 +166,7 @@ open class NavigationController: UINavigationController {
         return false
     }
 
-    func updateNavigationBar(for viewController: UIViewController) {
+    func updateNavigationBar(for viewController: UIViewController, with navigationController: UINavigationController? = nil) {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
@@ -178,13 +188,27 @@ open class NavigationController: UINavigationController {
                 msfNavigationBar.obscureContent(animated: animated)
                 if searchIsActive(in: topViewController) {
                     navigationBarWasHiddenBySearchBar = true
+                    setShyHeaderGradient()
                 }
             } else {
                 msfNavigationBar.revealContent(animated: animated)
                 navigationBarWasHiddenBySearchBar = false
+                removeShyHeaderGradient()
             }
         }
         super.setNavigationBarHidden(hidden, animated: animated)
+    }
+
+    private func setShyHeaderGradient() {
+        guard let shyHeaderController = topViewController as? ShyHeaderController, let gradient = msfNavigationBar.gradient else {
+            return
+        }
+
+        shyHeaderController.view.layer.addSublayer(gradient)
+    }
+
+    private func removeShyHeaderGradient() {
+        msfNavigationBar.gradient?.removeFromSuperlayer()
     }
 
     private func searchIsActive(in viewController: UIViewController?) -> Bool {
@@ -231,7 +255,7 @@ open class NavigationController: UINavigationController {
 extension NavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         updateNavigationBarVisibility(for: viewController, animated: animated)
-        updateNavigationBar(for: viewController)
+        updateNavigationBar(for: viewController, with: navigationController)
 
         _delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
     }

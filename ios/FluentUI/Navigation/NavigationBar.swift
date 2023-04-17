@@ -109,7 +109,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     }
 
     private func updateGradient() {
-        if style != .customGradient {
+        if !applyGradient || (style != .customGradient) {
             return
         }
 
@@ -320,7 +320,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             updateViewsForLargeTitlePresentation(for: topItem)
         }
     }
-
+    internal var applyGradient: Bool = true {
+        didSet {
+            if !applyGradient {
+                standardAppearance.backgroundImage = nil
+            }
+        }
+    }
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
@@ -560,12 +566,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         standardAppearance.backgroundColor = color
         backgroundView.backgroundColor = (style == .customGradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = (style == .customGradient && titleView.window != nil) ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = (style == .customGradient && showsLargeTitle) ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance
-        updateGradient()
 
         navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
             // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
@@ -577,6 +582,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
+        updateGradient()
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
@@ -676,11 +682,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             leftBarButtonItemsStackView.isHidden = true
         }
         refresh(barButtonStack: rightBarButtonItemsStackView, with: navigationItem.rightBarButtonItems?.reversed(), isLeftItem: false)
-        if let items = navigationItem.rightBarButtonItems, style == .customGradient {
-            for button in items {
-                button.tintColor = .clear
-            }
-        }
     }
 
     private func refresh(barButtonStack: UIStackView, with items: [UIBarButtonItem]?, isLeftItem: Bool) {
