@@ -278,10 +278,8 @@ extension ButtonTokenSet {
             switch size {
             case .large:
                 return GlobalTokens.spacing(.size160)
-            case .small:
+            case .medium, .small:
                 return GlobalTokens.spacing(.size120)
-            default:
-                return 0
             }
         case false:
             switch size {
@@ -300,10 +298,8 @@ extension ButtonTokenSet {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
-        case .small:
+        case .medium, .small:
             return GlobalTokens.spacing(.size160)
-        default:
-            return 0
         }
     }
 
@@ -314,10 +310,8 @@ extension ButtonTokenSet {
             switch size {
             case .large:
                 return 56
-            case .small:
+            case .medium, .small:
                 return 48
-            default:
-                return 0
             }
         case false:
             switch size {
