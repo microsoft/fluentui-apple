@@ -64,6 +64,8 @@ extension TextColorStyle {
             return "Regular"
         case .secondary:
             return "Secondary"
+        case .secondaryOnColor:
+            return "Secondary on Color"
         case .white:
             return "White"
         case .primary:
