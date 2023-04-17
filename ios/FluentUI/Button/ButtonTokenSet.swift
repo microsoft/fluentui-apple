@@ -241,7 +241,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .large:
                         return theme.typography(.body1Strong)
                     case .medium, .small:
-                        return theme.typography(.caption1Strong)
+                        switch style().isFab {
+                        case true:
+                            return theme.typography(.body2Strong)
+                        case false:
+                            return theme.typography(.caption1Strong)
+                        }
                     }
                 }
             case .shadow:
