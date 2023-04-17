@@ -153,7 +153,7 @@ open class NavigationController: UINavigationController {
         return false
     }
 
-    func updateNavigationBar(for viewController: UIViewController, with navigationController: UINavigationController? = nil) {
+    func updateNavigationBar(for viewController: UIViewController) {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
         setNeedsStatusBarAppearanceUpdate()
@@ -242,7 +242,7 @@ open class NavigationController: UINavigationController {
 extension NavigationController: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         updateNavigationBarVisibility(for: viewController, animated: animated)
-        updateNavigationBar(for: viewController, with: navigationController)
+        updateNavigationBar(for: viewController)
 
         _delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
     }
