@@ -209,6 +209,7 @@ extension TwoLineTitleViewDemoController: DemoAppearanceDelegate {
                 UIColor(light: GlobalTokens.sharedColor(.green, .primary),
                         dark: GlobalTokens.sharedColor(.green, .tint30))
             },
+            .titleFont: .uiFont { UIFont(descriptor: .init(name: "Verdana", size: 17), size: 17) },
             .subtitleColor: .uiColor {
                 UIColor(light: GlobalTokens.sharedColor(.red, .primary),
                         dark: GlobalTokens.sharedColor(.red, .tint30))
