@@ -21,6 +21,6 @@ public class SeparatorTokenSet: ControlTokenSet<SeparatorTokenSet.Tokens> {
         }
     }
 
-    /// The default thickness for the divider: half pt.
+    /// The default thickness for the Separator: half pt.
     static var thickness: CGFloat { return GlobalTokens.stroke(.width05) }
 }
