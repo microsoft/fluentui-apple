@@ -320,24 +320,12 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleButtonLabel.colorStyle = TokenSetType.defaultTitleColorStyle(for: currentStyle)
         subtitleButtonLabel.colorStyle = TokenSetType.defaultSubtitleColorStyle(for: currentStyle)
 
-        // Title
-        if let titleOverride = tokenSet.overrideValue(forToken: .titleColor) {
-            titleButtonLabel.tokenSet[.textColor] = titleOverride
-        } else {
-            titleButtonLabel.tokenSet.removeOverride(.textColor)
-        }
-
+        titleButtonLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.textColor: .titleColor])
         let titleColor = titleButtonLabel.tokenSet[.textColor].uiColor
         titleButtonLeadingImageView.tintColor = titleColor
         titleButtonTrailingImageView.tintColor = titleColor
 
-        // Subtitle
-        if let subtitleOverride = tokenSet.overrideValue(forToken: .subtitleColor) {
-            subtitleButtonLabel.tokenSet[.textColor] = subtitleOverride
-        } else {
-            subtitleButtonLabel.tokenSet.removeOverride(.textColor)
-        }
-
+        subtitleButtonLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.textColor: .subtitleColor])
         subtitleButtonImageView.tintColor = subtitleButtonLabel.tokenSet[.textColor].uiColor
     }
 
@@ -404,17 +392,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        if let parentOverrideToken = tokenSet.overrideValue(forToken: .titleFont) {
-            titleButtonLabel.tokenSet[.font] = parentOverrideToken
-        } else {
-            titleButtonLabel.tokenSet.removeOverride(.font)
-        }
-
-        if let parentOverrideToken = tokenSet.overrideValue(forToken: .subtitleFont) {
-            subtitleButtonLabel.tokenSet[.font] = parentOverrideToken
-        } else {
-            subtitleButtonLabel.tokenSet.removeOverride(.font)
-        }
+        titleButtonLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.font: .titleFont])
+        subtitleButtonLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.font: .subtitleFont])
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
