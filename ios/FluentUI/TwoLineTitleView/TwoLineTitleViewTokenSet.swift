@@ -23,6 +23,7 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
 
     init(style: @escaping () -> TwoLineTitleView.Style) {
         super.init { [style] token, theme in
+            assertionFailure("TwoLineTitleView is a compound control, so we shouldn't be accessing its default token values directly")
             switch token {
             case .subtitleColor:
                 return .uiColor {
@@ -36,7 +37,7 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
                 }
             case .subtitleFont:
                 return .uiFont {
-                    theme.typography(.caption1)
+                    theme.typography(Self.defaultSubtitleFont)
                 }
             case .titleColor:
                 return .uiColor {
@@ -50,7 +51,7 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
                 }
             case .titleFont:
                 return .uiFont {
-                    theme.typography(.body1Strong)
+                    theme.typography(Self.defaultTitleFont)
                 }
             }
         }
@@ -62,6 +63,27 @@ extension TwoLineTitleViewTokenSet {
 
     static func textColorAlpha(highlighted: Bool) -> CGFloat {
         highlighted ? 0.4 : 1
+    }
+
+    static let defaultTitleFont: FluentTheme.TypographyToken = .body1Strong
+    static let defaultSubtitleFont: FluentTheme.TypographyToken = .caption1
+
+    static func defaultTitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
+        switch style {
+        case .primary:
+            return .white // Equivalent to .foregroundOnColor on light, .foreground1 on dark
+        case .system:
+            return .regular
+        }
+    }
+
+    static func defaultSubtitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
+        switch style {
+        case .primary:
+            return .secondaryOnColor // Equivalent to .foregroundColor on light, .foreground2 on dark
+        case .system:
+            return .secondary
+        }
     }
 
     static let leadingImageSize = GlobalTokens.icon(.size160)

@@ -11,6 +11,7 @@ import UIKit
 public enum TextColorStyle: Int, CaseIterable {
     case regular
     case secondary
+    case secondaryOnColor
     case white
     case primary
     case error
@@ -39,6 +40,9 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
                         return theme.color(.foreground1)
                     case .secondary:
                         return theme.color(.foreground2)
+                    case .secondaryOnColor:
+                        return UIColor(light: theme.color(.foregroundOnColor),
+                                       dark: theme.color(.foreground2))
                     case .white:
                         return theme.color(.foregroundLightStatic)
                     case .primary:
