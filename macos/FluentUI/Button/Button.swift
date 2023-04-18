@@ -256,25 +256,35 @@ open class Button: NSButton {
 
 	public override func viewDidMoveToWindow() {
 		super.viewDidMoveToWindow()
+		isWindowInactive = !(window?.isMainWindow ?? false)
 
-		guard let window = window else {
-			// we wouldn't be here if the button wasn't already installed in a valid window
-			preconditionFailure()
-		}
-		isWindowInactive = !window.isMainWindow
+		var resignMainWindowObserver: NSObjectProtocol? = nil
+		var becomeMainWindowObserver: NSObjectProtocol? = nil
 
-		// Hook in Notification Handles to capture the Window's active and inactive states
-		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
-											   object: window,
-											   queue: nil) {[weak self] _ in
-			self?.isWindowInactive = true
+		if (window != nil) {
+			// Hook in Notification Handles to capture the Window's active and inactive states
+			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = true
+			}
+
+			becomeMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = false
+			}
+		} else {
+			// If there's no valid window we're likely here because the Button's view moved away from a Window which it was
+			// previously loaded into. Good opportunity to remove the Notification Observers here.
+			if let resignMainWindowObserver = resignMainWindowObserver {
+				NotificationCenter.default.removeObserver(resignMainWindowObserver)
+			}
+			if let becomeMainWindowObserver = becomeMainWindowObserver {
+				NotificationCenter.default.removeObserver(becomeMainWindowObserver)
+			}
 		}
 
-		NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
-											   object: window,
-											   queue: nil) {[weak self] _ in
-			self?.isWindowInactive = false
-		}
 	}
 
 	open override func viewDidChangeBackingProperties() {
@@ -458,7 +468,7 @@ open class Button: NSButton {
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
 	}
-	
+
 	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
 	private var isWindowInactive: Bool = false {
 		didSet {
