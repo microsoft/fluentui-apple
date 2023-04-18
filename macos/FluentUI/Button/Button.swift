@@ -254,38 +254,26 @@ open class Button: NSButton {
 		path.fill()
 	}
 
-	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
-	private var isWindowInactive: Bool? {
-		didSet {
-			guard oldValue != isWindowInactive else {
-				return
-			}
-			// Re-compute the Button's color values for the latest Window State, and re-render it
-			setColorValues(forStyle: style, accentColor: accentColor, isWindowInactive: isWindowInactive ?? false)
-			needsDisplay = true
-		}
-	}
-
 	public override func viewDidMoveToWindow() {
 		super.viewDidMoveToWindow()
 
+		guard let window = window else {
+			// we wouldn't be here if the button wasn't already installed in a valid window
+			preconditionFailure()
+		}
+		isWindowInactive = !window.isMainWindow
+
 		// Hook in Notification Handles to capture the Window's active and inactive states
 		NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
-											   object: nil,
+											   object: window,
 											   queue: nil) {[weak self] _ in
-			guard let strongSelf = self else {
-				return
-			}
-			strongSelf.isWindowInactive = true
+			self?.isWindowInactive = true
 		}
 
 		NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
-											   object: nil,
+											   object: window,
 											   queue: nil) {[weak self] _ in
-			guard let strongSelf = self else {
-				return
-			}
-			strongSelf.isWindowInactive = false
+			self?.isWindowInactive = false
 		}
 	}
 
@@ -350,7 +338,7 @@ open class Button: NSButton {
 		}
 	}
 
-	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor, isWindowInactive: Bool = false) {
+	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
 		switch forStyle {
 		case .primary:
 			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
@@ -404,12 +392,9 @@ open class Button: NSButton {
 			guard oldValue != accentColor else {
 				return
 			}
-
-			if isWindowInactive == nil || !(isWindowInactive ?? false) {
-				// Recompute relevant state-specific colors appropriate to the style
-				setColorValues(forStyle: style, accentColor: accentColor)
-				needsDisplay = true
-			}
+			// Recompute relevant state-specific colors appropriate to the style
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
 		}
 	}
 
@@ -420,11 +405,8 @@ open class Button: NSButton {
 			guard oldValue != style else {
 				return
 			}
-
-			if isWindowInactive == nil || !(isWindowInactive ?? false) {
-				setColorValues(forStyle: style, accentColor: accentColor)
-				needsDisplay = true
-			}
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
 		}
 	}
 
@@ -475,6 +457,18 @@ open class Button: NSButton {
 		}
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
+	}
+	
+	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
+	private var isWindowInactive: Bool = false {
+		didSet {
+			guard oldValue != isWindowInactive else {
+				return
+			}
+			// Re-compute the Button's color values for the latest Window State, and re-render it
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
 	}
 }
 
