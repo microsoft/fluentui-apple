@@ -46,7 +46,7 @@ open class Separator: UIView, TokenizedControlInternal {
     }
 
     private func initialize(orientation: SeparatorOrientation) {
-        super.backgroundColor = tokenSet[.color].uiColor
+        backgroundColor = tokenSet[.color].uiColor
         self.orientation = orientation
         switch orientation {
         case .horizontal:
@@ -69,7 +69,7 @@ open class Separator: UIView, TokenizedControlInternal {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        super.backgroundColor = tokenSet[.color].uiColor
+        backgroundColor = tokenSet[.color].uiColor
     }
 
     open override var intrinsicContentSize: CGSize {
