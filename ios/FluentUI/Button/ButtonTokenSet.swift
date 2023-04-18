@@ -111,25 +111,23 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
             case .backgroundFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .floatingAccent, .floatingSubtle:
+                    case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Selected)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
+                    case .floatingSubtle:
+                        return theme.color(.background1)
                     }
                 }
             case .backgroundDisabledColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .danger:
+                    case .accent, .danger, .floatingAccent, .floatingSubtle:
                         return theme.color(.background5)
                     case .outline, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
-                    case .floatingAccent:
-                        return theme.color(.brandBackgroundDisabled)
-                    case .floatingSubtle:
-                        return theme.color(.background1)
                     }
                 }
             case .backgroundPressedColor:
