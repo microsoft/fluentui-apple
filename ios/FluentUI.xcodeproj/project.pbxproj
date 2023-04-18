@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A84A6F029EDC489005DBC3D /* SeparatorTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */; };
 		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */; };
@@ -249,6 +250,7 @@
 		0A0516BC2940A3CE006DE0A2 /* DividerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerTokenSet.swift; sourceTree = "<group>"; };
 		0A0516BD2940A3CE006DE0A2 /* MSFDivider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFDivider.swift; sourceTree = "<group>"; };
 		0A0516BE2940A3CE006DE0A2 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
+		0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTokenSet.swift; sourceTree = "<group>"; };
 		0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
@@ -628,6 +630,7 @@
 			isa = PBXGroup;
 			children = (
 				A5DCA76321224026005F4CB7 /* Separator.swift */,
+				0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */,
 			);
 			path = Separator;
 			sourceTree = "<group>";
@@ -1694,6 +1697,7 @@
 				94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */,
 				5314E21E25F022120099271A /* UIView+Extensions.swift in Sources */,
 				5314E06A25F00F100099271A /* GenericDateTimePicker.swift in Sources */,
+				0A84A6F029EDC489005DBC3D /* SeparatorTokenSet.swift in Sources */,
 				5314E06025F00EFD0099271A /* CalendarViewWeekdayHeadingView.swift in Sources */,
 				5314E05A25F00EF50099271A /* CalendarViewLayout.swift in Sources */,
 				5314E1B025F01A980099271A /* Tooltip.swift in Sources */,
