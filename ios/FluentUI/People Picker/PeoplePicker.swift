@@ -346,7 +346,7 @@ open class PeoplePicker: BadgeField {
             return
         }
         let isValid = delegate?.peoplePicker?(self, personaIsValid: personaBadgeDataSource.persona) ?? true
-        personaBadgeDataSource.style = isValid ? .default : .error
+        personaBadgeDataSource.style = isValid ? .default : .danger
         badge.reload()
         super.addBadge(badge)
     }
