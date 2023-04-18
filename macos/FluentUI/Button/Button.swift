@@ -258,10 +258,10 @@ open class Button: NSButton {
 		super.viewDidMoveToWindow()
 		isWindowInactive = !(window?.isMainWindow ?? false)
 
-		var resignMainWindowObserver: NSObjectProtocol? = nil
-		var becomeMainWindowObserver: NSObjectProtocol? = nil
+		var resignMainWindowObserver: NSObjectProtocol?
+		var becomeMainWindowObserver: NSObjectProtocol?
 
-		if (window != nil) {
+		if window != nil {
 			// Hook in Notification Handles to capture the Window's active and inactive states
 			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
 												   object: window,
