@@ -12,10 +12,10 @@ import UIKit
 open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
-            labelTextColor = nil
             updateTextColor()
         }
     }
+
     @objc open var style: AliasTokens.TypographyTokens {
         get {
             return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
@@ -24,9 +24,9 @@ open class Label: UILabel, TokenizedControlInternal {
             self.textStyle = FluentTheme.TypographyToken(rawValue: newValue.rawValue)!
         }
     }
+
     @objc open var textStyle: FluentTheme.TypographyToken = .body1 {
         didSet {
-            labelFont = nil
             updateFont()
         }
     }
@@ -43,16 +43,20 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var textColor: UIColor! {
-        didSet {
-            labelTextColor = textColor
-            updateTextColor()
+        get {
+            return tokenSet[.textColor].uiColor
+        }
+        set {
+            tokenSet[.textColor] = .uiColor { newValue }
         }
     }
 
     open override var font: UIFont! {
-        didSet {
-            labelFont = font
-            updateFont()
+        get {
+            return tokenSet[.font].uiFont
+        }
+        set {
+            tokenSet[.font] = .uiFont { newValue }
         }
     }
 
@@ -67,8 +71,8 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var attributedText: NSAttributedString? {
-      didSet {
-          isUsingCustomAttributedText = attributedText != nil
+        didSet {
+            isUsingCustomAttributedText = attributedText != nil
         }
     }
 
@@ -103,9 +107,9 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
-        // textColor and font are assigned in super.init to a default value and so we need to reset our cache afterwards
-        labelTextColor = nil
-        labelFont = nil
+        // textColor and font in the tokenSet are assigned in super.init to a default value and so we need to remove the override
+        tokenSet.removeOverride(.textColor)
+        tokenSet.removeOverride(.font)
 
         updateFont()
         updateTextColor()
@@ -129,7 +133,7 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let labelFont = labelFont ?? tokenSet[.font].uiFont
+        let labelFont = tokenSet[.font].uiFont
         if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
             super.font = labelFont.withSize(maxFontSize)
         } else {
@@ -142,7 +146,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = labelTextColor ?? tokenSet[.textColor].uiColor
+        super.textColor = tokenSet[.textColor].uiColor
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -151,7 +155,5 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    private var labelTextColor: UIColor?
-    private var labelFont: UIFont?
     private var isUsingCustomAttributedText: Bool = false
 }

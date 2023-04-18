@@ -41,6 +41,7 @@ let package = Package(
                 "Other Cells/OtherCells.resources.xcfilelist",
                 "Resources/Localization/CultureMapping.json",
                 "Table View/TableView.resources.xcfilelist",
+                "TextField/TextField.resources.xcfilelist",
                 "Tooltip/Tooltip.resources.xcfilelist",
                 "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
             ]

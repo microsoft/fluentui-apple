@@ -55,7 +55,7 @@ class PopupMenuDemoController: DemoController {
     }
 
     private func createAccessoryView(text: String) -> UIView {
-        let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, size: .small))
+        let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, sizeCategory: .small))
         accessoryView.isUserInteractionEnabled = false
         accessoryView.sizeToFit()
         return accessoryView
