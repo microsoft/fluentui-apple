@@ -147,11 +147,11 @@
 		6F050B6929D3D16D0070D3D5 /* SideTabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6829D3D16D0070D3D5 /* SideTabBarTokenSet.swift */; };
 		6F050B6B29D3D1900070D3D5 /* TabBarItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6A29D3D1900070D3D5 /* TabBarItemTokenSet.swift */; };
 		6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6C29D3D1A90070D3D5 /* TabBarTokenSet.swift */; };
-		6F050B6F29D3EA820070D3D5 /* PillButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6E29D3EA820070D3D5 /* PillButtonTokenSet.swift */; };
 		6F050B7129D6213E0070D3D5 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B7029D6213E0070D3D5 /* PopupMenuItemTokenSet.swift */; };
 		6F050B7529D6219D0070D3D5 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B7429D6219D0070D3D5 /* PopupMenuTokenSet.swift */; };
 		6F3CB7F029D3A2B700284353 /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */; };
 		6F3CB7F229D3A5DE00284353 /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */; };
+		6F8C3C3F29EF519100C21CFA /* PillButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8C3C3E29EF519100C21CFA /* PillButtonStyle.swift */; };
 		6FBFD62629CBB5F1002F3C81 /* SearchBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */; };
 		8035CAB62633A4DB007B3FD1 /* BottomCommandingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CAAA2633A442007B3FD1 /* BottomCommandingController.swift */; };
 		8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8035CACA26377C14007B3FD1 /* CommandingItem.swift */; };
@@ -303,11 +303,11 @@
 		6F050B6829D3D16D0070D3D5 /* SideTabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTokenSet.swift; sourceTree = "<group>"; };
 		6F050B6A29D3D1900070D3D5 /* TabBarItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemTokenSet.swift; sourceTree = "<group>"; };
 		6F050B6C29D3D1A90070D3D5 /* TabBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTokenSet.swift; sourceTree = "<group>"; };
-		6F050B6E29D3EA820070D3D5 /* PillButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonTokenSet.swift; sourceTree = "<group>"; };
 		6F050B7029D6213E0070D3D5 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		6F050B7429D6219D0070D3D5 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
+		6F8C3C3E29EF519100C21CFA /* PillButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonStyle.swift; sourceTree = "<group>"; };
 		6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTokenSet.swift; sourceTree = "<group>"; };
 		7D0931C224AAAC8C0072458A /* SideTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBar.swift; sourceTree = "<group>"; };
 		7DC2FB2724C0ED1100367A55 /* TableViewCellFileAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryView.swift; sourceTree = "<group>"; };
@@ -585,7 +585,7 @@
 			children = (
 				497DC2D824185885008D86F8 /* PillButton.swift */,
 				497DC2D724185885008D86F8 /* PillButtonBar.swift */,
-				6F050B6E29D3EA820070D3D5 /* PillButtonTokenSet.swift */,
+				6F8C3C3E29EF519100C21CFA /* PillButtonStyle.swift */,
 			);
 			path = "Pill Button Bar";
 			sourceTree = "<group>";
@@ -1551,6 +1551,7 @@
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
+				6F8C3C3F29EF519100C21CFA /* PillButtonStyle.swift in Sources */,
 				9231491628BF02B9001B033E /* Button.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
@@ -1641,7 +1642,6 @@
 				5314E11825F015EA0099271A /* PeoplePicker.swift in Sources */,
 				5303259B26B31B6B00611D05 /* AvatarModifiers.swift in Sources */,
 				4B2E373D2991CB53008929B4 /* BottomSheetTokenSet.swift in Sources */,
-				6F050B6F29D3EA820070D3D5 /* PillButtonTokenSet.swift in Sources */,
 				5314E2B225F024B60099271A /* Calendar+Extensions.swift in Sources */,
 				5314E1B225F01A980099271A /* TooltipViewController.swift in Sources */,
 				5314E08A25F00F2D0099271A /* CommandBar.swift in Sources */,
