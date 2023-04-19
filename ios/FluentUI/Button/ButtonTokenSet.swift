@@ -239,7 +239,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .large:
                         return theme.typography(.body1Strong, adjustsForContentSizeCategory: !style().isFloating)
                     case .medium, .small:
-                        return style().isFloating ? theme.typography(.body2Strong, adjustsForContentSizeCategory: !style().isFloating) : theme.typography(.caption1Strong, adjustsForContentSizeCategory: !style().isFloating)
+                        return style().isFloating ? theme.typography(.body2Strong, adjustsForContentSizeCategory: false) : theme.typography(.caption1Strong)
                     }
                 }
             case .shadowRest:
