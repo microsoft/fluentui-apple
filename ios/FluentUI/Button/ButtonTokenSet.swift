@@ -18,7 +18,7 @@ public enum ButtonStyle: Int, CaseIterable {
     case floatingAccent
     case floatingSubtle
 
-    public var isFab: Bool {
+    public var isFloating: Bool {
         switch self {
         case .floatingAccent, .floatingSubtle:
             return true
@@ -83,10 +83,10 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         case titleFont
 
         /// Defines the shadow of the button
-        case shadow
+        case shadowRest
 
         /// Defines the shadow of the button when focused, disabled, or pressed
-        case shadowFocusedDisabledPressed
+        case shadowPressed
     }
 
     init(style: @escaping () -> ButtonStyle,
@@ -239,32 +239,14 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .large:
                         return theme.typography(.body1Strong)
                     case .medium, .small:
-                        switch style().isFab {
-                        case true:
-                            return theme.typography(.body2Strong)
-                        case false:
-                            return theme.typography(.caption1Strong)
-                        }
+                        return style().isFloating ? theme.typography(.body2Strong) : theme.typography(.caption1Strong)
                     }
                 }
-            case .shadow:
-                return .shadowInfo {
-                    switch style().isFab {
-                    case true:
-                        return theme.shadow(.shadow08)
-                    case false:
-                        return theme.shadow(.clear)
-                    }
-                }
-            case .shadowFocusedDisabledPressed:
-                return .shadowInfo {
-                    switch style().isFab {
-                    case true:
-                        return theme.shadow(.shadow02)
-                    case false:
-                        return theme.shadow(.clear)
-                    }
-                }
+            case .shadowRest:
+                return .shadowInfo { style().isFloating ? theme.shadow(.shadow08) : theme.shadow(.clear) }
+            case .shadowPressed:
+                return .shadowInfo { style().isFloating ? theme.shadow(.shadow02) : theme.shadow(.clear) }
+
             }
         }
     }
@@ -276,15 +258,14 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
 extension ButtonTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
     static func horizontalPadding(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
-        switch style.isFab {
-        case true:
+        if style.isFloating {
             switch size {
             case .large:
                 return GlobalTokens.spacing(.size160)
             case .medium, .small:
                 return GlobalTokens.spacing(.size120)
             }
-        case false:
+        } else {
             switch size {
             case .large:
                 return GlobalTokens.spacing(.size200)
@@ -308,15 +289,14 @@ extension ButtonTokenSet {
 
     /// The minimum value for the height of the content of the button.
     static func minContainerHeight(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
-        switch style.isFab {
-        case true:
+        if style.isFloating {
             switch size {
             case .large:
                 return 56
             case .medium, .small:
                 return 48
             }
-        case false:
+        } else {
             switch size {
             case .large:
                 return 52
@@ -330,10 +310,9 @@ extension ButtonTokenSet {
 
     /// The value for the spacing between the title and image.
     static func titleImageSpacing(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
-        switch style.isFab {
-        case true:
+        if style.isFloating {
             return GlobalTokens.spacing(.size80)
-        case false:
+        } else {
             switch size {
             case .large, .medium:
                 return GlobalTokens.spacing(.size80)

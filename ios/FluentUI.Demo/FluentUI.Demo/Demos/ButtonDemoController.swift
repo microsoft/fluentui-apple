@@ -15,7 +15,7 @@ class ButtonDemoController: DemoController {
 
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
-                if style.isFab && size == .medium {
+                if style.isFloating && size == .medium {
                     continue
                 }
 
@@ -143,7 +143,7 @@ extension ButtonStyle {
     }
 
     var image: UIImage? {
-        switch self.isFab {
+        switch self.isFloating {
         case true:
             return UIImage(named: "Placeholder_24")!
         case false:

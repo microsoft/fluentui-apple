@@ -106,7 +106,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerRadius = style.isFab ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
         titleLabel?.font = tokenSet[.titleFont].uiFont
@@ -327,7 +327,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
 
         self.backgroundColor = backgroundColor
-        layer.cornerRadius = style.isFab ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {
@@ -348,14 +348,14 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     private func updateShadow() {
-        let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowFocusedDisabledPressed].shadowInfo : tokenSet[.shadow].shadowInfo
+        let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
         shadowInfo.applyShadow(to: self)
     }
 
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let leftPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
-        let rightPadding = style.isFab && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
-        return NSDirectionalEdgeInsets(top: 0, leading: leftPadding, bottom: 0, trailing: rightPadding)
+        let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
     private lazy var focusRing: FocusRingView = {
