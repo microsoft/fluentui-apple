@@ -101,20 +101,29 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
-    @objc public var gradient: CAGradientLayer?
-    @objc public var gradientMask: CAGradientLayer?
+    @objc public var gradient: CAGradientLayer? {
+        didSet {
+            updateGradient()
+        }
+    }
+
+    @objc public var gradientMask: CAGradientLayer? {
+        didSet {
+            updateGradient()
+        }
+    }
 
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
         return Style.system.backgroundColor(fluentTheme: fluentTheme)
     }
 
     private func updateGradient() {
-        if !applyGradient || (style != .gradient) {
+        if /*!applyGradient || */(style != .gradient) {
             return
         }
 
         guard let gradient = gradient else {
-            assertionFailure("gradient cannot be nil when using the customGradient style")
+            assertionFailure("gradient cannot be nil when using the gradient style")
             return
         }
 
@@ -320,13 +329,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             updateViewsForLargeTitlePresentation(for: topItem)
         }
     }
-    internal var applyGradient: Bool = true {
-        didSet {
-            if !applyGradient && style == .gradient {
-                standardAppearance.backgroundImage = nil
-            }
-        }
-    }
+//    internal var applyGradient: Bool = true {
+//        didSet {
+//            if !applyGradient && style == .gradient {
+//                standardAppearance.backgroundImage = nil
+//            }
+//        }
+//    }
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
@@ -564,7 +573,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             titleView.style = .system
         }
 
-        standardAppearance.backgroundColor = /*!showsLargeTitle ? fluentTheme.color(.background3) :*/ color
+        standardAppearance.backgroundColor = color
         backgroundView.backgroundColor = (style == .gradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)

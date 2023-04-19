@@ -97,17 +97,17 @@ open class NavigationController: UINavigationController {
 
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         super.pushViewController(wrapViewControllerIfNeeded(viewController), animated: animated)
-        msfNavigationBar.applyGradient = false
+        //msfNavigationBar.applyGradient = false
     }
 
-    @discardableResult
-    open override func popViewController(animated: Bool) -> UIViewController? {
-        super.popViewController(animated: animated)
-        if self.topViewController == viewControllers.first {
-            msfNavigationBar.applyGradient = true
-        }
-        return nil
-    }
+//    @discardableResult
+//    open override func popViewController(animated: Bool) -> UIViewController? {
+//        super.popViewController(animated: animated)
+//        if self.topViewController == viewControllers.first {
+//            msfNavigationBar.applyGradient = true
+//        }
+//        return nil
+//    }
 
     open override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
         let viewControllers = viewControllers.map { wrapViewControllerIfNeeded($0) }
