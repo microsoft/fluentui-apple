@@ -49,89 +49,89 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitle() {
-        presentController(withLargeTitle: true)
+        presentController(withTitleStyle: .largeLeading)
     }
 
     @objc func showLargeTitleWithShyAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withLargeTitle: true, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyle() {
-        presentController(withLargeTitle: true, style: .system)
+        presentController(withTitleStyle: .largeLeading, style: .system)
     }
 
     @objc func showLargeTitleWithSystemStyleAndNoShadow() {
-        presentController(withLargeTitle: true, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndShyAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithSystemStyleShyAccessoryAndSubtitle() {
-        presentController(withLargeTitle: true, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
     }
 
     @objc func showSystemTitleWithShyAccessory() {
-        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .system, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withLargeTitle: false, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
-        let controller = presentController(withLargeTitle: true, accessoryView: createAccessoryView())
+        let controller = presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView())
         controller.msfNavigationBar.avatarSize = .expanded
         controller.msfNavigationBar.titleSize = .contracted
     }
 
     @objc func showLargeTitleWithCustomizedColor() {
-        presentController(withLargeTitle: true, style: .custom, accessoryView: createAccessoryView())
+        presentController(withTitleStyle: .largeLeading, style: .custom, accessoryView: createAccessoryView())
     }
 
     @objc func showLargeTitleWithoutAvatar() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .nothing)
+        presentController(withTitleStyle: .largeLeading, style: .primary, accessoryView: createAccessoryView(), leadingItem: .nothing)
     }
 
     @objc func showLargeTitleWithCustomLeadingButton() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), leadingItem: .customButton)
+        presentController(withTitleStyle: .largeLeading, style: .primary, accessoryView: createAccessoryView(), leadingItem: .customButton)
     }
 
     @objc func showWithTopSearchBar() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
     @objc func showSearchChangingStyleEverySecond() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
     }
 
     @objc func showLargeTitleWithPillSegment() {
-        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(compatibleWith: .primary), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createSegmentedControl(compatibleWith: .primary), contractNavigationBarOnScroll: false)
     }
 
     private enum LeadingItem {
@@ -140,7 +140,7 @@ class NavigationControllerDemoController: DemoController {
         case customButton
     }
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool,
+    private func presentController(withTitleStyle titleStyle: NavigationBar.TitleStyle,
                                    subtitle: String? = nil,
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
@@ -150,7 +150,7 @@ class NavigationControllerDemoController: DemoController {
                                    leadingItem: LeadingItem = .avatar,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
-        content.navigationItem.usesLargeTitle = useLargeTitle
+        content.navigationItem.titleStyle = titleStyle
         content.navigationItem.subtitle = subtitle
         content.navigationItem.backButtonTitle = "99+"
         content.navigationItem.navigationBarStyle = style
@@ -184,7 +184,7 @@ class NavigationControllerDemoController: DemoController {
         }
 
         controller.modalPresentationStyle = .fullScreen
-        if useLargeTitle {
+        if titleStyle != .system {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self
@@ -289,10 +289,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     lazy var titleViewFeaturesByRow: [Int: TitleViewFeature] = [
         4: TitleViewFeature(name: "Large title") {
-            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleStyle = .largeLeading
         },
         5: TitleViewFeature(name: "Leading-aligned, two titles") {
-            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleStyle = .leading
             $0.navigationItem.subtitle = "Subtitle"
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
@@ -300,7 +300,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
         },
         7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
-            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleStyle = .leading
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.subtitle = "Subtitle"
         },
@@ -309,7 +309,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.subtitle = "Subtitle"
         },
         9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
-            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleStyle = .leading
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.subtitle = "Subtitle"
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
@@ -320,7 +320,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         11: TitleViewFeature(name: "Leading, down arrow") {
-            $0.navigationItem.usesLargeTitle = true
+            $0.navigationItem.titleStyle = .leading
             $0.navigationItem.subtitle = ""
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
@@ -328,13 +328,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         13: TitleViewFeature(name: "Leading, image, disclosure") {
-            $0.navigationItem.usesLargeTitle = true
-            $0.navigationItem.subtitle = ""
+            $0.navigationItem.titleStyle = .leading
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         },
         14: TitleViewFeature(name: "Centered, image, disclosure") {
-            $0.navigationItem.subtitle = ""
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         },
@@ -502,7 +500,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            let isSwitchEnabled = navigationItem.usesLargeTitle && msfNavigationController?.msfNavigationBar.personaData != nil
+            let isSwitchEnabled = navigationItem.titleStyle == .largeLeading && msfNavigationController?.msfNavigationBar.personaData != nil
             cell.setup(title: "Show rainbow ring on avatar",
                        isOn: showRainbowRingForAvatar,
                        isSwitchEnabled: isSwitchEnabled)
@@ -519,7 +517,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             cell.setup(title: "Show badge on right bar button items",
                        isOn: showBadgeOnBarButtonItem,
-                       isSwitchEnabled: navigationItem.usesLargeTitle)
+                       isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
@@ -578,7 +576,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
             navigationItem.title = selectedCount == 1 ? "1 item selected" : "\(selectedCount) items selected"
         } else {
-            navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
+            navigationItem.title = navigationItem.titleStyle == .largeLeading ? "Large Title" : "Regular Title"
         }
     }
 

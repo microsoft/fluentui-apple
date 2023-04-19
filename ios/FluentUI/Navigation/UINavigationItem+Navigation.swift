@@ -16,7 +16,7 @@ import UIKit
         static var navigationBarStyle: String = "navigationBarStyle"
         static var navigationBarShadow: String = "navigationBarShadow"
         static var subtitle: String = "subtitle"
-        static var usesLargeTitle: String = "usesLargeTitle"
+        static var titleStyle: String = "titleStyle"
         static var customNavigationBarColor: String = "customNavigationBarColor"
     }
 
@@ -101,12 +101,23 @@ import UIKit
         }
     }
 
-    var usesLargeTitle: Bool {
+    var titleStyle: NavigationBar.TitleStyle {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.usesLargeTitle) as? Bool ?? false
+            return objc_getAssociatedObject(self, &AssociatedKeys.titleStyle) as? NavigationBar.TitleStyle ?? .system
         }
         set {
-            objc_setAssociatedObject(self, &AssociatedKeys.usesLargeTitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &AssociatedKeys.titleStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var usesLargeTitle: Bool {
+        get {
+            assertionFailure("`usesLargeTitle` will be deprecated in a future release. Use `titleStyle` instead.")
+            return titleStyle != .system
+        }
+        set {
+            assertionFailure("Setting `usesLargeTitle` will be deprecated in a future release. Use `titleStyle` instead.")
+            titleStyle = newValue ? .largeLeading : .system
         }
     }
 
