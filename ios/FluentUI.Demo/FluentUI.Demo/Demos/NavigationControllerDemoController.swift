@@ -179,12 +179,10 @@ class NavigationControllerDemoController: DemoController {
             changeStyleContinuously(in: content.navigationItem)
         }
 
-        let controller: NavigationController
-        if style == .gradient {
-            controller = NavigationController(rootViewController: content, gradient: gradient, mask: gradientMask)
-        } else {
-            controller = NavigationController(rootViewController: content)
-        }
+        let controller = NavigationController(rootViewController: content)
+        controller.msfNavigationBar.gradient = gradient
+        controller.msfNavigationBar.gradientMask = gradientMask
+
         if showAvatar {
             controller.msfNavigationBar.personaData = content.personaData
             controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped

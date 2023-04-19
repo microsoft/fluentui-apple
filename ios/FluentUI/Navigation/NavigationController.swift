@@ -50,14 +50,6 @@ open class NavigationController: UINavigationController {
         self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
     }
 
-    @objc public convenience init(rootViewController: UIViewController,
-                                  gradient: CAGradientLayer,
-                                  mask: CAGradientLayer?) {
-        self.init(rootViewController: rootViewController)
-        msfNavigationBar.gradient = gradient
-        msfNavigationBar.gradientMask = mask
-    }
-
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
         super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
@@ -175,27 +167,13 @@ open class NavigationController: UINavigationController {
                 msfNavigationBar.obscureContent(animated: animated)
                 if searchIsActive(in: topViewController) {
                     navigationBarWasHiddenBySearchBar = true
-                    setShyHeaderGradient()
                 }
             } else {
                 msfNavigationBar.revealContent(animated: animated)
                 navigationBarWasHiddenBySearchBar = false
-                removeShyHeaderGradient()
             }
         }
         super.setNavigationBarHidden(hidden, animated: animated)
-    }
-
-    private func setShyHeaderGradient() {
-        guard let shyHeaderController = topViewController as? ShyHeaderController, let gradient = msfNavigationBar.gradient else {
-            return
-        }
-
-        shyHeaderController.view.layer.addSublayer(gradient)
-    }
-
-    private func removeShyHeaderGradient() {
-        msfNavigationBar.gradient?.removeFromSuperlayer()
     }
 
     private func searchIsActive(in viewController: UIViewController?) -> Bool {

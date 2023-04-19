@@ -81,7 +81,7 @@ import UIKit
     }
 
     func navigationBarColor(fluentTheme: FluentTheme) -> UIColor {
-        return navigationBarStyle.backgroundColor(fluentTheme: fluentTheme, customColor: customNavigationBarColor)
+        return navigationBarStyle.backgroundColor(fluentTheme: fluentTheme/*, customColor: customNavigationBarColor*/)
     }
 
     var customNavigationBarColor: UIColor? {

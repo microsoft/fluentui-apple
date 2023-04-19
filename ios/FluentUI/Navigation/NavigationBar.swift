@@ -564,7 +564,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             titleView.style = .system
         }
 
-        standardAppearance.backgroundColor = !showsLargeTitle ? fluentTheme.color(.background3) : color
+        standardAppearance.backgroundColor = /*!showsLargeTitle ? fluentTheme.color(.background3) :*/ color
         backgroundView.backgroundColor = (style == .gradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
