@@ -258,9 +258,6 @@ open class Button: NSButton {
 		super.viewDidMoveToWindow()
 		isWindowInactive = !(window?.isMainWindow ?? false)
 
-		var resignMainWindowObserver: NSObjectProtocol?
-		var becomeMainWindowObserver: NSObjectProtocol?
-
 		if window != nil {
 			// Hook in Notification Handles to capture the Window's active and inactive states
 			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
@@ -280,9 +277,12 @@ open class Button: NSButton {
 			if let resignMainWindowObserver = resignMainWindowObserver {
 				NotificationCenter.default.removeObserver(resignMainWindowObserver)
 			}
+			resignMainWindowObserver = nil
+
 			if let becomeMainWindowObserver = becomeMainWindowObserver {
 				NotificationCenter.default.removeObserver(becomeMainWindowObserver)
 			}
+			becomeMainWindowObserver = nil
 		}
 
 	}
@@ -313,6 +313,10 @@ open class Button: NSButton {
 			self.size = newValue.size
 		}
 	}
+
+	/// Stored Observers for NSWindow  Notifications, to be able to remove them from NotificationCenter when not needed
+	private var resignMainWindowObserver: NSObjectProtocol?
+	private var becomeMainWindowObserver: NSObjectProtocol?
 
 	/// State-specific colors for foreground, background and border
 	private var contentTintColorRest: NSColor?
