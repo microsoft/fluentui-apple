@@ -254,6 +254,7 @@ open class PillButtonBar: UIScrollView {
     private func initStackView() -> UIStackView {
         let view = UIStackView()
         view.alignment = .center
+        view.distribution = .fillProportionally
         view.spacing = Constants.minButtonsSpacing
         return view
     }
