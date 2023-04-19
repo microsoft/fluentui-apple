@@ -321,7 +321,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         } else if isHighlighted {
             backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else if isFocused {
-            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
+            backgroundColor = tokenSet[.backgroundFocusedColor].uiColor
         } else {
             backgroundColor = tokenSet[.backgroundColor].uiColor
         }
