@@ -15,6 +15,10 @@ class ButtonDemoController: DemoController {
 
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
+                if style.isFloating && size == .medium {
+                    continue
+                }
+
                 addTitle(text: style.description + ", " + size.description)
 
                 let button = createButton(with: style,
@@ -29,7 +33,7 @@ class ButtonDemoController: DemoController {
                 titleButtonStack.distribution = .fillProportionally
                 container.addArrangedSubview(titleButtonStack)
 
-                if let image = size.image {
+                if let image = style.image ?? size.image {
                     let iconButton = createButton(with: style,
                                                   sizeCategory: size,
                                                   title: "Text",
@@ -131,6 +135,19 @@ extension ButtonStyle {
             return "Danger outline"
         case .dangerSubtle:
             return "Danger subtle"
+        case .floatingAccent:
+            return "Floating accent"
+        case .floatingSubtle:
+            return "Floating subtle"
+        }
+    }
+
+    var image: UIImage? {
+        switch self.isFloating {
+        case true:
+            return UIImage(named: "Placeholder_24")!
+        case false:
+            return nil
         }
     }
 }
