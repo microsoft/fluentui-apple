@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: - Button
 
-/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
+/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true for non-floating buttons to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, Shadowable, TokenizedControlInternal {
@@ -110,7 +110,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         layer.cornerCurve = .continuous
 
         titleLabel?.font = tokenSet[.titleFont].uiFont
-        titleLabel?.adjustsFontForContentSizeCategory = true
+        titleLabel?.adjustsFontForContentSizeCategory = !style.isFloating
 
         if #available(iOS 15, *) {
             var configuration = UIButton.Configuration.plain()
