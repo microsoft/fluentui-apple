@@ -101,12 +101,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
+    /// The main gradient layer to be applied to the NavigationBar's standardAppearance with the gradient style.
     @objc public var gradient: CAGradientLayer? {
         didSet {
             updateGradient()
         }
     }
 
+    /// The layer used to mask the main gradient of the NavigationBar. If unset, only the main gradient will be displayed on the NavigationBar.
     @objc public var gradientMask: CAGradientLayer? {
         didSet {
             updateGradient()
@@ -644,11 +646,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
-        if (style == .gradient) {
+        // We want to hide the native right bar button items when using the gradient style.
+        if style == .gradient {
             if #available(iOS 16.0, *), let usesLargeTitle = topItem?.usesLargeTitle, usesLargeTitle {
                 item.isHidden = true
             } else {
                 item.tintColor = .clear
+                // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
                 button.tintColor = style.tintColor(fluentTheme: fluentTheme)
             }
         }
