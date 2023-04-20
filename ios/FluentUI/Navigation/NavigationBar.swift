@@ -112,7 +112,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     @objc(MSFNavigationBarTitleStyle)
     /// Describes the style in which the title is shown in a navigation bar.
     public enum TitleStyle: Int {
-        /// Shows a center-aligned title and/or subtitle. Most closely aligned with UIKit's default. Not capable of showing an avatar. b
+        /// Shows a center-aligned title and/or subtitle. Most closely aligned with UIKit's default. Not capable of showing an avatar.
         case system
         /// Shows a leading-aligned title and/or subtitle. Also capable of showing an avatar.
         case leading
