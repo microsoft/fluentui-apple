@@ -16,7 +16,6 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLargeTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
         container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
@@ -25,9 +24,12 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithSystemStyle)))
         container.addArrangedSubview(createButton(title: "Show without accessory and shadow", action: #selector(showLargeTitleWithSystemStyleAndNoShadow)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithSystemStyleAndShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLargeTitleWithSystemStyleShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithSystemStyleAndPillSegment)))
+
+        addTitle(text: "Leading with TwoLineTitleView")
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLeadingTitleWithFixedAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle)))
 
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
@@ -60,10 +62,6 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
-    @objc func showLargeTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withTitleStyle: .largeLeading, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
-    }
-
     @objc func showLargeTitleWithSystemStyle() {
         presentController(withTitleStyle: .largeLeading, style: .system)
     }
@@ -76,16 +74,20 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
-    @objc func showLargeTitleWithSystemStyleShyAccessoryAndSubtitle() {
-        presentController(withTitleStyle: .largeLeading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
-    }
-
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLeadingTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showSystemTitleWithShyAccessory() {
