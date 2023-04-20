@@ -117,31 +117,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         return Style.system.backgroundColor(fluentTheme: fluentTheme)
     }
 
-    private func updateGradient() {
-        if /*!applyGradient || */(style != .gradient) {
-            return
-        }
-
-        guard let gradient = gradient else {
-            assertionFailure("gradient cannot be nil when using the gradient style")
-            return
-        }
-
-        gradient.frame = bounds
-
-        if let customGradientMask = gradientMask {
-            customGradientMask.frame = gradient.bounds
-            gradient.mask = customGradientMask
-        }
-
-        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
-        let gradientImage = renderer.image { rendererContext in
-            gradient.render(in: rendererContext.cgContext)
-        }
-
-        standardAppearance.backgroundImage = gradientImage
-    }
-
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
     @objc(MSFNavigationBarElementSize)
     public enum ElementSize: Int {
@@ -329,13 +304,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             updateViewsForLargeTitlePresentation(for: topItem)
         }
     }
-//    internal var applyGradient: Bool = true {
-//        didSet {
-//            if !applyGradient && style == .gradient {
-//                standardAppearance.backgroundImage = nil
-//            }
-//        }
-//    }
+
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
@@ -448,6 +417,31 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
             NSLayoutConstraint.activate(topAccessoryViewConstraints)
         }
+    }
+
+    private func updateGradient() {
+        if style != .gradient {
+            return
+        }
+
+        guard let gradient = gradient else {
+            assertionFailure("gradient cannot be nil when using the gradient style")
+            return
+        }
+
+        gradient.frame = bounds
+
+        if let customGradientMask = gradientMask {
+            customGradientMask.frame = gradient.bounds
+            gradient.mask = customGradientMask
+        }
+
+        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+
+        standardAppearance.backgroundImage = gradientImage
     }
 
     // Manually contains the content stack view with lower priority constraints in order to avoid invalid simultaneous constraints when nav bar is hidden.

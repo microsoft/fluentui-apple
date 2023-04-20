@@ -35,7 +35,6 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
-        container.addArrangedSubview(createButton(title: "Show \"gradient\" with collapsible search bar", action: #selector(showRegularTitleWithGradientStyleAndShyAccessory)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -123,10 +122,6 @@ class NavigationControllerDemoController: DemoController {
 
     @objc func showRegularTitleWithFixedAccessory() {
         presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showRegularTitleWithGradientStyleAndShyAccessory() {
-        presentController(withLargeTitle: false, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
