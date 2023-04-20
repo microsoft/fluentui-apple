@@ -258,6 +258,18 @@ open class Button: NSButton {
 		super.viewDidMoveToWindow()
 		isWindowInactive = !(window?.isMainWindow ?? false)
 
+		// Remove any previous Notification Observers if we're moving away from a window (in which case `viewDidMoveToWindow` is called and `window == nil`)
+		// Or, remove any Notification Observers from the old window if we're moving directly into a new window
+		if let resignMainWindowObserver = resignMainWindowObserver {
+			NotificationCenter.default.removeObserver(resignMainWindowObserver)
+			self.resignMainWindowObserver = nil
+		}
+
+		if let becomeMainWindowObserver = becomeMainWindowObserver {
+			NotificationCenter.default.removeObserver(becomeMainWindowObserver)
+			self.becomeMainWindowObserver = nil
+		}
+
 		if window != nil {
 			// Hook in Notification Handles to capture the Window's active and inactive states
 			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
@@ -271,20 +283,7 @@ open class Button: NSButton {
 												   queue: nil) {[weak self] _ in
 				self?.isWindowInactive = false
 			}
-		} else {
-			// If there's no valid window we're likely here because the Button's view moved away from a Window which it was
-			// previously loaded into. Good opportunity to remove the Notification Observers here.
-			if let resignMainWindowObserver = resignMainWindowObserver {
-				NotificationCenter.default.removeObserver(resignMainWindowObserver)
-			}
-			resignMainWindowObserver = nil
-
-			if let becomeMainWindowObserver = becomeMainWindowObserver {
-				NotificationCenter.default.removeObserver(becomeMainWindowObserver)
-			}
-			becomeMainWindowObserver = nil
 		}
-
 	}
 
 	open override func viewDidChangeBackingProperties() {
