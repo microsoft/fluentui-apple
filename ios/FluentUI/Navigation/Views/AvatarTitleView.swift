@@ -99,9 +99,9 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
 
     private let titleContainerView = UIView()
 
-    private var hasSubtitle: Bool = false {
+    private var showsLargeTitle: Bool = false {
         didSet {
-            if oldValue != hasSubtitle {
+            if oldValue != showsLargeTitle {
                 updateTitleContainerView()
             }
         }
@@ -308,7 +308,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
 
     private func updateTitleContainerView() {
         titleContainerView.removeAllSubviews()
-        titleContainerView.contain(view: hasSubtitle ? twoLineTitleView : titleButton)
+        titleContainerView.contain(view: showsLargeTitle ? titleButton : twoLineTitleView)
     }
 
     /// Sets the interface with the provided item's details
@@ -317,7 +317,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
-        hasSubtitle = navigationItem.subtitle != nil
+        showsLargeTitle = navigationItem.titleStyle == .largeLeading
         twoLineTitleView.setup(navigationItem: navigationItem)
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion

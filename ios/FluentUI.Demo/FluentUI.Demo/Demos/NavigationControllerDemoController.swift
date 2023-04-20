@@ -321,7 +321,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         },
         11: TitleViewFeature(name: "Leading, down arrow") {
             $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.subtitle = ""
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         12: TitleViewFeature(name: "Centered, down arrow") {
