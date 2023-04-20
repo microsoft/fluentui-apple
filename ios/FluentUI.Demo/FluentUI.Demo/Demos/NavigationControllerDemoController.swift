@@ -961,13 +961,13 @@ extension NavigationControllerDemoController: DemoAppearanceDelegate {
     private func themeWideOverrideTokens(_ theme: FluentTheme) -> [NavigationBarTokenSet.Tokens: ControlTokenValue] {
         return [
             .titleColor: .uiColor {
-                UIColor(light: GlobalTokens.sharedColor(.green, .primary),
-                        dark: GlobalTokens.sharedColor(.green, .tint30))
+                UIColor(light: GlobalTokens.sharedColor(.hotPink, .primary),
+                        dark: GlobalTokens.sharedColor(.hotPink, .tint30))
             },
             .titleFont: .uiFont { theme.typography(.caption1Strong) },
             .subtitleColor: .uiColor {
-                UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                        dark: GlobalTokens.sharedColor(.red, .tint30))
+                UIColor(light: GlobalTokens.sharedColor(.lime, .primary),
+                        dark: GlobalTokens.sharedColor(.lime, .tint30))
             },
             .buttonTintColor: .uiColor {
                 UIColor(light: GlobalTokens.sharedColor(.orange, .primary),
