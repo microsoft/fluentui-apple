@@ -184,7 +184,7 @@ class NavigationControllerDemoController: DemoController {
         }
 
         controller.modalPresentationStyle = .fullScreen
-        if titleStyle != .system {
+        if titleStyle.usesLeadingAlignment {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self

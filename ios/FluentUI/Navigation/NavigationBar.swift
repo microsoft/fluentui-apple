@@ -118,6 +118,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case leading
         /// Shows a large title. This option always ignores the subtitle. Also capable of showing an avatar.
         case largeLeading
+
+        public var usesLeadingAlignment: Bool {
+            self != .system
+        }
     }
 
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
@@ -596,7 +600,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
-        usesAvatarTitleView = navigationItem.titleStyle != .system
+        usesAvatarTitleView = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)

@@ -113,7 +113,7 @@ import UIKit
     var usesLargeTitle: Bool {
         get {
             assertionFailure("`usesLargeTitle` will be deprecated in a future release. Use `titleStyle` instead.")
-            return titleStyle != .system
+            return titleStyle.usesLeadingAlignment
         }
         set {
             assertionFailure("Setting `usesLargeTitle` will be deprecated in a future release. Use `titleStyle` instead.")
