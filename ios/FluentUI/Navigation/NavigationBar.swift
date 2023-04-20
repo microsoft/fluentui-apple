@@ -650,10 +650,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
-        if #available(iOS 16.0, *), let usesLargeTitle = topItem?.usesLargeTitle, usesLargeTitle {
-            item.isHidden = true
-        } else {
-            // Fallback on earlier versions
+        if (style == .gradient) {
+            if #available(iOS 16.0, *), let usesLargeTitle = topItem?.usesLargeTitle, usesLargeTitle {
+                item.isHidden = true
+            } else {
+                item.tintColor = .clear
+                button.tintColor = style.tintColor(fluentTheme: fluentTheme)
+            }
         }
 
         if #available(iOS 15.0, *) {
