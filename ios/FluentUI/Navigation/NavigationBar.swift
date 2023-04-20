@@ -193,7 +193,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     /// Returns the first match of an optional view for a bar button item with the given tag.
     @objc public func barButtonItemView(with tag: Int) -> UIView? {
-        if usesAvatarTitleView {
+        if usesLeadingTitle {
             let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
             for view in totalBarButtonItemViews {
                 if view.tag == tag {
@@ -309,9 +309,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var usesAvatarTitleView: Bool = true {
+    private var usesLeadingTitle: Bool = true {
         didSet {
-            if usesAvatarTitleView == oldValue {
+            if usesLeadingTitle == oldValue {
                 return
             }
             updateAccessibilityElements()
@@ -524,7 +524,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
 
             // change bar button image size depending on device rotation
-            if usesAvatarTitleView, let navigationItem = topItem {
+            if usesLeadingTitle, let navigationItem = topItem {
                 updateBarButtonItems(with: navigationItem)
             }
         }
@@ -600,7 +600,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
-        usesAvatarTitleView = navigationItem.titleStyle.usesLeadingAlignment
+        usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
@@ -802,7 +802,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
         // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
-        if usesAvatarTitleView {
+        if usesLeadingTitle {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -837,7 +837,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
         switch navigationItem?.navigationBarShadow ?? .automatic {
         case .automatic:
-            return !usesAvatarTitleView && style == .system && navigationItem?.accessoryView == nil
+            return !usesLeadingTitle && style == .system && navigationItem?.accessoryView == nil
         case .alwaysHidden:
             return false
         }
@@ -916,7 +916,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // MARK: Accessibility
 
     private func updateAccessibilityElements() {
-        if usesAvatarTitleView {
+        if usesLeadingTitle {
             accessibilityElements = contentStackView.arrangedSubviews
         } else {
             accessibilityElements = nil
