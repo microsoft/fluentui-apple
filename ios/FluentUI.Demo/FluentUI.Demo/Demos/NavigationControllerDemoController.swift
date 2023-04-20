@@ -175,12 +175,13 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
-        controller.msfNavigationBar.gradient = gradient
-        controller.msfNavigationBar.gradientMask = gradientMask
+        let navigationBar = controller.msfNavigationBar
+        navigationBar.gradient = gradient
+        navigationBar.gradientMask = gradientMask
 
         if showAvatar {
-            controller.msfNavigationBar.personaData = content.personaData
-            controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
+            navigationBar.personaData = content.personaData
+            navigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
         }
