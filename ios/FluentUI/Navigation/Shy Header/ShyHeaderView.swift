@@ -55,16 +55,16 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
     }
 
     private struct Constants {
-        static let contentHorizontalPadding: CGFloat = 16
-        static let contentTopPadding: CGFloat = 6
-        static let contentTopPaddingCompact: CGFloat = 10
-        static let contentTopPaddingCompactForLargePhone: CGFloat = 0
-        static let contentBottomPadding: CGFloat = 10
-        static let contentBottomPaddingCompact: CGFloat = 6
+        static let contentHorizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
+        static let contentTopPadding: CGFloat = GlobalTokens.spacing(.size80)
+        static let contentTopPaddingCompact: CGFloat = GlobalTokens.spacing(.size80)
+        static let contentTopPaddingCompactForLargePhone: CGFloat = GlobalTokens.spacing(.sizeNone)
+        static let contentBottomPadding: CGFloat = GlobalTokens.spacing(.size80)
+        static let contentBottomPaddingCompact: CGFloat = GlobalTokens.spacing(.size80)
         static let accessoryHeight: CGFloat = 36
-        static let maxHeightNoAccessory: CGFloat = 56 - 44  // navigation bar - design: 56, system: 44
-        static let maxHeightNoAccessoryCompact: CGFloat = 44 - 32   // navigation bar - design: 44, system: 32
-        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - 44   // navigation bar - design: 44, system: 44
+        static let maxHeightNoAccessory: CGFloat = GlobalTokens.spacing(.size80)
+        static let maxHeightNoAccessoryCompact: CGFloat = GlobalTokens.spacing(.size80)
+        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = GlobalTokens.spacing(.sizeNone)
     }
 
     convenience init() {
