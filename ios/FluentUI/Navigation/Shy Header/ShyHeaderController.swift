@@ -150,7 +150,7 @@ class ShyHeaderController: UIViewController {
         constraints.append(paddingTrailing)
 
         let paddingTop = paddingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        paddingTop.identifier = "shyView_top"
+        paddingTop.identifier = "paddingView_top"
         constraints.append(paddingTop)
 
         // ShyHeaderView
