@@ -254,6 +254,38 @@ open class Button: NSButton {
 		path.fill()
 	}
 
+	public override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+		isWindowInactive = !(window?.isMainWindow ?? false)
+
+		// Remove any previous Notification Observers if we're moving away from a window (in which case `viewDidMoveToWindow` is called and `window == nil`)
+		// Or, remove any Notification Observers from the old window if we're moving directly into a new window
+		if let resignMainWindowObserver = resignMainWindowObserver {
+			NotificationCenter.default.removeObserver(resignMainWindowObserver)
+			self.resignMainWindowObserver = nil
+		}
+
+		if let becomeMainWindowObserver = becomeMainWindowObserver {
+			NotificationCenter.default.removeObserver(becomeMainWindowObserver)
+			self.becomeMainWindowObserver = nil
+		}
+
+		if window != nil {
+			// Hook in Notification Handles to capture the Window's active and inactive states
+			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = true
+			}
+
+			becomeMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = false
+			}
+		}
+	}
+
 	open override func viewDidChangeBackingProperties() {
 		super.viewDidChangeBackingProperties()
 
@@ -280,6 +312,10 @@ open class Button: NSButton {
 			self.size = newValue.size
 		}
 	}
+
+	/// Stored Observers for NSWindow  Notifications, to be able to remove them from NotificationCenter when not needed
+	private var resignMainWindowObserver: NSObjectProtocol?
+	private var becomeMainWindowObserver: NSObjectProtocol?
 
 	/// State-specific colors for foreground, background and border
 	private var contentTintColorRest: NSColor?
@@ -318,13 +354,13 @@ open class Button: NSButton {
 	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
 		switch forStyle {
 		case .primary:
-			contentTintColorRest = ButtonColor.neutralInverted
+			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
 			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-			backgroundColorRest = accentColor
+			backgroundColorRest = isWindowInactive ? ButtonColor.neutralBackground2 : accentColor
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-			borderColorRest = .clear
+			borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
 			borderColorPressed = .clear
 			borderColorDisabled = .clear
 		case .secondary:
@@ -348,7 +384,7 @@ open class Button: NSButton {
 			borderColorPressed = .clear
 			borderColorDisabled = .clear
 		case .borderless:
-			contentTintColorRest = accentColor
+			contentTintColorRest = isWindowInactive ? .textColor : accentColor
 			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
 			backgroundColorRest = .clear
@@ -434,6 +470,18 @@ open class Button: NSButton {
 		}
 		return CGSize(width: superSize.width + trailingImageAdjustment,
 					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
+	}
+
+	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
+	private var isWindowInactive: Bool = false {
+		didSet {
+			guard oldValue != isWindowInactive else {
+				return
+			}
+			// Re-compute the Button's color values for the latest Window State, and re-render it
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
 	}
 }
 
