@@ -422,20 +422,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     }
 
     private func updateGradient() {
-        if style != .gradient {
-            return
-        }
-
-        guard let gradient = gradient else {
-            assertionFailure("gradient cannot be nil when using the gradient style")
+        guard style == .gradient, let gradient = gradient else {
             return
         }
 
         gradient.frame = bounds
 
-        if let customGradientMask = gradientMask {
-            customGradientMask.frame = gradient.bounds
-            gradient.mask = customGradientMask
+        if let gradientMask = gradientMask {
+            gradientMask.frame = gradient.bounds
+            gradient.mask = gradientMask
         }
 
         let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
