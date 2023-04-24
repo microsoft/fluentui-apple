@@ -87,7 +87,7 @@ class TwoLineTitleViewDemoController: DemoController {
         makeExampleNavigationItem {
             $0.title = "They can also be"
             $0.subtitle = "leading-aligned"
-            $0.usesLargeTitle = true
+            $0.titleStyle = .leading
         }
     ]
 

@@ -109,6 +109,21 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case custom
     }
 
+    @objc(MSFNavigationBarTitleStyle)
+    /// Describes the style in which the title is shown in a navigation bar.
+    public enum TitleStyle: Int {
+        /// Shows a center-aligned title and/or subtitle. Most closely aligned with UIKit's default. Not capable of showing an avatar.
+        case system
+        /// Shows a leading-aligned title and/or subtitle. Also capable of showing an avatar.
+        case leading
+        /// Shows a large title. This option always ignores the subtitle. Also capable of showing an avatar.
+        case largeLeading
+
+        public var usesLeadingAlignment: Bool {
+            self != .system
+        }
+    }
+
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
         return backgroundColor(for: .system, theme: fluentTheme)
     }
@@ -178,7 +193,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     /// Returns the first match of an optional view for a bar button item with the given tag.
     @objc public func barButtonItemView(with tag: Int) -> UIView? {
-        if showsLargeTitle {
+        if usesLeadingTitle {
             let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
             for view in totalBarButtonItemViews {
                 if view.tag == tag {
@@ -294,9 +309,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var showsLargeTitle: Bool = true {
+    private var usesLeadingTitle: Bool = true {
         didSet {
-            if showsLargeTitle == oldValue {
+            if usesLeadingTitle == oldValue {
                 return
             }
             updateAccessibilityElements()
@@ -316,7 +331,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryViewAttributesObserver: NSKeyValueObservation?
     private var navigationBarStyleObserver: NSKeyValueObservation?
     private var navigationBarShadowObserver: NSKeyValueObservation?
-    private var usesLargeTitleObserver: NSKeyValueObservation?
+    private var titleStyleObserver: NSKeyValueObservation?
 
     private let backButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
 
@@ -509,7 +524,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
 
             // change bar button image size depending on device rotation
-            if showsLargeTitle, let navigationItem = topItem {
+            if usesLeadingTitle, let navigationItem = topItem {
                 updateBarButtonItems(with: navigationItem)
             }
         }
@@ -585,7 +600,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
-        showsLargeTitle = navigationItem.usesLargeTitle
+        usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
@@ -633,7 +648,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.navigationBarShadow) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
+        titleStyleObserver = navigationItem.observe(\UINavigationItem.titleStyle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }
@@ -716,7 +731,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
                 backButtonItem.title = topItem?.backButtonTitle
             }
 
-            if !navigationItem.usesLargeTitle {
+            if navigationItem.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
                 // The OS already gives us the leading margin we want, so no need for additional insets
                 if #available(iOS 15.0, *) {
@@ -787,7 +802,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
         // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
-        if showsLargeTitle {
+        if usesLeadingTitle {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -822,7 +837,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
         switch navigationItem?.navigationBarShadow ?? .automatic {
         case .automatic:
-            return !showsLargeTitle && style == .system && navigationItem?.accessoryView == nil
+            return !usesLeadingTitle && style == .system && navigationItem?.accessoryView == nil
         case .alwaysHidden:
             return false
         }
@@ -901,7 +916,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // MARK: Accessibility
 
     private func updateAccessibilityElements() {
-        if showsLargeTitle {
+        if usesLeadingTitle {
             accessibilityElements = contentStackView.arrangedSubviews
         } else {
             accessibilityElements = nil
