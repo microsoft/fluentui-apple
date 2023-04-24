@@ -292,7 +292,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     @objc open func setup(navigationItem: UINavigationItem) {
         let title = navigationItem.title ?? ""
-        let alignment: Alignment = navigationItem.usesLargeTitle ? .leading : .center
+        let alignment: Alignment = navigationItem.titleStyle == .system ? .center : .leading
 
         let interactivePart: InteractivePart
         let accessoryType: AccessoryType
