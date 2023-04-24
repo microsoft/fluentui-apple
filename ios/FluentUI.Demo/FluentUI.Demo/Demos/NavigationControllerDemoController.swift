@@ -50,8 +50,8 @@ class NavigationControllerDemoController: DemoController {
     }
 
     let gradient: CAGradientLayer = {
-        let redColor = UIColor(colorValue: ColorValue(0xAE7EE1)).withAlphaComponent(0.4).cgColor
-        let blueColor = UIColor(colorValue: ColorValue(0x4162FF)).withAlphaComponent(0.4).cgColor
+        let redColor = CGColor(red: 0.68, green: 0.49, blue: 0.88, alpha: 0.4)
+        let blueColor = CGColor(red: 0.25, green: 0.38, blue: 1.00, alpha: 0.4)
         let gradient = CAGradientLayer()
         gradient.type = .conic
         gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
