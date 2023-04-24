@@ -643,13 +643,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
         // We want to hide the native right bar button items when using the gradient style.
         if style == .gradient {
-            if #available(iOS 16.0, *), let usesLargeTitle = topItem?.usesLargeTitle, usesLargeTitle {
-                item.isHidden = true
-            } else {
-                item.tintColor = .clear
-                // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
-                button.tintColor = style.tintColor(fluentTheme: fluentTheme)
-            }
+            item.tintColor = .clear
+            // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
+            button.tintColor = style.tintColor(fluentTheme: fluentTheme)
         }
 
         if #available(iOS 15.0, *) {
