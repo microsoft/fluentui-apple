@@ -62,8 +62,8 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         static let contentBottomPadding: CGFloat = GlobalTokens.spacing(.size80)
         static let contentBottomPaddingCompact: CGFloat = GlobalTokens.spacing(.size80)
         static let accessoryHeight: CGFloat = 36
-        static let maxHeightNoAccessory: CGFloat = GlobalTokens.spacing(.size80)
-        static let maxHeightNoAccessoryCompact: CGFloat = GlobalTokens.spacing(.size80)
+        static let maxHeightNoAccessory: CGFloat = GlobalTokens.spacing(.size120)
+        static let maxHeightNoAccessoryCompact: CGFloat = GlobalTokens.spacing(.size120)
         static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = GlobalTokens.spacing(.sizeNone)
     }
 
