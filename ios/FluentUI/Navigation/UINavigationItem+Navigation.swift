@@ -29,6 +29,7 @@ import UIKit
         }
     }
 
+    /// Defines an accessory shown after the title or subtitle in a navigation bar. When defined, this gives the indication that the title can be tapped to show additional information.
     var titleAccessory: NavigationBarTitleAccessory? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.titleAccessory) as? NavigationBarTitleAccessory
@@ -38,6 +39,7 @@ import UIKit
         }
     }
 
+    /// An optional image to show in a navigation bar before the title. Ignored when `titleStyle == .largeLeading`.
     var titleImage: UIImage? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.titleImage) as? UIImage
@@ -74,6 +76,7 @@ import UIKit
         }
     }
 
+    /// The style to apply to a navigation bar as a whole. Defaults to `.default` if not specified.
     var navigationBarStyle: NavigationBar.Style {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.navigationBarStyle) as? NavigationBar.Style ?? .default
@@ -92,6 +95,7 @@ import UIKit
         }
     }
 
+    /// The navigation item's subtitle that displays in the navigation bar.
     var subtitle: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
@@ -101,6 +105,7 @@ import UIKit
         }
     }
 
+    /// The style in which the title text is displayed in a navigation bar. Defaults to `.system` if not specified.
     var titleStyle: NavigationBar.TitleStyle {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.titleStyle) as? NavigationBar.TitleStyle ?? .system
