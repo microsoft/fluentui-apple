@@ -26,6 +26,12 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithSystemStyleAndPillSegment)))
 
+        addTitle(text: "Large Title with Gradient style")
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithGradientStyle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithGradientStyleAndShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithGradientStyleAndFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithGradientStyleAndPillSegment)))
+
         addTitle(text: "Regular Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
@@ -42,6 +48,25 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
+
+    let gradient: CAGradientLayer = {
+        let redColor = CGColor(red: 0.68, green: 0.49, blue: 0.88, alpha: 0.4)
+        let blueColor = CGColor(red: 0.25, green: 0.38, blue: 1.00, alpha: 0.4)
+        let gradient = CAGradientLayer()
+        gradient.type = .conic
+        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: -1)
+        gradient.colors = [blueColor, redColor, blueColor]
+        gradient.locations = [0.48, 0.5, 0.52]
+        return gradient
+    }()
+
+    let gradientMask: CAGradientLayer = {
+        let gradientMask = CAGradientLayer()
+        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientMask.locations = [0.3, 1]
+        return gradientMask
+    }()
 
     @objc func showLargeTitle() {
         presentController(withLargeTitle: true)
@@ -73,6 +98,22 @@ class NavigationControllerDemoController: DemoController {
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
         presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithGradientStyle() {
+        presentController(withLargeTitle: true, style: .gradient)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndShyAccessory() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndFixedAccessory() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndPillSegment() {
+        presentController(withLargeTitle: true, style: .gradient, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showRegularTitleWithShyAccessory() {
@@ -134,9 +175,13 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
+        let navigationBar = controller.msfNavigationBar
+        navigationBar.gradient = gradient
+        navigationBar.gradientMask = gradientMask
+
         if showAvatar {
-            controller.msfNavigationBar.personaData = content.personaData
-            controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
+            navigationBar.personaData = content.personaData
+            navigationBar.onAvatarTapped = handleAvatarTapped
         } else {
             content.allowsCellSelection = true
         }
@@ -168,7 +213,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .primary
             case .primary:
                 newStyle = .system
-            case .system:
+            case .system, .gradient:
                 newStyle = .custom
             }
 

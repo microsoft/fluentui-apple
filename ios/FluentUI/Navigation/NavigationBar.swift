@@ -61,6 +61,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         case primary
         case system
         case custom
+        case gradient
 
         func tintColor(fluentTheme: FluentTheme) -> UIColor {
             switch self {
@@ -69,6 +70,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                                dark: fluentTheme.color(.foreground2).dark)
             case .system:
                 return fluentTheme.color(.foreground2)
+            case .gradient:
+                return fluentTheme.color(.foreground1)
             }
         }
 
@@ -77,7 +80,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             case .primary, .default, .custom:
                 return UIColor(light: fluentTheme.color(.foregroundOnColor).light,
                                dark: fluentTheme.color(.foreground1).dark)
-            case .system:
+            case .system, .gradient:
                 return fluentTheme.color(.foreground1)
             }
         }
@@ -92,7 +95,23 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
                 return fluentTheme.color(.background3)
             case .custom:
                 return customColor ?? defaultColor
+            case .gradient:
+                return fluentTheme.color(.background1)
             }
+        }
+    }
+
+    /// The main gradient layer to be applied to the NavigationBar's standardAppearance with the gradient style.
+    @objc public var gradient: CAGradientLayer? {
+        didSet {
+            updateGradient()
+        }
+    }
+
+    /// The layer used to mask the main gradient of the NavigationBar. If unset, only the main gradient will be displayed on the NavigationBar.
+    @objc public var gradientMask: CAGradientLayer? {
+        didSet {
+            updateGradient()
         }
     }
 
@@ -402,6 +421,26 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
+    private func updateGradient() {
+        guard style == .gradient, let gradient = gradient else {
+            return
+        }
+
+        gradient.frame = bounds
+
+        if let gradientMask = gradientMask {
+            gradientMask.frame = gradient.bounds
+            gradient.mask = gradientMask
+        }
+
+        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+
+        standardAppearance.backgroundImage = gradientImage
+    }
+
     // Manually contains the content stack view with lower priority constraints in order to avoid invalid simultaneous constraints when nav bar is hidden.
     private func setupContentStackView() {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -516,18 +555,19 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let shouldHideRegularTitle: Bool = (style == .gradient) && showsLargeTitle
 
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
-        case .system:
+        case .system, .gradient:
             titleView.style = .system
         }
 
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = color
+        backgroundView.backgroundColor = (style == .gradient) ? .clear : color
         tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? .clear : style.titleColor(fluentTheme: tokenSet.fluentTheme)
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
 
         // Update the scroll edge appearance to match the new standard appearance
@@ -543,6 +583,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
+        updateGradient()
         showsLargeTitle = navigationItem.usesLargeTitle
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
@@ -599,6 +640,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         let button = BadgeLabelButton(type: .system)
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
+
+        // We want to hide the native right bar button items when using the gradient style.
+        if style == .gradient {
+            item.tintColor = .clear
+            // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
+            button.tintColor = style.tintColor(fluentTheme: fluentTheme)
+        }
 
         if #available(iOS 15.0, *) {
             let insets: NSDirectionalEdgeInsets

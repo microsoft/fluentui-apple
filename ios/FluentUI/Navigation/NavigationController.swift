@@ -32,7 +32,7 @@ open class NavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return msfNavigationBar.style == .system ? .default : .lightContent
+        return (msfNavigationBar.style == .system || msfNavigationBar.style == .gradient) ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
