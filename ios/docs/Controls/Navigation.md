@@ -33,7 +33,7 @@ You can also specify an optional `titleImage` with the associated navigation ite
 
 ### Source Code
 
-[Navigation folder](https://github.com/microsoft/fluentui-apple/blob/main/ios/Navigation/)
+[Navigation folder](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Navigation/)
 
 ### Sample Code
 
