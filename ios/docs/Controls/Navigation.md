@@ -2,9 +2,7 @@
 
 ## Overview
 
-FluentUI introduces the `NavigationBar` and `NavigationController` classes as Fluent-specific subclasses of their UIKit counterparts, [`UINavigationBar`](https://developer.apple.com/documentation/uikit/uinavigationbar) and [`UINavigationController`](https://developer.apple.com/documentation/uikit/uinavigationcontroller) respectively. These classes will handle rendering all the relevant information with a Fluent look and feel. This means that you can tell your app to use the Fluent `NavigationController` (which already knows to use the Fluent `NavigationBar` by default) and everything will "just work."
-
-Similar to UIKit, most of the logic for what a `NavigationBar` should display comes from `UINavigationItem` instances. FluentUI [extends this class](../../FluentUI/Navigation/UINavigationItem%2BNavigation.swift) to include new features, such as appearance, interactivity, and subtitles.
+Use a `NavigationController` to enable users to navigate through hierarchical data. `NavigationController`, along with [extensions to `UINavigationItem`](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Navigation/UINavigationItem%2BNavigation.swift), allow you to render all relevant information with a Fluent look and feel.
 
 ### Appearance Examples
 
