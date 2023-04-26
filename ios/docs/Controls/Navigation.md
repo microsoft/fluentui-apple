@@ -35,8 +35,8 @@ You can also specify an optional `titleImage` with the associated navigation ite
 
 ### Source Code
 
-[Navigation folder](../../FluentUI/Navigation/)
+[Navigation folder](https://github.com/microsoft/fluentui-apple/blob/main/ios/Navigation/)
 
 ### Sample Code
 
-[NavigationControllerDemoController.swift](../../FluentUI.Demo/FluentUI.Demo/Demos/NavigationControllerDemoController.swift)
+[NavigationControllerDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/NavigationControllerDemoController.swift)
