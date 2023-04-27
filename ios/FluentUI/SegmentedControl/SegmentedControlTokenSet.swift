@@ -166,7 +166,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .disabledSelectedLabelColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill, .neutralOverCanvasPill,. neutralOverNavBarPill:
+                    case .primaryPill, .neutralOverCanvasPill, .neutralOverNavBarPill:
                         return theme.color(.brandForegroundDisabled1)
                     case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandForegroundDisabled2).light,

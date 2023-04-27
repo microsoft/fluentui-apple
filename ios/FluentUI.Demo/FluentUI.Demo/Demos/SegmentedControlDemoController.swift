@@ -38,13 +38,13 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Primary Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(3)),
-                       style: .primaryPill)
+                       style: .neutralOverNavBarPill)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Primary Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
@@ -52,7 +52,7 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Primary Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
@@ -60,14 +60,14 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "Disabled Primary Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        enabled: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "On Brand Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        equalSegments: true,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
@@ -75,14 +75,14 @@ class SegmentedControlDemoController: DemoController {
         addTitle(text: "On Brand Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
         addTitle(text: "Disabled On Brand Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        enabled: false)
     }
 
@@ -105,9 +105,9 @@ class SegmentedControlDemoController: DemoController {
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {
-            case .primaryPill:
+            case .primaryPill, .neutralOverCanvasPill, .neutralOverNavBarPill, .brandOverCanvasPill:
                 return .neutral
-            case .onBrandPill:
+            case .onBrandPill, .brandOverNavBarPill:
                 return .brand
             }
         }()
