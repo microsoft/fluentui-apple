@@ -149,8 +149,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private static var defaultStyle: Style = .primary
 
+    // These two constants are based on OS default values
+    static let systemHeight: CGFloat = 44
+    static let compactSystemHeight: CGFloat = 32
+
     private struct Constants {
-        static let systemHeight: CGFloat = 44
         static let normalContentHeight: CGFloat = 44
         static let expandedContentHeight: CGFloat = 48
 
@@ -478,7 +481,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: -(contentHeight - Constants.systemHeight),
+            bottom: -(contentHeight - Self.systemHeight),
             trailing: contentTrailingMargin
         )
     }
