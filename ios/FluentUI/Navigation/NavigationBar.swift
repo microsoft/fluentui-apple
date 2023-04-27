@@ -847,7 +847,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateSubtitleView(for navigationItem: UINavigationItem?) {
-        guard let navigationItem = navigationItem else {
+        guard let navigationItem = navigationItem, !usesLeadingTitle else {
             // Use the default title view
             navigationItem?.titleView = nil
             return
