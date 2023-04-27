@@ -31,11 +31,13 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLeadingTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle)))
 
-        addTitle(text: "Regular Title")
+        addTitle(text: "Centered Title")
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with collapsible search bar and subtitle", action: #selector(showRegularTitleWithShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"system\" with fixed search bar and subtitle", action: #selector(showSystemTitleWithFixedAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show \"system\"", action: #selector(showSystemTitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with subtitle", action: #selector(showRegularTitleWithSubtitle)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -99,11 +101,19 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withTitleStyle: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, accessoryView: createAccessoryView())
     }
 
     @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
         presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showSystemTitle() {
+        presentController(withTitleStyle: .system, style: .system)
+    }
+
+    @objc func showRegularTitleWithSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here")
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
