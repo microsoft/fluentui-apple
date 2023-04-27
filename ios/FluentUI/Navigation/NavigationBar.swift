@@ -478,10 +478,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
         let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
+        let systemHeight = (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact) ? Self.compactSystemHeight : Self.systemHeight
+
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: -(contentHeight - Self.systemHeight),
+            bottom: systemHeight - contentHeight,
             trailing: contentTrailingMargin
         )
     }
