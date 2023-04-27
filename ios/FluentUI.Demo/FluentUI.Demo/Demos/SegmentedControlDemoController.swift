@@ -35,13 +35,13 @@ class SegmentedControlDemoController: DemoController {
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(3)),
                        style: .neutralOverNavBarPill)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
                        style: .neutralOverNavBarPill,
@@ -49,7 +49,7 @@ class SegmentedControlDemoController: DemoController {
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .neutralOverNavBarPill,
@@ -57,14 +57,14 @@ class SegmentedControlDemoController: DemoController {
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Disabled Primary Pill")
+        addTitle(text: "Disabled Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .neutralOverNavBarPill,
                        enabled: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "On Brand Pill")
+        addTitle(text: "On Brand Nav Bar Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
                        style: .brandOverNavBarPill,
@@ -72,18 +72,32 @@ class SegmentedControlDemoController: DemoController {
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "On Brand Pill")
+        addTitle(text: "On Brand Nav Bar Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .brandOverNavBarPill,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Disabled On Brand Pill")
+        addTitle(text: "Disabled On Brand Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
                        style: .brandOverNavBarPill,
                        enabled: false)
+
+        // neutral canvas
+        addTitle(text: "Over Canvas Pill")
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
+        addPillControl(items: Array(segmentItems.prefix(3)),
+                       style: .neutralOverCanvasPill,
+                       enabled: true)
+
+        // on brand canvas
+        addTitle(text: "On Brand Over Canvas Pill")
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
+        addPillControl(items: Array(segmentItems.prefix(3)),
+                       style: .brandOverCanvasPill,
+                       enabled: true)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {
@@ -105,10 +119,12 @@ class SegmentedControlDemoController: DemoController {
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {
-            case .primaryPill, .neutralOverCanvasPill, .neutralOverNavBarPill, .brandOverCanvasPill:
-                return .neutral
+            case .primaryPill, .neutralOverNavBarPill:
+                return .neutralNavBar
             case .onBrandPill, .brandOverNavBarPill:
-                return .brand
+                return .brandNavBar
+            case .neutralOverCanvasPill, .brandOverCanvasPill:
+                return .canvas
             }
         }()
         let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
