@@ -215,7 +215,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
 @objc(MSFSegmentedControlStyle)
 public enum SegmentedControlStyle: Int {
     /// Segments are shown as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
-    @available(*, deprecated, message: "primaryPill is now deprecated. Please use neutralOverCanvasPill.")
+    @available(*, deprecated, message: "primaryPill is now deprecated. Please use neutralOverNavBarPill.")
     case primaryPill
     /// Segments are shown as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
     /// Selection is indicated by a thumb under the selected label.
