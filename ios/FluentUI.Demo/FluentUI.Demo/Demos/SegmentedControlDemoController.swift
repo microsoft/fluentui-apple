@@ -93,7 +93,7 @@ class SegmentedControlDemoController: DemoController {
                        enabled: true)
 
         // on brand canvas
-        addTitle(text: "On Brand Over Canvas Pill")
+        addTitle(text: "Brand Over Canvas Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(3)),
                        style: .brandOverCanvasPill,
