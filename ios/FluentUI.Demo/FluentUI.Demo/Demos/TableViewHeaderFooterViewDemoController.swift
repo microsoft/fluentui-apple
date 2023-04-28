@@ -13,16 +13,12 @@ class TableViewHeaderFooterViewDemoController: DemoTableViewController {
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
     private var overrideTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue]?
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(style: .insetGrouped)
-    }
-
-    override init(style: UITableView.Style) {
-        super.init(style: .insetGrouped)
     }
 
     override func viewDidLoad() {
