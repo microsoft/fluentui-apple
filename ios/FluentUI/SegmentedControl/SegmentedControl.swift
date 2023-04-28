@@ -191,7 +191,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     ///
     /// - Parameter items: An array of Segmented Items representing the segments for this control.
     /// - Parameter style: A style used for rendering of the control.
-    @objc public init(items: [SegmentItem], style: SegmentedControlStyle = .primaryPill) {
+    @objc public init(items: [SegmentItem], style: SegmentedControlStyle = .neutralOverNavBarPill) {
         self.style = style
 
         super.init(frame: .zero)
@@ -436,7 +436,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
 
     public typealias TokenSetKeyType = SegmentedControlTokenSet.Tokens
     lazy public var tokenSet: SegmentedControlTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .primaryPill
+        return self?.style ?? .neutralOverNavBarPill
     })
 
     private let selectionChangeAnimationDuration: TimeInterval = 0.2
