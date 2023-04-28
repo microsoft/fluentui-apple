@@ -519,7 +519,7 @@ private class TableViewHeaderFooterTitleView: UITextView {
     }
 
     private func updateLinkTextColor() {
-        linkTextAttributes = [.foregroundColor: linkColor ?? fluentTheme.color(.brandForeground1)]
+        linkTextAttributes = [.foregroundColor: linkColor]
     }
 
     override var selectedTextRange: UITextRange? {
@@ -534,9 +534,11 @@ private class TableViewHeaderFooterTitleView: UITextView {
         }
     }
 
-    var linkColor: UIColor? {
+    lazy var linkColor: UIColor = fluentTheme.color(.brandForeground1) {
         didSet {
-            updateLinkTextColor()
+            if linkColor != oldValue {
+                updateLinkTextColor()
+            }
         }
     }
 }
