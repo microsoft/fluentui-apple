@@ -210,7 +210,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        label.font = tokenSet[.labelFont].uiFont
+        label.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .labelFont), forToken: .font)
     }
 
     open override func layoutSubviews() {
