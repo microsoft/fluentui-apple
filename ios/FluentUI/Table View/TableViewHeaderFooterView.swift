@@ -452,7 +452,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         }
 
         titleView.font = tokenSet[.textFont].uiFont
-        titleView.updateLinkTextColor(tokenSet.fluentTheme)
+        titleView.linkColor = tokenSet[.linkTextColor].uiColor
     }
 
     private func updateAccessoryButtonTitleColor() {
@@ -507,11 +507,7 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        updateLinkTextColor(fluentTheme)
-    }
-
-    func updateLinkTextColor(_ fluentTheme: FluentTheme) {
-        linkTextAttributes = [.foregroundColor: fluentTheme.color(.brandForeground1)]
+        updateLinkTextColor()
     }
 
     required init?(coder: NSCoder) {
@@ -520,6 +516,10 @@ private class TableViewHeaderFooterTitleView: UITextView {
 
     override func becomeFirstResponder() -> Bool {
         return false
+    }
+
+    private func updateLinkTextColor() {
+        linkTextAttributes = [.foregroundColor: linkColor ?? fluentTheme.color(.brandForeground1)]
     }
 
     override var selectedTextRange: UITextRange? {
@@ -531,6 +531,12 @@ private class TableViewHeaderFooterTitleView: UITextView {
         set {
             // No-op because we don't want to allow this property to be set.
             // It should always return nil which indicates there is no current selection (https://developer.apple.com/documentation/uikit/uitextinput/1614541-selectedtextrange)
+        }
+    }
+
+    var linkColor: UIColor? {
+        didSet {
+            updateLinkTextColor()
         }
     }
 }

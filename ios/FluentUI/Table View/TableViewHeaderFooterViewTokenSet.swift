@@ -23,6 +23,9 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
 
         /// The font of the accessory button text.
         case accessoryButtonTextFont
+
+        /// The color of the link text in the TableViewHeaderFooterViewTitleView.
+        case linkTextColor
     }
 
     init(style: @escaping () -> TableViewHeaderFooterView.Style,
@@ -69,6 +72,9 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
 
             case .accessoryButtonTextFont:
                 return .uiFont { theme.typography(.caption1Strong) }
+
+            case .linkTextColor:
+                return .uiColor { theme.color(.brandForeground1) }
             }
         }
     }
