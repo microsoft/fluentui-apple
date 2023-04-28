@@ -117,5 +117,4 @@ public extension TableViewHeaderFooterView {
         case header
         case footer
     }
-
 }
