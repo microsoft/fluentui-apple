@@ -179,6 +179,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
+        label.style = sizeCategory.labelTextStyle
         addSubview(label)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(badgeTapped))
@@ -201,8 +202,6 @@ open class BadgeView: UIView, TokenizedControlInternal {
         defer {
             self.dataSource = dataSource
         }
-
-        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
