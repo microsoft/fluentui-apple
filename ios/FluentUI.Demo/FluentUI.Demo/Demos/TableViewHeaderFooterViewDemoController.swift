@@ -8,43 +8,44 @@ import UIKit
 
 // MARK: TableViewHeaderFooterViewDemoController
 
-class TableViewHeaderFooterViewDemoController: DemoController {
+class TableViewHeaderFooterViewDemoController: DemoTableViewController {
     private let groupedSections: [TableViewHeaderFooterSampleData.Section] = TableViewHeaderFooterSampleData.groupedSections
-    private lazy var groupedTableView: UITableView = createTableView(style: .insetGrouped)
     private var collapsedSections: [Bool] = [Bool](repeating: false, count: TableViewHeaderFooterSampleData.groupedSections.count)
+    private var overrideTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue]?
+
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init?(coder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(groupedTableView)
-        groupedTableView.frame = view.bounds
-        groupedTableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        scrollingContainer.removeFromSuperview()
-    }
-
-    func createTableView(style: UITableView.Style) -> UITableView {
-        let tableView = UITableView(frame: .zero, style: style)
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
         tableView.separatorStyle = .none
-        return tableView
+    }
+
+    private func updateTableView() {
+        tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
+        tableView.reloadData()
     }
 }
 
 // MARK: - TableViewHeaderFooterViewDemoController: UITableViewDataSource
 
-extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
+extension TableViewHeaderFooterViewDemoController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return  groupedSections.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return collapsedSections[section] ? 0 : TableViewHeaderFooterSampleData.numberOfItemsInSection
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
             return UITableViewCell()
         }
@@ -66,13 +67,13 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDataSource {
 
 // MARK: - TableViewHeaderFooterViewDemoController: UITableViewDelegate
 
-extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+extension TableViewHeaderFooterViewDemoController {
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         let section = groupedSections[section]
         return section.hasFooter ? UITableView.automaticDimension : 0
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let index = section
         let section = groupedSections[section]
@@ -89,6 +90,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         header?.titleNumberOfLines = section.numberOfLines
         header?.accessoryButtonStyle = section.accessoryButtonStyle
         header?.onAccessoryButtonTapped = { [weak self] in self?.showAlertForAccessoryTapped(title: section.title) }
+        header?.tokenSet.replaceAllOverrides(with: overrideTokens)
 
         return header
     }
@@ -105,7 +107,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
         return UIImageView(image: UIImage(named: imageName))
     }
 
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if tableView.style == .grouped && groupedSections[section].hasFooter {
             let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
             let section = groupedSections[section]
@@ -124,12 +126,13 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
                 }
             }
             footer?.titleNumberOfLines = section.numberOfLines
+            footer?.tokenSet.replaceAllOverrides(with: overrideTokens)
             return footer
         }
         return nil
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
@@ -142,7 +145,7 @@ extension TableViewHeaderFooterViewDemoController: UITableViewDelegate {
 
     private func forHeaderTapped(header: TableViewHeaderFooterView, section: Int) {
         collapsedSections[section] = !collapsedSections[section]
-        groupedTableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
+        tableView.reloadSections(IndexSet(integer: section), with: UITableView.RowAnimation.fade)
     }
 }
 
@@ -154,5 +157,49 @@ extension TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDele
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
         return false
+    }
+}
+
+extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: TableViewHeaderFooterViewTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewHeaderFooterTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? perControlOverrideTableViewHeaderFooterTokens : nil
+        self.tableView.reloadData()
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: TableViewHeaderFooterViewTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideTableViewHeaderFooterTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textColor: .uiColor {
+                // "Grape"
+                return UIColor(light: GlobalTokens.sharedColor(.grape, .tint10),
+                               dark: GlobalTokens.sharedColor(.grape, .shade40))
+            }
+        ]
+    }
+
+    private var perControlOverrideTableViewHeaderFooterTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .textFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0), size: 20.0)
+            },
+            .accessoryButtonTextColor: .uiColor {
+                // "Hot Pink"
+                return UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint10),
+                               dark: GlobalTokens.sharedColor(.hotPink, .shade40))
+            }
+        ]
     }
 }
