@@ -179,6 +179,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
+        label.style = sizeCategory.labelTextStyle
         addSubview(label)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(badgeTapped))
@@ -201,8 +202,6 @@ open class BadgeView: UIView, TokenizedControlInternal {
         defer {
             self.dataSource = dataSource
         }
-
-        updateFonts()
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -210,12 +209,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        switch sizeCategory {
-        case .small:
-            label.font = tokenSet.fluentTheme.typography(.caption1)
-        case .medium:
-            label.font = tokenSet.fluentTheme.typography(.body2)
-        }
+        label.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .labelFont), forToken: .font)
     }
 
     open override func layoutSubviews() {
