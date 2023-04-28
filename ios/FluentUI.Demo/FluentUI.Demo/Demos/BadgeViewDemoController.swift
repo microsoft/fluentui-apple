@@ -172,6 +172,9 @@ extension BadgeViewDemoController: DemoAppearanceDelegate {
             .foregroundFilledColor: .uiColor {
                 return UIColor(light: GlobalTokens.neutralColor(.white),
                                dark: GlobalTokens.neutralColor(.black))
+            },
+            .labelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             }
         ]
     }

@@ -210,12 +210,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     private func updateFonts() {
-        switch sizeCategory {
-        case .small:
-            label.font = tokenSet.fluentTheme.typography(.caption1)
-        case .medium:
-            label.font = tokenSet.fluentTheme.typography(.body2)
-        }
+        label.font = tokenSet[.labelFont].uiFont
     }
 
     open override func layoutSubviews() {

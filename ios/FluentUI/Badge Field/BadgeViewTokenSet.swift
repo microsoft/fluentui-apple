@@ -28,6 +28,9 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
 
         /// The border radius of the Badge.
         case borderRadius
+
+        /// The font of the Badge label.
+        case labelFont
     }
 
     init(style: @escaping () -> BadgeView.Style,
@@ -125,6 +128,15 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                         return GlobalTokens.corner(.radius20)
                     case .medium:
                         return GlobalTokens.corner(.radius40)
+                    }
+                })
+            case .labelFont:
+                return .uiFont({
+                    switch sizeCategory() {
+                    case .small:
+                        return theme.typography(.caption1)
+                    case .medium:
+                        return theme.typography(.body2)
                     }
                 })
             }
