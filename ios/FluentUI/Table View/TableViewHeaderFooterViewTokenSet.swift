@@ -73,7 +73,7 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
         }
     }
 
-    /// Defines the style of the `PillButton`.
+    /// Defines the style of the `TableViewHeaderFooterView`.
     var style: () -> TableViewHeaderFooterView.Style
 
     /// Defines the style of the accessory button.
@@ -110,7 +110,7 @@ public extension TableViewHeaderFooterView {
         case regular
     }
 
-    /// Defines the visual style of the view
+    /// Defines the visual style of the HeaderFooterView.
     @objc(MSFTableViewHeaderFooterViewStyle)
     enum Style: Int {
         case headerPrimary
