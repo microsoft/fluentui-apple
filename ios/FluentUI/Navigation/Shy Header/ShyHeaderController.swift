@@ -142,7 +142,7 @@ class ShyHeaderController: UIViewController {
         paddingHeightConstraint = paddingHeight
 
         let paddingLeading = paddingView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        paddingHeight.identifier = "paddingView_leading"
+        paddingLeading.identifier = "paddingView_leading"
         constraints.append(paddingLeading)
 
         let paddingTrailing = paddingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -150,7 +150,7 @@ class ShyHeaderController: UIViewController {
         constraints.append(paddingTrailing)
 
         let paddingTop = paddingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        paddingTop.identifier = "shyView_top"
+        paddingTop.identifier = "paddingView_top"
         constraints.append(paddingTop)
 
         // ShyHeaderView
