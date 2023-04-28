@@ -93,9 +93,9 @@ class PillButtonBarDemoController: DemoController {
         let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {
             case .primary:
-                return .neutral
+                return .neutralNavBar
             case .onBrand:
-                return .brand
+                return .brandNavBar
             }
         }()
 

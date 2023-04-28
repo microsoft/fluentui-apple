@@ -228,7 +228,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if let segmentedControl = segmentedControl, previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            segmentedControl.style = (traitCollection.userInterfaceStyle == .dark) ? .onBrandPill : .primaryPill
+            segmentedControl.style = (traitCollection.userInterfaceStyle == .dark) ? .brandOverNavBarPill : .neutralOverNavBarPill
         }
     }
 
@@ -256,7 +256,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             let items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
                          SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
             let segmentedControl = SegmentedControl(items: items,
-                                                style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
+                                                style: traitCollection.userInterfaceStyle == .dark ? .brandOverNavBarPill : .neutralOverNavBarPill)
             segmentedControl.onSelectAction = { [weak self] (_, index) in
                 guard let strongSelf = self else {
                     return

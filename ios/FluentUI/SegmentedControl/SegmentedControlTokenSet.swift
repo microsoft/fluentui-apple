@@ -64,10 +64,12 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .restTabColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill:
                         return UIColor(light: theme.color(.background5).light,
                                        dark: theme.color(.background5).dark)
-                    case .onBrandPill:
+                    case .neutralOverCanvasPill, .brandOverCanvasPill:
+                        return theme.color(.background3)
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandBackground2).light,
                                        dark: theme.color(.background5).dark)
                     }
@@ -76,21 +78,27 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .selectedTabColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverCanvasPill, .neutralOverNavBarPill:
                         return theme.color(.brandBackground1)
-                    case .onBrandPill:
-                        return UIColor(light: theme.color(.background1).light,
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.background3).light,
                                        dark: theme.color(.background5Selected).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1).light,
+                                       dark: theme.color(.background3Selected).dark)
                     }
                 }
 
             case .disabledTabColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill:
                         return UIColor(light: theme.color(.background5).light,
                                        dark: theme.color(.background5).dark)
-                    case .onBrandPill:
+                    case .neutralOverCanvasPill, .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.background3).light,
+                                       dark: theme.color(.background3).dark)
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandBackground2).light,
                                        dark: theme.color(.background5).dark)
                     }
@@ -99,21 +107,28 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .disabledSelectedTabColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.color(.brandBackground1)
-                    case .onBrandPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1).light,
+                                       dark: theme.color(.brandBackground1).dark)
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.background1).light,
                                        dark: theme.color(.background5Selected).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1Selected).light,
+                                       dark: theme.color(.background3Selected).dark)
                     }
                 }
 
             case .restLabelColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
                         return theme.color(.foreground2)
-                    case .onBrandPill:
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground2).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForeground1).light,
                                        dark: theme.color(.foreground2).dark)
                     }
                 }
@@ -121,10 +136,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .selectedLabelColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
                         return theme.color(.foregroundOnColor)
-                    case .onBrandPill:
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
                 }
@@ -132,10 +150,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .disabledLabelColor, .disabledUnreadDotColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
                         return theme.color(.foregroundDisabled1)
-                    case .onBrandPill:
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
                                        dark: theme.color(.foregroundDisabled1).dark)
                     }
                 }
@@ -143,10 +164,13 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .disabledSelectedLabelColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
                         return theme.color(.brandForegroundDisabled1)
-                    case .onBrandPill:
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
                                        dark: theme.color(.foregroundDisabled2).dark)
                     }
                 }
@@ -154,10 +178,10 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
             case .enabledUnreadDotColor:
                 return .uiColor {
                     switch style() {
-                    case .primaryPill:
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill, .brandOverCanvasPill:
                         return UIColor(light: theme.color(.brandForeground1).light,
                                        dark: theme.color(.foreground1).dark)
-                    case .onBrandPill:
+                    case .onBrandPill, .brandOverNavBarPill:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
                     }
@@ -190,9 +214,25 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
 
 @objc(MSFSegmentedControlStyle)
 public enum SegmentedControlStyle: Int {
-    /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
+    /// Segments are shown as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
+    @available(*, deprecated, message: "primaryPill is now deprecated. Please use neutralOverNavBarPill.")
     case primaryPill
-    /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
+    /// Segments are shown as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
     /// Selection is indicated by a thumb under the selected label.
+    @available(*, deprecated, message: "onBrandPill is now deprecated. Please use brandOverNavBarPill.")
     case onBrandPill
+
+    /// Segments are shown as labels inside a pill for use with a neutral or white backround,
+    /// when the buttons should be a prominent brand color in light mode and a muted grey in dark mode.
+    case brandOverCanvasPill
+
+    /// Segments are shown as labels inside a pill for use with branded Navigation Bar where the background features
+    /// a prominent brand color in light mode and a muted gray in dark mode.
+    case brandOverNavBarPill
+
+    /// Segments are shown as labels inside a pill for use with a neutral or white background.
+    case neutralOverCanvasPill
+
+    /// Segments are shown as labels inside a pill for use with a non-brand-colored Navigation Bar.
+    case neutralOverNavBarPill
 }
