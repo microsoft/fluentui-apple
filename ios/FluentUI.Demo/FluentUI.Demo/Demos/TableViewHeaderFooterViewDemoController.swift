@@ -193,7 +193,6 @@ extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
     private var perControlOverrideTableViewHeaderFooterTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
         return [
             .textFont: .uiFont {
-                // "Brass"
                 return UIFont(descriptor: .init(name: "Times", size: 20.0), size: 20.0)
             },
             .accessoryButtonTextColor: .uiColor {
