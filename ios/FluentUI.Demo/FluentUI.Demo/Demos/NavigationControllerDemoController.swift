@@ -33,12 +33,12 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with custom leading button", action: #selector(showLeadingTitleWithSubtitleAndCustomLeadingButton)))
 
         addTitle(text: "Centered Title")
+        container.addArrangedSubview(createButton(title: "Show \"system\"", action: #selector(showSystemTitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with subtitle", action: #selector(showRegularTitleWithSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with collapsible search bar and subtitle", action: #selector(showRegularTitleWithShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"system\" with fixed search bar and subtitle", action: #selector(showSystemTitleWithFixedAccessoryAndSubtitle)))
-        container.addArrangedSubview(createButton(title: "Show \"system\"", action: #selector(showSystemTitle)))
-        container.addArrangedSubview(createButton(title: "Show \"primary\" with subtitle", action: #selector(showRegularTitleWithSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with custom leading button", action: #selector(showRegularTitleWithSubtitleAndCustomLeadingButton)))
 
         addTitle(text: "Size Customization")
