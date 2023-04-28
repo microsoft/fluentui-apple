@@ -313,9 +313,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         4: TitleViewFeature(name: "Large title") {
             $0.navigationItem.titleStyle = .largeLeading
         },
-        5: TitleViewFeature(name: "Leading-aligned, two titles") {
+        5: TitleViewFeature(name: "Leading-aligned, two titles, collapsible") {
             $0.navigationItem.titleStyle = .leading
             $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.contentScrollView = $0.tableView
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
             $0.navigationItem.subtitle = "Press me!"
