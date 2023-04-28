@@ -167,11 +167,11 @@ extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
         }
 
         fluentTheme.register(tokenSetType: TableViewHeaderFooterViewTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewCellTokens : nil)
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewHeaderFooterTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
-        overrideTokens = isOverrideEnabled ? perControlOverrideTableViewCellTokens : nil
+        overrideTokens = isOverrideEnabled ? perControlOverrideTableViewHeaderFooterTokens : nil
         self.tableView.reloadData()
     }
 
@@ -180,7 +180,7 @@ extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
     }
 
     // MARK: - Custom tokens
-    private var themeWideOverrideTableViewCellTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
+    private var themeWideOverrideTableViewHeaderFooterTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
         return [
             .textColor: .uiColor {
                 // "Grape"
@@ -190,7 +190,7 @@ extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
         ]
     }
 
-    private var perControlOverrideTableViewCellTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
+    private var perControlOverrideTableViewHeaderFooterTokens: [TableViewHeaderFooterViewTokenSet.Tokens: ControlTokenValue] {
         return [
             .textFont: .uiFont {
                 // "Brass"
