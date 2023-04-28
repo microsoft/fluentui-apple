@@ -124,6 +124,11 @@ class ShyHeaderController: UIViewController {
         updateNavigationBarStyle()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNavigationBarStyle()
+    }
+
     // MARK: - Base Construction
 
     /// Constructs the UI for the gesture-based configuration
