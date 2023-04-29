@@ -275,7 +275,7 @@ class ShyHeaderController: UIViewController {
         }
     }
 
-    private func updatePadding() {
+    func updatePadding() {
         shyHeaderView.lockedInContractedState = msfNavigationController?.msfNavigationBar.barHeight == .contracted
         paddingHeightConstraint?.constant = paddingIsStatic ? paddingViewHeight : 0
         shyViewHeightConstraint?.constant = shyHeaderView.maxHeight

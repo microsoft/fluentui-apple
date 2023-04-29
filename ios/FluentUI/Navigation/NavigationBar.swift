@@ -152,6 +152,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // These two constants are based on OS default values
     static let systemHeight: CGFloat = 44
     static let compactSystemHeight: CGFloat = 32
+    static let extraPaddingForCompactBar: CGFloat = systemHeight - compactSystemHeight
 
     private struct Constants {
         static let normalContentHeight: CGFloat = 44
@@ -163,6 +164,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         static let obscuringAnimationDuration: TimeInterval = 0.12
         static let revealingAnimationDuration: TimeInterval = 0.25
+    }
+
+    var systemWantsCompactNavigationBar: Bool {
+        return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
     }
 
     /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
@@ -312,7 +317,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var usesLeadingTitle: Bool = true {
+    private(set) var usesLeadingTitle: Bool = true {
         didSet {
             if usesLeadingTitle == oldValue {
                 return
@@ -478,7 +483,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
         let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
-        let systemHeight = (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact) ? Self.compactSystemHeight : Self.systemHeight
+        let systemHeight = systemWantsCompactNavigationBar ? Self.compactSystemHeight : Self.systemHeight
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
@@ -528,9 +533,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
 
-            // change bar button image size depending on device rotation
-            if usesLeadingTitle, let navigationItem = topItem {
-                updateBarButtonItems(with: navigationItem)
+            // change bar button image size and title inset depending on device rotation
+            if let navigationItem = topItem {
+                updateSubtitleView(for: navigationItem)
+                if usesLeadingTitle {
+                    updateBarButtonItems(with: navigationItem)
+                }
             }
         }
     }
@@ -867,9 +875,24 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             // Use default behavior of requesting an accessory expansion
             customTitleView.delegate = self
         }
+
         // For some strange reason, embedding the TwoLineTitleView inside a UIStackView
         // makes its labels resize properly according to content size changes.
-        navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
+        // Nevertheless, we need it anyway to nudge the title view down to make
+        // a compact navigation bar look like a standard navigation bar.
+        let stackView = UIStackView(arrangedSubviews: [customTitleView])
+        stackView.axis = .vertical
+        stackView.spacing = 0
+
+        NSLog("horizontal=\(traitCollection.horizontalSizeClass == .compact ? "compact" : "regular"), vertical=\(traitCollection.verticalSizeClass == .compact ? "compact" : "regular")")
+
+        if !usesLeadingTitle && systemWantsCompactNavigationBar {
+            let spacer = UIView()
+            spacer.heightAnchor.constraint(equalToConstant: Self.extraPaddingForCompactBar).isActive = true
+            stackView.insertArrangedSubview(spacer, at: 0)
+        }
+
+        navigationItem.titleView = stackView
     }
 
     // MARK: Content expansion/contraction

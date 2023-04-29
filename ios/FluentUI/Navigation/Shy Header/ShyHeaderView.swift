@@ -146,6 +146,10 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         if traitCollection.verticalSizeClass == .compact {
             return traitCollection.horizontalSizeClass == .compact ? Constants.maxHeightNoAccessoryCompact : Constants.maxHeightNoAccessoryCompactForLargePhone
         }
+        if traitCollection.horizontalSizeClass == .compact && parentController?.msfNavigationController?.msfNavigationBar.usesLeadingTitle == false {
+            // This is a portrait phone with a system-style title, the navigation bar is already 44px tall
+            return 0
+        }
         return lockedInContractedState ? 0.0 : Constants.maxHeightNoAccessory
     }
     var maxHeightChanged: (() -> Void)?
