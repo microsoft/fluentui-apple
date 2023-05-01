@@ -57,8 +57,11 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The color for the accessoryDisclosureIndicator.
         case accessoryDisclosureIndicatorColor
 
-        /// The color for the accessoryDetailButtonColor.
+        /// The color for the accessoryDetailButton.
         case accessoryDetailButtonColor
+
+        /// The color for the accessoryCheckmark.
+        case accessoryCheckmarkColor
 
         /// The main brand text color..
         case brandTextColor
@@ -148,6 +151,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
             case .accessoryDetailButtonColor:
                 return .uiColor { theme.color(.foreground3) }
+
+            case .accessoryCheckmarkColor:
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .dangerTextColor:
                 return .uiColor { theme.color(.dangerForeground2) }
