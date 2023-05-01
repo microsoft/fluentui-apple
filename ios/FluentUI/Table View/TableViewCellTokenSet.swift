@@ -63,7 +63,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The color for the accessoryCheckmark.
         case accessoryCheckmarkColor
 
-        /// The main brand text color..
+        /// The main brand text color.
         case brandTextColor
 
         /// The brand background color for the boolean cell.
