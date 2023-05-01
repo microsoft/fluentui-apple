@@ -507,12 +507,8 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
             unmaskedContent.bottomAnchor.constraint(equalTo: maskedContent.bottomAnchor)
         ]
 
-        if #available(iOS 15.0, *) {
-            button.updateMaskedContentConstraints = {
-                unmaskedContent.removeConstraints(constraints)
-                NSLayoutConstraint.activate(constraints)
-            }
-        } else {
+        button.updateMaskedContentConstraints = {
+            unmaskedContent.removeConstraints(constraints)
             NSLayoutConstraint.activate(constraints)
         }
     }

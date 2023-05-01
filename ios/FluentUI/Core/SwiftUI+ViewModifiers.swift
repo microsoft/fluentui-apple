@@ -85,21 +85,17 @@ struct LargeContentViewerModifier: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if #available(iOS 15.0, *) {
-            if text != nil || image != nil {
-                content.accessibilityShowsLargeContentViewer({
-                    if let image = image {
-                        Image(uiImage: image)
-                    }
-                    if let text = text {
-                        Text(text)
-                    }
-                })
-            } else {
-                content.accessibilityShowsLargeContentViewer()
-            }
+        if text != nil || image != nil {
+            content.accessibilityShowsLargeContentViewer({
+                if let image = image {
+                    Image(uiImage: image)
+                }
+                if let text = text {
+                    Text(text)
+                }
+            })
         } else {
-            content
+            content.accessibilityShowsLargeContentViewer()
         }
     }
 

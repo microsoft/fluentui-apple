@@ -293,23 +293,6 @@ class DrawerPresentationController: UIPresentationController {
         if let presentedView = presentedView {
             let presentedViewFrame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
 
-            // On iOS 13 and iOS 14 the safeAreaInsets are not applied when the presentedView is not entirely within the screen bounds.
-            // As a workaround, additional safe area insets need to be set to compensate.
-            if #available(iOS 15.0, *) {} else {
-                let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
-                    // Calculates the origin of the presentedView frame in relation to the device screen.
-                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil), let window = sourceViewController.view.window else {
-                        return false
-                    }
-
-                    let screenHeight = window.screen.bounds.height
-                    return (presentationDirection == .down && origin.y < 0) ||
-                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
-                }()
-
-                presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
-            }
-
             presentedView.frame = presentedViewFrame
         }
 
