@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A84A6F029EDC489005DBC3D /* SeparatorTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */; };
 		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
+		0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
@@ -252,6 +253,7 @@
 		0A0516BE2940A3CE006DE0A2 /* Divider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Divider.swift; sourceTree = "<group>"; };
 		0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTokenSet.swift; sourceTree = "<group>"; };
 		0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBarTokenSet.swift; sourceTree = "<group>"; };
+		0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewTokenSet.swift; sourceTree = "<group>"; };
 		0BCEFADD2485FEC00088CEE5 /* PopupMenuProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuProtocols.swift; sourceTree = "<group>"; };
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -1047,6 +1049,7 @@
 				B498141321E424920077B48D /* TableViewCell.swift */,
 				2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
+				0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */,
 			);
 			path = "Table View";
 			sourceTree = "<group>";
@@ -1691,6 +1694,7 @@
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
+				0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,
