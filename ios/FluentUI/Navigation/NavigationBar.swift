@@ -639,7 +639,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        button.shouldUseWindowColorInBadge = style != .system
+        button.shouldUseWindowColorInBadge = style != .system && style != .gradient
 
         // We want to hide the native right bar button items when using the gradient style.
         if style == .gradient {
