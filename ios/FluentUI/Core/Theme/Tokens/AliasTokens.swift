@@ -129,6 +129,13 @@ public final class AliasTokens: NSObject {
         case brandStroke1
         case brandStroke1Pressed
         case brandStroke1Selected
+        case brandStrokeTint
+
+        // Shared colors - Stroke
+        case dangerStroke1
+        case successStroke1
+        case warningStroke1
+        case severeStroke1
 
         // Shared colors - Error & Status
         case dangerBackground1
@@ -369,6 +376,21 @@ extension AliasTokens {
         case .brandStroke1Selected:
             return DynamicColor(light: GlobalTokens.brandColors(.comm60),
                                 dark: GlobalTokens.brandColors(.comm120))
+        case .brandStrokeTint:
+            return DynamicColor(light: GlobalTokens.brandColors(.comm90),
+                                dark: GlobalTokens.brandColors(.comm100))
+        case .dangerStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.red, .tint20),
+                                dark: GlobalTokens.sharedColors(.red, .tint20))
+        case .successStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.green, .tint20),
+                                dark: GlobalTokens.sharedColors(.green, .tint20))
+        case .warningStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade40),
+                                dark: GlobalTokens.sharedColors(.yellow, .shade20))
+        case .severeStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.darkOrange, .tint10),
+                                dark: GlobalTokens.sharedColors(.darkOrange, .tint20))
         case .dangerBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.red, .tint60),
                                 dark: GlobalTokens.sharedColors(.red, .shade40))
