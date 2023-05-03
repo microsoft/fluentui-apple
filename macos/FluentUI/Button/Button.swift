@@ -113,6 +113,12 @@ open class Button: NSButton {
 		if size == defaultFormat.size {
 			setSizeParameters(forSize: size)
 		}
+
+		NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,
+														  object: nil,
+														  queue: nil) {[weak self] _ in
+			self?.increaseContrastEnabled = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+		}
 	}
 
 	open override class var cellClass: AnyClass? {
@@ -352,6 +358,11 @@ open class Button: NSButton {
 	}
 
 	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+
+		// Use System Colors which respond correctly to accessibility settings like increase contrast
+		// https://developer.apple.com/documentation/appkit/nscolor/ui_element_colors
+		let increaseContrastBorderColor: NSColor = .textColor
+
 		switch forStyle {
 		case .primary:
 			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
@@ -360,9 +371,13 @@ open class Button: NSButton {
 			backgroundColorRest = isWindowInactive ? ButtonColor.neutralBackground2 : accentColor
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-			borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			if increaseContrastEnabled {
+				borderColorRest = increaseContrastBorderColor
+			} else {
+				borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
+			}
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		case .secondary:
 			contentTintColorRest = .textColor
 			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
@@ -370,9 +385,9 @@ open class Button: NSButton {
 			backgroundColorRest = ButtonColor.neutralBackground2
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
-			borderColorRest = ButtonColor.neutralStroke2
-			borderColorPressed = .clear
-			borderColorDisabled = ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
 		case .acrylic:
 			contentTintColorRest = ButtonColor.neutralForeground3
 			contentTintColorPressed = ButtonColor.neutralForeground3?.withSystemEffect(.pressed)
@@ -380,9 +395,9 @@ open class Button: NSButton {
 			backgroundColorRest = ButtonColor.neutralBackground3
 			backgroundColorPressed = ButtonColor.neutralBackground3?.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
-			borderColorRest = .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		case .borderless:
 			contentTintColorRest = isWindowInactive ? .textColor : accentColor
 			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
@@ -390,9 +405,9 @@ open class Button: NSButton {
 			backgroundColorRest = .clear
 			backgroundColorPressed = .clear
 			backgroundColorDisabled = .clear
-			borderColorRest = .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		}
 		updateContentTintColor()
 	}
@@ -479,6 +494,18 @@ open class Button: NSButton {
 				return
 			}
 			// Re-compute the Button's color values for the latest Window State, and re-render it
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
+	}
+
+	/// Indicates if the `Increase Contrast` Accessibility Setting is enabled
+	private var increaseContrastEnabled: Bool = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+		didSet {
+			guard oldValue != increaseContrastEnabled else {
+				return
+			}
+			// Re-compute the Button's color values for the latest Contrast State, and re-render it
 			setColorValues(forStyle: style, accentColor: accentColor)
 			needsDisplay = true
 		}
