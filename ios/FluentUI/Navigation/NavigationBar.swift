@@ -166,7 +166,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         static let revealingAnimationDuration: TimeInterval = 0.25
     }
 
-    var systemWantsCompactNavigationBar: Bool {
+    private var systemWantsCompactNavigationBar: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
     }
 
