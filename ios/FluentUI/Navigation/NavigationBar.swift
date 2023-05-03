@@ -882,7 +882,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
         switch navigationItem?.navigationBarShadow ?? .automatic {
         case .automatic:
-            return !usesLeadingTitle && style == .system && navigationItem?.accessoryView == nil
+            return !usesLeadingTitle && style == .system && !systemWantsCompactNavigationBar && navigationItem?.accessoryView == nil
         case .alwaysHidden:
             return false
         }
