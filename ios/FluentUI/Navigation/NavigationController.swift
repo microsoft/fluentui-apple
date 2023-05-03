@@ -139,10 +139,8 @@ open class NavigationController: UINavigationController {
             transitionAnimator.tintColor = backgroundColor
         }
         // ShyHeaderController sets its padding before the navigation item loads in,
-        // so tell it to reload its padding if necessary
-        if viewController.navigationItem.titleStyle == .system {
-            (topViewController as? ShyHeaderController)?.updatePadding()
-        }
+        // so we need to recalculate its padding now
+        (topViewController as? ShyHeaderController)?.updatePadding()
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
