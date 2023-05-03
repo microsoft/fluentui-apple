@@ -131,12 +131,6 @@ public final class AliasTokens: NSObject {
         case brandStroke1Selected
         case brandStrokeTint
 
-        // Shared colors - Stroke
-        case dangerStroke1
-        case successStroke1
-        case warningStroke1
-        case severeStroke1
-
         // Shared colors - Error & Status
         case dangerBackground1
         case dangerBackground2
@@ -160,6 +154,12 @@ public final class AliasTokens: NSObject {
         case presenceDnd
         case presenceAvailable
         case presenceOof
+
+        // Shared colors - Stroke
+        case dangerStroke1
+        case successStroke1
+        case warningStroke1
+        case severeStroke1
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `colors` property directly.")
