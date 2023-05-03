@@ -498,7 +498,7 @@ open class Button: NSButton {
 			needsDisplay = true
 		}
 	}
-	
+
 	/// Indicates if the `Increase Contrast` Accessibility Setting is enabled
 	private var increaseContrastEnabled: Bool = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
 		didSet {
