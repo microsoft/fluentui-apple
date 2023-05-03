@@ -113,4 +113,8 @@
     return [self brandStrokeColor];
 }
 
+- (UIColor *)brandStrokeTint {
+    return [self brandStrokeColor];
+}
+
 @end

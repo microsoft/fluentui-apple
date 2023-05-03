@@ -92,17 +92,22 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandStroke1,
              .brandForegroundTint,
              .brandStroke1Selected,
+             .brandStrokeTint,
              .dangerBackground2,
              .dangerForeground1,
              .dangerForeground2,
+             .dangerStroke1,
              .successBackground2,
              .successForeground1,
              .successForeground2,
+             .successStroke1,
              .warningForeground1,
              .warningForeground2,
+             .warningStroke1,
              .severeBackground2,
              .severeForeground1,
-             .severeForeground2:
+             .severeForeground2,
+             .severeStroke1:
             return fluentTheme.color(.foregroundOnColor)
         case .foregroundLightStatic,
              .backgroundLightStatic,
@@ -229,24 +234,29 @@ private enum AliasColorTokensDemoSection: CaseIterable {
         case .brandStrokes:
             return [.brandStroke1,
                     .brandStroke1Pressed,
-                    .brandStroke1Selected]
+                    .brandStroke1Selected,
+                    .brandStrokeTint]
         case .sharedErrorAndStatus:
             return [.dangerBackground1,
                     .dangerBackground2,
                     .dangerForeground1,
                     .dangerForeground2,
+                    .dangerStroke1,
                     .successBackground1,
                     .successBackground2,
                     .successForeground1,
                     .successForeground2,
+                    .successStroke1,
                     .warningBackground1,
                     .warningBackground2,
                     .warningForeground1,
                     .warningForeground2,
+                    .warningStroke1,
                     .severeBackground1,
                     .severeBackground2,
                     .severeForeground1,
-                    .severeForeground2]
+                    .severeForeground2,
+                    .severeStroke1]
         case .sharedPresence:
             return [.presenceAway,
                     .presenceDnd,
@@ -361,6 +371,8 @@ private extension FluentTheme.ColorToken {
             return "Brand Stroke 1 Pressed"
         case .brandStroke1Selected:
             return "Brand Stroke 1 Selected"
+        case .brandStrokeTint:
+            return "Brand Stroke Tint"
         case .foregroundDarkStatic:
             return "Foreground Dark Static"
         case .foregroundLightStatic:
@@ -379,6 +391,8 @@ private extension FluentTheme.ColorToken {
             return "DangerForeground1"
         case .dangerForeground2:
             return "DangerForeground2"
+        case .dangerStroke1:
+            return "DangerStroke1"
         case .successBackground1:
             return "SuccessBackground1"
         case .successBackground2:
@@ -387,6 +401,8 @@ private extension FluentTheme.ColorToken {
             return "SuccessForeground1"
         case .successForeground2:
             return "SuccessForeground2"
+        case .successStroke1:
+            return "SuccessStroke1"
         case .warningBackground1:
             return "WarningBackground1"
         case .warningBackground2:
@@ -395,6 +411,8 @@ private extension FluentTheme.ColorToken {
             return "WarningForeground1"
         case .warningForeground2:
             return "WarningForeground2"
+        case .warningStroke1:
+            return "WarningStroke1"
         case .severeBackground1:
             return "SevereBackground1"
         case .severeBackground2:
@@ -403,6 +421,8 @@ private extension FluentTheme.ColorToken {
             return "SevereForeground1"
         case .severeForeground2:
             return "SevereForeground2"
+        case .severeStroke1:
+            return "SevereStroke1"
         case .presenceAway:
             return "PresenceAway"
         case .presenceDnd:

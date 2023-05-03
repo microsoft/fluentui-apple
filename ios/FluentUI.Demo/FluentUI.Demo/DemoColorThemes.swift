@@ -120,6 +120,11 @@ class DemoColorDefaultTheme: NSObject, ColorProviding {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
                                                   dark: GlobalTokens.brandColors(.comm120)))
     }
+
+    var brandStrokeTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm90),
+                                                  dark: GlobalTokens.brandColors(.comm100)))
+    }
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
@@ -207,5 +212,10 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
     var brandStroke1Selected: UIColor {
         return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
                                                   dark: ColorValue(0x60BD82)))
+    }
+
+    var brandStrokeTint: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x55B17E)))
     }
 }
