@@ -312,10 +312,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
+    private let preTitleSpacerView = UIView() //defines the spacing before the title, used for compact centered titles
+    private let postTitleSpacerView = UIView() //defines the spacing after the title, also the leading space between the left and right barbuttonitems stack
     private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
+
+    private var titleViewConstraint: NSLayoutConstraint?
 
     private(set) var usesLeadingTitle: Bool = true {
         didSet {
@@ -377,16 +380,22 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         leftBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         leftBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
+        //preTitleSpacerView
+        contentStackView.addArrangedSubview(preTitleSpacerView)
+        preTitleSpacerView.backgroundColor = .clear
+        preTitleSpacerView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        preTitleSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
         //titleView
         contentStackView.addArrangedSubview(titleView)
         titleView.setContentHuggingPriority(.required, for: .horizontal)
         titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        //leadingSpacerView
-        contentStackView.addArrangedSubview(leadingSpacerView)
-        leadingSpacerView.backgroundColor = .clear
-        leadingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        leadingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        //postTitleSpacerView
+        contentStackView.addArrangedSubview(postTitleSpacerView)
+        postTitleSpacerView.backgroundColor = .clear
+        postTitleSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        postTitleSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         //trailingSpacerView
         contentStackView.addArrangedSubview(trailingSpacerView)
@@ -423,7 +432,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         if let topAccessoryView = self.topAccessoryView {
             topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
 
-            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: leadingSpacerView)! + 1
+            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: postTitleSpacerView)! + 1
             contentStackView.insertArrangedSubview(topAccessoryView, at: insertionIndex)
 
             NSLayoutConstraint.deactivate(topAccessoryViewConstraints)
@@ -532,6 +541,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+            updateViewsForLargeTitlePresentation(for: topItem)
+            updateFakeCenterTitleConstraints()
 
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
@@ -619,6 +630,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         updateSubtitleView(for: navigationItem)
 
         titleView.update(with: navigationItem)
+
+        updateFakeCenterTitleConstraints()
 
         if navigationItem.backButtonTitle == nil {
             navigationItem.backButtonTitle = ""
@@ -815,7 +828,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
         // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
-        if usesLeadingTitle {
+
+        // The compact (32px) bar doesn't hold a TwoLineTitleView very well, and due to
+        // UINavigationBar's internal view hierarchy, we can't propagate touch events on
+        // parts that are outside that 32px range to the actual title view.
+        // We therefore depend on the "fake" navigation bar that we use for leading titles to save the day.
+        if usesLeadingTitle || systemWantsCompactNavigationBar {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -834,6 +852,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             }
         }
         updateShadow(for: navigationItem)
+    }
+
+    private func updateFakeCenterTitleConstraints() {
+        // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
+        titleViewConstraint?.isActive = false
+
+        let newTitleViewConstraint: NSLayoutConstraint
+        if !usesLeadingTitle && systemWantsCompactNavigationBar {
+            newTitleViewConstraint = titleView.centerXAnchor.constraint(equalTo: centerXAnchor)
+        } else {
+            newTitleViewConstraint = preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)
+        }
+        titleViewConstraint = newTitleViewConstraint
+        newTitleViewConstraint.isActive = true
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
@@ -878,21 +910,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         // For some strange reason, embedding the TwoLineTitleView inside a UIStackView
         // makes its labels resize properly according to content size changes.
-        // Nevertheless, we need it anyway to nudge the title view down to make
-        // a compact navigation bar look like a standard navigation bar.
-        let stackView = UIStackView(arrangedSubviews: [customTitleView])
-        stackView.axis = .vertical
-        stackView.spacing = 0
-
-        NSLog("horizontal=\(traitCollection.horizontalSizeClass == .compact ? "compact" : "regular"), vertical=\(traitCollection.verticalSizeClass == .compact ? "compact" : "regular")")
-
-        if !usesLeadingTitle && systemWantsCompactNavigationBar {
-            let spacer = UIView()
-            spacer.heightAnchor.constraint(equalToConstant: Self.extraPaddingForCompactBar).isActive = true
-            stackView.insertArrangedSubview(spacer, at: 0)
-        }
-
-        navigationItem.titleView = stackView
+        navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
     }
 
     // MARK: Content expansion/contraction
