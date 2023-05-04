@@ -361,16 +361,18 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private func setupButton(_ button: UIButton, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
         button.isUserInteractionEnabled = interactive
         button.accessibilityLabel = text
+        label.text = text
+
         if interactive {
             button.accessibilityTraits.insert(.button)
             button.accessibilityTraits.remove(.staticText)
+            trailingImageView.image = accessoryType.image
         } else {
             button.accessibilityTraits.insert(.staticText)
             button.accessibilityTraits.remove(.button)
+            trailingImageView.image = nil
         }
 
-        label.text = text
-        trailingImageView.image = interactive ? accessoryType.image : nil
         trailingImageView.isHidden = trailingImageView.image == nil
     }
 
