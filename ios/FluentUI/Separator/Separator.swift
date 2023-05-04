@@ -16,7 +16,10 @@ public enum SeparatorOrientation: Int {
 // MARK: - Separator
 
 @objc(MSFSeparator)
-open class Separator: UIView {
+open class Separator: UIView, TokenizedControlInternal {
+    public typealias TokenSetKeyType = SeparatorTokenSet.Tokens
+    lazy public var tokenSet: SeparatorTokenSet = .init()
+
     private var orientation: SeparatorOrientation = .horizontal
 
     @objc public override init(frame: CGRect) {
@@ -36,21 +39,21 @@ open class Separator: UIView {
     /**
      The default thickness for the separator: half pt.
     */
-    @objc public static var thickness: CGFloat { return GlobalTokens.stroke(.width05) }
+    @objc public static var thickness: CGFloat { return SeparatorTokenSet.thickness }
 
     @objc public static func separatorDefaultColor(fluentTheme: FluentTheme) -> UIColor {
         return fluentTheme.color(.stroke2)
     }
 
     private func initialize(orientation: SeparatorOrientation) {
-        super.backgroundColor = Separator.separatorDefaultColor(fluentTheme: fluentTheme)
+        backgroundColor = tokenSet[.color].uiColor
         self.orientation = orientation
         switch orientation {
         case .horizontal:
-            frame.size.height = Separator.thickness
+            frame.size.height = SeparatorTokenSet.thickness
             autoresizingMask = .flexibleWidth
         case .vertical:
-            frame.size.width = Separator.thickness
+            frame.size.width = SeparatorTokenSet.thickness
             autoresizingMask = .flexibleHeight
         }
         isAccessibilityElement = false
@@ -66,7 +69,7 @@ open class Separator: UIView {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        super.backgroundColor = Separator.separatorDefaultColor(fluentTheme: fluentTheme)
+        backgroundColor = tokenSet[.color].uiColor
     }
 
     open override var intrinsicContentSize: CGSize {

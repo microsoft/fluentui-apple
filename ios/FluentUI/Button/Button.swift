@@ -7,10 +7,10 @@ import UIKit
 
 // MARK: - Button
 
-/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
+/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true for non-floating buttons to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, TokenizedControlInternal {
+open class Button: UIButton, Shadowable, TokenizedControlInternal {
     @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
@@ -57,7 +57,7 @@ open class Button: UIButton, TokenizedControlInternal {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
@@ -87,18 +87,18 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? size.width : proposedTitleLabelWidth, height: size.width)) ?? .zero
+        var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
         contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
+        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
             if #available(iOS 15.0, *) {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(sizeCategory)
+                contentSize.width += ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
             }
 
             if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonTokenSet.titleImageSpacing(sizeCategory)
+                contentSize.width -= ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
             }
         }
 
@@ -106,11 +106,11 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
         titleLabel?.font = tokenSet[.titleFont].uiFont
-        titleLabel?.adjustsFontForContentSizeCategory = true
+        titleLabel?.adjustsFontForContentSizeCategory = !style.isFloating
 
         if #available(iOS 15, *) {
             var configuration = UIButton.Configuration.plain()
@@ -140,6 +140,7 @@ open class Button: UIButton, TokenizedControlInternal {
         focusRing.isHidden = !isFocused
         updateBackground()
         updateBorder()
+        updateShadow()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -149,12 +150,6 @@ open class Button: UIButton, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         update()
-    }
-
-    open override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updateProposedTitleLabelWidth()
     }
 
     open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
@@ -205,6 +200,8 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .outline
@@ -225,7 +222,7 @@ open class Button: UIButton, TokenizedControlInternal {
             titleLabel?.font = tokenSet[.titleFont].uiFont
         }
 
-        updateProposedTitleLabelWidth()
+        invalidateIntrinsicContentSize()
     }
 
     private func updateImage() {
@@ -252,7 +249,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         if needsSetImage {
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -268,7 +265,7 @@ open class Button: UIButton, TokenizedControlInternal {
             highlightedImageTintColor = nil
             disabledImageTintColor = nil
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -281,29 +278,17 @@ open class Button: UIButton, TokenizedControlInternal {
         updateImage()
         updateBackground()
         updateBorder()
+        updateShadow()
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
         }
     }
 
-    private func updateProposedTitleLabelWidth() {
-        if bounds.width > 0.0 {
-            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
-            if let image = image(for: .normal) {
-                labelWidth -= image.size.width
-            }
-
-            if labelWidth > 0.0 {
-                proposedTitleLabelWidth = labelWidth
-            }
-        }
-    }
-
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(sizeCategory)
+        var spacing = ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
 
         if image(for: .normal) == nil {
             spacing = -spacing
@@ -336,13 +321,13 @@ open class Button: UIButton, TokenizedControlInternal {
         } else if isHighlighted {
             backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else if isFocused {
-            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
+            backgroundColor = tokenSet[.backgroundFocusedColor].uiColor
         } else {
             backgroundColor = tokenSet[.backgroundColor].uiColor
         }
 
         self.backgroundColor = backgroundColor
-        layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
     }
 
     private func updateBorder() {
@@ -362,9 +347,15 @@ open class Button: UIButton, TokenizedControlInternal {
         layer.borderWidth = tokenSet[.borderWidth].float
     }
 
+    private func updateShadow() {
+        let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
+        shadowInfo.applyShadow(to: self)
+    }
+
     private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
-        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
+        let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
     private lazy var focusRing: FocusRingView = {
@@ -383,13 +374,4 @@ open class Button: UIButton, TokenizedControlInternal {
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
-
-    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
-    private var proposedTitleLabelWidth: CGFloat = 0.0 {
-        didSet {
-            if proposedTitleLabelWidth != oldValue {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
 }

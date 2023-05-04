@@ -20,7 +20,7 @@ public protocol TabBarViewDelegate {
 /// Set up `items` array to determine the order of `TabBarItems` to show.
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
-open class TabBarView: UIView {
+open class TabBarView: UIView, TokenizedControlInternal {
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
@@ -34,15 +34,10 @@ open class TabBarView: UIView {
                 preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
             }
 
-            for (index, item) in items.enumerated() {
+            for item in items {
                 let tabBarItemView = TabBarItemView(item: item, showsTitle: showsItemTitles)
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTabBarItemTapped(_:)))
                 tabBarItemView.addGestureRecognizer(tapGesture)
-
-                // iOS 14.0 - 14.5 `.tabBar` accessibilityTrait does not read out the index automatically
-                if #available(iOS 14.6, *) { } else {
-                    tabBarItemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, numberOfItems)
-                }
                 stackView.addArrangedSubview(tabBarItemView)
             }
 
@@ -65,6 +60,15 @@ open class TabBarView: UIView {
 
     @objc public weak var delegate: TabBarViewDelegate?
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateAppearance()
+    }
+
     /// Set the custom spacing after the specified item.
     /// - Parameter spacing The spacing.
     /// - Parameter item The item to add spacing after.
@@ -76,7 +80,7 @@ open class TabBarView: UIView {
     }
 
     /// Initializes MSTabBarView
-    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab ba ritems.
+    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
     @objc public init(showsItemTitles: Bool = false) {
         self.showsItemTitles = showsItemTitles
         super.init(frame: .zero)
@@ -90,8 +94,7 @@ open class TabBarView: UIView {
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
-        heightConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? Constants.phonePortraitHeight : Constants.padHeight)
-        NSLayoutConstraint.activate([heightConstraint!,
+        NSLayoutConstraint.activate([heightConstraint,
                                      topBorderLine.bottomAnchor.constraint(equalTo: topAnchor),
                                      topBorderLine.leadingAnchor.constraint(equalTo: leadingAnchor),
                                      topBorderLine.trailingAnchor.constraint(equalTo: trailingAnchor)])
@@ -102,6 +105,10 @@ open class TabBarView: UIView {
         // add container trait to mimic default OS UITabbar experience
         accessibilityTraits.insert(UIAccessibilityTraits(rawValue: 0x200000000000))
         updateHeight()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -131,9 +138,6 @@ open class TabBarView: UIView {
 
     private struct Constants {
         static let maxTabCount: Int = 5
-        static let phonePortraitHeight: CGFloat = 48.0
-        static let phoneLandscapeHeight: CGFloat = 40.0
-        static let padHeight: CGFloat = 48.0
     }
 
     private let backgroundView: UIVisualEffectView = {
@@ -143,7 +147,7 @@ open class TabBarView: UIView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private var heightConstraint: NSLayoutConstraint?
+    private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
     private let showsItemTitles: Bool
 
@@ -160,7 +164,7 @@ open class TabBarView: UIView {
     private func updateHeight() {
         if traitCollection.userInterfaceIdiom == .phone {
             let isPortrait = traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular
-            heightConstraint?.constant = isPortrait ? Constants.phonePortraitHeight : Constants.phoneLandscapeHeight
+            heightConstraint.constant = isPortrait ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.phoneLandscapeHeight
         }
     }
 
@@ -168,6 +172,28 @@ open class TabBarView: UIView {
         if let item = (recognizer.view as? TabBarItemView)?.item {
             selectedItem = item
             delegate?.tabBarView?(self, didSelect: item)
+        }
+    }
+
+    public typealias TokenSetKeyType = TabBarTokenSet.Tokens
+    public var tokenSet: TabBarTokenSet = .init()
+
+    private func updateAppearance() {
+        let arrangedSubviews = stackView.arrangedSubviews
+        for subview in arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+
+                /// Directly map our custom values to theirs.
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
+            }
         }
     }
 }

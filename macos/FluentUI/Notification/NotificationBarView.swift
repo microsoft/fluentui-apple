@@ -186,12 +186,12 @@ public struct NotificationBarView: View {
 	var foregroundColor: Color
 
 	private struct Constants {
-		static let accentBackgroundColor: Color = Color(FluentUI.Colors.primaryTint30)
-		static let accentForegroundColor: Color = Color(FluentUI.Colors.primaryShade20)
+		static let accentBackgroundColor: Color = Color(Colors.primaryTint30)
+		static let accentForegroundColor: Color = Color(Colors.primaryShade20)
 		static let subtleBackgroundColor: Color = Color(.white)
-		static let subtleForegroundColor: Color = Color(FluentUI.Colors.primary)
-		static let neutralBackgroundColor: Color = Color(FluentUI.Colors.Palette.gray100.color)
-		static let neutralForegroundColor: Color = Color(FluentUI.Colors.Palette.gray900.color)
+		static let subtleForegroundColor: Color = Color(Colors.primary)
+		static let neutralBackgroundColor: Color = Color(Colors.Palette.gray100.color)
+		static let neutralForegroundColor: Color = Color(Colors.Palette.gray900.color)
 
 		static let horizontalPadding: CGFloat = 16
 		static let horizontalSpacing: CGFloat = 16

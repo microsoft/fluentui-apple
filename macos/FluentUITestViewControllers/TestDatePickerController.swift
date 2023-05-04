@@ -67,7 +67,6 @@ class TestDatePickerController: NSViewController {
 
 		let popoverButton = NSButton(title: "NSPopover", target: self, action: #selector(showPopover))
 
-		menuButton.pullsDown = true
 		let menu = NSMenu()
 		datePickerMenuItem = NSMenuItem(title: "NSMenu", action: nil, keyEquivalent: "")
 

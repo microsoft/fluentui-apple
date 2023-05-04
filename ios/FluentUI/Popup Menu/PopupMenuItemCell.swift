@@ -65,6 +65,18 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         set { super.isUserInteractionEnabled = newValue }
     }
 
+    override var tokenSet: TableViewCellTokenSet {
+        get {
+            guard let item = item else {
+                return super.tokenSet
+            }
+            return item.tokenSet
+        }
+        set {
+            assertionFailure("PopupMenuItemCell tokens must be set through PopupMenuItem.tokenSet")
+        }
+    }
+
     private var item: PopupMenuItem?
 
     // Cannot use imageView since it exists in superclass
@@ -82,6 +94,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
 
     override func initialize() {
         super.initialize()
+        tokenSet.customViewSize = { self.customViewSize }
 
         selectionStyle = .none
 
@@ -93,7 +106,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     override func updateAppearance() {
         super.updateAppearance()
         backgroundStyleType = .custom
-        updateColors()
+        updateViews()
     }
 
     func setup(item: PopupMenuTemplateItem) {
@@ -102,6 +115,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             return
         }
 
+        item.tokenSet.customViewSize = { self.customViewSize }
         self.item = item
 
         _imageView.image = item.image
@@ -193,26 +207,35 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
     }
 
     private func updateColors() {
-        accessoryImageView.tintColor = fluentTheme.color(.foreground3)
-
-        if let item = item {
-            _imageView.tintColor = isSelected
-                ? item.imageSelectedColor ?? fluentTheme.color(.brandForeground1)
-            : item.imageColor
-            titleLabel.textColor = isSelected
-            ? item.titleSelectedColor ?? fluentTheme.color(.brandForeground1)
-                : item.titleColor
-            subtitleLabel.textColor = isSelected
-                ? item.subtitleSelectedColor ?? fluentTheme.color(.brandForeground1)
-                : item.subtitleColor
-            backgroundColor = item.backgroundColor
+        guard let item = item else {
+            _accessoryType = .none
+            return
+        }
+        let brandColor = item.tokenSet[.brandTextColor].uiColor
+        let imageColor: UIColor
+        let titleColor: UIColor
+        let subtitleColor: UIColor
+        var accessoryType: TableViewCellAccessoryType = .none
+        if isSelected {
+            imageColor = item.imageSelectedColor ?? brandColor
+            titleColor = item.titleSelectedColor ?? brandColor
+            subtitleColor = item.subtitleSelectedColor ?? brandColor
+            if item.isAccessoryCheckmarkVisible {
+                accessoryType = .checkmark
+            }
+        } else {
+            imageColor = item.imageColor
+            titleColor = item.titleColor
+            subtitleColor = item.subtitleColor
         }
 
-        if isSelected && item?.isAccessoryCheckmarkVisible == true {
-            _accessoryType = .checkmark
-            accessoryTypeView?.customTintColor = item?.accessoryCheckmarkColor ?? fluentTheme.color(.brandForeground1)
-        } else {
-            _accessoryType = .none
+        _imageView.tintColor = imageColor
+        titleLabel.textColor = titleColor
+        subtitleLabel.textColor = subtitleColor
+        backgroundColor = item.backgroundColor
+        _accessoryType = accessoryType
+        if let accessoryTypeView = accessoryTypeView {
+            accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? brandColor
         }
     }
 }

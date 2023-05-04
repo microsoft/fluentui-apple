@@ -32,19 +32,25 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     private var searchBars: [SearchBar] = []
 
     let segmentedControl: SegmentedControl = {
-        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "System"), SegmentItem(title: "Brand")],
-                                                style: .primaryPill)
+        let segmentedControl = SegmentedControl(items: [SegmentItem(title: "OnCanvas"),
+                                                        SegmentItem(title: "OnNavigationBar"),
+                                                        SegmentItem(title: "OnBrand")],
+                                                style: .neutralOverNavBarPill)
 
         return segmentedControl
     }()
 
     @objc private func updateSearchbars() {
-        if segmentedControl.selectedSegmentIndex == 1 {
+        if segmentedControl.selectedSegmentIndex == 2 {
             searchBarsStackView.backgroundColor = NavigationBar.backgroundColor(for: .primary, theme: view.fluentTheme)
-            updateSearchBarsStyles(to: .lightContent)
-        } else {
+            updateSearchBarsStyles(to: .onBrandNavigationBar)
+        } else if segmentedControl.selectedSegmentIndex == 1 {
             searchBarsStackView.backgroundColor = NavigationBar.backgroundColor(for: .system, theme: view.fluentTheme)
-            updateSearchBarsStyles(to: .darkContent)
+            updateSearchBarsStyles(to: .onSystemNavigationBar)
+        } else {
+            searchBarsStackView.backgroundColor = UIColor(light: view.fluentTheme.color(.background5).light,
+                                                          dark: view.fluentTheme.color(.background1))
+            updateSearchBarsStyles(to: .onCanvas)
         }
     }
 
@@ -99,8 +105,8 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         let dataSource = BadgeViewDataSource(text: text, customView: customView)
         let badge = BadgeView(dataSource: dataSource)
         badge.lineBreakMode = .byTruncatingTail
-        badge.disabledBackgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(.purple, .primary))
-        badge.disabledLabelTextColor = .white
+        badge.tokenSet[.backgroundDisabledColor] = .uiColor { .init(light: GlobalTokens.sharedColor(.purple, .primary)) }
+        badge.tokenSet[.foregroundDisabledColor] = .uiColor { .init(light: GlobalTokens.neutralColor(.white)) }
         badge.isActive = false
         badge.maxFontSize = Constants.badgeViewMaxFontSize
         return badge
@@ -109,7 +115,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
         let searchBar = SearchBar(frame: .zero)
         searchBar.delegate = self
-        searchBar.style = .darkContent // we want the opposite as we're not embedded in the header
+        searchBar.style = .onCanvas
         searchBar.placeholderText = placeholderText
         searchBar.hidesNavigationBarDuringSearch = false
         searchBar.autocorrectionType = autocorrectionType

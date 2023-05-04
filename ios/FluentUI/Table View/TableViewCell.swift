@@ -43,7 +43,7 @@ public enum TableViewCellAccessoryType: Int {
         case .detailButton:
             return tokenSet[.accessoryDetailButtonColor].uiColor
         case .checkmark:
-            return fluentTheme.color(.brandForeground1)
+            return tokenSet[.accessoryCheckmarkColor].uiColor
         }
     }
 
