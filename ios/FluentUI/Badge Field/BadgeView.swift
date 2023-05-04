@@ -115,6 +115,12 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
+    open var showAccessibleStroke: Bool = false {
+        didSet {
+            updateStrokeColor()
+        }
+    }
+
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
@@ -282,6 +288,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     private func updateColors() {
         updateBackgroundColor()
         updateLabelTextColor()
+        updateStrokeColor()
     }
 
     private func updateBackgroundColor() {
@@ -291,6 +298,15 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
     private func updateLabelTextColor() {
         label.textColor = isActive ? (isSelected ? tokenSet[.foregroundFilledColor].uiColor : tokenSet[.foregroundTintColor].uiColor) : tokenSet[.foregroundDisabledColor].uiColor
+    }
+
+    private func updateStrokeColor() {
+        if showAccessibleStroke && !isSelected {
+            backgroundView.layer.borderColor = tokenSet[.strokeTintColor].uiColor.cgColor
+            backgroundView.layer.borderWidth = tokenSet[.strokeWidth].float
+        } else {
+            backgroundView.layer.borderWidth = 0
+        }
     }
 
     @objc private func badgeTapped() {

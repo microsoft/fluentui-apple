@@ -18,7 +18,7 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Danger badge", style: .danger)
         addBadgeSection(title: "Warning badge", style: .warning)
         addBadgeSection(title: "Neutral badge", style: .neutral)
-        addBadgeSection(title: "Severe Warning badge", style: .severeWarning)
+        addBadgeSection(title: "Severe Warning badge", style: .severe)
         addBadgeSection(title: "Success badge", style: .success)
         addBadgeSection(title: "Disabled badge Default", style: .default, isEnabled: false)
         addBadgeSection(title: "Disabled badge Neutral", style: .neutral, isEnabled: false)
@@ -26,6 +26,7 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Custom disabled badge", style: .default, isEnabled: false, overrideColor: true)
 
         addCustomBadgeSections()
+        addAccessibleBadges()
     }
 
     func createBadge(
@@ -121,6 +122,16 @@ class BadgeViewDemoController: DemoController {
         }
         container.addArrangedSubview(UIView())
     }
+
+    func addAccessibleBadges() {
+        addTitle(text: "Accessible Badges")
+        for style in BadgeView.Style.allCases {
+            let badge = createBadge(text: "Kat Larsson", style: style, sizeCategory: .medium, isEnabled: true)
+            badge.showAccessibleStroke = true
+            addRow(text: style.description, items: [badge])
+        }
+        container.addArrangedSubview(UIView())
+    }
 }
 
 extension BadgeViewDemoController: BadgeViewDelegate {
@@ -208,6 +219,25 @@ extension BadgeView.SizeCategory {
             return "Small"
         case .medium:
             return "Medium"
+        }
+    }
+}
+
+extension BadgeView.Style {
+    var description: String {
+        switch self {
+        case .default:
+            return "Brand"
+        case .danger:
+            return "Danger"
+        case .severe:
+            return "Severe"
+        case .warning:
+            return "Warning"
+        case .success:
+            return "Success"
+        case .neutral:
+            return "Neutral"
         }
     }
 }
