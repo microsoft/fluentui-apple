@@ -135,18 +135,22 @@ public final class AliasTokens: NSObject {
         case dangerBackground2
         case dangerForeground1
         case dangerForeground2
+        case dangerStroke1
         case successBackground1
         case successBackground2
         case successForeground1
         case successForeground2
+        case successStroke1
         case warningBackground1
         case warningBackground2
         case warningForeground1
         case warningForeground2
+        case warningStroke1
         case severeBackground1
         case severeBackground2
         case severeForeground1
         case severeForeground2
+        case severeStroke1
 
         // Shared colors - Presence
         case presenceAway
@@ -381,6 +385,9 @@ extension AliasTokens {
         case .dangerForeground2:
             return DynamicColor(light: GlobalTokens.sharedColors(.red, .primary),
                                 dark: GlobalTokens.sharedColors(.red, .tint30))
+        case .dangerStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.red, .tint20),
+                                dark: GlobalTokens.sharedColors(.red, .tint20))
         case .successBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.green, .tint60),
                                 dark: GlobalTokens.sharedColors(.green, .shade40))
@@ -393,6 +400,9 @@ extension AliasTokens {
         case .successForeground2:
             return DynamicColor(light: GlobalTokens.sharedColors(.green, .primary),
                                 dark: GlobalTokens.sharedColors(.green, .tint30))
+        case .successStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.green, .tint20),
+                                dark: GlobalTokens.sharedColors(.green, .tint20))
         case .severeBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.darkOrange, .tint60),
                                 dark: GlobalTokens.sharedColors(.darkOrange, .shade40))
@@ -405,6 +415,9 @@ extension AliasTokens {
         case .severeForeground2:
             return DynamicColor(light: GlobalTokens.sharedColors(.darkOrange, .shade20),
                                 dark: GlobalTokens.sharedColors(.darkOrange, .tint30))
+        case .severeStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.darkOrange, .tint10),
+                                dark: GlobalTokens.sharedColors(.darkOrange, .tint20))
         case .warningBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .tint60),
                                 dark: GlobalTokens.sharedColors(.yellow, .shade40))
@@ -417,6 +430,9 @@ extension AliasTokens {
         case .warningForeground2:
             return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade30),
                                 dark: GlobalTokens.sharedColors(.yellow, .tint30))
+        case .warningStroke1:
+            return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade40),
+                                dark: GlobalTokens.sharedColors(.yellow, .shade20))
         case .presenceAway:
             return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .primary))
         case .presenceDnd:

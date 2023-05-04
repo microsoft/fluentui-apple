@@ -81,18 +81,22 @@ public extension FluentTheme {
         case dangerBackground2
         case dangerForeground1
         case dangerForeground2
+        case dangerStroke1
         case successBackground1
         case successBackground2
         case successForeground1
         case successForeground2
+        case successStroke1
         case warningBackground1
         case warningBackground2
         case warningForeground1
         case warningForeground2
+        case warningStroke1
         case severeBackground1
         case severeBackground2
         case severeForeground1
         case severeForeground2
+        case severeStroke1
 
         // Shared colors - Presence
         case presenceAway
