@@ -30,12 +30,16 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Leading with TwoLineTitleView")
         container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLeadingTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show with custom leading button", action: #selector(showLeadingTitleWithSubtitleAndCustomLeadingButton)))
 
-        addTitle(text: "Regular Title")
+        addTitle(text: "Centered Title")
+        container.addArrangedSubview(createButton(title: "Show \"system\"", action: #selector(showSystemTitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with subtitle", action: #selector(showRegularTitleWithSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with collapsible search bar and subtitle", action: #selector(showRegularTitleWithShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show \"system\" with fixed search bar and subtitle", action: #selector(showSystemTitleWithFixedAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with custom leading button", action: #selector(showRegularTitleWithSubtitleAndCustomLeadingButton)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -90,6 +94,10 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
 
+    @objc func showLeadingTitleWithSubtitleAndCustomLeadingButton() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true, leadingItem: .customButton)
+    }
+
     @objc func showSystemTitleWithShyAccessory() {
         presentController(withTitleStyle: .system, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
     }
@@ -99,11 +107,23 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withTitleStyle: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, accessoryView: createAccessoryView())
     }
 
     @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
         presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showSystemTitle() {
+        presentController(withTitleStyle: .system, style: .system)
+    }
+
+    @objc func showRegularTitleWithSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here")
+    }
+
+    @objc func showRegularTitleWithSubtitleAndCustomLeadingButton() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true, leadingItem: .customButton)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
@@ -293,9 +313,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         4: TitleViewFeature(name: "Large title") {
             $0.navigationItem.titleStyle = .largeLeading
         },
-        5: TitleViewFeature(name: "Leading-aligned, two titles") {
+        5: TitleViewFeature(name: "Leading-aligned, two titles, collapsible") {
             $0.navigationItem.titleStyle = .leading
             $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.contentScrollView = $0.tableView
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
             $0.navigationItem.subtitle = "Press me!"
