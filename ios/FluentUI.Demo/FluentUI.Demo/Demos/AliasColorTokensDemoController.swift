@@ -92,7 +92,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandStroke1,
              .brandForegroundTint,
              .brandStroke1Selected,
-             .brandStrokeTint,
              .dangerBackground2,
              .dangerForeground1,
              .dangerForeground2,
@@ -234,8 +233,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
         case .brandStrokes:
             return [.brandStroke1,
                     .brandStroke1Pressed,
-                    .brandStroke1Selected,
-                    .brandStrokeTint]
+                    .brandStroke1Selected]
         case .sharedErrorAndStatus:
             return [.dangerBackground1,
                     .dangerBackground2,
@@ -371,8 +369,6 @@ private extension FluentTheme.ColorToken {
             return "Brand Stroke 1 Pressed"
         case .brandStroke1Selected:
             return "Brand Stroke 1 Selected"
-        case .brandStrokeTint:
-            return "Brand Stroke Tint"
         case .foregroundDarkStatic:
             return "Foreground Dark Static"
         case .foregroundLightStatic:

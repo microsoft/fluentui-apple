@@ -129,7 +129,6 @@ public final class AliasTokens: NSObject {
         case brandStroke1
         case brandStroke1Pressed
         case brandStroke1Selected
-        case brandStrokeTint
 
         // Shared colors - Error & Status
         case dangerBackground1
@@ -374,9 +373,6 @@ extension AliasTokens {
         case .brandStroke1Selected:
             return DynamicColor(light: GlobalTokens.brandColors(.comm60),
                                 dark: GlobalTokens.brandColors(.comm120))
-        case .brandStrokeTint:
-            return DynamicColor(light: GlobalTokens.brandColors(.comm90),
-                                dark: GlobalTokens.brandColors(.comm100))
         case .dangerBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.red, .tint60),
                                 dark: GlobalTokens.sharedColors(.red, .shade40))

@@ -30,7 +30,6 @@ public protocol ColorProviding {
     @objc var brandStroke1: UIColor { get }
     @objc var brandStroke1Pressed: UIColor { get }
     @objc var brandStroke1Selected: UIColor { get }
-    @objc var brandStrokeTint: UIColor { get }
 }
 
 private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: UIColor] {
@@ -54,7 +53,6 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     brandColors[.brandStroke1] = provider.brandStroke1
     brandColors[.brandStroke1Pressed] = provider.brandStroke1Pressed
     brandColors[.brandStroke1Selected] = provider.brandStroke1Selected
-    brandColors[.brandStrokeTint] = provider.brandStrokeTint
 
     return brandColors
 }

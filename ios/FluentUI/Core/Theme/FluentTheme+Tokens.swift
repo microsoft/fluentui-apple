@@ -75,7 +75,6 @@ public extension FluentTheme {
         case brandStroke1
         case brandStroke1Pressed
         case brandStroke1Selected
-        case brandStrokeTint
 
         // Shared colors - Error & Status
         case dangerBackground1
