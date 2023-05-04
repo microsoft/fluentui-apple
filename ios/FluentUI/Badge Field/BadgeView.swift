@@ -115,6 +115,10 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
+    /**
+     When set to true, the unselected Badge will have a stroke with a 3:1 contrast ratio against the background color.
+     This may be necessary for accessibility requirements with interactive Badges.
+     */
     open var showAccessibleStroke: Bool = false {
         didSet {
             updateStrokeColor()
