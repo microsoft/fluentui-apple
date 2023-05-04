@@ -370,7 +370,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
 
         label.text = text
-        trailingImageView.image = accessoryType.image
+        trailingImageView.image = interactive ? accessoryType.image : nil
         trailingImageView.isHidden = trailingImageView.image == nil
     }
 
