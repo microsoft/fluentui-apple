@@ -18,7 +18,7 @@ class BadgeViewDemoController: DemoController {
         addBadgeSection(title: "Danger badge", style: .danger)
         addBadgeSection(title: "Warning badge", style: .warning)
         addBadgeSection(title: "Neutral badge", style: .neutral)
-        addBadgeSection(title: "Severe Warning badge", style: .severe)
+        addBadgeSection(title: "Severe badge", style: .severe)
         addBadgeSection(title: "Success badge", style: .success)
         addBadgeSection(title: "Disabled badge Default", style: .default, isEnabled: false)
         addBadgeSection(title: "Disabled badge Neutral", style: .neutral, isEnabled: false)
