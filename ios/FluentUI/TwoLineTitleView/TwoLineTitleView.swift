@@ -280,11 +280,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         // while still only keeping one button active from an accessibility standpoint.
         setupButton(subtitleButton, label: subtitleButtonLabel, trailingImageView: subtitleButtonImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
 
-        if #available(iOS 15.0, *) {
-            let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
-            minimumContentSizeCategory = .large
-            maximumContentSizeCategory = subtitleIsNilOrEmpty ? .extraExtraLarge : .large
-        }
+        let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
+        minimumContentSizeCategory = .large
+        maximumContentSizeCategory = subtitleIsNilOrEmpty ? .extraExtraLarge : .large
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()

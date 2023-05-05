@@ -483,11 +483,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
 
-        if #available(iOS 15.0, *) {
-            // These are consistent with UIKit's default navigation bar
-            contentStackView.minimumContentSizeCategory = .large
-            contentStackView.maximumContentSizeCategory = .extraExtraLarge
-        }
+        // These are consistent with UIKit's default navigation bar
+        contentStackView.minimumContentSizeCategory = .large
+        contentStackView.maximumContentSizeCategory = .extraExtraLarge
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
@@ -695,41 +693,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
-        if #available(iOS 15.0, *) {
-            let insets: NSDirectionalEdgeInsets
-            if isLeftItem {
-                insets = NSDirectionalEdgeInsets(top: 0,
-                                                 leading: Constants.leftBarButtonItemLeadingMargin,
-                                                 bottom: 0,
-                                                 trailing: Constants.leftBarButtonItemTrailingMargin)
-            } else {
-                insets = NSDirectionalEdgeInsets(top: 0,
-                                                 leading: Constants.rightBarButtonItemHorizontalPadding,
-                                                 bottom: 0,
-                                                 trailing: Constants.rightBarButtonItemHorizontalPadding)
-            }
-
-            button.configuration?.contentInsets = insets
+        let insets: NSDirectionalEdgeInsets
+        if isLeftItem {
+            insets = NSDirectionalEdgeInsets(top: 0,
+                                                leading: Constants.leftBarButtonItemLeadingMargin,
+                                                bottom: 0,
+                                                trailing: Constants.leftBarButtonItemTrailingMargin)
         } else {
-            let leftInset: CGFloat
-            let rightInset: CGFloat
-            if isLeftItem {
-                if effectiveUserInterfaceLayoutDirection == .rightToLeft {
-                    leftInset = Constants.leftBarButtonItemTrailingMargin
-                    rightInset = Constants.leftBarButtonItemLeadingMargin
-                } else {
-                    leftInset = Constants.leftBarButtonItemLeadingMargin
-                    rightInset = Constants.leftBarButtonItemTrailingMargin
-                }
-            } else {
-                leftInset = Constants.rightBarButtonItemHorizontalPadding
-                rightInset = Constants.rightBarButtonItemHorizontalPadding
-            }
-            button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                    left: leftInset,
-                                                    bottom: 0,
-                                                    right: rightInset)
+            insets = NSDirectionalEdgeInsets(top: 0,
+                                                leading: Constants.rightBarButtonItemHorizontalPadding,
+                                                bottom: 0,
+                                                trailing: Constants.rightBarButtonItemHorizontalPadding)
         }
+
+        button.configuration?.contentInsets = insets
 
         return button
     }
@@ -760,13 +737,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             if navigationItem.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
                 // The OS already gives us the leading margin we want, so no need for additional insets
-                if #available(iOS 15.0, *) {
-                    button.configuration?.contentInsets.leading = 0
-                } else if effectiveUserInterfaceLayoutDirection == .rightToLeft {
-                    button.contentEdgeInsets.right = 0
-                } else {
-                    button.contentEdgeInsets.left = 0
-                }
+                button.configuration?.contentInsets.leading = 0
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
             }
 
