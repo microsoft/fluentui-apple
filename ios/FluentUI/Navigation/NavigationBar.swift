@@ -307,14 +307,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
-    let backgroundView = UIView() //used for coloration
-    //used to cover the navigationbar during animated transitions between VCs
-    private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
+    let backgroundView = UIView() // used for coloration
+    // used to cover the navigationbar during animated transitions between VCs
+    private let contentStackView = ContentStackView() // used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let preTitleSpacerView = UIView() //defines the spacing before the title, used for compact centered titles
-    private let postTitleSpacerView = UIView() //defines the spacing after the title, also the leading space between the left and right barbuttonitems stack
-    private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
+    private let preTitleSpacerView = UIView() // defines the spacing before the title, used for compact centered titles
+    private let postTitleSpacerView = UIView() // defines the spacing after the title, also the leading space between the left and right barbuttonitems stack
+    private let trailingSpacerView = UIView() // defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
