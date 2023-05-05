@@ -652,7 +652,6 @@ open class BadgeField: UIView {
         } else {
             badge = BadgeView(dataSource: dataSource)
         }
-        badge.showAccessibleStroke = true
 
         return badge
     }
@@ -665,7 +664,6 @@ open class BadgeField: UIView {
         } else {
             moreBadge = BadgeView(dataSource: BadgeViewDataSource(text: "+\(dataSources.count)", style: .default))
         }
-        moreBadge.showAccessibleStroke = true
 
         return moreBadge
     }
