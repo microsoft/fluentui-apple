@@ -63,7 +63,6 @@ struct Demos {
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
-        DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),
