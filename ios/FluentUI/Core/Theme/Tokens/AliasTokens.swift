@@ -431,7 +431,7 @@ extension AliasTokens {
             return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade30),
                                 dark: GlobalTokens.sharedColors(.yellow, .tint30))
         case .warningStroke1:
-            return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade40),
+            return DynamicColor(light: GlobalTokens.sharedColors(.yellow, .shade30),
                                 dark: GlobalTokens.sharedColors(.yellow, .shade20))
         case .presenceAway:
             return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .primary))
