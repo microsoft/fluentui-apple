@@ -825,13 +825,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateFakeCenterTitleConstraints() {
-        // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
         titleViewConstraint?.isActive = false
 
         let newTitleViewConstraint: NSLayoutConstraint
         if !usesLeadingTitle && systemWantsCompactNavigationBar {
+            // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
             newTitleViewConstraint = titleView.centerXAnchor.constraint(equalTo: centerXAnchor)
         } else {
+            // Otherwise, keep `self.titleView` leading-justified
             newTitleViewConstraint = preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)
         }
         titleViewConstraint = newTitleViewConstraint
@@ -878,8 +879,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             customTitleView.delegate = self
         }
 
-        // For some strange reason, embedding the TwoLineTitleView inside a UIStackView
-        // makes its labels resize properly according to content size changes.
+        // For the time being, we need to embed the TwoLineTitleView inside a UIStackView
+        // in order to make its labels resize properly according to content size changes.
         navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
     }
 
