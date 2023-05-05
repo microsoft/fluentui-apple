@@ -507,7 +507,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
 
         tokenSet.update(newWindow.fluentTheme)
-        titleView.tokenSet.update(newWindow.fluentTheme)
         titleView.tokenSet.setOverrides(from: tokenSet, mapping: [
             .titleColor: .titleColor,
             .titleFont: .titleFont,
