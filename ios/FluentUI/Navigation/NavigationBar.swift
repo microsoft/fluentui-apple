@@ -147,28 +147,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
 
-    private static var defaultStyle: Style = .primary
-
-    // These two constants are based on OS default values
-    static let systemHeight: CGFloat = 44
-    static let compactSystemHeight: CGFloat = 32
-    static let extraPaddingForCompactBar: CGFloat = systemHeight - compactSystemHeight
-
-    private struct Constants {
-        static let normalContentHeight: CGFloat = 44
-        static let expandedContentHeight: CGFloat = 48
-
-        static let leftBarButtonItemLeadingMargin: CGFloat = GlobalTokens.spacing(.size80)
-        static let leftBarButtonItemTrailingMargin: CGFloat = GlobalTokens.spacing(.size80)
-        static let rightBarButtonItemHorizontalPadding: CGFloat = GlobalTokens.spacing(.size100)
-
-        static let obscuringAnimationDuration: TimeInterval = 0.12
-        static let revealingAnimationDuration: TimeInterval = 0.25
-    }
-
-    private var systemWantsCompactNavigationBar: Bool {
-        return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
-    }
+    private static let defaultStyle: Style = .primary
 
     /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
     @objc open var personaData: Persona? {
@@ -306,6 +285,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
+
+    private var systemWantsCompactNavigationBar: Bool {
+        return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
+    }
 
     let backgroundView = UIView() // used for coloration
     // used to cover the navigationbar during animated transitions between VCs
@@ -489,8 +472,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
-        let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
-        let systemHeight = systemWantsCompactNavigationBar ? Self.compactSystemHeight : Self.systemHeight
+        let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
+        let systemHeight = systemWantsCompactNavigationBar ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
@@ -692,18 +675,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
-        let insets: NSDirectionalEdgeInsets
-        if isLeftItem {
-            insets = NSDirectionalEdgeInsets(top: 0,
-                                                leading: Constants.leftBarButtonItemLeadingMargin,
-                                                bottom: 0,
-                                                trailing: Constants.leftBarButtonItemTrailingMargin)
-        } else {
-            insets = NSDirectionalEdgeInsets(top: 0,
-                                                leading: Constants.rightBarButtonItemHorizontalPadding,
-                                                bottom: 0,
-                                                trailing: Constants.rightBarButtonItemHorizontalPadding)
-        }
+        let horizontalInset = isLeftItem ? TokenSetType.leftBarButtonItemHorizontalInset : TokenSetType.rightBarButtonItemHorizontalInset
+        let insets = NSDirectionalEdgeInsets(top: 0,
+                                             leading: horizontalInset,
+                                             bottom: 0,
+                                             trailing: horizontalInset)
 
         button.configuration?.contentInsets = insets
 
@@ -768,7 +744,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func obscureContent(animated: Bool) {
         if contentStackView.alpha == 1 {
             if animated {
-                UIView.animate(withDuration: Constants.obscuringAnimationDuration) {
+                UIView.animate(withDuration: TokenSetType.obscuringAnimationDuration) {
                     self.contentStackView.alpha = 0
                 }
             } else {
@@ -780,7 +756,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func revealContent(animated: Bool) {
         if contentStackView.alpha == 0 {
             if animated {
-                UIView.animate(withDuration: Constants.revealingAnimationDuration) {
+                UIView.animate(withDuration: TokenSetType.revealingAnimationDuration) {
                     self.contentStackView.alpha = 1
                 }
             } else {

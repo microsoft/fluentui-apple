@@ -62,9 +62,9 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         static let contentBottomPadding: CGFloat = 10
         static let contentBottomPaddingCompact: CGFloat = 6
         static let accessoryHeight: CGFloat = 36
-        static let maxHeightNoAccessory: CGFloat = 56 - NavigationBar.systemHeight  // navigation bar - design: 56, system: 44
-        static let maxHeightNoAccessoryCompact: CGFloat = 44 - NavigationBar.compactSystemHeight   // navigation bar - design: 44, system: 32
-        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - NavigationBar.systemHeight   // navigation bar - design: 44, system: 44
+        static let maxHeightNoAccessory: CGFloat = 56 - NavigationBarTokenSet.systemHeight  // navigation bar - design: 56, system: 44
+        static let maxHeightNoAccessoryCompact: CGFloat = 44 - NavigationBarTokenSet.compactSystemHeight   // navigation bar - design: 44, system: 32
+        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - NavigationBarTokenSet.systemHeight   // navigation bar - design: 44, system: 44
     }
 
     convenience init() {

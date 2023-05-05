@@ -87,3 +87,18 @@ public extension NavigationBar {
         return tokenSet[.backgroundColor].uiColor
     }
 }
+
+extension NavigationBarTokenSet {
+    // These two constants are based on OS default values
+    static let systemHeight: CGFloat = 44
+    static let compactSystemHeight: CGFloat = 32
+
+    static let normalContentHeight: CGFloat = 44
+    static let expandedContentHeight: CGFloat = 48
+
+    static let leftBarButtonItemHorizontalInset: CGFloat = GlobalTokens.spacing(.size80)
+    static let rightBarButtonItemHorizontalInset: CGFloat = GlobalTokens.spacing(.size100)
+
+    static let obscuringAnimationDuration: TimeInterval = 0.12
+    static let revealingAnimationDuration: TimeInterval = 0.25
+}
