@@ -26,6 +26,12 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
         /// The foreground color of the Badge when disabled.
         case foregroundDisabledColor
 
+        /// The stroke tint color of the Badge.
+        case strokeTintColor
+
+        /// The stroke width of the Badge.
+        case strokeWidth
+
         /// The border radius of the Badge.
         case borderRadius
 
@@ -46,7 +52,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                         return theme.color(.brandBackgroundTint)
                     case .danger:
                         return theme.color(.dangerBackground1)
-                    case .severeWarning:
+                    case .severe:
                         return theme.color(.severeBackground1)
                     case .warning:
                         return theme.color(.warningBackground1)
@@ -63,7 +69,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                         return theme.color(.brandBackground1)
                     case .danger:
                         return theme.color(.dangerBackground2)
-                    case .severeWarning:
+                    case .severe:
                         return theme.color(.severeBackground2)
                     case .warning:
                         return theme.color(.warningBackground2)
@@ -78,7 +84,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                     switch style() {
                     case .default:
                         return theme.color(.brandBackground3)
-                    case .danger, .severeWarning, .warning, .success, .neutral:
+                    case .danger, .severe, .warning, .success, .neutral:
                         return theme.color(.background5)
                     }
                 }
@@ -89,7 +95,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                         return theme.color(.brandForegroundTint)
                     case .danger:
                         return theme.color(.dangerForeground1)
-                    case .severeWarning:
+                    case .severe:
                         return theme.color(.severeForeground1)
                     case .warning:
                         return theme.color(.warningForeground1)
@@ -104,7 +110,7 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                     switch style() {
                     case .default:
                         return theme.color(.foregroundOnColor)
-                    case .danger, .severeWarning, .success:
+                    case .danger, .severe, .success:
                         return theme.color(.foregroundLightStatic)
                     case .warning:
                         return theme.color(.foregroundDarkStatic)
@@ -117,28 +123,47 @@ public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
                     switch style() {
                     case .default:
                         return theme.color(.brandForegroundDisabled1)
-                    case .danger, .severeWarning, .warning, .success, .neutral:
+                    case .danger, .severe, .warning, .success, .neutral:
                         return theme.color(.foregroundDisabled1)
                     }
                 }
+            case .strokeTintColor:
+                return .uiColor {
+                    switch style() {
+                    case .default:
+                        return theme.color(.brandForegroundTint)
+                    case .danger:
+                        return theme.color(.dangerStroke1)
+                    case .severe:
+                        return theme.color(.severeStroke1)
+                    case .warning:
+                        return theme.color(.warningStroke1)
+                    case .success:
+                        return theme.color(.successStroke1)
+                    case .neutral:
+                        return theme.color(.strokeAccessible)
+                    }
+                }
+            case .strokeWidth:
+                return .float { GlobalTokens.stroke(.width10) }
             case .borderRadius:
-                return .float({
+                return .float {
                     switch sizeCategory() {
                     case .small:
                         return GlobalTokens.corner(.radius20)
                     case .medium:
                         return GlobalTokens.corner(.radius40)
                     }
-                })
+                }
             case .labelFont:
-                return .uiFont({
+                return .uiFont {
                     switch sizeCategory() {
                     case .small:
                         return theme.typography(.caption1)
                     case .medium:
                         return theme.typography(.body2)
                     }
-                })
+                }
             }
         }
     }
@@ -169,10 +194,10 @@ extension BadgeViewTokenSet {
 public extension BadgeView {
     /// Pre-defined styles of the Badge.
     @objc(MSFBadgeViewStyle)
-    enum Style: Int {
+    enum Style: Int, CaseIterable {
         case `default`
         case danger
-        case severeWarning
+        case severe
         case warning
         case success
         case neutral

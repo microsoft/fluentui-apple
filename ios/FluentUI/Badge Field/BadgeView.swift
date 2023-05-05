@@ -115,6 +115,16 @@ open class BadgeView: UIView, TokenizedControlInternal {
         }
     }
 
+    /**
+     When set to true, the unselected Badge will have a stroke with a 3:1 contrast ratio against the background color.
+     This may be necessary for accessibility requirements with interactive Badges.
+     */
+    open var showAccessibleStroke: Bool = false {
+        didSet {
+            updateStrokeColor()
+        }
+    }
+
     open override var intrinsicContentSize: CGSize {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
@@ -282,6 +292,7 @@ open class BadgeView: UIView, TokenizedControlInternal {
     private func updateColors() {
         updateBackgroundColor()
         updateLabelTextColor()
+        updateStrokeColor()
     }
 
     private func updateBackgroundColor() {
@@ -291,6 +302,15 @@ open class BadgeView: UIView, TokenizedControlInternal {
 
     private func updateLabelTextColor() {
         label.textColor = isActive ? (isSelected ? tokenSet[.foregroundFilledColor].uiColor : tokenSet[.foregroundTintColor].uiColor) : tokenSet[.foregroundDisabledColor].uiColor
+    }
+
+    private func updateStrokeColor() {
+        if showAccessibleStroke && !isSelected {
+            backgroundView.layer.borderColor = tokenSet[.strokeTintColor].uiColor.cgColor
+            backgroundView.layer.borderWidth = tokenSet[.strokeWidth].float
+        } else {
+            backgroundView.layer.borderWidth = 0
+        }
     }
 
     @objc private func badgeTapped() {
