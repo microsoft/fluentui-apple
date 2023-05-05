@@ -27,6 +27,12 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithSystemStyleAndPillSegment)))
 
+        addTitle(text: "Large Title with Gradient style")
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithGradientStyle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithGradientStyleAndShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithGradientStyleAndFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithGradientStyleAndPillSegment)))
+
         addTitle(text: "Leading with TwoLineTitleView")
         container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLeadingTitleWithFixedAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle)))
@@ -53,6 +59,25 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
+
+    let gradient: CAGradientLayer = {
+        let redColor = CGColor(red: 0.68, green: 0.49, blue: 0.88, alpha: 0.4)
+        let blueColor = CGColor(red: 0.25, green: 0.38, blue: 1.00, alpha: 0.4)
+        let gradient = CAGradientLayer()
+        gradient.type = .conic
+        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: -1)
+        gradient.colors = [blueColor, redColor, blueColor]
+        gradient.locations = [0.48, 0.5, 0.52]
+        return gradient
+    }()
+
+    let gradientMask: CAGradientLayer = {
+        let gradientMask = CAGradientLayer()
+        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientMask.locations = [0.3, 1]
+        return gradientMask
+    }()
 
     @objc func showLargeTitle() {
         presentController(withTitleStyle: .largeLeading)
@@ -126,6 +151,22 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
     }
 
+    @objc func showLargeTitleWithGradientStyle() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndShyAccessory() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndFixedAccessory() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndPillSegment() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
+    }
+
     @objc func showLargeTitleWithCustomizedElementSizes() {
         let controller = presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView())
         controller.msfNavigationBar.avatarSize = .expanded
@@ -189,10 +230,14 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
+        let navigationBar = controller.msfNavigationBar
+        navigationBar.gradient = gradient
+        navigationBar.gradientMask = gradientMask
+
         switch leadingItem {
         case .avatar:
-            controller.msfNavigationBar.personaData = content.personaData
-            controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
+            navigationBar.personaData = content.personaData
+            navigationBar.onAvatarTapped = handleAvatarTapped
         case .customButton:
             let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
             starButtonItem.accessibilityLabel = "Star button"
@@ -228,7 +273,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .primary
             case .primary:
                 newStyle = .system
-            case .system:
+            case .system, .gradient:
                 newStyle = .custom
             }
 

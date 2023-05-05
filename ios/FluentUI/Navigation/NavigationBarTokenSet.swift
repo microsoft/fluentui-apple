@@ -41,6 +41,8 @@ public class NavigationBarTokenSet: ControlTokenSet<NavigationBarTokenSet.Tokens
                                        dark: theme.color(.background3).dark)
                     case .system:
                         return theme.color(.background3)
+                    case .gradient:
+                        return theme.color(.background1)
                     }
                 }
             case .buttonTintColor, .subtitleColor: // By default, these return the same color
@@ -49,7 +51,7 @@ public class NavigationBarTokenSet: ControlTokenSet<NavigationBarTokenSet.Tokens
                     case .primary, .default, .custom:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground2).dark)
-                    case .system:
+                    case .system, .gradient:
                         return theme.color(.foreground2)
                     }
                 }
@@ -67,7 +69,7 @@ public class NavigationBarTokenSet: ControlTokenSet<NavigationBarTokenSet.Tokens
                     case .primary, .default, .custom:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
                                        dark: theme.color(.foreground1).dark)
-                    case .system:
+                    case .system, .gradient:
                         return theme.color(.foreground1)
                     }
                 }
