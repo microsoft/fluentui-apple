@@ -67,8 +67,8 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var attributedText: NSAttributedString? {
-      didSet {
-          isUsingCustomAttributedText = attributedText != nil
+        didSet {
+            isUsingCustomAttributedText = attributedText != nil
         }
     }
 
