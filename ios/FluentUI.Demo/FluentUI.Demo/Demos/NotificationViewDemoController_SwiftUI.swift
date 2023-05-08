@@ -48,7 +48,17 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
+    @State var useCustomTheme: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
+    let customTheme: FluentTheme = {
+        let colorOverrides = [
+            FluentTheme.ColorToken.brandBackgroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .tint40),
+                                                                dark: GlobalTokens.sharedColor(.lavender, .shade30)),
+            FluentTheme.ColorToken.brandForegroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
+                                                                dark: GlobalTokens.sharedColor(.lavender, .tint40))
+        ]
+        return FluentTheme(colorOverrides: colorOverrides)
+    }()
 
     public var body: some View {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
@@ -80,6 +90,7 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
+        let theme = useCustomTheme ? customTheme : fluentTheme
 
 #if DEBUG
         let accessibilityIdentifier: String = {
@@ -240,6 +251,7 @@ struct NotificationDemoView: View {
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                         FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
                         FluentUIDemoToggle(titleKey: "Background Gradient", isOn: $showBackgroundGradient)
+                        FluentUIDemoToggle(titleKey: "Custom theme", isOn: $useCustomTheme)
                     }
                 }
                 .padding()
@@ -265,7 +277,7 @@ struct NotificationDemoView: View {
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
-        .fluentTheme(fluentTheme)
+        .fluentTheme(theme)
     }
 
     private var backgroundGradient: LinearGradientInfo {
