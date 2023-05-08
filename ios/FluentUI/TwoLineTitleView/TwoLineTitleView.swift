@@ -139,6 +139,12 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     @objc public weak var delegate: TwoLineTitleViewDelegate?
 
+    var currentStyle: Style {
+        didSet {
+            applyStyle()
+        }
+    }
+
     private var alignment: Alignment = .center
     private var interactivePart: InteractivePart = .none
     private var animatesWhenPressed: Bool = true
@@ -147,12 +153,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private let titleButton = EasyTapButton()
     private var titleAccessoryType: AccessoryType {
         return interactivePart.contains(.title) ? accessoryType : .none
-    }
-
-    var currentStyle: Style {
-        didSet {
-            applyStyle()
-        }
     }
 
     private lazy var titleButtonLabel: Label = {
