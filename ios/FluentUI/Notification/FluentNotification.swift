@@ -336,7 +336,6 @@ public struct FluentNotification: View, TokenizedControlView {
         }
 
         return presentableNotification
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
