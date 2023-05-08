@@ -19,6 +19,15 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
         super.init(rootView: NotificationDemoView())
         self.title = "Notification View Vnext (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct NotificationDemoView: View {
@@ -39,6 +48,7 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
@@ -152,6 +162,8 @@ struct NotificationDemoView: View {
                     Alert(title: Text("Button tapped"))
                 })
 
+            Text("Test").foregroundColor(Color(fluentTheme.color(.brandForeground1)))
+
             Button("Show") {
                 if isPresented == false {
                     isPresented = true
@@ -255,6 +267,7 @@ struct NotificationDemoView: View {
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
+        .fluentTheme(fluentTheme)
     }
 
     private var backgroundGradient: LinearGradientInfo {
