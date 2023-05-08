@@ -127,6 +127,7 @@ public struct FluentNotification: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         @ViewBuilder
         var image: some View {
             if state.style.isToast {

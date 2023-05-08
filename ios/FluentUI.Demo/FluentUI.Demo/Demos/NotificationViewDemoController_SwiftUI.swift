@@ -162,8 +162,6 @@ struct NotificationDemoView: View {
                     Alert(title: Text("Button tapped"))
                 })
 
-            Text("Test").foregroundColor(Color(fluentTheme.color(.brandForeground1)))
-
             Button("Show") {
                 if isPresented == false {
                     isPresented = true
