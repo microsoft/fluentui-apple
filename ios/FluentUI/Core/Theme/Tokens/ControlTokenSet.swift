@@ -140,24 +140,17 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                 self?.onUpdate?()
             }
         }
-
-        // Register for notifications in order to call update() when the theme changes.
-        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
-                                                                      object: nil,
-                                                                      queue: nil) { [weak self, weak control] notification in
-            guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
-                  let control,
-                  control.isDescendant(of: themeView)
-            else {
-                return
-            }
-            strongSelf.update(themeView.fluentTheme)
-        }
     }
 
     /// The current `FluentTheme` associated with this `ControlTokenSet`.
-    var fluentTheme: FluentTheme = FluentTheme.shared
+    var fluentTheme: FluentTheme = FluentTheme.shared {
+        didSet {
+            guard let onUpdate else {
+                return
+            }
+            onUpdate()
+        }
+    }
 
     /// Access to raw overrides for the `ControlTokenSet`.
     @Published private var valueOverrides: [T: ControlTokenValue]?
