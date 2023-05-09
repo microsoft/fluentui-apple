@@ -86,8 +86,8 @@ extension TwoLineTitleViewTokenSet {
         }
     }
 
-    static let titleImageSizeToken = GlobalTokens.IconSizeToken.size160
-    static let subtitleImageSizeToken = GlobalTokens.IconSizeToken.size120
+    static let titleImageSizeToken: GlobalTokens.IconSizeToken = .size160
+    static let subtitleImageSizeToken: GlobalTokens.IconSizeToken = .size120
 
     static let titleStackSpacing = GlobalTokens.spacing(.size40)
 
