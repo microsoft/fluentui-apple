@@ -40,7 +40,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController, Shadowable, TokenizedControlInternal {
+public class BottomSheetController: UIViewController, Shadowable, TokenizedThemeObserver {
 
     /// Initializes the bottom sheet controller
     /// - Parameters:
@@ -398,6 +398,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         tokenSet.registerOnUpdate(for: view) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: view)
     }
 
     // MARK: - Shadow Layers

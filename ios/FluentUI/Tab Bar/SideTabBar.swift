@@ -23,7 +23,7 @@ public protocol SideTabBarDelegate {
 /// View for a vertical side tab bar that can be used for app navigation.
 /// Optimized for horizontal regular + vertical regular size class configuration. Prefer using TabBarView for other size class configurations.
 @objc(MSFSideTabBar)
-open class SideTabBar: UIView, TokenizedControlInternal {
+open class SideTabBar: UIView, TokenizedThemeObserver {
     /// Delegate to handle user interactions in the side tab bar.
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
@@ -135,6 +135,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: self)
     }
 
     @available(*, unavailable)

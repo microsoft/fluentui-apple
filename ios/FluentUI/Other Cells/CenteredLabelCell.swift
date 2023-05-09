@@ -8,7 +8,7 @@ import UIKit
 // MARK: CenteredLabelCell
 
 @objc(MSFCenteredLabelCell)
-open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
+open class CenteredLabelCell: UITableViewCell, TokenizedThemeObserver {
     public static let identifier: String = "CenteredLabelCell"
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
@@ -47,6 +47,7 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: self)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {

@@ -9,7 +9,7 @@ import UIKit
 
 /// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 @objc(MSFPillButton)
-open class PillButton: UIButton, TokenizedControlInternal {
+open class PillButton: UIButton, TokenizedThemeObserver {
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
         guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
@@ -49,6 +49,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {

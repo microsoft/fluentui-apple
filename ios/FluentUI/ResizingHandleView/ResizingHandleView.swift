@@ -8,7 +8,7 @@ import UIKit
 // MARK: - ResizingHandleView
 
 @objc(MSFResizingHandleView)
-open class ResizingHandleView: UIView, TokenizedControlInternal {
+open class ResizingHandleView: UIView, TokenizedThemeObserver {
     @objc public static let height: CGFloat = 20
 
     private lazy var markLayer: CALayer = {
@@ -32,6 +32,7 @@ open class ResizingHandleView: UIView, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
+        addThemeObserver(for: self)
     }
 
     public required init?(coder aDecoder: NSCoder) {

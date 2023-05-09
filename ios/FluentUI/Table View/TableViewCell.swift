@@ -104,7 +104,7 @@ Specify `accessoryType` on setup to show either a disclosure indicator or a `det
 NOTE: This cell implements its own custom separator. Make sure to remove the UITableViewCell built-in separator by setting `separatorStyle = .none` on your table view. To remove the cell's custom separator set `bottomSeparatorType` to `.none`.
 */
 @objc(MSFTableViewCell)
-open class TableViewCell: UITableViewCell, TokenizedControlInternal {
+open class TableViewCell: UITableViewCell, TokenizedThemeObserver {
     @objc(MSFTableViewCellSeparatorType)
     public enum SeparatorType: Int {
         case none
@@ -1303,6 +1303,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: self)
     }
 
     /// Sets up the cell with text, a custom view, a custom accessory view, and an accessory type

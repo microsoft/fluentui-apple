@@ -7,7 +7,7 @@ import UIKit
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect.
 @objc(MSFShimmerView)
-open class ShimmerView: UIView, TokenizedControlInternal {
+open class ShimmerView: UIView, TokenizedThemeObserver {
 
     /// Optional synchronizer to sync multiple shimmer views.
     @objc open weak var animationSynchronizer: AnimationSynchronizerProtocol?
@@ -61,6 +61,7 @@ open class ShimmerView: UIView, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateShimmeringAnimation()
         }
+        addThemeObserver(for: self)
     }
 
     required public init?(coder: NSCoder) {

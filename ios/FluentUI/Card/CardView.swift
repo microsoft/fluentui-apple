@@ -151,7 +151,7 @@ public enum CardSize: Int, CaseIterable {
  Conform to the `CardDelegate` in order to provide a handler for the card tap event
  */
 @objc(MSFCardView)
-open class CardView: UIView, Shadowable, TokenizedControlInternal {
+open class CardView: UIView, Shadowable, TokenizedThemeObserver {
 
     /// Delegate to handle user interaction with the CardView
     @objc public weak var delegate: CardDelegate?
@@ -320,6 +320,7 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.setupColors()
         }
+        addThemeObserver(for: self)
 
         translatesAutoresizingMaskIntoConstraints = false
 

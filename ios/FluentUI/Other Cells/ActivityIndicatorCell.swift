@@ -8,7 +8,7 @@ import UIKit
 // MARK: ActivityIndicatorCell
 
 @objc(MSFActivityIndicatorCell)
-open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
+open class ActivityIndicatorCell: UITableViewCell, TokenizedThemeObserver {
     public static let identifier: String = "ActivityIndicatorCell"
 
     @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
@@ -43,6 +43,7 @@ open class ActivityIndicatorCell: UITableViewCell, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+        addThemeObserver(for: self)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
