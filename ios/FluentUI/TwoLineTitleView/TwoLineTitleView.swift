@@ -217,6 +217,11 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         contain(view: containerButton)
         containerButton.contain(view: containerStackView)
 
+        // Ensure image views maintain their aspect ratios
+        titleLeadingImageView.contentMode = .scaleAspectFit
+        titleTrailingImageView.contentMode = .scaleAspectFit
+        subtitleImageView.contentMode = .scaleAspectFit
+
         /*titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
         titleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
