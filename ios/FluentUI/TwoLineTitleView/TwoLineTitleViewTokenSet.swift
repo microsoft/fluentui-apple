@@ -90,6 +90,8 @@ extension TwoLineTitleViewTokenSet {
     static let leadingImageMargin = GlobalTokens.spacing(.size40)
     static let leadingImageTotalPadding: CGFloat = leadingImageSize + leadingImageMargin
 
+    static let titleStackSpacing = GlobalTokens.spacing(.size40)
+
     static func titleSpacing(for verticalSizeClass: UIUserInterfaceSizeClass) -> CGFloat {
         switch verticalSizeClass {
         case .compact:

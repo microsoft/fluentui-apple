@@ -62,6 +62,15 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     public enum Alignment: Int {
         case center
         case leading
+
+        var stackViewAlignment: UIStackView.Alignment {
+            switch self {
+            case .center:
+                return .center
+            case .leading:
+                return .leading
+            }
+        }
     }
 
     @objc(MSFTwoLineTitleViewInteractivePart)
@@ -150,7 +159,25 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var animatesWhenPressed: Bool = true
     private var accessoryType: AccessoryType = .none
 
-    private let titleButton = EasyTapButton()
+    private let containerButton = EasyTapButton()
+    private lazy var containerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 0
+        return stackView
+    }()
+
+    private static func titleLineStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = TokenSetType.titleStackSpacing
+        return stackView
+    }
+
+    private lazy var titleContainer = Self.titleLineStackView()
+    private lazy var subtitleContainer = Self.titleLineStackView()
+
+    private let titleButton = EasyTapButton() // TODO: remove me!
     private var titleAccessoryType: AccessoryType {
         return interactivePart.contains(.title) ? accessoryType : .none
     }
@@ -169,7 +196,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         return titleLeadingImageView.image != nil ? 2 * TokenSetType.leadingImageTotalPadding : 0
     }
 
-    private let subtitleButton = EasyTapButton()
+    private let subtitleButton = EasyTapButton() // TODO: remove me!
     private var subtitleAccessoryType: AccessoryType {
         return interactivePart.contains(.subtitle) ? accessoryType : .none
     }
@@ -204,7 +231,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         applyStyle()
 
-        titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
+        contain(view: containerButton)
+        containerButton.contain(view: containerStackView)
+
+        /*titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
         titleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
         addSubview(titleButton)
@@ -221,8 +251,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         subtitleButton.addSubview(subtitleLabel)
         subtitleButton.addSubview(subtitleImageView)
 
-        setupTitleButtonColor(highlighted: false, animated: false)
-        setupSubtitleButtonColor(highlighted: false, animated: false)
+        setupTitleColor(highlighted: false, animated: false)
+        setupSubtitleColor(highlighted: false, animated: false)
 
         titleLeadingImageView.contentMode = .scaleAspectFit
         titleTrailingImageView.contentMode = .scaleAspectFit
@@ -233,7 +263,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         addInteraction(UILargeContentViewerInteraction())
         titleLabel.showsLargeContentViewer = true
-        subtitleLabel.showsLargeContentViewer = true
+        subtitleLabel.showsLargeContentViewer = true*/
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
@@ -274,15 +304,27 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleLeadingImageView.image = titleImage
         titleLeadingImageView.isHidden = titleImage == nil
 
-        setupButton(titleButton, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
-        // Check for strict equality for the subtitle button's interactivity.
-        // If the whole area is active, we'll stretch the title button to adjust the hit area
-        // while still only keeping one button active from an accessibility standpoint.
-        setupButton(subtitleButton, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+        setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
+        if titleLeadingImageView.image != nil {
+            titleContainer.insertArrangedSubview(titleLeadingImageView, at: 0)
+        }
 
-        let subtitleIsNilOrEmpty = subtitle?.isEmpty ?? true
+        // Check for strict equality for the subtitle button's interactivity.
+        // If the whole area is active, we'll use the title as the main accessibility item.
+        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+
         minimumContentSizeCategory = .large
-        maximumContentSizeCategory = subtitleIsNilOrEmpty ? .extraExtraLarge : .large
+
+        containerStackView.removeAllSubviews()
+        containerStackView.alignment = alignment.stackViewAlignment
+        containerStackView.addArrangedSubview(titleContainer)
+
+        if subtitle?.isEmpty == false {
+            maximumContentSizeCategory = .large
+            containerStackView.addArrangedSubview(subtitleContainer)
+        } else {
+            maximumContentSizeCategory = .extraExtraLarge
+        }
 
         invalidateIntrinsicContentSize()
         setNeedsLayout()
@@ -327,11 +369,11 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         subtitleImageView.tintColor = subtitleLabel.tokenSet[.textColor].uiColor
     }
 
-    private func setupTitleButtonColor(highlighted: Bool, animated: Bool) {
+    private func setupTitleColor(highlighted: Bool, animated: Bool) {
         setupColor(highlighted: highlighted, animated: animated, onLabel: titleLabel, onImageViews: [titleLeadingImageView, titleTrailingImageView])
     }
 
-    private func setupSubtitleButtonColor(highlighted: Bool, animated: Bool) {
+    private func setupSubtitleColor(highlighted: Bool, animated: Bool) {
         setupColor(highlighted: highlighted, animated: animated, onLabel: subtitleLabel, onImageView: subtitleImageView)
     }
 
@@ -356,40 +398,32 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private func setupButton(_ button: UIButton, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
-        button.isUserInteractionEnabled = interactive
-        button.accessibilityLabel = text
+    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
+        container.removeAllSubviews()
+
+        container.isUserInteractionEnabled = interactive
+        container.accessibilityLabel = text
         label.text = text
 
+        container.addArrangedSubview(label)
+
         if interactive {
-            button.accessibilityTraits.insert(.button)
-            button.accessibilityTraits.remove(.staticText)
+            container.accessibilityTraits.insert(.button)
+            container.accessibilityTraits.remove(.staticText)
             trailingImageView.image = accessoryType.image
         } else {
-            button.accessibilityTraits.insert(.staticText)
-            button.accessibilityTraits.remove(.button)
+            container.accessibilityTraits.insert(.staticText)
+            container.accessibilityTraits.remove(.button)
             trailingImageView.image = nil
         }
 
         trailingImageView.isHidden = trailingImageView.image == nil
+        if trailingImageView.image != nil {
+            container.addArrangedSubview(trailingImageView)
+        }
     }
 
     // MARK: Layout
-
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var titleSize = titleLabel.sizeThatFits(size)
-        titleSize.width += max(titleAccessoryType.areaWidth, titleLeadingImageAreaWidth)
-
-        var subtitleSize = subtitleLabel.sizeThatFits(size)
-        subtitleSize.width += subtitleAccessoryType.areaWidth
-
-        return CGSize(width: max(titleSize.width, subtitleSize.width), height: titleSize.height + subtitleSize.height)
-    }
-
-    open override var intrinsicContentSize: CGSize {
-        let size = sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        return size
-    }
 
     private func updateFonts() {
         titleLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.font: .titleFont])
@@ -412,7 +446,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     open override func layoutSubviews() {
         super.layoutSubviews()
 
-        let titleButtonHeight = titleLabel.font.lineHeight
+        /*let titleButtonHeight = titleLabel.font.lineHeight
         let titleBottomMargin = TokenSetType.titleSpacing(for: traitCollection.verticalSizeClass)
         let subtitleButtonHeight = subtitleLabel.font.lineHeight
         let totalContentHeight = titleButtonHeight + titleBottomMargin + subtitleButtonHeight
@@ -482,7 +516,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
 
         titleButton.flipSubviewsForRTL()
-        subtitleButton.flipSubviewsForRTL()
+        subtitleButton.flipSubviewsForRTL()*/
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -495,7 +529,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         guard animatesWhenPressed else {
             return
         }
-        setupTitleButtonColor(highlighted: true, animated: true)
+        setupTitleColor(highlighted: true, animated: true)
         if interactivePart == .all {
             onSubtitleButtonHighlighted()
         }
@@ -505,7 +539,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         guard animatesWhenPressed else {
             return
         }
-        setupTitleButtonColor(highlighted: false, animated: true)
+        setupTitleColor(highlighted: false, animated: true)
         if interactivePart == .all {
             onSubtitleButtonUnhighlighted()
         }
@@ -519,14 +553,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         guard animatesWhenPressed else {
             return
         }
-        setupSubtitleButtonColor(highlighted: true, animated: true)
+        setupSubtitleColor(highlighted: true, animated: true)
     }
 
     @objc private func onSubtitleButtonUnhighlighted() {
         guard animatesWhenPressed else {
             return
         }
-        setupSubtitleButtonColor(highlighted: false, animated: true)
+        setupSubtitleColor(highlighted: false, animated: true)
     }
 
     // MARK: Accessibility
