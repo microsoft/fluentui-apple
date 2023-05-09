@@ -38,23 +38,3 @@ extension TokenizedControlView {
     }
 }
 // swiftlint:enable extension_access_modifier
-
-extension View {
-    /// Applies a given `FluentTheme` and `configuration` to  the control's token set.
-    ///
-    /// Use the `configuration` function to set additional properties on the `tokenSet` as needed. For example, some
-    /// controls may need different tokens back for different sized components, so this callback should be used as an
-    /// opportunity to perform that configuration on `tokenSet`.
-    ///
-    /// - Parameter tokenSet: The control's `ControlTokenSet` that should be updated.
-    /// - Parameter fluentTheme: The current `FluentTheme` for the given rendering context.
-    ///
-    /// - Returns: The rendered view after applying updates.
-    func fluentTokens<TokenSetType: Hashable>(_ tokenSet: ControlTokenSet<TokenSetType>,
-                                              _ fluentTheme: FluentTheme) -> some View {
-        return self
-            .onChange(of: fluentTheme) { newTheme in
-                tokenSet.update(newTheme)
-            }
-    }
-}
