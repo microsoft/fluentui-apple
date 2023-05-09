@@ -65,13 +65,7 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// Removes all `onUpdate`-based observing. Useful if you are re-registering the same tokenSet
     /// for a new instance of a control (see `Tooltip` for an example).
     func deregisterOnUpdate() {
-        if let notificationObserver {
-            NotificationCenter.default.removeObserver(notificationObserver,
-                                                      name: .didChangeTheme,
-                                                      object: nil)
-        }
         changeSink = nil
-        notificationObserver = nil
         onUpdate = nil
     }
 
@@ -127,8 +121,7 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// - Parameter onUpdate: A callback to run whenever `control` should update itself.
     func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
         guard self.onUpdate == nil,
-              changeSink == nil,
-              notificationObserver == nil else {
+              changeSink == nil else {
             assertionFailure("Attempting to double-register for tokenSet updates!")
             return
         }
@@ -160,9 +153,6 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// Holds the sink for any changes to the control token set.
     private var changeSink: AnyCancellable?
-
-    /// Stores the notification handler for .didChangeTheme notifications.
-    private var notificationObserver: NSObjectProtocol?
 
     /// A callback to be invoked after the token set has completed updating.
     private var onUpdate: (() -> Void)?

@@ -10,7 +10,7 @@ import UIKit
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true for non-floating buttons to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, Shadowable, TokenizedControlInternal {
+open class Button: UIButton, Shadowable, TokenizedThemeObserver {
     @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
@@ -130,11 +130,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
+        addThemeObserver(for: self)
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
@@ -214,13 +210,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
                                                      size: { [weak self] in
         return self?.sizeCategory ?? .medium
     })
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-    }
 
     private func updateTitle() {
         let foregroundColor = tokenSet[.foregroundColor].uiColor
