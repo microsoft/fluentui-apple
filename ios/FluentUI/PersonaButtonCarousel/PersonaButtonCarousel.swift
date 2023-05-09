@@ -95,7 +95,8 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
     }
 
     public var body: some View {
-        SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
+        tokenSet.update(fluentTheme)
+        return SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
                 ForEach(state.buttons, id: \.self) { buttonState in
                     PersonaButton(state: buttonState) { [weak state] in
@@ -109,7 +110,6 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
             }
         }
         .background(Color(tokenSet[.backgroundColor].uiColor))
-        .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
