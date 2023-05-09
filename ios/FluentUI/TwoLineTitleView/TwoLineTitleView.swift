@@ -92,34 +92,21 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         case disclosure
         case downArrow
 
-        var image: UIImage? {
+        public func image(forSize size: GlobalTokens.IconSizeToken) -> UIImage? {
             let image: UIImage?
-            switch self {
-            case .disclosure:
-                image = UIImage.staticImageNamed("chevron-right-20x20")
-            case .downArrow:
-                image = UIImage.staticImageNamed("chevron-down-20x20")
-            case .none:
+            switch (self, size) {
+            case (.disclosure, .size120):
+                image = UIImage.staticImageNamed("chevron-right-12x12")
+            case (.disclosure, .size160):
+                image = UIImage.staticImageNamed("chevron-right-16x16")
+            case (.downArrow, .size120):
+                image = UIImage.staticImageNamed("chevron-down-12x12")
+            case (.downArrow, .size160):
+                image = UIImage.staticImageNamed("chevron-down-16x16")
+            case (.disclosure, _), (.downArrow, _), (.none, _):
                 image = nil
             }
             return image
-        }
-
-        var size: CGSize { return image?.size ?? .zero }
-
-        var horizontalPadding: CGFloat {
-            switch self {
-            case .disclosure:
-                return 0
-            case .downArrow:
-                return -1
-            case .none:
-                return 0
-            }
-        }
-
-        var areaWidth: CGFloat {
-            return (size.width + horizontalPadding) * 2
         }
     }
 
@@ -191,10 +178,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     private var titleLeadingImageView = UIImageView()
     private var titleTrailingImageView = UIImageView()
-
-    private var titleLeadingImageAreaWidth: CGFloat {
-        return titleLeadingImageView.image != nil ? 2 * TokenSetType.leadingImageTotalPadding : 0
-    }
 
     private let subtitleButton = EasyTapButton() // TODO: remove me!
     private var subtitleAccessoryType: AccessoryType {
@@ -304,14 +287,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleLeadingImageView.image = titleImage
         titleLeadingImageView.isHidden = titleImage == nil
 
-        setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
+        setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, imageSize: TokenSetType.titleImageSizeToken, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
         if titleLeadingImageView.image != nil {
             titleContainer.insertArrangedSubview(titleLeadingImageView, at: 0)
         }
 
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll use the title as the main accessibility item.
-        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, imageSize: TokenSetType.subtitleImageSizeToken, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
 
         minimumContentSizeCategory = .large
 
@@ -398,7 +381,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
+    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, imageSize: GlobalTokens.IconSizeToken, text: String?, interactive: Bool, accessoryType: AccessoryType) {
         container.removeAllSubviews()
 
         container.isUserInteractionEnabled = interactive
@@ -410,7 +393,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         if interactive {
             container.accessibilityTraits.insert(.button)
             container.accessibilityTraits.remove(.staticText)
-            trailingImageView.image = accessoryType.image
+            trailingImageView.image = accessoryType.image(forSize: imageSize)
         } else {
             container.accessibilityTraits.insert(.staticText)
             container.accessibilityTraits.remove(.button)

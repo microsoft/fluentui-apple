@@ -86,9 +86,8 @@ extension TwoLineTitleViewTokenSet {
         }
     }
 
-    static let leadingImageSize = GlobalTokens.icon(.size160)
-    static let leadingImageMargin = GlobalTokens.spacing(.size40)
-    static let leadingImageTotalPadding: CGFloat = leadingImageSize + leadingImageMargin
+    static let titleImageSizeToken = GlobalTokens.IconSizeToken.size160
+    static let subtitleImageSizeToken = GlobalTokens.IconSizeToken.size120
 
     static let titleStackSpacing = GlobalTokens.spacing(.size40)
 
