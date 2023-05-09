@@ -222,6 +222,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleTrailingImageView.contentMode = .scaleAspectFit
         subtitleImageView.contentMode = .scaleAspectFit
 
+        // Accessibility features
+        titleButton.accessibilityTraits = [.staticText, .header]
+        subtitleButton.accessibilityTraits = [.staticText, .header]
+
+        addInteraction(UILargeContentViewerInteraction())
+        titleLabel.showsLargeContentViewer = true
+        subtitleLabel.showsLargeContentViewer = true
+
         /*titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
         titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
         titleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
@@ -240,18 +248,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         subtitleButton.addSubview(subtitleImageView)
 
         setupTitleColor(highlighted: false, animated: false)
-        setupSubtitleColor(highlighted: false, animated: false)
-
-        titleLeadingImageView.contentMode = .scaleAspectFit
-        titleTrailingImageView.contentMode = .scaleAspectFit
-        subtitleImageView.contentMode = .scaleAspectFit
-
-        titleButton.accessibilityTraits = [.staticText, .header]
-        subtitleButton.accessibilityTraits = [.staticText, .header]
-
-        addInteraction(UILargeContentViewerInteraction())
-        titleLabel.showsLargeContentViewer = true
-        subtitleLabel.showsLargeContentViewer = true*/
+        setupSubtitleColor(highlighted: false, animated: false)*/
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
