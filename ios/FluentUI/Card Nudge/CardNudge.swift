@@ -162,6 +162,7 @@ public struct CardNudge: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
 #if DEBUG
         let accessibilityIdentifier: String = {
             var identifier: String = "Card Nudge with title \"\(state.title)\""
@@ -200,7 +201,7 @@ public struct CardNudge: View, TokenizedControlView {
             return identifier
         }()
 #endif
-        innerContents
+        return innerContents
             .background(
                 RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                     .strokeBorder(lineWidth: tokenSet[.outlineWidth].float)
@@ -215,7 +216,6 @@ public struct CardNudge: View, TokenizedControlView {
             )
             .padding(.vertical, CardNudgeTokenSet.verticalPadding)
             .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     public init(style: MSFCardNudgeStyle, title: String) {
