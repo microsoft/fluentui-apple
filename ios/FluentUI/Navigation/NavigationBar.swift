@@ -855,9 +855,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             customTitleView.delegate = self
         }
 
-        // For the time being, we need to embed the TwoLineTitleView inside a UIStackView
-        // in order to make its labels resize properly according to content size changes.
-        navigationItem.titleView = UIStackView(arrangedSubviews: [customTitleView])
+        navigationItem.titleView = customTitleView
     }
 
     // MARK: Content expansion/contraction
