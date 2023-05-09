@@ -217,6 +217,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         contain(view: containerButton)
         containerButton.contain(view: containerStackView)
 
+        setupTitleColor(highlighted: false, animated: false)
+        setupSubtitleColor(highlighted: false, animated: false)
+
         // Ensure image views maintain their aspect ratios
         titleLeadingImageView.contentMode = .scaleAspectFit
         titleTrailingImageView.contentMode = .scaleAspectFit
@@ -245,10 +248,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         addSubview(subtitleButton)
 
         subtitleButton.addSubview(subtitleLabel)
-        subtitleButton.addSubview(subtitleImageView)
-
-        setupTitleColor(highlighted: false, animated: false)
-        setupSubtitleColor(highlighted: false, animated: false)*/
+        subtitleButton.addSubview(subtitleImageView)*/
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
