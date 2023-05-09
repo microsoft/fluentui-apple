@@ -41,6 +41,7 @@ public struct FluentDivider: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let isHorizontal = state.orientation == .horizontal
         let color = Color(tokenSet[.color].color)
         let padding = tokenSet[.padding].float
@@ -58,7 +59,6 @@ public struct FluentDivider: View, TokenizedControlView {
                                   leading: padding,
                                   bottom: 0,
                                   trailing: padding))
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
