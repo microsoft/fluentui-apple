@@ -20,6 +20,15 @@ class AvatarDemoControllerSwiftUI: UIHostingController<AvatarDemoView> {
         super.init(rootView: AvatarDemoView())
         self.title = "Avatar Fluent 2 (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct AvatarDemoView: View {
@@ -39,6 +48,7 @@ struct AvatarDemoView: View {
     @State var showImageBasedRingColor: Bool = false
     @State var size: MSFAvatarSize = .size72
     @State var style: MSFAvatarStyle = .default
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
         VStack {
@@ -185,5 +195,6 @@ struct AvatarDemoView: View {
                 .padding()
             }
         }
+        .fluentTheme(fluentTheme)
     }
 }
