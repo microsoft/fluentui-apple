@@ -106,6 +106,7 @@ public struct AvatarGroup: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
         let enumeratedAvatars = Array(avatars.enumerated())
@@ -220,7 +221,6 @@ public struct AvatarGroup: View, TokenizedControlView {
         }
 
         return avatarGroupContent
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
