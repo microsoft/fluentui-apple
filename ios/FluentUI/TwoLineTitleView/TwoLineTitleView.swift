@@ -150,7 +150,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private lazy var alignmentConstraint = centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor)
+    private lazy var alignmentConstraint: NSLayoutConstraint = centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor)
     private var alignment: Alignment = .center {
         didSet {
             guard alignment != oldValue else {
