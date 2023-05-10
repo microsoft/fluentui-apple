@@ -173,15 +173,15 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         return stackView
     }()
 
-    private static func titleLineStackView() -> UIStackView {
+    private static func makeEmptyTitleLineStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = TokenSetType.titleStackSpacing
         return stackView
     }
 
-    private lazy var titleContainer = Self.titleLineStackView()
-    private lazy var subtitleContainer = Self.titleLineStackView()
+    private lazy var titleContainer = Self.makeEmptyTitleLineStackView()
+    private lazy var subtitleContainer = Self.makeEmptyTitleLineStackView()
 
     private lazy var titleLabel: Label = {
         let label = Label(textStyle: TokenSetType.defaultTitleFont)
