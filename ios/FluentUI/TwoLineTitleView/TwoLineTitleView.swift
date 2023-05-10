@@ -223,8 +223,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         applyStyle()
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(onTitleTapped))
-        addGestureRecognizer(tap)
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTitleTapped)))
 
         // We do all of this instead of a simple contain(view:) to account for the minimum touch size
         addSubview(containingStackView)
