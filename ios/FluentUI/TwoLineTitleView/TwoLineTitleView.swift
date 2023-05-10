@@ -167,15 +167,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         return stackView
     }()
 
-    private static func makeEmptyTitleLineStackView() -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = TokenSetType.titleStackSpacing
-        return stackView
-    }
-
-    private lazy var titleContainer = Self.makeEmptyTitleLineStackView()
-    private lazy var subtitleContainer = Self.makeEmptyTitleLineStackView()
+    private let titleContainer: UIStackView
+    private let subtitleContainer: UIStackView
 
     private lazy var titleLabel: Label = {
         let label = Label(textStyle: TokenSetType.defaultTitleFont)
@@ -205,6 +198,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     public override init(frame: CGRect) {
         self.currentStyle = .system
 
+        titleContainer = UIStackView()
+        subtitleContainer = UIStackView()
+
         super.init(frame: frame)
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
@@ -216,6 +212,11 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
 
         applyStyle()
+
+        titleContainer.axis = .horizontal
+        titleContainer.spacing = TokenSetType.titleStackSpacing
+        subtitleContainer.axis = .horizontal
+        subtitleContainer.spacing = TokenSetType.titleStackSpacing
 
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTitleTapped)))
 
