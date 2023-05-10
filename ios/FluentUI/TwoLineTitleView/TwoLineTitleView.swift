@@ -71,6 +71,15 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 return .leading
             }
         }
+
+        var xAxisKeyPath: KeyPath<UIView, NSLayoutXAxisAnchor> {
+            switch self {
+            case .center:
+                return \.centerXAnchor
+            case .leading:
+                return \.leadingAnchor
+            }
+        }
     }
 
     @objc(MSFTwoLineTitleViewInteractivePart)
@@ -141,7 +150,18 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private var alignment: Alignment = .center
+    private lazy var alignmentConstraint = centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor)
+    private var alignment: Alignment = .center {
+        didSet {
+            guard alignment != oldValue else {
+                return
+            }
+            alignmentConstraint.isActive = false
+            let keyPath = alignment.xAxisKeyPath
+            alignmentConstraint = self[keyPath: keyPath].constraint(equalTo: containingStackView[keyPath: keyPath])
+            alignmentConstraint.isActive = true
+        }
+    }
     private var interactivePart: InteractivePart = .none
     private var animatesWhenPressed: Bool = true
     private var accessoryType: AccessoryType = .none
@@ -206,7 +226,17 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         let tap = UITapGestureRecognizer(target: self, action: #selector(onTitleTapped))
         addGestureRecognizer(tap)
 
-        contain(view: containingStackView)
+        // We do all of this instead of a simple contain(view:) to account for the minimum touch size
+        addSubview(containingStackView)
+        containingStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        widthAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.width).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.height).isActive = true
+
+        centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor).isActive = true
+        centerYAnchor.constraint(equalTo: containingStackView.centerYAnchor).isActive = true
+        widthAnchor.constraint(greaterThanOrEqualTo: containingStackView.widthAnchor).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualTo: containingStackView.heightAnchor).isActive = true
 
         setupTitleColor(highlighted: false, animated: false)
         setupSubtitleColor(highlighted: false, animated: false)
