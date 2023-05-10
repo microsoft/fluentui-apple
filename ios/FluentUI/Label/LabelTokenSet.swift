@@ -15,6 +15,24 @@ public enum TextColorStyle: Int, CaseIterable {
     case white
     case primary
     case error
+
+    func uiColor(fluentTheme: FluentTheme) -> UIColor {
+        switch self {
+        case .regular:
+            return fluentTheme.color(.foreground1)
+        case .secondary:
+            return fluentTheme.color(.foreground2)
+        case .secondaryOnColor:
+            return UIColor(light: fluentTheme.color(.foregroundOnColor),
+                           dark: fluentTheme.color(.foreground2))
+        case .white:
+            return fluentTheme.color(.foregroundLightStatic)
+        case .primary:
+            return fluentTheme.color(.brandForeground1)
+        case .error:
+            return fluentTheme.color(.dangerForeground2)
+        }
+    }
 }
 
 public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
@@ -35,21 +53,7 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
                 }
             case .textColor:
                 return .uiColor {
-                    switch colorStyle() {
-                    case .regular:
-                        return theme.color(.foreground1)
-                    case .secondary:
-                        return theme.color(.foreground2)
-                    case .secondaryOnColor:
-                        return UIColor(light: theme.color(.foregroundOnColor),
-                                       dark: theme.color(.foreground2))
-                    case .white:
-                        return theme.color(.foregroundLightStatic)
-                    case .primary:
-                        return theme.color(.brandForeground1)
-                    case .error:
-                        return theme.color(.dangerForeground2)
-                    }
+                    colorStyle().uiColor(fluentTheme: theme)
                 }
             }
         }
