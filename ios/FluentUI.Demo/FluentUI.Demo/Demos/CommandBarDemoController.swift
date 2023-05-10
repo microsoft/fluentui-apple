@@ -359,6 +359,7 @@ class CommandBarDemoController: DemoController {
         let label = Label()
         label.text = text
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }
 
@@ -415,8 +416,9 @@ class CommandBarDemoController: DemoController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
         stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: CommandBarDemoController.horizontalStackViewSpacing, bottom: 0, trailing: CommandBarDemoController.horizontalStackViewSpacing)
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }
 
