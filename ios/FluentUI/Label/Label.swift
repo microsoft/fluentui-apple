@@ -10,8 +10,17 @@ import UIKit
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)
 open class Label: UILabel, TokenizedControlInternal {
-    @objc open var colorStyle: TextColorStyle = .regular {
-        didSet {
+    private static let defaultColorForTheme: (FluentTheme) -> UIColor = TextColorStyle.regular.uiColor
+
+    private var colorForTheme: (FluentTheme) -> UIColor = Label.defaultColorForTheme
+
+    @objc open var colorStyle: TextColorStyle {
+        @available(*, unavailable)
+        get {
+            preconditionFailure("colorStyle will be deprecated soon. Use color tokens directly.")
+        }
+        set {
+            colorForTheme = newValue.uiColor
             updateTextColor()
         }
     }
@@ -80,8 +89,8 @@ open class Label: UILabel, TokenizedControlInternal {
     lazy public var tokenSet: LabelTokenSet = .init(textStyle: { [weak self] in
         return self?.textStyle ?? .body1
     },
-                                                    colorStyle: { [weak self] in
-        return self?.colorStyle ?? .regular
+                                                    colorForTheme: { [weak self] theme in
+        return (self?.colorForTheme ?? Self.defaultColorForTheme)(theme)
     })
 
     @objc convenience public init() {

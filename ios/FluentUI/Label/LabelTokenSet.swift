@@ -41,11 +41,16 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         case textColor
     }
 
+    convenience init(textStyle: @escaping () -> FluentTheme.TypographyToken,
+                     colorStyle: @escaping () -> TextColorStyle) {
+        self.init(textStyle: textStyle, colorForTheme: { colorStyle().uiColor(fluentTheme: $0) })
+    }
+
     init(textStyle: @escaping () -> FluentTheme.TypographyToken,
-         colorStyle: @escaping () -> TextColorStyle) {
+         colorForTheme: @escaping (FluentTheme) -> UIColor) {
         self.textStyle = textStyle
-        self.colorStyle = colorStyle
-        super.init { [colorStyle] token, theme in
+        self.colorForTheme = colorForTheme
+        super.init { [colorForTheme] token, theme in
             switch token {
             case .font:
                 return .uiFont {
@@ -53,7 +58,7 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
                 }
             case .textColor:
                 return .uiColor {
-                    colorStyle().uiColor(fluentTheme: theme)
+                    return colorForTheme(theme)
                 }
             }
         }
@@ -61,6 +66,6 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
 
     /// Defines the text typography style of the label.
     var textStyle: () -> FluentTheme.TypographyToken
-    /// Defines the text color style of the label.
-    var colorStyle: () -> TextColorStyle
+    /// Defines the text color style of the label for a given theme.
+    var colorForTheme: (FluentTheme) -> UIColor
 }
