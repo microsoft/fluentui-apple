@@ -86,7 +86,7 @@ extension TwoLineTitleViewTokenSet {
         }
     }
 
-    static let minimumTouchSize = EasyTapButton.minimumTouchSize
+    static let minimumTouchSize: CGSize = EasyTapButton.minimumTouchSize
 
     static let titleImageSizeToken: GlobalTokens.IconSizeToken = .size160
     static let subtitleImageSizeToken: GlobalTokens.IconSizeToken = .size120
