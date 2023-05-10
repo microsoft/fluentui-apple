@@ -51,11 +51,13 @@ struct NotificationDemoView: View {
     @State var useCustomTheme: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
     let customTheme: FluentTheme = {
+        let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
+                                      dark: GlobalTokens.sharedColor(.lavender, .tint40))
         let colorOverrides = [
             FluentTheme.ColorToken.brandBackgroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .tint40),
                                                                 dark: GlobalTokens.sharedColor(.lavender, .shade30)),
-            FluentTheme.ColorToken.brandForegroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
-                                                                dark: GlobalTokens.sharedColor(.lavender, .tint40))
+            FluentTheme.ColorToken.brandForeground1: foregroundColor,
+            FluentTheme.ColorToken.brandForegroundTint: foregroundColor
         ]
         return FluentTheme(colorOverrides: colorOverrides)
     }()
@@ -278,6 +280,7 @@ struct NotificationDemoView: View {
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
         .fluentTheme(theme)
+        .tint(Color(theme.color(.brandForeground1)))
     }
 
     private var backgroundGradient: LinearGradientInfo {

@@ -86,5 +86,6 @@ struct ActivityIndicatorDemoView: View {
             }
         }
         .fluentTheme(fluentTheme)
+        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 }

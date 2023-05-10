@@ -103,6 +103,7 @@ struct HUDDemoView: View {
                     isPresented: $isPresented,
                     label: label)
         .fluentTheme(fluentTheme)
+        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 
     @State var isBlocking: Bool = true

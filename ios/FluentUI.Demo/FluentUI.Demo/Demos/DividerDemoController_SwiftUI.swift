@@ -36,7 +36,7 @@ struct DividerDemoView: View {
     @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
-        VStack() {
+        VStack {
             VStack (spacing: 0) {
                 FluentDivider(spacing: spacing)
                 HStack (spacing: 0) {
@@ -58,7 +58,7 @@ struct DividerDemoView: View {
                             .font(.title)
                         FluentDivider(orientation: .horizontal)
                     }
-                    
+
                     Picker(selection: $spacing, label: EmptyView()) {
                         Text(".none").tag(MSFDividerSpacing.none)
                         Text(".medium").tag(MSFDividerSpacing.medium)
@@ -70,5 +70,6 @@ struct DividerDemoView: View {
             .padding()
         }
         .fluentTheme(fluentTheme)
+        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 }
