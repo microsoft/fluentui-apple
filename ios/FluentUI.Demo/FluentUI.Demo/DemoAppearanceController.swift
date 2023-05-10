@@ -95,6 +95,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
         // Different themes can have different overrides, so update as needed.
         updateToggleConfiguration()
+        rootView.fluentTheme = window.fluentTheme
     }
 
     /// Callback for handling color scheme changes.
