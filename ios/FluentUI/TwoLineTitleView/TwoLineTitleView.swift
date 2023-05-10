@@ -234,23 +234,6 @@ open class TwoLineTitleView: UIControl, TokenizedControlInternal {
         titleLabel.showsLargeContentViewer = true
         subtitleLabel.showsLargeContentViewer = true
 
-        /*titleButton.addTarget(self, action: #selector(onTitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
-        titleButton.addTarget(self, action: #selector(onTitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
-        titleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
-        addSubview(titleButton)
-
-        titleButton.addSubview(titleLeadingImageView)
-        titleButton.addSubview(titleLabel)
-        titleButton.addSubview(titleTrailingImageView)
-
-        subtitleButton.addTarget(self, action: #selector(onSubtitleButtonHighlighted), for: [.touchDown, .touchDragInside, .touchDragEnter])
-        subtitleButton.addTarget(self, action: #selector(onSubtitleButtonUnhighlighted), for: [.touchUpInside, .touchDragOutside, .touchDragExit])
-        subtitleButton.addTarget(self, action: #selector(onTitleButtonTapped), for: [.touchUpInside])
-        addSubview(subtitleButton)
-
-        subtitleButton.addSubview(subtitleLabel)
-        subtitleButton.addSubview(subtitleImageView)*/
-
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
