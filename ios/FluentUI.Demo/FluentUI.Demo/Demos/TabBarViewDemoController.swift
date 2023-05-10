@@ -20,9 +20,9 @@ class TabBarViewDemoController: DemoController {
     private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
     private var useHigherBadgeNumbers: Bool { return useHigherBadgeNumbersSwitch.isOn }
 
-    private let itemTitleVisibilitySwitch = UISwitch()
-    private let showBadgeNumbersSwitch = UISwitch()
-    private let useHigherBadgeNumbersSwitch = UISwitch()
+    private let itemTitleVisibilitySwitch = BrandedSwitch()
+    private let showBadgeNumbersSwitch = BrandedSwitch()
+    private let useHigherBadgeNumbersSwitch = BrandedSwitch()
 
     private lazy var incrementBadgeButton: Button = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))

@@ -127,6 +127,7 @@
 		EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */; };
 		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
 		ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */; };
+		ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -265,6 +266,7 @@
 		EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldObjCDemoController.m; sourceTree = "<group>"; };
 		EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldObjCDemoController.h; sourceTree = "<group>"; };
 		ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
+		ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandedSwitch.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				92E977B626C713F3008E10A8 /* ScrollView */,
+				ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */,
 				B4414791228F6F740040E88E /* TableViewCellSampleData.swift */,
 				B4414793228F6FDF0040E88E /* OtherCellsSampleData.swift */,
 				B4EF66552295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift */,
@@ -787,6 +790,7 @@
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
 				80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */,
+				ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */,
 				FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
 				B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */,
