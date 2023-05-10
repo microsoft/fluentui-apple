@@ -111,21 +111,21 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     @objc open var titleAccessibilityHint: String? {
-        get { return titleButton.accessibilityHint }
-        set { titleButton.accessibilityHint = newValue }
+        get { return titleLabel.accessibilityHint }
+        set { titleLabel.accessibilityHint = newValue }
     }
     @objc open var titleAccessibilityTraits: UIAccessibilityTraits {
-        get { return titleButton.accessibilityTraits }
-        set { titleButton.accessibilityTraits = newValue }
+        get { return titleLabel.accessibilityTraits }
+        set { titleLabel.accessibilityTraits = newValue }
     }
 
     @objc open var subtitleAccessibilityHint: String? {
-        get { return subtitleButton.accessibilityHint }
-        set { subtitleButton.accessibilityHint = newValue }
+        get { return subtitleLabel.accessibilityHint }
+        set { subtitleLabel.accessibilityHint = newValue }
     }
     @objc open var subtitleAccessibilityTraits: UIAccessibilityTraits {
-        get { return subtitleButton.accessibilityTraits }
-        set { subtitleButton.accessibilityTraits = newValue }
+        get { return subtitleLabel.accessibilityTraits }
+        set { subtitleLabel.accessibilityTraits = newValue }
     }
 
     public typealias TokenSetKeyType = TwoLineTitleViewTokenSet.Tokens
@@ -163,11 +163,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private lazy var titleContainer = Self.titleLineStackView()
     private lazy var subtitleContainer = Self.titleLineStackView()
 
-    private let titleButton = EasyTapButton() // TODO: remove me!
-    private var titleAccessoryType: AccessoryType {
-        return interactivePart.contains(.title) ? accessoryType : .none
-    }
-
     private lazy var titleLabel: Label = {
         let label = Label(textStyle: TokenSetType.defaultTitleFont)
         label.lineBreakMode = .byTruncatingTail
@@ -177,11 +172,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     private var titleLeadingImageView = UIImageView()
     private var titleTrailingImageView = UIImageView()
-
-    private let subtitleButton = EasyTapButton() // TODO: remove me!
-    private var subtitleAccessoryType: AccessoryType {
-        return interactivePart.contains(.subtitle) ? accessoryType : .none
-    }
 
     private lazy var subtitleLabel: Label = {
         let label = Label(textStyle: TokenSetType.defaultSubtitleFont)
@@ -227,8 +217,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         subtitleImageView.contentMode = .scaleAspectFit
 
         // Accessibility features
-        titleButton.accessibilityTraits = [.staticText, .header]
-        subtitleButton.accessibilityTraits = [.staticText, .header]
+        titleLabel.accessibilityTraits = [.staticText, .header]
+        subtitleLabel.accessibilityTraits = [.staticText, .header]
 
         addInteraction(UILargeContentViewerInteraction())
         titleLabel.showsLargeContentViewer = true
@@ -456,16 +446,16 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     open override func accessibilityElement(at index: Int) -> Any? {
         if index == 0 {
-            return titleButton
+            return titleLabel
         } else if index == 1 {
-            return subtitleButton
+            return subtitleLabel
         }
         return nil
     }
 
     open override func index(ofAccessibilityElement element: Any) -> Int {
         if let view = element as? UIView {
-            return view == titleButton ? 0 : 1
+            return view == titleLabel ? 0 : 1
         }
         return -1
     }
