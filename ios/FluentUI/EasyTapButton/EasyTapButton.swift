@@ -9,7 +9,7 @@ import UIKit
 
 @objc(MSFEasyTapButton)
 open class EasyTapButton: UIButton {
-    public static let minimumTouchSize = CGSize(width: 44, height: 44)
+    static let minimumTouchSize = CGSize(width: 44, height: 44)
 
     var minTapTargetSize: CGSize = minimumTouchSize
 
