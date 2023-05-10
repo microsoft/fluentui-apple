@@ -11,7 +11,7 @@ import UIKit
 open class EasyTapButton: UIButton {
     public static let minimumTouchSize = CGSize(width: 44, height: 44)
 
-    var minTapTargetSize = minimumTouchSize
+    var minTapTargetSize: CGSize = minimumTouchSize
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         let growX = max(0, (minTapTargetSize.width - bounds.size.width) / 2)
