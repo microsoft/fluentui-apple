@@ -233,8 +233,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         addInteraction(UILargeContentViewerInteraction())
         titleLabel.showsLargeContentViewer = true
         subtitleLabel.showsLargeContentViewer = true
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -294,9 +292,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         } else {
             maximumContentSizeCategory = .extraExtraLarge
         }
-
-        invalidateIntrinsicContentSize()
-        setNeedsLayout()
     }
 
     @objc open func setup(navigationItem: UINavigationItem) {
@@ -395,9 +390,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private func updateFonts() {
         titleLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.font: .titleFont])
         subtitleLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.font: .subtitleFont])
-
-        invalidateIntrinsicContentSize()
-        setNeedsLayout()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -408,10 +400,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         tokenSet.update(newWindow.fluentTheme)
         applyStyle()
         updateFonts()
-    }
-
-    @objc private func handleContentSizeCategoryDidChange() {
-        invalidateIntrinsicContentSize()
     }
 
     // MARK: Actions
