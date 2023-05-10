@@ -51,7 +51,7 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 // MARK: - TwoLineTitleView
 
 @objc(MSFTwoLineTitleView)
-open class TwoLineTitleView: UIView, TokenizedControlInternal {
+open class TwoLineTitleView: UIControl, TokenizedControlInternal {
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
         case primary
@@ -146,7 +146,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var animatesWhenPressed: Bool = true
     private var accessoryType: AccessoryType = .none
 
-    private let containerButton = EasyTapButton()
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -214,8 +213,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         applyStyle()
 
-        contain(view: containerButton)
-        containerButton.contain(view: containerStackView)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTitleTapped))
+        addGestureRecognizer(tap)
+
+        contain(view: containerStackView)
 
         setupTitleColor(highlighted: false, animated: false)
         setupSubtitleColor(highlighted: false, animated: false)
@@ -384,12 +385,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     }
 
     private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, imageSize: GlobalTokens.IconSizeToken, text: String?, interactive: Bool, accessoryType: AccessoryType) {
-        container.removeAllSubviews()
-
-        container.isUserInteractionEnabled = interactive
         container.accessibilityLabel = text
         label.text = text
 
+        container.removeAllSubviews()
         container.addArrangedSubview(label)
 
         if interactive {
@@ -434,42 +433,46 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
     // MARK: Actions
 
-    @objc private func onTitleButtonHighlighted() {
-        guard animatesWhenPressed else {
-            return
-        }
-        setupTitleColor(highlighted: true, animated: true)
-        if interactivePart == .all {
-            onSubtitleButtonHighlighted()
-        }
-    }
-
-    @objc private func onTitleButtonUnhighlighted() {
-        guard animatesWhenPressed else {
-            return
-        }
-        setupTitleColor(highlighted: false, animated: true)
-        if interactivePart == .all {
-            onSubtitleButtonUnhighlighted()
-        }
-    }
-
-    @objc private func onTitleButtonTapped() {
+    @objc private func onTitleTapped() {
         delegate?.twoLineTitleViewDidTapOnTitle(self)
     }
 
-    @objc private func onSubtitleButtonHighlighted() {
-        guard animatesWhenPressed else {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard animatesWhenPressed, touches.contains(where: { bounds.contains($0.location(in: self)) }) else {
             return
         }
-        setupSubtitleColor(highlighted: true, animated: true)
+        setTitleHighlight(true)
     }
 
-    @objc private func onSubtitleButtonUnhighlighted() {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         guard animatesWhenPressed else {
             return
         }
-        setupSubtitleColor(highlighted: false, animated: true)
+        setTitleHighlight(false)
+    }
+
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        guard animatesWhenPressed else {
+            return
+        }
+        setTitleHighlight(touches.allSatisfy { bounds.contains($0.location(in: self)) })
+    }
+
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        guard animatesWhenPressed else {
+            return
+        }
+        setTitleHighlight(false)
+    }
+
+    private func setTitleHighlight(_ value: Bool) {
+        assert(animatesWhenPressed, "setTitleHighlight(_) should only be called when animatesWhenPressed is true")
+        setupTitleColor(highlighted: value && interactivePart.contains(.title), animated: true)
+        setupSubtitleColor(highlighted: value && interactivePart.contains(.subtitle), animated: true)
     }
 
     // MARK: Accessibility
