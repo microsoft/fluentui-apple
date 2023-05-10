@@ -90,13 +90,4 @@ extension TwoLineTitleViewTokenSet {
     static let subtitleImageSizeToken: GlobalTokens.IconSizeToken = .size120
 
     static let titleStackSpacing = GlobalTokens.spacing(.size40)
-
-    static func titleSpacing(for verticalSizeClass: UIUserInterfaceSizeClass) -> CGFloat {
-        switch verticalSizeClass {
-        case .compact:
-            return -GlobalTokens.spacing(.size20)
-        default:
-            return GlobalTokens.spacing(.sizeNone)
-        }
-    }
 }
