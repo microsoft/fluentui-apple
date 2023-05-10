@@ -238,15 +238,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         widthAnchor.constraint(greaterThanOrEqualTo: containingStackView.widthAnchor).isActive = true
         heightAnchor.constraint(greaterThanOrEqualTo: containingStackView.heightAnchor).isActive = true
 
+        // Initial setup of subviews
         setupTitleColor(highlighted: false, animated: false)
         setupSubtitleColor(highlighted: false, animated: false)
 
-        // Ensure image views maintain their aspect ratios
         titleLeadingImageView.contentMode = .scaleAspectFit
         titleTrailingImageView.contentMode = .scaleAspectFit
         subtitleImageView.contentMode = .scaleAspectFit
 
-        // Accessibility features
         titleLabel.accessibilityTraits = [.staticText, .header]
         subtitleLabel.accessibilityTraits = [.staticText, .header]
 
