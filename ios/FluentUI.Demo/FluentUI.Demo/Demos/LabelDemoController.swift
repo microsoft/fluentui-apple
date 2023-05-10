@@ -40,7 +40,7 @@ class LabelDemoController: DemoController {
         let label = Label(textStyle: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
-        if colorStyle == .white {
+        if colorStyle == .white || colorStyle == .secondaryOnColor {
             label.backgroundColor = .black
         }
         container.addArrangedSubview(label)
