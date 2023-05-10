@@ -146,7 +146,7 @@ open class TwoLineTitleView: UIControl, TokenizedControlInternal {
     private var animatesWhenPressed: Bool = true
     private var accessoryType: AccessoryType = .none
 
-    private lazy var containerStackView: UIStackView = {
+    private lazy var containingStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 0
@@ -216,7 +216,7 @@ open class TwoLineTitleView: UIControl, TokenizedControlInternal {
         let tap = UITapGestureRecognizer(target: self, action: #selector(onTitleTapped))
         addGestureRecognizer(tap)
 
-        contain(view: containerStackView)
+        contain(view: containingStackView)
 
         setupTitleColor(highlighted: false, animated: false)
         setupSubtitleColor(highlighted: false, animated: false)
@@ -284,13 +284,13 @@ open class TwoLineTitleView: UIControl, TokenizedControlInternal {
 
         minimumContentSizeCategory = .large
 
-        containerStackView.removeAllSubviews()
-        containerStackView.alignment = alignment.stackViewAlignment
-        containerStackView.addArrangedSubview(titleContainer)
+        containingStackView.removeAllSubviews()
+        containingStackView.alignment = alignment.stackViewAlignment
+        containingStackView.addArrangedSubview(titleContainer)
 
         if subtitle?.isEmpty == false {
             maximumContentSizeCategory = .large
-            containerStackView.addArrangedSubview(subtitleContainer)
+            containingStackView.addArrangedSubview(subtitleContainer)
         } else {
             maximumContentSizeCategory = .extraExtraLarge
         }
