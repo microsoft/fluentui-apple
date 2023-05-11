@@ -12,8 +12,6 @@ import UIKit
 open class Label: UILabel, TokenizedControlInternal {
     private static let defaultColorForTheme: (FluentTheme) -> UIColor = TextColorStyle.regular.uiColor
 
-    private var colorForTheme: (FluentTheme) -> UIColor = Label.defaultColorForTheme
-
     @objc open var colorStyle: TextColorStyle {
         @available(*, unavailable)
         get {
@@ -92,6 +90,8 @@ open class Label: UILabel, TokenizedControlInternal {
                                                     colorForTheme: { [weak self] theme in
         return (self?.colorForTheme ?? Self.defaultColorForTheme)(theme)
     })
+
+    private var colorForTheme: (FluentTheme) -> UIColor = Label.defaultColorForTheme
 
     @objc convenience public init() {
         self.init(textStyle: .body1, colorStyle: .regular)
