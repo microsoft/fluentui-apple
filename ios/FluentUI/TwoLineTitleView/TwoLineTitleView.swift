@@ -160,6 +160,16 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var animatesWhenPressed: Bool = true
     private var accessoryType: AccessoryType = .none
 
+    // View hierarchy:
+    // containingStackView
+    // |--titleContainer
+    // |  |--titleLeadingImageView (user-defined, optional)
+    // |  |--titleLabel
+    // |  |--titleTrailingImageView (chevron, optional)
+    // |--subtitleContainer
+    // |  |--subtitleLabel
+    // |  |--subtitleImageView (chevron, optional)
+
     private lazy var containingStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
