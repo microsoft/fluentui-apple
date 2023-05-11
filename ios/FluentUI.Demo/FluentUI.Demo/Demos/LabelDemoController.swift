@@ -58,7 +58,7 @@ class LabelDemoController: DemoController {
         let label = Label(textStyle: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
-        if colorStyle == .white || colorStyle == .secondaryOnColor {
+        if colorStyle == .white {
             label.backgroundColor = .black
         }
         container.addArrangedSubview(label)
@@ -82,8 +82,6 @@ extension TextColorStyle {
             return "Regular"
         case .secondary:
             return "Secondary"
-        case .secondaryOnColor:
-            return "Secondary on Color"
         case .white:
             return "White"
         case .primary:

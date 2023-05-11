@@ -11,7 +11,6 @@ import UIKit
 public enum TextColorStyle: Int, CaseIterable {
     case regular
     case secondary
-    case secondaryOnColor
     case white
     case primary
     case error
@@ -22,9 +21,6 @@ public enum TextColorStyle: Int, CaseIterable {
             return fluentTheme.color(.foreground1)
         case .secondary:
             return fluentTheme.color(.foreground2)
-        case .secondaryOnColor:
-            return UIColor(light: fluentTheme.color(.foregroundOnColor),
-                           dark: fluentTheme.color(.foreground2))
         case .white:
             return fluentTheme.color(.foregroundLightStatic)
         case .primary:
