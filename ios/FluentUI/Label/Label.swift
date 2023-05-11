@@ -17,7 +17,7 @@ open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle {
         @available(*, unavailable)
         get {
-            preconditionFailure("colorStyle will be deprecated soon. Use color tokens directly.")
+            preconditionFailure("colorStyle is now a write-only property")
         }
         set {
             colorForTheme = newValue.uiColor
@@ -108,6 +108,13 @@ open class Label: UILabel, TokenizedControlInternal {
         super.init(frame: .zero)
         self.textStyle = textStyle
         self.colorStyle = colorStyle
+        initialize()
+    }
+
+    @objc public init(textStyle: FluentTheme.TypographyToken = .body1, colorForTheme: @escaping (FluentTheme) -> UIColor) {
+        super.init(frame: .zero)
+        self.textStyle = textStyle
+        self.colorForTheme = colorForTheme
         initialize()
     }
 
