@@ -234,13 +234,16 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         addSubview(containingStackView)
         containingStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        widthAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.width).isActive = true
-        heightAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.height).isActive = true
-
-        centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor).isActive = true
-        centerYAnchor.constraint(equalTo: containingStackView.centerYAnchor).isActive = true
-        widthAnchor.constraint(greaterThanOrEqualTo: containingStackView.widthAnchor).isActive = true
-        heightAnchor.constraint(greaterThanOrEqualTo: containingStackView.heightAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            // Ensure minimum touch size
+            widthAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.width),
+            heightAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.height),
+            // Contain and center containingStackView within ourself
+            centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor),
+            centerYAnchor.constraint(equalTo: containingStackView.centerYAnchor),
+            widthAnchor.constraint(greaterThanOrEqualTo: containingStackView.widthAnchor),
+            heightAnchor.constraint(greaterThanOrEqualTo: containingStackView.heightAnchor)
+        ])
 
         // Initial setup of subviews
         setupTitleColor(highlighted: false, animated: false)
