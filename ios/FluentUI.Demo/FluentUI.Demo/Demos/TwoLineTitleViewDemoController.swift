@@ -8,15 +8,17 @@ import UIKit
 
 class TwoLineTitleViewDemoController: DemoController {
     private typealias UINavigationItemModifier = (UINavigationItem) -> Void
-    private typealias TwoLineTitleViewFactory = () -> TwoLineTitleView
+    private typealias TwoLineTitleViewFactory = (_ forBottomSheet: Bool) -> TwoLineTitleView
 
-    private static func createDemoTitleView() -> TwoLineTitleView {
+    private static func createDemoTitleView(forBottomSheet: Bool) -> TwoLineTitleView {
         let twoLineTitleView = TwoLineTitleView()
 
-        // Give it a visible margin so we can confirm it centers properly
-        twoLineTitleView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        twoLineTitleView.layer.borderWidth = GlobalTokens.stroke(.width10)
-        twoLineTitleView.layer.borderColor = GlobalTokens.neutralColor(.grey50).cgColor
+        if !forBottomSheet {
+            // Give it a visible margin so we can confirm it centers properly
+            twoLineTitleView.widthAnchor.constraint(equalToConstant: 200).isActive = true
+            twoLineTitleView.layer.borderWidth = GlobalTokens.stroke(.width10)
+            twoLineTitleView.layer.borderColor = GlobalTokens.neutralColor(.grey50).cgColor
+        }
 
         return twoLineTitleView
     }
@@ -30,7 +32,7 @@ class TwoLineTitleViewDemoController: DemoController {
                                               animatesWhenPressed: Bool = true,
                                               accessoryType: TwoLineTitleView.AccessoryType = .none) -> TwoLineTitleViewFactory {
         return {
-            let twoLineTitleView = createDemoTitleView()
+            let twoLineTitleView = createDemoTitleView(forBottomSheet: $0)
             twoLineTitleView.setup(title: title,
                                    titleImage: titleImage,
                                    subtitle: subtitle,
@@ -46,17 +48,6 @@ class TwoLineTitleViewDemoController: DemoController {
         let navigationItem = UINavigationItem()
         initializer(navigationItem)
         return navigationItem
-    }
-
-    private static func makeNavigationTitleView(_ navigationItemModifier: UINavigationItemModifier) -> TwoLineTitleView {
-        let twoLineTitleView = createDemoTitleView()
-
-        let aNavigationItem = UINavigationItem()
-        navigationItemModifier(aNavigationItem)
-
-        twoLineTitleView.setup(navigationItem: aNavigationItem)
-
-        return twoLineTitleView
     }
 
     private let exampleSetupFactories: [TwoLineTitleViewFactory] = [
@@ -102,7 +93,7 @@ class TwoLineTitleViewDemoController: DemoController {
         addTitle(text: "Made by calling TwoLineTitleView.setup(...)")
         exampleSetupFactories.enumerated().forEach {
             (offset, element) in
-            let twoLineTitleView = element()
+            let twoLineTitleView = element(false)
             allExamples.append(twoLineTitleView)
 
             let button = Button()
@@ -116,7 +107,7 @@ class TwoLineTitleViewDemoController: DemoController {
         addTitle(text: "Made from UINavigationItem")
         exampleNavigationItems.enumerated().forEach {
             (offset, navigationItem) in
-            let twoLineTitleView = Self.createDemoTitleView()
+            let twoLineTitleView = Self.createDemoTitleView(forBottomSheet: false)
             twoLineTitleView.setup(navigationItem: navigationItem)
             allExamples.append(twoLineTitleView)
 
@@ -136,7 +127,7 @@ class TwoLineTitleViewDemoController: DemoController {
     }
 
     @objc private func setupButtonWasTapped(sender: UIButton) {
-        let titleView = exampleSetupFactories[sender.tag]()
+        let titleView = exampleSetupFactories[sender.tag](true)
         showBottomSheet(with: titleView)
     }
 
@@ -147,6 +138,7 @@ class TwoLineTitleViewDemoController: DemoController {
         // There can be multiple of these on screen at the same time. All the currently presented transient sheets
         // are tracked in presentedTransientSheets.
         let secondarySheetController = BottomSheetController(headerContentView: titleView, expandedContentView: sheetContentView)
+        secondarySheetController.headerContentHeight = 44
         secondarySheetController.collapsedContentHeight = 100
         secondarySheetController.isHidden = true
         secondarySheetController.shouldAlwaysFillWidth = false
