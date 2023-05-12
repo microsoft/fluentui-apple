@@ -65,7 +65,13 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// Removes all `onUpdate`-based observing. Useful if you are re-registering the same tokenSet
     /// for a new instance of a control (see `Tooltip` for an example).
     func deregisterOnUpdate() {
+        if let notificationObserver {
+            NotificationCenter.default.removeObserver(notificationObserver,
+                                                      name: .didChangeTheme,
+                                                      object: nil)
+        }
         changeSink = nil
+        notificationObserver = nil
         onUpdate = nil
     }
 
@@ -121,7 +127,8 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     /// - Parameter onUpdate: A callback to run whenever `control` should update itself.
     func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
         guard self.onUpdate == nil,
-              changeSink == nil else {
+              changeSink == nil,
+              notificationObserver == nil else {
             assertionFailure("Attempting to double-register for tokenSet updates!")
             return
         }
@@ -132,6 +139,20 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
             DispatchQueue.main.async {
                 self?.onUpdate?()
             }
+        }
+
+        // Register for notifications in order to call update() when the theme changes.
+        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                      object: nil,
+                                                                      queue: nil) { [weak self, weak control] notification in
+            guard let strongSelf = self,
+                  let themeView = notification.object as? UIView,
+                  let control,
+                  control.isDescendant(of: themeView)
+            else {
+                return
+            }
+            strongSelf.update(themeView.fluentTheme)
         }
     }
 
@@ -153,6 +174,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// Holds the sink for any changes to the control token set.
     private var changeSink: AnyCancellable?
+
+    /// Stores the notification handler for .didChangeTheme notifications.
+    private var notificationObserver: NSObjectProtocol?
 
     /// A callback to be invoked after the token set has completed updating.
     private var onUpdate: (() -> Void)?

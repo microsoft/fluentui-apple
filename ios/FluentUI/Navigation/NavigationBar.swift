@@ -53,7 +53,7 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar, TokenizedThemeObserver {
+open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -361,7 +361,6 @@ open class NavigationBar: UINavigationBar, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors(for: self?.topItem)
         }
-        addThemeObserver(for: self)
     }
 
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {

@@ -56,7 +56,7 @@ public protocol BadgeViewDelegate {
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
 @objc(MSFBadgeView)
-open class BadgeView: UIView, TokenizedThemeObserver {
+open class BadgeView: UIView, TokenizedControlInternal {
     @objc open var dataSource: BadgeViewDataSource? {
         didSet {
             reload()
@@ -208,7 +208,6 @@ open class BadgeView: UIView, TokenizedThemeObserver {
             self?.updateColors()
             self?.updateFonts()
         }
-        addThemeObserver(for: self)
 
         defer {
             self.dataSource = dataSource

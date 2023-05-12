@@ -20,24 +20,3 @@ protocol TokenizedControlInternal: TokenizedControl {
     /// The current `FluentTheme` applied to this control. Usually acquired via the environment.
     var fluentTheme: FluentTheme { get }
 }
-
-protocol TokenizedThemeObserver: TokenizedControlInternal, NSObject {
-    func addThemeObserver(for view: UIView) -> NSObjectProtocol
-}
-
-extension TokenizedThemeObserver {
-    @discardableResult func addThemeObserver(for view: UIView) -> NSObjectProtocol {
-        return NotificationCenter.default.addObserver(forName: .didChangeTheme,
-                                                      object: nil,
-                                                      queue: nil) { [weak self, weak view] notification in
-            guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
-                  let view,
-                  view.isDescendant(of: themeView)
-            else {
-                return
-            }
-            strongSelf.tokenSet.update(themeView.fluentTheme)
-        }
-    }
-}

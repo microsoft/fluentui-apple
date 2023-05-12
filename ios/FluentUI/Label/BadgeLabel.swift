@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: BadgeLabel
 
-class BadgeLabel: UILabel, TokenizedThemeObserver {
+class BadgeLabel: UILabel, TokenizedControlInternal {
     var shouldUseWindowColor: Bool = false {
         didSet {
             updateColors()
@@ -37,7 +37,6 @@ class BadgeLabel: UILabel, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
-        addThemeObserver(for: self)
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {

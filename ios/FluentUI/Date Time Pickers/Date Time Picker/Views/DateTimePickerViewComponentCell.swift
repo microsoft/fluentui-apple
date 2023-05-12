@@ -8,7 +8,7 @@ import UIKit
 // MARK: - DateTimePickerViewComponentCell
 
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
-class DateTimePickerViewComponentCell: UITableViewCell, TokenizedThemeObserver {
+class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12
@@ -44,7 +44,6 @@ class DateTimePickerViewComponentCell: UITableViewCell, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextLabelColor()
         }
-        addThemeObserver(for: self)
     }
 
     required init?(coder aDecoder: NSCoder) {

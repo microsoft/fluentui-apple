@@ -17,7 +17,7 @@ import UIKit
 // |--|--layer (ambient and key shadows added as sublayers)
 /// A styled tooltip that is presented anchored to a view.
 @objc(MSFTooltip)
-open class Tooltip: NSObject, TokenizedThemeObserver {
+open class Tooltip: NSObject, TokenizedControlInternal {
 
     /// Displays a tooltip based on the current settings, pointing to the supplied anchorView.
     /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
@@ -66,7 +66,6 @@ open class Tooltip: NSObject, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: tooltipView) { [weak self] in
             self?.tooltipViewController?.updateAppearance()
         }
-        themeObserver = addThemeObserver(for: tooltipView)
 
         hostVC.addChild(tooltipViewController)
         self.onTap = onTap
@@ -219,12 +218,6 @@ open class Tooltip: NSObject, TokenizedThemeObserver {
         tooltipViewController = nil
 
         tokenSet.deregisterOnUpdate()
-        if let themeObserver {
-            NotificationCenter.default.removeObserver(themeObserver,
-                                                      name: .didChangeTheme,
-                                                      object: nil)
-        }
-        themeObserver = nil
 
         onTap = nil
 
@@ -289,7 +282,6 @@ open class Tooltip: NSObject, TokenizedThemeObserver {
         }
         return anchorView.fluentTheme
     }
-    var themeObserver: NSObjectProtocol?
 
     private override init() {
         super.init()

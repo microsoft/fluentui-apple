@@ -50,7 +50,7 @@ let calendarViewDayCellVisualStateTransitionDuration: TimeInterval = 0.3
 
 // MARK: - CalendarViewDayCell
 
-class CalendarViewDayCell: UICollectionViewCell, TokenizedThemeObserver {
+class CalendarViewDayCell: UICollectionViewCell, TokenizedControlInternal {
     struct Constants {
         static let borderWidth: CGFloat = 0.5
         static let dotDiameter: CGFloat = 6.0
@@ -116,7 +116,6 @@ class CalendarViewDayCell: UICollectionViewCell, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
-        addThemeObserver(for: self)
     }
 
     func updateAppearance() {

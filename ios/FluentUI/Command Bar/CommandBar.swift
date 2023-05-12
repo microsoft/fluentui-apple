@@ -18,7 +18,7 @@ public protocol CommandBarDelegate: AnyObject {
  Provide `itemGroups` in `init` to set the buttons in the CommandBar. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
-public class CommandBar: UIView, TokenizedThemeObserver {
+public class CommandBar: UIView, TokenizedControlInternal {
     // Hierarchy:
     //
     // isScrollable = true
@@ -103,7 +103,6 @@ public class CommandBar: UIView, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateButtonTokens()
         }
-        addThemeObserver(for: self)
     }
 
     public override func willMove(toWindow newWindow: UIWindow?) {

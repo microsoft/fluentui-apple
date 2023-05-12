@@ -11,7 +11,7 @@ import UIKit
 /// Used to contain an accessory provided by the VC contained by the NavigatableShyContainerVC
 /// This class in itself is fairly straightforward, defining a height and a containment layout
 /// The animation around showing/hiding this view progressively is handled by its superview/superVC, an instance of ShyHeaderController
-class ShyHeaderView: UIView, TokenizedThemeObserver {
+class ShyHeaderView: UIView, TokenizedControlInternal {
     typealias TokenSetKeyType = EmptyTokenSet.Tokens
     public var tokenSet: EmptyTokenSet = .init()
 
@@ -72,7 +72,6 @@ class ShyHeaderView: UIView, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
-        addThemeObserver(for: self)
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {

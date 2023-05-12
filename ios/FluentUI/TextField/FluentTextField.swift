@@ -6,7 +6,7 @@
 import UIKit
 
 @objc(MSFTextField)
-public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedThemeObserver {
+public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
     public override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
@@ -151,7 +151,6 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedThemeO
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
-        addThemeObserver(for: self)
     }
 
     required init?(coder: NSCoder) {

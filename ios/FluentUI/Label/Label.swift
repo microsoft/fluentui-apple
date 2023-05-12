@@ -9,7 +9,7 @@ import UIKit
 
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)
-open class Label: UILabel, TokenizedThemeObserver {
+open class Label: UILabel, TokenizedControlInternal {
     @objc open var colorStyle: TextColorStyle = .regular {
         didSet {
             updateTextColor()
@@ -125,7 +125,6 @@ open class Label: UILabel, TokenizedThemeObserver {
             self?.updateTextColor()
             self?.updateFont()
         }
-        addThemeObserver(for: self)
     }
 
     private func updateFont() {

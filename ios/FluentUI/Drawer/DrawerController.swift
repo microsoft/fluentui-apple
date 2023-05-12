@@ -97,7 +97,7 @@ public protocol DrawerControllerDelegate: AnyObject {
  */
 
 @objc(MSFDrawerController)
-open class DrawerController: UIViewController, TokenizedThemeObserver {
+open class DrawerController: UIViewController, TokenizedControlInternal {
     /// DrawerController colors with obj-c support
     @objc public static func drawerBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
         let theme = fluentTheme ?? .shared
@@ -516,7 +516,6 @@ open class DrawerController: UIViewController, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: view) { [weak self] in
             self?.updateBackgroundColor()
         }
-        addThemeObserver(for: view)
     }
 
     open override func viewWillAppear(_ animated: Bool) {

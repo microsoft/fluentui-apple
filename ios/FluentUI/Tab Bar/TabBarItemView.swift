@@ -5,7 +5,7 @@
 
 import UIKit
 
-class TabBarItemView: UIControl, TokenizedThemeObserver {
+class TabBarItemView: UIControl, TokenizedControlInternal {
     let item: TabBarItem
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
@@ -135,7 +135,6 @@ class TabBarItemView: UIControl, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
-        addThemeObserver(for: self)
     }
 
     required init?(coder aDecoder: NSCoder) {

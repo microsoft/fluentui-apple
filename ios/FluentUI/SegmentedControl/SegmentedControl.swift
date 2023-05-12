@@ -7,7 +7,7 @@ import UIKit
 // MARK: SegmentedControl
 /// A styled segmented control that should be used instead of UISegmentedControl. It is designed to flex the button width proportionally to the control's width.
 @objc(MSFSegmentedControl)
-open class SegmentedControl: UIView, TokenizedThemeObserver {
+open class SegmentedControl: UIView, TokenizedControlInternal {
     private struct Constants {
         static let selectionBarHeight: CGFloat = 1.5
         static let pillContainerHorizontalInset: CGFloat = 16
@@ -214,7 +214,6 @@ open class SegmentedControl: UIView, TokenizedThemeObserver {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
-        addThemeObserver(for: self)
         updateTokenizedValues()
     }
 
