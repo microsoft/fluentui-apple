@@ -60,7 +60,7 @@ final class AsyncImageDemoPersona: PersonaData {
 class PeoplePickerDemoController: DemoController {
     var peoplePickers: [PeoplePicker] = []
 
-    private let asyncImageSwitch = UISwitch()
+    private let asyncImageSwitch = BrandedSwitch()
 
     override func viewDidLoad() {
         super.viewDidLoad()

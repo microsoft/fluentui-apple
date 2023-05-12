@@ -110,14 +110,6 @@ class DemoController: UIViewController {
 
     }
 
-    func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-
-        return createLabelAndViewsRow(labelText: labelText, views: [switchView])
-    }
-
     func createLabelAndViewsRow(labelText: String, views: [UIView]) -> UIView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal

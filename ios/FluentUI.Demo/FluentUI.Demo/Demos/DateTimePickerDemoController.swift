@@ -23,7 +23,7 @@ class DateTimePickerDemoController: DemoController {
         }
     }
 
-    private let customCalendarConfigurationSwitch = UISwitch()
+    private let customCalendarConfigurationSwitch = BrandedSwitch()
     private var calendarConfiguration: CalendarConfiguration? {
         guard customCalendarConfigurationSwitch.isOn else {
             return nil
@@ -37,7 +37,7 @@ class DateTimePickerDemoController: DemoController {
         return customCalendarConfiguration
     }
 
-    private let validationSwitch = UISwitch()
+    private let validationSwitch = BrandedSwitch()
     private var isValidating: Bool { return validationSwitch.isOn }
 
     private var startDate: Date?

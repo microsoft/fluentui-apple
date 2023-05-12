@@ -19,6 +19,15 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
         super.init(rootView: NotificationDemoView())
         self.title = "Notification View Vnext (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct NotificationDemoView: View {
@@ -39,6 +48,19 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
+    @State var useCustomTheme: Bool = false
+    @ObservedObject var fluentTheme: FluentTheme = .shared
+    let customTheme: FluentTheme = {
+        let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
+                                      dark: GlobalTokens.sharedColor(.lavender, .tint40))
+        let colorOverrides = [
+            FluentTheme.ColorToken.brandBackgroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .tint40),
+                                                                dark: GlobalTokens.sharedColor(.lavender, .shade30)),
+            FluentTheme.ColorToken.brandForeground1: foregroundColor,
+            FluentTheme.ColorToken.brandForegroundTint: foregroundColor
+        ]
+        return FluentTheme(colorOverrides: colorOverrides)
+    }()
 
     public var body: some View {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
@@ -70,6 +92,7 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
+        let theme = useCustomTheme ? customTheme : fluentTheme
 
 #if DEBUG
         let accessibilityIdentifier: String = {
@@ -230,6 +253,7 @@ struct NotificationDemoView: View {
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                         FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
                         FluentUIDemoToggle(titleKey: "Background Gradient", isOn: $showBackgroundGradient)
+                        FluentUIDemoToggle(titleKey: "Custom theme", isOn: $useCustomTheme)
                     }
                 }
                 .padding()
@@ -255,6 +279,8 @@ struct NotificationDemoView: View {
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
+        .fluentTheme(theme)
+        .tint(Color(theme.color(.brandForeground1)))
     }
 
     private var backgroundGradient: LinearGradientInfo {

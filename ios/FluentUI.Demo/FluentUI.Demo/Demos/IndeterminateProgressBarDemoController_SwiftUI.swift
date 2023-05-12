@@ -20,11 +20,21 @@ class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<Indeter
         super.init(rootView: IndeterminateProgressBarDemoView())
         self.title = "IndeterminateProgressBar Fluent 2 (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct IndeterminateProgressBarDemoView: View {
     @State var isAnimating: Bool = true
     @State var hidesWhenStopsAnimating: Bool = true
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
         VStack {
@@ -52,5 +62,6 @@ struct IndeterminateProgressBarDemoView: View {
                 .padding()
             }
         }
+        .fluentTheme(fluentTheme)
     }
 }

@@ -13,6 +13,7 @@ struct DemoAppearanceView: View {
     @Environment(\.colorScheme) var systemColorScheme: ColorScheme
     @ObservedObject var configuration: Configuration
     @State var showingThemeWideAlert: Bool = false
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 
     /// Picker for setting the app's color scheme.
     @ViewBuilder
@@ -68,6 +69,7 @@ struct DemoAppearanceView: View {
 
             Spacer()
         }
+        .fluentTheme(fluentTheme)
     }
 
     var body: some View {

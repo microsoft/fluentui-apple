@@ -20,10 +20,18 @@ class HUDDemoControllerSwiftUI: UIHostingController<HUDDemoView> {
         super.init(rootView: HUDDemoView())
         self.title = "HUD (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct HUDDemoView: View {
-
     public var body: some View {
         VStack {
             HeadsUpDisplay(type: type,
@@ -94,10 +102,13 @@ struct HUDDemoView: View {
                     isBlocking: isBlocking,
                     isPresented: $isPresented,
                     label: label)
+        .fluentTheme(fluentTheme)
+        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 
     @State var isBlocking: Bool = true
     @State var isPresented: Bool = false
     @State var label: String = ""
     @State var type: HUDType = .activity
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 }

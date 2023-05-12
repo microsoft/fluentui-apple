@@ -20,6 +20,15 @@ class ActivityIndicatorDemoControllerSwiftUI: UIHostingController<ActivityIndica
         super.init(rootView: ActivityIndicatorDemoView())
         self.title = "ActivityIndicator Fluent 2 (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct ActivityIndicatorDemoView: View {
@@ -27,6 +36,7 @@ struct ActivityIndicatorDemoView: View {
     @State var hidesWhenStopsAnimating: Bool = true
     @State var usesCustomColor: Bool = false
     @State var size: MSFActivityIndicatorSize = .xLarge
+    @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
         VStack {
@@ -75,5 +85,7 @@ struct ActivityIndicatorDemoView: View {
                 .padding()
             }
         }
+        .fluentTheme(fluentTheme)
+        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 }

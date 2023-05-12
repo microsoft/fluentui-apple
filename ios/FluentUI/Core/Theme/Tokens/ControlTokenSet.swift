@@ -157,7 +157,14 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     }
 
     /// The current `FluentTheme` associated with this `ControlTokenSet`.
-    @Published var fluentTheme: FluentTheme = FluentTheme.shared
+    var fluentTheme: FluentTheme = FluentTheme.shared {
+        didSet {
+            guard let onUpdate else {
+                return
+            }
+            onUpdate()
+        }
+    }
 
     /// Access to raw overrides for the `ControlTokenSet`.
     @Published private var valueOverrides: [T: ControlTokenValue]?

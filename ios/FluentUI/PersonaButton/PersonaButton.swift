@@ -68,8 +68,9 @@ public struct PersonaButton: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let action = state.onTapAction ?? {}
-        SwiftUI.Button(action: action) {
+        return SwiftUI.Button(action: action) {
             VStack(spacing: 0) {
                 avatarView
                 personaText
@@ -78,7 +79,6 @@ public struct PersonaButton: View, TokenizedControlView {
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
         .background(Color(tokenSet[.backgroundColor].uiColor))
-        .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
