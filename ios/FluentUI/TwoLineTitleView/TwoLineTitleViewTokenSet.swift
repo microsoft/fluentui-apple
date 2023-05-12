@@ -23,7 +23,6 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
 
     init(style: @escaping () -> TwoLineTitleView.Style) {
         super.init { [style] token, theme in
-            assertionFailure("TwoLineTitleView is a compound control, so we shouldn't be accessing its default token values directly")
             switch token {
             case .subtitleColor:
                 return .uiColor {
@@ -68,34 +67,10 @@ extension TwoLineTitleViewTokenSet {
     static let defaultTitleFont: FluentTheme.TypographyToken = .body1Strong
     static let defaultSubtitleFont: FluentTheme.TypographyToken = .caption1
 
-    static func defaultTitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
-        switch style {
-        case .primary:
-            return .white // Equivalent to .foregroundOnColor on light, .foreground1 on dark
-        case .system:
-            return .regular
-        }
-    }
+    static let minimumTouchSize: CGSize = EasyTapButton.minimumTouchSize
 
-    static func defaultSubtitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
-        switch style {
-        case .primary:
-            return .secondaryOnColor // Equivalent to .foregroundColor on light, .foreground2 on dark
-        case .system:
-            return .secondary
-        }
-    }
+    static let titleImageSizeToken: GlobalTokens.IconSizeToken = .size160
+    static let subtitleImageSizeToken: GlobalTokens.IconSizeToken = .size120
 
-    static let leadingImageSize = GlobalTokens.icon(.size160)
-    static let leadingImageMargin = GlobalTokens.spacing(.size40)
-    static let leadingImageTotalPadding: CGFloat = leadingImageSize + leadingImageMargin
-
-    static func titleSpacing(for verticalSizeClass: UIUserInterfaceSizeClass) -> CGFloat {
-        switch verticalSizeClass {
-        case .compact:
-            return -GlobalTokens.spacing(.size20)
-        default:
-            return GlobalTokens.spacing(.sizeNone)
-        }
-    }
+    static let titleStackSpacing = GlobalTokens.spacing(.size40)
 }
