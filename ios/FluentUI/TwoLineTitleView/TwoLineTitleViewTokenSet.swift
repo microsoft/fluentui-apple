@@ -23,7 +23,6 @@ public class TwoLineTitleViewTokenSet: ControlTokenSet<TwoLineTitleViewTokenSet.
 
     init(style: @escaping () -> TwoLineTitleView.Style) {
         super.init { [style] token, theme in
-            assertionFailure("TwoLineTitleView is a compound control, so we shouldn't be accessing its default token values directly")
             switch token {
             case .subtitleColor:
                 return .uiColor {
@@ -67,24 +66,6 @@ extension TwoLineTitleViewTokenSet {
 
     static let defaultTitleFont: FluentTheme.TypographyToken = .body1Strong
     static let defaultSubtitleFont: FluentTheme.TypographyToken = .caption1
-
-    static func defaultTitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
-        switch style {
-        case .primary:
-            return .white // Equivalent to .foregroundOnColor on light, .foreground1 on dark
-        case .system:
-            return .regular
-        }
-    }
-
-    static func defaultSubtitleColorStyle(for style: TwoLineTitleView.Style) -> TextColorStyle {
-        switch style {
-        case .primary:
-            return .secondaryOnColor // Equivalent to .foregroundColor on light, .foreground2 on dark
-        case .system:
-            return .secondary
-        }
-    }
 
     static let minimumTouchSize: CGSize = EasyTapButton.minimumTouchSize
 

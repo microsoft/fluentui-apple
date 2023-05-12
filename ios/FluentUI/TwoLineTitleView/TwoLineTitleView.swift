@@ -181,7 +181,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private let subtitleContainer: UIStackView
 
     private lazy var titleLabel: Label = {
-        let label = Label(textStyle: TokenSetType.defaultTitleFont)
+        let label = Label(textStyle: TokenSetType.defaultTitleFont, colorForTheme: { _ in self.tokenSet[.titleColor].uiColor })
         label.lineBreakMode = .byTruncatingTail
         label.textAlignment = .center
         return label
@@ -191,7 +191,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     private var titleTrailingImageView = UIImageView()
 
     private lazy var subtitleLabel: Label = {
-        let label = Label(textStyle: TokenSetType.defaultSubtitleFont)
+        let label = Label(textStyle: TokenSetType.defaultSubtitleFont, colorForTheme: { _ in self.tokenSet[.subtitleColor].uiColor })
         label.lineBreakMode = .byTruncatingMiddle
         return label
     }()
@@ -346,10 +346,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     // MARK: Highlighting
 
     private func applyStyle() {
-        // Reset color styles since they might have changed
-        titleLabel.colorStyle = TokenSetType.defaultTitleColorStyle(for: currentStyle)
-        subtitleLabel.colorStyle = TokenSetType.defaultSubtitleColorStyle(for: currentStyle)
-
         titleLabel.tokenSet.setOverrides(from: tokenSet, mapping: [.textColor: .titleColor])
         let titleColor = titleLabel.tokenSet[.textColor].uiColor
         titleLeadingImageView.tintColor = titleColor
