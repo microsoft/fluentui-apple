@@ -501,7 +501,11 @@ open class BottomCommandingController: UIViewController {
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
     }
 
-    private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
+    private lazy var moreHeroItem: CommandingItem = {
+        let moreItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
+        moreItem.accessibilityIdentifier = "More"
+        return moreItem
+    }()
 
     private lazy var heroCommandStack: UIStackView = {
         let stackView = UIStackView()
