@@ -153,6 +153,7 @@
 		6F050B6F29D3EA820070D3D5 /* PillButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B6E29D3EA820070D3D5 /* PillButtonTokenSet.swift */; };
 		6F050B7129D6213E0070D3D5 /* PopupMenuItemTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B7029D6213E0070D3D5 /* PopupMenuItemTokenSet.swift */; };
 		6F050B7529D6219D0070D3D5 /* PopupMenuTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F050B7429D6219D0070D3D5 /* PopupMenuTokenSet.swift */; };
+		6F2F218F2A12BFD900C50EAB /* BadgeLabelTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2F218E2A12BFD900C50EAB /* BadgeLabelTokenSet.swift */; };
 		6F3CB7F029D3A2B700284353 /* DrawerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */; };
 		6F3CB7F229D3A5DE00284353 /* ResizingHandleTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */; };
 		6FBFD62629CBB5F1002F3C81 /* SearchBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */; };
@@ -310,6 +311,7 @@
 		6F050B6E29D3EA820070D3D5 /* PillButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonTokenSet.swift; sourceTree = "<group>"; };
 		6F050B7029D6213E0070D3D5 /* PopupMenuItemTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuItemTokenSet.swift; sourceTree = "<group>"; };
 		6F050B7429D6219D0070D3D5 /* PopupMenuTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuTokenSet.swift; sourceTree = "<group>"; };
+		6F2F218E2A12BFD900C50EAB /* BadgeLabelTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabelTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7EF29D3A2B700284353 /* DrawerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerTokenSet.swift; sourceTree = "<group>"; };
 		6F3CB7F129D3A5DE00284353 /* ResizingHandleTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleTokenSet.swift; sourceTree = "<group>"; };
 		6FBFD62529CBB5F1002F3C81 /* SearchBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarTokenSet.swift; sourceTree = "<group>"; };
@@ -657,6 +659,7 @@
 				A589F853211BA03200471C23 /* Label.swift */,
 				6EB4B25D270ED6450005B808 /* BadgeLabel.swift */,
 				4B4A2F2029A7E83100570CD4 /* LabelTokenSet.swift */,
+				6F2F218E2A12BFD900C50EAB /* BadgeLabelTokenSet.swift */,
 			);
 			path = Label;
 			sourceTree = "<group>";
@@ -1541,6 +1544,7 @@
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
 				EC98E2B4298D989100B9DF91 /* FluentTextInputError.swift in Sources */,
+				6F2F218F2A12BFD900C50EAB /* BadgeLabelTokenSet.swift in Sources */,
 				6FC3705E29E7707F0096B239 /* BadgeViewTokenSet.swift in Sources */,
 				92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */,
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
