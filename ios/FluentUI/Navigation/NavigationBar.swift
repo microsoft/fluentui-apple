@@ -402,6 +402,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors(for: self?.topItem)
+            self?.updateTitleViewTokenSets()
         }
     }
 
@@ -490,6 +491,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
 
         tokenSet.update(newWindow.fluentTheme)
+
+        updateTitleViewTokenSets()
+        updateColors(for: topItem)
+    }
+
+    private func updateTitleViewTokenSets() {
         titleView.tokenSet.setOverrides(from: tokenSet, mapping: [
             .titleColor: .titleColor,
             .titleFont: .titleFont,
@@ -497,8 +504,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             .subtitleFont: .subtitleFont,
             .largeTitleFont: .largeTitleFont
         ])
-
-        updateColors(for: topItem)
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
