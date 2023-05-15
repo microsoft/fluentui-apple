@@ -618,16 +618,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         let shouldHideRegularTitle: Bool = (style == .gradient) && usesLeadingTitle
-        print("style: \(style), usesLeadingTitle: \(usesLeadingTitle)")
+
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
         case .system, .gradient:
             titleView.style = .system
         }
-
-        navigationItem?.titleView?.isHidden = shouldHideRegularTitle
-        print("is system title hidden: \(navigationItem?.titleView?.isHidden ?? shouldHideRegularTitle)")
 
         if style == .gradient {
             backgroundView.isHidden = true
@@ -637,7 +634,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         standardAppearance.backgroundColor = color
         tintColor = tokenSet[.buttonTintColor].uiColor
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? UIColor.clear : tokenSet[.titleColor].uiColor
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
 
         // Update the scroll edge appearance to match the new standard appearance
