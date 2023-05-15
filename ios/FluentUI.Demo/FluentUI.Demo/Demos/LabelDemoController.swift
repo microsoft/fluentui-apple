@@ -30,6 +30,24 @@ class LabelDemoController: DemoController {
             textColorLabels.append(addLabel(text: colorStyle.description, style: .body1, colorStyle: colorStyle))
         }
 
+        addLabel(text: "Text Color Custom Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
+
+        let dangerSuccessLabel = Label(textStyle: .body1Strong, colorForTheme: {
+            theme in
+            UIColor(light: theme.color(.dangerForeground1), dark: theme.color(.successBackground2))
+        })
+        dangerSuccessLabel.text = "Danger/Success"
+        container.addArrangedSubview(dangerSuccessLabel)
+        textColorLabels.append(dangerSuccessLabel)
+
+        let blueYellowLabel = Label(textStyle: .body1Strong, colorForTheme: {
+            _ in
+            UIColor(light: GlobalTokens.sharedColor(.blue, .primary), dark: GlobalTokens.sharedColor(.yellow, .primary))
+        })
+        blueYellowLabel.text = "Blue/Yellow"
+        container.addArrangedSubview(blueYellowLabel)
+        textColorLabels.append(blueYellowLabel)
+
         container.addArrangedSubview(UIView())  // spacer
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)

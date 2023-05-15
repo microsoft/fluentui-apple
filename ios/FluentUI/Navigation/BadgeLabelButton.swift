@@ -33,6 +33,10 @@ class BadgeLabelButton: UIButton {
                                                selector: #selector(badgeValueDidChange),
                                                name: UIBarButtonItem.badgeValueDidChangeNotification,
                                                object: item)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(contentSizeCategoryDidChange(notification:)),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -53,6 +57,10 @@ class BadgeLabelButton: UIButton {
         static let badgeBorderWidth: CGFloat = 2
         static let badgeHorizontalPadding: CGFloat = 10
         static let badgeCornerRadii: CGFloat = 10
+
+        // These are consistent with UIKit's default navigation bar buttons
+        static let maximumContentSizeCategory: UIContentSizeCategory = .extraExtraLarge
+        static let minimumContentSizeCategory: UIContentSizeCategory = .large
     }
 
     private let badgeLabel = BadgeLabel()
@@ -191,7 +199,7 @@ class BadgeLabelButton: UIButton {
                                      width: computedBadgeWidth,
                                      height: Constants.badgeHeight)
             let badgeCutoutPath = UIBezierPath(rect: CGRect(x: badgeBoundsOriginX,
-                                                            y: 0,
+                                                            y: badgeBounds.origin.y,
                                                             width: frame.size.width + computedBadgeWidth / 2,
                                                             height: frame.size.height))
             // Adding the path for the cutout on the button's titleLabel or imageView where the badge label will be placed on top of.
@@ -221,6 +229,31 @@ class BadgeLabelButton: UIButton {
     @objc private func badgeValueDidChange() {
         updateBadgeLabel()
         updateAccessibilityLabel()
+    }
+
+    @objc private func contentSizeCategoryDidChange(notification: Notification) {
+        guard let titleLabel = titleLabel else {
+            return
+        }
+
+        let requestedContentSizeCategory = (notification.userInfo?[UIContentSizeCategory.newValueUserInfoKey] as? UIContentSizeCategory) ?? .unspecified
+
+        let cappedContentSizeCategory: UIContentSizeCategory
+        if requestedContentSizeCategory > Constants.maximumContentSizeCategory {
+            cappedContentSizeCategory = Constants.maximumContentSizeCategory
+        } else if requestedContentSizeCategory < Constants.minimumContentSizeCategory {
+            cappedContentSizeCategory = Constants.minimumContentSizeCategory
+        } else {
+            cappedContentSizeCategory = requestedContentSizeCategory
+        }
+
+        // For some reason, titleLabel doesn't resize to fit the new font size, so we do it ourselves.
+        titleLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1], contentSizeCategory: cappedContentSizeCategory)
+        titleLabel.sizeToFit()
+        sizeToFit()
+        if superview != nil {
+            centerInSuperview(horizontally: false, vertically: true)
+        }
     }
 
     private func updateAccessibilityLabel() {
