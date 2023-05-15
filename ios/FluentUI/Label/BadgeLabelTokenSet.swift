@@ -5,9 +5,13 @@
 
 import UIKit
 
+/// Design token set for the `BadgeLabel` control.
 class BadgeLabelTokenSet: ControlTokenSet<BadgeLabelTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// The background color of the BadgeLabel.
         case backgroundColor
+
+        /// The text color of the BadgeLabel.
         case textColor
     }
 
@@ -43,9 +47,11 @@ class BadgeLabelTokenSet: ControlTokenSet<BadgeLabelTokenSet.Tokens> {
         }
     }
 
-    /// Defines the text typography style of the label.
+    /// Defines the style of the BadgeLabel.
     var style: () -> BadgeLabel.Style
 }
+
+// MARK: BadgeLabel.Style
 
 extension BadgeLabel {
     enum Style: Int, CaseIterable {
