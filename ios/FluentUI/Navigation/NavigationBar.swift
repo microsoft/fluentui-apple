@@ -411,8 +411,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // Cache the system shadow color
         systemShadowColor = standardAppearance.shadowColor
 
-        updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
+        updateColors(for: topItem)
         updateAccessibilityElements()
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
@@ -618,8 +618,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         let shouldHideRegularTitle: Bool = (style == .gradient) && usesLeadingTitle
-        print("\(usesLeadingTitle && style == .gradient)")
-
+        print("style: \(style), usesLeadingTitle: \(usesLeadingTitle)")
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
@@ -627,10 +626,18 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             titleView.style = .system
         }
 
+        navigationItem?.titleView?.isHidden = shouldHideRegularTitle
+        print("is system title hidden: \(navigationItem?.titleView?.isHidden ?? shouldHideRegularTitle)")
+
+        if style == .gradient {
+            backgroundView.isHidden = true
+        } else {
+            backgroundView.backgroundColor = color
+        }
+
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = (style == .gradient) ? .clear : color
         tintColor = tokenSet[.buttonTintColor].uiColor
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? .clear : tokenSet[.titleColor].uiColor
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
 
         // Update the scroll edge appearance to match the new standard appearance
@@ -645,14 +652,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func update(with navigationItem: UINavigationItem) {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
-        updateColors(for: actualItem)
         updateGradient()
         usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
-
         titleView.update(with: navigationItem)
+        updateColors(for: actualItem)
 
         updateFakeCenterTitleConstraints()
 
@@ -719,7 +725,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.shouldUseWindowColorInBadge = style != .system
 
         // We want to hide the native right bar button items when using the gradient style.
-        if style == .gradient {
+        if style == .gradient && !isLeftItem && usesLeadingTitle {
             item.tintColor = .clear
             // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
             button.tintColor = tokenSet[.buttonTintColor].uiColor
@@ -767,6 +773,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             }
 
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+            if style == .gradient {
+                navigationItem.hidesBackButton = true
+            }
         } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)

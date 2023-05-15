@@ -619,7 +619,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let row = indexPath.row
             let controller = ChildViewController(parentIndex: row)
             if navigationItem.accessoryView == nil {
-                controller.navigationItem.navigationBarStyle = .system
+                if navigationItem.navigationBarStyle == .gradient {
+                    controller.navigationItem.navigationBarStyle = .gradient
+                } else {
+                    controller.navigationItem.navigationBarStyle = .system
+                }
             }
             if let feature = titleViewFeaturesByRow[row] {
                 feature.apply(controller)
@@ -851,7 +855,11 @@ class ChildViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = GrandchildViewController(grandparentIndex: parentIndex, parentIndex: 1 + indexPath.row)
         if navigationItem.accessoryView == nil {
-            controller.navigationItem.navigationBarStyle = .system
+            if navigationItem.navigationBarStyle == .gradient {
+                controller.navigationItem.navigationBarStyle = .gradient
+            } else {
+                controller.navigationItem.navigationBarStyle = .system
+            }
         }
         navigationController?.pushViewController(controller, animated: true)
     }
