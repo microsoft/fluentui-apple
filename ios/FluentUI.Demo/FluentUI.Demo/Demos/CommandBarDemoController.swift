@@ -232,7 +232,7 @@ class CommandBarDemoController: DemoController {
 
         let deleteAccentImageStackView = createHorizontalStackView()
         deleteAccentImageStackView.addArrangedSubview(createLabelWithText("\"Delete\" Accent Image"))
-        let deleteAccentImageSwitch: UISwitch = UISwitch()
+        let deleteAccentImageSwitch: BrandedSwitch = BrandedSwitch()
         deleteAccentImageSwitch.isOn = true
         deleteAccentImageSwitch.addTarget(self, action: #selector(deleteAccentImageValueChange), for: .valueChanged)
         deleteAccentImageStackView.addArrangedSubview(deleteAccentImageSwitch)
@@ -240,7 +240,7 @@ class CommandBarDemoController: DemoController {
 
         let itemEnabledStackView = createHorizontalStackView()
         itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
-        let itemEnabledSwitch: UISwitch = UISwitch()
+        let itemEnabledSwitch: BrandedSwitch = BrandedSwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
         itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
@@ -248,7 +248,7 @@ class CommandBarDemoController: DemoController {
 
         let disableMenuItemsStackView = createHorizontalStackView()
         disableMenuItemsStackView.addArrangedSubview(createLabelWithText("Disable Undo Menu Items"))
-        let disableMenuItemsSwitch: UISwitch = UISwitch()
+        let disableMenuItemsSwitch: BrandedSwitch = BrandedSwitch()
         disableMenuItemsSwitch.isOn = false
         disableMenuItemsSwitch.addTarget(self, action: #selector(disableMenuItemValueChanged), for: .valueChanged)
         disableMenuItemsStackView.addArrangedSubview(disableMenuItemsSwitch)
@@ -256,7 +256,7 @@ class CommandBarDemoController: DemoController {
 
         let itemHiddenStackView = createHorizontalStackView()
         itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
-        let itemHiddenSwitch: UISwitch = UISwitch()
+        let itemHiddenSwitch: BrandedSwitch = BrandedSwitch()
         itemHiddenSwitch.isOn = false
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
         itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
@@ -264,7 +264,7 @@ class CommandBarDemoController: DemoController {
 
         let commandBarDelegateEventAnimationView = createHorizontalStackView()
         commandBarDelegateEventAnimationView.addArrangedSubview(createLabelWithText("Animate CommandBarDelegate Events"))
-        let commandBarDelegateEventAnimationSwitch: UISwitch = UISwitch()
+        let commandBarDelegateEventAnimationSwitch: BrandedSwitch = BrandedSwitch()
         commandBarDelegateEventAnimationSwitch.isOn = animateCommandBarDelegateEvents
         commandBarDelegateEventAnimationSwitch.addTarget(self, action: #selector(animateCommandBarDelegateEventsValueChanged), for: .valueChanged)
         commandBarDelegateEventAnimationView.addArrangedSubview(commandBarDelegateEventAnimationSwitch)
@@ -359,6 +359,7 @@ class CommandBarDemoController: DemoController {
         let label = Label()
         label.text = text
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }
 
@@ -415,8 +416,9 @@ class CommandBarDemoController: DemoController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
         stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: CommandBarDemoController.horizontalStackViewSpacing, bottom: 0, trailing: CommandBarDemoController.horizontalStackViewSpacing)
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }
 

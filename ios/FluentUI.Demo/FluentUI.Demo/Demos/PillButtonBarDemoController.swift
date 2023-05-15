@@ -22,7 +22,7 @@ class PillButtonBarDemoController: DemoController {
                                           PillButtonBarItem(title: "Actions"),
                                           PillButtonBarItem(title: "More")]
 
-        let disableOnBrandSwitchView = UISwitch()
+        let disableOnBrandSwitchView = BrandedSwitch()
         disableOnBrandSwitchView.isOn = true
         disableOnBrandSwitchView.addTarget(self, action: #selector(toggleOnBrandPills(switchView:)), for: .valueChanged)
 
@@ -33,7 +33,7 @@ class PillButtonBarDemoController: DemoController {
         self.onBrandBar = onBrandBar
         container.addArrangedSubview(UIView())
 
-        let disableCustomOnBrandSwitchView = UISwitch()
+        let disableCustomOnBrandSwitchView = BrandedSwitch()
         disableCustomOnBrandSwitchView.isOn = true
         disableCustomOnBrandSwitchView.addTarget(self, action: #selector(toggleCustomOnBrandPills(switchView:)), for: .valueChanged)
 
@@ -44,7 +44,7 @@ class PillButtonBarDemoController: DemoController {
         self.customBar = customBar
         container.addArrangedSubview(UIView())
 
-        let disablePrimarySwitchView = UISwitch()
+        let disablePrimarySwitchView = BrandedSwitch()
         disablePrimarySwitchView.isOn = true
         disablePrimarySwitchView.addTarget(self, action: #selector(togglePrimaryPills(switchView:)), for: .valueChanged)
 

@@ -262,11 +262,71 @@ class NotificationViewDemoController: DemoController {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
+        let notification = createNotificationView(forVariant: variant)
+        notification.tokenSet.replaceAllOverrides(with: overrideTokens)
+        notification.show(in: view) { [weak self] in
+            $0.hide(after: 3.0) {
+                self?.currentNotification = nil
+            }
+        }
+        currentNotification = notification
     }
 
     @objc private func showSwiftUIDemo() {
         navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
                                                  animated: true)
+    }
+
+    private var currentNotification: MSFNotification?
+    private var overrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue]?
+}
+
+extension NotificationViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: NotificationTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideNotificationTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? perControlOverrideNotificationTokens : nil
+        if let currentNotification {
+            currentNotification.tokenSet.replaceAllOverrides(with: overrideTokens)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: NotificationTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideNotificationTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
+            },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
+                               dark: GlobalTokens.sharedColor(.marigold, .shade30))
+            }
+        ]
+    }
+
+    private var perControlOverrideNotificationTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
+            },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
+            }
+        ]
     }
 }

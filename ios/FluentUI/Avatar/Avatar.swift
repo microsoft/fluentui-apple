@@ -108,6 +108,7 @@ public struct Avatar: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let style = state.style
         let size = state.size
 
@@ -390,7 +391,6 @@ public struct Avatar: View, TokenizedControlView {
 #if DEBUG
             .accessibilityIdentifier(accessibilityIdentifier)
 #endif
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     /// Internal initializer. Used by our public init, and also by internal container views. These containers should first initialize
