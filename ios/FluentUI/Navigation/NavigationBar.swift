@@ -598,7 +598,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        button.shouldUseWindowColorInBadge = style != .system
+        if style == .system {
+            button.badgeLabelStyle = .system
+        } else {
+            button.badgeLabelStyle = .brand
+        }
 
         if #available(iOS 15.0, *) {
             let insets: NSDirectionalEdgeInsets
