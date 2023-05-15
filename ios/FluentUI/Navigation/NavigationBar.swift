@@ -411,8 +411,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // Cache the system shadow color
         systemShadowColor = standardAppearance.shadowColor
 
-        updateViewsForLargeTitlePresentation(for: topItem)
         updateColors(for: topItem)
+        updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
@@ -626,12 +626,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             titleView.style = .system
         }
 
-        if style == .gradient {
-            backgroundView.isHidden = true
-        } else {
-            backgroundView.backgroundColor = color
-        }
-
+        backgroundView.backgroundColor = style == .gradient ? .clear : color
         standardAppearance.backgroundColor = color
         tintColor = tokenSet[.buttonTintColor].uiColor
         standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? UIColor.clear : tokenSet[.titleColor].uiColor
@@ -649,13 +644,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     func update(with navigationItem: UINavigationItem) {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
+        updateColors(for: actualItem)
         updateGradient()
         usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
         titleView.update(with: navigationItem)
-        updateColors(for: actualItem)
 
         updateFakeCenterTitleConstraints()
 
