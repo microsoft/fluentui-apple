@@ -145,6 +145,7 @@
 		53E2EE07278799B30086D30D /* MSFIndeterminateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E2EE06278799B30086D30D /* MSFIndeterminateProgressBar.swift */; };
 		566C664A28CB99830032314C /* module.modulemap in Copy module.modulemap */ = {isa = PBXBuildFile; fileRef = 566C664828CB97210032314C /* module.modulemap */; };
 		66512A3829D3B30D003CF303 /* AvatarTitleViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66512A3729D3B30D003CF303 /* AvatarTitleViewTokenSet.swift */; };
+		667E54022A12B6F800728F93 /* TwoLineTitleView+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667E54012A12B6F800728F93 /* TwoLineTitleView+Navigation.swift */; };
 		66963D0A29CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66963D0929CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift */; };
 		66963D1029CE244D006F5FA9 /* NavigationBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66963D0F29CE244D006F5FA9 /* NavigationBarTokenSet.swift */; };
 		6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB4B25D270ED6450005B808 /* BadgeLabel.swift */; };
@@ -305,6 +306,7 @@
 		53FC90FA25673627008A06FD /* FluentUIResources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUIResources.xcconfig; sourceTree = "<group>"; };
 		566C664828CB97210032314C /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		66512A3729D3B30D003CF303 /* AvatarTitleViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTitleViewTokenSet.swift; sourceTree = "<group>"; };
+		667E54012A12B6F800728F93 /* TwoLineTitleView+Navigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TwoLineTitleView+Navigation.swift"; sourceTree = "<group>"; };
 		66963D0929CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTitleViewTokenSet.swift; sourceTree = "<group>"; };
 		66963D0F29CE244D006F5FA9 /* NavigationBarTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarTokenSet.swift; sourceTree = "<group>"; };
 		6EB4B25D270ED6450005B808 /* BadgeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLabel.swift; sourceTree = "<group>"; };
@@ -1178,6 +1180,7 @@
 				FD41C87B22DD13230086F899 /* NavigationBar.swift */,
 				66963D0F29CE244D006F5FA9 /* NavigationBarTokenSet.swift */,
 				6ED4C11C2696AE4000C30BD6 /* BadgeLabelButton.swift */,
+				667E54012A12B6F800728F93 /* TwoLineTitleView+Navigation.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
 				6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */,
@@ -1577,6 +1580,7 @@
 				92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */,
 				6F3CB7F229D3A5DE00284353 /* ResizingHandleTokenSet.swift in Sources */,
 				5314E28125F0240D0099271A /* DateComponents+Extensions.swift in Sources */,
+				667E54022A12B6F800728F93 /* TwoLineTitleView+Navigation.swift in Sources */,
 				6F3CB7F029D3A2B700284353 /* DrawerTokenSet.swift in Sources */,
 				0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */,
 				5314E07025F00F140099271A /* DatePickerController.swift in Sources */,
