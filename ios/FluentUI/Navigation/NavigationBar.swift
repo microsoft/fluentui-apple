@@ -716,7 +716,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
-        // We want to hide the native right bar button items when using the gradient style.
+        // We want to hide the native right bar button items for non-system title styles when using the gradient style.
         if style == .gradient && !isLeftItem && usesLeadingTitle {
             item.tintColor = .clear
             // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
@@ -765,6 +765,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             }
 
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+
+            // Hide the system's back button to avoid having duplicated back buttons with the gradient style.
             if style == .gradient {
                 navigationItem.hidesBackButton = true
             }
