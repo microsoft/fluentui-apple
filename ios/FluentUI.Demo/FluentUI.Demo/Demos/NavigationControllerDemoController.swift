@@ -405,7 +405,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         },
         15: TitleViewFeature(name: "Centered, collapsible search bar") {
             let searchBar = SearchBar()
-            searchBar.style = $0.navigationItem.navigationBarStyle == .system ? .onSystemNavigationBar : .onBrandNavigationBar
+            searchBar.style = ($0.navigationItem.navigationBarStyle == .system || $0.navigationItem.navigationBarStyle == .gradient) ? .onSystemNavigationBar : .onBrandNavigationBar
             searchBar.placeholderText = "Search"
             $0.navigationItem.accessoryView = searchBar
             $0.navigationItem.contentScrollView = $0.tableView
