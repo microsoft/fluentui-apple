@@ -561,7 +561,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
-            updateViewsForLargeTitlePresentation(for: topItem)
+
+            // We don't want to alter the hidden state of the backgroundView and the contentStackView for the gradient style when the traitCollection changes.
+            if style != .gradient {
+                updateViewsForLargeTitlePresentation(for: topItem)
+            }
             updateFakeCenterTitleConstraints()
 
             // change bar button image size and title inset depending on device rotation
