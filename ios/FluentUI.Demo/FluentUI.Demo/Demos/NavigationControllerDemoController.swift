@@ -629,9 +629,6 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             if let feature = titleViewFeaturesByRow[row] {
                 feature.apply(controller)
             }
-            if let feature = titleViewFeaturesByRow[row] {
-                feature.apply(controller)
-            }
             navigationController?.pushViewController(controller, animated: true)
         }
     }

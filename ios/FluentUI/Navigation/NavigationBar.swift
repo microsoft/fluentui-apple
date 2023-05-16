@@ -568,7 +568,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             if style != .gradient {
                 updateViewsForLargeTitlePresentation(for: topItem)
             }
-            updateFakeCenterTitleConstraints()
 
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
