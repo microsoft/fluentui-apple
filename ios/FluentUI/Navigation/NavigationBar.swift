@@ -722,6 +722,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.item = item
         if style == .system {
             button.badgeLabelStyle = .system
+        } else if style == .gradient {
+            button.badgeLabelStyle = .gradient
         } else {
             button.badgeLabelStyle = .brand
         }
