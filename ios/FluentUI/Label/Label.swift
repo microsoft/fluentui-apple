@@ -59,11 +59,11 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var font: UIFont! {
-        get {
-            return tokenSet[.font].uiFont
-        }
-        set {
-            tokenSet[.font] = .uiFont { newValue }
+        didSet {
+            if font != oldValue,
+               let newFont = font {
+                tokenSet[.font] = .uiFont { newFont }
+            }
         }
     }
 
