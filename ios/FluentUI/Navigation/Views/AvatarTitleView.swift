@@ -103,6 +103,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
         didSet {
             if oldValue != titleStyle {
                 updateTitleContainerView()
+                updateProfileButtonVisibility()
             }
         }
     }
