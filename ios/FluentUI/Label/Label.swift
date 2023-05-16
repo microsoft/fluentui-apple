@@ -51,8 +51,7 @@ open class Label: UILabel, TokenizedControlInternal {
 
     open override var textColor: UIColor! {
         didSet {
-            if textColor != oldValue,
-               let newColor = textColor {
+            if textColor != oldValue, let newColor = textColor {
                 tokenSet[.textColor] = .uiColor { newColor }
             }
         }
@@ -60,8 +59,7 @@ open class Label: UILabel, TokenizedControlInternal {
 
     open override var font: UIFont! {
         didSet {
-            if font != oldValue,
-               let newFont = font {
+            if font != oldValue, let newFont = font {
                 tokenSet[.font] = .uiFont { newFont }
             }
         }
