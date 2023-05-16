@@ -54,7 +54,7 @@ class BadgeLabelTokenSet: ControlTokenSet<BadgeLabelTokenSet.Tokens> {
 // MARK: BadgeLabel.Style
 
 extension BadgeLabel {
-    enum Style: Int, CaseIterable {
+    enum Style: Int {
         case brand
         case system
         case gradient
