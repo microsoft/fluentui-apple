@@ -720,7 +720,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        button.shouldUseWindowColorInBadge = style != .system
+        if style == .system {
+            button.badgeLabelStyle = .system
+        } else if style == .gradient {
+            button.badgeLabelStyle = .gradient
+        } else {
+            button.badgeLabelStyle = .brand
+        }
 
         // We want to hide the native right bar button items for non-system title styles when using the gradient style.
         if style == .gradient && !isLeftItem && usesLeadingTitle {
