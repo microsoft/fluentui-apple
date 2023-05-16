@@ -50,11 +50,11 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var textColor: UIColor! {
-        get {
-            return tokenSet[.textColor].uiColor
-        }
-        set {
-            tokenSet[.textColor] = .uiColor { newValue }
+        didSet {
+            if textColor != oldValue,
+               let newColor = textColor {
+                tokenSet[.textColor] = .uiColor { newColor }
+            }
         }
     }
 
