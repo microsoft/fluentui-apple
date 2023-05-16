@@ -303,7 +303,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !titleStyle.usesLeadingAlignment && !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
+        showsProfileButton = titleStyle.usesLeadingAlignment && !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
 
     private func updateTitleContainerView() {
