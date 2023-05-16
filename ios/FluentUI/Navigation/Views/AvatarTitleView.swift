@@ -99,9 +99,9 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
 
     private let titleContainerView = UIView()
 
-    private var showsLargeTitle: Bool = false {
+    private var titleStyle: NavigationBar.TitleStyle = .system {
         didSet {
-            if oldValue != showsLargeTitle {
+            if oldValue != titleStyle {
                 updateTitleContainerView()
             }
         }
@@ -303,12 +303,12 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
+        showsProfileButton = !titleStyle.usesLeadingAlignment && !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
     }
 
     private func updateTitleContainerView() {
         titleContainerView.removeAllSubviews()
-        titleContainerView.contain(view: showsLargeTitle ? titleButton : twoLineTitleView)
+        titleContainerView.contain(view: titleStyle == .largeLeading ? titleButton : twoLineTitleView)
     }
 
     /// Sets the interface with the provided item's details
@@ -317,7 +317,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
-        showsLargeTitle = navigationItem.titleStyle == .largeLeading
+        titleStyle = navigationItem.titleStyle
         twoLineTitleView.setup(navigationItem: navigationItem)
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion
