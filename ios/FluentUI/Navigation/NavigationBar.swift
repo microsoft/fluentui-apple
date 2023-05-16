@@ -561,6 +561,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+            updateViewsForLargeTitlePresentation(for: topItem)
+            updateFakeCenterTitleConstraints()
 
             // We don't want to alter the hidden state of the backgroundView and the contentStackView for the gradient style when the traitCollection changes.
             if style != .gradient {
@@ -654,6 +656,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
+
         titleView.update(with: navigationItem)
 
         updateFakeCenterTitleConstraints()

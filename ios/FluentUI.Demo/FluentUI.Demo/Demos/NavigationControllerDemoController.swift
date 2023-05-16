@@ -238,6 +238,7 @@ class NavigationControllerDemoController: DemoController {
         case .avatar:
             navigationBar.personaData = content.personaData
             navigationBar.onAvatarTapped = handleAvatarTapped
+
         case .customButton:
             let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
             starButtonItem.accessibilityLabel = "Star button"
@@ -624,6 +625,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 } else {
                     controller.navigationItem.navigationBarStyle = .system
                 }
+            }
+            if let feature = titleViewFeaturesByRow[row] {
+                feature.apply(controller)
             }
             if let feature = titleViewFeaturesByRow[row] {
                 feature.apply(controller)
