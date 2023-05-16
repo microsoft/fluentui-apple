@@ -8,7 +8,7 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var style: Style = .brand {
+    var style: Style = .system {
         didSet {
             updateColors()
         }

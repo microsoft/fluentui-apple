@@ -14,7 +14,7 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    var badgeLabelStyle: BadgeLabel.Style = .brand {
+    var badgeLabelStyle: BadgeLabel.Style = .system {
         didSet {
             badgeLabel.style = badgeLabelStyle
         }
