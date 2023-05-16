@@ -32,6 +32,7 @@ struct Demos {
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
         DemoDescriptor("MultilineCommandBar", MultilineCommandBarDemoController.self),
+        DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
@@ -46,7 +47,8 @@ struct Demos {
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
         DemoDescriptor("Text Field", TextFieldDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self),
+        DemoDescriptor("TwoLineTitleView", TwoLineTitleViewDemoController.self)
     ]
 
     static let fluent2DesignTokens: [DemoDescriptor] = [
@@ -61,7 +63,6 @@ struct Demos {
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
-        DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
         DemoDescriptor("TableViewCellFileAccessoryView", TableViewCellFileAccessoryViewDemoController.self),

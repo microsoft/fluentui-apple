@@ -76,6 +76,7 @@
 		532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */; };
 		5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */; };
 		5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */; };
+		66963D0C29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66963D0B29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift */; };
 		6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */; };
 		6FC8AD3B28DBAF280010C0F8 /* ReadmeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC8AD3A28DBAF280010C0F8 /* ReadmeViewController.swift */; };
 		6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */; };
@@ -206,6 +207,7 @@
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
 		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		66963D0B29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTitleViewDemoController.swift; sourceTree = "<group>"; };
 		6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensDemoController.swift; sourceTree = "<group>"; };
 		6FC8AD3A28DBAF280010C0F8 /* ReadmeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadmeViewController.swift; sourceTree = "<group>"; };
 		6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController.swift; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 				EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */,
 				EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */,
 				FD7DF06121FB941400857267 /* TooltipDemoController.swift */,
+				66963D0B29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift */,
 				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
 				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
 				6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */,
@@ -797,6 +800,7 @@
 				5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */,
 				92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */,
 				43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */,
+				66963D0C29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift in Sources */,
 				497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */,
 				B4EF53C5215C45C400573E8F /* PersonaListViewDemoController.swift in Sources */,
 				A5DCA75E211E3A92005F4CB7 /* DrawerDemoController.swift in Sources */,

@@ -53,6 +53,22 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
+    /// Convenience method to override multiple tokens from another token set.
+    ///
+    /// This is useful if `otherTokenSet` belongs to a parent control and `self` belongs to a child control.
+    ///
+    /// - Parameter otherTokenSet: The token set we will be pulling values from.
+    /// - Parameter mapping: A `Dictionary` that maps our own tokens that we wish to override with
+    /// their corresponding tokens in `otherTokenSet`.
+    func setOverrides<U>(from otherTokenSet: ControlTokenSet<U>, mapping: [T: U]) {
+        // Make a copy so we write all the values at once
+        var valueOverrideCopy = valueOverrides ?? [:]
+        mapping.forEach { (thisToken, otherToken) in
+            valueOverrideCopy[thisToken] = otherTokenSet.overrideValue(forToken: otherToken)
+        }
+        valueOverrides = valueOverrideCopy
+    }
+
     /// Initialize the `ControlTokenSet` with an escaping callback for fetching default values.
     init(_ defaults: @escaping (_ token: T, _ theme: FluentTheme) -> ControlTokenValue) {
         self.defaults = defaults
