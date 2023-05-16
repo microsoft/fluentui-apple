@@ -107,6 +107,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         case primary
         case system
         case custom
+        case gradient
     }
 
     @objc(MSFNavigationBarTitleStyle)
@@ -221,6 +222,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             }
 
             isExpanded = originalIsExpanded
+        }
+    }
+
+    /// The main gradient layer to be applied to the NavigationBar's standardAppearance with the gradient style.
+    @objc public var gradient: CAGradientLayer? {
+        didSet {
+            updateGradient()
+        }
+    }
+
+    /// The layer used to mask the main gradient of the NavigationBar. If unset, only the main gradient will be displayed on the NavigationBar.
+    @objc public var gradientMask: CAGradientLayer? {
+        didSet {
+            updateGradient()
         }
     }
 
@@ -406,6 +421,26 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
+    private func updateGradient() {
+        guard style == .gradient, let gradient = gradient else {
+            return
+        }
+
+        gradient.frame = bounds
+
+        if let gradientMask = gradientMask {
+            gradientMask.frame = gradient.bounds
+            gradient.mask = gradientMask
+        }
+
+        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+
+        standardAppearance.backgroundImage = gradientImage
+    }
+
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {
         if let topAccessoryView = topAccessoryView {
             topAccessoryView.removeFromSuperview()
@@ -529,6 +564,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateViewsForLargeTitlePresentation(for: topItem)
             updateFakeCenterTitleConstraints()
 
+            // We don't want to alter the hidden state of the backgroundView and the contentStackView for the gradient style when the traitCollection changes.
+            if style != .gradient {
+                updateViewsForLargeTitlePresentation(for: topItem)
+            }
+
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
                 updateSubtitleView(for: navigationItem)
@@ -582,18 +622,19 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let shouldHideRegularTitle: Bool = (style == .gradient) && usesLeadingTitle
 
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
-        case .system:
+        case .system, .gradient:
             titleView.style = .system
         }
 
+        backgroundView.backgroundColor = style == .gradient ? .clear : color
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = color
         tintColor = tokenSet[.buttonTintColor].uiColor
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? UIColor.clear : tokenSet[.titleColor].uiColor
         standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
 
         // Update the scroll edge appearance to match the new standard appearance
@@ -609,6 +650,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
+        updateGradient()
         usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
@@ -680,6 +722,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         button.item = item
         button.shouldUseWindowColorInBadge = style != .system
 
+        // We want to hide the native right bar button items for non-system title styles when using the gradient style.
+        if style == .gradient && !isLeftItem && usesLeadingTitle {
+            item.tintColor = .clear
+            // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
+            button.tintColor = tokenSet[.buttonTintColor].uiColor
+        }
+
         let horizontalInset = isLeftItem ? TokenSetType.leftBarButtonItemHorizontalInset : TokenSetType.rightBarButtonItemHorizontalInset
         let insets = NSDirectionalEdgeInsets(top: 0,
                                              leading: horizontalInset,
@@ -722,6 +771,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             }
 
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+
+            // Hide the system's back button to avoid having duplicated back buttons with the gradient style.
+            if style == .gradient {
+                navigationItem.hidesBackButton = true
+            }
         } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
