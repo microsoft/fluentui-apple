@@ -104,7 +104,7 @@ class TooltipTest: BaseTest {
 
         showTooltipButton.tap()
         XCTAssert(tooltip.exists)
-        app.buttons["Tooltip"].tap()
+        app.staticTexts["Tooltip"].firstMatch.tap()
         // dismisses alert
         app.buttons["OK"].tap()
         XCTAssert(!tooltip.exists)

@@ -145,7 +145,7 @@ class TooltipDemoController: DemoController {
 
 extension TooltipDemoController: TwoLineTitleViewDelegate {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "The two line title view was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
