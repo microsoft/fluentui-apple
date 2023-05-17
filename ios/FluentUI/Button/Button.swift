@@ -53,9 +53,12 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
     }
 
+    /// The content insets of the buton.
+    /// If these insets are not equal to `defaultEdgeInsets()`, the minimum height constraint will be disabled.
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
+            minHeightConstraint.isActive = !isUsingCustomContentEdgeInsets
 
             invalidateIntrinsicContentSize()
 
@@ -67,22 +70,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             self.configuration = configuration
         }
-    }
-
-    open override var intrinsicContentSize: CGSize {
-        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-    }
-
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(size) ?? .zero
-        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
-
-        if let image = image(for: .normal) {
-            contentSize.width += image.size.width
-        }
-
-        return contentSize
     }
 
     open func initialize() {
@@ -107,6 +94,8 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
+
+        minHeightConstraint.isActive = true
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
@@ -231,6 +220,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
+            minHeightConstraint.constant = ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)
         }
     }
 
@@ -305,6 +295,8 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
         return ringView
     }()
+
+    private lazy var minHeightConstraint: NSLayoutConstraint = heightAnchor.constraint(greaterThanOrEqualToConstant: ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory))
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
