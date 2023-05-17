@@ -63,22 +63,9 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
                 adjustCustomContentEdgeInsetsForImage()
             }
 
-            if #available(iOS 15.0, *) {
-                var configuration = self.configuration ?? UIButton.Configuration.plain()
-                configuration.contentInsets = edgeInsets
-                self.configuration = configuration
-            } else {
-                let left: CGFloat
-                let right: CGFloat
-                if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                    left = edgeInsets.leading
-                    right = edgeInsets.trailing
-                } else {
-                    left = edgeInsets.trailing
-                    right = edgeInsets.leading
-                }
-                contentEdgeInsets = UIEdgeInsets(top: edgeInsets.top, left: left, bottom: edgeInsets.bottom, right: right)
-            }
+            var configuration = self.configuration ?? UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            self.configuration = configuration
         }
     }
 
@@ -93,13 +80,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
         if let image = image(for: .normal) {
             contentSize.width += image.size.width
-            if #available(iOS 15.0, *) {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
-            }
-
-            if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
-            }
         }
 
         return contentSize
@@ -109,20 +89,17 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
-        titleLabel?.font = tokenSet[.titleFont].uiFont
         titleLabel?.adjustsFontForContentSizeCategory = !style.isFloating
 
-        if #available(iOS 15, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = edgeInsets
-            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = self.tokenSet[.titleFont].uiFont
-                return outgoing
-            }
-            configuration.titleTextAttributesTransformer = titleTransformer
-            self.configuration = configuration
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = edgeInsets
+        let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = self.tokenSet[.titleFont].uiFont
+            return outgoing
         }
+        configuration.titleTextAttributesTransformer = titleTransformer
+        self.configuration = configuration
 
         update()
 
@@ -150,29 +127,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         update()
-    }
-
-    open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = CGRect.zero
-        if #available(iOS 15, *) {
-            assertionFailure("imageRect(forContentRect: ) has been deprecated in iOS 15.0")
-        } else {
-            rect = super.imageRect(forContentRect: contentRect)
-
-            if let image = image {
-                let imageHeight = image.size.height
-
-                // If the entire image doesn't fit in the default rect, increase the rect's height
-                // to fit the entire image and reposition the origin to keep the image centered.
-                if imageHeight > rect.size.height {
-                    rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
-                    rect.size.height = imageHeight
-                }
-
-                rect.size.width = image.size.width
-            }
-        }
-        return rect
     }
 
     @objc public init(style: ButtonStyle = .outline) {
@@ -216,11 +170,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         setTitleColor(foregroundColor, for: .focused)
         setTitleColor(tokenSet[.foregroundPressedColor].uiColor, for: .highlighted)
         setTitleColor(tokenSet[.foregroundDisabledColor].uiColor, for: .disabled)
-
-        if #available(iOS 15.0, *) {
-        } else {
-            titleLabel?.font = tokenSet[.titleFont].uiFont
-        }
 
         invalidateIntrinsicContentSize()
     }
@@ -294,21 +243,10 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             spacing = -spacing
         }
 
-        if #available(iOS 15.0, *) {
             var configuration = self.configuration ?? UIButton.Configuration.plain()
             configuration.contentInsets = edgeInsets
             configuration.imagePadding = spacing
             self.configuration = configuration
-        } else {
-            edgeInsets.trailing += spacing
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                titleEdgeInsets.left += spacing
-                titleEdgeInsets.right -= spacing
-            } else {
-                titleEdgeInsets.right += spacing
-                titleEdgeInsets.left -= spacing
-            }
-        }
 
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
