@@ -304,7 +304,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         layer.cornerCurve = .continuous
         layer.cornerRadius = style.isFloating ? frame.height / 2 : configuration.background.cornerRadius
 
-        let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
+        let shadowInfo = (!isEnabled || isHighlighted || isFocused) ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
         shadowInfo.applyShadow(to: self)
     }
 
