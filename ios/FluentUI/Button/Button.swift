@@ -73,9 +73,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     open func initialize() {
-        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
-        layer.cornerCurve = .continuous
-
         titleLabel?.adjustsFontForContentSizeCategory = !style.isFloating
 
         var configuration = UIButton.Configuration.plain()
@@ -117,6 +114,11 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
         tokenSet.update(newWindow.fluentTheme)
         update()
+    }
+
+    open override func layoutSubviews() {
+        super.layoutSubviews()
+        updateShadow()
     }
 
     @objc public init(style: ButtonStyle = .outline) {
@@ -263,8 +265,15 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             backgroundColor = tokenSet[.backgroundColor].uiColor
         }
 
-        self.backgroundColor = backgroundColor
-        layer.cornerRadius = style.isFloating ? layer.frame.height / 2 : tokenSet[.cornerRadius].float
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.background.backgroundColor = backgroundColor
+        if style.isFloating {
+            configuration.cornerStyle = .capsule
+        } else {
+            configuration.cornerStyle = .fixed
+            configuration.background.cornerRadius = tokenSet[.cornerRadius].float
+        }
+        self.configuration = configuration
     }
 
     private func updateBorder() {
@@ -280,11 +289,20 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             borderColor = tokenSet[.borderColor].uiColor
         }
 
-        layer.borderColor = borderColor.resolvedColor(with: traitCollection).cgColor
-        layer.borderWidth = tokenSet[.borderWidth].float
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.background.strokeColor = borderColor
+        configuration.background.strokeWidth = tokenSet[.borderWidth].float
+        self.configuration = configuration
     }
 
     private func updateShadow() {
+        // UIButton.Configuration doesn't set the layer by default, so in order
+        // for our shadow layers to work we need to update the layer.
+        let configuration = self.configuration ?? UIButton.Configuration.plain()
+        self.backgroundColor = configuration.background.backgroundColor
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = style.isFloating ? frame.height / 2 : configuration.background.cornerRadius
+
         let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
         shadowInfo.applyShadow(to: self)
     }
