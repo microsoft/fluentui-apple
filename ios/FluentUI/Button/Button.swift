@@ -86,6 +86,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             return outgoing
         }
         configuration.titleTextAttributesTransformer = titleTransformer
+        configuration.contentInsets = edgeInsets
         self.configuration = configuration
 
         update()
@@ -137,9 +138,23 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+        guard let previousTraitCollection else {
+            return
+        }
+
+        if previousTraitCollection.userInterfaceStyle != traitCollection.userInterfaceStyle {
             updateBorder()
         }
+
+        if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            invalidateIntrinsicContentSize()
+        }
+    }
+
+    public func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
+        let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
@@ -227,16 +242,10 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
-
-        if image(for: .normal) == nil {
-            spacing = -spacing
-        }
-
-            var configuration = self.configuration ?? UIButton.Configuration.plain()
-            configuration.contentInsets = edgeInsets
-            configuration.imagePadding = spacing
-            self.configuration = configuration
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.contentInsets = edgeInsets
+        configuration.imagePadding = ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
+        self.configuration = configuration
 
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
@@ -278,12 +287,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     private func updateShadow() {
         let shadowInfo = !isEnabled || isHighlighted || isFocused ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
         shadowInfo.applyShadow(to: self)
-    }
-
-    private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
-        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
-        return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
     private lazy var focusRing: FocusRingView = {
