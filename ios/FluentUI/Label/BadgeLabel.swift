@@ -8,14 +8,16 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var shouldUseWindowColor: Bool = false {
+    var style: Style = .system {
         didSet {
             updateColors()
         }
     }
 
-    typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    var tokenSet: EmptyTokenSet = .init()
+    typealias TokenSetKeyType = BadgeLabelTokenSet.Tokens
+    lazy var tokenSet: BadgeLabelTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .brand
+    })
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,16 +51,8 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        let colorValues = tokenSet.fluentTheme.color
-        if shouldUseWindowColor {
-            textColor = UIColor(light: colorValues(.brandForeground1).light,
-                                dark: GlobalTokens.neutralColor(.white))
-            backgroundColor = UIColor(light: GlobalTokens.neutralColor(.white),
-                                      dark: colorValues(.brandBackground1).dark)
-        } else {
-            textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
-            backgroundColor = colorValues(.dangerBackground2)
-        }
+        textColor = tokenSet[.textColor].uiColor
+        backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
     private struct Constants {

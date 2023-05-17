@@ -14,15 +14,13 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    var shouldUseWindowColorInBadge: Bool {
+    var badgeLabelStyle: BadgeLabel.Style = .system {
         didSet {
-            badgeLabel.shouldUseWindowColor = shouldUseWindowColorInBadge
+            badgeLabel.style = badgeLabelStyle
         }
     }
 
     override init(frame: CGRect) {
-        shouldUseWindowColorInBadge = true
-
         super.init(frame: frame)
 
         if #available(iOS 15.0, *) {
