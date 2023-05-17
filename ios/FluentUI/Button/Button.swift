@@ -94,6 +94,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         }
 
         minHeightConstraint.isActive = true
+        addInteraction(UILargeContentViewerInteraction())
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
