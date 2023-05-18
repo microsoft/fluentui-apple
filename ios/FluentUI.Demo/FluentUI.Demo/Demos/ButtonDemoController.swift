@@ -75,6 +75,11 @@ class ButtonDemoController: DemoController {
         container.addArrangedSubview(UIView())
 
         let customButton = createButton(with: .accent, sizeCategory: .small, title: "ToolBar Test Button")
+        customButton.tokenSet[.titleFont] = .uiFont { [weak self] in
+            let theme = self?.view.fluentTheme ?? FluentTheme.shared
+            return theme.typography(.caption1Strong, adjustsForContentSizeCategory: false)
+        }
+        customButton.showsLargeContentViewer = true
         let buttonBarItem = UIBarButtonItem.init(customView: customButton)
         customButton.sizeToFit()
         toolbarItems = [
@@ -100,6 +105,11 @@ class ButtonDemoController: DemoController {
         if let title = title {
             button.setTitle(title, for: .normal)
             button.titleLabel?.numberOfLines = 0
+            if style.isFloating {
+                button.showsLargeContentViewer = true
+            }
+        } else {
+            button.showsLargeContentViewer = true
         }
         if let image = image {
             button.image = image
