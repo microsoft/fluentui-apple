@@ -49,9 +49,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .backgroundColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent, .onCanvas:
+                    case .onCanvas:
                         return theme.color(.background3)
-                    case .onSystemNavigationBar:
+                    case .darkContent, .onSystemNavigationBar:
                         return theme.color(.background5)
                     case .lightContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.brandBackground2).light,
@@ -71,9 +71,9 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
             case .clearIconColor:
                 return .uiColor({
                     switch style() {
-                    case .darkContent, .onCanvas:
+                    case .onCanvas:
                         return theme.color(.foreground2)
-                    case .onSystemNavigationBar:
+                    case .darkContent, .onSystemNavigationBar:
                         return theme.color(.foreground3)
                     case .lightContent, .onBrandNavigationBar:
                         return UIColor(light: theme.color(.foregroundOnColor).light,
@@ -182,7 +182,7 @@ public extension SearchBar {
     enum Style: Int {
         @available(*, deprecated, message: "lightContent is now deprecated. Please use onBrandNavigationBar.")
         case lightContent
-        @available(*, deprecated, message: "darkContent is now deprecated. Please use onCanvas.")
+        @available(*, deprecated, message: "darkContent is now deprecated. Please use onSystemNavigationBar.")
         case darkContent
         case onCanvas
         case onSystemNavigationBar
