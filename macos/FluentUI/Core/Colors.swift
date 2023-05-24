@@ -438,22 +438,115 @@ public final class Colors: NSObject {
 	}
 
 	// MARK: Primary
+	@objc public static var primary: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primary
+			} else {
+				return _primary
+			}
+		}
+		set {
+			_primary = newValue
+		}
+	}
+	@objc public static var primaryTint10: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryTint10
+			} else {
+				return _primaryTint10
+			}
+		}
+		set {
+			_primaryTint10 = newValue
+		}
+	}
+	@objc public static var primaryTint20: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryTint20
+			} else {
+				return _primaryTint20
+			}
+		}
+		set {
+			_primaryTint20 = newValue
+		}
+	}
+	@objc public static var primaryTint30: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryTint30
+			} else {
+				return _primaryTint30
+			}
+		}
+		set {
+			_primaryTint30 = newValue
+		}
+	}
+	@objc public static var primaryTint40: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryTint40
+			} else {
+				return _primaryTint40
+			}
+		}
+		set {
+			_primaryTint40 = newValue
+		}
+	}
+	@objc public static var primaryShade10: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade10
+			} else {
+				return _primaryShade10
+			}
+		}
+		set {
+			_primaryShade10 = newValue
+		}
+	}
+	@objc public static var primaryShade20: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade20
+			} else {
+				return _primaryShade20
+			}
+		}
+		set {
+			_primaryShade20 = newValue
+		}
+	}
+	@objc public static var primaryShade30: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade30
+			} else {
+				return _primaryShade30
+			}
+		}
+		set {
+			_primaryShade30 = newValue
+		}
+	}
 
-	@objc public static var primary: NSColor = Colors.Palette.communicationBlue.color
+	/// Color provider object. When a Color Provider is present, colors will be retrieved from the provider vs. internally.
+	@objc public static var colorProvider: ColorProviding?
 
-	@objc public static var primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color
-
-	@objc public static var primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color
-
-	@objc public static var primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color
-
-	@objc public static var primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color
-
-	@objc public static var primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color
-
-	@objc public static var primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color
-
-	@objc public static var primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color
+	/// These are initialized with the Communication Blue defaults.
+	private static var _primary = Colors.Palette.communicationBlue.color
+	private static var _primaryTint10 = Colors.Palette.communicationBlueTint10.color
+	private static var _primaryTint20 = Colors.Palette.communicationBlueTint20.color
+	private static var _primaryTint30 = Colors.Palette.communicationBlueTint30.color
+	private static var _primaryTint40 = Colors.Palette.communicationBlueTint40.color
+	private static var _primaryShade10 = Colors.Palette.communicationBlueShade10.color
+	private static var _primaryShade20 = Colors.Palette.communicationBlueShade20.color
+	private static var _primaryShade30 = Colors.Palette.communicationBlueShade30.color
 }
 
 /// Make palette enum CaseIterable for unit testing purposes
