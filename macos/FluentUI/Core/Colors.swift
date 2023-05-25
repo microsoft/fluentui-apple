@@ -440,11 +440,7 @@ public final class Colors: NSObject {
 	// MARK: Primary
 	@objc public static var primary: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primary
-			} else {
-				return _primary
-			}
+			return colorProvider?.primary ?? _primary
 		}
 		set {
 			_primary = newValue
@@ -452,11 +448,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryShade10: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade10
-			} else {
-				return _primaryShade10
-			}
+			return colorProvider?.primaryShade10 ?? _primaryShade10
 		}
 		set {
 			_primaryShade10 = newValue
@@ -464,11 +456,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryShade20: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade20
-			} else {
-				return _primaryShade20
-			}
+			return colorProvider?.primaryShade20 ?? _primaryShade20
 		}
 		set {
 			_primaryShade20 = newValue
@@ -476,11 +464,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryShade30: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade30
-			} else {
-				return _primaryShade30
-			}
+			return colorProvider?.primaryShade30 ?? _primaryShade30
 		}
 		set {
 			_primaryShade30 = newValue
@@ -488,11 +472,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryTint10: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryTint10
-			} else {
-				return _primaryTint10
-			}
+			return colorProvider?.primaryTint10 ?? _primaryTint10
 		}
 		set {
 			_primaryTint10 = newValue
@@ -500,11 +480,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryTint20: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryTint20
-			} else {
-				return _primaryTint20
-			}
+			return colorProvider?.primaryTint20 ?? _primaryTint20
 		}
 		set {
 			_primaryTint20 = newValue
@@ -512,11 +488,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryTint30: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryTint30
-			} else {
-				return _primaryTint30
-			}
+			return colorProvider?.primaryTint30 ?? _primaryTint30
 		}
 		set {
 			_primaryTint30 = newValue
@@ -524,11 +496,7 @@ public final class Colors: NSObject {
 	}
 	@objc public static var primaryTint40: NSColor {
 		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryTint40
-			} else {
-				return _primaryTint40
-			}
+			return colorProvider?.primaryTint40 ?? _primaryTint40
 		}
 		set {
 			_primaryTint40 = newValue
