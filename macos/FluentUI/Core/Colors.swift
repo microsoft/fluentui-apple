@@ -507,14 +507,14 @@ public final class Colors: NSObject {
 	@objc public static var colorProvider: ColorProviding?
 
 	/// These are initialized with the Communication Blue defaults.
-	private static var _primary = Colors.Palette.communicationBlue.color
-	private static var _primaryShade10 = Colors.Palette.communicationBlueShade10.color
-	private static var _primaryShade20 = Colors.Palette.communicationBlueShade20.color
-	private static var _primaryShade30 = Colors.Palette.communicationBlueShade30.color
-	private static var _primaryTint10 = Colors.Palette.communicationBlueTint10.color
-	private static var _primaryTint20 = Colors.Palette.communicationBlueTint20.color
-	private static var _primaryTint30 = Colors.Palette.communicationBlueTint30.color
-	private static var _primaryTint40 = Colors.Palette.communicationBlueTint40.color
+	private static var _primary: NSColor = Colors.Palette.communicationBlue.color
+	private static var _primaryShade10: NSColor = Colors.Palette.communicationBlueShade10.color
+	private static var _primaryShade20: NSColor = Colors.Palette.communicationBlueShade20.color
+	private static var _primaryShade30: NSColor = Colors.Palette.communicationBlueShade30.color
+	private static var _primaryTint10: NSColor = Colors.Palette.communicationBlueTint10.color
+	private static var _primaryTint20: NSColor = Colors.Palette.communicationBlueTint20.color
+	private static var _primaryTint30: NSColor = Colors.Palette.communicationBlueTint30.color
+	private static var _primaryTint40: NSColor = Colors.Palette.communicationBlueTint40.color
 }
 
 /// Make palette enum CaseIterable for unit testing purposes
