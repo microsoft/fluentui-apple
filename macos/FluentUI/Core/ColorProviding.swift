@@ -11,13 +11,13 @@ import AppKit
 /// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view
 @objc(MSFColorProviding)
 public protocol ColorProviding {
-    /// If this protocol is not conformed to, communicationBlue variants will be used
-    @objc var primary: NSColor { get }
+	/// If this protocol is not conformed to, communicationBlue variants will be used
+	@objc var primary: NSColor { get }
 	@objc var primaryShade10: NSColor { get }
 	@objc var primaryShade20: NSColor { get }
 	@objc var primaryShade30: NSColor { get }
-    @objc var primaryTint10: NSColor { get }
-    @objc var primaryTint20: NSColor { get }
-    @objc var primaryTint30: NSColor { get }
-    @objc var primaryTint40: NSColor { get }
+	@objc var primaryTint10: NSColor { get }
+	@objc var primaryTint20: NSColor { get }
+	@objc var primaryTint30: NSColor { get }
+	@objc var primaryTint40: NSColor { get }
 }
