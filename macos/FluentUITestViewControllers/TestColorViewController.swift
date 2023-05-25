@@ -164,4 +164,4 @@ class ColorRectView: NSView {
 private let colorRowSpacing: CGFloat = 10.0
 
 // Default to using the new ColorProvider protocol for fetching the Fluent Primary Colors
-private var useColorProvider: Bool = true
+private var useColorProvider = true
