@@ -81,14 +81,14 @@ class TestColorViewController: NSViewController, ColorProviding {
 
 	// MARK: ColorProviding Protocol
 
-	var primary: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryColor"))! : Colors.Palette.communicationBlue.color
-	var primaryShade10: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryShade10Color"))! : Colors.Palette.communicationBlueShade10.color
-	var primaryShade20: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryShade20Color"))! : Colors.Palette.communicationBlueShade20.color
-	var primaryShade30: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryShade30Color"))! : Colors.Palette.communicationBlueShade30.color
-	var primaryTint10: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryTint10Color"))! : Colors.Palette.communicationBlueTint10.color
-	var primaryTint20: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryTint20Color"))! : Colors.Palette.communicationBlueTint20.color
-	var primaryTint30: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryTint30Color"))! : Colors.Palette.communicationBlueTint30.color
-	var primaryTint40: NSColor = useColorProvider ? (NSColor(named: "Colors/DemoPrimaryTint40Color"))! : Colors.Palette.communicationBlueTint40.color
+	var primary: NSColor = (NSColor(named: "Colors/DemoPrimaryColor"))!
+	var primaryShade10: NSColor = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
+	var primaryShade20: NSColor = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
+	var primaryShade30: NSColor = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
+	var primaryTint10: NSColor = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
+	var primaryTint20: NSColor = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
+	var primaryTint30: NSColor = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
+	var primaryTint40: NSColor = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
 
 	// MARK: Private
 
