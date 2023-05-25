@@ -6,7 +6,7 @@
 import AppKit
 import FluentUI
 
-class TestColorViewController: NSViewController {
+class TestColorViewController: NSViewController, ColorProviding {
 	var primaryColorsStackView = NSStackView()
 	var subviewConstraints = [NSLayoutConstraint]()
 	var toggleTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
@@ -31,7 +31,7 @@ class TestColorViewController: NSViewController {
 			colorsStackView.addArrangedSubview(createColorRowStackView(name: color.name, color: color.color))
 		}
 
-		loadPrimaryColors(state: NSControl.StateValue.off)
+		loadPrimaryColors()
 
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,8 +52,9 @@ class TestColorViewController: NSViewController {
 
 		let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
 		switchButton.target = self
+		switchButton.state = useColorProvider ? .on : .off
 		switchButton.action = #selector(toggleClicked)
-		toggleTextView.string = "Default"
+		toggleTextView.string = "Use ColorProvider"
 		toggleTextView.font = .systemFont(ofSize: 20)
 		toggleTextView.isEditable = false
 		toggleTextView.isSelectable = false
@@ -78,6 +79,19 @@ class TestColorViewController: NSViewController {
 		view = containerView
 	}
 
+	// MARK: ColorProviding Protocol
+
+	var primary: NSColor = (NSColor(named: "Colors/DemoPrimaryColor"))!
+	var primaryShade10: NSColor = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
+	var primaryShade20: NSColor = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
+	var primaryShade30: NSColor = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
+	var primaryTint10: NSColor = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
+	var primaryTint20: NSColor = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
+	var primaryTint30: NSColor = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
+	var primaryTint40: NSColor = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
+
+	// MARK: Private
+
 	private func createColorRowStackView(name: String?, color: NSColor?) -> NSStackView {
 		let rowStackView = NSStackView()
 		let textView = NSTextField(labelWithString: name!)
@@ -92,21 +106,16 @@ class TestColorViewController: NSViewController {
 
 	@objc private func toggleClicked(button: NSSwitch?) {
 		primaryColorsStackView.subviews.removeAll()
-		loadPrimaryColors(state: button?.state ?? NSControl.StateValue.off)
+		useColorProvider = button?.state == .on ? true : false
+		loadPrimaryColors()
 	}
 
-	private func loadPrimaryColors(state: NSControl.StateValue) {
-		if state == NSControl.StateValue.on {
-			Colors.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
-			Colors.primaryShade10 = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
-			Colors.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
-			Colors.primaryShade30 = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
-			Colors.primaryTint10 = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
-			Colors.primaryTint20 = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
-			Colors.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
-			Colors.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
-			toggleTextView.string = "Green"
+	private func loadPrimaryColors() {
+		if useColorProvider {
+			Colors.colorProvider = self
 		} else {
+			// If we aren't using the new ColorProvider, clear it and fall back to initializing all the colors at onced
+			Colors.colorProvider = nil
 			Colors.primary = Colors.Palette.communicationBlue.color
 			Colors.primaryShade10 = Colors.Palette.communicationBlueShade10.color
 			Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
@@ -115,7 +124,6 @@ class TestColorViewController: NSViewController {
 			Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
 			Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
 			Colors.primaryTint40 = Colors.Palette.communicationBlueTint40.color
-			toggleTextView.string = "Default"
 		}
 
 		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: Colors.primary))
@@ -154,3 +162,6 @@ class ColorRectView: NSView {
 }
 
 private let colorRowSpacing: CGFloat = 10.0
+
+// Default to using the new ColorProvider protocol for fetching the Fluent Primary Colors
+private var useColorProvider = true
