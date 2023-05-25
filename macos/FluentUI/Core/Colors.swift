@@ -450,6 +450,42 @@ public final class Colors: NSObject {
 			_primary = newValue
 		}
 	}
+	@objc public static var primaryShade10: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade10
+			} else {
+				return _primaryShade10
+			}
+		}
+		set {
+			_primaryShade10 = newValue
+		}
+	}
+	@objc public static var primaryShade20: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade20
+			} else {
+				return _primaryShade20
+			}
+		}
+		set {
+			_primaryShade20 = newValue
+		}
+	}
+	@objc public static var primaryShade30: NSColor {
+		get {
+			if let colorProvider = colorProvider {
+				return colorProvider.primaryShade30
+			} else {
+				return _primaryShade30
+			}
+		}
+		set {
+			_primaryShade30 = newValue
+		}
+	}
 	@objc public static var primaryTint10: NSColor {
 		get {
 			if let colorProvider = colorProvider {
@@ -498,55 +534,19 @@ public final class Colors: NSObject {
 			_primaryTint40 = newValue
 		}
 	}
-	@objc public static var primaryShade10: NSColor {
-		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade10
-			} else {
-				return _primaryShade10
-			}
-		}
-		set {
-			_primaryShade10 = newValue
-		}
-	}
-	@objc public static var primaryShade20: NSColor {
-		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade20
-			} else {
-				return _primaryShade20
-			}
-		}
-		set {
-			_primaryShade20 = newValue
-		}
-	}
-	@objc public static var primaryShade30: NSColor {
-		get {
-			if let colorProvider = colorProvider {
-				return colorProvider.primaryShade30
-			} else {
-				return _primaryShade30
-			}
-		}
-		set {
-			_primaryShade30 = newValue
-		}
-	}
 
 	/// Color provider object. When a Color Provider is present, colors will be retrieved from the provider vs. internally.
 	@objc public static var colorProvider: ColorProviding?
 
 	/// These are initialized with the Communication Blue defaults.
 	private static var _primary = Colors.Palette.communicationBlue.color
+	private static var _primaryShade10 = Colors.Palette.communicationBlueShade10.color
+	private static var _primaryShade20 = Colors.Palette.communicationBlueShade20.color
+	private static var _primaryShade30 = Colors.Palette.communicationBlueShade30.color
 	private static var _primaryTint10 = Colors.Palette.communicationBlueTint10.color
 	private static var _primaryTint20 = Colors.Palette.communicationBlueTint20.color
 	private static var _primaryTint30 = Colors.Palette.communicationBlueTint30.color
 	private static var _primaryTint40 = Colors.Palette.communicationBlueTint40.color
-	private static var _primaryShade10 = Colors.Palette.communicationBlueShade10.color
-	private static var _primaryShade20 = Colors.Palette.communicationBlueShade20.color
-	private static var _primaryShade30 = Colors.Palette.communicationBlueShade30.color
 }
 
 /// Make palette enum CaseIterable for unit testing purposes

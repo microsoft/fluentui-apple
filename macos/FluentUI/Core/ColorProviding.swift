@@ -13,11 +13,11 @@ import AppKit
 public protocol ColorProviding {
     /// If this protocol is not conformed to, communicationBlue variants will be used
     @objc var primary: NSColor { get }
+	@objc var primaryShade10: NSColor { get }
+	@objc var primaryShade20: NSColor { get }
+	@objc var primaryShade30: NSColor { get }
     @objc var primaryTint10: NSColor { get }
     @objc var primaryTint20: NSColor { get }
     @objc var primaryTint30: NSColor { get }
     @objc var primaryTint40: NSColor { get }
-    @objc var primaryShade10: NSColor { get }
-    @objc var primaryShade20: NSColor { get }
-    @objc var primaryShade30: NSColor { get }
 }
