@@ -124,6 +124,12 @@ class ShyHeaderController: UIViewController {
         updateNavigationBarStyle()
     }
 
+    // This is needed as a safety measure to ensure the colors are updated with the correct theme
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNavigationBarStyle()
+    }
+
     // MARK: - Base Construction
 
     /// Constructs the UI for the gesture-based configuration
