@@ -133,6 +133,14 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
     }
 
+    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
+    @objc open lazy var resizingHandleViewBackgroundColor: UIColor = tokenSet[.resizingHandleBackgroundColor].uiColor {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+            tokenSet[.resizingHandleBackgroundColor] = .uiColor { self.resizingHandleViewBackgroundColor }
+        }
+    }
+
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
