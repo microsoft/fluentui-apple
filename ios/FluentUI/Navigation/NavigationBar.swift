@@ -342,7 +342,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var titleStyleObserver: NSKeyValueObservation?
 
-    private let backButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+    private let backButtonItem: UIBarButtonItem = {
+        let backButtonitem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"),
+                                             style: .plain,
+                                             target: nil,
+                                             action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+        backButtonitem.accessibilityIdentifier = "Back"
+        return backButtonitem
+    }()
 
     weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
         didSet {
