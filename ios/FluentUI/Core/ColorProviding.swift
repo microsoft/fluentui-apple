@@ -60,10 +60,10 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
 // MARK: Colors
 
 @objc public extension UIView {
-    /// Associates a `ColorProvider2` with a given `UIView`.
+    /// Associates a `ColorProvider` with a given `UIView`.
     ///
     /// - Parameters:
-    ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
     func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well
