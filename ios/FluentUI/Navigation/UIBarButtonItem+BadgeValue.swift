@@ -7,8 +7,8 @@ import UIKit
 
 @objc public extension UIBarButtonItem {
     private struct AssociatedKeys {
-        static var badgeValue: String = "badgeValue"
-        static var badgeAccessibilityLabel: String = "badgeAccessibilityLabel"
+        static var badgeValue: UInt8 = 0
+        static var badgeAccessibilityLabel: UInt8 = 0
     }
 
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "UIBarButtonItemBadgeValueDidChangeNotification")

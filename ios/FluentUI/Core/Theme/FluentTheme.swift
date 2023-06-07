@@ -111,8 +111,8 @@ public extension Notification.Name {
 
 @objc extension UIView: FluentThemeable {
     private struct Keys {
-        static var fluentTheme: String = "fluentTheme_key"
-        static var cachedFluentTheme: String = "cachedFluentTheme_key"
+        static var fluentTheme: UInt8 = 0
+        static var cachedFluentTheme: UInt8 = 0
     }
 
     /// The custom `FluentTheme` to apply to this view.
