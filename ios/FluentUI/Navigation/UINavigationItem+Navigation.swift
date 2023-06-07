@@ -7,17 +7,17 @@ import UIKit
 
 @objc public extension UINavigationItem {
     private struct AssociatedKeys {
-        static var accessoryView: String = "accessoryView"
-        static var titleAccessory: String = "titleAccessory"
-        static var titleImage: String = "titleImage"
-        static var topAccessoryView: String = "topAccessoryView"
-        static var topAccessoryViewAttributes: String = "topAccessoryViewAttributes"
-        static var contentScrollView: String = "contentScrollView"
-        static var navigationBarStyle: String = "navigationBarStyle"
-        static var navigationBarShadow: String = "navigationBarShadow"
-        static var subtitle: String = "subtitle"
-        static var titleStyle: String = "titleStyle"
-        static var customNavigationBarColor: String = "customNavigationBarColor"
+        static var accessoryView: UInt8 = 0
+        static var titleAccessory: UInt8 = 0
+        static var titleImage: UInt8 = 0
+        static var topAccessoryView: UInt8 = 0
+        static var topAccessoryViewAttributes: UInt8 = 0
+        static var contentScrollView: UInt8 = 0
+        static var navigationBarStyle: UInt8 = 0
+        static var navigationBarShadow: UInt8 = 0
+        static var subtitle: UInt8 = 0
+        static var titleStyle: UInt8 = 0
+        static var customNavigationBarColor: UInt8 = 0
     }
 
     var accessoryView: UIView? {
