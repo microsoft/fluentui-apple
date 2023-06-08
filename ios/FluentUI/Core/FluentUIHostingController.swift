@@ -10,7 +10,7 @@ extension UIView {
 
     /// Associated keys created for the added UIView stored properties.
     struct AssociatedKeys {
-        static var shouldUseZeroEdgeInsets: String = "shouldUseZeroEdgeInsets"
+        static var shouldUseZeroEdgeInsets: UInt8 = 0
     }
 
     /// Adds a stored property to the UIView that defines whether the UIView should return UIEdgeInsets.zero from its safeAreaInsets property.
