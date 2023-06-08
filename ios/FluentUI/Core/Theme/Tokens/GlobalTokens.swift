@@ -71,6 +71,34 @@ public class GlobalTokens: NSObject {
         }
     }
 
+    @objc(MSFGradientColorToken)
+    public enum GradientColorToken: Int, TokenSetKey {
+        case primaryLight
+        case primaryDark
+        case secondaryLight
+        case secondaryDark
+        case tertiaryLight
+        case tertiaryDark
+    }
+
+    @objc(colorForGradientColorToken:)
+    public static func gradientColor(_ token: GradientColorToken) -> UIColor {
+        switch token {
+        case .primaryLight:
+            return UIColor(hexValue: 0x464FEB)
+        case .primaryDark:
+            return UIColor(hexValue: 0x7385FF)
+        case .secondaryLight:
+            return UIColor(hexValue: 0x47CFFA)
+        case .secondaryDark:
+            return UIColor(hexValue: 0x7ADFFF)
+        case .tertiaryLight:
+            return UIColor(hexValue: 0xB47CF8)
+        case .tertiaryDark:
+            return UIColor(hexValue: 0xBF80FF)
+        }
+    }
+
     // MARK: - NeutralColor
 
     @objc(MSFGlobalTokensNeutralColor)
