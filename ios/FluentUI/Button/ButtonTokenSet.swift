@@ -183,7 +183,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline:
                         return theme.color(.brandStroke1Pressed)
                     case .neutralOutline:
-                        return theme.color(.stroke2)
+                        return theme.color(.stroke1Pressed)
                     case .dangerOutline:
                         return theme.color(.dangerForeground2)
                     }
@@ -233,7 +233,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     case .outline, .subtle:
                         return theme.color(.brandForeground1Pressed)
                     case .neutralOutline:
-                        return theme.color(.foregroundDisabled1)
+                        return theme.color(.foreground1)
                     case .danger:
                         return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
