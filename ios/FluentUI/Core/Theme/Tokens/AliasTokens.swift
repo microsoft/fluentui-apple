@@ -487,7 +487,7 @@ extension AliasTokens {
                     UIColor(dynamicColor: defaultColors(.brandGradient3))]
         case .tint:
             return [UIColor(dynamicColor: defaultColors(.brandGradient2)),
-                    UIColor(dynamicColor: defaultColors(.brandGradient2))]
+                    UIColor(dynamicColor: defaultColors(.brandGradient3))]
         }
     }
 
