@@ -132,7 +132,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1)
-                    case .outline, .outlineAccent, .subtle, .outlineNeutral, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
@@ -145,7 +145,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Selected)
-                    case .outline, .outlineAccent, .subtle, .outlineNeutral, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
@@ -158,7 +158,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     switch style() {
                     case .accent, .danger, .floatingAccent, .floatingSubtle:
                         return theme.color(.background5)
-                    case .outline, .outlineAccent, .subtle, .outlineNeutral, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     }
                 }
@@ -167,7 +167,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Pressed)
-                    case .outline, .outlineAccent, .subtle, .outlineNeutral, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
