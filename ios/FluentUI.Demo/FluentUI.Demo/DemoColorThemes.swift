@@ -25,7 +25,7 @@ enum DemoColorTheme: CaseIterable {
     var provider: ColorProviding? {
         switch self {
         case .default:
-            return DemoColorDefaultTheme()
+            return DemoColorGreenTheme()
         case .green:
             return DemoColorGreenTheme()
         case .none:

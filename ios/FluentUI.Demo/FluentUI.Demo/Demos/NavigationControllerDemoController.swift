@@ -10,6 +10,15 @@ class NavigationControllerDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        gradient = CAGradientLayer()
+        if let gradient = gradient {
+            gradient.type = .conic
+            gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+            gradient.endPoint = CGPoint(x: 0.5, y: -1)
+            gradient.colors = view.fluentTheme.gradient(.flair).map { $0.cgColor }
+            gradient.locations = [0.48, 0.5, 0.52]
+        }
+
         readmeString = "The navigation bar provides information and actions relating to the current screen. It often shows the app or page title and allows for navigation relative to the current page, letting someone step forward and back through a flow. The left side of the navigation bar can contain actions that directly relate to that page’s content, like edit or done buttons.\n\nIf you need to show wayfinding for main sections of your app that don’t change as people move through it, try the tab bar."
 
         addTitle(text: "Large Title with Primary style")
@@ -60,17 +69,11 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
 
-    let gradient: CAGradientLayer = {
-        let purpleColor = CGColor(red: 0.68, green: 0.49, blue: 0.88, alpha: 0.4)
-        let blueColor = CGColor(red: 0.25, green: 0.38, blue: 1.00, alpha: 0.4)
-        let gradient = CAGradientLayer()
-        gradient.type = .conic
-        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
-        gradient.endPoint = CGPoint(x: 0.5, y: -1)
-        gradient.colors = [blueColor, purpleColor, blueColor]
-        gradient.locations = [0.48, 0.5, 0.52]
-        return gradient
-    }()
+    func setupGradient(gradient: CAGradientLayer) {
+
+    }
+
+    var gradient: CAGradientLayer?
 
     let gradientMask: CAGradientLayer = {
         let gradientMask = CAGradientLayer()
