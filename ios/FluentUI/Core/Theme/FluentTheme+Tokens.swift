@@ -71,6 +71,11 @@ public extension FluentTheme {
         case brandForegroundDisabled1
         case brandForegroundDisabled2
 
+        // Brand colors - Brand gradient
+        case brandGradient1
+        case brandGradient2
+        case brandGradient3
+
         // Brand colors - Brand stroke
         case brandStroke1
         case brandStroke1Pressed

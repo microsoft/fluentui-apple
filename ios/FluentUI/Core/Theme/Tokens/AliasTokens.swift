@@ -125,6 +125,11 @@ public final class AliasTokens: NSObject {
         case brandForegroundDisabled1
         case brandForegroundDisabled2
 
+        // Brand colors - Brand gradient
+        case brandGradient1
+        case brandGradient2
+        case brandGradient3
+
         // Brand colors - Brand stroke
         case brandStroke1
         case brandStroke1Pressed
@@ -157,6 +162,7 @@ public final class AliasTokens: NSObject {
         case presenceDnd
         case presenceAvailable
         case presenceOof
+
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `colors` property directly.")
@@ -221,6 +227,15 @@ extension AliasTokens {
         case .brandForegroundDisabled2:
             return DynamicColor(light: GlobalTokens.brandColors(.comm140),
                                 dark: GlobalTokens.brandColors(.comm40))
+        case .brandGradient1:
+            return DynamicColor(light: GlobalTokens.gradientColor(.primaryLight),
+                                dark: GlobalTokens.gradientColor(.primaryDark))
+        case .brandGradient2:
+            return DynamicColor(light: GlobalTokens.gradientColor(.secondaryLight),
+                                dark: GlobalTokens.gradientColor(.secondaryDark))
+        case .brandGradient3:
+            return DynamicColor(light: GlobalTokens.gradientColor(.tertiaryLight),
+                                dark: GlobalTokens.gradientColor(.tertiaryDark))
         case .foregroundDarkStatic:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.black))

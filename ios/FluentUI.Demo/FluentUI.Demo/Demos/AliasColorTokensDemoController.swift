@@ -92,6 +92,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandStroke1,
              .brandForegroundTint,
              .brandStroke1Selected,
+             .brandGradient1,
              .dangerBackground2,
              .dangerForeground1,
              .dangerForeground2,
@@ -111,7 +112,9 @@ class AliasColorTokensDemoController: DemoTableViewController {
         case .foregroundLightStatic,
              .backgroundLightStatic,
              .backgroundLightStaticDisabled,
-             .warningBackground2:
+             .warningBackground2,
+             .brandGradient2,
+             .brandGradient3:
             return fluentTheme.color(.foregroundDarkStatic)
         case .brandForeground1,
              .brandForeground1Selected,
@@ -144,6 +147,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     case brandBackgrounds
     case neutralForegrounds
     case brandForegrounds
+    case brandGradients
     case neutralStrokes
     case brandStrokes
     case sharedErrorAndStatus
@@ -159,6 +163,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
             return "Neutral Foregrounds"
         case .brandForegrounds:
             return "Brand Foregrounds"
+        case .brandGradients:
+            return "Brand Gradients"
         case .neutralStrokes:
             return "Neutral Strokes"
         case .brandStrokes:
@@ -223,6 +229,10 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandForeground1Selected,
                     .brandForegroundDisabled1,
                     .brandForegroundDisabled2]
+        case .brandGradients:
+            return [.brandGradient1,
+                    .brandGradient2,
+                    .brandGradient3]
         case .neutralStrokes:
             return [.stroke1,
                     .stroke2,
@@ -345,6 +355,12 @@ private extension FluentTheme.ColorToken {
             return "Brand Background Tint"
         case .brandForegroundTint:
             return "Brand Foreground Tint"
+        case .brandGradient1:
+            return "Brand Gradient 1"
+        case .brandGradient2:
+            return "Brand Gradient 2"
+        case .brandGradient3:
+            return "Brand Gradient 3"
         case .stencil1:
             return "Stencil 1"
         case .stencil2:
