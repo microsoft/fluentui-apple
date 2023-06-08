@@ -172,15 +172,32 @@ public final class AliasTokens: NSObject {
     }
     public let colors: TokenSet<ColorsTokens, DynamicColor>
 
+    // MARK: - Gradient Colors
+
+    @objc(MSFGradientColorAliasTokens)
+    public enum GradientColorsTokens: Int, TokenSetKey {
+        case flair
+        case tint
+    }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
+    @objc(aliasGradientColorForToken:)
+    public func gradient(_ token: GradientColorsTokens) -> [UIColor] {
+        return gradientColors[token]
+    }
+    public let gradientColors: TokenSet<GradientColorsTokens, [UIColor]>
+
     // MARK: Initialization
 
     init(colorOverrides: [ColorsTokens: DynamicColor]? = nil,
          shadowOverrides: [ShadowTokens: ShadowInfo]? = nil,
-         typographyOverrides: [TypographyTokens: FontInfo]? = nil) {
+         typographyOverrides: [TypographyTokens: FontInfo]? = nil,
+         gradientOverrides: [GradientColorsTokens: [UIColor]]? = nil) {
 
         self.colors = .init(AliasTokens.defaultColors(_:), colorOverrides)
         self.shadow = .init(AliasTokens.defaultShadows(_:), shadowOverrides)
         self.typography = .init(AliasTokens.defaultTypography(_:), typographyOverrides)
+        self.gradientColors = .init(AliasTokens.defaultGradientColors(_:), gradientOverrides)
 
         super.init()
     }
@@ -459,6 +476,18 @@ extension AliasTokens {
         case .presenceOof:
             return DynamicColor(light: GlobalTokens.sharedColors(.berry, .primary),
                                 dark: GlobalTokens.sharedColors(.berry, .tint20))
+        }
+    }
+
+    private static func defaultGradientColors(_ token: GradientColorsTokens) -> [UIColor] {
+        switch token {
+        case .flair:
+            return [UIColor(dynamicColor: defaultColors(.brandGradient1)),
+                    UIColor(dynamicColor: defaultColors(.brandGradient2)),
+                    UIColor(dynamicColor: defaultColors(.brandGradient3))]
+        case .tint:
+            return [UIColor(dynamicColor: defaultColors(.brandGradient2)),
+                    UIColor(dynamicColor: defaultColors(.brandGradient2))]
         }
     }
 
