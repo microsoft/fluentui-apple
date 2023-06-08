@@ -113,4 +113,16 @@
     return [self brandStrokeColor];
 }
 
+- (UIColor *)brandGradient1 {
+    return [self brandGradient1];
+}
+
+- (UIColor *)brandGradient2 {
+    return [self brandGradient2];
+}
+
+- (UIColor *)brandGradient3 {
+    return [self brandGradient3];
+}
+
 @end
