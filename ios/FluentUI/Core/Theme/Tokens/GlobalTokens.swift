@@ -71,6 +71,8 @@ public class GlobalTokens: NSObject {
         }
     }
 
+    // MARK: - GradientColor
+
     @objc(MSFGradientColorToken)
     public enum GradientColorToken: Int, TokenSetKey {
         case primaryLight
