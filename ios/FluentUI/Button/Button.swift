@@ -54,13 +54,11 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     /// The content insets of the buton.
-    /// If these insets are not equal to `defaultEdgeInsets()`, the minimum height constraint will be disabled.
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
-            minHeightConstraint.isActive = !isUsingCustomContentEdgeInsets
 
-            invalidateIntrinsicContentSize()
+            updateProposedTitleLabelWidth()
 
             if !isAdjustingCustomContentEdgeInsetsForImage && image(for: .normal) != nil {
                 adjustCustomContentEdgeInsetsForImage()
@@ -70,6 +68,26 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             configuration.contentInsets = edgeInsets
             self.configuration = configuration
         }
+    }
+
+    open override var intrinsicContentSize: CGSize {
+        return sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+    }
+
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth <= 0 ? size.width : proposedTitleLabelWidth, height: size.height)) ?? .zero
+        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
+        contentSize.height = ceil(max(contentSize.height + edgeInsets.top + edgeInsets.bottom, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)))
+
+        if let image = image(for: .normal) {
+            contentSize.width += image.size.width
+
+            if titleLabel?.text?.count ?? 0 != 0 {
+                contentSize.width += ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
+            }
+        }
+
+        return contentSize
     }
 
     open func initialize() {
@@ -93,7 +111,6 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             self?.update()
         }
 
-        minHeightConstraint.isActive = true
         addInteraction(UILargeContentViewerInteraction())
     }
 
@@ -120,6 +137,8 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     open override func layoutSubviews() {
         super.layoutSubviews()
         updateShadow()
+
+        updateProposedTitleLabelWidth()
     }
 
     @objc public init(style: ButtonStyle = .outline) {
@@ -178,7 +197,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         setTitleColor(tokenSet[.foregroundPressedColor].uiColor, for: .highlighted)
         setTitleColor(tokenSet[.foregroundDisabledColor].uiColor, for: .disabled)
 
-        invalidateIntrinsicContentSize()
+        updateProposedTitleLabelWidth()
     }
 
     private func updateImage() {
@@ -238,7 +257,19 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
-            minHeightConstraint.constant = ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)
+        }
+    }
+
+    private func updateProposedTitleLabelWidth() {
+        if bounds.width > 0.0 {
+            var labelWidth = bounds.width - (edgeInsets.leading + edgeInsets.trailing)
+            if let image = image(for: .normal) {
+                labelWidth -= image.size.width
+            }
+
+            if labelWidth > 0.0 {
+                proposedTitleLabelWidth = labelWidth
+            }
         }
     }
 
@@ -318,12 +349,19 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         return ringView
     }()
 
-    private lazy var minHeightConstraint: NSLayoutConstraint = heightAnchor.constraint(greaterThanOrEqualToConstant: ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory))
-
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false
+
+    /// if value is 0.0, CGFloat.greatestFiniteMagnitude is used to calculate the width of the `titleLabel` in `intrinsicContentSize`
+    private var proposedTitleLabelWidth: CGFloat = 0.0 {
+        didSet {
+            if proposedTitleLabelWidth != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
 }
