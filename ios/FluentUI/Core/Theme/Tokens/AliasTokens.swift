@@ -180,7 +180,7 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
-    @objc(aliasGradientColorForToken:)
+    @objc(aliasGradientForToken:)
     public func gradient(_ token: GradientTokens) -> [UIColor] {
         return gradientColors[token]
     }
