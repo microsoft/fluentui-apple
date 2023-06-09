@@ -198,6 +198,9 @@ extension TableViewCellDemoController {
         cell.footerLeadingAccessoryView = showsLabelAccessoryView ? item.text3LeadingAccessoryView() : nil
         cell.footerTrailingAccessoryView = showsLabelAccessoryView ? item.text3TrailingAccessoryView() : nil
 
+        cell.titleLeadingAccessoryViewVerticalAlignment = item.text1LeadingAccessoryViewVerticalAlignment
+        cell.titleTrailingAccessoryViewVerticalAlignment = item.text1TrailingAccessoryViewVerticalAlignment
+
         cell.titleNumberOfLines = section.numberOfLines
         cell.subtitleNumberOfLines = section.numberOfLines
         cell.footerNumberOfLines = section.numberOfLines
