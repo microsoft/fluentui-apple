@@ -74,6 +74,8 @@ class TableViewSampleData {
         let text2TrailingAccessoryView: LabelAccessoryView
         let text3LeadingAccessoryView: LabelAccessoryView
         let text3TrailingAccessoryView: LabelAccessoryView
+        let text1LeadingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment
+        let text1TrailingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment
 
         init(
             text1: String = "",
@@ -85,7 +87,9 @@ class TableViewSampleData {
             text2LeadingAccessoryView: @escaping LabelAccessoryView = { return nil },
             text2TrailingAccessoryView: @escaping LabelAccessoryView = { return nil },
             text3LeadingAccessoryView: @escaping LabelAccessoryView = { return nil },
-            text3TrailingAccessoryView: @escaping LabelAccessoryView = { return nil }
+            text3TrailingAccessoryView: @escaping LabelAccessoryView = { return nil },
+            text1LeadingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment = .center,
+            text1TrailingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment = .center
         ) {
             self.text1 = text1
             self.text2 = text2
@@ -97,6 +101,8 @@ class TableViewSampleData {
             self.text2TrailingAccessoryView = text2TrailingAccessoryView
             self.text3LeadingAccessoryView = text3LeadingAccessoryView
             self.text3TrailingAccessoryView = text3TrailingAccessoryView
+            self.text1LeadingAccessoryViewVerticalAlignment = text1LeadingAccessoryViewVerticalAlignment
+            self.text1TrailingAccessoryViewVerticalAlignment = text1TrailingAccessoryViewVerticalAlignment
         }
     }
 
