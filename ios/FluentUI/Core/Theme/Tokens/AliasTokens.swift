@@ -184,7 +184,11 @@ public final class AliasTokens: NSObject {
     public func gradient(_ token: GradientColorsTokens) -> [UIColor] {
         return gradientColors[token]
     }
-    public let gradientColors: TokenSet<GradientColorsTokens, [UIColor]>
+    public lazy var gradientColors: TokenSet<GradientColorsTokens, [UIColor]> = {
+        return .init(self.defaultGradientColors(_:), gradientOverrides)
+    }()
+
+    private let gradientOverrides: [GradientColorsTokens: [UIColor]]?
 
     // MARK: Initialization
 
@@ -196,7 +200,7 @@ public final class AliasTokens: NSObject {
         self.colors = .init(AliasTokens.defaultColors(_:), colorOverrides)
         self.shadow = .init(AliasTokens.defaultShadows(_:), shadowOverrides)
         self.typography = .init(AliasTokens.defaultTypography(_:), typographyOverrides)
-        self.gradientColors = .init(AliasTokens.defaultGradientColors(_:), gradientOverrides)
+        self.gradientOverrides = gradientOverrides
 
         super.init()
     }
@@ -478,15 +482,15 @@ extension AliasTokens {
         }
     }
 
-    private static func defaultGradientColors(_ token: GradientColorsTokens) -> [UIColor] {
+    private func defaultGradientColors(_ token: GradientColorsTokens) -> [UIColor] {
         switch token {
         case .flair:
-            return [UIColor(dynamicColor: defaultColors(.brandGradient1)),
-                    UIColor(dynamicColor: defaultColors(.brandGradient2)),
-                    UIColor(dynamicColor: defaultColors(.brandGradient3))]
+            return [UIColor(dynamicColor: colors[.brandGradient1]),
+                    UIColor(dynamicColor: colors[.brandGradient2]),
+                    UIColor(dynamicColor: colors[.brandGradient3])]
         case .tint:
-            return [UIColor(dynamicColor: defaultColors(.brandGradient2)),
-                    UIColor(dynamicColor: defaultColors(.brandGradient3))]
+            return [UIColor(dynamicColor: colors[.brandGradient2]),
+                    UIColor(dynamicColor: colors[.brandGradient3])]
         }
     }
 
