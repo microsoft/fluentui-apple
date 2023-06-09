@@ -174,28 +174,28 @@ public final class AliasTokens: NSObject {
     // MARK: - Gradient Colors
 
     @objc(MSFGradientColorAliasTokens)
-    public enum GradientColorsTokens: Int, TokenSetKey {
+    public enum GradientTokens: Int, TokenSetKey {
         case flair
         case tint
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
     @objc(aliasGradientColorForToken:)
-    public func gradient(_ token: GradientColorsTokens) -> [UIColor] {
+    public func gradient(_ token: GradientTokens) -> [UIColor] {
         return gradientColors[token]
     }
-    public lazy var gradientColors: TokenSet<GradientColorsTokens, [UIColor]> = {
+    public lazy var gradientColors: TokenSet<GradientTokens, [UIColor]> = {
         return .init(self.defaultGradientColors(_:), gradientOverrides)
     }()
 
-    private let gradientOverrides: [GradientColorsTokens: [UIColor]]?
+    private let gradientOverrides: [GradientTokens: [UIColor]]?
 
     // MARK: Initialization
 
     init(colorOverrides: [ColorsTokens: DynamicColor]? = nil,
          shadowOverrides: [ShadowTokens: ShadowInfo]? = nil,
          typographyOverrides: [TypographyTokens: FontInfo]? = nil,
-         gradientOverrides: [GradientColorsTokens: [UIColor]]? = nil) {
+         gradientOverrides: [GradientTokens: [UIColor]]? = nil) {
 
         self.colors = .init(AliasTokens.defaultColors(_:), colorOverrides)
         self.shadow = .init(AliasTokens.defaultShadows(_:), shadowOverrides)
@@ -482,7 +482,7 @@ extension AliasTokens {
         }
     }
 
-    private func defaultGradientColors(_ token: GradientColorsTokens) -> [UIColor] {
+    private func defaultGradientColors(_ token: GradientTokens) -> [UIColor] {
         switch token {
         case .flair:
             return [UIColor(dynamicColor: colors[.brandGradient1]),

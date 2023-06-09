@@ -29,6 +29,7 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - colorOverrides: A `Dictionary` of override values mapped to `ColorTokens`.
     ///   - shadowOverrides: A `Dictionary` of override values mapped to `ShadowTokens`.
     ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
+    ///   - gradientOverrides: A `Dictionary` of override values mapped to `GradientTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
     public init(colorOverrides: [ColorToken: UIColor]? = nil,
@@ -53,9 +54,9 @@ public class FluentTheme: NSObject, ObservableObject {
         }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
 
         let fixedGradientOverrides = gradientOverrides?.map({ (key: GradientToken, value: [UIColor]) in
-            let newKey = AliasTokens.GradientColorsTokens(rawValue: key.rawValue)!
+            let newKey = AliasTokens.GradientTokens(rawValue: key.rawValue)!
             return (newKey, value)
-        }) ?? [(AliasTokens.GradientColorsTokens, [UIColor])]()
+        }) ?? [(AliasTokens.GradientTokens, [UIColor])]()
 
         // Pass overrides to AliasTokens
         aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),

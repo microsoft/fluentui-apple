@@ -25,7 +25,7 @@ enum DemoColorTheme: CaseIterable {
     var provider: ColorProviding? {
         switch self {
         case .default:
-            return DemoColorGreenTheme()
+            return DemoColorDefaultTheme()
         case .green:
             return DemoColorGreenTheme()
         case .none:
@@ -125,12 +125,12 @@ class DemoColorDefaultTheme: NSObject, ColorProviding {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.primaryLight),
                                                   dark: GlobalTokens.gradientColor(.primaryDark)))
     }
-    
+
     var brandGradient2: UIColor {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.secondaryLight),
                                                   dark: GlobalTokens.gradientColor(.secondaryDark)))
     }
-    
+
     var brandGradient3: UIColor {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.tertiaryLight),
                                                   dark: GlobalTokens.gradientColor(.tertiaryDark)))
