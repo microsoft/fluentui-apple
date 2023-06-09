@@ -76,19 +76,10 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth <= 0 ? size.width : proposedTitleLabelWidth, height: size.height)) ?? .zero
-        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
         contentSize.height = ceil(max(contentSize.height + edgeInsets.top + edgeInsets.bottom, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)))
 
-        if let image = image(for: .normal) {
-            contentSize.width += image.size.width
-
-            if titleLabel?.text?.count ?? 0 != 0 {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
-            }
-        }
-
         let superSize = super.sizeThatFits(size)
-        contentSize.width = max(contentSize.width, superSize.width)
+        contentSize.width = superSize.width
 
         return contentSize
     }
