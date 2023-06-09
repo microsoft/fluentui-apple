@@ -122,18 +122,18 @@ class DemoColorDefaultTheme: NSObject, ColorProviding {
     }
 
     var brandGradient1: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.primaryLight),
-                                                  dark: GlobalTokens.gradientColor(.primaryDark)))
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientPrimaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientPrimaryDark)))
     }
 
     var brandGradient2: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.secondaryLight),
-                                                  dark: GlobalTokens.gradientColor(.secondaryDark)))
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientSecondaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientSecondaryDark)))
     }
 
     var brandGradient3: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.gradientColor(.tertiaryLight),
-                                                  dark: GlobalTokens.gradientColor(.tertiaryDark)))
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientTertiaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientTertiaryDark)))
     }
 }
 
@@ -228,14 +228,12 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
         return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
                                                   dark: ColorValue(0x10893C)))
     }
-    
+
     var brandGradient2: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0xDCF51D),
-                                                  dark: ColorValue(0xDCF51D)))
+        return UIColor(colorValue: ColorValue(0xDCF51D))
     }
-    
+
     var brandGradient3: UIColor {
-        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x42B8B2),
-                                                  dark: ColorValue(0x42B8B2)))
+        return UIColor(colorValue: ColorValue(0x42B8B2))
     }
 }

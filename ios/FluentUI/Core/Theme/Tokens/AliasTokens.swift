@@ -248,14 +248,14 @@ extension AliasTokens {
             return DynamicColor(light: GlobalTokens.brandColors(.comm140),
                                 dark: GlobalTokens.brandColors(.comm40))
         case .brandGradient1:
-            return DynamicColor(light: GlobalTokens.gradientColor(.primaryLight),
-                                dark: GlobalTokens.gradientColor(.primaryDark))
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientPrimaryLight),
+                                dark: GlobalTokens.brandColors(.gradientPrimaryDark))
         case .brandGradient2:
-            return DynamicColor(light: GlobalTokens.gradientColor(.secondaryLight),
-                                dark: GlobalTokens.gradientColor(.secondaryDark))
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientSecondaryLight),
+                                dark: GlobalTokens.brandColors(.gradientSecondaryDark))
         case .brandGradient3:
-            return DynamicColor(light: GlobalTokens.gradientColor(.tertiaryLight),
-                                dark: GlobalTokens.gradientColor(.tertiaryDark))
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientTertiaryLight),
+                                dark: GlobalTokens.brandColors(.gradientTertiaryDark))
         case .foregroundDarkStatic:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.black))
