@@ -87,6 +87,9 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
             }
         }
 
+        let superSize = super.sizeThatFits(size)
+        contentSize.width = max(contentSize.width, superSize.width)
+
         return contentSize
     }
 
