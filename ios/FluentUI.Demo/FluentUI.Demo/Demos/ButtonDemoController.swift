@@ -136,7 +136,9 @@ extension ButtonStyle {
         case .accent:
             return "Accent"
         case .outline:
-            return "Outline"
+            return "Outline accent"
+        case .outlineNeutral:
+            return "Outline neutral"
         case .subtle:
             return "Subtle"
         case .danger:
