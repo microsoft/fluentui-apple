@@ -30,9 +30,9 @@ public protocol ColorProviding {
     @objc var brandStroke1: UIColor { get }
     @objc var brandStroke1Pressed: UIColor { get }
     @objc var brandStroke1Selected: UIColor { get }
-    @objc var brandGradient1: UIColor? { get }
-    @objc var brandGradient2: UIColor? { get }
-    @objc var brandGradient3: UIColor? { get }
+    @objc optional var brandGradient1: UIColor { get }
+    @objc optional var brandGradient2: UIColor { get }
+    @objc optional var brandGradient3: UIColor { get }
 }
 
 private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: UIColor] {
