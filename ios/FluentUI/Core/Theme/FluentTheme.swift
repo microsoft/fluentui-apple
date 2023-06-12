@@ -16,7 +16,7 @@ public class FluentTheme: NSObject, ObservableObject {
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
     @objc public convenience override init() {
-        self.init(colorOverrides: nil, shadowOverrides: nil, typographyOverrides: nil)
+        self.init(colorOverrides: nil, shadowOverrides: nil, typographyOverrides: nil, gradientOverrides: nil)
     }
 
     /// Initializes and returns a new `FluentTheme`.
@@ -29,11 +29,13 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - colorOverrides: A `Dictionary` of override values mapped to `ColorTokens`.
     ///   - shadowOverrides: A `Dictionary` of override values mapped to `ShadowTokens`.
     ///   - typographyOverrides: A `Dictionary` of override values mapped to `TypographyTokens`.
+    ///   - gradientOverrides: A `Dictionary` of override values mapped to `GradientTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
     public init(colorOverrides: [ColorToken: UIColor]? = nil,
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
-                typographyOverrides: [TypographyToken: UIFont]? = nil) {
+                typographyOverrides: [TypographyToken: UIFont]? = nil,
+                gradientOverrides: [GradientToken: [UIColor]]? = nil) {
         let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
             let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
             let newValue = value.dynamicColor!
@@ -51,10 +53,16 @@ public class FluentTheme: NSObject, ObservableObject {
             return (newKey, newValue)
         }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
 
+        let fixedGradientOverrides = gradientOverrides?.map({ (key: GradientToken, value: [UIColor]) in
+            let newKey = AliasTokens.GradientTokens(rawValue: key.rawValue)!
+            return (newKey, value)
+        }) ?? [(AliasTokens.GradientTokens, [UIColor])]()
+
         // Pass overrides to AliasTokens
         aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
                             shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
-                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides))
+                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides),
+                            gradientOverrides: Dictionary(uniqueKeysWithValues: fixedGradientOverrides))
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
