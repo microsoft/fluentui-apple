@@ -52,6 +52,7 @@ public extension FluentTheme {
 
         // Neutral colors - Stroke
         case stroke1
+        case stroke1Pressed
         case stroke2
         case strokeAccessible
         case strokeFocus1

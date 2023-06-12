@@ -2084,7 +2084,7 @@ public class GlobalTokens: NSObject {
         case .grey68:
             return ColorValue(0xADADAD)
         case .grey70:
-            return ColorValue(0xB2B2B2)
+            return ColorValue(0xB3B3B3)
         case .grey72:
             return ColorValue(0xB8B8B8)
         case .grey74:
@@ -2104,7 +2104,7 @@ public class GlobalTokens: NSObject {
         case .grey88:
             return ColorValue(0xE0E0E0)
         case .grey90:
-            return ColorValue(0xE5E5E5)
+            return ColorValue(0xE6E6E6)
         case .grey92:
             return ColorValue(0xEBEBEB)
         case .grey94:
