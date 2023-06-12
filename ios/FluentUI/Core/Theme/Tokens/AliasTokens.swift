@@ -100,6 +100,7 @@ public final class AliasTokens: NSObject {
 
         // Neutral colors - Stroke
         case stroke1
+        case stroke1Pressed
         case stroke2
         case strokeAccessible
         case strokeFocus1
@@ -349,21 +350,27 @@ extension AliasTokens {
             return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                                 dark: GlobalTokens.neutralColors(.grey30),
                                 darkElevated: GlobalTokens.neutralColors(.grey36))
+        case .stroke1Pressed:
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey70),
+                                dark: GlobalTokens.neutralColors(.grey48))
         case .stroke2:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey24))
-        case .strokeDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey26))
+                                dark: GlobalTokens.neutralColors(.grey24),
+                                darkElevated: GlobalTokens.neutralColors(.grey30))
         case .strokeAccessible:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                dark: GlobalTokens.neutralColors(.grey62))
+                                dark: GlobalTokens.neutralColors(.grey62),
+                                darkElevated: GlobalTokens.neutralColors(.grey68))
         case .strokeFocus1:
             return DynamicColor(light: GlobalTokens.neutralColors(.white),
                                 dark: GlobalTokens.neutralColors(.black))
         case .strokeFocus2:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.white))
+        case .strokeDisabled:
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                dark: GlobalTokens.neutralColors(.grey26),
+                                darkElevated: GlobalTokens.neutralColors(.grey32))
         case .brandStroke1:
             return DynamicColor(light: GlobalTokens.brandColors(.comm80),
                                 dark: GlobalTokens.brandColors(.comm100))
