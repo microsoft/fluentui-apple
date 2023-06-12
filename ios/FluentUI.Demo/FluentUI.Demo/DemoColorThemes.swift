@@ -120,6 +120,21 @@ class DemoColorDefaultTheme: NSObject, ColorProviding {
         return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.comm60),
                                                   dark: GlobalTokens.brandColors(.comm120)))
     }
+
+    var brandGradient1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientPrimaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientPrimaryDark)))
+    }
+
+    var brandGradient2: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientSecondaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientSecondaryDark)))
+    }
+
+    var brandGradient3: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.brandColors(.gradientTertiaryLight),
+                                                  dark: GlobalTokens.brandColors(.gradientTertiaryDark)))
+    }
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
@@ -207,5 +222,18 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
     var brandStroke1Selected: UIColor {
         return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x0F703B),
                                                   dark: ColorValue(0x60BD82)))
+    }
+
+    var brandGradient1: UIColor {
+        return UIColor(dynamicColor: DynamicColor(light: ColorValue(0x107C41),
+                                                  dark: ColorValue(0x10893C)))
+    }
+
+    var brandGradient2: UIColor {
+        return UIColor(colorValue: ColorValue(0xDCF51D))
+    }
+
+    var brandGradient3: UIColor {
+        return UIColor(colorValue: ColorValue(0x42B8B2))
     }
 }
