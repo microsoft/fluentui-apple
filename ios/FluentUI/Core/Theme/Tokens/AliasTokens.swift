@@ -184,6 +184,7 @@ public final class AliasTokens: NSObject {
     public func gradientColors(_ token: GradientTokens) -> [UIColor] {
         return gradients[token]
     }
+    /// `GradientTokens` need to be lazily initialized in order to fetch the correct alias color tokens from the instance's `self.colors`.
     public lazy var gradients: TokenSet<GradientTokens, [UIColor]> = {
         return .init(self.defaultGradientColors(_:), gradientOverrides)
     }()
