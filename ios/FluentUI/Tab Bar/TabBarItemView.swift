@@ -257,8 +257,9 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        titleLabel.textColor = isSelected ? tokenSet[.selectedColor].uiColor : tokenSet[.unselectedColor].uiColor
-        imageView.tintColor = isSelected ? tokenSet[.selectedColor].uiColor : tokenSet[.unselectedColor].uiColor
+        let foregroundColor = isSelected ? tokenSet[.selectedColor].uiColor : tokenSet[.unselectedColor].uiColor
+        titleLabel.textColor = foregroundColor
+        imageView.tintColor = foregroundColor
     }
 
     private func updateImage() {
