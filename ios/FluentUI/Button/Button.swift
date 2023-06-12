@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, Shadowable, TokenizedControlInternal {
-    @objc open var style: ButtonStyle = .outlineAccent {
+    @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
                 update()
@@ -135,7 +135,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         updateProposedTitleLabelWidth()
     }
 
-    @objc public init(style: ButtonStyle = .outlineAccent) {
+    @objc public init(style: ButtonStyle = .outline) {
         self.style = style
         super.init(frame: .zero)
         initialize()
@@ -178,7 +178,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     public var keyShadow: CALayer?
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .outlineAccent
+        return self?.style ?? .outline
     },
                                                      size: { [weak self] in
         return self?.sizeCategory ?? .medium

@@ -135,10 +135,10 @@ extension ButtonStyle {
         switch self {
         case .accent:
             return "Accent"
-        case .outlineAccent:
+        case .outline:
             return "Outline accent"
         case .outlineNeutral:
-            return "Outline"
+            return "Outline neutral"
         case .subtle:
             return "Subtle"
         case .danger:
@@ -151,8 +151,6 @@ extension ButtonStyle {
             return "Floating accent"
         case .floatingSubtle:
             return "Floating subtle"
-        case .outline:
-            return ""
         }
     }
 
