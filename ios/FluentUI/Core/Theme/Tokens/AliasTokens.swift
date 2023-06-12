@@ -180,11 +180,11 @@ public final class AliasTokens: NSObject {
     }
 
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
-    @objc(aliasGradientForToken:)
-    public func gradient(_ token: GradientTokens) -> [UIColor] {
-        return gradientColors[token]
+    @objc(aliasGradientColorsForToken:)
+    public func gradientColors(_ token: GradientTokens) -> [UIColor] {
+        return gradients[token]
     }
-    public lazy var gradientColors: TokenSet<GradientTokens, [UIColor]> = {
+    public lazy var gradients: TokenSet<GradientTokens, [UIColor]> = {
         return .init(self.defaultGradientColors(_:), gradientOverrides)
     }()
 

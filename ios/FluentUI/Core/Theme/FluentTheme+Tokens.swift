@@ -158,7 +158,7 @@ public extension FluentTheme {
     /// - Returns: An array of `UIColor`s for the given token.
     @objc(gradientForToken:)
     func gradient(_ token: GradientToken) -> [UIColor] {
-        return aliasTokens.gradientColors[AliasTokens.GradientTokens(rawValue: token.rawValue)!]
+        return aliasTokens.gradients[AliasTokens.GradientTokens(rawValue: token.rawValue)!]
     }
 
     /// Returns the shadow value for the given token.
