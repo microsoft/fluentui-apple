@@ -63,10 +63,10 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 }
 
             case .titleLabelFontPortrait:
-                return .uiFont { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
 
             case .titleLabelFontLandscape:
-                return .uiFont { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
 
             case .unreadDotSize:
                 return .float { 8.0 }
