@@ -148,7 +148,6 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }
 
     private struct Constants {
-        static let maxTabCount: Int = 5
         static let numberOfTitleLines: Int = 2
     }
 
@@ -204,6 +203,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         layoutConstraints.append(contentsOf: [
             topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             topStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
+            bottomStackView.topAnchor.constraint(greaterThanOrEqualTo: topStackView.bottomAnchor, constant: SideTabBarTokenSet.tabBarItemSpacing),
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
@@ -228,17 +228,12 @@ open class SideTabBar: UIView, TokenizedControlInternal {
             subview.removeFromSuperview()
         }
 
-        let allItems = items(in: section)
-        let numberOfItems = allItems.count
-        if numberOfItems > Constants.maxTabCount {
-            preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
-        }
-
         let stackView = self.stackView(in: section)
         let badgePadding = section == .top ? SideTabBarTokenSet.badgeTopSectionPadding : SideTabBarTokenSet.badgeBottomSectionPadding
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
+        let allItems = items(in: section)
         for item in allItems {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
