@@ -203,6 +203,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         layoutConstraints.append(contentsOf: [
             topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             topStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
+            bottomStackView.topAnchor.constraint(greaterThanOrEqualTo: topStackView.bottomAnchor, constant: SideTabBarTokenSet.tabBarItemSpacing),
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
