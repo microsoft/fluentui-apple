@@ -571,11 +571,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateViewsForLargeTitlePresentation(for: topItem)
             updateFakeCenterTitleConstraints()
 
-            // We don't want to alter the hidden state of the backgroundView and the contentStackView for the gradient style when the traitCollection changes.
-            if style != .gradient {
-                updateViewsForLargeTitlePresentation(for: topItem)
-            }
-
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
                 updateSubtitleView(for: navigationItem)
@@ -851,7 +846,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // UINavigationBar's internal view hierarchy, we can't propagate touch events on
         // parts that are outside that 32px range to the actual title view.
         // We therefore depend on the "fake" navigation bar that we use for leading titles to save the day.
-        if usesLeadingTitle || systemWantsCompactNavigationBar {
+
+        // We also want to hide the backgroundView and the contentStackView for gradient style regular title to
+        // avoid displaying duplicated navigation bar items.
+        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar) {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
