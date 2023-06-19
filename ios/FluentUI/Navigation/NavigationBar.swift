@@ -849,7 +849,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         // We also want to hide the backgroundView and the contentStackView for gradient style regular title to
         // avoid displaying duplicated navigation bar items.
-        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar) {
+        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar && navigationItem?.titleView == nil) {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -906,9 +906,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateSubtitleView(for navigationItem: UINavigationItem?) {
-        guard let navigationItem = navigationItem, !usesLeadingTitle else {
-            // Use the default title view
-            navigationItem?.titleView = nil
+        guard let navigationItem = navigationItem, navigationItem.titleView == nil, !usesLeadingTitle else {
             return
         }
 
