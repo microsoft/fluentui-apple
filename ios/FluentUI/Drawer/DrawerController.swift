@@ -363,10 +363,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         return super.preferredContentSize.height == 0 && preferredContentHeight == 0 && (contentController?.preferredContentSize.height ?? 0) == 0
     }
 
-    open override var shouldAutorotate: Bool {
-        return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
-    }
-
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return presentingViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
