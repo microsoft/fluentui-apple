@@ -52,9 +52,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     public enum InteractivePart: Int {
         // The @objc requirement doesn't let us use OptionSet, so we provide the bitmasks and the `contains` method ourselves
         case none = 0
-        case title = 0b01
-        case subtitle = 0b10
-        case all = 0b11
+        case title = 1 // 0b01
+        case subtitle = 2 // 0b10
+        case all = 3 // 0b11
 
         func contains(_ other: InteractivePart) -> Bool {
             return rawValue & other.rawValue != 0
