@@ -106,6 +106,7 @@ public struct AvatarGroup: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let avatars: [MSFAvatarStateImpl] = state.avatars
         let avatarViews: [Avatar] = avatars.map { Avatar($0) }
         let enumeratedAvatars = Array(avatars.enumerated())
@@ -199,14 +200,14 @@ public struct AvatarGroup: View, TokenizedControlView {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     avatarView(at: index, for: avatar)
-                        .transition(AnyTransition.move(edge: .leading))
+                        .transition(AnyTransition.opacity)
                 }
 
                 if hasOverflow {
                     VStack {
                         overflowAvatar
                     }
-                    .transition(AnyTransition.move(edge: .leading))
+                    .transition(AnyTransition.opacity)
                 }
             }
             .animation(animation, value: state.avatars)
@@ -220,7 +221,6 @@ public struct AvatarGroup: View, TokenizedControlView {
         }
 
         return avatarGroupContent
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

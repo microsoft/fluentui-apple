@@ -68,8 +68,9 @@ public struct PersonaButton: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let action = state.onTapAction ?? {}
-        SwiftUI.Button(action: action) {
+        return SwiftUI.Button(action: action) {
             VStack(spacing: 0) {
                 avatarView
                 personaText
@@ -77,8 +78,7 @@ public struct PersonaButton: View, TokenizedControlView {
             }
         }
         .frame(minWidth: adjustedWidth, maxWidth: adjustedWidth, minHeight: 0, maxHeight: .infinity)
-        .background(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
-        .fluentTokens(tokenSet, fluentTheme)
+        .background(Color(tokenSet[.backgroundColor].uiColor))
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -97,14 +97,14 @@ public struct PersonaButton: View, TokenizedControlView {
             Text(state.primaryText ?? "")
                 .lineLimit(1)
                 .frame(alignment: .center)
-                .font(.fluent(tokenSet[.labelFont].fontInfo))
-                .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
+                .font(.init(tokenSet[.labelFont].uiFont))
+                .foregroundColor(Color(tokenSet[.labelColor].uiColor))
             if state.buttonSize.shouldShowSubtitle {
                 Text(state.secondaryText ?? "")
                     .lineLimit(1)
                     .frame(alignment: .center)
-                    .font(.fluent(tokenSet[.sublabelFont].fontInfo))
-                    .foregroundColor(Color(dynamicColor: tokenSet[.sublabelColor].dynamicColor))
+                    .font(.init(tokenSet[.sublabelFont].uiFont))
+                    .foregroundColor(Color(tokenSet[.sublabelColor].uiColor))
             }
         }
         .padding(.horizontal, PersonaButtonTokenSet.horizontalTextPadding)

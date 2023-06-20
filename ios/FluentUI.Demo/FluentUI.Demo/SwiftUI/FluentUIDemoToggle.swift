@@ -9,13 +9,10 @@ import SwiftUI
 struct FluentUIDemoToggle: View {
     var titleKey: LocalizedStringKey
     var isOn: Binding<Bool>
-
-    let switchToggleStyle: SwitchToggleStyle = {
-        return SwitchToggleStyle(tint: Color(UIColor(colorValue: GlobalTokens.brandColors(.comm80))))
-    }()
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
     var body: some View {
         Toggle(titleKey, isOn: isOn)
-            .toggleStyle(switchToggleStyle)
+            .tint(Color(fluentTheme.color(.brandForeground1)))
     }
 }

@@ -7,8 +7,9 @@ import FluentUI
 import UIKit
 
 enum ColoredPillBackgroundStyle: Int {
-    case neutral
-    case brand
+    case neutralNavBar
+    case brandNavBar
+    case canvas
 }
 
 class ColoredPillBackgroundView: UIView {
@@ -48,10 +49,12 @@ class ColoredPillBackgroundView: UIView {
 
     func updateBackgroundColor() {
         switch style {
-        case .neutral:
-            backgroundColor = NavigationBar.Style.system.backgroundColor(fluentTheme: fluentTheme)
-        case .brand:
-            backgroundColor = NavigationBar.Style.primary.backgroundColor(fluentTheme: fluentTheme)
+        case .neutralNavBar:
+            backgroundColor = NavigationBar.backgroundColor(for: .system, theme: fluentTheme)
+        case .brandNavBar:
+            backgroundColor = NavigationBar.backgroundColor(for: .primary, theme: fluentTheme)
+        case .canvas:
+            backgroundColor = fluentTheme.color(.backgroundCanvas)
         }
     }
 

@@ -17,6 +17,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
+        container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithPillSegment)))
 
         addTitle(text: "Large Title with System style")
@@ -26,9 +27,25 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithSystemStyleAndFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithSystemStyleAndPillSegment)))
 
-        addTitle(text: "Regular Title")
-        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showRegularTitleWithShyAccessory)))
+        addTitle(text: "Large Title with Gradient style")
+        container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitleWithGradientStyle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithGradientStyleAndShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithGradientStyleAndFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with pill segmented control", action: #selector(showLargeTitleWithGradientStyleAndPillSegment)))
+
+        addTitle(text: "Leading with TwoLineTitleView")
+        container.addArrangedSubview(createButton(title: "Show with fixed search bar and subtitle", action: #selector(showLeadingTitleWithFixedAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and subtitle", action: #selector(showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show with custom leading button", action: #selector(showLeadingTitleWithSubtitleAndCustomLeadingButton)))
+
+        addTitle(text: "Centered Title")
+        container.addArrangedSubview(createButton(title: "Show \"system\"", action: #selector(showSystemTitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with subtitle", action: #selector(showRegularTitleWithSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show \"system\" with collapsible search bar", action: #selector(showSystemTitleWithShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with collapsible search bar and subtitle", action: #selector(showRegularTitleWithShyAccessoryAndSubtitle)))
         container.addArrangedSubview(createButton(title: "Show \"primary\" with fixed search bar", action: #selector(showRegularTitleWithFixedAccessory)))
+        container.addArrangedSubview(createButton(title: "Show \"system\" with fixed search bar and subtitle", action: #selector(showSystemTitleWithFixedAccessoryAndSubtitle)))
+        container.addArrangedSubview(createButton(title: "Show \"primary\" with custom leading button", action: #selector(showRegularTitleWithSubtitleAndCustomLeadingButton)))
 
         addTitle(text: "Size Customization")
         container.addArrangedSubview(createButton(title: "Show with expanded avatar, contracted title", action: #selector(showLargeTitleWithCustomizedElementSizes)))
@@ -43,83 +60,162 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
 
+    let gradient: CAGradientLayer = {
+        let purpleColor = CGColor(red: 0.68, green: 0.49, blue: 0.88, alpha: 0.4)
+        let blueColor = CGColor(red: 0.25, green: 0.38, blue: 1.00, alpha: 0.4)
+        let gradient = CAGradientLayer()
+        gradient.type = .conic
+        gradient.startPoint = CGPoint(x: 0.5, y: -0.7)
+        gradient.endPoint = CGPoint(x: 0.5, y: -1)
+        gradient.colors = [blueColor, purpleColor, blueColor]
+        gradient.locations = [0.48, 0.5, 0.52]
+        return gradient
+    }()
+
+    let gradientMask: CAGradientLayer = {
+        let gradientMask = CAGradientLayer()
+        gradientMask.colors = [UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientMask.locations = [0.3, 1]
+        return gradientMask
+    }()
+
     @objc func showLargeTitle() {
-        presentController(withLargeTitle: true)
+        presentController(withTitleStyle: .largeLeading)
     }
 
     @objc func showLargeTitleWithShyAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
-        presentController(withLargeTitle: true, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyle() {
-        presentController(withLargeTitle: true, style: .system)
+        presentController(withTitleStyle: .largeLeading, style: .system)
     }
 
     @objc func showLargeTitleWithSystemStyleAndNoShadow() {
-        presentController(withLargeTitle: true, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, contractNavigationBarOnScroll: false, showShadow: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndShyAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithSystemStyleAndFixedAccessory() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithSystemStyleAndPillSegment() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
     }
 
-    @objc func showRegularTitleWithShyAccessory() {
-        presentController(withLargeTitle: false, style: .system, accessoryView: createAccessoryView(with: .darkContent), contractNavigationBarOnScroll: true)
+    @objc func showLeadingTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLeadingTitleWithSystemStyleShyAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLeadingTitleWithSubtitleAndCustomLeadingButton() {
+        presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
+    }
+
+    @objc func showSystemTitleWithShyAccessory() {
+        presentController(withTitleStyle: .system, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withLargeTitle: false, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, accessoryView: createAccessoryView())
+    }
+
+    @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showSystemTitle() {
+        presentController(withTitleStyle: .system, style: .system)
+    }
+
+    @objc func showRegularTitleWithSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here")
+    }
+
+    @objc func showRegularTitleWithSubtitleAndCustomLeadingButton() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
+    }
+
+    @objc func showLargeTitleWithGradientStyle() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndShyAccessory() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndFixedAccessory() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
+    }
+
+    @objc func showLargeTitleWithGradientStyleAndPillSegment() {
+        presentController(withTitleStyle: .largeLeading, style: .gradient, accessoryView: createSegmentedControl(compatibleWith: .system), contractNavigationBarOnScroll: false)
     }
 
     @objc func showLargeTitleWithCustomizedElementSizes() {
-        let controller = presentController(withLargeTitle: true, accessoryView: createAccessoryView())
+        let controller = presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView())
         controller.msfNavigationBar.avatarSize = .expanded
         controller.msfNavigationBar.titleSize = .contracted
     }
 
     @objc func showLargeTitleWithCustomizedColor() {
-        presentController(withLargeTitle: true, style: .custom, accessoryView: createAccessoryView())
+        presentController(withTitleStyle: .largeLeading, style: .custom, accessoryView: createAccessoryView())
     }
 
     @objc func showLargeTitleWithoutAvatar() {
-        presentController(withLargeTitle: true, style: .primary, accessoryView: createAccessoryView(), showAvatar: false)
+        presentController(withTitleStyle: .largeLeading, style: .primary, accessoryView: createAccessoryView(), leadingItem: .nothing)
+    }
+
+    @objc func showLargeTitleWithCustomLeadingButton() {
+        presentController(withTitleStyle: .largeLeading, style: .primary, accessoryView: createAccessoryView(), leadingItem: .customButton)
     }
 
     @objc func showWithTopSearchBar() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
     @objc func showSearchChangingStyleEverySecond() {
-        presentController(withLargeTitle: true, style: .system, accessoryView: createAccessoryView(with: .darkContent), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
     }
 
     @objc func showLargeTitleWithPillSegment() {
-        presentController(withLargeTitle: true, accessoryView: createSegmentedControl(), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createSegmentedControl(compatibleWith: .primary), contractNavigationBarOnScroll: false)
     }
 
+    private enum LeadingItem {
+        case nothing
+        case avatar
+        case customButton
+    }
     @discardableResult
-    private func presentController(withLargeTitle useLargeTitle: Bool,
+    private func presentController(withTitleStyle titleStyle: NavigationBar.TitleStyle,
+                                   subtitle: String? = nil,
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
-                                   showAvatar: Bool = true,
+                                   leadingItem: LeadingItem = .avatar,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
-        content.navigationItem.usesLargeTitle = useLargeTitle
+        content.navigationItem.titleStyle = titleStyle
+        content.navigationItem.subtitle = subtitle
+        content.navigationItem.backButtonTitle = "99+"
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
@@ -134,10 +230,20 @@ class NavigationControllerDemoController: DemoController {
         }
 
         let controller = NavigationController(rootViewController: content)
-        if showAvatar {
-            controller.msfNavigationBar.personaData = content.personaData
-            controller.msfNavigationBar.onAvatarTapped = handleAvatarTapped
-        } else {
+        let navigationBar = controller.msfNavigationBar
+        navigationBar.gradient = gradient
+        navigationBar.gradientMask = gradientMask
+
+        switch leadingItem {
+        case .avatar:
+            navigationBar.personaData = content.personaData
+            navigationBar.onAvatarTapped = handleAvatarTapped
+
+        case .customButton:
+            let starButtonItem = UIBarButtonItem(image: UIImage(named: "ic_fluent_star_24_regular"))
+            starButtonItem.accessibilityLabel = "Star button"
+            content.navigationItem.leftBarButtonItem = starButtonItem
+        case .nothing:
             content.allowsCellSelection = true
         }
 
@@ -146,7 +252,7 @@ class NavigationControllerDemoController: DemoController {
         }
 
         controller.modalPresentationStyle = .fullScreen
-        if useLargeTitle {
+        if titleStyle.usesLeadingAlignment {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self
@@ -168,7 +274,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .primary
             case .primary:
                 newStyle = .system
-            case .system:
+            case .system, .gradient:
                 newStyle = .custom
             }
 
@@ -178,18 +284,18 @@ class NavigationControllerDemoController: DemoController {
         }
     }
 
-    private func createAccessoryView(with style: SearchBar.Style = .lightContent) -> SearchBar {
+    private func createAccessoryView(with style: SearchBar.Style = .onBrandNavigationBar) -> SearchBar {
         let searchBar = SearchBar()
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
     }
 
-    private func createSegmentedControl() -> UIView {
+    private func createSegmentedControl(compatibleWith style: NavigationBar.Style) -> UIView {
         let segmentItems: [SegmentItem] = [
             SegmentItem(title: "First"),
             SegmentItem(title: "Second")]
-        let pillControl = SegmentedControl(items: segmentItems, style: .onBrandPill)
+        let pillControl = SegmentedControl(items: segmentItems, style: style == .system ? .neutralOverNavBarPill : .brandOverNavBarPill)
         pillControl.shouldSetEqualWidthForSegments = false
         pillControl.isFixedWidth = false
         pillControl.contentInset = .zero
@@ -199,7 +305,7 @@ class NavigationControllerDemoController: DemoController {
         stackView.alignment = .center
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "ic_fluent_filter_28"), for: .normal)
-        button.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foregroundLightStatic])
+        button.tintColor = view.fluentTheme.color(.foregroundLightStatic)
         stackView.addArrangedSubview(button)
         return stackView
     }
@@ -243,7 +349,70 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
 
 // MARK: - RootViewController
 
-class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class RootViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NavigationBarTitleAccessoryDelegate {
+    struct TitleViewFeature {
+        var name: String
+        var apply: (ChildViewController) -> Void
+    }
+
+    lazy var titleViewFeaturesByRow: [Int: TitleViewFeature] = [
+        4: TitleViewFeature(name: "Large title") {
+            $0.navigationItem.titleStyle = .largeLeading
+        },
+        5: TitleViewFeature(name: "Leading-aligned, two titles, collapsible") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.contentScrollView = $0.tableView
+        },
+        6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
+            $0.navigationItem.subtitle = "Press me!"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
+        },
+        7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+        },
+        8: TitleViewFeature(name: "Centered, image, subtitle") {
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+        },
+        9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        10: TitleViewFeature(name: "Centered, image, down arrow, subtitle") {
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        11: TitleViewFeature(name: "Leading, down arrow") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        12: TitleViewFeature(name: "Centered, down arrow") {
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+        },
+        13: TitleViewFeature(name: "Leading, image, disclosure") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+        },
+        14: TitleViewFeature(name: "Centered, image, disclosure") {
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+        },
+        15: TitleViewFeature(name: "Centered, collapsible search bar") {
+            let searchBar = SearchBar()
+            searchBar.style = ($0.navigationItem.navigationBarStyle == .system || $0.navigationItem.navigationBarStyle == .gradient) ? .onSystemNavigationBar : .onBrandNavigationBar
+            searchBar.placeholderText = "Search"
+            $0.navigationItem.accessoryView = searchBar
+            $0.navigationItem.contentScrollView = $0.tableView
+        }
+    ]
+
     enum BarButtonItemTag: Int {
         case dismiss
         case select
@@ -399,7 +568,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            let isSwitchEnabled = navigationItem.usesLargeTitle && msfNavigationController?.msfNavigationBar.personaData != nil
+            let isSwitchEnabled = navigationItem.titleStyle == .largeLeading && msfNavigationController?.msfNavigationBar.personaData != nil
             cell.setup(title: "Show rainbow ring on avatar",
                        isOn: showRainbowRingForAvatar,
                        isSwitchEnabled: isSwitchEnabled)
@@ -416,7 +585,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             cell.setup(title: "Show badge on right bar button items",
                        isOn: showBadgeOnBarButtonItem,
-                       isSwitchEnabled: navigationItem.usesLargeTitle)
+                       isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
@@ -438,7 +607,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return UITableViewCell()
         }
         let imageView = UIImageView(image: UIImage(named: "excelIcon"))
-        cell.setup(title: "Cell #\(indexPath.row)", customView: imageView, accessoryType: .disclosureIndicator)
+        let row = indexPath.row
+        cell.setup(title: "Cell #\(row)", subtitle: titleViewFeaturesByRow[row]?.name ?? "", customView: imageView, accessoryType: .disclosureIndicator)
         cell.isInSelectionMode = isInSelectionMode
         return cell
     }
@@ -447,9 +617,17 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if isInSelectionMode {
             updateNavigationTitle()
         } else {
-            let controller = ChildViewController()
+            let row = indexPath.row
+            let controller = ChildViewController(parentIndex: row)
             if navigationItem.accessoryView == nil {
-                controller.navigationItem.navigationBarStyle = .system
+                if navigationItem.navigationBarStyle == .gradient {
+                    controller.navigationItem.navigationBarStyle = .gradient
+                } else {
+                    controller.navigationItem.navigationBarStyle = .system
+                }
+            }
+            if let feature = titleViewFeaturesByRow[row] {
+                feature.apply(controller)
             }
             navigationController?.pushViewController(controller, animated: true)
         }
@@ -470,7 +648,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
             navigationItem.title = selectedCount == 1 ? "1 item selected" : "\(selectedCount) items selected"
         } else {
-            navigationItem.title = navigationItem.usesLargeTitle ? "Large Title" : "Regular Title"
+            navigationItem.title = navigationItem.titleStyle == .largeLeading ? "Large Title" : "Regular Title"
         }
     }
 
@@ -545,10 +723,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         guard let view = navigationBar?.barButtonItemView(with: BarButtonItemTag.threeDay.rawValue) else {
             return
         }
+
         Tooltip.shared.show(with: "Tap anywhere for this tooltip to dismiss.",
+                            title: nil,
                             for: view,
+                            in: self.navigationController,
                             preferredArrowDirection: .up,
-                            dismissOn: .tapAnywhere)
+                            dismissOn: .tapAnywhere
+        )
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        Tooltip.shared.hide()
     }
 
     @objc private func dismissSelf() {
@@ -602,6 +789,13 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
         return customBorderImage
     }
+
+    func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
+        if let topItem = sender.topItem {
+            topItem.navigationBarStyle = topItem.navigationBarStyle == .primary ? .system : .primary
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
 }
 
 // MARK: - RootViewController: SearchBarDelegate
@@ -632,11 +826,19 @@ extension RootViewController: SearchBarDelegate {
 // MARK: - ChildViewController
 
 class ChildViewController: UITableViewController {
+    var parentIndex: Int = -1
+
+    convenience init(parentIndex: Int) {
+        self.init()
+        self.parentIndex = parentIndex
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
-        navigationItem.title = "Regular Title"
+        navigationItem.title = "Cell #\(parentIndex)"
+        navigationItem.backButtonTitle = "\(parentIndex)"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -648,6 +850,54 @@ class ChildViewController: UITableViewController {
             return UITableViewCell()
         }
         cell.setup(title: "Child Cell #\(1 + indexPath.row)")
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let controller = GrandchildViewController(grandparentIndex: parentIndex, parentIndex: 1 + indexPath.row)
+        if navigationItem.accessoryView == nil {
+            if navigationItem.navigationBarStyle == .gradient {
+                controller.navigationItem.navigationBarStyle = .gradient
+            } else {
+                controller.navigationItem.navigationBarStyle = .system
+            }
+        }
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+}
+
+// MARK: - GrandchildViewController
+
+class GrandchildViewController: UITableViewController {
+    var grandparentIndex: Int = -1
+    var parentIndex: Int = -1
+
+    convenience init(grandparentIndex: Int, parentIndex: Int) {
+        self.init()
+        self.grandparentIndex = grandparentIndex
+        self.parentIndex = parentIndex
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        navigationItem.title = "Cell #\(grandparentIndex)-\(parentIndex)"
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 100
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as? TableViewCell else {
+            return UITableViewCell()
+        }
+        cell.setup(title: "Grandchild Cell #\(1 + indexPath.row)")
         return cell
     }
 
@@ -762,5 +1012,43 @@ class CustomGradient {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+    }
+}
+
+extension NavigationControllerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let window = self.view.window else {
+            return
+        }
+        let fluentTheme = window.fluentTheme
+
+        fluentTheme.register(tokenSetType: NavigationBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTokens(fluentTheme) : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        // Ignored since we don't have any navigation controllers spawned when this gets toggled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: NavigationBarTokenSet.self) != nil
+    }
+
+    private func themeWideOverrideTokens(_ theme: FluentTheme) -> [NavigationBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .titleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.hotPink, .primary),
+                        dark: GlobalTokens.sharedColor(.hotPink, .tint30))
+            },
+            .titleFont: .uiFont { theme.typography(.caption1Strong) },
+            .subtitleColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.lime, .primary),
+                        dark: GlobalTokens.sharedColor(.lime, .tint30))
+            },
+            .buttonTintColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.orange, .primary),
+                        dark: GlobalTokens.sharedColor(.orange, .tint30))
+            }
+        ]
     }
 }

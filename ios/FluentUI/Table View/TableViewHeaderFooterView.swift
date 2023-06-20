@@ -22,58 +22,6 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 /// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
 open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedControlInternal {
-    @objc(MSFTableViewHeaderFooterViewAccessoryButtonStyle)
-    public enum AccessoryButtonStyle: Int {
-        case regular
-        case primary
-
-        func textColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .regular:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            case .primary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])
-            }
-        }
-    }
-
-    /// Defines the visual style of the view
-    @objc(MSFTableViewHeaderFooterViewStyle)
-    public enum Style: Int {
-        case header
-        case footer
-        case headerPrimary
-
-        func textColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .header, .footer:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            case .headerPrimary:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            }
-        }
-
-        func textFont() -> UIFont {
-            switch self {
-            case .headerPrimary:
-                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.body1Strong])
-            case .header, .footer:
-                return UIFont.fluent(FluentTheme.shared.aliasTokens.typography[.caption1])
-            }
-        }
-    }
-
-    private struct Constants {
-        static let horizontalMargin: CGFloat = 16
-
-        static let titleDefaultTopMargin: CGFloat = 24
-        static let titleDefaultBottomMargin: CGFloat = 8
-        static let titleDividerVerticalMargin: CGFloat = 3
-
-        static let accessoryViewBottomMargin: CGFloat = 2
-        static let accessoryViewMarginLeft: CGFloat = 8
-    }
-
     @objc public static var identifier: String { return String(describing: self) }
 
     /// The height of the view based on the height of its content.
@@ -85,21 +33,26 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - containerWidth: The width of the view's super view (e.g. the table view's width).
     ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
     /// - Returns: a value representing the calculated height of the view.
-    @objc public class func height(style: Style, title: String, titleNumberOfLines: Int = 1, containerWidth: CGFloat = .greatestFiniteMagnitude, accessoryView: UIView? = nil) -> CGFloat {
+    @objc public class func height(style: Style,
+                                   title: String,
+                                   titleNumberOfLines: Int = 1,
+                                   containerWidth: CGFloat = .greatestFiniteMagnitude,
+                                   accessoryView: UIView? = nil) -> CGFloat {
+        let tokenSet: TableViewHeaderFooterViewTokenSet = .init(style: { style }, accessoryButtonStyle: { AccessoryButtonStyle.regular })
         let verticalMargin: CGFloat
-        let font = style.textFont()
+        let font = tokenSet[.textFont].uiFont
         switch style {
         case .header, .footer:
-            verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
+            verticalMargin = TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin + TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
         case .headerPrimary:
-            verticalMargin = Constants.titleDefaultTopMargin + Constants.titleDefaultBottomMargin
+            verticalMargin = TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin + TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
         }
 
         if let accessoryView = accessoryView {
             accessoryView.frame.size = accessoryView.systemLayoutSizeFitting(CGSize(width: containerWidth, height: .infinity))
         }
 
-        let titleWidth = containerWidth - (Constants.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset())
+        let titleWidth = containerWidth - (TableViewHeaderFooterViewTokenSet.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset())
         let titleHeight = title.preferredSize(for: font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         return verticalMargin + titleHeight
@@ -113,18 +66,22 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - accessoryView: An optional accessory view that appears near the trailing edge of the view.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     /// - Returns: a value representing the calculated preferred width of the view.
-    @objc public class func preferredWidth(style: Style, title: String, accessoryView: UIView? = nil, leadingView: UIView? = nil) -> CGFloat {
-        let font = style.textFont()
+    @objc public class func preferredWidth(style: Style,
+                                           title: String,
+                                           accessoryView: UIView? = nil,
+                                           leadingView: UIView? = nil) -> CGFloat {
+        let tokenSet: TableViewHeaderFooterViewTokenSet = .init(style: { style }, accessoryButtonStyle: { AccessoryButtonStyle.regular })
+        let font = tokenSet[.textFont].uiFont
         let titleSize = title.preferredSize(for: font)
 
-        var width = Constants.horizontalMargin + titleSize.width + Constants.horizontalMargin
+        var width = TableViewHeaderFooterViewTokenSet.horizontalMargin + titleSize.width + TableViewHeaderFooterViewTokenSet.horizontalMargin
 
         if let accessoryView = accessoryView {
-            width += Constants.accessoryViewMarginLeft + accessoryView.frame.width
+            width += TableViewHeaderFooterViewTokenSet.accessoryViewMarginLeading + accessoryView.frame.width
         }
 
         if let leadingView = leadingView {
-            width += Constants.accessoryViewMarginLeft + leadingView.frame.width
+            width += TableViewHeaderFooterViewTokenSet.accessoryViewMarginLeading + leadingView.frame.width
         }
 
         return width
@@ -132,17 +89,17 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     private static func titleLeadingOffset(leadingView: UIView? = nil) -> CGFloat {
         let leadingViewSpacing = leadingView?.frame.width ?? 0
-        return leadingViewSpacing + Constants.horizontalMargin
+        return leadingViewSpacing + TableViewHeaderFooterViewTokenSet.horizontalMargin
     }
 
     private static func titleTrailingOffset(accessoryView: UIView? = nil) -> CGFloat {
         let accessoryViewSpacing: CGFloat
         if let accessoryView = accessoryView {
-            accessoryViewSpacing = Constants.accessoryViewMarginLeft + accessoryView.frame.width
+            accessoryViewSpacing = TableViewHeaderFooterViewTokenSet.accessoryViewMarginLeading + accessoryView.frame.width
         } else {
             accessoryViewSpacing = 0
         }
-        return accessoryViewSpacing + Constants.horizontalMargin
+        return accessoryViewSpacing + TableViewHeaderFooterViewTokenSet.horizontalMargin
     }
 
     @objc open var accessoryButtonStyle: AccessoryButtonStyle = .regular {
@@ -206,8 +163,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         }
     }
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
+    public typealias TokenSetKeyType = TableViewHeaderFooterViewTokenSet.Tokens
+    lazy public var tokenSet: TableViewHeaderFooterViewTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .header
+    },
+                                                                        accessoryButtonStyle: { [weak self] in
+        return self?.accessoryButtonStyle ?? .regular
+    })
 
     private var style: Style = .header {
         didSet {
@@ -268,19 +230,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateTitleAndBackgroundColors()
+            self?.updateAccessoryButtonTitleColor()
         }
-        tokenSet.update(themeView.fluentTheme)
-        updateTitleAndBackgroundColors()
-        updateAccessoryButtonTitleColor()
     }
 
     // MARK: Setup
@@ -391,17 +344,17 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         leadingView?.sizeToFit()
 
         let titleWidth = contentView.frame.width - (TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset(leadingView: leadingView))
-        var titleXOffset = Constants.horizontalMargin
+        var titleXOffset = TableViewHeaderFooterViewTokenSet.horizontalMargin
         let titleHeight: CGFloat
         let titleYOffset: CGFloat
         switch style {
         case .header, .footer, .headerPrimary:
-            titleYOffset = style == .footer ? Constants.titleDefaultBottomMargin : Constants.titleDefaultTopMargin
-            titleHeight = contentView.frame.height - titleYOffset - Constants.titleDefaultBottomMargin
+            titleYOffset = style == .footer ? TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin : TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin
+            titleHeight = contentView.frame.height - titleYOffset - TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
         }
 
         if let leadingView = leadingView {
-            let xOffset = Constants.accessoryViewMarginLeft
+            let xOffset = TableViewHeaderFooterViewTokenSet.accessoryViewMarginLeading
             let yOffset = floor(titleYOffset + (titleHeight - leadingView.frame.height) / 2)
             leadingView.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
@@ -418,8 +371,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         )
 
         if let accessoryView = accessoryView {
-            let xOffset = titleView.frame.maxX + Constants.accessoryViewMarginLeft
-            let yOffset = contentView.frame.height - accessoryView.frame.height - Constants.accessoryViewBottomMargin
+            let xOffset = titleView.frame.maxX + TableViewHeaderFooterViewTokenSet.accessoryViewMarginLeading
+            let yOffset = contentView.frame.height - accessoryView.frame.height - TableViewHeaderFooterViewTokenSet.accessoryViewBottomMargin
             accessoryView.frame = CGRect(
                 origin: CGPoint(x: xOffset, y: yOffset),
                 size: accessoryView.frame.size
@@ -477,7 +430,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     private func updateTitleViewFont() {
         if let window = window {
-            let titleFont = style.textFont()
+            let titleFont = tokenSet[.textFont].uiFont
             titleView.font = titleFont
             // offset text container to center its content
             let scale = window.rootViewController?.view.contentScaleFactor ?? window.screen.scale
@@ -488,26 +441,26 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private func updateTitleAndBackgroundColors() {
-        titleView.textColor = style.textColor(fluentTheme: tokenSet.fluentTheme)
+        titleView.textColor = tokenSet[.textColor].uiColor
 
         if tableViewCellStyle == .grouped {
-            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.backgroundCanvas])
+            backgroundView?.backgroundColor = tokenSet[.backgroundColorGrouped].uiColor
         } else if tableViewCellStyle == .plain {
-            backgroundView?.backgroundColor = UIColor(dynamicColor: tokenSet.fluentTheme.aliasTokens.colors[.background1])
+            backgroundView?.backgroundColor = tokenSet[.backgroundColorPlain].uiColor
         } else {
             backgroundView?.backgroundColor = .clear
         }
 
-        titleView.font = style.textFont()
-        titleView.updateLinkTextColor(tokenSet.fluentTheme)
+        titleView.font = tokenSet[.textFont].uiFont
+        titleView.linkColor = tokenSet[.linkTextColor].uiColor
     }
 
     private func updateAccessoryButtonTitleColor() {
-        accessoryButton?.setTitleColor(accessoryButtonStyle.textColor(fluentTheme: tokenSet.fluentTheme), for: .normal)
+        accessoryButton?.setTitleColor(tokenSet[.accessoryButtonTextColor].uiColor, for: .normal)
     }
 
     private func updateAccessoryButtonTitleStyle() {
-        accessoryButton?.titleLabel?.font = UIFont.fluent(tokenSet.fluentTheme.aliasTokens.typography[.caption1Strong])
+        accessoryButton?.titleLabel?.font = tokenSet[.accessoryButtonTextFont].uiFont
         updateAccessoryButtonTitleColor()
     }
 
@@ -554,11 +507,7 @@ private class TableViewHeaderFooterTitleView: UITextView {
         self.textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
         layoutManager.usesFontLeading = false
-        updateLinkTextColor(fluentTheme)
-    }
-
-    func updateLinkTextColor(_ fluentTheme: FluentTheme) {
-        linkTextAttributes = [.foregroundColor: UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.brandForeground1])]
+        updateLinkTextColor()
     }
 
     required init?(coder: NSCoder) {
@@ -567,6 +516,10 @@ private class TableViewHeaderFooterTitleView: UITextView {
 
     override func becomeFirstResponder() -> Bool {
         return false
+    }
+
+    private func updateLinkTextColor() {
+        linkTextAttributes = [.foregroundColor: linkColor]
     }
 
     override var selectedTextRange: UITextRange? {
@@ -578,6 +531,14 @@ private class TableViewHeaderFooterTitleView: UITextView {
         set {
             // No-op because we don't want to allow this property to be set.
             // It should always return nil which indicates there is no current selection (https://developer.apple.com/documentation/uikit/uitextinput/1614541-selectedtextrange)
+        }
+    }
+
+    lazy var linkColor: UIColor = fluentTheme.color(.brandForeground1) {
+        didSet {
+            if linkColor != oldValue {
+                updateLinkTextColor()
+            }
         }
     }
 }

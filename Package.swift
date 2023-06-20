@@ -1,4 +1,4 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.7
 
 import PackageDescription
 
@@ -6,7 +6,7 @@ let package = Package(
     name: "FluentUI",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v14),
+        .iOS(.v15),
         .macOS(.v10_15),
     ],
     products: [
@@ -29,9 +29,6 @@ let package = Package(
         ),
         .target(
             name: "FluentUI_ios",
-            dependencies: [
-                .target(name: "FluentUIResources")
-            ],
             path: "ios/FluentUI",
             exclude: [
                 "Avatar/Avatar.resources.xcfilelist",
@@ -44,15 +41,13 @@ let package = Package(
                 "Other Cells/OtherCells.resources.xcfilelist",
                 "Resources/Localization/CultureMapping.json",
                 "Table View/TableView.resources.xcfilelist",
+                "TextField/TextField.resources.xcfilelist",
                 "Tooltip/Tooltip.resources.xcfilelist",
                 "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
             ]
         ),
         .target(
             name: "FluentUI_macos",
-            dependencies: [
-                .target(name: "FluentUIResources")
-            ],
             path: "macos/FluentUI",
             exclude: [
                 "FluentUI-Info.plist"

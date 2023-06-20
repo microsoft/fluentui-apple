@@ -40,10 +40,11 @@ public struct ActivityIndicator: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let side = ActivityIndicatorTokenSet.sideLength(size: state.size)
         let color: Color = {
             guard let stateUIColor = state.color else {
-                return Color(dynamicColor: tokenSet[.defaultColor].dynamicColor)
+                return Color(tokenSet[.defaultColor].uiColor)
             }
 
             return Color(stateUIColor)
@@ -75,7 +76,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
                                 accessibilityLabel: accessibilityLabel)
 #endif
 
-        semiRing
+        return semiRing
             .modifyIf(state.isAnimating, { animatedView in
                 animatedView
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
@@ -86,7 +87,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
             .modifyIf(!state.isAnimating) { staticView in
                 staticView
                     .onAppear {
-                       stopAnimation()
+                        stopAnimation()
                     }
             }
             .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
@@ -95,7 +96,6 @@ public struct ActivityIndicator: View, TokenizedControlView {
             .frame(width: side,
                    height: side,
                    alignment: .center)
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

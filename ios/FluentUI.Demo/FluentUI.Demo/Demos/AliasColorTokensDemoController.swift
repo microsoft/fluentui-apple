@@ -30,7 +30,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         let section = AliasColorTokensDemoSection.allCases[indexPath.section]
         let row = section.rows[indexPath.row]
 
-        cell.backgroundConfiguration?.backgroundColor = UIColor(dynamicColor: aliasTokens.colors[row])
+        cell.backgroundConfiguration?.backgroundColor = fluentTheme.color(row)
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -45,7 +45,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         return cell
     }
 
-    private func textColor(for token: AliasTokens.ColorsTokens) -> UIColor {
+    private func textColor(for token: FluentTheme.ColorToken) -> UIColor {
         switch token {
         case .background1,
              .background1Pressed,
@@ -72,43 +72,52 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .foregroundOnColor,
              .brandForegroundDisabled2,
              .stroke1,
+             .stroke1Pressed,
              .stroke2,
-             .strokeDisabled,
              .strokeFocus1,
+             .strokeDisabled,
              .brandBackgroundTint,
              .foregroundDisabled1,
              .dangerBackground1,
              .successBackground1,
              .warningBackground1,
              .severeBackground1:
-            return UIColor(dynamicColor: aliasTokens.colors[.foreground1])
+            return fluentTheme.color(.foreground1)
         case .foreground1,
              .foreground2,
              .foreground3,
              .strokeFocus2,
+             .strokeAccessible,
              .brandBackground1Pressed,
              .brandForeground1Pressed,
              .brandStroke1Pressed,
              .brandStroke1,
              .brandForegroundTint,
              .brandStroke1Selected,
+             .brandGradient1,
              .dangerBackground2,
              .dangerForeground1,
              .dangerForeground2,
+             .dangerStroke1,
              .successBackground2,
              .successForeground1,
              .successForeground2,
+             .successStroke1,
              .warningForeground1,
              .warningForeground2,
+             .warningStroke1,
              .severeBackground2,
              .severeForeground1,
-             .severeForeground2:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundOnColor])
+             .severeForeground2,
+             .severeStroke1:
+            return fluentTheme.color(.foregroundOnColor)
         case .foregroundLightStatic,
              .backgroundLightStatic,
              .backgroundLightStaticDisabled,
-             .warningBackground2:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundDarkStatic])
+             .warningBackground2,
+             .brandGradient2,
+             .brandGradient3:
+            return fluentTheme.color(.foregroundDarkStatic)
         case .brandForeground1,
              .brandForeground1Selected,
              .brandForegroundDisabled1,
@@ -119,21 +128,19 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackground2Pressed,
              .brandBackground2Selected,
              .brandBackground3,
-             .strokeAccessible,
              .backgroundDarkStatic,
              .foregroundDarkStatic,
              .presenceAway,
              .presenceDnd,
              .presenceAvailable,
              .presenceOof:
-            return UIColor(dynamicColor: aliasTokens.colors[.foregroundLightStatic])
+            return fluentTheme.color(.foregroundLightStatic)
         }
     }
 
-    private var aliasTokens: AliasTokens {
-        return self.view.fluentTheme.aliasTokens
+    private var fluentTheme: FluentTheme {
+        return self.view.fluentTheme
     }
-
 }
 
 private enum AliasColorTokensDemoSection: CaseIterable {
@@ -141,6 +148,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     case brandBackgrounds
     case neutralForegrounds
     case brandForegrounds
+    case brandGradients
     case neutralStrokes
     case brandStrokes
     case sharedErrorAndStatus
@@ -156,6 +164,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
             return "Neutral Foregrounds"
         case .brandForegrounds:
             return "Brand Foregrounds"
+        case .brandGradients:
+            return "Brand Gradients"
         case .neutralStrokes:
             return "Neutral Strokes"
         case .brandStrokes:
@@ -167,7 +177,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
         }
     }
 
-    var rows: [AliasTokens.ColorsTokens] {
+    var rows: [FluentTheme.ColorToken] {
         switch self {
         case .neutralBackgrounds:
             return [.background1,
@@ -220,13 +230,18 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandForeground1Selected,
                     .brandForegroundDisabled1,
                     .brandForegroundDisabled2]
+        case .brandGradients:
+            return [.brandGradient1,
+                    .brandGradient2,
+                    .brandGradient3]
         case .neutralStrokes:
             return [.stroke1,
+                    .stroke1Pressed,
                     .stroke2,
-                    .strokeDisabled,
                     .strokeAccessible,
                     .strokeFocus1,
-                    .strokeFocus2]
+                    .strokeFocus2,
+                    .strokeDisabled]
         case .brandStrokes:
             return [.brandStroke1,
                     .brandStroke1Pressed,
@@ -236,18 +251,22 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .dangerBackground2,
                     .dangerForeground1,
                     .dangerForeground2,
+                    .dangerStroke1,
                     .successBackground1,
                     .successBackground2,
                     .successForeground1,
                     .successForeground2,
+                    .successStroke1,
                     .warningBackground1,
                     .warningBackground2,
                     .warningForeground1,
                     .warningForeground2,
+                    .warningStroke1,
                     .severeBackground1,
                     .severeBackground2,
                     .severeForeground1,
-                    .severeForeground2]
+                    .severeForeground2,
+                    .severeStroke1]
         case .sharedPresence:
             return [.presenceAway,
                     .presenceDnd,
@@ -257,7 +276,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     }
 }
 
-private extension AliasTokens.ColorsTokens {
+private extension FluentTheme.ColorToken {
     var text: String {
         switch self {
         case .foreground1:
@@ -338,6 +357,12 @@ private extension AliasTokens.ColorsTokens {
             return "Brand Background Tint"
         case .brandForegroundTint:
             return "Brand Foreground Tint"
+        case .brandGradient1:
+            return "Brand Gradient 1"
+        case .brandGradient2:
+            return "Brand Gradient 2"
+        case .brandGradient3:
+            return "Brand Gradient 3"
         case .stencil1:
             return "Stencil 1"
         case .stencil2:
@@ -346,16 +371,18 @@ private extension AliasTokens.ColorsTokens {
             return "Background Canvas"
         case .stroke1:
             return "Stroke 1"
+        case .stroke1Pressed:
+            return "Stroke 1 Pressed"
         case .stroke2:
             return "Stroke 2"
-        case .strokeDisabled:
-            return "Stroke Disabled"
         case .strokeAccessible:
             return "Stroke Accessible"
         case .strokeFocus1:
             return "Stroke Focus 1"
         case .strokeFocus2:
             return "Stroke Focus 2"
+        case .strokeDisabled:
+            return "Stroke Disabled"
         case .brandStroke1:
             return "Brand Stroke 1"
         case .brandStroke1Pressed:
@@ -380,6 +407,8 @@ private extension AliasTokens.ColorsTokens {
             return "DangerForeground1"
         case .dangerForeground2:
             return "DangerForeground2"
+        case .dangerStroke1:
+            return "DangerStroke1"
         case .successBackground1:
             return "SuccessBackground1"
         case .successBackground2:
@@ -388,6 +417,8 @@ private extension AliasTokens.ColorsTokens {
             return "SuccessForeground1"
         case .successForeground2:
             return "SuccessForeground2"
+        case .successStroke1:
+            return "SuccessStroke1"
         case .warningBackground1:
             return "WarningBackground1"
         case .warningBackground2:
@@ -396,6 +427,8 @@ private extension AliasTokens.ColorsTokens {
             return "WarningForeground1"
         case .warningForeground2:
             return "WarningForeground2"
+        case .warningStroke1:
+            return "WarningStroke1"
         case .severeBackground1:
             return "SevereBackground1"
         case .severeBackground2:
@@ -404,6 +437,8 @@ private extension AliasTokens.ColorsTokens {
             return "SevereForeground1"
         case .severeForeground2:
             return "SevereForeground2"
+        case .severeStroke1:
+            return "SevereStroke1"
         case .presenceAway:
             return "PresenceAway"
         case .presenceDnd:

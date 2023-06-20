@@ -67,7 +67,7 @@ class DemoController: UIViewController {
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: AliasTokens.TypographyTokens = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: FluentTheme.TypographyToken = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -79,7 +79,7 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if !text.isEmpty {
-            let label = Label(style: textStyle, colorStyle: .regular)
+            let label = Label(textStyle: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
@@ -110,14 +110,6 @@ class DemoController: UIViewController {
 
     }
 
-    func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-
-        return createLabelAndViewsRow(labelText: labelText, views: [switchView])
-    }
-
     func createLabelAndViewsRow(labelText: String, views: [UIView]) -> UIView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
@@ -137,7 +129,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)
@@ -170,8 +162,8 @@ class DemoController: UIViewController {
         let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
                                              style: .plain,
                                              target: self,
-                                             action: #selector(showAppearancePopover))
-        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "i.circle.fill"),
+                                             action: #selector(showAppearancePopover(_:)))
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
                                            style: .plain,
                                            target: self,
                                            action: #selector(showReadmePopover))
@@ -184,10 +176,19 @@ class DemoController: UIViewController {
         self.present(readmeViewController, animated: true, completion: nil)
     }
 
-    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.popoverPresentationController?.barButtonItem = sender
+    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
+        if let barButtonItem = sender as? UIBarButtonItem {
+            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
+        } else if let sourceView = sender as? UIView {
+            appearanceController.popoverPresentationController?.sourceView = sourceView
+            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
+        }
         appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
+        presenter.present(appearanceController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject) {
+        showAppearancePopover(sender, presenter: self)
     }
 
     var readmeString: String?

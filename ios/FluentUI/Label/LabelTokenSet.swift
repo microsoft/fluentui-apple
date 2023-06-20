@@ -14,6 +14,21 @@ public enum TextColorStyle: Int, CaseIterable {
     case white
     case primary
     case error
+
+    func uiColor(fluentTheme: FluentTheme) -> UIColor {
+        switch self {
+        case .regular:
+            return fluentTheme.color(.foreground1)
+        case .secondary:
+            return fluentTheme.color(.foreground2)
+        case .white:
+            return fluentTheme.color(.foregroundLightStatic)
+        case .primary:
+            return fluentTheme.color(.brandForeground1)
+        case .error:
+            return fluentTheme.color(.dangerForeground2)
+        }
+    }
 }
 
 public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
@@ -22,37 +37,31 @@ public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
         case textColor
     }
 
-    init(style: @escaping () -> AliasTokens.TypographyTokens,
-         colorStyle: @escaping () -> TextColorStyle) {
-        self.style = style
-        self.colorStyle = colorStyle
-        super.init { [colorStyle] token, theme in
+    convenience init(textStyle: @escaping () -> FluentTheme.TypographyToken,
+                     colorStyle: @escaping () -> TextColorStyle) {
+        self.init(textStyle: textStyle, colorForTheme: { colorStyle().uiColor(fluentTheme: $0) })
+    }
+
+    init(textStyle: @escaping () -> FluentTheme.TypographyToken,
+         colorForTheme: @escaping (FluentTheme) -> UIColor) {
+        self.textStyle = textStyle
+        self.colorForTheme = colorForTheme
+        super.init { [colorForTheme] token, theme in
             switch token {
             case .font:
-                return .fontInfo {
-                    return theme.aliasTokens.typography[style()]
+                return .uiFont {
+                    return theme.typography(textStyle())
                 }
             case .textColor:
-                return .dynamicColor {
-                    switch colorStyle() {
-                    case .regular:
-                        return theme.aliasTokens.colors[.foreground1]
-                    case .secondary:
-                        return theme.aliasTokens.colors[.foreground2]
-                    case .white:
-                        return DynamicColor(light: GlobalTokens.neutralColors(.white))
-                    case .primary:
-                        return theme.aliasTokens.colors[.brandForeground1]
-                    case .error:
-                        return theme.aliasTokens.colors[.dangerForeground2]
-                    }
+                return .uiColor {
+                    return colorForTheme(theme)
                 }
             }
         }
     }
 
     /// Defines the text typography style of the label.
-    var style: () -> AliasTokens.TypographyTokens
-    /// Defines the text color style of the label.
-    var colorStyle: () -> TextColorStyle
+    var textStyle: () -> FluentTheme.TypographyToken
+    /// Defines the text color style of the label for a given theme.
+    var colorForTheme: (FluentTheme) -> UIColor
 }

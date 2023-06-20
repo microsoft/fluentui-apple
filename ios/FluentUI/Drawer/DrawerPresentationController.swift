@@ -25,11 +25,6 @@ protocol DrawerPresentationControllerDelegate: AnyObject {
 // MARK: DrawerPresentationController
 
 class DrawerPresentationController: UIPresentationController {
-    private struct Constants {
-        static let cornerRadius: CGFloat = 14
-        static let minHorizontalMargin: CGFloat = 44
-        static let minVerticalMargin: CGFloat = 20
-    }
 
     let presentationDirection: DrawerPresentationDirection
 
@@ -41,10 +36,11 @@ class DrawerPresentationController: UIPresentationController {
          presentingViewController: UIViewController?,
          source: UIViewController,
          presentationDirection: DrawerPresentationDirection,
-         adjustHeightForKeyboard: Bool) {
+         adjustHeightForKeyboard: Bool,
+         drawerTokenSet: DrawerTokenSet) {
         sourceViewController = source
         self.presentationDirection = presentationDirection
-
+        self.drawerTokenSet = drawerTokenSet
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
 
         if adjustHeightForKeyboard {
@@ -87,10 +83,12 @@ class DrawerPresentationController: UIPresentationController {
     // Shadow behind presented view (cannot be done on presented view itself because it's masked)
     private lazy var shadowView: DrawerShadowView = {
         // Uses function initializer to workaround a Swift compiler bug in Xcode 10.1
-        return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil)
+        return DrawerShadowView(shadowDirection: actualPresentationOffset == 0 ? presentationDirection : nil, tokenSet: drawerTokenSet)
     }()
     // Imitates the bottom shadow of navigation bar or top shadow of toolbar because original ones are hidden by presented view
     private lazy var separator = Separator()
+    // Tokens for drawer stylesheet
+    private var drawerTokenSet: DrawerTokenSet
 
     // MARK: Presentation
 
@@ -104,6 +102,7 @@ class DrawerPresentationController: UIPresentationController {
             // Clipping is added to prevent any animation bug sliding over the navigation bar
             contentView.clipsToBounds = true
             if presentationDirection.isVertical && actualPresentationOffset == 0 {
+                separator.translatesAutoresizingMaskIntoConstraints = false
                 containerView.addSubview(separator)
             }
         }
@@ -294,23 +293,6 @@ class DrawerPresentationController: UIPresentationController {
         if let presentedView = presentedView {
             let presentedViewFrame = frameForPresentedViewController(in: presentedView.superview == containerView ? contentView.frame : contentView.bounds)
 
-            // On iOS 13 and iOS 14 the safeAreaInsets are not applied when the presentedView is not entirely within the screen bounds.
-            // As a workaround, additional safe area insets need to be set to compensate.
-            if #available(iOS 15.0, *) {} else {
-                let isVerticallyPresentedViewPartiallyOffScreen: Bool = {
-                    // Calculates the origin of the presentedView frame in relation to the device screen.
-                    guard let origin = presentedView.superview?.convert(presentedViewFrame.origin, to: nil), let window = sourceViewController.view.window else {
-                        return false
-                    }
-
-                    let screenHeight = window.screen.bounds.height
-                    return (presentationDirection == .down && origin.y < 0) ||
-                           (presentationDirection == .up && (origin.y + presentedViewFrame.height - screenHeight) > 0)
-                }()
-
-                presentedViewController.additionalSafeAreaInsets = isVerticallyPresentedViewPartiallyOffScreen ? contentView.safeAreaInsets : .zero
-            }
-
             presentedView.frame = presentedViewFrame
         }
 
@@ -433,18 +415,18 @@ class DrawerPresentationController: UIPresentationController {
         switch presentationDirection {
         case .down:
             margins.top = presentationOffsetMargin
-            margins.bottom = max(Constants.minVerticalMargin, containerView.safeAreaInsets.bottom)
+            margins.bottom = max(DrawerTokenSet.minVerticalMargin, containerView.safeAreaInsets.bottom)
         case .up:
-            margins.top = max(Constants.minVerticalMargin, containerView.safeAreaInsets.top)
+            margins.top = max(DrawerTokenSet.minVerticalMargin, containerView.safeAreaInsets.top)
             margins.bottom = presentationOffsetMargin
             if actualPresentationOffset == 0 && keyboardHeight > 0 {
                 margins.bottom += safeAreaPresentationOffset
             }
         case .fromLeading:
             margins.left = presentationOffsetMargin
-            margins.right = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.right)
+            margins.right = max(DrawerTokenSet.minHorizontalMargin, containerView.safeAreaInsets.right)
         case .fromTrailing:
-            margins.left = max(Constants.minHorizontalMargin, containerView.safeAreaInsets.left)
+            margins.left = max(DrawerTokenSet.minHorizontalMargin, containerView.safeAreaInsets.left)
             margins.right = presentationOffsetMargin
         }
         return margins
@@ -498,7 +480,7 @@ class DrawerPresentationController: UIPresentationController {
 
         presentedView?.layer.masksToBounds = true
         presentedView?.layer.maskedCorners = maskedCorners
-        presentedView?.layer.cornerRadius = Constants.cornerRadius
+        presentedView?.layer.cornerRadius = drawerTokenSet[.cornerRadius].float
     }
 
     private func removePresentedViewMask() {

@@ -47,13 +47,59 @@ open class NavigationBarTopSearchBarAttributes: NavigationBarTopAccessoryViewAtt
     }
 }
 
+// MARK: - NavigationBarTitleAccessory
+
+@objc(MSFNavigationBarTitleAccessoryDelegate)
+/// Handles user interactions with a `NavigationBar` with an accessory.
+public protocol NavigationBarTitleAccessoryDelegate {
+    @objc func navigationBarDidTapOnTitle(_ sender: NavigationBar)
+}
+
+/// The specifications for an accessory to show in the title or subtitle of the navigation bar.
+@objc(MSFNavigationBarTitleAccessory)
+open class NavigationBarTitleAccessory: NSObject {
+    /// Specifies a location where the title accessory should appear within the navigation bar.
+    @objc(MSFNavigationBarTitleAccessoryLocation)
+    public enum Location: Int {
+        case title
+        case subtitle
+    }
+
+    /// The style of title accessory to show.
+    @objc(MSFNavigationBarTitleAccessoryStyle)
+    public enum Style: Int {
+        case disclosure
+        case downArrow
+    }
+
+    /// The location of the accessory.
+    public let location: Location
+    /// The style of the accessory.
+    public let style: Style
+    /// A delegate that handles title press actions.
+    public weak var delegate: NavigationBarTitleAccessoryDelegate?
+
+    public init(location: Location, style: Style, delegate: NavigationBarTitleAccessoryDelegate? = nil) {
+        self.location = location
+        self.style = style
+        self.delegate = delegate
+    }
+}
+
+// MARK: - NavigationBarBackButtonDelegate
+/// Handles presses from the back button shown with a leading-aligned title.
+@objc(MSFNavigationBarBackButtonDelegate)
+protocol NavigationBarBackButtonDelegate {
+    func backButtonWasPressed()
+}
+
 // MARK: - NavigationBar
 
 /// UINavigationBar subclass, with a content view that contains various custom UIElements
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar, TokenizedControlInternal {
+open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitleViewDelegate {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {
@@ -61,40 +107,26 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         case primary
         case system
         case custom
+        case gradient
+    }
 
-        func tintColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primary, .default, .custom:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground2].dark))
-            case .system:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground2])
-            }
-        }
+    @objc(MSFNavigationBarTitleStyle)
+    /// Describes the style in which the title is shown in a navigation bar.
+    public enum TitleStyle: Int {
+        /// Shows a center-aligned title and/or subtitle. Most closely aligned with UIKit's default. Not capable of showing an avatar.
+        case system
+        /// Shows a leading-aligned title and/or subtitle. Also capable of showing an avatar.
+        case leading
+        /// Shows a large title. This option always ignores the subtitle. Also capable of showing an avatar.
+        case largeLeading
 
-        func titleColor(fluentTheme: FluentTheme) -> UIColor {
-            switch self {
-            case .primary, .default, .custom:
-                return UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.foregroundOnColor].light, dark: fluentTheme.aliasTokens.colors[.foreground1].dark))
-            case .system:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
-            }
-        }
-
-        public func backgroundColor(fluentTheme: FluentTheme, customColor: UIColor? = nil) -> UIColor {
-            let defaultColor = UIColor(dynamicColor: DynamicColor(light: fluentTheme.aliasTokens.colors[.brandBackground1].light, dark: fluentTheme.aliasTokens.colors[.background3].dark))
-            switch self {
-            case .primary, .default:
-                return defaultColor
-            case .system:
-                return UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.background3])
-            case .custom:
-                return customColor ?? defaultColor
-            }
+        public var usesLeadingAlignment: Bool {
+            self != .system
         }
     }
 
-    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme) -> UIColor {
-        return Style.system.backgroundColor(fluentTheme: fluentTheme)
+    @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
+        return backgroundColor(for: .system, theme: fluentTheme)
     }
 
     /// Describes the sizing behavior of navigation bar elements (title, avatar, bar height)
@@ -109,24 +141,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         case alwaysHidden
     }
 
-    public typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    public var tokenSet: EmptyTokenSet = .init()
+    public typealias TokenSetKeyType = NavigationBarTokenSet.Tokens
+    public lazy var tokenSet: NavigationBarTokenSet = .init(style: { [weak self] in
+        self?.style ?? NavigationBar.defaultStyle
+    })
 
     static let expansionContractionAnimationDuration: TimeInterval = 0.1 // the interval over which the expansion/contraction animations occur
 
-    private static var defaultStyle: Style = .primary
-
-    private struct Constants {
-        static let systemHeight: CGFloat = 44
-        static let normalContentHeight: CGFloat = 44
-        static let expandedContentHeight: CGFloat = 48
-
-        static let leftBarButtonItemLeadingMargin: CGFloat = 8
-        static let rightBarButtonItemHorizontalPadding: CGFloat = 10
-
-        static let obscuringAnimationDuration: TimeInterval = 0.12
-        static let revealingAnimationDuration: TimeInterval = 0.25
-    }
+    private static let defaultStyle: Style = .primary
 
     /// An object that conforms to the `MSFPersona` protocol and provides text and an optional image for display as an `MSAvatar` next to the large title. Only displayed if `showsLargeTitle` is true on the current navigation item. If avatar is nil, it won't show the avatar view.
     @objc open var personaData: Persona? {
@@ -159,7 +181,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
     /// Returns the first match of an optional view for a bar button item with the given tag.
     @objc public func barButtonItemView(with tag: Int) -> UIView? {
-        if showsLargeTitle {
+        if usesLeadingTitle {
             let totalBarButtonItemViews = leftBarButtonItemsStackView.arrangedSubviews + rightBarButtonItemsStackView.arrangedSubviews
             for view in totalBarButtonItemViews {
                 if view.tag == tag {
@@ -200,6 +222,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             }
 
             isExpanded = originalIsExpanded
+        }
+    }
+
+    /// The main gradient layer to be applied to the NavigationBar's standardAppearance with the gradient style.
+    @objc public var gradient: CAGradientLayer? {
+        didSet {
+            updateGradient()
+        }
+    }
+
+    /// The layer used to mask the main gradient of the NavigationBar. If unset, only the main gradient will be displayed on the NavigationBar.
+    @objc public var gradientMask: CAGradientLayer? {
+        didSet {
+            updateGradient()
         }
     }
 
@@ -251,7 +287,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         }
     }
 
-    var titleView = LargeTitleView() {
+    var titleView = AvatarTitleView() {
         willSet {
             titleView.removeFromSuperview()
         }
@@ -265,19 +301,26 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
-    let backgroundView = UIView() //used for coloration
-    //used to cover the navigationbar during animated transitions between VCs
-    private let contentStackView = ContentStackView() //used to contain the various custom UI Elements
+    private var systemWantsCompactNavigationBar: Bool {
+        return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
+    }
+
+    let backgroundView = UIView() // used for coloration
+    // used to cover the navigationbar during animated transitions between VCs
+    private let contentStackView = ContentStackView() // used to contain the various custom UI Elements
     private let rightBarButtonItemsStackView = UIStackView()
     private let leftBarButtonItemsStackView = UIStackView()
-    private let leadingSpacerView = UIView() //defines the leading space between the left and right barbuttonitems stack
-    private let trailingSpacerView = UIView() //defines the trailing space between the left and right barbuttonitems stack
+    private let preTitleSpacerView = UIView() // defines the spacing before the title, used for compact centered titles
+    private let postTitleSpacerView = UIView() // defines the spacing after the title, also the leading space between the left and right barbuttonitems stack
+    private let trailingSpacerView = UIView() // defines the trailing space between the left and right barbuttonitems stack
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var showsLargeTitle: Bool = true {
+    private var titleViewConstraint: NSLayoutConstraint?
+
+    private(set) var usesLeadingTitle: Bool = true {
         didSet {
-            if showsLargeTitle == oldValue {
+            if usesLeadingTitle == oldValue {
                 return
             }
             updateAccessibilityElements()
@@ -288,35 +331,41 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+    private var subtitleObserver: NSKeyValueObservation?
+    private var titleAccessoryObserver: NSKeyValueObservation?
+    private var titleImageObserver: NSKeyValueObservation?
     private var navigationBarColorObserver: NSKeyValueObservation?
     private var accessoryViewObserver: NSKeyValueObservation?
     private var topAccessoryViewObserver: NSKeyValueObservation?
     private var topAccessoryViewAttributesObserver: NSKeyValueObservation?
     private var navigationBarStyleObserver: NSKeyValueObservation?
     private var navigationBarShadowObserver: NSKeyValueObservation?
-    private var usesLargeTitleObserver: NSKeyValueObservation?
+    private var titleStyleObserver: NSKeyValueObservation?
+
+    private let backButtonItem: UIBarButtonItem = {
+        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"),
+                                             style: .plain,
+                                             target: nil,
+                                             action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+        backButtonItem.accessibilityIdentifier = "Back"
+        return backButtonItem
+    }()
+
+    weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
+        didSet {
+            backButtonItem.target = backButtonDelegate
+        }
+    }
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
         initBase()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         initBase()
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors(for: topItem)
     }
 
     /// Custom base initializer, used regardless of entry point
@@ -331,29 +380,35 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateContentStackViewMargins(forExpandedContent: true)
         contentStackView.addInteraction(UILargeContentViewerInteraction())
 
-        //leftBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
+        // leftBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(leftBarButtonItemsStackView)
         leftBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         leftBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 
-        //titleView
+        // preTitleSpacerView
+        contentStackView.addArrangedSubview(preTitleSpacerView)
+        preTitleSpacerView.backgroundColor = .clear
+        preTitleSpacerView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        preTitleSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        // titleView
         contentStackView.addArrangedSubview(titleView)
         titleView.setContentHuggingPriority(.required, for: .horizontal)
         titleView.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-        //leadingSpacerView
-        contentStackView.addArrangedSubview(leadingSpacerView)
-        leadingSpacerView.backgroundColor = .clear
-        leadingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        leadingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        // postTitleSpacerView
+        contentStackView.addArrangedSubview(postTitleSpacerView)
+        postTitleSpacerView.backgroundColor = .clear
+        postTitleSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        postTitleSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        //trailingSpacerView
+        // trailingSpacerView
         contentStackView.addArrangedSubview(trailingSpacerView)
         trailingSpacerView.backgroundColor = .clear
         trailingSpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         trailingSpacerView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
-        //rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
+        // rightBarButtonItemsStackView: layout priorities are slightly lower to make sure titleView has the highest priority in horizontal spacing
         contentStackView.addArrangedSubview(rightBarButtonItemsStackView)
         rightBarButtonItemsStackView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         rightBarButtonItemsStackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -366,6 +421,31 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateColors(for: topItem)
         updateViewsForLargeTitlePresentation(for: topItem)
         updateAccessibilityElements()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors(for: self?.topItem)
+            self?.updateTitleViewTokenSets()
+        }
+    }
+
+    private func updateGradient() {
+        guard style == .gradient, let gradient = gradient else {
+            return
+        }
+
+        gradient.frame = bounds
+
+        if let gradientMask = gradientMask {
+            gradientMask.frame = gradient.bounds
+            gradient.mask = gradientMask
+        }
+
+        let renderer = UIGraphicsImageRenderer(bounds: gradient.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+
+        standardAppearance.backgroundImage = gradientImage
     }
 
     private func updateTopAccessoryView(for navigationItem: UINavigationItem?) {
@@ -378,7 +458,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         if let topAccessoryView = self.topAccessoryView {
             topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
 
-            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: leadingSpacerView)! + 1
+            let insertionIndex = contentStackView.arrangedSubviews.firstIndex(of: postTitleSpacerView)! + 1
             contentStackView.insertArrangedSubview(topAccessoryView, at: insertionIndex)
 
             NSLayoutConstraint.deactivate(topAccessoryViewConstraints)
@@ -428,14 +508,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         bottom.priority = .defaultHigh
 
         NSLayoutConstraint.activate([leading, trailing, top, bottom])
+
+        // These are consistent with UIKit's default navigation bar
+        contentStackView.minimumContentSizeCategory = .large
+        contentStackView.maximumContentSizeCategory = .extraExtraLarge
     }
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
-        let contentHeight = contentIsExpanded ? Constants.expandedContentHeight : Constants.normalContentHeight
+        let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
+        let systemHeight = systemWantsCompactNavigationBar ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
+
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: -(contentHeight - Constants.systemHeight),
+            bottom: systemHeight - contentHeight,
             trailing: contentTrailingMargin
         )
     }
@@ -445,8 +531,21 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         guard let newWindow else {
             return
         }
+
         tokenSet.update(newWindow.fluentTheme)
+
+        updateTitleViewTokenSets()
         updateColors(for: topItem)
+    }
+
+    private func updateTitleViewTokenSets() {
+        titleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont,
+            .largeTitleFont: .largeTitleFont
+        ])
     }
 
     /// Guarantees that the custom UI remains on top of the subview stack
@@ -469,10 +568,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
+            updateViewsForLargeTitlePresentation(for: topItem)
+            updateFakeCenterTitleConstraints()
 
-            // change bar button image size depending on device rotation
-            if showsLargeTitle, let navigationItem = topItem {
-                updateBarButtonItems(with: navigationItem)
+            // change bar button image size and title inset depending on device rotation
+            if let navigationItem = topItem {
+                updateSubtitleView(for: navigationItem)
+                if usesLeadingTitle {
+                    updateBarButtonItems(with: navigationItem)
+                }
             }
         }
     }
@@ -513,7 +617,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
     private func updateElementSizes() {
         titleView.avatarSize = currentAvatarSize
-        titleView.titleSize = currentTitleSize
         barHeight = currentBarHeight
     }
 
@@ -521,19 +624,20 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
 
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let shouldHideRegularTitle: Bool = (style == .gradient) && usesLeadingTitle
 
         switch style {
         case .primary, .default, .custom:
             titleView.style = .primary
-        case .system:
+        case .system, .gradient:
             titleView.style = .system
         }
 
+        backgroundView.backgroundColor = style == .gradient ? .clear : color
         standardAppearance.backgroundColor = color
-        backgroundView.backgroundColor = color
-        tintColor = style.tintColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
-        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = style.titleColor(fluentTheme: tokenSet.fluentTheme)
+        tintColor = tokenSet[.buttonTintColor].uiColor
+        standardAppearance.titleTextAttributes[NSAttributedString.Key.foregroundColor] = shouldHideRegularTitle ? UIColor.clear : tokenSet[.titleColor].uiColor
+        standardAppearance.largeTitleTextAttributes[NSAttributedString.Key.foregroundColor] = tokenSet[.titleColor].uiColor
 
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance
@@ -548,13 +652,19 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         let (actualStyle, actualItem) = actualStyleAndItem(for: navigationItem)
         style = actualStyle
         updateColors(for: actualItem)
-        showsLargeTitle = navigationItem.usesLargeTitle
+        updateGradient()
+        usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
+        updateSubtitleView(for: navigationItem)
 
         titleView.update(with: navigationItem)
 
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        updateFakeCenterTitleConstraints()
+
+        if navigationItem.backButtonTitle == nil {
+            navigationItem.backButtonTitle = ""
+        }
         updateBarButtonItems(with: navigationItem)
 
         // Force layout to avoid animation
@@ -567,6 +677,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
             self.navigationItemDidUpdate(item)
         }
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleAccessoryObserver = navigationItem.observe(\UINavigationItem.titleAccessory) { [unowned self] item, _ in
+            self.navigationItemDidUpdate(item)
+        }
+        titleImageObserver = navigationItem.observe(\UINavigationItem.titleImage) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
         accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
@@ -584,7 +703,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.navigationBarShadow) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        usesLargeTitleObserver = navigationItem.observe(\UINavigationItem.usesLargeTitle) { [unowned self] item, _ in
+        titleStyleObserver = navigationItem.observe(\UINavigationItem.titleStyle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }
@@ -603,44 +722,69 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        button.shouldUseWindowColorInBadge = style != .system
-
-        if #available(iOS 15.0, *) {
-            let insets: NSDirectionalEdgeInsets
-            if isLeftItem {
-                insets = NSDirectionalEdgeInsets(top: 0,
-                                                 leading: Constants.leftBarButtonItemLeadingMargin,
-                                                 bottom: 0,
-                                                 trailing: 0)
-            } else {
-                insets = NSDirectionalEdgeInsets(top: 0,
-                                                 leading: Constants.rightBarButtonItemHorizontalPadding,
-                                                 bottom: 0,
-                                                 trailing: Constants.rightBarButtonItemHorizontalPadding)
-            }
-
-            button.configuration?.contentInsets = insets
+        if style == .system {
+            button.badgeLabelStyle = .system
+        } else if style == .gradient {
+            button.badgeLabelStyle = .gradient
         } else {
-            if isLeftItem {
-                let isRTL = effectiveUserInterfaceLayoutDirection == .rightToLeft
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: isRTL ? 0 : Constants.leftBarButtonItemLeadingMargin,
-                                                        bottom: 0,
-                                                        right: isRTL ? Constants.leftBarButtonItemLeadingMargin : 0)
-            } else {
-                button.contentEdgeInsets = UIEdgeInsets(top: 0,
-                                                        left: Constants.rightBarButtonItemHorizontalPadding,
-                                                        bottom: 0,
-                                                        right: Constants.rightBarButtonItemHorizontalPadding)
-            }
+            button.badgeLabelStyle = .brand
         }
+
+        // We want to hide the native right bar button items for non-system title styles when using the gradient style.
+        if style == .gradient && !isLeftItem && usesLeadingTitle {
+            item.tintColor = .clear
+            // Since changing the native item's tintColor gets passed down to the button, we need to re-set its tintColor.
+            button.tintColor = tokenSet[.buttonTintColor].uiColor
+        }
+
+        let horizontalInset = isLeftItem ? TokenSetType.leftBarButtonItemHorizontalInset : TokenSetType.rightBarButtonItemHorizontalInset
+        let insets = NSDirectionalEdgeInsets(top: 0,
+                                             leading: horizontalInset,
+                                             bottom: 0,
+                                             trailing: horizontalInset)
+
+        button.configuration?.contentInsets = insets
 
         return button
     }
 
+    /// Updates the bar button items.
+    /// 
+    /// In general, this should be called as late as possible when receiving a new navigation item
+    /// because it will replace a client-provided left bar button item with a back button if needed.
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
         // only one left bar button item is support for large title view
-        if let leftBarButtonItem = navigationItem.leftBarButtonItem {
+        if navigationItem != items?.first {
+            // Back button takes priority over client-provided leftBarButtonItem
+            // navigationItem != items?.first is sufficient for knowing we won't be at the
+            // root element of our navigation controller. This is because UINavigationItems
+            // are unique to their view controllers, and you can't push the same view controller
+            // onto a navigation stack more than once.
+            leftBarButtonItemsStackView.isHidden = false
+
+            // This gets called before the navigation stack gets updated
+            if let items = items, let navigationItemIndex = items.firstIndex(of: navigationItem), navigationItemIndex > 0 {
+                let upcomingBackItem = items[navigationItemIndex - 1]
+                backButtonItem.title = upcomingBackItem.backButtonTitle
+            } else {
+                // Assume that this item is getting pushed onto the stack
+                backButtonItem.title = topItem?.backButtonTitle
+            }
+
+            if navigationItem.titleStyle == .system {
+                let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
+                // The OS already gives us the leading margin we want, so no need for additional insets
+                button.configuration?.contentInsets.leading = 0
+                navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
+            }
+
+            refresh(barButtonStack: leftBarButtonItemsStackView, with: [backButtonItem], isLeftItem: true)
+
+            // Hide the system's back button to avoid having duplicated back buttons with the gradient style.
+            if style == .gradient {
+                navigationItem.hidesBackButton = true
+            }
+        } else if let leftBarButtonItem = navigationItem.leftBarButtonItem {
             leftBarButtonItemsStackView.isHidden = false
             refresh(barButtonStack: leftBarButtonItemsStackView, with: [leftBarButtonItem], isLeftItem: true)
         } else {
@@ -667,7 +811,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     func obscureContent(animated: Bool) {
         if contentStackView.alpha == 1 {
             if animated {
-                UIView.animate(withDuration: Constants.obscuringAnimationDuration) {
+                UIView.animate(withDuration: TokenSetType.obscuringAnimationDuration) {
                     self.contentStackView.alpha = 0
                 }
             } else {
@@ -679,7 +823,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     func revealContent(animated: Bool) {
         if contentStackView.alpha == 0 {
             if animated {
-                UIView.animate(withDuration: Constants.revealingAnimationDuration) {
+                UIView.animate(withDuration: TokenSetType.revealingAnimationDuration) {
                     self.contentStackView.alpha = 1
                 }
             } else {
@@ -697,7 +841,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
         // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
-        if showsLargeTitle {
+
+        // The compact (32px) bar doesn't hold a TwoLineTitleView very well, and due to
+        // UINavigationBar's internal view hierarchy, we can't propagate touch events on
+        // parts that are outside that 32px range to the actual title view.
+        // We therefore depend on the "fake" navigation bar that we use for leading titles to save the day.
+
+        // We also want to hide the backgroundView and the contentStackView for gradient style regular title to
+        // avoid displaying duplicated navigation bar items.
+        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar && navigationItem?.titleView == nil) {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -718,6 +870,21 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
         updateShadow(for: navigationItem)
     }
 
+    private func updateFakeCenterTitleConstraints() {
+        titleViewConstraint?.isActive = false
+
+        let newTitleViewConstraint: NSLayoutConstraint
+        if !usesLeadingTitle && systemWantsCompactNavigationBar {
+            // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
+            newTitleViewConstraint = titleView.centerXAnchor.constraint(equalTo: centerXAnchor)
+        } else {
+            // Otherwise, keep `self.titleView` leading-justified
+            newTitleViewConstraint = preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)
+        }
+        titleViewConstraint = newTitleViewConstraint
+        newTitleViewConstraint.isActive = true
+    }
+
     private func updateShadow(for navigationItem: UINavigationItem?) {
         if needsShadow(for: navigationItem) {
             standardAppearance.shadowColor = systemShadowColor
@@ -732,10 +899,31 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
         switch navigationItem?.navigationBarShadow ?? .automatic {
         case .automatic:
-            return !showsLargeTitle && style == .system && navigationItem?.accessoryView == nil
+            return !usesLeadingTitle && style == .system && !systemWantsCompactNavigationBar && navigationItem?.accessoryView == nil
         case .alwaysHidden:
             return false
         }
+    }
+
+    private func updateSubtitleView(for navigationItem: UINavigationItem?) {
+        guard let navigationItem = navigationItem, navigationItem.titleView == nil, !usesLeadingTitle else {
+            return
+        }
+
+        let customTitleView = TwoLineTitleView(style: style == .primary ? .primary : .system)
+        customTitleView.tokenSet.setOverrides(from: tokenSet, mapping: [
+            .titleColor: .titleColor,
+            .titleFont: .titleFont,
+            .subtitleColor: .subtitleColor,
+            .subtitleFont: .subtitleFont
+        ])
+        customTitleView.setup(navigationItem: navigationItem)
+        if navigationItem.titleAccessory == nil {
+            // Use default behavior of requesting an accessory expansion
+            customTitleView.delegate = self
+        }
+
+        navigationItem.titleView = customTitleView
     }
 
     // MARK: Content expansion/contraction
@@ -787,11 +975,18 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal {
     // MARK: Accessibility
 
     private func updateAccessibilityElements() {
-        if showsLargeTitle {
+        if usesLeadingTitle {
             accessibilityElements = contentStackView.arrangedSubviews
         } else {
             accessibilityElements = nil
         }
+    }
+
+    // MARK: TwoLineTitleViewDelegate
+
+    /// Tapping the regular two-line title view asks the accessory to expand.
+    public func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
+        NotificationCenter.default.post(name: .accessoryExpansionRequested, object: self)
     }
 }
 

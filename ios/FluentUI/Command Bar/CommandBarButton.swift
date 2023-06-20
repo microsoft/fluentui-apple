@@ -75,19 +75,6 @@ class CommandBarButton: UIButton {
         }
 
         updateState()
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        updateStyle()
-        isPointerInteractionEnabled = true
     }
 
     @available(*, unavailable)
@@ -133,6 +120,7 @@ class CommandBarButton: UIButton {
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
         accessibilityIdentifier = item.accessibilityIdentifier
+        menu = item.menu
     }
 
     private let isPersistSelection: Bool
@@ -166,18 +154,18 @@ class CommandBarButton: UIButton {
         accentImageView?.tintColor = tintColor
     }
 
-    private func updateStyle() {
+    func updateStyle() {
         // TODO: Once iOS 14 support is dropped, this should be converted to a constant (let) that will be initialized by the logic below.
         var resolvedBackgroundColor: UIColor = .clear
-        let resolvedTintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorRest].dynamicColor)
+        let resolvedTintColor = isSelected ? tokenSet[.itemIconColorSelected].uiColor : tokenSet[.itemIconColorRest].uiColor
 
         if isPersistSelection {
             if isSelected {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorSelected].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorSelected].uiColor
             } else if isHighlighted {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorPressed].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorPressed].uiColor
             } else {
-                resolvedBackgroundColor = UIColor(dynamicColor: tokenSet[.itemBackgroundColorRest].dynamicColor)
+                resolvedBackgroundColor = tokenSet[.itemBackgroundColorRest].uiColor
             }
         }
 
@@ -215,8 +203,8 @@ class CommandBarButton: UIButton {
 
 extension CommandBarButton: UIPointerInteractionDelegate {
     public func pointerInteraction(_ interaction: UIPointerInteraction, willEnter region: UIPointerRegion, animator: UIPointerInteractionAnimating) {
-        backgroundColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemBackgroundColorSelected].dynamicColor : tokenSet[.itemBackgroundColorHover].dynamicColor)
-        tintColor = UIColor(dynamicColor: isSelected ? tokenSet[.itemIconColorSelected].dynamicColor : tokenSet[.itemIconColorHover].dynamicColor)
+        backgroundColor = isSelected ? tokenSet[.itemBackgroundColorSelected].uiColor : tokenSet[.itemBackgroundColorHover].uiColor
+        tintColor = isSelected ? tokenSet[.itemIconColorSelected].uiColor : tokenSet[.itemIconColorHover].uiColor
     }
 
     public func pointerInteraction(_ interaction: UIPointerInteraction, willExit region: UIPointerRegion, animator: UIPointerInteractionAnimating) {

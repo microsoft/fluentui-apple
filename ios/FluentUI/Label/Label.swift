@@ -3,7 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Combine
 import UIKit
 
 // MARK: - Label
@@ -11,17 +10,34 @@ import UIKit
 /// By default, `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
 @objc(MSFLabel)
 open class Label: UILabel, TokenizedControlInternal {
-    @objc open var colorStyle: TextColorStyle = .regular {
-        didSet {
-            _textColor = nil
+    private static let defaultColorForTheme: (FluentTheme) -> UIColor = TextColorStyle.regular.uiColor
+
+    @objc open var colorStyle: TextColorStyle {
+        @available(*, unavailable)
+        get {
+            preconditionFailure("colorStyle is now a write-only property")
+        }
+        set {
+            colorForTheme = newValue.uiColor
             updateTextColor()
         }
     }
-    @objc open var style: AliasTokens.TypographyTokens = .body1 {
+
+    @objc open var style: AliasTokens.TypographyTokens {
+        get {
+            return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
+        }
+        set {
+            self.textStyle = FluentTheme.TypographyToken(rawValue: newValue.rawValue)!
+        }
+    }
+
+    @objc open var textStyle: FluentTheme.TypographyToken = .body1 {
         didSet {
             updateFont()
         }
     }
+
     /**
      The maximum allowed size point for the receiver's font. This property can be used
      to restrict the largest size of the label when scaling due to Dynamic Type. The
@@ -35,8 +51,17 @@ open class Label: UILabel, TokenizedControlInternal {
 
     open override var textColor: UIColor! {
         didSet {
-            _textColor = textColor
-            updateTextColor()
+            if textColor != oldValue, let newColor = textColor {
+                tokenSet[.textColor] = .uiColor { newColor }
+            }
+        }
+    }
+
+    open override var font: UIFont! {
+        didSet {
+            if font != oldValue, let newFont = font {
+                tokenSet[.font] = .uiFont { newFont }
+            }
         }
     }
 
@@ -51,23 +76,43 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     open override var attributedText: NSAttributedString? {
-      didSet {
-          isUsingCustomAttributedText = attributedText != nil
+        didSet {
+            isUsingCustomAttributedText = attributedText != nil
         }
     }
 
     public typealias TokenSetKeyType = LabelTokenSet.Tokens
-    lazy public var tokenSet: LabelTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .body1
+    lazy public var tokenSet: LabelTokenSet = .init(textStyle: { [weak self] in
+        return self?.textStyle ?? .body1
     },
-                                                    colorStyle: { [weak self] in
-        return self?.colorStyle ?? .regular
+                                                    colorForTheme: { [weak self] theme in
+        return (self?.colorForTheme ?? Self.defaultColorForTheme)(theme)
     })
 
+    private var colorForTheme: (FluentTheme) -> UIColor = Label.defaultColorForTheme
+
+    @objc convenience public init() {
+        self.init(textStyle: .body1, colorStyle: .regular)
+    }
+
     @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
+        super.init(frame: .zero)
         self.style = style
         self.colorStyle = colorStyle
+        initialize()
+    }
+
+    @objc public init(textStyle: FluentTheme.TypographyToken = .body1, colorStyle: TextColorStyle = .regular) {
         super.init(frame: .zero)
+        self.textStyle = textStyle
+        self.colorStyle = colorStyle
+        initialize()
+    }
+
+    @objc public init(textStyle: FluentTheme.TypographyToken = .body1, colorForTheme: @escaping (FluentTheme) -> UIColor) {
+        super.init(frame: .zero)
+        self.textStyle = textStyle
+        self.colorForTheme = colorForTheme
         initialize()
     }
 
@@ -76,8 +121,9 @@ open class Label: UILabel, TokenizedControlInternal {
     }
 
     private func initialize() {
-        // textColor is assigned in super.init to a default value and so we need to reset our cache afterwards
-        _textColor = nil
+        // textColor and font in the tokenSet are assigned in super.init to a default value and so we need to remove the override
+        tokenSet.removeOverride(.textColor)
+        tokenSet.removeOverride(.font)
 
         updateFont()
         updateTextColor()
@@ -87,25 +133,12 @@ open class Label: UILabel, TokenizedControlInternal {
                                                selector: #selector(handleContentSizeCategoryDidChange),
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTextColor()
             self?.updateFont()
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateTextColor()
-        updateFont()
     }
 
     private func updateFont() {
@@ -114,11 +147,11 @@ open class Label: UILabel, TokenizedControlInternal {
             return
         }
 
-        let defaultFont = UIFont.fluent(tokenSet[.font].fontInfo)
-        if maxFontSize > 0 && defaultFont.pointSize > maxFontSize {
-            font = defaultFont.withSize(maxFontSize)
+        let labelFont = tokenSet[.font].uiFont
+        if maxFontSize > 0 && labelFont.pointSize > maxFontSize {
+            super.font = labelFont.withSize(maxFontSize)
         } else {
-            font = defaultFont
+            super.font = labelFont
         }
     }
 
@@ -127,7 +160,7 @@ open class Label: UILabel, TokenizedControlInternal {
         guard !isUsingCustomAttributedText else {
             return
         }
-        super.textColor = _textColor ?? UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        super.textColor = tokenSet[.textColor].uiColor
     }
 
     @objc private func handleContentSizeCategoryDidChange() {
@@ -136,7 +169,5 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    private var _textColor: UIColor?
     private var isUsingCustomAttributedText: Bool = false
-    private var tokenSetSink: AnyCancellable?
 }

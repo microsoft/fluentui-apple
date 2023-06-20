@@ -30,13 +30,13 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
 
         super.init(frame: frame)
 
-        yearLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.caption2])
-        yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+        yearLabel.font = fluentTheme.typography(.caption2)
+        yearLabel.textColor = fluentTheme.color(.foreground3)
         contentView.addSubview(yearLabel)
     }
 
-    @objc override func themeDidChange(_ notification: Notification) {
-        super.themeDidChange(notification)
+    override func updateAppearance() {
+        super.updateAppearance()
         updateYearLabelColor(textStyle: textStyle)
     }
 
@@ -64,9 +64,9 @@ class CalendarViewDayMonthYearCell: CalendarViewDayMonthCell {
     private func updateYearLabelColor(textStyle: CalendarViewDayCellTextStyle) {
         switch textStyle {
         case .primary:
-            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground3])
+            yearLabel.textColor = fluentTheme.color(.foreground3)
         case .secondary:
-            yearLabel.textColor = UIColor(dynamicColor: fluentTheme.aliasTokens.colors[.foreground1])
+            yearLabel.textColor = fluentTheme.color(.foreground1)
         }
     }
 

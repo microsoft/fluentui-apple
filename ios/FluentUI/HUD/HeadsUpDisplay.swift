@@ -44,18 +44,19 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
     @ObservedObject public var tokenSet: HeadsUpDisplayTokenSet
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let label = state.label ?? ""
         let type = state.type
         let verticalPadding = HeadsUpDisplayTokenSet.verticalPadding
         let horizontalPadding = HeadsUpDisplayTokenSet.horizontalPadding
 
-        HStack(alignment: .center) {
+        return HStack(alignment: .center) {
             VStack {
                 switch type {
                 case .activity:
                     ActivityIndicator(size: .xLarge)
                         .isAnimating(true)
-                        .color(UIColor(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
+                        .color(tokenSet[.activityIndicatorColor].uiColor)
                 case .custom, .failure, .success:
                     let image: UIImage = {
                         switch type {
@@ -71,14 +72,14 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     }()
 
                     Image(uiImage: image)
-                        .foregroundColor(Color(dynamicColor: tokenSet[.activityIndicatorColor].dynamicColor))
+                        .foregroundColor(Color(tokenSet[.activityIndicatorColor].uiColor))
                 }
 
                 if !label.isEmpty {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
-                        .foregroundColor(Color(dynamicColor: tokenSet[.labelColor].dynamicColor))
+                        .foregroundColor(Color(tokenSet[.labelColor].uiColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
@@ -92,11 +93,11 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         .squareShaped(minSize: HeadsUpDisplayTokenSet.minSize,
                       maxSize: HeadsUpDisplayTokenSet.maxSize)
         .background(Rectangle()
-                        .fill(Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor))
-                        .frame(maxWidth: .infinity,
-                               maxHeight: .infinity,
-                               alignment: .center)
-                        .cornerRadius(tokenSet[.cornerRadius].float)
+            .fill(Color(tokenSet[.backgroundColor].uiColor))
+            .frame(maxWidth: .infinity,
+                   maxHeight: .infinity,
+                   alignment: .center)
+                .cornerRadius(tokenSet[.cornerRadius].float)
         )
         .contentShape(Rectangle())
         .onChange(of: isPresented, perform: { present in
@@ -114,7 +115,6 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
         .onTapGesture {
             state.tapAction?()
         }
-        .fluentTokens(tokenSet, fluentTheme)
     }
 
     /// Initializes the SwiftUI View for the Heads-up display.

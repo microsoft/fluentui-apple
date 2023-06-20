@@ -62,104 +62,128 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
         super.init { [style] token, theme in
             switch token {
             case .restTabColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background5].dark)
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background5].dark)
+                    case .primaryPill, .neutralOverNavBarPill:
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background5).dark)
+                    case .neutralOverCanvasPill, .brandOverCanvasPill:
+                        return theme.color(.background3)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background5).dark)
                     }
                 }
 
             case .selectedTabColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.brandBackground1]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background5Selected].dark)
+                    case .primaryPill, .neutralOverCanvasPill, .neutralOverNavBarPill:
+                        return theme.color(.brandBackground1)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.background3).light,
+                                       dark: theme.color(.background5Selected).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1).light,
+                                       dark: theme.color(.background3Selected).dark)
                     }
                 }
 
             case .disabledTabColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background5].light,
-                                            dark: theme.aliasTokens.colors[.background5].dark)
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandBackground2].light,
-                                            dark: theme.aliasTokens.colors[.background5].dark)
+                    case .primaryPill, .neutralOverNavBarPill:
+                        return UIColor(light: theme.color(.background5).light,
+                                       dark: theme.color(.background5).dark)
+                    case .neutralOverCanvasPill, .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.background3).light,
+                                       dark: theme.color(.background3).dark)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.brandBackground2).light,
+                                       dark: theme.color(.background5).dark)
                     }
                 }
 
             case .disabledSelectedTabColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.brandBackground1]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.background1].light,
-                                            dark: theme.aliasTokens.colors[.background5Selected].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1).light,
+                                       dark: theme.color(.brandBackground1).dark)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.background1).light,
+                                       dark: theme.color(.background5Selected).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandBackground1Selected).light,
+                                       dark: theme.color(.background3Selected).dark)
                     }
                 }
 
             case .restLabelColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.foreground2]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground2].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return theme.color(.foreground2)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground2).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground2).dark)
                     }
                 }
 
             case .selectedLabelColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return theme.color(.foregroundOnColor)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground1).dark)
                     }
                 }
 
             case .disabledLabelColor, .disabledUnreadDotColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.foregroundDisabled1]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled1].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled1].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return theme.color(.foregroundDisabled1)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled1).dark)
                     }
                 }
 
             case .disabledSelectedLabelColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return theme.aliasTokens.colors[.brandForegroundDisabled1]
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForegroundDisabled2].light,
-                                            dark: theme.aliasTokens.colors[.foregroundDisabled2].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill:
+                        return theme.color(.brandForegroundDisabled1)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark)
+                    case .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled2).dark)
                     }
                 }
 
             case .enabledUnreadDotColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .primaryPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.brandForeground1].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
-                    case .onBrandPill:
-                        return DynamicColor(light: theme.aliasTokens.colors[.foregroundOnColor].light,
-                                            dark: theme.aliasTokens.colors[.foreground1].dark)
+                    case .primaryPill, .neutralOverNavBarPill, .neutralOverCanvasPill, .brandOverCanvasPill:
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark)
+                    case .onBrandPill, .brandOverNavBarPill:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground1).dark)
                     }
                 }
 
@@ -179,7 +203,7 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
                 return .float { 6.0 }
 
             case .font:
-                return .fontInfo { theme.aliasTokens.typography[.body2] }
+                return .uiFont { theme.typography(.body2, adjustsForContentSizeCategory: false) }
             }
         }
     }
@@ -190,9 +214,25 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.
 
 @objc(MSFSegmentedControlStyle)
 public enum SegmentedControlStyle: Int {
-    /// Segments are shows as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
+    /// Segments are shown as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
+    @available(*, deprecated, message: "primaryPill is now deprecated. Please use neutralOverNavBarPill.")
     case primaryPill
-    /// Segments are shows as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
+    /// Segments are shown as labels inside a pill for use on a branded background that features a prominent brand color in light mode and a muted grey in dark mode.
     /// Selection is indicated by a thumb under the selected label.
+    @available(*, deprecated, message: "onBrandPill is now deprecated. Please use brandOverNavBarPill.")
     case onBrandPill
+
+    /// Segments are shown as labels inside a pill for use with a neutral or white backround,
+    /// when the buttons should be a prominent brand color in light mode and a muted grey in dark mode.
+    case brandOverCanvasPill
+
+    /// Segments are shown as labels inside a pill for use with branded Navigation Bar where the background features
+    /// a prominent brand color in light mode and a muted gray in dark mode.
+    case brandOverNavBarPill
+
+    /// Segments are shown as labels inside a pill for use with a neutral or white background.
+    case neutralOverCanvasPill
+
+    /// Segments are shown as labels inside a pill for use with a non-brand-colored Navigation Bar.
+    case neutralOverNavBarPill
 }

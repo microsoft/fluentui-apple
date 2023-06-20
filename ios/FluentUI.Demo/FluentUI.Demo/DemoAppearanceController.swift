@@ -76,6 +76,15 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
         configuration.isConfigured = true
     }
 
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
+
     private func updateToggleConfiguration() {
         configuration.userInterfaceStyle = view.window?.overrideUserInterfaceStyle ?? .unspecified
         configuration.theme = currentDemoListViewController?.theme ?? .default
@@ -95,6 +104,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
         // Different themes can have different overrides, so update as needed.
         updateToggleConfiguration()
+        rootView.fluentTheme = window.fluentTheme
     }
 
     /// Callback for handling color scheme changes.

@@ -85,21 +85,17 @@ struct LargeContentViewerModifier: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if #available(iOS 15.0, *) {
-            if text != nil || image != nil {
-                content.accessibilityShowsLargeContentViewer({
-                    if let image = image {
-                        Image(uiImage: image)
-                    }
-                    if let text = text {
-                        Text(text)
-                    }
-                })
-            } else {
-                content.accessibilityShowsLargeContentViewer()
-            }
+        if text != nil || image != nil {
+            content.accessibilityShowsLargeContentViewer({
+                if let image = image {
+                    Image(uiImage: image)
+                }
+                if let text = text {
+                    Text(text)
+                }
+            })
         } else {
-            content
+            content.accessibilityShowsLargeContentViewer()
         }
     }
 
@@ -117,11 +113,11 @@ struct ShadowModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .shadow(color: Color(dynamicColor: shadowInfo.ambientColor),
+            .shadow(color: Color(shadowInfo.ambientColor),
                     radius: shadowInfo.ambientBlur,
                     x: shadowInfo.xAmbient,
                     y: shadowInfo.yAmbient)
-            .shadow(color: Color(dynamicColor: shadowInfo.keyColor),
+            .shadow(color: Color(shadowInfo.keyColor),
                     radius: shadowInfo.keyBlur,
                     x: shadowInfo.xKey,
                     y: shadowInfo.yKey)

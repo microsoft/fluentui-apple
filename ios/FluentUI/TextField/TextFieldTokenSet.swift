@@ -57,62 +57,62 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
         super.init { [state] token, theme in
             switch token {
             case .assistiveTextColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch state() {
                     case .unfocused, .focused:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .assistiveTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .uiFont { theme.typography(.caption2) }
             case .backgroundColor:
-                return .dynamicColor { theme.aliasTokens.colors[.background1] }
+                return .uiColor { theme.color(.background1) }
             case .cursorColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground3] }
+                return .uiColor { theme.color(.foreground3) }
             case .inputTextColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground1] }
+                return .uiColor { theme.color(.foreground1) }
             case .inputTextFont:
-                return .fontInfo { theme.aliasTokens.typography[.body1] }
+                return .uiFont { theme.typography(.body1) }
             case .leadingIconColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch state() {
                     case .unfocused, .error:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     }
                 }
             case .placeholderColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foreground2] }
+                return .uiColor { theme.color(.foreground2) }
             case .strokeColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch state() {
                     case .unfocused:
-                        return theme.aliasTokens.colors[.stroke1]
+                        return theme.color(.stroke1)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .titleLabelColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch state() {
                     case .unfocused:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .focused:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .error:
-                        return theme.aliasTokens.colors[.dangerForeground1]
+                        return theme.color(.dangerForeground1)
                     }
                 }
             case .titleLabelFont:
-                return .fontInfo { theme.aliasTokens.typography[.caption2] }
+                return .uiFont { theme.typography(.caption2) }
             case .trailingIconColor:
-                return .dynamicColor {
-                    return theme.aliasTokens.colors[.foreground2]
+                return .uiColor {
+                    return theme.color(.foreground2)
                 }
             }
         }

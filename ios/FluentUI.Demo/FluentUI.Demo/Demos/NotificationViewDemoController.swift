@@ -66,7 +66,7 @@ class NotificationViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
         readmeString = "Notifications deliver helpful messages related to the action someone is taking. They should communicate information people can use right away.\n\nNotifications are great for giving people feedback or communicating a task’s status. If you need to show recommendations or upsell features of your app, try a card nudge instead."
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
+        view.backgroundColor = view.fluentTheme.color(.background4)
 
         addTitle(text: "SwiftUI Demo")
         container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
@@ -180,9 +180,10 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .neutralBarWithFontAttribute:
             let notification = MSFNotification(style: .neutralBar)
+            let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0),
+                              size: 30.0)
             notification.state.attributedMessage = NSAttributedString(string: "This is a bar with red Papyrus font attribute.",
-                                                                      attributes: [.font: UIFont.init(name: "Papyrus",
-                                                                                                      size: 30.0)!,
+                                                                      attributes: [.font: font,
                                                                                    .foregroundColor: UIColor.red])
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
@@ -213,10 +214,10 @@ class NotificationViewDemoController: DemoController {
             notification.state.message = "The background of this notification has been customized with a gradient."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             // It's a lovely blue-to-pink gradient
-            let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
-                                                       dark: GlobalTokens.sharedColors(.pink, .shade40)),
-                                          DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
-                                                       dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+            let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
+                                             dark: GlobalTokens.sharedColor(.pink, .shade40)),
+                                     UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
+                                             dark: GlobalTokens.sharedColor(.cyan, .shade40))]
             notification.state.backgroundGradient = LinearGradientInfo(colors: colors,
                                                                        startPoint: .init(x: 0.0, y: 1.0),
                                                                        endPoint: .init(x: 1.0, y: 0.0))
@@ -240,15 +241,15 @@ class NotificationViewDemoController: DemoController {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            .imageColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orange, .primary))
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
                                   keyBlur: 10.0,
                                   xKey: 10.0,
                                   yKey: 10.0,
-                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
                                   ambientBlur: 100.0,
                                   xAmbient: -10.0,
                                   yAmbient: -10.0)
@@ -261,11 +262,71 @@ class NotificationViewDemoController: DemoController {
             preconditionFailure("showNotificationView is used for a button in the wrong container")
         }
 
-        createNotificationView(forVariant: variant).show(in: view) { $0.hide(after: 3.0) }
+        let notification = createNotificationView(forVariant: variant)
+        notification.tokenSet.replaceAllOverrides(with: overrideTokens)
+        notification.show(in: view) { [weak self] in
+            $0.hide(after: 3.0) {
+                self?.currentNotification = nil
+            }
+        }
+        currentNotification = notification
     }
 
     @objc private func showSwiftUIDemo() {
         navigationController?.pushViewController(NotificationViewDemoControllerSwiftUI(),
                                                  animated: true)
+    }
+
+    private var currentNotification: MSFNotification?
+    private var overrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue]?
+}
+
+extension NotificationViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: NotificationTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideNotificationTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        overrideTokens = isOverrideEnabled ? perControlOverrideNotificationTokens : nil
+        if let currentNotification {
+            currentNotification.tokenSet.replaceAllOverrides(with: overrideTokens)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: NotificationTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideNotificationTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
+            },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
+                               dark: GlobalTokens.sharedColor(.marigold, .shade30))
+            }
+        ]
+    }
+
+    private var perControlOverrideNotificationTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
+            },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
+            }
+        ]
     }
 }

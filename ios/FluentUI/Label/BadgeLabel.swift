@@ -8,14 +8,16 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var shouldUseWindowColor: Bool = false {
+    var style: Style = .system {
         didSet {
             updateColors()
         }
     }
 
-    typealias TokenSetKeyType = EmptyTokenSet.Tokens
-    var tokenSet: EmptyTokenSet = .init()
+    typealias TokenSetKeyType = BadgeLabelTokenSet.Tokens
+    lazy var tokenSet: BadgeLabelTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .brand
+    })
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,12 +36,9 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
         isHidden = true
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        updateColors()
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {
@@ -51,25 +50,9 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
         updateColors()
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
-        updateColors()
-    }
-
     private func updateColors() {
-        let colors = tokenSet.fluentTheme.aliasTokens.colors
-        if shouldUseWindowColor {
-            textColor = UIColor(dynamicColor: DynamicColor(light: colors[.brandForeground1].light,
-                                                           dark: GlobalTokens.neutralColors(.white)))
-            backgroundColor = UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                                 dark: colors[.brandBackground1].dark))
-        } else {
-            textColor = UIColor(colorValue: GlobalTokens.neutralColors(.white))
-            backgroundColor = UIColor(dynamicColor: colors[.dangerBackground2])
-        }
+        textColor = tokenSet[.textColor].uiColor
+        backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
     private struct Constants {

@@ -501,7 +501,11 @@ open class BottomCommandingController: UIViewController {
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
     }
 
-    private lazy var moreHeroItem: CommandingItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
+    private lazy var moreHeroItem: CommandingItem = {
+        let moreItem = CommandingItem(title: Constants.BottomBar.moreButtonTitle, image: Constants.BottomBar.moreButtonIcon ?? UIImage(), action: handleMoreCommandTap)
+        moreItem.accessibilityIdentifier = "More"
+        return moreItem
+    }()
 
     private lazy var heroCommandStack: UIStackView = {
         let stackView = UIStackView()
@@ -631,6 +635,7 @@ open class BottomCommandingController: UIViewController {
         itemView.accessibilityTraits.insert(.button)
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
+        itemView.accessibilityIdentifier = item.accessibilityIdentifier
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -665,6 +670,7 @@ open class BottomCommandingController: UIViewController {
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
         cell.backgroundColor = tableViewBackgroundColor
+        cell.accessibilityIdentifier = item.accessibilityIdentifier
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
@@ -871,9 +877,9 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var tableViewIconTintColor: UIColor = UIColor(colorValue: GlobalTokens.neutralColors(.grey50))
-    private lazy var tableViewBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
-    private lazy var bottomBarBackgroundColor: UIColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background2])
+    private lazy var tableViewIconTintColor: UIColor = GlobalTokens.neutralColor(.grey50)
+    private lazy var tableViewBackgroundColor: UIColor = view.fluentTheme.color(.background2)
+    private lazy var bottomBarBackgroundColor: UIColor = view.fluentTheme.color(.background2)
 
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40

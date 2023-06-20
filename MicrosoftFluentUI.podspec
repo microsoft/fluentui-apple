@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.13.0'
+  s.version          = '0.18.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
 
 # iOS
 
-  s.ios.deployment_target = "14.0"
+  s.ios.deployment_target = "15.0"
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
@@ -134,11 +134,12 @@ fi', :execution_position => :before_compile }
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
 
-  s.subspec 'Divider_ios' do |divider_ios|
-    divider_ios.platform = :ios
-    divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
-  end
+  # Temporarily removed while this is not part of our main project
+  # s.subspec 'Divider_ios' do |divider_ios|
+  #   divider_ios.platform = :ios
+  #   divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+  #   divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
+  # end
 
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios
@@ -180,6 +181,14 @@ fi', :execution_position => :before_compile }
     label_ios.platform = :ios
     label_ios.dependency 'MicrosoftFluentUI/Core_ios'
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
+  end
+
+  s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
+    multilinecommandbar_ios.platform = :ios
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/CommandBar_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    multilinecommandbar_ios.source_files = ["ios/FluentUI/MultilineCommandBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Navigation_ios' do |navigation_ios|

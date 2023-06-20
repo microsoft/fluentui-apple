@@ -163,7 +163,7 @@ class CommandBarDemoController: DemoController {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        textField.backgroundColor = view.fluentTheme.color(.background3)
         textField.placeholder = "Text Field"
 
         return textField
@@ -176,21 +176,21 @@ class CommandBarDemoController: DemoController {
 
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background4])
+        view.backgroundColor = view.fluentTheme.color(.background4)
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
         commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
-        commandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        commandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
 
         let itemCustomizationContainer = UIStackView()
         itemCustomizationContainer.spacing = CommandBarDemoController.verticalStackViewSpacing
         itemCustomizationContainer.axis = .vertical
-        itemCustomizationContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        itemCustomizationContainer.backgroundColor = view.fluentTheme.color(.background3)
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
@@ -232,7 +232,7 @@ class CommandBarDemoController: DemoController {
 
         let deleteAccentImageStackView = createHorizontalStackView()
         deleteAccentImageStackView.addArrangedSubview(createLabelWithText("\"Delete\" Accent Image"))
-        let deleteAccentImageSwitch: UISwitch = UISwitch()
+        let deleteAccentImageSwitch: BrandedSwitch = BrandedSwitch()
         deleteAccentImageSwitch.isOn = true
         deleteAccentImageSwitch.addTarget(self, action: #selector(deleteAccentImageValueChange), for: .valueChanged)
         deleteAccentImageStackView.addArrangedSubview(deleteAccentImageSwitch)
@@ -240,15 +240,23 @@ class CommandBarDemoController: DemoController {
 
         let itemEnabledStackView = createHorizontalStackView()
         itemEnabledStackView.addArrangedSubview(createLabelWithText("'+' Enabled"))
-        let itemEnabledSwitch: UISwitch = UISwitch()
+        let itemEnabledSwitch: BrandedSwitch = BrandedSwitch()
         itemEnabledSwitch.isOn = true
         itemEnabledSwitch.addTarget(self, action: #selector(itemEnabledValueChanged), for: .valueChanged)
         itemEnabledStackView.addArrangedSubview(itemEnabledSwitch)
         itemCustomizationContainer.addArrangedSubview(itemEnabledStackView)
 
+        let disableMenuItemsStackView = createHorizontalStackView()
+        disableMenuItemsStackView.addArrangedSubview(createLabelWithText("Disable Undo Menu Items"))
+        let disableMenuItemsSwitch: BrandedSwitch = BrandedSwitch()
+        disableMenuItemsSwitch.isOn = false
+        disableMenuItemsSwitch.addTarget(self, action: #selector(disableMenuItemValueChanged), for: .valueChanged)
+        disableMenuItemsStackView.addArrangedSubview(disableMenuItemsSwitch)
+        itemCustomizationContainer.addArrangedSubview(disableMenuItemsStackView)
+
         let itemHiddenStackView = createHorizontalStackView()
         itemHiddenStackView.addArrangedSubview(createLabelWithText("'Delete' Hidden"))
-        let itemHiddenSwitch: UISwitch = UISwitch()
+        let itemHiddenSwitch: BrandedSwitch = BrandedSwitch()
         itemHiddenSwitch.isOn = false
         itemHiddenSwitch.addTarget(self, action: #selector(itemHiddenValueChanged), for: .valueChanged)
         itemHiddenStackView.addArrangedSubview(itemHiddenSwitch)
@@ -256,7 +264,7 @@ class CommandBarDemoController: DemoController {
 
         let commandBarDelegateEventAnimationView = createHorizontalStackView()
         commandBarDelegateEventAnimationView.addArrangedSubview(createLabelWithText("Animate CommandBarDelegate Events"))
-        let commandBarDelegateEventAnimationSwitch: UISwitch = UISwitch()
+        let commandBarDelegateEventAnimationSwitch: BrandedSwitch = BrandedSwitch()
         commandBarDelegateEventAnimationSwitch.isOn = animateCommandBarDelegateEvents
         commandBarDelegateEventAnimationSwitch.addTarget(self, action: #selector(animateCommandBarDelegateEventsValueChanged), for: .valueChanged)
         commandBarDelegateEventAnimationView.addArrangedSubview(commandBarDelegateEventAnimationSwitch)
@@ -270,13 +278,13 @@ class CommandBarDemoController: DemoController {
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
         fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
-        fixedButtonCommandBar.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        fixedButtonCommandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
 
         let textFieldContainer = UIView()
-        textFieldContainer.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        textFieldContainer.backgroundColor = view.fluentTheme.color(.background3)
         textFieldContainer.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: textFieldContainer.topAnchor, constant: 16.0),
@@ -351,6 +359,7 @@ class CommandBarDemoController: DemoController {
         let label = Label()
         label.text = text
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }
 
@@ -368,7 +377,7 @@ class CommandBarDemoController: DemoController {
         )
 
         commandBarItem.accentImage = command.accentImage
-        commandBarItem.accentImageTintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
+        commandBarItem.accentImageTintColor = view.fluentTheme.color(.brandForeground1)
 
         if command == .customView {
             commandBarItem.customControlView = { () -> UIView in
@@ -407,8 +416,9 @@ class CommandBarDemoController: DemoController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .fillProportionally
         stackView.spacing = CommandBarDemoController.horizontalStackViewSpacing
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: CommandBarDemoController.horizontalStackViewSpacing, bottom: 0, trailing: CommandBarDemoController.horizontalStackViewSpacing)
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }
 
@@ -418,6 +428,22 @@ class CommandBarDemoController: DemoController {
         }
 
         item.isEnabled = sender.isOn
+    }
+
+    @objc func disableMenuItemValueChanged(sender: UISwitch!) {
+        guard let item: CommandBarItem = defaultCommandBar?.itemGroups[4][0] else {
+            return
+        }
+
+        if sender.isOn {
+            let disabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), attributes: .disabled, handler: { _ in }),
+                                            UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), attributes: .disabled, handler: { _ in })])
+            item.menu = disabledMenu
+        } else {
+            let enabledMenu = UIMenu(children: [UIAction(title: "Copy Image", image: UIImage(named: "copy24Regular"), handler: { _ in }),
+                                            UIAction(title: "Copy Text", image: UIImage(named: "text24Regular"), handler: { _ in })])
+            item.menu = enabledMenu
+        }
     }
 
     @objc func itemHiddenValueChanged(sender: UISwitch!) {
@@ -493,13 +519,13 @@ extension CommandBarDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.red, .primary)) }
+            .itemBackgroundColorRest: .uiColor { GlobalTokens.sharedColor(.red, .primary) }
         ]
     }
 
     private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
-            .itemBackgroundColorRest: .dynamicColor { DynamicColor(light: GlobalTokens.sharedColors(.grape, .primary)) }
+            .itemBackgroundColorRest: .uiColor { GlobalTokens.sharedColor(.grape, .primary) }
         ]
     }
 }
@@ -510,7 +536,7 @@ extension CommandBarDemoController: CommandBarDelegate {
             let originalBackgroundColor = commandBar.backgroundColor
 
             UIView.animate(withDuration: 1.0, delay: 0.0, options: [.allowUserInteraction]) {
-                commandBar.backgroundColor = UIColor(dynamicColor: self.view.fluentTheme.aliasTokens.colors[.brandBackground1])
+                commandBar.backgroundColor = self.view.fluentTheme.color(.brandBackground1)
             } completion: { _ in
                 commandBar.backgroundColor = originalBackgroundColor
             }

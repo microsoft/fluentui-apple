@@ -19,6 +19,15 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
         super.init(rootView: NotificationDemoView())
         self.title = "Notification View Vnext (SwiftUI)"
     }
+
+    override func willMove(toParent parent: UIViewController?) {
+        guard let parent,
+              let window = parent.view.window else {
+            return
+        }
+
+        rootView.fluentTheme = window.fluentTheme
+    }
 }
 
 struct NotificationDemoView: View {
@@ -39,13 +48,41 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
+    @State var useCustomTheme: Bool = false
+    @ObservedObject var fluentTheme: FluentTheme = .shared
+    let customTheme: FluentTheme = {
+        let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
+                                      dark: GlobalTokens.sharedColor(.lavender, .tint40))
+        let colorOverrides = [
+            FluentTheme.ColorToken.brandBackgroundTint: UIColor(light: GlobalTokens.sharedColor(.lavender, .tint40),
+                                                                dark: GlobalTokens.sharedColor(.lavender, .shade30)),
+            FluentTheme.ColorToken.brandForeground1: foregroundColor,
+            FluentTheme.ColorToken.brandForegroundTint: foregroundColor
+        ]
+        return FluentTheme(colorOverrides: colorOverrides)
+    }()
 
     public var body: some View {
+        let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
         let hasAttribute = hasBlueStrikethroughAttribute || hasLargeRedPapyrusFontAttribute
-        let bothAttributes = [NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue, .font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
-        let blueStrikethroughAttribute = [.font: UIFont.preferredFont(forTextStyle: .body), NSAttributedString.Key.strikethroughStyle: 1, NSAttributedString.Key.strikethroughColor: UIColor.blue] as [NSAttributedString.Key: Any]
-        let redPapyrusFontAttribute = [.font: UIFont.init(name: "Papyrus", size: 30.0)!, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
+        let bothAttributes = [
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue,
+            .font: font,
+            .foregroundColor: UIColor.red
+        ] as [NSAttributedString.Key: Any]
+
+        let blueStrikethroughAttribute = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+            NSAttributedString.Key.strikethroughStyle: 1,
+            NSAttributedString.Key.strikethroughColor: UIColor.blue
+        ] as [NSAttributedString.Key: Any]
+
+        let redPapyrusFontAttribute = [.font: font, .foregroundColor: UIColor.red] as [NSAttributedString.Key: Any]
+
         let attributedMessage = NSMutableAttributedString(string: message, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
+
         let attributedTitle = NSMutableAttributedString(string: title, attributes: (hasLargeRedPapyrusFontAttribute && hasBlueStrikethroughAttribute) ? bothAttributes : (hasLargeRedPapyrusFontAttribute ? redPapyrusFontAttribute : blueStrikethroughAttribute))
 
         let image = showImage ? UIImage(named: "play-in-circle-24x24") : nil
@@ -55,6 +92,7 @@ struct NotificationDemoView: View {
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
+        let theme = useCustomTheme ? customTheme : fluentTheme
 
 #if DEBUG
         let accessibilityIdentifier: String = {
@@ -215,6 +253,7 @@ struct NotificationDemoView: View {
                         FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
                         FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
                         FluentUIDemoToggle(titleKey: "Background Gradient", isOn: $showBackgroundGradient)
+                        FluentUIDemoToggle(titleKey: "Custom theme", isOn: $useCustomTheme)
                     }
                 }
                 .padding()
@@ -240,14 +279,16 @@ struct NotificationDemoView: View {
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
+        .fluentTheme(theme)
+        .tint(Color(theme.color(.brandForeground1)))
     }
 
     private var backgroundGradient: LinearGradientInfo {
         // It's a lovely blue-to-pink gradient
-        let colors: [DynamicColor] = [DynamicColor(light: GlobalTokens.sharedColors(.pink, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.pink, .shade40)),
-                                      DynamicColor(light: GlobalTokens.sharedColors(.cyan, .tint50),
-                                                   dark: GlobalTokens.sharedColors(.cyan, .shade40))]
+        let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
+                                         dark: GlobalTokens.sharedColor(.pink, .shade40)),
+                                 UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
+                                         dark: GlobalTokens.sharedColor(.cyan, .shade40))]
         return LinearGradientInfo(colors: colors,
                                   startPoint: .init(x: 0.0, y: 1.0),
                                   endPoint: .init(x: 1.0, y: 0.0))
@@ -255,15 +296,15 @@ struct NotificationDemoView: View {
 
     private var notificationOverrideTokens: [NotificationTokenSet.Tokens: ControlTokenValue] {
         return [
-            .imageColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orange, .primary))
+            .imageColor: .uiColor {
+                return GlobalTokens.sharedColor(.orange, .primary)
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(keyColor: DynamicColor(light: GlobalTokens.sharedColors(.hotPink, .primary)),
+                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
                                   keyBlur: 10.0,
                                   xKey: 10.0,
                                   yKey: 10.0,
-                                  ambientColor: DynamicColor(light: GlobalTokens.sharedColors(.teal, .primary)),
+                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
                                   ambientBlur: 100.0,
                                   xAmbient: -10.0,
                                   yAmbient: -10.0)

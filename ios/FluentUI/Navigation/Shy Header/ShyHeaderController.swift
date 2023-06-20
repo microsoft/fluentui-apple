@@ -71,17 +71,11 @@ class ShyHeaderController: UIViewController {
 
     init(contentViewController: UIViewController, containingView: UIView?) {
         self.contentViewController = contentViewController
-        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
-        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
-
         self.containingView = containingView
 
         super.init(nibName: nil, bundle: nil)
 
-        shyHeaderView.parentController = self
-        shyHeaderView.maxHeightChanged = { [weak self] in
-            self?.updatePadding()
-        }
+        setupShyHeaderView()
 
         loadViewIfNeeded()
         addChild(contentViewController)
@@ -130,6 +124,12 @@ class ShyHeaderController: UIViewController {
         updateNavigationBarStyle()
     }
 
+    // This is needed as a safety measure to ensure the colors are updated with the correct theme
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateNavigationBarStyle()
+    }
+
     // MARK: - Base Construction
 
     /// Constructs the UI for the gesture-based configuration
@@ -148,7 +148,7 @@ class ShyHeaderController: UIViewController {
         paddingHeightConstraint = paddingHeight
 
         let paddingLeading = paddingView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        paddingHeight.identifier = "paddingView_leading"
+        paddingLeading.identifier = "paddingView_leading"
         constraints.append(paddingLeading)
 
         let paddingTrailing = paddingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -156,7 +156,7 @@ class ShyHeaderController: UIViewController {
         constraints.append(paddingTrailing)
 
         let paddingTop = paddingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        paddingTop.identifier = "shyView_top"
+        paddingTop.identifier = "paddingView_top"
         constraints.append(paddingTop)
 
         // ShyHeaderView
@@ -210,6 +210,16 @@ class ShyHeaderController: UIViewController {
         view.bringSubviewToFront(paddingView)
     }
 
+    private func setupShyHeaderView() {
+        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
+        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        shyHeaderView.paddingView = paddingView
+        shyHeaderView.parentController = self
+        shyHeaderView.maxHeightChanged = { [weak self] in
+            self?.updatePadding()
+        }
+    }
+
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
         // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
@@ -250,8 +260,8 @@ class ShyHeaderController: UIViewController {
             }
         }
 
-        // if the originator is a LargeTitleView, make sure it belongs to this heirarchy
-        if let originatorTitleView = expansionRequestOriginator as? LargeTitleView {
+        // if the originator is an AvatarTitleView, make sure it belongs to this hierarchy
+        if let originatorTitleView = expansionRequestOriginator as? AvatarTitleView {
             guard originatorTitleView == msfNavigationController?.msfNavigationBar.titleView else {
                 return false
             }
@@ -271,7 +281,7 @@ class ShyHeaderController: UIViewController {
         }
     }
 
-    private func updatePadding() {
+    func updatePadding() {
         shyHeaderView.lockedInContractedState = msfNavigationController?.msfNavigationBar.barHeight == .contracted
         paddingHeightConstraint?.constant = paddingIsStatic ? paddingViewHeight : 0
         shyViewHeightConstraint?.constant = shyHeaderView.maxHeight

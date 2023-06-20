@@ -20,9 +20,9 @@ class TabBarViewDemoController: DemoController {
     private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
     private var useHigherBadgeNumbers: Bool { return useHigherBadgeNumbersSwitch.isOn }
 
-    private let itemTitleVisibilitySwitch = UISwitch()
-    private let showBadgeNumbersSwitch = UISwitch()
-    private let useHigherBadgeNumbersSwitch = UISwitch()
+    private let itemTitleVisibilitySwitch = BrandedSwitch()
+    private let showBadgeNumbersSwitch = BrandedSwitch()
+    private let useHigherBadgeNumbersSwitch = BrandedSwitch()
 
     private lazy var incrementBadgeButton: Button = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
@@ -80,7 +80,7 @@ class TabBarViewDemoController: DemoController {
             updatedTabBarView.items = [
                 homeItem,
                 TabBarItem(title: "New", image: UIImage(named: "New_24")!, selectedImage: UIImage(named: "New_Selected_24")!),
-              TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
+                TabBarItem(title: "Open", image: UIImage(named: "Open_24")!, selectedImage: UIImage(named: "Open_Selected_24")!)
             ]
         } else {
             homeItem = homeItem(shouldShowTitle: false)
@@ -191,5 +191,67 @@ extension TabBarViewDemoController: TabBarViewDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TabBarViewDemoController: DemoAppearanceDelegate
+extension TabBarViewDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: TabBarTokenSet.self,
+                             tokenSet: isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        let tokens = isOverrideEnabled ? perControlOverrideTabBarItemTokens : nil
+        tabBarView?.tokenSet.replaceAllOverrides(with: tokens)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: TabBarTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideTabBarTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            }
+        ]
+    }
+
+    private var perControlOverrideTabBarItemTokens: [TabBarTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tabBarItemTitleLabelFontPortrait: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
+            },
+            .tabBarItemTitleLabelFontLandscape: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
+            },
+            .tabBarItemSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.burgundy, .tint10),
+                               lightHighContrast: GlobalTokens.sharedColor(.pumpkin, .tint10),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.teal, .tint40))
+            },
+            .tabBarItemUnselectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint20),
+                               lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            }
+        ]
     }
 }

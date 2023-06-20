@@ -32,7 +32,7 @@ open class NavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return msfNavigationBar.style == .system ? .default : .lightContent
+        return (msfNavigationBar.style == .system || msfNavigationBar.style == .gradient) ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
@@ -78,6 +78,8 @@ open class NavigationController: UINavigationController {
         }
 
         super.delegate = self
+
+        msfNavigationBar.backButtonDelegate = self
 
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
@@ -129,7 +131,7 @@ open class NavigationController: UINavigationController {
         if viewController is ShyHeaderController {
             return false
         }
-        if viewController.navigationItem.usesLargeTitle || viewController.navigationItem.accessoryView != nil {
+        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
             return true
         }
         return false
@@ -142,6 +144,9 @@ open class NavigationController: UINavigationController {
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
             transitionAnimator.tintColor = backgroundColor
         }
+        // ShyHeaderController sets its padding before the navigation item loads in,
+        // so we need to recalculate its padding now
+        (topViewController as? ShyHeaderController)?.updatePadding()
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
@@ -233,5 +238,13 @@ extension NavigationController: UINavigationControllerDelegate {
         transitionAnimator.navigationController = navigationController
         transitionAnimator.operation = operation
         return transitionAnimator
+    }
+}
+
+// MARK: - NavigationController: NavigationBarBackButtonDelegate
+
+extension NavigationController: NavigationBarBackButtonDelegate {
+    func backButtonWasPressed() {
+        popViewController(animated: true)
     }
 }

@@ -47,6 +47,7 @@ class CommandBarButtonGroupView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = CommandBarTokenSet.itemInterspace
+        stackView.distribution = .fillEqually
 
         return stackView
     }()

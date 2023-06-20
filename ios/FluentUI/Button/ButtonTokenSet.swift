@@ -9,12 +9,41 @@ import UIKit
 
 @objc(MSFButtonStyle)
 public enum ButtonStyle: Int, CaseIterable {
+    /// A button with no border, neutral foreground, and brand background.
     case accent
+
+    /// A button with brand border, brand foreground, and no background.
     case outline
+
+    /// A button with neutral border, neutral foreground, and no brackground.
+    case outlineNeutral
+
+    /// A button with no border, brand foreground, and no background.
     case subtle
+
+    /// A button with no border, neutral foreground, and danger background.
     case danger
+
+    /// A button with danger border, danger foreground, and no background.
     case dangerOutline
+
+    /// A button with no border, danger foreground, and no background.
     case dangerSubtle
+
+    /// A floating button with no border, neutral foreground, and brand background.
+    case floatingAccent
+
+    /// A floating button with no border, neutral foreground, and neutral background.
+    case floatingSubtle
+
+    public var isFloating: Bool {
+        switch self {
+        case .floatingAccent, .floatingSubtle:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: ButtonSizeCategory
@@ -70,6 +99,12 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
 
         /// Defines the font of the title of the button
         case titleFont
+
+        /// Defines the shadow of the button
+        case shadowRest
+
+        /// Defines the shadow of the button when focused, disabled, or pressed
+        case shadowPressed
     }
 
     init(style: @escaping () -> ButtonStyle,
@@ -79,95 +114,103 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
         super.init { [style, size] token, theme in
             switch token {
             case .backgroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent:
-                        return theme.aliasTokens.colors[.brandBackground1]
-                    case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .floatingAccent:
+                        return theme.color(.brandBackground1)
+                    case .outline, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                        return .clear
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerBackground2]
+                        return theme.color(.dangerBackground2)
+                    case .floatingSubtle:
+                        return theme.color(.background1)
                     }
                 }
             case .backgroundFocusedColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent:
-                        return theme.aliasTokens.colors[.brandBackground1Selected]
-                    case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .floatingAccent:
+                        return theme.color(.brandBackground1Selected)
+                    case .outline, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                        return .clear
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerBackground2]
+                        return theme.color(.dangerBackground2)
+                    case .floatingSubtle:
+                        return theme.color(.background1)
                     }
                 }
             case .backgroundDisabledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent, .danger:
-                        return theme.aliasTokens.colors[.background5]
-                    case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .danger, .floatingAccent, .floatingSubtle:
+                        return theme.color(.background5)
+                    case .outline, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                        return .clear
                     }
                 }
             case .backgroundPressedColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent:
-                        return theme.aliasTokens.colors[.brandBackground1Pressed]
-                    case .outline, .subtle, .dangerOutline, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .floatingAccent:
+                        return theme.color(.brandBackground1Pressed)
+                    case .outline, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                        return .clear
                     case .danger:
-                        return theme.aliasTokens.colors[.dangerBackground2]
+                        return theme.color(.dangerBackground2)
+                    case .floatingSubtle:
+                        return theme.color(.background1Pressed)
                     }
                 }
             case .borderColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                        return .clear
                     case .outline:
-                        return theme.aliasTokens.colors[.brandStroke1]
+                        return theme.color(.brandStroke1)
+                    case .outlineNeutral:
+                        return theme.color(.stroke1)
                     case .dangerOutline:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                        return theme.color(.dangerForeground2)
                     }
                 }
             case .borderFocusedColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
-                    case .outline:
-                        return theme.aliasTokens.colors[.strokeFocus2]
-                    case .dangerOutline:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                        return .clear
+                    case .outline, .outlineNeutral, .dangerOutline:
+                        return theme.color(.strokeFocus2)
                     }
                 }
             case .borderDisabledColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
-                    case .outline, .dangerOutline:
-                        return theme.aliasTokens.colors[.strokeDisabled]
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                        return .clear
+                    case .outline, .outlineNeutral, .dangerOutline:
+                        return theme.color(.strokeDisabled)
                     }
                 }
             case .borderPressedColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
-                        return DynamicColor(light: ColorValue.clear)
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                        return .clear
                     case .outline:
-                        return theme.aliasTokens.colors[.brandStroke1Pressed]
+                        return theme.color(.brandStroke1Pressed)
+                    case .outlineNeutral:
+                        return theme.color(.stroke1Pressed)
                     case .dangerOutline:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                        return theme.color(.dangerForeground2)
                     }
                 }
             case .borderWidth:
                 return .float {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle:
+                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return GlobalTokens.stroke(.widthNone)
-                    case .outline, .dangerOutline:
+                    case .outline, .outlineNeutral, .dangerOutline:
                         return GlobalTokens.stroke(.width10)
                     }
                 }
@@ -181,42 +224,55 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
                     }
                 }
             case .foregroundColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                    case .accent, .floatingAccent:
+                        return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
+                    case .outlineNeutral:
+                        return theme.color(.foreground1)
                     case .danger:
-                        return theme.aliasTokens.colors[.foregroundLightStatic]
+                        return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                        return theme.color(.dangerForeground2)
+                    case .floatingSubtle:
+                        return theme.color(.foreground2)
                     }
                 }
             case .foregroundDisabledColor:
-                return .dynamicColor { theme.aliasTokens.colors[.foregroundDisabled1] }
+                return .uiColor { theme.color(.foregroundDisabled1) }
             case .foregroundPressedColor:
-                return .dynamicColor {
+                return .uiColor {
                     switch style() {
-                    case .accent:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                    case .accent, .floatingAccent:
+                        return theme.color(.foregroundOnColor)
                     case .outline, .subtle:
-                        return theme.aliasTokens.colors[.brandForeground1Pressed]
+                        return theme.color(.brandForeground1Pressed)
+                    case .outlineNeutral:
+                        return theme.color(.foreground1)
                     case .danger:
-                        return theme.aliasTokens.colors[.foregroundLightStatic]
+                        return theme.color(.foregroundLightStatic)
                     case .dangerOutline, .dangerSubtle:
-                        return theme.aliasTokens.colors[.dangerForeground2]
+                        return theme.color(.dangerForeground2)
+                    case .floatingSubtle:
+                        return theme.color(.foreground2)
                     }
                 }
             case .titleFont:
-                return .fontInfo {
+                return .uiFont {
                     switch size() {
                     case .large:
-                        return theme.aliasTokens.typography[.body1Strong]
+                        return theme.typography(.body1Strong, adjustsForContentSizeCategory: !style().isFloating)
                     case .medium, .small:
-                        return theme.aliasTokens.typography[.caption1Strong]
+                        return style().isFloating ? theme.typography(.body2Strong, adjustsForContentSizeCategory: false) : theme.typography(.caption1Strong)
                     }
                 }
+            case .shadowRest:
+                return .shadowInfo { style().isFloating ? theme.shadow(.shadow08) : theme.shadow(.clear) }
+            case .shadowPressed:
+                return .shadowInfo { style().isFloating ? theme.shadow(.shadow02) : theme.shadow(.clear) }
+
             }
         }
     }
@@ -227,36 +283,68 @@ public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
 
 extension ButtonTokenSet {
     /// The value for the horizontal padding between the content of the button and the frame.
-    static func horizontalPadding(_ size: ButtonSizeCategory) -> CGFloat {
+    static func horizontalPadding(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        if style.isFloating {
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size160)
+            case .medium, .small:
+                return GlobalTokens.spacing(.size120)
+            }
+        } else {
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size200)
+            case .medium:
+                return GlobalTokens.spacing(.size120)
+            case .small:
+                return GlobalTokens.spacing(.size80)
+            }
+        }
+    }
+
+    /// The value for the right padding between the content of the button and the frame for a FAB button with an icon and text.
+    static func fabAlternativePadding(_ size: ButtonSizeCategory) -> CGFloat {
         switch size {
         case .large:
             return GlobalTokens.spacing(.size200)
-        case .medium:
-            return GlobalTokens.spacing(.size120)
-        case .small:
-            return GlobalTokens.spacing(.size80)
+        case .medium, .small:
+            return GlobalTokens.spacing(.size160)
         }
     }
 
     /// The minimum value for the height of the content of the button.
-    static func minContainerHeight(_ size: ButtonSizeCategory) -> CGFloat {
-        switch size {
-        case .large:
-            return 52
-        case .medium:
-            return 40
-        case .small:
-            return 28
+    static func minContainerHeight(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        if style.isFloating {
+            switch size {
+            case .large:
+                return 56
+            case .medium, .small:
+                return 48
+            }
+        } else {
+            switch size {
+            case .large:
+                return 52
+            case .medium:
+                return 40
+            case .small:
+                return 28
+            }
         }
     }
 
     /// The value for the spacing between the title and image.
-    static func titleImageSpacing(_ size: ButtonSizeCategory) -> CGFloat {
-        switch size {
-        case .large, .medium:
+    static func titleImageSpacing(style: ButtonStyle, size: ButtonSizeCategory) -> CGFloat {
+        if style.isFloating {
             return GlobalTokens.spacing(.size80)
-        case .small:
-            return GlobalTokens.spacing(.size40)
+        } else {
+            switch size {
+            case .large, .medium:
+                return GlobalTokens.spacing(.size80)
+            case .small:
+                return GlobalTokens.spacing(.size40)
+            }
         }
     }
 }

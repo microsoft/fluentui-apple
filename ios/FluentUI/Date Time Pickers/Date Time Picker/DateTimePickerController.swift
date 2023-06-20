@@ -143,7 +143,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBackgroundColor() {
-        view.backgroundColor = UIColor(dynamicColor: DynamicColor(light: view.fluentTheme.aliasTokens.colors[.background2].light, dark: view.fluentTheme.aliasTokens.colors[.background2].dark))
+        view.backgroundColor = UIColor(light: view.fluentTheme.color(.background2).light,
+                                       dark: view.fluentTheme.color(.background2).dark)
     }
 
     override func viewWillLayoutSubviews() {
@@ -163,8 +164,8 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func updateBarButtonColors() {
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.brandForeground1])
-        navigationItem.leftBarButtonItem?.tintColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.foreground2])
+        navigationItem.rightBarButtonItem?.tintColor = view.fluentTheme.color(.brandForeground1)
+        navigationItem.leftBarButtonItem?.tintColor = view.fluentTheme.color(.foreground2)
     }
 
     override func accessibilityPerformEscape() -> Bool {
@@ -181,7 +182,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
             items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
                      SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
         }
-        let segmentedControl = SegmentedControl(items: items, style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
+        let segmentedControl = SegmentedControl(items: items, style: traitCollection.userInterfaceStyle == .dark ? .brandOverNavBarPill : .neutralOverNavBarPill)
         segmentedControl.onSelectAction = { [weak self] (_, index) in
             guard let strongSelf = self else {
                 return

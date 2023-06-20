@@ -169,52 +169,52 @@ class AvatarGroupDemoController: DemoTableViewController {
 
     private enum AvatarGroupDemoSection: CaseIterable {
         case settings
-        case avatarStackNoBorder
-        case avatarStackWithBorder
-        case avatarStackWithMixedBorder
-        case avatarPileNoBorder
-        case avatarPileWithBorder
-        case avatarPileWithMixedBorder
+        case avatarStackNoActivityRing
+        case avatarStackWithActivityRing
+        case avatarStackWithMixedActivityRing
+        case avatarPileNoActivityRing
+        case avatarPileWithActivityRing
+        case avatarPileWithMixedActivityRing
 
         var avatarStyle: MSFAvatarGroupStyle {
             switch self {
-            case .avatarStackNoBorder,
-                 .avatarStackWithBorder,
-                 .avatarStackWithMixedBorder:
+            case .avatarStackNoActivityRing,
+                 .avatarStackWithActivityRing,
+                 .avatarStackWithMixedActivityRing:
                 return .stack
-            case .avatarPileNoBorder,
-                 .avatarPileWithBorder,
-                 .avatarPileWithMixedBorder:
+            case .avatarPileNoActivityRing,
+                 .avatarPileWithActivityRing,
+                 .avatarPileWithMixedActivityRing:
                 return .pile
             case .settings:
                 preconditionFailure("Settings rows should not display an Avatar Group")
             }
         }
 
-        var showBorders: Bool {
+        var showActivityRing: Bool {
             switch self {
-            case .avatarStackNoBorder,
-                 .avatarPileNoBorder:
+            case .avatarStackNoActivityRing,
+                 .avatarPileNoActivityRing:
                 return false
-            case .avatarStackWithBorder,
-                 .avatarStackWithMixedBorder,
-                 .avatarPileWithBorder,
-                 .avatarPileWithMixedBorder:
+            case .avatarStackWithActivityRing,
+                 .avatarStackWithMixedActivityRing,
+                 .avatarPileWithActivityRing,
+                 .avatarPileWithMixedActivityRing:
                 return true
             case .settings:
                 preconditionFailure("Settings rows should not display an Avatar Group")
             }
         }
 
-        var isMixedBorder: Bool {
+        var isMixedActivityRing: Bool {
             switch self {
-            case .avatarPileWithMixedBorder,
-                 .avatarStackWithMixedBorder:
+            case .avatarPileWithMixedActivityRing,
+                 .avatarStackWithMixedActivityRing:
                 return true
-            case .avatarStackWithBorder,
-                 .avatarStackNoBorder,
-                 .avatarPileWithBorder,
-                 .avatarPileNoBorder:
+            case .avatarStackWithActivityRing,
+                 .avatarStackNoActivityRing,
+                 .avatarPileWithActivityRing,
+                 .avatarPileNoActivityRing:
                 return false
             case .settings:
                 preconditionFailure("Settings rows should not display an Avatar Group")
@@ -229,18 +229,18 @@ class AvatarGroupDemoController: DemoTableViewController {
             switch self {
             case .settings:
                 return "Settings"
-            case .avatarStackNoBorder:
-                return "Avatar Stack No Border"
-            case .avatarStackWithBorder:
-                return "Avatar Stack With Border"
-            case .avatarStackWithMixedBorder:
-                return "Avatar Stack With Mixed Border"
-            case .avatarPileNoBorder:
-                return "Avatar Pile No Border"
-            case .avatarPileWithBorder:
-                return "Avatar Pile With Border"
-            case .avatarPileWithMixedBorder:
-                return "Avatar Pile With Mixed Border"
+            case .avatarStackNoActivityRing:
+                return "Avatar Stack No Activity Ring"
+            case .avatarStackWithActivityRing:
+                return "Avatar Stack With Activity Ring"
+            case .avatarStackWithMixedActivityRing:
+                return "Avatar Stack With Mixed Activity Ring"
+            case .avatarPileNoActivityRing:
+                return "Avatar Pile No Activity Ring"
+            case .avatarPileWithActivityRing:
+                return "Avatar Pile With Activity Ring"
+            case .avatarPileWithMixedActivityRing:
+                return "Avatar Pile With Mixed Activity Ring"
             }
         }
 
@@ -252,12 +252,12 @@ class AvatarGroupDemoController: DemoTableViewController {
                         .customRingColor,
                         .maxDisplayedAvatars,
                         .overflow]
-            case .avatarStackNoBorder,
-                 .avatarStackWithBorder,
-                 .avatarStackWithMixedBorder,
-                 .avatarPileNoBorder,
-                 .avatarPileWithBorder,
-                 .avatarPileWithMixedBorder:
+            case .avatarStackNoActivityRing,
+                 .avatarStackWithActivityRing,
+                 .avatarStackWithMixedActivityRing,
+                 .avatarPileNoActivityRing,
+                 .avatarPileWithActivityRing,
+                 .avatarPileWithMixedActivityRing:
                 return [.titleSize72,
                         .groupViewSize72,
                         .titleSize56,
@@ -502,7 +502,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                         for index in 0..<avatarCount {
                             let samplePersona = samplePersonas[index]
                             avatarState!.image = samplePersona.image
-                            avatarState!.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
+                            avatarState!.isRingVisible = section.isMixedActivityRing ? index % 2 == 0 : section.showActivityRing
                             avatarState!.primaryText = samplePersona.name
                             avatarState!.secondaryText = samplePersona.email
                         }
@@ -581,7 +581,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                     let avatarState = avatarGroup.state.createAvatar()
                     let samplePersona = samplePersonas[index]
                     avatarState.image = samplePersona.image
-                    avatarState.isRingVisible = section.isMixedBorder ? index % 2 == 0 : section.showBorders
+                    avatarState.isRingVisible = section.isMixedActivityRing ? index % 2 == 0 : section.showActivityRing
                     avatarState.primaryText = samplePersona.name
                     avatarState.secondaryText = samplePersona.email
                 }

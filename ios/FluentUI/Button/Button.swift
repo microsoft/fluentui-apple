@@ -4,14 +4,13 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: - Button
 
-/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true to automatically update its font when device's content size category changes
+/// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true for non-floating buttons to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, TokenizedControlInternal {
+open class Button: UIButton, Shadowable, TokenizedControlInternal {
     @objc open var style: ButtonStyle = .outline {
         didSet {
             if style != oldValue {
@@ -54,6 +53,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
     }
 
+    /// The content insets of the buton.
     open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
@@ -64,22 +64,9 @@ open class Button: UIButton, TokenizedControlInternal {
                 adjustCustomContentEdgeInsetsForImage()
             }
 
-            if #available(iOS 15.0, *) {
-                var configuration = self.configuration ?? UIButton.Configuration.plain()
-                configuration.contentInsets = edgeInsets
-                self.configuration = configuration
-            } else {
-                let left: CGFloat
-                let right: CGFloat
-                if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                    left = edgeInsets.leading
-                    right = edgeInsets.trailing
-                } else {
-                    left = edgeInsets.trailing
-                    right = edgeInsets.leading
-                }
-                contentEdgeInsets = UIEdgeInsets(top: edgeInsets.top, left: left, bottom: edgeInsets.bottom, right: right)
-            }
+            var configuration = self.configuration ?? UIButton.Configuration.plain()
+            configuration.contentInsets = edgeInsets
+            self.configuration = configuration
         }
     }
 
@@ -88,63 +75,48 @@ open class Button: UIButton, TokenizedControlInternal {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth == 0 ? size.width : proposedTitleLabelWidth, height: size.width)) ?? .zero
-        contentSize.width = ceil(contentSize.width + edgeInsets.leading + edgeInsets.trailing)
-        contentSize.height = ceil(max(contentSize.height, ButtonTokenSet.minContainerHeight(sizeCategory)) + edgeInsets.top + edgeInsets.bottom)
+        var contentSize = titleLabel?.systemLayoutSizeFitting(CGSize(width: proposedTitleLabelWidth <= 0 ? size.width : proposedTitleLabelWidth, height: size.height)) ?? .zero
+        contentSize.height = ceil(max(contentSize.height + edgeInsets.top + edgeInsets.bottom, ButtonTokenSet.minContainerHeight(style: style, size: sizeCategory)))
 
-        if let image = image(for: .normal) {
-            contentSize.width += image.size.width
-            if #available(iOS 15.0, *) {
-                contentSize.width += ButtonTokenSet.titleImageSpacing(sizeCategory)
-            }
-
-            if titleLabel?.text?.count ?? 0 == 0 {
-                contentSize.width -= ButtonTokenSet.titleImageSpacing(sizeCategory)
-            }
-        }
+        let superSize = super.sizeThatFits(size)
+        contentSize.width = superSize.width
 
         return contentSize
     }
 
     open func initialize() {
-        layer.cornerRadius = tokenSet[.cornerRadius].float
-        layer.cornerCurve = .continuous
+        titleLabel?.adjustsFontForContentSizeCategory = !style.isFloating
 
-        titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
-        titleLabel?.adjustsFontForContentSizeCategory = true
-
-        if #available(iOS 15, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = edgeInsets
-            let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
-                var outgoing = incoming
-                outgoing.font = UIFont.fluent(self.tokenSet[.titleFont].fontInfo)
-                return outgoing
-            }
-            configuration.titleTextAttributesTransformer = titleTransformer
-            self.configuration = configuration
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = edgeInsets
+        let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = self.tokenSet[.titleFont].uiFont
+            return outgoing
         }
+        configuration.titleTextAttributesTransformer = titleTransformer
+        configuration.contentInsets = edgeInsets
+        self.configuration = configuration
 
         update()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever overrideTokens changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.update()
         }
+
+        addInteraction(UILargeContentViewerInteraction())
     }
 
     open override func didUpdateFocus(in context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-        guard style == .accent || style == .danger,
-              (self == context.nextFocusedView || self == context.previouslyFocusedView) else {
+        guard self == context.nextFocusedView || self == context.previouslyFocusedView else {
             return
         }
 
+        focusRing.isHidden = !isFocused
         updateBackground()
+        updateBorder()
+        updateShadow()
     }
 
     open override func willMove(toWindow newWindow: UIWindow?) {
@@ -158,31 +130,9 @@ open class Button: UIButton, TokenizedControlInternal {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
+        updateShadow()
 
         updateProposedTitleLabelWidth()
-    }
-
-    open override func imageRect(forContentRect contentRect: CGRect) -> CGRect {
-        var rect = CGRect.zero
-        if #available(iOS 15, *) {
-            assertionFailure("imageRect(forContentRect: ) has been deprecated in iOS 15.0")
-        } else {
-            rect = super.imageRect(forContentRect: contentRect)
-
-            if let image = image {
-                let imageHeight = image.size.height
-
-                // If the entire image doesn't fit in the default rect, increase the rect's height
-                // to fit the entire image and reposition the origin to keep the image centered.
-                if imageHeight > rect.size.height {
-                    rect.origin.y -= round((imageHeight - rect.size.height) / 2.0)
-                    rect.size.height = imageHeight
-                }
-
-                rect.size.width = image.size.width
-            }
-        }
-        return rect
     }
 
     @objc public init(style: ButtonStyle = .outline) {
@@ -204,19 +154,28 @@ open class Button: UIButton, TokenizedControlInternal {
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
+        guard let previousTraitCollection else {
+            return
+        }
+
+        if previousTraitCollection.userInterfaceStyle != traitCollection.userInterfaceStyle {
             updateBorder()
+        }
+
+        if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            invalidateIntrinsicContentSize()
         }
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(themeView.fluentTheme)
+    public func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
+        let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .outline
@@ -226,16 +185,11 @@ open class Button: UIButton, TokenizedControlInternal {
     })
 
     private func updateTitle() {
-        let foregroundColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
+        let foregroundColor = tokenSet[.foregroundColor].uiColor
         setTitleColor(foregroundColor, for: .normal)
         setTitleColor(foregroundColor, for: .focused)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor), for: .highlighted)
-        setTitleColor(UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor), for: .disabled)
-
-        if #available(iOS 15.0, *) {
-        } else {
-            titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
-        }
+        setTitleColor(tokenSet[.foregroundPressedColor].uiColor, for: .highlighted)
+        setTitleColor(tokenSet[.foregroundDisabledColor].uiColor, for: .disabled)
 
         updateProposedTitleLabelWidth()
     }
@@ -243,9 +197,9 @@ open class Button: UIButton, TokenizedControlInternal {
     private func updateImage() {
         let isDisplayingImage = image != nil
 
-        let normalColor = UIColor(dynamicColor: tokenSet[.foregroundColor].dynamicColor)
-        let highlightedColor = UIColor(dynamicColor: tokenSet[.foregroundPressedColor].dynamicColor)
-        let disabledColor = UIColor(dynamicColor: tokenSet[.foregroundDisabledColor].dynamicColor)
+        let normalColor = tokenSet[.foregroundColor].uiColor
+        let highlightedColor = tokenSet[.foregroundPressedColor].uiColor
+        let disabledColor = tokenSet[.foregroundDisabledColor].uiColor
         let needsSetImage = isDisplayingImage && image(for: .normal) == nil
 
         if needsSetImage || !normalColor.isEqual(normalImageTintColor) {
@@ -264,7 +218,7 @@ open class Button: UIButton, TokenizedControlInternal {
         }
 
         if needsSetImage {
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -280,7 +234,7 @@ open class Button: UIButton, TokenizedControlInternal {
             highlightedImageTintColor = nil
             disabledImageTintColor = nil
 
-            updateProposedTitleLabelWidth()
+            invalidateIntrinsicContentSize()
 
             if isUsingCustomContentEdgeInsets {
                 adjustCustomContentEdgeInsetsForImage()
@@ -293,6 +247,7 @@ open class Button: UIButton, TokenizedControlInternal {
         updateImage()
         updateBackground()
         updateBorder()
+        updateShadow()
 
         if !isUsingCustomContentEdgeInsets {
             edgeInsets = defaultEdgeInsets()
@@ -315,72 +270,82 @@ open class Button: UIButton, TokenizedControlInternal {
     private func adjustCustomContentEdgeInsetsForImage() {
         isAdjustingCustomContentEdgeInsetsForImage = true
 
-        var spacing = ButtonTokenSet.titleImageSpacing(sizeCategory)
-
-        if image(for: .normal) == nil {
-            spacing = -spacing
-        }
-
-        if #available(iOS 15.0, *) {
-            var configuration = self.configuration ?? UIButton.Configuration.plain()
-            configuration.contentInsets = edgeInsets
-            configuration.imagePadding = spacing
-            self.configuration = configuration
-        } else {
-            edgeInsets.trailing += spacing
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                titleEdgeInsets.left += spacing
-                titleEdgeInsets.right -= spacing
-            } else {
-                titleEdgeInsets.right += spacing
-                titleEdgeInsets.left -= spacing
-            }
-        }
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.contentInsets = edgeInsets
+        configuration.imagePadding = ButtonTokenSet.titleImageSpacing(style: style, size: sizeCategory)
+        self.configuration = configuration
 
         isAdjustingCustomContentEdgeInsetsForImage = false
     }
 
     private func updateBackground() {
-        let backgroundColor: DynamicColor
+        let backgroundColor: UIColor
 
         if !isEnabled {
-            backgroundColor = tokenSet[.backgroundDisabledColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundDisabledColor].uiColor
         } else if isHighlighted {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundPressedColor].uiColor
         } else if isFocused {
-            backgroundColor = tokenSet[.backgroundPressedColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundFocusedColor].uiColor
         } else {
-            backgroundColor = tokenSet[.backgroundColor].dynamicColor
+            backgroundColor = tokenSet[.backgroundColor].uiColor
         }
 
-        self.backgroundColor = UIColor(dynamicColor: backgroundColor)
-        layer.cornerRadius = tokenSet[.cornerRadius].float
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.background.backgroundColor = backgroundColor
+        if style.isFloating {
+            configuration.cornerStyle = .capsule
+        } else {
+            configuration.cornerStyle = .fixed
+            configuration.background.cornerRadius = tokenSet[.cornerRadius].float
+        }
+        self.configuration = configuration
     }
 
     private func updateBorder() {
-        let borderColor: DynamicColor
+        let borderColor: UIColor
 
         if !isEnabled {
-            borderColor = tokenSet[.borderDisabledColor].dynamicColor
+            borderColor = tokenSet[.borderDisabledColor].uiColor
         } else if isHighlighted {
-            borderColor = tokenSet[.borderPressedColor].dynamicColor
+            borderColor = tokenSet[.borderPressedColor].uiColor
+        } else if isFocused {
+            borderColor = tokenSet[.borderFocusedColor].uiColor
         } else {
-            borderColor = tokenSet[.borderColor].dynamicColor
+            borderColor = tokenSet[.borderColor].uiColor
         }
 
-        layer.borderColor = UIColor(dynamicColor: borderColor).resolvedColor(with: traitCollection).cgColor
-        layer.borderWidth = tokenSet[.borderWidth].float
+        var configuration = self.configuration ?? UIButton.Configuration.plain()
+        configuration.background.strokeColor = borderColor
+        configuration.background.strokeWidth = tokenSet[.borderWidth].float
+        self.configuration = configuration
     }
 
-    private func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
-        let horizontalPadding = ButtonTokenSet.horizontalPadding(sizeCategory)
-        return NSDirectionalEdgeInsets(top: 0, leading: horizontalPadding, bottom: 0, trailing: horizontalPadding)
+    private func updateShadow() {
+        // UIButton.Configuration doesn't set the layer by default, so in order
+        // for our shadow layers to work we need to update the layer.
+        let configuration = self.configuration ?? UIButton.Configuration.plain()
+        self.backgroundColor = configuration.background.backgroundColor
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = style.isFloating ? frame.height / 2 : configuration.background.cornerRadius
+
+        let shadowInfo = (!isEnabled || isHighlighted || isFocused) ? tokenSet[.shadowPressed].shadowInfo : tokenSet[.shadowRest].shadowInfo
+        shadowInfo.applyShadow(to: self)
     }
+
+    private lazy var focusRing: FocusRingView = {
+        let ringView = FocusRingView()
+        ringView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(ringView)
+        ringView.drawFocusRing(over: self)
+
+        return ringView
+    }()
 
     private var normalImageTintColor: UIColor?
     private var highlightedImageTintColor: UIColor?
     private var disabledImageTintColor: UIColor?
-    private var tokenSetSink: AnyCancellable?
 
     private var isUsingCustomContentEdgeInsets: Bool = false
     private var isAdjustingCustomContentEdgeInsetsForImage: Bool = false

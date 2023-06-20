@@ -32,9 +32,10 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
     }
 
     public var body: some View {
+        tokenSet.update(fluentTheme)
         let height = IndeterminateProgressBarTokenSet.height
-        let gradientColor = Color(dynamicColor: tokenSet[.gradientColor].dynamicColor)
-        let backgroundColor = Color(dynamicColor: tokenSet[.backgroundColor].dynamicColor)
+        let gradientColor = Color(tokenSet[.gradientColor].uiColor)
+        let backgroundColor = Color(tokenSet[.backgroundColor].uiColor)
         let accessibilityLabel: String = {
             if let overriddenAccessibilityLabel = state.accessibilityLabel {
                 return overriddenAccessibilityLabel
@@ -49,7 +50,7 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
         let accessibilityIdentifier: String = "Indeterminate Progress Bar that is \(state.isAnimating ? "in progress" : "progress halted")"
 #endif
 
-        Rectangle()
+        return Rectangle()
             .fill(LinearGradient(gradient: Gradient(colors: [backgroundColor, gradientColor, backgroundColor]),
                                  startPoint: startPoint,
                                  endPoint: endPoint))
@@ -73,13 +74,12 @@ public struct IndeterminateProgressBar: View, TokenizedControlView {
             .modifyIf(!state.isAnimating) { view in
                 view
                     .onAppear {
-                       stopAnimation()
+                        stopAnimation()
                     }
             }
             .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
                 view.hidden()
             })
-            .fluentTokens(tokenSet, fluentTheme)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme

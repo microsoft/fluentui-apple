@@ -59,6 +59,27 @@ extension UIColor {
         }
     }
 
+    /// Creates a dynamic color object that returns the appropriate light or dark color value based on the current
+    /// rendering context.
+    ///
+    /// Convenience wrapper for
+    ///`init(light:lightHighContrast:lightElevated:lightElevatedHighContrast:dark:darkHighContrast:darkElevated:darkElevatedHighContrast:)`
+    /// to simplify Objective-C consumption.
+    ///
+    /// - Parameter light: The default color for a light context. Required.
+    /// - Parameter dark: The override color for a dark context. Required.
+    @objc public convenience init(light: UIColor,
+                                  dark: UIColor) {
+        self.init(light: light,
+                  lightHighContrast: nil,
+                  lightElevated: nil,
+                  lightElevatedHighContrast: nil,
+                  dark: dark,
+                  darkHighContrast: nil,
+                  darkElevated: nil,
+                  darkElevatedHighContrast: nil)
+    }
+
     /// `DynamicColor` representation of the `UIColor` object.
     /// Requires the `UIColor` to be able to resolve its color values for at least the `.light` user interface style.
     public var dynamicColor: DynamicColor? {
@@ -98,6 +119,24 @@ extension UIColor {
             alpha: colorValue.a)
     }
 
+    /// Creates a `UIColor` instance with the specified three-channel, 8-bit-per-channel color value, usually in hex.
+    ///
+    /// For example: `0xFF0000` represents red, `0x00FF00` green, and `0x0000FF` blue. There is no way to specify an
+    /// alpha channel via this initializer. For that, use `init(red:green:blue:alpha)` instead.
+    ///
+    /// - Parameter hexValue: The color value to store, in 24-bit (three-channel, 8-bit) RGB.
+    ///
+    /// - Returns: A color object that stores the provided color information.
+    @objc public convenience init(hexValue: UInt32) {
+        let red: CGFloat = CGFloat((hexValue & 0x00FF0000) >> 16) / 255.0
+        let green: CGFloat = CGFloat((hexValue & 0x0000FF00) >> 8) / 255.0
+        let blue: CGFloat = CGFloat(hexValue & 0x000000FF) / 255.0
+        self.init(red: red,
+                  green: green,
+                  blue: blue,
+                  alpha: 1.0)
+    }
+
     /// Creates a dynamic color object that returns the appropriate color value based on the current
     /// rendering context.
     ///
@@ -109,6 +148,70 @@ extension UIColor {
                                             isElevated: traits.userInterfaceLevel == .elevated)
             return UIColor(colorValue: colorValue)
         }
+    }
+
+    @objc public var light: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .light) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var lightHighContrast: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .light,
+                                             accessibilityContrast: .high) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var lightElevated: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .light,
+                                             userInterfaceLevel: .elevated) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var lightElevatedHighContrast: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .light,
+                                             accessibilityContrast: .high,
+                                             userInterfaceLevel: .elevated) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var dark: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .dark) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var darkHighContrast: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .dark,
+                                             accessibilityContrast: .high) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var darkElevated: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .dark,
+                                             userInterfaceLevel: .elevated) else {
+            return self
+        }
+        return UIColor(colorValue: color)
+    }
+
+    @objc public var darkElevatedHighContrast: UIColor {
+        guard let color = resolvedColorValue(userInterfaceStyle: .dark,
+                                             accessibilityContrast: .high,
+                                             userInterfaceLevel: .elevated) else {
+            return self
+        }
+        return UIColor(colorValue: color)
     }
 
     private var colorValue: ColorValue? {

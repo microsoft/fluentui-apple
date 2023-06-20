@@ -3,9 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
-import CoreGraphics // for CGFloat
 import Combine
+import UIKit
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -54,9 +53,42 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
+    /// Convenience method to override multiple tokens from another token set.
+    ///
+    /// This is useful if `otherTokenSet` belongs to a parent control and `self` belongs to a child control.
+    ///
+    /// - Parameter otherTokenSet: The token set we will be pulling values from.
+    /// - Parameter mapping: A `Dictionary` that maps our own tokens that we wish to override with
+    /// their corresponding tokens in `otherTokenSet`.
+    func setOverrides<U>(from otherTokenSet: ControlTokenSet<U>, mapping: [T: U]) {
+        // Make a copy so we write all the values at once
+        var valueOverrideCopy = valueOverrides ?? [:]
+        mapping.forEach { (thisToken, otherToken) in
+            valueOverrideCopy[thisToken] = otherTokenSet.overrideValue(forToken: otherToken)
+        }
+        valueOverrides = valueOverrideCopy
+    }
+
     /// Initialize the `ControlTokenSet` with an escaping callback for fetching default values.
     init(_ defaults: @escaping (_ token: T, _ theme: FluentTheme) -> ControlTokenValue) {
         self.defaults = defaults
+    }
+
+    deinit {
+        deregisterOnUpdate()
+    }
+
+    /// Removes all `onUpdate`-based observing. Useful if you are re-registering the same tokenSet
+    /// for a new instance of a control (see `Tooltip` for an example).
+    func deregisterOnUpdate() {
+        if let notificationObserver {
+            NotificationCenter.default.removeObserver(notificationObserver,
+                                                      name: .didChangeTheme,
+                                                      object: nil)
+        }
+        changeSink = nil
+        notificationObserver = nil
+        onUpdate = nil
     }
 
     /// Prepares this token set by installing the current `FluentTheme` if it has changed.
@@ -68,22 +100,16 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         }
     }
 
-    /// Simplifies the process of observing changes to this token set.
-    ///
-    /// - Parameter receiveValue: A callback to be invoked after the token set has completed updating.
-    ///
-    /// - Returns: An `AnyCancellable` to track this observation.
-    func sinkChanges(receiveValue: @escaping () -> Void) -> AnyCancellable {
-        return self.objectWillChange.sink { [receiveValue] in
-            // Values will be updated on the next run loop iteration.
-            DispatchQueue.main.async {
-                receiveValue()
-            }
-        }
-    }
-
     // Internal accessor and setter functions for the override dictionary
 
+    /// Returns the current override value for a given token, or nil if none exists.
+    ///
+    /// This API will check `valueOverrides` first for local overrides, and `fluentTheme.tokens(for:)`
+    /// second, returning the first of those to be non-nil, or nil if both are unset.
+    ///
+    /// - Parameter token: The token key to fetch any existing override for.
+    ///
+    /// - Returns: the active override value for a given token, or nil if none exists.
     func overrideValue(forToken token: T) -> ControlTokenValue? {
         if let value = valueOverrides?[token] {
             return value
@@ -93,6 +119,10 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         return nil
     }
 
+    /// Sets an override value for a given token key.
+    ///
+    /// - Parameter value: The value to set as an override.
+    /// - Parameter token: The token key whose value should be set.
     func setOverrideValue(_ value: ControlTokenValue?, forToken token: T) {
         if valueOverrides == nil {
             valueOverrides = [:]
@@ -100,21 +130,79 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
         valueOverrides?[token] = value
     }
 
+    /// Registers an observing control for update calls.
+    ///
+    /// The `onUpdate` callback will be invoked in two cases:
+    /// 1. A new override value has been set on this `ControlTokenSet`.
+    /// 2. A `Notification.Name.didChangeTheme` notification was fired for either `control` or one of its superviews.
+    ///
+    /// Note: consecutive calls to this method will no-op; only the first invocation will be recognized. If you need to change
+    /// the view requesting updates, invoke `deregisterOnUpdate()` before calling `registerOnUpdate` a second time.
+    ///
+    /// - Parameter control: The `UIView` instance that wishes to observe.
+    /// - Parameter onUpdate: A callback to run whenever `control` should update itself.
+    func registerOnUpdate(for control: UIView, onUpdate: @escaping (() -> Void)) {
+        guard self.onUpdate == nil,
+              changeSink == nil,
+              notificationObserver == nil else {
+            assertionFailure("Attempting to double-register for tokenSet updates!")
+            return
+        }
+        self.onUpdate = onUpdate
+
+        changeSink = self.objectWillChange.sink { [weak self] in
+            // Values will be updated on the next run loop iteration.
+            DispatchQueue.main.async {
+                self?.onUpdate?()
+            }
+        }
+
+        // Register for notifications in order to call update() when the theme changes.
+        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                      object: nil,
+                                                                      queue: nil) { [weak self, weak control] notification in
+            guard let strongSelf = self,
+                  let themeView = notification.object as? UIView,
+                  let control,
+                  control.isDescendant(of: themeView)
+            else {
+                return
+            }
+            strongSelf.update(themeView.fluentTheme)
+        }
+    }
+
     /// The current `FluentTheme` associated with this `ControlTokenSet`.
-    @Published var fluentTheme: FluentTheme = FluentTheme.shared
+    var fluentTheme: FluentTheme = FluentTheme.shared {
+        didSet {
+            guard let onUpdate else {
+                return
+            }
+            onUpdate()
+        }
+    }
 
     /// Access to raw overrides for the `ControlTokenSet`.
     @Published private var valueOverrides: [T: ControlTokenValue]?
 
     /// Reference to the default value lookup function for this control.
     private var defaults: ((_ token: T, _ theme: FluentTheme) -> ControlTokenValue)?
+
+    /// Holds the sink for any changes to the control token set.
+    private var changeSink: AnyCancellable?
+
+    /// Stores the notification handler for .didChangeTheme notifications.
+    private var notificationObserver: NSObjectProtocol?
+
+    /// A callback to be invoked after the token set has completed updating.
+    private var onUpdate: (() -> Void)?
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
 public enum ControlTokenValue {
     case float(() -> CGFloat)
-    case dynamicColor(() -> DynamicColor)
-    case fontInfo(() -> FontInfo)
+    case uiColor(() -> UIColor)
+    case uiFont(() -> UIFont)
     case shadowInfo(() -> ShadowInfo)
 
     public var float: CGFloat {
@@ -126,21 +214,21 @@ public enum ControlTokenValue {
         }
     }
 
-    public var dynamicColor: DynamicColor {
-        if case .dynamicColor(let dynamicColor) = self {
-            return dynamicColor()
+    public var uiColor: UIColor {
+        if case .uiColor(let uiColor) = self {
+            return uiColor()
         } else {
-            assertionFailure("Cannot convert token to DynamicColor: \(self)")
+            assertionFailure("Cannot convert token to UIColor: \(self)")
             return fallbackColor
         }
     }
 
-    public var fontInfo: FontInfo {
-        if case .fontInfo(let fontInfo) = self {
-            return fontInfo()
+    public var uiFont: UIFont {
+        if case .uiFont(let uiFont) = self {
+            return uiFont()
         } else {
             assertionFailure("Cannot convert token to FontInfo: \(self)")
-            return FontInfo(size: 0.0)
+            return UIFont()
         }
     }
 
@@ -162,12 +250,12 @@ public enum ControlTokenValue {
 
     // MARK: - Helpers
 
-    private var fallbackColor: DynamicColor {
+    private var fallbackColor: UIColor {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
-        return DynamicColor(light: ColorValue(0xE3008C))
+        return GlobalTokens.sharedColor(.hotPink, .primary)
 #else
-        return DynamicColor(light: ColorValue(0x000000))
+        return GlobalTokens.neutralColor(.black)
 #endif
     }
 }
@@ -179,10 +267,10 @@ extension ControlTokenValue: CustomStringConvertible {
         switch self {
         case .float(let float):
             return "ControlTokenValue.float (\(float())"
-        case .dynamicColor(let dynamicColor):
-            return "ControlTokenValue.dynamicColor (\(dynamicColor())"
-        case .fontInfo(let fontInfo):
-            return "ControlTokenValue.fontInfo (\(fontInfo())"
+        case .uiColor(let uiColor):
+            return "ControlTokenValue.uiColor (\(uiColor())"
+        case .uiFont(let uiFont):
+            return "ControlTokenValue.uiFont (\(uiFont())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         }

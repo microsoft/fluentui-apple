@@ -145,7 +145,7 @@ class TooltipDemoController: DemoController {
 
 extension TooltipDemoController: TwoLineTitleViewDelegate {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "The two line title view was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
@@ -174,25 +174,25 @@ extension TooltipDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tooltipColor: .dynamicColor {
+            .tooltipColor: .uiColor {
                 // "Berry"
-                return DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
-                                    dark: GlobalTokens.sharedColors(.berry, .tint20))
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
+                               dark: GlobalTokens.sharedColor(.berry, .tint20))
             }
         ]
     }
 
     private var perControlOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
         return [
-            .tooltipColor: .dynamicColor {
+            .tooltipColor: .uiColor {
                 // "Brass"
-                return DynamicColor(light: GlobalTokens.sharedColors(.brass, .tint40),
-                                    dark: GlobalTokens.sharedColors(.brass, .shade30))
+                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint40),
+                               dark: GlobalTokens.sharedColor(.brass, .shade30))
             },
-            .textColor: .dynamicColor {
+            .textColor: .uiColor {
                 // "Forest"
-                return DynamicColor(light: GlobalTokens.sharedColors(.forest, .shade30),
-                                    dark: GlobalTokens.sharedColors(.forest, .tint40))
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .shade30),
+                               dark: GlobalTokens.sharedColor(.forest, .tint40))
             },
             .backgroundCornerRadius: .float {
                 return 0

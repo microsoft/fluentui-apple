@@ -75,36 +75,36 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .textFont:
-                return .fontInfo({
+                return .uiFont({
                     switch size() {
                     case .size16, .size20:
-                        return .init(size: 9, weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: 9, weight: .regular)
                     case .size24:
-                        return theme.aliasTokens.typography[.caption2]
+                        return theme.typography(.caption2, adjustsForContentSizeCategory: false)
                     case .size32:
-                        return theme.aliasTokens.typography[.caption1]
+                        return theme.typography(.caption1, adjustsForContentSizeCategory: false)
                     case .size40:
-                        return theme.aliasTokens.typography[.body2]
+                        return theme.typography(.body2, adjustsForContentSizeCategory: false)
                     case .size56:
-                        return .init(size: GlobalTokens.fontSize(.size500), weight: GlobalTokens.fontWeight(.regular))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size500), weight: .regular)
                     case .size72:
-                        return .init(size: GlobalTokens.fontSize(.size700), weight: GlobalTokens.fontWeight(.semibold))
+                        return .systemFont(ofSize: GlobalTokens.fontSize(.size700), weight: .semibold)
                     }
                 })
 
             case .ringDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
                     case .default, .group, .accent, .outlinedPrimary:
-                        return theme.aliasTokens.colors[.brandStroke1]
+                        return theme.color(.brandStroke1)
                     case .outlined, .overflow:
-                        return theme.aliasTokens.colors[.strokeAccessible]
+                        return theme.color(.strokeAccessible)
                     }
                 })
 
             case .ringGapColor:
-                return .dynamicColor({
-                    theme.aliasTokens.colors[.background1]
+                return .uiColor({
+                    theme.color(.background1)
                 })
 
             case .ringThickness:
@@ -150,45 +150,45 @@ public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
                 })
 
             case .borderColor:
-                return .dynamicColor({
-                    theme.aliasTokens.colors[.background1]
+                return .uiColor({
+                    theme.color(.background1)
                 })
 
             case .activityForegroundColor:
-                return .dynamicColor({
-                    theme.aliasTokens.colors[.foreground1]
+                return .uiColor({
+                    theme.color(.foreground1)
                 })
 
             case .activityBackgroundColor:
-                return .dynamicColor({
-                    theme.aliasTokens.colors[.background5]
+                return .uiColor({
+                    theme.color(.background5)
                 })
 
             case .backgroundDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
-                        return theme.aliasTokens.colors[.background1]
+                        return theme.color(.background1)
                     case .accent:
-                        return theme.aliasTokens.colors[.brandBackground1]
+                        return theme.color(.brandBackground1)
                     case .outlined, .overflow:
-                        return theme.aliasTokens.colors[.background5]
+                        return theme.color(.background5)
                     case .outlinedPrimary:
-                        return theme.aliasTokens.colors[.brandBackgroundTint]
+                        return theme.color(.brandBackgroundTint)
                     }
                 })
 
             case .foregroundDefaultColor:
-                return .dynamicColor({
+                return .uiColor({
                     switch style() {
                     case .default, .group:
-                        return theme.aliasTokens.colors[.brandForeground1]
+                        return theme.color(.brandForeground1)
                     case .accent:
-                        return theme.aliasTokens.colors[.foregroundOnColor]
+                        return theme.color(.foregroundOnColor)
                     case .outlined, .overflow:
-                        return theme.aliasTokens.colors[.foreground2]
+                        return theme.color(.foreground2)
                     case .outlinedPrimary:
-                        return theme.aliasTokens.colors[.brandForegroundTint]
+                        return theme.color(.brandForegroundTint)
                     }
                 })
             }

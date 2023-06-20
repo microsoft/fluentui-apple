@@ -70,7 +70,7 @@ class CommandBarTest: BaseTest {
 
     func testRemoveDeleteButton() throws {
         let numButtons: Int = app.buttons.count
-        let removeDeleteButtonSwitch: XCUIElement = app.switches.element(boundBy: 2)
+        let removeDeleteButtonSwitch: XCUIElement = app.switches.element(boundBy: 3)
 
         removeDeleteButtonSwitch.tap()
         XCTAssert(app.buttons.count == numButtons - 1)

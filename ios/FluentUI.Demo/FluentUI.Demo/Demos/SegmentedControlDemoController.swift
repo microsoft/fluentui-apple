@@ -28,62 +28,74 @@ class SegmentedControlDemoController: DemoController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background1])
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         readmeString = "A segmented control lets someone select one option from a set of two or more segments in a single, horizontal container.\n\nSegmented controls work well for changing states of elements or views within a single context, like filtering search results. It’s best not to use them to initiate actions or navigate to a new page. To let people navigate between the main sections of an app, use the tab bar."
 
         container.layoutMargins.left = 0
         container.layoutMargins.right = 0
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(3)),
-                       style: .primaryPill)
+                       style: .neutralOverNavBarPill)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Primary Pill")
+        addTitle(text: "Nav Bar Pill")
         addDescription(text: "not fixed width, unequal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        equalSegments: false,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Disabled Primary Pill")
+        addTitle(text: "Disabled Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .primaryPill,
+                       style: .neutralOverNavBarPill,
                        enabled: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "On Brand Pill")
+        addTitle(text: "On Brand Nav Bar Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(10)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        equalSegments: true,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "On Brand Pill")
+        addTitle(text: "On Brand Nav Bar Pill")
         addDescription(text: "not fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        isFixedWidth: false)
         container.addArrangedSubview(UIView())
 
-        addTitle(text: "Disabled On Brand Pill")
+        addTitle(text: "Disabled On Brand Nav Bar Pill")
         addDescription(text: "fixed width, equal buttons", textAlignment: .center)
         addPillControl(items: Array(segmentItems.prefix(2)),
-                       style: .onBrandPill,
+                       style: .brandOverNavBarPill,
                        enabled: false)
+
+        addTitle(text: "Over Canvas Pill")
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
+        addPillControl(items: Array(segmentItems.prefix(3)),
+                       style: .neutralOverCanvasPill,
+                       enabled: true)
+
+        addTitle(text: "Brand Over Canvas Pill")
+        addDescription(text: "fixed width, equal buttons", textAlignment: .center)
+        addPillControl(items: Array(segmentItems.prefix(3)),
+                       style: .brandOverCanvasPill,
+                       enabled: true)
     }
 
     @objc func updateLabel(forControl control: SegmentedControl) {
@@ -105,10 +117,12 @@ class SegmentedControlDemoController: DemoController {
 
         let backgroundStyle: ColoredPillBackgroundStyle = {
             switch style {
-            case .primaryPill:
-                return .neutral
-            case .onBrandPill:
-                return .brand
+            case .primaryPill, .neutralOverNavBarPill:
+                return .neutralNavBar
+            case .onBrandPill, .brandOverNavBarPill:
+                return .brandNavBar
+            case .neutralOverCanvasPill, .brandOverCanvasPill:
+                return .canvas
             }
         }()
         let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
@@ -172,16 +186,18 @@ extension SegmentedControlDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Times", size: 20.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             }
         ]
     }
 
     private var perControlOverrideSegmentedControlTokens: [SegmentedControlTokenSet.Tokens: ControlTokenValue] {
         return [
-            .font: .fontInfo {
-                return FontInfo(name: "Papyrus", size: 10.0, weight: .regular)
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 10.0),
+                              size: 10.0)
             }
         ]
     }

@@ -62,9 +62,16 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         static let contentBottomPadding: CGFloat = 10
         static let contentBottomPaddingCompact: CGFloat = 6
         static let accessoryHeight: CGFloat = 36
-        static let maxHeightNoAccessory: CGFloat = 56 - 44  // navigation bar - design: 56, system: 44
-        static let maxHeightNoAccessoryCompact: CGFloat = 44 - 32   // navigation bar - design: 44, system: 32
-        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - 44   // navigation bar - design: 44, system: 44
+        static let maxHeightNoAccessory: CGFloat = 56 - NavigationBarTokenSet.systemHeight  // navigation bar - design: 56, system: 44
+        static let maxHeightNoAccessoryCompact: CGFloat = 44 - NavigationBarTokenSet.compactSystemHeight   // navigation bar - design: 44, system: 32
+        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - NavigationBarTokenSet.systemHeight   // navigation bar - design: 44, system: 44
+    }
+
+    convenience init() {
+        self.init(frame: .zero)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {
@@ -139,12 +146,17 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         if traitCollection.verticalSizeClass == .compact {
             return traitCollection.horizontalSizeClass == .compact ? Constants.maxHeightNoAccessoryCompact : Constants.maxHeightNoAccessoryCompactForLargePhone
         }
+        if traitCollection.horizontalSizeClass == .compact && parentController?.msfNavigationController?.msfNavigationBar.usesLeadingTitle == false {
+            // This is a portrait phone with a system-style title, the navigation bar is already 44px tall
+            return 0
+        }
         return lockedInContractedState ? 0.0 : Constants.maxHeightNoAccessory
     }
     var maxHeightChanged: (() -> Void)?
 
     var lockedInContractedState: Bool = false
     weak var parentController: ShyHeaderController?
+    weak var paddingView: UIView?
 
     var navigationBarIsHidden: Bool = false {
         didSet {
@@ -170,6 +182,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
         let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         backgroundColor = color
+        paddingView?.backgroundColor = color
     }
 
     private let contentStackView = UIStackView()

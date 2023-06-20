@@ -22,21 +22,33 @@ struct Demos {
         DemoDescriptor("ActivityIndicator", ActivityIndicatorDemoController.self),
         DemoDescriptor("Avatar", AvatarDemoController.self),
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
+        DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
         DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
         DemoDescriptor("CommandBar", CommandBarDemoController.self),
+        DemoDescriptor("DrawerController", DrawerDemoController.self),
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
+        DemoDescriptor("MultilineCommandBar", MultilineCommandBarDemoController.self),
+        DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),
         DemoDescriptor("Other cells", OtherCellsDemoController.self),
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self),
+        DemoDescriptor("PillButton", PillButtonDemoController.self),
+        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
+        DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
+        DemoDescriptor("SearchBar", SearchBarDemoController.self),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self),
         DemoDescriptor("ShimmerView", ShimmerViewDemoController.self),
+        DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
+        DemoDescriptor("TabBarView", TabBarViewDemoController.self),
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self),
+        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self),
         DemoDescriptor("Text Field", TextFieldDemoController.self),
-        DemoDescriptor("Tooltip", TooltipDemoController.self)
+        DemoDescriptor("Tooltip", TooltipDemoController.self),
+        DemoDescriptor("TwoLineTitleView", TwoLineTitleViewDemoController.self)
     ]
 
     static let fluent2DesignTokens: [DemoDescriptor] = [
@@ -48,22 +60,12 @@ struct Demos {
 
     static let controls: [DemoDescriptor] = [
         DemoDescriptor("BadgeField", BadgeFieldDemoController.self),
-        DemoDescriptor("BadgeView", BadgeViewDemoController.self),
         DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
-        DemoDescriptor("DrawerController", DrawerDemoController.self),
-        DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
         DemoDescriptor("PersonaListView", PersonaListViewDemoController.self),
-        DemoDescriptor("PillButton", PillButtonDemoController.self),
-        DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self),
-        DemoDescriptor("PopupMenuController", PopupMenuDemoController.self),
-        DemoDescriptor("SearchBar", SearchBarDemoController.self),
-        DemoDescriptor("SideTabBar", SideTabBarDemoController.self),
-        DemoDescriptor("TabBarView", TabBarViewDemoController.self),
-        DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self),
-        DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self)
+        DemoDescriptor("TableViewCellShimmer", TableViewCellShimmerDemoController.self)
     ]
 
     static let debug: [DemoDescriptor] = [

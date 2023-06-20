@@ -15,6 +15,10 @@ class ButtonDemoController: DemoController {
 
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
+                if style.isFloating && size == .medium {
+                    continue
+                }
+
                 addTitle(text: style.description + ", " + size.description)
 
                 let button = createButton(with: style,
@@ -29,7 +33,7 @@ class ButtonDemoController: DemoController {
                 titleButtonStack.distribution = .fillProportionally
                 container.addArrangedSubview(titleButtonStack)
 
-                if let image = size.image {
+                if let image = style.image ?? size.image {
                     let iconButton = createButton(with: style,
                                                   sizeCategory: size,
                                                   title: "Text",
@@ -71,6 +75,11 @@ class ButtonDemoController: DemoController {
         container.addArrangedSubview(UIView())
 
         let customButton = createButton(with: .accent, sizeCategory: .small, title: "ToolBar Test Button")
+        customButton.tokenSet[.titleFont] = .uiFont { [weak self] in
+            let theme = self?.view.fluentTheme ?? FluentTheme.shared
+            return theme.typography(.caption1Strong, adjustsForContentSizeCategory: false)
+        }
+        customButton.showsLargeContentViewer = true
         let buttonBarItem = UIBarButtonItem.init(customView: customButton)
         customButton.sizeToFit()
         toolbarItems = [
@@ -96,6 +105,11 @@ class ButtonDemoController: DemoController {
         if let title = title {
             button.setTitle(title, for: .normal)
             button.titleLabel?.numberOfLines = 0
+            if style.isFloating {
+                button.showsLargeContentViewer = true
+            }
+        } else {
+            button.showsLargeContentViewer = true
         }
         if let image = image {
             button.image = image
@@ -122,7 +136,9 @@ extension ButtonStyle {
         case .accent:
             return "Accent"
         case .outline:
-            return "Outline"
+            return "Outline accent"
+        case .outlineNeutral:
+            return "Outline neutral"
         case .subtle:
             return "Subtle"
         case .danger:
@@ -131,6 +147,19 @@ extension ButtonStyle {
             return "Danger outline"
         case .dangerSubtle:
             return "Danger subtle"
+        case .floatingAccent:
+            return "Floating accent"
+        case .floatingSubtle:
+            return "Floating subtle"
+        }
+    }
+
+    var image: UIImage? {
+        switch self.isFloating {
+        case true:
+            return UIImage(named: "Placeholder_24")!
+        case false:
+            return nil
         }
     }
 }
@@ -181,30 +210,36 @@ extension ButtonDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Times", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .shade30),
-                                    dark: GlobalTokens.sharedColors(.marigold, .tint40))
+            .titleFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.marigold, .tint40),
-                                    dark: GlobalTokens.sharedColors(.marigold, .shade30))
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
+            },
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .tint40),
+                               dark: GlobalTokens.sharedColor(.marigold, .shade30))
             }
         ]
     }
 
     private var perControlOverrideButtonTokens: [ButtonTokenSet.Tokens: ControlTokenValue] {
         return [
-            .titleFont: .fontInfo { FontInfo(name: "Papyrus", size: 20.0, weight: .regular) },
-            .backgroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .shade30),
-                                    dark: GlobalTokens.sharedColors(.orchid, .tint40))
+            .titleFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
             },
-            .borderColor: .dynamicColor { DynamicColor(light: .clear) },
-            .foregroundColor: .dynamicColor {
-                return DynamicColor(light: GlobalTokens.sharedColors(.orchid, .tint40),
-                                    dark: GlobalTokens.sharedColors(.orchid, .shade30))
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
+            },
+            .borderColor: .uiColor { .clear },
+            .foregroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]
     }

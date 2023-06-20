@@ -9,6 +9,7 @@ import UIKit
 class TooltipView: UIView, Shadowable {
 
     init(anchorView: UIView,
+         hostViewController: UIViewController?,
          message: String,
          title: String? = nil,
          textAlignment: NSTextAlignment,
@@ -17,6 +18,7 @@ class TooltipView: UIView, Shadowable {
          arrowMargin: CGFloat,
          tokenSet: TooltipTokenSet) {
         self.anchorView = anchorView
+        self.hostViewController = hostViewController
         self.message = message
         self.titleMessage = title
         self.preferredArrowDirection = preferredArrowDirection
@@ -26,7 +28,7 @@ class TooltipView: UIView, Shadowable {
 
         let arrowImageViewBaseImage = UIImage.staticImageNamed("tooltip-arrow")
         arrowImageView = UIImageView(image: arrowImageViewBaseImage)
-        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
+        arrowImageView.image = arrowImageViewBaseImage?.withTintColor(tokenSet[.tooltipColor].uiColor, renderingMode: .alwaysOriginal)
 
         super.init(frame: .zero)
 
@@ -87,9 +89,9 @@ class TooltipView: UIView, Shadowable {
     }
 
     func updateFonts() {
-        messageLabel.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
+        messageLabel.font = tokenSet[.messageLabelTextStyle].uiFont
         if let titleLabel = titleLabel {
-            titleLabel.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
+            titleLabel.font = tokenSet[.titleLabelTextStyle].uiFont
         }
     }
 
@@ -230,9 +232,9 @@ class TooltipView: UIView, Shadowable {
     }
 
     private func updateColors() {
-        let textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
-        backgroundView.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
-        arrowImageView.image = arrowImageView.image?.withTintColor(UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor), renderingMode: .alwaysOriginal)
+        let textColor = tokenSet[.textColor].uiColor
+        backgroundView.backgroundColor = tokenSet[.tooltipColor].uiColor
+        arrowImageView.image = arrowImageView.image?.withTintColor(tokenSet[.tooltipColor].uiColor, renderingMode: .alwaysOriginal)
         messageLabel.textColor = textColor
         titleLabel?.textColor = textColor
     }
@@ -303,7 +305,7 @@ class TooltipView: UIView, Shadowable {
                                           tokenSet: TooltipTokenSet,
                                           isMessage: Bool) -> CGSize {
         let boundingWidth = isAccessibilityContentSize ? size.width : min(tokenSet[.maximumWidth].float - (2 * TooltipTokenSet.paddingHorizontal), size.width)
-        return text.preferredSize(for: UIFont.fluent(tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].fontInfo), width: boundingWidth)
+        return text.preferredSize(for: tokenSet[isMessage ? .messageLabelTextStyle : .titleLabelTextStyle].uiFont, width: boundingWidth)
     }
 
     private var arrowPosition: CGFloat {
@@ -312,10 +314,10 @@ class TooltipView: UIView, Shadowable {
         var idealPosition: CGFloat
         var maxPosition: CGFloat
         if arrowDirection.isVertical {
-            idealPosition = sourcePointInWindow.x - tooltipRect.minX - arrowWidth / 2
+            idealPosition = sourcePointInHost.x - tooltipRect.minX - arrowWidth / 2
             maxPosition = tooltipRect.width - arrowMargin - arrowWidth
         } else {
-            idealPosition = sourcePointInWindow.y - tooltipRect.minY - arrowWidth / 2
+            idealPosition = sourcePointInHost.y - tooltipRect.minY - arrowWidth / 2
             maxPosition = tooltipRect.height - arrowMargin - arrowWidth
         }
         return max(minPosition, min(idealPosition, maxPosition))
@@ -324,13 +326,13 @@ class TooltipView: UIView, Shadowable {
     private var idealTooltipOrigin: CGPoint {
         switch arrowDirection {
         case .up:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width / 2, y: sourcePointInWindow.y)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width / 2, y: sourcePointInHost.y)
         case .down:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width / 2, y: sourcePointInWindow.y - tooltipSize.height)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width / 2, y: sourcePointInHost.y - tooltipSize.height)
         case .left:
-            return CGPoint(x: sourcePointInWindow.x, y: sourcePointInWindow.y - tooltipSize.height / 2)
+            return CGPoint(x: sourcePointInHost.x, y: sourcePointInHost.y - tooltipSize.height / 2)
         case .right:
-            return CGPoint(x: sourcePointInWindow.x - tooltipSize.width, y: sourcePointInWindow.y - tooltipSize.height / 2)
+            return CGPoint(x: sourcePointInHost.x - tooltipSize.width, y: sourcePointInHost.y - tooltipSize.height / 2)
         }
     }
 
@@ -352,13 +354,13 @@ class TooltipView: UIView, Shadowable {
         }
     }
 
-    private var sourcePointInWindow: CGPoint {
+    private var sourcePointInHost: CGPoint {
         guard let anchorView = anchorView else {
             assertionFailure("Can't find anchorView")
             return CGPoint.zero
         }
 
-        return anchorView.convert(sourcePointInAnchorView, to: window)
+        return anchorView.convert(sourcePointInAnchorView, to: hostViewController?.view ?? window)
     }
 
     private var boundingRect: CGRect {
@@ -381,7 +383,7 @@ class TooltipView: UIView, Shadowable {
             return inset
         }
 
-        let anchorViewFrame = anchorView.convert(anchorView.bounds, to: window)
+        let anchorViewFrame = anchorView.convert(anchorView.bounds, to: hostViewController?.view ?? window)
         switch arrowDirection {
         case .up:
             inset.top = max(anchorViewFrame.maxY - boundingRect.minY, 0)
@@ -396,6 +398,7 @@ class TooltipView: UIView, Shadowable {
     }
 
     private weak var anchorView: UIView?
+    private weak var hostViewController: UIViewController?
     private let message: String
     private let titleMessage: String?
     private let arrowImageView: UIImageView
@@ -411,7 +414,7 @@ class TooltipView: UIView, Shadowable {
         let view = UIView()
         view.layer.cornerRadius = tokenSet[.backgroundCornerRadius].float
         view.layer.cornerCurve = .continuous
-        view.backgroundColor = UIColor(dynamicColor: tokenSet[.tooltipColor].dynamicColor)
+        view.backgroundColor = tokenSet[.tooltipColor].uiColor
 
         return view
     }()
@@ -429,8 +432,8 @@ class TooltipView: UIView, Shadowable {
 
     private lazy var messageLabel: UILabel = {
         let label = Label()
-        label.font = UIFont.fluent(tokenSet[.messageLabelTextStyle].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+        label.font = tokenSet[.messageLabelTextStyle].uiFont
+        label.textColor = tokenSet[.textColor].uiColor
         label.numberOfLines = 0
         label.lineBreakStrategy = []
         label.isAccessibilityElement = false
@@ -440,8 +443,8 @@ class TooltipView: UIView, Shadowable {
     private lazy var titleLabel: UILabel? = {
         if let title = titleMessage {
             let label = Label()
-            label.font = UIFont.fluent(tokenSet[.titleLabelTextStyle].fontInfo)
-            label.textColor = UIColor(dynamicColor: tokenSet[.textColor].dynamicColor)
+            label.font = tokenSet[.titleLabelTextStyle].uiFont
+            label.textColor = tokenSet[.textColor].uiColor
             label.numberOfLines = 0
             label.lineBreakStrategy = []
             label.isAccessibilityElement = false

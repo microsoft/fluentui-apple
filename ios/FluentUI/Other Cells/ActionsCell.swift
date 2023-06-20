@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: ActionsCell
 
@@ -26,22 +25,22 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.brandTextColor].uiColor.withAlphaComponent(0.4)
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.dangerTextColor].uiColor.withAlphaComponent(0.4)
             case .communication:
-                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor).withAlphaComponent(0.4)
+                return tokenSet[.communicationTextColor].uiColor.withAlphaComponent(0.4)
             }
         }
 
         func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
             switch self {
             case .regular:
-                return UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
+                return tokenSet[.brandTextColor].uiColor
             case .destructive:
-                return UIColor(dynamicColor: tokenSet[.dangerTextColor].dynamicColor)
+                return tokenSet[.dangerTextColor].uiColor
             case .communication:
-                return UIColor(dynamicColor: tokenSet[.communicationTextColor].dynamicColor)
+                return tokenSet[.communicationTextColor].uiColor
             }
         }
     }
@@ -49,16 +48,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "ActionsCell"
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public var tokenSet: TableViewCellTokenSet
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
+    public let tokenSet: TableViewCellTokenSet = .init(customViewSize: { .default })
 
     private func updateAppearance() {
         setupBackgroundColors()
@@ -69,7 +59,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         let actionCount: CGFloat = action2Title == "" ? 1 : 2
         let width = ceil(containerWidth / actionCount)
 
-        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        let actionTitleFont = tokenSet[.titleFont].uiFont
         let action1TitleHeight = action1Title.preferredSize(for: actionTitleFont, width: width).height
         let action2TitleHeight = action2Title.preferredSize(for: actionTitleFont, width: width).height
 
@@ -78,7 +68,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public class func preferredWidth(action1Title: String, action2Title: String = "", tokenSet: TableViewCellTokenSet) -> CGFloat {
-        let actionTitleFont = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        let actionTitleFont = tokenSet[.titleFont].uiFont
         let action1TitleWidth = action1Title.preferredSize(for: actionTitleFont).width
         let action2TitleWidth = action2Title.preferredSize(for: actionTitleFont).width
 
@@ -127,7 +117,6 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     private let verticalSeparator = Separator(orientation: .vertical)
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        self.tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(action1Button)
@@ -145,13 +134,8 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         setupAction(action1Button)
         setupAction(action2Button)
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }
@@ -247,7 +231,7 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
     private func setupAction(_ button: UIButton) {
-        button.titleLabel?.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
+        button.titleLabel?.font = tokenSet[.titleFont].uiFont
         button.titleLabel?.numberOfLines = 0
         button.titleLabel?.textAlignment = .center
     }

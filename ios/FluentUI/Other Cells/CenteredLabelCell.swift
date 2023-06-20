@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Combine
 
 // MARK: CenteredLabelCell
 
@@ -13,21 +12,12 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "CenteredLabelCell"
 
     public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
-    public var tokenSet: TableViewCellTokenSet
-    var tokenSetSink: AnyCancellable?
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        tokenSet.update(fluentTheme)
-        updateAppearance()
-    }
+    public var tokenSet: TableViewCellTokenSet = .init(customViewSize: { .default })
 
     private func updateAppearance() {
         setupBackgroundColors()
-        label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
     }
 
     // Public to be able to change style without wrapping every property
@@ -48,19 +38,13 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     }
 
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        tokenSet = TableViewCellTokenSet(customViewSize: { .default })
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
 
         contentView.addSubview(label)
         setupBackgroundColors()
 
         // Update appearance whenever `tokenSet` changes.
-        tokenSetSink = tokenSet.sinkChanges { [weak self] in
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
     }
@@ -74,8 +58,8 @@ open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     /// - Parameter text: The text to be displayed
     @objc open func setup(text: String) {
         label.text = text
-        label.font = UIFont.fluent(tokenSet[.titleFont].fontInfo)
-        label.textColor = UIColor(dynamicColor: tokenSet[.brandTextColor].dynamicColor)
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
         setNeedsLayout()
     }
 

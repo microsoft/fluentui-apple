@@ -58,11 +58,8 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var badgeCommand: CommandingItem = {
         let badge = BadgeView(dataSource: BadgeViewDataSource(text: "Badge"))
-        let stackView = UIStackView(frame: CGRect(x: 0, y: 0, width: 60, height: 25))
-        stackView.addArrangedSubview(badge)
-
-        let item = CommandingItem(title: "Badge Item ", image: homeImage, action: commandAction)
-        item.trailingView = stackView
+        let item = CommandingItem(title: "Badge Item", image: homeImage, action: commandAction)
+        item.trailingView = badge
         return item
     }()
 
@@ -274,7 +271,7 @@ class BottomCommandingDemoController: UIViewController {
 
     private lazy var customPopoverViewController: UIViewController = {
         let viewController = UIViewController()
-        viewController.view.backgroundColor = UIColor(dynamicColor: view.fluentTheme.aliasTokens.colors[.background3])
+        viewController.view.backgroundColor = view.fluentTheme.color(.background3)
         viewController.preferredContentSize = CGSize(width: 300, height: 300)
         viewController.modalPresentationStyle = .popover
 
@@ -290,9 +287,9 @@ class BottomCommandingDemoController: UIViewController {
         return viewController
     }()
 
-    private let homeImage = UIImage(named: "Home_24")!
-    private let homeSelectedImage = UIImage(named: "Home_Selected_24")!
-    private let boldImage = UIImage(named: "textBold24Regular")!
+    private let homeImage: UIImage = .init(named: "Home_24")!
+    private let homeSelectedImage: UIImage = .init(named: "Home_Selected_24")!
+    private let boldImage: UIImage = .init(named: "textBold24Regular")!
 
     private var heroIconChanged: Bool = false
     private var listIconChanged: Bool = false
