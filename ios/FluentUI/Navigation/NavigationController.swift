@@ -128,13 +128,7 @@ open class NavigationController: UINavigationController {
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
-        if viewController is ShyHeaderController {
-            return false
-        }
-        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
-            return true
-        }
-        return false
+        return !(viewController is ShyHeaderController)
     }
 
     func updateNavigationBar(for viewController: UIViewController) {
