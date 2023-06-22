@@ -255,6 +255,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
 
     private lazy var scrollViewConstraints: [NSLayoutConstraint] = {
         return [scrollView.contentLayoutGuide.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
+                scrollView.contentLayoutGuide.trailingAnchor.constraint(equalTo: mainCommandGroupsView.trailingAnchor),
                 scrollView.topAnchor.constraint(equalTo: containerView.topAnchor),
                 scrollView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
                 scrollView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
