@@ -958,6 +958,9 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
+    /// The UIView of the `accessoryView`.
+    @objc open var accessoryButtonView: UIView? { return accessoryTypeView }
+
     /// Extends custom accessory view to the trailing edge of the cell. Ignored when accessory type is not `.none` since in this case the built-in accessory is placed at the edge of the cell preventing custom accessory view from extending.
     @objc open var customAccessoryViewExtendsToEdge: Bool = false {
         didSet {
