@@ -958,9 +958,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    /// The UIView of the `accessoryView`.
-    @objc open var trailingAccessoryView: UIView? { return accessoryTypeView }
-
     /// Extends custom accessory view to the trailing edge of the cell. Ignored when accessory type is not `.none` since in this case the built-in accessory is placed at the edge of the cell preventing custom accessory view from extending.
     @objc open var customAccessoryViewExtendsToEdge: Bool = false {
         didSet {
@@ -1390,6 +1387,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         setNeedsLayout()
         invalidateIntrinsicContentSize()
     }
+
+    /// Returns the UIView of the `accessoryView`.
+    @objc open func getAccessoryView() -> UIView? {
+        return accessoryTypeView
+    }
+
     /// Allows to change the accessory type without doing a full `setup`.
     @objc open func changeAccessoryType(to accessoryType: TableViewCellAccessoryType) {
         _accessoryType = accessoryType
