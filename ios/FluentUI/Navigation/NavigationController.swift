@@ -10,6 +10,8 @@ import UIKit
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objc(MSFNavigationController)
 open class NavigationController: UINavigationController {
+    private static let prefersShyHeaderByDefault: Bool = true
+
     /// allow users to collapse or expand the large header view while scrolling `contentScrollView`
     @objc open var allowResizeOfNavigationBarOnScroll: Bool = true
 
@@ -45,12 +47,23 @@ open class NavigationController: UINavigationController {
     private lazy var transitionAnimator = NavigationAnimator()
 
     private var navigationBarWasHiddenBySearchBar: Bool = false
+    
+    private let prefersShyHeader: Bool
 
     @objc public convenience init() {
-        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
+        self.init(prefersShyHeader: Self.prefersShyHeaderByDefault)
+    }
+    
+    @objc public convenience init(prefersShyHeader: Bool) {
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, prefersShyHeader: prefersShyHeader)
     }
 
-    @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
+    @objc public convenience override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
+        self.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass, prefersShyHeader: Self.prefersShyHeaderByDefault)
+    }
+    
+    @objc public init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?, prefersShyHeader: Bool) {
+        self.prefersShyHeader = prefersShyHeader
         super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
@@ -59,11 +72,22 @@ open class NavigationController: UINavigationController {
         setViewControllers([rootViewController], animated: false)
     }
 
-    @objc public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    @objc public convenience init(rootViewController: UIViewController, prefersShyHeader: Bool) {
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, prefersShyHeader: prefersShyHeader)
+        setViewControllers([rootViewController], animated: false)
+    }
+
+    @objc public convenience override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, prefersShyHeader: Self.prefersShyHeaderByDefault)
+    }
+    
+    @objc public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, prefersShyHeader: Bool) {
+        self.prefersShyHeader = prefersShyHeader
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
+        prefersShyHeader = Self.prefersShyHeaderByDefault
         super.init(coder: aDecoder)
     }
 
@@ -128,7 +152,16 @@ open class NavigationController: UINavigationController {
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
-        return !(viewController is ShyHeaderController)
+        if viewController is ShyHeaderController {
+            return false
+        }
+        if prefersShyHeader {
+            return true
+        }
+        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
+            return true
+        }
+        return false
     }
 
     func updateNavigationBar(for viewController: UIViewController) {
