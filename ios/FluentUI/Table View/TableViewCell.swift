@@ -1387,6 +1387,12 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         setNeedsLayout()
         invalidateIntrinsicContentSize()
     }
+
+    /// Returns the UIView of the `accessoryView`.
+    @objc open func getAccessoryView() -> UIView? {
+        return accessoryTypeView
+    }
+
     /// Allows to change the accessory type without doing a full `setup`.
     @objc open func changeAccessoryType(to accessoryType: TableViewCellAccessoryType) {
         _accessoryType = accessoryType
