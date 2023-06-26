@@ -46,7 +46,6 @@
 		3A83F9012953BAEB00EF6629 /* SideTabBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F9002953BAEB00EF6629 /* SideTabBarTest.swift */; };
 		3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F9022953BAF700EF6629 /* TabBarViewTest.swift */; };
 		3A83F9052953BB0100EF6629 /* TableViewCellTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F9042953BB0100EF6629 /* TableViewCellTest.swift */; };
-		3A83F9072953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F9062953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift */; };
 		3A83F9092953BB1B00EF6629 /* TableViewCellShimmerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */; };
 		3A83F90B2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */; };
 		3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90C2953BB3500EF6629 /* TooltipTest.swift */; };
@@ -184,7 +183,6 @@
 		3A83F9002953BAEB00EF6629 /* SideTabBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideTabBarTest.swift; sourceTree = "<group>"; };
 		3A83F9022953BAF700EF6629 /* TabBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewTest.swift; sourceTree = "<group>"; };
 		3A83F9042953BB0100EF6629 /* TableViewCellTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTest.swift; sourceTree = "<group>"; };
-		3A83F9062953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellFileAccessoryViewTest.swift; sourceTree = "<group>"; };
 		3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerTest.swift; sourceTree = "<group>"; };
 		3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterViewTest.swift; sourceTree = "<group>"; };
 		3A83F90C2953BB3500EF6629 /* TooltipTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooltipTest.swift; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 				3A83F9002953BAEB00EF6629 /* SideTabBarTest.swift */,
 				3A83F9022953BAF700EF6629 /* TabBarViewTest.swift */,
 				3A83F9042953BB0100EF6629 /* TableViewCellTest.swift */,
-				3A83F9062953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift */,
 				3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */,
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
 				EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */,
@@ -756,7 +753,6 @@
 				3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */,
 				3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */,
 				3A83F8D92953B94D00EF6629 /* DateTimePickerTest.swift in Sources */,
-				3A83F9072953BB0E00EF6629 /* TableViewCellFileAccessoryViewTest.swift in Sources */,
 				3A83F8E52953B9B800EF6629 /* LabelTest.swift in Sources */,
 				3A83F8EB2953BA5400EF6629 /* NotificationViewTest_SwiftUI.swift in Sources */,
 				3A83F8E72953B9D100EF6629 /* NavigationControllerTest.swift in Sources */,
