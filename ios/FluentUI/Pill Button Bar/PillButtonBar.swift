@@ -269,10 +269,6 @@ open class PillButtonBar: UIScrollView {
             if shouldAddAccessibilityHint {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
-
-            if pillButtonOverrideTokens != nil {
-                updatePillButtonAppearance()
-            }
         }
     }
 
@@ -379,7 +375,7 @@ open class PillButtonBar: UIScrollView {
     }
 
     private func createButtonWithItem(_ item: PillButtonBarItem) -> PillButton {
-        let button = PillButton(pillBarItem: item, style: pillButtonStyle)
+        let button = PillButton(pillBarItem: item, style: pillButtonStyle, tokenOverrides: pillButtonOverrideTokens)
         button.addTarget(self, action: #selector(selectButton(_:)), for: .touchUpInside)
         return button
     }
