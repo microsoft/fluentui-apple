@@ -53,7 +53,9 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
 
-        tokenSet.replaceAllOverrides(with: tokenOverrides)
+        if let tokenOverrides {
+            tokenSet.replaceAllOverrides(with: tokenOverrides)
+        }
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
