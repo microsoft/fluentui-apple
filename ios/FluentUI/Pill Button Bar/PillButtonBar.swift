@@ -62,12 +62,6 @@ open class PillButtonBarItem: NSObject {
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
 open class PillButtonBar: UIScrollView {
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        updatePillButtonAppearance()
-    }
-
     open override func layoutSubviews() {
         super.layoutSubviews()
 
