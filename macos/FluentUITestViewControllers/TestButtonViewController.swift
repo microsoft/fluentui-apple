@@ -162,8 +162,8 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		toolsGrid.insertColumn(at: 0, with: [])
 		toolsGrid.addColumn(with: [])
 
-		// Load Excel app color as primary to distinguish .primary and .communicationBlue accentColors
-		Colors.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
+		// Set our Test Color Provider singleton
+		Colors.colorProvider = TestColorProvider()
 		let communicationBlue = Colors.Palette.communicationBlue.color
 
 		// ButtonFormats: each will apply to a whole row of sample controls
