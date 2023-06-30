@@ -1658,7 +1658,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         if let leadingAccessoryView = leadingAccessoryView {
             let yOffset = ceil(topOffset + (size.height - leadingAccessoryViewSize.height) / 2)
-
             leadingAccessoryView.frame = CGRect(
                 x: textAreaLeadingOffset,
                 y: yOffset,
