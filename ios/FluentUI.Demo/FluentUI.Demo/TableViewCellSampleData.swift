@@ -93,17 +93,6 @@ class TableViewCellSampleData: TableViewSampleData {
             ],
             numberOfLines: 0,
             allowsMultipleSelection: false
-        ),
-        Section(
-            title: "Cell with top-aligned title accessory view",
-            items: [
-                Item(text1: "This is a cell with a long text1 as an example of how this label will render",
-                     image: "excelIcon",
-                     text1TrailingAccessoryView: { createTextAccessoryView(text: "10:21 AM") },
-                     text1TrailingAccessoryViewVerticalAlignment: .top)
-            ],
-            numberOfLines: 0,
-            allowsMultipleSelection: false
         )
     ]
 
