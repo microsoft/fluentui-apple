@@ -898,16 +898,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
-    /// Vertical alignment of the accessory view on the leading edge of the title
-    @objc open var titleLeadingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment = .center {
-        didSet {
-            guard titleLeadingAccessoryViewVerticalAlignment != oldValue else {
-                return
-            }
-            setNeedsLayout()
-        }
-    }
-
     /// The accessory view on the trailing edge of the title
     @objc open var titleTrailingAccessoryView: UIView? {
         didSet {
@@ -1567,7 +1557,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                          numberOfLines: titleNumberOfLines,
                          topOffset: 0,
                          leadingAccessoryView: titleLeadingAccessoryView,
-                         leadingAccessoryViewVerticalAlignment: titleLeadingAccessoryViewVerticalAlignment,
                          leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
                          trailingAccessoryView: titleTrailingAccessoryView,
                          trailingAccessoryViewVerticalAlignment: titleTrailingAccessoryViewVerticalAlignment,
@@ -1581,7 +1570,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              numberOfLines: subtitleNumberOfLines,
                              topOffset: titleLabel.frame.maxY + TableViewCellTokenSet.labelVerticalSpacing,
                              leadingAccessoryView: subtitleLeadingAccessoryView,
-                             leadingAccessoryViewVerticalAlignment: .center,
                              leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
                              trailingAccessoryView: subtitleTrailingAccessoryView,
                              trailingAccessoryViewVerticalAlignment: .center,
@@ -1595,7 +1583,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                  numberOfLines: footerNumberOfLines,
                                  topOffset: subtitleLabel.frame.maxY + TableViewCellTokenSet.labelVerticalSpacing,
                                  leadingAccessoryView: footerLeadingAccessoryView,
-                                 leadingAccessoryViewVerticalAlignment: .center,
                                  leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
                                  trailingAccessoryView: footerTrailingAccessoryView,
                                  trailingAccessoryViewVerticalAlignment: .center,
@@ -1649,7 +1636,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   numberOfLines: Int,
                                   topOffset: CGFloat,
                                   leadingAccessoryView: UIView?,
-                                  leadingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment,
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
                                   trailingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment,
@@ -1671,13 +1657,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
 
         if let leadingAccessoryView = leadingAccessoryView {
-            let yOffset: CGFloat
-            switch leadingAccessoryViewVerticalAlignment {
-            case .top:
-                yOffset = topOffset
-            case .center:
-                yOffset = ceil(topOffset + (size.height - leadingAccessoryViewSize.height) / 2)
-            }
+            let yOffset = ceil(topOffset + (size.height - leadingAccessoryViewSize.height) / 2)
 
             leadingAccessoryView.frame = CGRect(
                 x: textAreaLeadingOffset,
