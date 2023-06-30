@@ -28,8 +28,15 @@ open class PillButton: UIButton, TokenizedControlInternal {
         updateAppearance()
     }
 
-    @objc public init(pillBarItem: PillButtonBarItem,
-                      style: PillButtonStyle = .primary) {
+    @objc convenience public init(pillBarItem: PillButtonBarItem,
+                                  style: PillButtonStyle = .primary) {
+        self.init(pillBarItem: pillBarItem, style: style, tokenOverrides: nil)
+    }
+
+    /// Internal init used by the `PillButtonBar` to initialized buttons with overrides.
+    init(pillBarItem: PillButtonBarItem,
+         style: PillButtonStyle = .primary,
+         tokenOverrides: [PillButtonTokenSet.Tokens: ControlTokenValue]?) {
         self.pillBarItem = pillBarItem
         self.style = style
         self.tokenSet = PillButtonTokenSet(style: { style })
@@ -46,6 +53,9 @@ open class PillButton: UIButton, TokenizedControlInternal {
                                                name: PillButtonBarItem.titleValueDidChangeNotification,
                                                object: pillBarItem)
 
+        if let tokenOverrides {
+            tokenSet.replaceAllOverrides(with: tokenOverrides)
+        }
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }

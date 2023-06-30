@@ -72,9 +72,10 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .foregroundOnColor,
              .brandForegroundDisabled2,
              .stroke1,
+             .stroke1Pressed,
              .stroke2,
-             .strokeDisabled,
              .strokeFocus1,
+             .strokeDisabled,
              .brandBackgroundTint,
              .foregroundDisabled1,
              .dangerBackground1,
@@ -86,12 +87,14 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .foreground2,
              .foreground3,
              .strokeFocus2,
+             .strokeAccessible,
              .brandBackground1Pressed,
              .brandForeground1Pressed,
              .brandStroke1Pressed,
              .brandStroke1,
              .brandForegroundTint,
              .brandStroke1Selected,
+             .brandGradient1,
              .dangerBackground2,
              .dangerForeground1,
              .dangerForeground2,
@@ -111,7 +114,9 @@ class AliasColorTokensDemoController: DemoTableViewController {
         case .foregroundLightStatic,
              .backgroundLightStatic,
              .backgroundLightStaticDisabled,
-             .warningBackground2:
+             .warningBackground2,
+             .brandGradient2,
+             .brandGradient3:
             return fluentTheme.color(.foregroundDarkStatic)
         case .brandForeground1,
              .brandForeground1Selected,
@@ -123,7 +128,6 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .brandBackground2Pressed,
              .brandBackground2Selected,
              .brandBackground3,
-             .strokeAccessible,
              .backgroundDarkStatic,
              .foregroundDarkStatic,
              .presenceAway,
@@ -144,6 +148,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     case brandBackgrounds
     case neutralForegrounds
     case brandForegrounds
+    case brandGradients
     case neutralStrokes
     case brandStrokes
     case sharedErrorAndStatus
@@ -159,6 +164,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
             return "Neutral Foregrounds"
         case .brandForegrounds:
             return "Brand Foregrounds"
+        case .brandGradients:
+            return "Brand Gradients"
         case .neutralStrokes:
             return "Neutral Strokes"
         case .brandStrokes:
@@ -223,13 +230,18 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .brandForeground1Selected,
                     .brandForegroundDisabled1,
                     .brandForegroundDisabled2]
+        case .brandGradients:
+            return [.brandGradient1,
+                    .brandGradient2,
+                    .brandGradient3]
         case .neutralStrokes:
             return [.stroke1,
+                    .stroke1Pressed,
                     .stroke2,
-                    .strokeDisabled,
                     .strokeAccessible,
                     .strokeFocus1,
-                    .strokeFocus2]
+                    .strokeFocus2,
+                    .strokeDisabled]
         case .brandStrokes:
             return [.brandStroke1,
                     .brandStroke1Pressed,
@@ -345,6 +357,12 @@ private extension FluentTheme.ColorToken {
             return "Brand Background Tint"
         case .brandForegroundTint:
             return "Brand Foreground Tint"
+        case .brandGradient1:
+            return "Brand Gradient 1"
+        case .brandGradient2:
+            return "Brand Gradient 2"
+        case .brandGradient3:
+            return "Brand Gradient 3"
         case .stencil1:
             return "Stencil 1"
         case .stencil2:
@@ -353,16 +371,18 @@ private extension FluentTheme.ColorToken {
             return "Background Canvas"
         case .stroke1:
             return "Stroke 1"
+        case .stroke1Pressed:
+            return "Stroke 1 Pressed"
         case .stroke2:
             return "Stroke 2"
-        case .strokeDisabled:
-            return "Stroke Disabled"
         case .strokeAccessible:
             return "Stroke Accessible"
         case .strokeFocus1:
             return "Stroke Focus 1"
         case .strokeFocus2:
             return "Stroke Focus 2"
+        case .strokeDisabled:
+            return "Stroke Disabled"
         case .brandStroke1:
             return "Brand Stroke 1"
         case .brandStroke1Pressed:

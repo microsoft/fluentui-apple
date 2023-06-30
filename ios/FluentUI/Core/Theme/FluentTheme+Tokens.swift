@@ -6,6 +6,12 @@
 import UIKit
 
 public extension FluentTheme {
+    @objc(MSFGradientToken)
+    enum GradientToken: Int, TokenSetKey {
+        case flair
+        case tint
+    }
+
     @objc(MSFColorToken)
     enum ColorToken: Int, TokenSetKey {
         // Neutral colors - Background
@@ -46,6 +52,7 @@ public extension FluentTheme {
 
         // Neutral colors - Stroke
         case stroke1
+        case stroke1Pressed
         case stroke2
         case strokeAccessible
         case strokeFocus1
@@ -70,6 +77,11 @@ public extension FluentTheme {
         case brandForegroundTint
         case brandForegroundDisabled1
         case brandForegroundDisabled2
+
+        // Brand colors - Brand gradient
+        case brandGradient1
+        case brandGradient2
+        case brandGradient3
 
         // Brand colors - Brand stroke
         case brandStroke1
@@ -139,6 +151,15 @@ public extension FluentTheme {
     @objc(colorForToken:)
     func color(_ token: ColorToken) -> UIColor {
         return UIColor(dynamicColor: aliasTokens.colors[AliasTokens.ColorsTokens(rawValue: token.rawValue)!])
+    }
+
+    /// Returns an array of colors for the given token.
+    ///
+    /// - Parameter token: The `GradientTokens` value to be retrieved.
+    /// - Returns: An array of `UIColor`s for the given token.
+    @objc(gradientColorsForToken:)
+    func gradient(_ token: GradientToken) -> [UIColor] {
+        return aliasTokens.gradients[AliasTokens.GradientTokens(rawValue: token.rawValue)!]
     }
 
     /// Returns the shadow value for the given token.

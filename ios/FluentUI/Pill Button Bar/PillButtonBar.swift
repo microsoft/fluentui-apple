@@ -62,12 +62,6 @@ open class PillButtonBarItem: NSObject {
 /// Once a button is selected, the previously selected button will be deselected.
 @objc(MSFPillButtonBar)
 open class PillButtonBar: UIScrollView {
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-
-        updatePillButtonAppearance()
-    }
-
     open override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -269,10 +263,6 @@ open class PillButtonBar: UIScrollView {
             if shouldAddAccessibilityHint {
                 button.accessibilityHint = String.localizedStringWithFormat("Accessibility.MSPillButtonBar.Hint".localized, index + 1, items.count)
             }
-
-            if pillButtonOverrideTokens != nil {
-                updatePillButtonAppearance()
-            }
         }
     }
 
@@ -379,7 +369,7 @@ open class PillButtonBar: UIScrollView {
     }
 
     private func createButtonWithItem(_ item: PillButtonBarItem) -> PillButton {
-        let button = PillButton(pillBarItem: item, style: pillButtonStyle)
+        let button = PillButton(pillBarItem: item, style: pillButtonStyle, tokenOverrides: pillButtonOverrideTokens)
         button.addTarget(self, action: #selector(selectButton(_:)), for: .touchUpInside)
         return button
     }

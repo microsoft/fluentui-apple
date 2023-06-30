@@ -14,6 +14,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         /// The radii of the four corners of the `BadgeLabel`.
         case badgeCornerRadii
 
+        /// Defines the foreground color of the `TabBarItem` when disabled.
+        case disabledColor
+
         /// The size of the image associated with the `TabBarItem` when the device is in landscape mode.
         case landscapeImageSize
 
@@ -23,7 +26,7 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         /// The size of the image associated with the `TabBarItem` when the device is in portrait mode and has a label.
         case portraitImageWithLabelSize
 
-        /// Defines the background color of the  of the `TabBarItem` when selected.
+        /// Defines the foreground color of the `TabBarItem` when selected.
         case selectedColor
 
         /// Font info for the title label when in portrait view.
@@ -35,8 +38,11 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         /// The size of the unread dot.
         case unreadDotSize
 
-        /// Defines the background color of the  of the `TabBarItem` when not selected.
-        case unselectedColor
+        /// Defines the image color of the `TabBarItem` when not selected.
+        case unselectedImageColor
+
+        /// Defines the text color of the `TabBarItem` when not selected.
+        case unselectedTextColor
     }
 
     init() {
@@ -48,6 +54,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
             case .badgeCornerRadii:
                 return .float { 10.0 }
 
+            case .disabledColor:
+                return .uiColor { theme.color(.foregroundDisabled1) }
+
             case .landscapeImageSize:
                 return .float { GlobalTokens.icon(.size240) }
 
@@ -58,23 +67,22 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { GlobalTokens.icon(.size240) }
 
             case .selectedColor:
-                return .uiColor {
-                    return theme.color(.brandForeground1)
-                }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .titleLabelFontPortrait:
-                return .uiFont { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
 
             case .titleLabelFontLandscape:
-                return .uiFont { theme.typography(.caption2) }
+                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
 
             case .unreadDotSize:
                 return .float { 8.0 }
 
-            case .unselectedColor:
-                return .uiColor {
-                    return theme.color(.foreground3)
-                }
+            case .unselectedImageColor:
+                return .uiColor { return theme.color(.foreground3) }
+
+            case .unselectedTextColor:
+                return .uiColor { return theme.color(.foreground2) }
             }
         }
     }

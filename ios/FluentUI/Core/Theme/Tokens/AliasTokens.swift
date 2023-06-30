@@ -100,6 +100,7 @@ public final class AliasTokens: NSObject {
 
         // Neutral colors - Stroke
         case stroke1
+        case stroke1Pressed
         case stroke2
         case strokeAccessible
         case strokeFocus1
@@ -124,6 +125,11 @@ public final class AliasTokens: NSObject {
         case brandForegroundTint
         case brandForegroundDisabled1
         case brandForegroundDisabled2
+
+        // Brand colors - Brand gradient
+        case brandGradient1
+        case brandGradient2
+        case brandGradient3
 
         // Brand colors - Brand stroke
         case brandStroke1
@@ -166,15 +172,37 @@ public final class AliasTokens: NSObject {
     }
     public let colors: TokenSet<ColorsTokens, DynamicColor>
 
+    // MARK: - Gradient Colors
+
+    @objc(MSFGradientColorAliasTokens)
+    public enum GradientTokens: Int, TokenSetKey {
+        case flair
+        case tint
+    }
+
+    @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
+    @objc(aliasGradientColorsForToken:)
+    public func gradientColors(_ token: GradientTokens) -> [UIColor] {
+        return gradients[token]
+    }
+    /// `GradientTokens` need to be lazily initialized in order to fetch the correct alias color tokens from the instance's `self.colors`.
+    public lazy var gradients: TokenSet<GradientTokens, [UIColor]> = {
+        return .init(self.defaultGradientColors(_:), gradientOverrides)
+    }()
+
+    private let gradientOverrides: [GradientTokens: [UIColor]]?
+
     // MARK: Initialization
 
     init(colorOverrides: [ColorsTokens: DynamicColor]? = nil,
          shadowOverrides: [ShadowTokens: ShadowInfo]? = nil,
-         typographyOverrides: [TypographyTokens: FontInfo]? = nil) {
+         typographyOverrides: [TypographyTokens: FontInfo]? = nil,
+         gradientOverrides: [GradientTokens: [UIColor]]? = nil) {
 
         self.colors = .init(AliasTokens.defaultColors(_:), colorOverrides)
         self.shadow = .init(AliasTokens.defaultShadows(_:), shadowOverrides)
         self.typography = .init(AliasTokens.defaultTypography(_:), typographyOverrides)
+        self.gradientOverrides = gradientOverrides
 
         super.init()
     }
@@ -221,6 +249,15 @@ extension AliasTokens {
         case .brandForegroundDisabled2:
             return DynamicColor(light: GlobalTokens.brandColors(.comm140),
                                 dark: GlobalTokens.brandColors(.comm40))
+        case .brandGradient1:
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientPrimaryLight),
+                                dark: GlobalTokens.brandColors(.gradientPrimaryDark))
+        case .brandGradient2:
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientSecondaryLight),
+                                dark: GlobalTokens.brandColors(.gradientSecondaryDark))
+        case .brandGradient3:
+            return DynamicColor(light: GlobalTokens.brandColors(.gradientTertiaryLight),
+                                dark: GlobalTokens.brandColors(.gradientTertiaryDark))
         case .foregroundDarkStatic:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.black))
@@ -349,21 +386,27 @@ extension AliasTokens {
             return DynamicColor(light: GlobalTokens.neutralColors(.grey82),
                                 dark: GlobalTokens.neutralColors(.grey30),
                                 darkElevated: GlobalTokens.neutralColors(.grey36))
+        case .stroke1Pressed:
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey70),
+                                dark: GlobalTokens.neutralColors(.grey48))
         case .stroke2:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey24))
-        case .strokeDisabled:
-            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
-                                dark: GlobalTokens.neutralColors(.grey26))
+                                dark: GlobalTokens.neutralColors(.grey24),
+                                darkElevated: GlobalTokens.neutralColors(.grey30))
         case .strokeAccessible:
             return DynamicColor(light: GlobalTokens.neutralColors(.grey38),
-                                dark: GlobalTokens.neutralColors(.grey62))
+                                dark: GlobalTokens.neutralColors(.grey62),
+                                darkElevated: GlobalTokens.neutralColors(.grey68))
         case .strokeFocus1:
             return DynamicColor(light: GlobalTokens.neutralColors(.white),
                                 dark: GlobalTokens.neutralColors(.black))
         case .strokeFocus2:
             return DynamicColor(light: GlobalTokens.neutralColors(.black),
                                 dark: GlobalTokens.neutralColors(.white))
+        case .strokeDisabled:
+            return DynamicColor(light: GlobalTokens.neutralColors(.grey88),
+                                dark: GlobalTokens.neutralColors(.grey26),
+                                darkElevated: GlobalTokens.neutralColors(.grey32))
         case .brandStroke1:
             return DynamicColor(light: GlobalTokens.brandColors(.comm80),
                                 dark: GlobalTokens.brandColors(.comm100))
@@ -444,6 +487,18 @@ extension AliasTokens {
         case .presenceOof:
             return DynamicColor(light: GlobalTokens.sharedColors(.berry, .primary),
                                 dark: GlobalTokens.sharedColors(.berry, .tint20))
+        }
+    }
+
+    private func defaultGradientColors(_ token: GradientTokens) -> [UIColor] {
+        switch token {
+        case .flair:
+            return [UIColor(dynamicColor: colors[.brandGradient1]),
+                    UIColor(dynamicColor: colors[.brandGradient2]),
+                    UIColor(dynamicColor: colors[.brandGradient3])]
+        case .tint:
+            return [UIColor(dynamicColor: colors[.brandGradient2]),
+                    UIColor(dynamicColor: colors[.brandGradient3])]
         }
     }
 

@@ -205,7 +205,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = tokenSet[.unselectedColor].uiColor
 
         if canResizeImage {
             let sizeConstraints = (
@@ -225,7 +224,6 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = tokenSet[.unselectedColor].uiColor
 
         return titleLabel
     }()
@@ -257,8 +255,11 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
     }
 
     private func updateColors() {
-        titleLabel.highlightedTextColor = tokenSet[.selectedColor].uiColor
-        imageView.tintColor = isSelected ? tokenSet[.selectedColor].uiColor : tokenSet[.unselectedColor].uiColor
+        let selectedColor = tokenSet[.selectedColor].uiColor
+        let disabledColor = tokenSet[.disabledColor].uiColor
+
+        titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedTextColor].uiColor) : disabledColor
+        imageView.tintColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedImageColor].uiColor) : disabledColor
     }
 
     private func updateImage() {

@@ -133,6 +133,14 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
     }
 
+    /// Set `resizingHandleViewBackgroundColor` to customize background color of resizingHandleView if it is shown
+    @objc open lazy var resizingHandleViewBackgroundColor: UIColor = tokenSet[.resizingHandleBackgroundColor].uiColor {
+        didSet {
+            resizingHandleView?.backgroundColor = resizingHandleViewBackgroundColor
+            tokenSet[.resizingHandleBackgroundColor] = .uiColor { self.resizingHandleViewBackgroundColor }
+        }
+    }
+
     /**
      Set `contentController` to provide a controller that will represent drawer's content. Its view will be hosted in the root view of the drawer and will be sized and positioned to accommodate any shell UI of the drawer.
 
@@ -355,10 +363,6 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         return super.preferredContentSize.height == 0 && preferredContentHeight == 0 && (contentController?.preferredContentSize.height ?? 0) == 0
     }
 
-    open override var shouldAutorotate: Bool {
-        return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
-    }
-
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return presentingViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
@@ -515,6 +519,10 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
 
         tokenSet.registerOnUpdate(for: view) { [weak self] in
             self?.updateBackgroundColor()
+        }
+
+        if #available(iOS 16, *) {
+            setNeedsUpdateOfSupportedInterfaceOrientations()
         }
     }
 

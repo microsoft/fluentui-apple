@@ -30,6 +30,9 @@ public protocol ColorProviding {
     @objc var brandStroke1: UIColor { get }
     @objc var brandStroke1Pressed: UIColor { get }
     @objc var brandStroke1Selected: UIColor { get }
+    @objc optional var brandGradient1: UIColor { get }
+    @objc optional var brandGradient2: UIColor { get }
+    @objc optional var brandGradient3: UIColor { get }
 }
 
 private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: UIColor] {
@@ -54,16 +57,28 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     brandColors[.brandStroke1Pressed] = provider.brandStroke1Pressed
     brandColors[.brandStroke1Selected] = provider.brandStroke1Selected
 
+    if let brandGradient1 = provider.brandGradient1 {
+        brandColors[.brandGradient1] = brandGradient1
+    }
+
+    if let brandGradient2 = provider.brandGradient2 {
+        brandColors[.brandGradient2] = brandGradient2
+    }
+
+    if let brandGradient3 = provider.brandGradient3 {
+        brandColors[.brandGradient3] = brandGradient3
+    }
+
     return brandColors
 }
 
 // MARK: Colors
 
 @objc public extension UIView {
-    /// Associates a `ColorProvider2` with a given `UIView`.
+    /// Associates a `ColorProvider` with a given `UIView`.
     ///
     /// - Parameters:
-    ///   - provider: The `ColorProvider2` whose colors should be used for controls in this theme.
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
     func setColorProvider(_ provider: ColorProviding) {
         // Create an updated fluent theme as well

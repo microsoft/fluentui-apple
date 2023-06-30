@@ -342,7 +342,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var navigationBarShadowObserver: NSKeyValueObservation?
     private var titleStyleObserver: NSKeyValueObservation?
 
-    private let backButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"), style: .plain, target: nil, action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+    private let backButtonItem: UIBarButtonItem = {
+        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"),
+                                             style: .plain,
+                                             target: nil,
+                                             action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
+        backButtonItem.accessibilityIdentifier = "Back"
+        return backButtonItem
+    }()
 
     weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
         didSet {
@@ -563,11 +570,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             updateViewsForLargeTitlePresentation(for: topItem)
             updateFakeCenterTitleConstraints()
-
-            // We don't want to alter the hidden state of the backgroundView and the contentStackView for the gradient style when the traitCollection changes.
-            if style != .gradient {
-                updateViewsForLargeTitlePresentation(for: topItem)
-            }
 
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
@@ -844,7 +846,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         // UINavigationBar's internal view hierarchy, we can't propagate touch events on
         // parts that are outside that 32px range to the actual title view.
         // We therefore depend on the "fake" navigation bar that we use for leading titles to save the day.
-        if usesLeadingTitle || systemWantsCompactNavigationBar {
+
+        // We also want to hide the backgroundView and the contentStackView for gradient style regular title to
+        // avoid displaying duplicated navigation bar items.
+        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar && navigationItem?.titleView == nil) {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
@@ -901,9 +906,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateSubtitleView(for navigationItem: UINavigationItem?) {
-        guard let navigationItem = navigationItem, !usesLeadingTitle else {
-            // Use the default title view
-            navigationItem?.titleView = nil
+        guard let navigationItem = navigationItem, navigationItem.titleView == nil, !usesLeadingTitle else {
             return
         }
 

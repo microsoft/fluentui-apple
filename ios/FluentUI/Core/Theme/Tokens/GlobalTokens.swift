@@ -15,6 +15,7 @@ public class GlobalTokens: NSObject {
 
     @objc(MSFGlobalTokensBrandColor)
     public enum BrandColorToken: Int, TokenSetKey {
+        // Communication blue colors
         case comm10
         case comm20
         case comm30
@@ -31,6 +32,14 @@ public class GlobalTokens: NSObject {
         case comm140
         case comm150
         case comm160
+
+        // Gradient colors
+        case gradientPrimaryLight
+        case gradientPrimaryDark
+        case gradientSecondaryLight
+        case gradientSecondaryDark
+        case gradientTertiaryLight
+        case gradientTertiaryDark
     }
 
     @objc(colorForBrandColorToken:)
@@ -68,6 +77,18 @@ public class GlobalTokens: NSObject {
             return UIColor(hexValue: 0xCFE4FA)
         case .comm160:
             return UIColor(hexValue: 0xEBF3FC)
+        case .gradientPrimaryLight:
+            return UIColor(hexValue: 0x464FEB)
+        case .gradientPrimaryDark:
+            return UIColor(hexValue: 0x7385FF)
+        case .gradientSecondaryLight:
+            return UIColor(hexValue: 0x47CFFA)
+        case .gradientSecondaryDark:
+            return UIColor(hexValue: 0x7ADFFF)
+        case .gradientTertiaryLight:
+            return UIColor(hexValue: 0xB47CF8)
+        case .gradientTertiaryDark:
+            return UIColor(hexValue: 0xBF80FF)
         }
     }
 
@@ -1856,6 +1877,7 @@ public class GlobalTokens: NSObject {
 
     @objc(MSFBrandColorsGlobalTokens)
     public enum BrandColorsTokens: Int, TokenSetKey {
+        // Communication blue colors
         case comm10
         case comm20
         case comm30
@@ -1872,6 +1894,14 @@ public class GlobalTokens: NSObject {
         case comm140
         case comm150
         case comm160
+
+        // Gradient colors
+        case gradientPrimaryLight
+        case gradientPrimaryDark
+        case gradientSecondaryLight
+        case gradientSecondaryDark
+        case gradientTertiaryLight
+        case gradientTertiaryDark
     }
 
     @objc(brandColorForGlobalToken:)
@@ -1909,6 +1939,18 @@ public class GlobalTokens: NSObject {
             return ColorValue(0xCFE4FA)
         case .comm160:
             return ColorValue(0xEBF3FC)
+        case .gradientPrimaryLight:
+            return ColorValue(0x464FEB)
+        case .gradientPrimaryDark:
+            return ColorValue(0x7385FF)
+        case .gradientSecondaryLight:
+            return ColorValue(0x47CFFA)
+        case .gradientSecondaryDark:
+            return ColorValue(0x7ADFFF)
+        case .gradientTertiaryLight:
+            return ColorValue(0xB47CF8)
+        case .gradientTertiaryDark:
+            return ColorValue(0xBF80FF)
         }
     }
 
@@ -2042,7 +2084,7 @@ public class GlobalTokens: NSObject {
         case .grey68:
             return ColorValue(0xADADAD)
         case .grey70:
-            return ColorValue(0xB2B2B2)
+            return ColorValue(0xB3B3B3)
         case .grey72:
             return ColorValue(0xB8B8B8)
         case .grey74:
@@ -2062,7 +2104,7 @@ public class GlobalTokens: NSObject {
         case .grey88:
             return ColorValue(0xE0E0E0)
         case .grey90:
-            return ColorValue(0xE5E5E5)
+            return ColorValue(0xE6E6E6)
         case .grey92:
             return ColorValue(0xEBEBEB)
         case .grey94:
