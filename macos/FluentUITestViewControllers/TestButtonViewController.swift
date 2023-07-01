@@ -163,7 +163,7 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		toolsGrid.addColumn(with: [])
 
 		// Set our Test Color Provider singleton
-		Colors.colorProvider = TestColorProvider()
+		Colors.colorProvider = TestColorProvider.shared
 		let communicationBlue = Colors.Palette.communicationBlue.color
 
 		// ButtonFormats: each will apply to a whole row of sample controls

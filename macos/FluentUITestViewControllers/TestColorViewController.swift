@@ -102,7 +102,7 @@ class TestColorViewController: NSViewController {
 	private func loadPrimaryColors() {
 		if useColorProvider {
 			// Set our Test Color Provider singleton
-			Colors.colorProvider = TestColorProvider()
+			Colors.colorProvider = TestColorProvider.shared
 		} else {
 			// Clear Test Color Provider singleton so communication blue defaults will be used
 			Colors.colorProvider = nil

@@ -15,7 +15,7 @@ class TestBadgeViewController: NSViewController {
 		containerView.addView(BadgeView(title: "Default"), in: .center)
 
 		// Set our Test Color Provider singleton
-		Colors.colorProvider = TestColorProvider()
+		Colors.colorProvider = TestColorProvider.shared
 
 		containerView.addView(BadgeView(title: "Primary", style: .primary), in: .center)
 
