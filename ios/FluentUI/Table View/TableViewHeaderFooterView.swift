@@ -424,9 +424,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             return
         }
         tokenSet.update(newWindow.fluentTheme)
-        updateTitleAndBackgroundColors()
-        updateLeadingViewColor()
-        updateAccessoryButtonTitleColor()
+        updateTokenizedValues()
     }
 
     private func updateTokenizedValues() {
