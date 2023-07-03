@@ -232,9 +232,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateTitleAndBackgroundColors()
-            self?.updateLeadingViewColor()
-            self?.updateAccessoryButtonTitleColor()
+            self?.updateTokenizedValues()
         }
     }
 
@@ -426,6 +424,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             return
         }
         tokenSet.update(newWindow.fluentTheme)
+        updateTitleAndBackgroundColors()
+        updateLeadingViewColor()
+        updateAccessoryButtonTitleColor()
+    }
+
+    private func updateTokenizedValues() {
         updateTitleAndBackgroundColors()
         updateLeadingViewColor()
         updateAccessoryButtonTitleColor()
