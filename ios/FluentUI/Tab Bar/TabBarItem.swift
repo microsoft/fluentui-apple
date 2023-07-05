@@ -7,6 +7,13 @@ import UIKit
 
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
+    @objc(MSFTabBarItemBadgeStyle)
+    public enum BadgeStyle: Int {
+        case onPrimary
+        case system
+        case brand
+    }
+
     @objc public let title: String
 
     /// The badge value will be displayed in a red oval above the tab bar item.
@@ -137,16 +144,5 @@ open class TabBarItem: NSObject {
         } else {
             return landscapeImage ?? image
         }
-    }
-}
-
-// MARK: BadgeStyle
-
-public extension TabBarItem {
-    @objc(MSFTabBarItemBadgeStyle)
-    enum BadgeStyle: Int {
-        case onPrimary
-        case system
-        case brand
     }
 }
