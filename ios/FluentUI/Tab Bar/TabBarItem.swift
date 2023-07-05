@@ -7,7 +7,6 @@ import UIKit
 
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
-
     @objc public let title: String
 
     /// The badge value will be displayed in a red oval above the tab bar item.
