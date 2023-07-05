@@ -24,7 +24,7 @@ class HUDTestSwiftUI: BaseTest {
     }
 
     func testBlocksPresentation() throws {
-        let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"]
+        let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"].switches.firstMatch
         let presentHUDButton: XCUIElement = app.buttons["Present HUD for 3 seconds"]
 
         // switch value should start as 1

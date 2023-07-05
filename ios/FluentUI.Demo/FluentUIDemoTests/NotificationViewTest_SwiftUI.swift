@@ -22,7 +22,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         let titleTextField: XCUIElement = app.textFields.element(boundBy: 0)
         let messageTextField: XCUIElement = app.textFields.element(boundBy: 1)
         let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
-        let attributedTextSwitch: XCUIElement = app.switches["Has Attributed Text: Strikethrough"]
+        let attributedTextSwitch: XCUIElement = app.switches["Has Attributed Text: Strikethrough"].switches.firstMatch
 
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
@@ -45,8 +45,8 @@ class NotificationViewTestSwiftUI: BaseTest {
 
     func testImages() {
         let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
-        let setImageSwitch: XCUIElement = app.switches["Set image"]
-        let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"]
+        let setImageSwitch: XCUIElement = app.switches["Set image"].switches.firstMatch
+        let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"].switches.firstMatch
 
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*image.*")).element.exists)
         setImageSwitch.tap()
@@ -67,8 +67,8 @@ class NotificationViewTestSwiftUI: BaseTest {
         let notificationView: XCUIElement = app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*")).element(boundBy: 7)
         let actionButton: XCUIElement = app.buttons["Undo"].firstMatch
 
-        let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"]
-        let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"]
+        let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"].switches.firstMatch
+        let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"].switches.firstMatch
 
         let alert: XCUIElement = app.alerts["Button tapped"]
         let okButton: XCUIElement = app.buttons["OK"]
@@ -114,7 +114,7 @@ class NotificationViewTestSwiftUI: BaseTest {
     }
 
     func testWidth() throws {
-        let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"]
+        let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"].switches.firstMatch
         let notFlexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is not flexible in width.*")
         let flexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is flexible in width.*")
 
