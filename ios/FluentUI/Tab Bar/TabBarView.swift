@@ -45,6 +45,12 @@ open class TabBarView: UIView, TokenizedControlInternal {
         }
     }
 
+    @objc public var badgeStyle: TabBarItem.BadgeStyle = .system {
+        didSet {
+            updateAppearance()
+        }
+    }
+
     @objc open var selectedItem: TabBarItem? {
         willSet {
             if let item = selectedItem {
@@ -183,6 +189,8 @@ open class TabBarView: UIView, TokenizedControlInternal {
         for subview in arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
                 let tabBarItemTokenSet = tabBarItemView.tokenSet
+                let badge = tabBarItemView.badgeView as? BadgeLabel
+                badge?.style = badgeStyle.getActualStyle()
 
                 /// Directly map our custom values to theirs.
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),

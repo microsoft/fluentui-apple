@@ -92,6 +92,12 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         }
     }
 
+    @objc public var badgeStyle: TabBarItem.BadgeStyle = .system {
+        didSet {
+            updateAppearance()
+        }
+    }
+
     @objc public var showTopItemTitles: Bool = false {
         didSet {
             if oldValue != showTopItemTitles {
@@ -346,6 +352,8 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         for subview in stackView(in: section).arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
                 let tabBarItemTokenSet = tabBarItemView.tokenSet
+                let badge = tabBarItemView.badgeView as? BadgeLabel
+                badge?.style = badgeStyle.getActualStyle()
 
                 /// Directly map our custom values to theirs.
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
