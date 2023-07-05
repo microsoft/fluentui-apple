@@ -353,8 +353,9 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         for subview in stackView(in: section).arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
                 let tabBarItemTokenSet = tabBarItemView.tokenSet
-                let badge = tabBarItemView.badgeView as? BadgeLabel
-                badge?.style = badgeStyle
+                if let badge = tabBarItemView.badgeView as? BadgeLabel {
+                    badge.style = badgeStyle
+                }
 
                 /// Directly map our custom values to theirs.
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
