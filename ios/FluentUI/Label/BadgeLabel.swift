@@ -8,7 +8,7 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var style: TabBarItem.BadgeStyle = .system {
+    var style: BadgeLabelStyle = .system {
         didSet {
             updateColors()
         }
@@ -58,4 +58,11 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
     private struct Constants {
         static let badgeFontSize: CGFloat = 11
     }
+}
+
+@objc(MSFBadgeLabelStyle)
+public enum BadgeLabelStyle: Int {
+    case onPrimary
+    case system
+    case brand
 }

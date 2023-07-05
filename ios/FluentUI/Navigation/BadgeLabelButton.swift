@@ -14,7 +14,7 @@ class BadgeLabelButton: UIButton {
         }
     }
 
-    var badgeLabelStyle: TabBarItem.BadgeStyle = .system {
+    var badgeLabelStyle: BadgeLabelStyle = .system {
         didSet {
             badgeLabel.style = badgeLabelStyle
         }

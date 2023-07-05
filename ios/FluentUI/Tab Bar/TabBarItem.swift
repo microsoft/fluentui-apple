@@ -7,12 +7,6 @@ import UIKit
 
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
-    @objc(MSFTabBarItemBadgeStyle)
-    public enum BadgeStyle: Int {
-        case onPrimary
-        case system
-        case brand
-    }
 
     @objc public let title: String
 

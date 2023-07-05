@@ -93,7 +93,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     }
 
     /// The badge style to be used for all `TabBarItemView`s.
-    @objc public var badgeStyle: TabBarItem.BadgeStyle = .system {
+    @objc public var badgeStyle: BadgeLabelStyle = .system {
         didSet {
             updateAppearance()
         }

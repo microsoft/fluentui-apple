@@ -15,7 +15,7 @@ class BadgeLabelTokenSet: ControlTokenSet<BadgeLabelTokenSet.Tokens> {
         case textColor
     }
 
-    init(style: @escaping () -> TabBarItem.BadgeStyle) {
+    init(style: @escaping () -> BadgeLabelStyle) {
         self.style = style
         super.init { [style] token, theme in
             switch token {
@@ -48,5 +48,5 @@ class BadgeLabelTokenSet: ControlTokenSet<BadgeLabelTokenSet.Tokens> {
     }
 
     /// Defines the style of the BadgeLabel.
-    var style: () -> TabBarItem.BadgeStyle
+    var style: () -> BadgeLabelStyle
 }
