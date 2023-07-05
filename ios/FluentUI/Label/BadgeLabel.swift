@@ -8,7 +8,7 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var style: Style = .system {
+    var style: TabBarItem.BadgeStyle = .system {
         didSet {
             updateColors()
         }
@@ -16,7 +16,7 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
 
     typealias TokenSetKeyType = BadgeLabelTokenSet.Tokens
     lazy var tokenSet: BadgeLabelTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .brand
+        return self?.style ?? .system
     })
 
     override init(frame: CGRect) {

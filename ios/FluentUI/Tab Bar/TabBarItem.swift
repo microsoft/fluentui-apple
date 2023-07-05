@@ -140,22 +140,13 @@ open class TabBarItem: NSObject {
     }
 }
 
+// MARK: BadgeStyle
+
 public extension TabBarItem {
     @objc(MSFTabBarItemBadgeStyle)
     enum BadgeStyle: Int {
-        case brand
+        case onPrimary
         case system
-        case gradient
-
-        internal func getActualStyle() -> BadgeLabel.Style {
-            switch self {
-            case .brand:
-                return .brand
-            case .system:
-                return .system
-            case .gradient:
-                return .gradient
-            }
-        }
+        case brand
     }
 }

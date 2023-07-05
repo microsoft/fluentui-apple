@@ -45,6 +45,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         }
     }
 
+    /// The badge style to be used for all `TabBarItemView`s.
     @objc public var badgeStyle: TabBarItem.BadgeStyle = .system {
         didSet {
             updateAppearance()
@@ -190,7 +191,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
             if let tabBarItemView = subview as? TabBarItemView {
                 let tabBarItemTokenSet = tabBarItemView.tokenSet
                 let badge = tabBarItemView.badgeView as? BadgeLabel
-                badge?.style = badgeStyle.getActualStyle()
+                badge?.style = badgeStyle
 
                 /// Directly map our custom values to theirs.
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
