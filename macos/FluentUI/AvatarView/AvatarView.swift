@@ -434,7 +434,7 @@ open class AvatarView: NSView {
 	@available(*, deprecated, message: "Use getInitialsColorSetFromPrimaryText:secondaryText: instead")
 	public static func getLegacyColor(for hashValue: Int) -> NSColor {
 		let legacyAvatarBackgroundColors = AvatarView.legacyAvatarViewBackgroundColor
-		return legacyAvatarBackgroundColors[hashValue % legacyAvatarBackgroundColors.count]
+		return legacyAvatarBackgroundColors[abs(hashValue) % legacyAvatarBackgroundColors.count]
 	}
 
 	/// the font size in the initials view will be scaled to this fraction of the avatarSize passed in
