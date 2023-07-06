@@ -6,7 +6,7 @@
 import AppKit
 import FluentUI
 
-class TestColorViewController: NSViewController, ColorProviding {
+class TestColorViewController: NSViewController {
 	var primaryColorsStackView = NSStackView()
 	var subviewConstraints = [NSLayoutConstraint]()
 	var toggleTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
@@ -79,17 +79,6 @@ class TestColorViewController: NSViewController, ColorProviding {
 		view = containerView
 	}
 
-	// MARK: ColorProviding Protocol
-
-	var primary: NSColor = (NSColor(named: "Colors/DemoPrimaryColor"))!
-	var primaryShade10: NSColor = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
-	var primaryShade20: NSColor = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
-	var primaryShade30: NSColor = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
-	var primaryTint10: NSColor = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
-	var primaryTint20: NSColor = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
-	var primaryTint30: NSColor = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
-	var primaryTint40: NSColor = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
-
 	// MARK: Private
 
 	private func createColorRowStackView(name: String?, color: NSColor?) -> NSStackView {
@@ -112,18 +101,11 @@ class TestColorViewController: NSViewController, ColorProviding {
 
 	private func loadPrimaryColors() {
 		if useColorProvider {
-			Colors.colorProvider = self
+			// Set our Test Color Provider singleton
+			Colors.colorProvider = TestColorProvider.shared
 		} else {
-			// If we aren't using the new ColorProvider, clear it and fall back to initializing all the colors at onced
+			// Clear Test Color Provider singleton so communication blue defaults will be used
 			Colors.colorProvider = nil
-			Colors.primary = Colors.Palette.communicationBlue.color
-			Colors.primaryShade10 = Colors.Palette.communicationBlueShade10.color
-			Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
-			Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
-			Colors.primaryTint10 = Colors.Palette.communicationBlueTint10.color
-			Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
-			Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
-			Colors.primaryTint40 = Colors.Palette.communicationBlueTint40.color
 		}
 
 		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: Colors.primary))
