@@ -14,11 +14,9 @@ class TestBadgeViewController: NSViewController {
 
 		containerView.addView(BadgeView(title: "Default"), in: .center)
 
-		// Load Excel app color as primary to distinguish .primary and .communicationBlue accentColors
-		Colors.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
-		Colors.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
-		Colors.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
-		Colors.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
+		// Set our Test Color Provider singleton
+		Colors.colorProvider = TestColorProvider.shared
+
 		containerView.addView(BadgeView(title: "Primary", style: .primary), in: .center)
 
 		let customBadge = BadgeView(title: "Custom")
