@@ -135,6 +135,17 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         updateProposedTitleLabelWidth()
     }
 
+    open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        guard let tappableSize else {
+            return super.point(inside: point, with: event)
+        }
+
+        let growX = max(0, (tappableSize.width - bounds.size.width) / 2)
+        let growY = max(0, (tappableSize.height - bounds.size.height) / 2)
+
+        return bounds.insetBy(dx: -growX, dy: -growY).contains(point)
+    }
+
     @objc public init(style: ButtonStyle = .outline) {
         self.style = style
         super.init(frame: .zero)
@@ -176,6 +187,9 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     public typealias TokenSetKeyType = ButtonTokenSet.Tokens
     public var ambientShadow: CALayer?
     public var keyShadow: CALayer?
+
+    /// Optional var to increase the default tappable size of the button.
+    public var tappableSize: CGSize?
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .outline
