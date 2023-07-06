@@ -8,7 +8,7 @@ import UIKit
 // MARK: BadgeLabel
 
 class BadgeLabel: UILabel, TokenizedControlInternal {
-    var style: Style = .system {
+    var style: BadgeLabelStyle = .system {
         didSet {
             updateColors()
         }
@@ -16,7 +16,7 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
 
     typealias TokenSetKeyType = BadgeLabelTokenSet.Tokens
     lazy var tokenSet: BadgeLabelTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .brand
+        return self?.style ?? .system
     })
 
     override init(frame: CGRect) {
@@ -58,4 +58,12 @@ class BadgeLabel: UILabel, TokenizedControlInternal {
     private struct Constants {
         static let badgeFontSize: CGFloat = 11
     }
+}
+
+/// Style used to set the colors of the `BadgeLabel`.
+@objc(MSFBadgeLabelStyle)
+public enum BadgeLabelStyle: Int {
+    case onPrimary
+    case system
+    case brand
 }

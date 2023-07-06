@@ -45,6 +45,13 @@ open class TabBarView: UIView, TokenizedControlInternal {
         }
     }
 
+    /// The badge style to be used for all `TabBarItemView`s.
+    @objc public var badgeStyle: BadgeLabelStyle = .system {
+        didSet {
+            updateAppearance()
+        }
+    }
+
     @objc open var selectedItem: TabBarItem? {
         willSet {
             if let item = selectedItem {
@@ -183,12 +190,17 @@ open class TabBarView: UIView, TokenizedControlInternal {
         for subview in arrangedSubviews {
             if let tabBarItemView = subview as? TabBarItemView {
                 let tabBarItemTokenSet = tabBarItemView.tokenSet
+                if let badge = tabBarItemView.badgeView as? BadgeLabel {
+                    badge.style = badgeStyle
+                }
 
                 /// Directly map our custom values to theirs.
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
                                                     forToken: .selectedColor)
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
-                                                    forToken: .unselectedColor)
+                                                    forToken: .unselectedImageColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedTextColor)
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
                                                     forToken: .titleLabelFontPortrait)
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),

@@ -206,6 +206,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {
                 contentView.addSubview(leadingView)
+                updateLeadingViewColor()
             }
         }
     }
@@ -231,8 +232,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateTitleAndBackgroundColors()
-            self?.updateAccessoryButtonTitleColor()
+            self?.updateTokenizedValues()
         }
     }
 
@@ -424,7 +424,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             return
         }
         tokenSet.update(newWindow.fluentTheme)
+        updateTokenizedValues()
+    }
+
+    private func updateTokenizedValues() {
         updateTitleAndBackgroundColors()
+        updateLeadingViewColor()
         updateAccessoryButtonTitleColor()
     }
 
@@ -453,6 +458,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
         titleView.font = tokenSet[.textFont].uiFont
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
+    }
+
+    private func updateLeadingViewColor() {
+        leadingView?.tintColor = tokenSet[.leadingViewColor].uiColor
     }
 
     private func updateAccessoryButtonTitleColor() {

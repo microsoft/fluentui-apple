@@ -41,6 +41,7 @@
 		921AF7D7269CD3C900255791 /* FluentUI.strings in Resources */ = {isa = PBXBuildFile; fileRef = 921AF7B1269CD39C00255791 /* FluentUI.strings */; };
 		9B4AEBA42703CADB00B68020 /* FilledTemplateImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AEBA22703CADB00B68020 /* FilledTemplateImageView.swift */; };
 		9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */; };
+		9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */; };
 		9BE619162A1576BD0046463A /* ColorProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BE619152A1576BD0046463A /* ColorProviding.swift */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
 		A257F826251D987E002CAA6E /* FluentUI-macos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */; };
@@ -254,6 +255,7 @@
 		921AF7D5269CD39C00255791 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/FluentUI.strings; sourceTree = "<group>"; };
 		9B4AEBA22703CADB00B68020 /* FilledTemplateImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilledTemplateImageView.swift; sourceTree = "<group>"; };
 		9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFilledTemplateImageViewController.swift; sourceTree = "<group>"; };
+		9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestColorProvider.swift; sourceTree = "<group>"; };
 		9BE619152A1576BD0046463A /* ColorProviding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorProviding.swift; sourceTree = "<group>"; };
 		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
 		A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-macos.xcassets"; path = "../FluentUI/Resources/FluentUI-macos.xcassets"; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
 				EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */,
 				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
+				9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */,
 				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
 				9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */,
@@ -1021,6 +1024,7 @@
 				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
 				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
+				9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */,
 				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
