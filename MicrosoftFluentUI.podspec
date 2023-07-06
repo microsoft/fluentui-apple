@@ -345,7 +345,7 @@ fi', :execution_position => :before_compile }
 
 # Mac
 
-  s.osx.deployment_target = "10.15"
+  s.osx.deployment_target = "13.0"
 
   s.subspec 'Appearance_mac' do |appearance_mac|
     appearance_mac.platform = :osx

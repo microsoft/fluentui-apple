@@ -1372,6 +1372,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Debug;
 		};
@@ -1379,6 +1380,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 			};
 			name = Release;
 		};
