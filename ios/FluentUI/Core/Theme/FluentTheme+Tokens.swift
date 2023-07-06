@@ -94,6 +94,7 @@ public extension FluentTheme {
         case dangerForeground1
         case dangerForeground2
         case dangerStroke1
+        case dangerStroke2
         case successBackground1
         case successBackground2
         case successForeground1
