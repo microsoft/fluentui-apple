@@ -96,6 +96,7 @@ import UIKit
         }
     }
 
+    /// An optional image to show on the trailing end of the navigation bar's subtitle.
     var customSubtitleTrailingImage: UIImage? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.customSubtitleTrailingImage) as? UIImage
