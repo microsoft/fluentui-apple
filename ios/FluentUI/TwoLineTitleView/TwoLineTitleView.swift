@@ -66,6 +66,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         case none
         case disclosure
         case downArrow
+        case custom
 
         public func image(isTitle: Bool) -> UIImage? {
             switch self {
@@ -75,9 +76,13 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 return UIImage.staticImageNamed(isTitle ? "chevron-down-16x16" : "chevron-down-12x12")
             case .none:
                 return nil
+            case .custom:
+                return nil
             }
         }
     }
+
+    private var customSubtitleTrailingImage: UIImage?
 
     @objc open var titleAccessibilityHint: String? {
         get { return titleLabel.accessibilityHint }
@@ -240,8 +245,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - subtitle: An optional subtitle string. If nil, title will take up entire frame.
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
-    @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none) {
-        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesWhenPressed: true, accessoryType: accessoryType)
+    @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil) {
+        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesWhenPressed: true, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage)
     }
 
     /// Sets the relevant strings and button styles for the title and subtitle.
@@ -254,11 +259,12 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - animatesWhenPressed: If true, the text color will flash when pressed. Ignored if `interactivePart` is `.none`.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
-    @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none) {
+    @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil) {
         self.alignment = alignment
         self.interactivePart = interactivePart
         self.animatesWhenPressed = animatesWhenPressed
         self.accessoryType = accessoryType
+        self.customSubtitleTrailingImage = customSubtitleTrailingImage
 
         titleLeadingImageView.image = titleImage
         titleLeadingImageView.isHidden = titleImage == nil
@@ -270,7 +276,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll use the title as the main accessibility item.
-        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType)
+        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage)
 
         minimumContentSizeCategory = .large
 
@@ -327,7 +333,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
+    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType, customSubtitleTrailingImage: UIImage? = nil) {
         container.accessibilityLabel = text
         label.text = text
 
@@ -337,7 +343,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         if interactive {
             container.accessibilityTraits.insert(.button)
             container.accessibilityTraits.remove(.staticText)
-            trailingImageView.image = accessoryType.image(isTitle: container == titleContainer)
+            trailingImageView.image = (accessoryType == .custom) ? customSubtitleTrailingImage : accessoryType.image(isTitle: container == titleContainer)
         } else {
             container.accessibilityTraits.insert(.staticText)
             container.accessibilityTraits.remove(.button)

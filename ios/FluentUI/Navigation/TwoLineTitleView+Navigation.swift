@@ -50,16 +50,17 @@ extension TwoLineTitleView {
         if let titleAccessory = navigationItem.titleAccessory {
             // Use the custom action provided by the title accessory specification
             interactivePart = titleAccessory.location.twoLineTitleViewInteractivePart
-            accessoryType = titleAccessory.style.twoLineTitleViewAccessoryType
+            accessoryType = .custom
             animatesWhenPressed = true
             delegate = titleAccessory
         } else {
             // Use the default behavior of requesting expansion of the hosting navigation bar
             interactivePart = .all
-            accessoryType = .none
+            accessoryType = .custom
             animatesWhenPressed = false
         }
 
-        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
+        print("\(String(describing: navigationItem.customSubtitleTrailingImage))")
+        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType, customSubtitleTrailingImage: navigationItem.customSubtitleTrailingImage)
     }
 }

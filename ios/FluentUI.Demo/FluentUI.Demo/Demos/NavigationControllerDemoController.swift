@@ -363,9 +363,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.titleStyle = .leading
             $0.navigationItem.subtitle = "Subtitle"
             $0.navigationItem.contentScrollView = $0.tableView
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_24_regular")
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
             $0.navigationItem.subtitle = "Press me!"
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_24_regular")
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
         },
         7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
