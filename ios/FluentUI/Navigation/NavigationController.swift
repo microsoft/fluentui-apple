@@ -10,7 +10,7 @@ import UIKit
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objc(MSFNavigationController)
 open class NavigationController: UINavigationController {
-    private static let prefersShyHeaderByDefault: Bool = true
+    private static let forcesCompactBarExpansionByDefault: Bool = false
 
     /// allow users to collapse or expand the large header view while scrolling `contentScrollView`
     @objc open var allowResizeOfNavigationBarOnScroll: Bool = true
@@ -43,27 +43,27 @@ open class NavigationController: UINavigationController {
     }
     private weak var _delegate: UINavigationControllerDelegate?
 
+    let forcesCompactBarExpansion: Bool
+
     // Using "lazy var" instead of "let" to avoid memory leak issue in iOS 12
     private lazy var transitionAnimator = NavigationAnimator()
 
     private var navigationBarWasHiddenBySearchBar: Bool = false
-    
-    private let prefersShyHeader: Bool
 
     @objc public convenience init() {
-        self.init(prefersShyHeader: Self.prefersShyHeaderByDefault)
+        self.init(forcesCompactBarExpansion: Self.forcesCompactBarExpansionByDefault)
     }
-    
-    @objc public convenience init(prefersShyHeader: Bool) {
-        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, prefersShyHeader: prefersShyHeader)
+
+    @objc public convenience init(forcesCompactBarExpansion: Bool) {
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, forcesCompactBarExpansion: forcesCompactBarExpansion)
     }
 
     @objc public convenience override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-        self.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass, prefersShyHeader: Self.prefersShyHeaderByDefault)
+        self.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass, forcesCompactBarExpansion: Self.forcesCompactBarExpansionByDefault)
     }
-    
-    @objc public init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?, prefersShyHeader: Bool) {
-        self.prefersShyHeader = prefersShyHeader
+
+    @objc public init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?, forcesCompactBarExpansion: Bool) {
+        self.forcesCompactBarExpansion = forcesCompactBarExpansion
         super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
@@ -72,22 +72,22 @@ open class NavigationController: UINavigationController {
         setViewControllers([rootViewController], animated: false)
     }
 
-    @objc public convenience init(rootViewController: UIViewController, prefersShyHeader: Bool) {
-        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, prefersShyHeader: prefersShyHeader)
+    @objc public convenience init(rootViewController: UIViewController, forcesCompactBarExpansion: Bool) {
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil, forcesCompactBarExpansion: forcesCompactBarExpansion)
         setViewControllers([rootViewController], animated: false)
     }
 
     @objc public convenience override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, prefersShyHeader: Self.prefersShyHeaderByDefault)
+        self.init(nibName: nibNameOrNil, bundle: nibBundleOrNil, forcesCompactBarExpansion: Self.forcesCompactBarExpansionByDefault)
     }
-    
-    @objc public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, prefersShyHeader: Bool) {
-        self.prefersShyHeader = prefersShyHeader
+
+    @objc public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?, forcesCompactBarExpansion: Bool) {
+        self.forcesCompactBarExpansion = forcesCompactBarExpansion
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
     @objc public required init?(coder aDecoder: NSCoder) {
-        prefersShyHeader = Self.prefersShyHeaderByDefault
+        forcesCompactBarExpansion = Self.forcesCompactBarExpansionByDefault
         super.init(coder: aDecoder)
     }
 
@@ -155,13 +155,16 @@ open class NavigationController: UINavigationController {
         if viewController is ShyHeaderController {
             return false
         }
-        if prefersShyHeader {
+
+        if forcesCompactBarExpansion {
             return true
         }
-        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
-            return true
+
+        if viewController.navigationItem.canBeCompact {
+            return false
         }
-        return false
+
+        return true
     }
 
     func updateNavigationBar(for viewController: UIViewController) {

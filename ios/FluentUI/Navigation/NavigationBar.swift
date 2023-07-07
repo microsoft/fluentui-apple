@@ -351,6 +351,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         return backButtonItem
     }()
 
+    // A default UINavigationItem doesn't have any traits that require an expanded navigation bar
+    private var itemCanBeCompact: Bool = true
+
     weak var backButtonDelegate: NavigationBarBackButtonDelegate? {
         didSet {
             backButtonItem.target = backButtonDelegate
@@ -516,12 +519,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
         let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
-        let systemHeight = systemWantsCompactNavigationBar ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
+
+        let desiredHeight = (systemWantsCompactNavigationBar && itemCanBeCompact) ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
+        print("desiredHeight is \(desiredHeight)")
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: systemHeight - contentHeight,
+            bottom: desiredHeight - contentHeight,
             trailing: contentTrailingMargin
         )
     }
@@ -657,6 +662,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
+
+        itemCanBeCompact = navigationItem.canBeCompact
+        updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
 
         titleView.update(with: navigationItem)
 

@@ -229,7 +229,7 @@ class NavigationControllerDemoController: DemoController {
             changeStyleContinuously(in: content.navigationItem)
         }
 
-        let controller = NavigationController(rootViewController: content)
+        let controller = NavigationController(rootViewController: content, forcesCompactBarExpansion: true)
         let navigationBar = controller.msfNavigationBar
         navigationBar.gradient = gradient
         navigationBar.gradientMask = gradientMask

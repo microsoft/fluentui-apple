@@ -145,3 +145,14 @@ import UIKit
         }
     }
 }
+
+extension UINavigationItem {
+    var canBeCompact: Bool {
+        // Large leading titles already do the right thing in compact nav bars
+        if titleStyle == .largeLeading {
+            return true
+        }
+
+        return subtitle == nil && titleStyle != .largeLeading && accessoryView == nil
+    }
+}
