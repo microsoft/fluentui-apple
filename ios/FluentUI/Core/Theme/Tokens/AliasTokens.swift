@@ -142,6 +142,7 @@ public final class AliasTokens: NSObject {
         case dangerForeground1
         case dangerForeground2
         case dangerStroke1
+        case dangerStroke2
         case successBackground1
         case successBackground2
         case successForeground1
@@ -431,6 +432,9 @@ extension AliasTokens {
         case .dangerStroke1:
             return DynamicColor(light: GlobalTokens.sharedColors(.red, .tint20),
                                 dark: GlobalTokens.sharedColors(.red, .tint20))
+        case .dangerStroke2:
+            return DynamicColor(light: GlobalTokens.sharedColors(.red, .primary),
+                                dark: GlobalTokens.sharedColors(.red, .tint30))
         case .successBackground1:
             return DynamicColor(light: GlobalTokens.sharedColors(.green, .tint60),
                                 dark: GlobalTokens.sharedColors(.green, .shade40))
