@@ -62,7 +62,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     case .unfocused, .focused:
                         return theme.color(.foreground2)
                     case .error:
-                        return theme.color(.dangerForeground1)
+                        return theme.color(.dangerForeground2)
                     }
                 }
             case .assistiveTextFont:
@@ -92,9 +92,9 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     case .unfocused:
                         return theme.color(.stroke1)
                     case .focused:
-                        return theme.color(.brandForeground1)
+                        return theme.color(.brandStroke1)
                     case .error:
-                        return theme.color(.dangerForeground1)
+                        return theme.color(.dangerStroke2)
                     }
                 }
             case .titleLabelColor:
@@ -105,7 +105,7 @@ public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
                     case .focused:
                         return theme.color(.brandForeground1)
                     case .error:
-                        return theme.color(.dangerForeground1)
+                        return theme.color(.dangerForeground2)
                     }
                 }
             case .titleLabelFont:

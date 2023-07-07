@@ -22,33 +22,31 @@ class NotificationViewTestSwiftUI: BaseTest {
         let titleTextField: XCUIElement = app.textFields.element(boundBy: 0)
         let messageTextField: XCUIElement = app.textFields.element(boundBy: 1)
         let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
-        let attributedTextSwitch: XCUIElement = app.switches["Has Attributed Text: Strikethrough"]
+        let attributedTextSwitch: XCUIElement = app.switches["Has Attributed Text: Strikethrough"].switches.firstMatch
 
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         titleTextField.tap()
-        UIPasteboard.general.string = "title"
-        titleTextField.doubleTap()
-        app.menuItems["Paste"].tap()
+        titleTextField.typeText("title\n")
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with title \"title\", message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         attributedTextSwitch.tap()
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with attributed title \"title\", attributed message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
 
         titleTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        app.menuItems["Cut"].tap()
+        titleTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         messageTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        app.menuItems["Cut"].tap()
+        messageTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        app.menuItems["Cut"].tap()
+        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         // if there is no action button title, there should be a dismiss button
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with no title, no message.*dismiss button.*")).element.exists)
     }
 
     func testImages() {
         let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
-        let setImageSwitch: XCUIElement = app.switches["Set image"]
-        let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"]
+        let setImageSwitch: XCUIElement = app.switches["Set image"].switches.firstMatch
+        let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"].switches.firstMatch
 
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*image.*")).element.exists)
         setImageSwitch.tap()
@@ -58,7 +56,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         // as long as there is a action button title, there should be no trailing image
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
-        app.menuItems["Cut"].tap()
+        actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         setTrailingImageSwitch.tap()
         // if there is no action button title, there should be a dismiss button
@@ -69,8 +67,8 @@ class NotificationViewTestSwiftUI: BaseTest {
         let notificationView: XCUIElement = app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*")).element(boundBy: 7)
         let actionButton: XCUIElement = app.buttons["Undo"].firstMatch
 
-        let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"]
-        let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"]
+        let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"].switches.firstMatch
+        let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"].switches.firstMatch
 
         let alert: XCUIElement = app.alerts["Button tapped"]
         let okButton: XCUIElement = app.buttons["OK"]
@@ -116,7 +114,7 @@ class NotificationViewTestSwiftUI: BaseTest {
     }
 
     func testWidth() throws {
-        let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"]
+        let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"].switches.firstMatch
         let notFlexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is not flexible in width.*")
         let flexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is flexible in width.*")
 
