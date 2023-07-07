@@ -32,7 +32,7 @@
 
     UIColor *primaryColor = [[[self view] fluentTheme] colorForToken:MSFColorTokenBackground1];
     self.view.backgroundColor = primaryColor;
-    //[self setupTitleView];
+    [self setupTitleView];
 
     [self.view addSubview:self.scrollingContainer];
     [self.scrollingContainer setFrame:self.view.bounds];
@@ -129,12 +129,16 @@
     return container;
 }
 
-//- (void)setupTitleView {
-//    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleSystem];
-//    [self.titleView setupWithTitle:self.title subtitle:nil interactivePart:MSFTwoLineTitleViewInteractivePartTitle accessoryType:MSFTwoLineTitleViewAccessoryTypeNone];
-//    self.titleView.delegate = self;
-//    self.navigationItem.titleView = self.titleView;
-//}
+- (void)setupTitleView {
+    self.titleView = [[MSFTwoLineTitleView alloc] initWithStyle:MSFTwoLineTitleViewStyleSystem];
+    [self.titleView setupWithTitle:self.title
+                          subtitle:nil
+                   interactivePart:MSFTwoLineTitleViewInteractivePartTitle
+                     accessoryType:MSFTwoLineTitleViewAccessoryTypeNone
+       customSubtitleTrailingImage:nil];
+    self.titleView.delegate = self;
+    self.navigationItem.titleView = self.titleView;
+}
 
 - (MSFButton *)createButtonWithTitle:(NSString *)title action:(SEL)action {
     MSFButton* button = [[MSFButton alloc] init];

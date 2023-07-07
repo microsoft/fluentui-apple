@@ -74,9 +74,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 return UIImage.staticImageNamed(isTitle ? "chevron-right-16x16" : "chevron-right-12x12")
             case .downArrow:
                 return UIImage.staticImageNamed(isTitle ? "chevron-down-16x16" : "chevron-down-12x12")
-            case .none:
-                return nil
-            case .custom:
+            case .none, .custom:
                 return nil
             }
         }
@@ -276,7 +274,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         // Check for strict equality for the subtitle button's interactivity.
         // If the whole area is active, we'll use the title as the main accessibility item.
-        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart == .subtitle, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage)
+        setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart.contains(.subtitle), accessoryType: accessoryType)
 
         minimumContentSizeCategory = .large
 
@@ -333,7 +331,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         }
     }
 
-    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType, customSubtitleTrailingImage: UIImage? = nil) {
+    private func setupTitleLine(_ container: UIStackView, label: UILabel, trailingImageView: UIImageView, text: String?, interactive: Bool, accessoryType: AccessoryType) {
         container.accessibilityLabel = text
         label.text = text
 

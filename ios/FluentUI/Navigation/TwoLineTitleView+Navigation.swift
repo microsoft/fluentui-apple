@@ -35,6 +35,8 @@ fileprivate extension NavigationBarTitleAccessory.Style {
             return .downArrow
         case .disclosure:
             return .disclosure
+        case .custom:
+            return .custom
         }
     }
 }
@@ -50,13 +52,13 @@ extension TwoLineTitleView {
         if let titleAccessory = navigationItem.titleAccessory {
             // Use the custom action provided by the title accessory specification
             interactivePart = titleAccessory.location.twoLineTitleViewInteractivePart
-            accessoryType = .custom
+            accessoryType = titleAccessory.style.twoLineTitleViewAccessoryType
             animatesWhenPressed = true
             delegate = titleAccessory
         } else {
             // Use the default behavior of requesting expansion of the hosting navigation bar
             interactivePart = .all
-            accessoryType = .custom
+            accessoryType = .none
             animatesWhenPressed = false
         }
 
