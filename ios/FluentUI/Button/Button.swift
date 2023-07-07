@@ -136,7 +136,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     }
 
     open override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        guard let tappableSize else {
+        guard tappableSize != .zero else {
             return super.point(inside: point, with: event)
         }
 
@@ -188,8 +188,8 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     public var ambientShadow: CALayer?
     public var keyShadow: CALayer?
 
-    /// Optional var to increase the default tappable size of the button.
-    public var tappableSize: CGSize?
+    /// Used to increase the default tappable size of the button.
+    @objc public var tappableSize: CGSize = .zero
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
         return self?.style ?? .outline
