@@ -112,11 +112,17 @@ public struct NotificationBarView: View {
 					SwiftUI.Button(action: {
 						buttonAction()
 					}, label: {
-						Text(actionTitle)
-							.lineLimit(1)
-							.foregroundColor(foregroundColor)
-							.font(.system(size: 15))
-							.fontWeight(.semibold)
+						if #available(macOS 13.0, *) {
+							Text(actionTitle)
+								.lineLimit(1)
+								.foregroundColor(foregroundColor)
+								.font(.system(size: 15))
+								.fontWeight(.semibold)
+						} else {
+							Text(actionTitle)
+								.lineLimit(1)
+								.foregroundColor(foregroundColor)
+						}
 					}).buttonStyle(PlainButtonStyle())
 				} else {
 					SwiftUI.Button(action: {

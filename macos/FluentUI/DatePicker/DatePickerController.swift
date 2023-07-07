@@ -262,7 +262,7 @@ open class DatePickerController: NSViewController {
 
 		// In this case, we want to use Chinese numerals instead of western
 		// Setting dateStyle to .long before setting the dateFormat will achieve this
-		if calendar.identifier == .chinese && calendar.locale?.language.languageCode?.identifier == "zh" {
+		if calendar.identifier == .chinese && calendar.locale?.languageCode == "zh" {
 			formatter.dateStyle = .long
 		}
 
