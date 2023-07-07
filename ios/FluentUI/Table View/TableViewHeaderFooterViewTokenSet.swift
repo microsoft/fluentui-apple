@@ -18,6 +18,9 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
         /// The font of the header/footer text.
         case textFont
 
+        /// The color of the leading view.
+        case leadingViewColor
+
         /// The color of the accessory button text.
         case accessoryButtonTextColor
 
@@ -60,6 +63,9 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
                     }
                 }
 
+            case .leadingViewColor:
+                return .uiColor { theme.color(.foreground3) }
+
             case .accessoryButtonTextColor:
                 return .uiColor {
                     switch accessoryButtonStyle() {
@@ -71,7 +77,14 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
                 }
 
             case .accessoryButtonTextFont:
-                return .uiFont { theme.typography(.caption1Strong) }
+                return .uiFont {
+                    switch style() {
+                    case .headerPrimary:
+                        return theme.typography(.body2Strong)
+                    case .header, .footer:
+                        return theme.typography(.caption1Strong)
+                    }
+                }
 
             case .linkTextColor:
                 return .uiColor { theme.color(.brandForeground1) }

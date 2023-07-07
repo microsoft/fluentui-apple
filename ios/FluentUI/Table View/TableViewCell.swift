@@ -84,6 +84,15 @@ public enum TableViewCellBackgroundStyleType: Int {
     }
 }
 
+// Supported vertical alignment for accessory views in `TableViewCell`
+@objc(MSFTableViewCellAccessoryViewVerticalAlignment)
+public enum TableViewCellAccessoryViewVerticalAlignment: Int {
+    // Accessory view is vertically aligned with the top of its corresponding label
+    case top
+    // Accessory view is vertically centered with its corresponding label
+    case center
+}
+
 // MARK: - TableViewCell
 
 /**
@@ -896,6 +905,16 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
 
+    /// Vertical alignment of the accessory view on the trailing edge of the title
+    @objc open var titleTrailingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment = .center {
+        didSet {
+            guard titleTrailingAccessoryViewVerticalAlignment != oldValue else {
+                return
+            }
+            setNeedsLayout()
+        }
+    }
+
     /// The accessory view on the leading edge of the subtitle
     @objc open var subtitleLeadingAccessoryView: UIView? {
         didSet {
@@ -1540,6 +1559,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                          leadingAccessoryView: titleLeadingAccessoryView,
                          leadingAccessoryViewSize: titleLeadingAccessoryViewSize,
                          trailingAccessoryView: titleTrailingAccessoryView,
+                         trailingAccessoryViewVerticalAlignment: titleTrailingAccessoryViewVerticalAlignment,
                          trailingAccessoryViewSize: titleTrailingAccessoryViewSize,
                          labelAccessoryViewMarginTrailing: TableViewCellTokenSet.titleLabelAccessoryViewMarginTrailing)
 
@@ -1552,6 +1572,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                              leadingAccessoryView: subtitleLeadingAccessoryView,
                              leadingAccessoryViewSize: subtitleLeadingAccessoryViewSize,
                              trailingAccessoryView: subtitleTrailingAccessoryView,
+                             trailingAccessoryViewVerticalAlignment: .center,
                              trailingAccessoryViewSize: subtitleTrailingAccessoryViewSize,
                              labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
 
@@ -1564,6 +1585,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                  leadingAccessoryView: footerLeadingAccessoryView,
                                  leadingAccessoryViewSize: footerLeadingAccessoryViewSize,
                                  trailingAccessoryView: footerTrailingAccessoryView,
+                                 trailingAccessoryViewVerticalAlignment: .center,
                                  trailingAccessoryViewSize: footerTrailingAccessoryViewSize,
                                  labelAccessoryViewMarginTrailing: TableViewCellTokenSet.subtitleLabelAccessoryViewMarginTrailing)
             }
@@ -1616,6 +1638,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
                                   leadingAccessoryView: UIView?,
                                   leadingAccessoryViewSize: CGSize,
                                   trailingAccessoryView: UIView?,
+                                  trailingAccessoryViewVerticalAlignment: TableViewCellAccessoryViewVerticalAlignment,
                                   trailingAccessoryViewSize: CGSize,
                                   labelAccessoryViewMarginTrailing: CGFloat) {
         let textAreaLeadingOffset = TableViewCell.textAreaLeadingOffset(customViewSize: customViewSize,
@@ -1663,7 +1686,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         )
 
         if let trailingAccessoryView = trailingAccessoryView {
-            let yOffset = ceil(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
+            let yOffset: CGFloat
+            switch trailingAccessoryViewVerticalAlignment {
+            case .top:
+                yOffset = topOffset
+            case .center:
+                yOffset = ceil(topOffset + (labelSize.height - trailingAccessoryViewSize.height) / 2)
+            }
+
             let availableWidth = textAreaWidth - labelSize.width - leadingAccessoryAreaWidth
             let leadingMargin = TableViewCell.labelTrailingAccessoryMarginLeading(text: visibleText,
                                                                                   labelAccessoryViewMarginLeading: TableViewCellTokenSet.labelAccessoryViewMarginLeading)
