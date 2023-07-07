@@ -137,7 +137,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     // |  |--titleTrailingImageView (chevron, optional)
     // |--subtitleContainer
     // |  |--subtitleLabel
-    // |  |--subtitleImageView (chevron, custom, optional)
+    // |  |--subtitleImageView (optional)
 
     private lazy var containingStackView: UIStackView = {
         let stackView = UIStackView()
@@ -341,10 +341,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         container.addArrangedSubview(label)
 
         if interactive {
-            let showCustomSubtitleImage = (accessoryType == .custom) && (container == subtitleContainer)
+            let isTitle = container == titleContainer
             container.accessibilityTraits.insert(.button)
             container.accessibilityTraits.remove(.staticText)
-            trailingImageView.image = showCustomSubtitleImage ? customSubtitleTrailingImage : accessoryType.image(isTitle: container == titleContainer)
+            trailingImageView.image = (!isTitle && accessoryType == .custom) ? customSubtitleTrailingImage : accessoryType.image(isTitle: isTitle)
         } else {
             container.accessibilityTraits.insert(.staticText)
             container.accessibilityTraits.remove(.button)
