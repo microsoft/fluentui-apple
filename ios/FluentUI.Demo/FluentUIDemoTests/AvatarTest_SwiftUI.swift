@@ -27,7 +27,8 @@ class AvatarTestSwiftUI: BaseTest {
     }
 
     func testImages() throws {
-        let setImageSwitch: XCUIElement = app.switches["Set image"]
+        let textField: XCUIElement = app.textFields.firstMatch
+        let setImageSwitch: XCUIElement = app.switches["Set image"].switches.firstMatch
         let image: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*image.*")
         let initials: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*initials.*")
         let icon: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*icon.*")
@@ -42,8 +43,8 @@ class AvatarTestSwiftUI: BaseTest {
         XCTAssert(avatarExists(predicate: initials))
         XCTAssert(!avatarExists(predicate: icon))
 
-        app.textFields.firstMatch.doubleTap()
-        app.menuItems["Cut"].tap()
+        textField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         XCTAssert(!avatarExists(predicate: image))
         XCTAssert(!avatarExists(predicate: initials))
         XCTAssert(avatarExists(predicate: icon))
@@ -55,9 +56,9 @@ class AvatarTestSwiftUI: BaseTest {
     }
 
     func testRings() throws {
-        let ringVisibleSwitch: XCUIElement = app.switches["Ring visible"]
-        let setImageRingSwitch: XCUIElement = app.switches["Set image based ring color"]
-        let ringInnerGapSwitch: XCUIElement = app.switches["Ring inner gap"]
+        let ringVisibleSwitch: XCUIElement = app.switches["Ring visible"].switches.firstMatch
+        let setImageRingSwitch: XCUIElement = app.switches["Set image based ring color"].switches.firstMatch
+        let ringInnerGapSwitch: XCUIElement = app.switches["Ring inner gap"].switches.firstMatch
 
         let noRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with no ring.*")
         let defaultRing: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Avatar.*with a default ring.*")
@@ -111,25 +112,27 @@ class AvatarTestSwiftUI: BaseTest {
         app.buttons[".unknown"].tap()
         XCTAssert(avatarWithAttributeExists(attribute: "presence 7"))
 
-        app.switches["Out of office"].tap()
+        app.switches["Out of office"].switches.firstMatch.tap()
         XCTAssert(avatarWithAttributeExists(attribute: "presence out of office"))
     }
 
     // ensures that activity is only visible with images/initials (on default style, size 56)
     func testActivitiesImage() throws {
-        app.switches["Show image"].tap()
+        let textField: XCUIElement = app.textFields.firstMatch
+
+        app.switches["Show image"].switches.firstMatch.tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS '.none'")).element(boundBy: 1).tap()
         app.buttons[".circle"].tap()
         app.buttons[".size72"].tap()
         app.buttons[".size56"].tap()
 
         XCTAssert(avatarWithAttributeExists(attribute: "activity 1"))
-        app.switches["Set image"].tap()
+        app.switches["Set image"].switches.firstMatch.tap()
         XCTAssert(avatarWithAttributeExists(attribute: "activity 1"))
         // removes name and image to set icon
-        app.textFields.firstMatch.doubleTap()
-        app.menuItems["Cut"].tap()
-        app.switches["Set image"].tap()
+        textField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
+        textField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
+        app.switches["Set image"].switches.firstMatch.tap()
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
 
         app.buttons[".circle"].tap()
@@ -137,16 +140,16 @@ class AvatarTestSwiftUI: BaseTest {
 
         XCTAssert(!avatarWithAttributeExists(attribute: "activity"))
         // adds name back
-        app.textFields.firstMatch.tap()
-        app.menuItems["Paste"].tap()
+        textField.tap()
+        textField.typeText("Kat Larsson\n")
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
-        app.switches["Set image"].tap()
+        app.switches["Set image"].switches.firstMatch.tap()
         XCTAssert(avatarWithAttributeExists(attribute: "activity 2"))
     }
 
     // ensures that activity is only visible on default style (on intials, size 56)
     func testActivitiesStyle() throws {
-        app.switches["Show image"].tap()
+        app.switches["Show image"].switches.firstMatch.tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS '.none'")).element(boundBy: 1).tap()
         app.buttons[".circle"].tap()
         app.buttons[".size72"].tap()
@@ -192,7 +195,7 @@ class AvatarTestSwiftUI: BaseTest {
 
     // ensures that activity is only visible on size 56 and 40 (on intials, default style)
     func testActivitiesSize() throws {
-        app.switches["Show image"].tap()
+        app.switches["Show image"].switches.firstMatch.tap()
         app.buttons.matching(NSPredicate(format: "label CONTAINS '.none'")).element(boundBy: 1).tap()
         app.buttons[".circle"].tap()
 

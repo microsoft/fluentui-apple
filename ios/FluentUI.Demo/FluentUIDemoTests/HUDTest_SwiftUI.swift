@@ -24,7 +24,7 @@ class HUDTestSwiftUI: BaseTest {
     }
 
     func testBlocksPresentation() throws {
-        let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"]
+        let blocksInteractionSwitch: XCUIElement = app.switches["Blocks interaction"].switches.firstMatch
         let presentHUDButton: XCUIElement = app.buttons["Present HUD for 3 seconds"]
 
         // switch value should start as 1
@@ -50,11 +50,10 @@ class HUDTestSwiftUI: BaseTest {
     }
 
     func testLabels() throws {
+        let textField: XCUIElement = app.textFields.firstMatch
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with no label")).exists)
-        app.textFields.firstMatch.tap()
-        UIPasteboard.general.string = "label"
-        app.textFields.element.doubleTap()
-        app.menuItems["Paste"].tap()
+        textField.tap()
+        textField.typeText("label\n")
         XCTAssert(app.images.element(matching: NSPredicate(format: "identifier CONTAINS %@", "HUD with label \"label\"")).exists)
     }
 
