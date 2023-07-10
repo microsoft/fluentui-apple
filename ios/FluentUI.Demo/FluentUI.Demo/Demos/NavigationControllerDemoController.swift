@@ -379,9 +379,10 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         },
         9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
             $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
             $0.navigationItem.subtitle = "Subtitle"
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
         },
         10: TitleViewFeature(name: "Centered, image, down arrow, subtitle") {
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")

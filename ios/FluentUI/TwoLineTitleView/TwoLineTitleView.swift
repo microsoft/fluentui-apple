@@ -298,6 +298,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         } else {
             titlesStackView.addArrangedSubview(titleContainer)
             titlesStackView.addArrangedSubview(subtitleContainer)
+            containingStackView.alignment = .center
             containingStackView.axis = .horizontal
             containingStackView.spacing = 4.0
             containingStackView.addArrangedSubview(titleLeadingImageView)

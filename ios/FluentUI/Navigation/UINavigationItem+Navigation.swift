@@ -18,6 +18,7 @@ import UIKit
         static var subtitle: UInt8 = 0
         static var titleStyle: UInt8 = 0
         static var customNavigationBarColor: UInt8 = 0
+        static var isTitleImageLeadingForTitleAndSubtitle: UInt8 = 0
     }
 
     var accessoryView: UIView? {
@@ -112,6 +113,15 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.titleStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    var isTitleImageLeadingForTitleAndSubtitle: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.isTitleImageLeadingForTitleAndSubtitle) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.isTitleImageLeadingForTitleAndSubtitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
