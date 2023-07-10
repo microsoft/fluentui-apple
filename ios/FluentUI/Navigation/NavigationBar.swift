@@ -521,7 +521,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
 
         let desiredHeight = (systemWantsCompactNavigationBar && itemCanBeCompact) ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
-        print("desiredHeight is \(desiredHeight)")
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
