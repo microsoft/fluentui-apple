@@ -153,6 +153,6 @@ extension UINavigationItem {
             return true
         }
 
-        return subtitle == nil && titleStyle != .largeLeading && accessoryView == nil
+        return subtitle == nil && accessoryView == nil
     }
 }
