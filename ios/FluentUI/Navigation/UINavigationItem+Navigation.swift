@@ -18,6 +18,7 @@ import UIKit
         static var subtitle: UInt8 = 0
         static var titleStyle: UInt8 = 0
         static var customNavigationBarColor: UInt8 = 0
+        static var customSubtitleTrailingImage: UInt8 = 0
     }
 
     var accessoryView: UIView? {
@@ -92,6 +93,16 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.navigationBarShadow, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// An optional image to show on the trailing end of the navigation bar's subtitle.
+    var customSubtitleTrailingImage: UIImage? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.customSubtitleTrailingImage) as? UIImage
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.customSubtitleTrailingImage, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
