@@ -372,6 +372,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.titleStyle = .leading
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
         },
         8: TitleViewFeature(name: "Centered, image, subtitle") {
             $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")

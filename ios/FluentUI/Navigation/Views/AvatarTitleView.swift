@@ -321,9 +321,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
         titleStyle = navigationItem.titleStyle
         twoLineTitleView.setup(navigationItem: navigationItem)
 
-        if navigationItem.isTitleImageLeadingForTitleAndSubtitle {
-            avatar?.removeFromSuperview()
-        }
+        showsProfileButton = !navigationItem.isTitleImageLeadingForTitleAndSubtitle
 
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion

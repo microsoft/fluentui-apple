@@ -288,6 +288,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
             containingStackView.removeAllSubviews()
             containingStackView.alignment = alignment.stackViewAlignment
             containingStackView.addArrangedSubview(titleContainer)
+            containingStackView.axis = .vertical
+            containingStackView.spacing = 0.0
 
             if subtitle?.isEmpty == false {
                 maximumContentSizeCategory = .large
