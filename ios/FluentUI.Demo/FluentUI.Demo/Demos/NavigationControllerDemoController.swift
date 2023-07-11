@@ -412,6 +412,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             searchBar.placeholderText = "Search"
             $0.navigationItem.accessoryView = searchBar
             $0.navigationItem.contentScrollView = $0.tableView
+        },
+        16: TitleViewFeature(name: "Leading-aligned, subtitle with custom trailing image") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
         }
     ]
 
