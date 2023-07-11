@@ -43,7 +43,7 @@ open class NavigationController: UINavigationController {
     }
     private weak var _delegate: UINavigationControllerDelegate?
 
-    let forcesCompactBarExpansion: Bool
+    private let forcesCompactBarExpansion: Bool
 
     // Using "lazy var" instead of "let" to avoid memory leak issue in iOS 12
     private lazy var transitionAnimator = NavigationAnimator()
