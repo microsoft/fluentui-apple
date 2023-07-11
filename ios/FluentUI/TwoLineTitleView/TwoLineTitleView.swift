@@ -298,11 +298,14 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 maximumContentSizeCategory = .extraExtraLarge
             }
         } else {
+            guard subtitle?.isEmpty == false else {
+                preconditionFailure("A subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
+            }
             titlesStackView.addArrangedSubview(titleContainer)
             titlesStackView.addArrangedSubview(subtitleContainer)
             containingStackView.alignment = .center
             containingStackView.axis = .horizontal
-            containingStackView.spacing = 4.0
+            containingStackView.spacing = 8.0
             containingStackView.addArrangedSubview(titleLeadingImageView)
             containingStackView.addArrangedSubview(titlesStackView)
         }
