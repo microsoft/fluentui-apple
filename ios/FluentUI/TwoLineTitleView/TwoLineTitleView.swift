@@ -275,10 +275,10 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         self.accessoryType = accessoryType
         self.customSubtitleTrailingImage = customSubtitleTrailingImage
 
-        setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
-
         titleLeadingImageView.image = titleImage
         titleLeadingImageView.isHidden = titleImage == nil
+
+        setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
 
         if !isTitleImageLeadingForTitleAndSubtitle && titleLeadingImageView.image != nil {
             titleContainer.insertArrangedSubview(titleLeadingImageView, at: 0)
@@ -290,7 +290,18 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
 
         minimumContentSizeCategory = .large
 
-        if !isTitleImageLeadingForTitleAndSubtitle {
+        if isTitleImageLeadingForTitleAndSubtitle {
+            guard subtitle?.isEmpty == false, titleImage != nil else {
+                preconditionFailure("A title image and a subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
+            }
+            titlesStackView.addArrangedSubview(titleContainer)
+            titlesStackView.addArrangedSubview(subtitleContainer)
+            containingStackView.alignment = .center
+            containingStackView.axis = .horizontal
+            containingStackView.spacing = 8.0
+            containingStackView.addArrangedSubview(titleLeadingImageView)
+            containingStackView.addArrangedSubview(titlesStackView)
+        } else {
             containingStackView.removeAllSubviews()
             containingStackView.alignment = alignment.stackViewAlignment
             containingStackView.addArrangedSubview(titleContainer)
@@ -303,17 +314,6 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
             } else {
                 maximumContentSizeCategory = .extraExtraLarge
             }
-        } else {
-            guard subtitle?.isEmpty == false, titleImage != nil else {
-                preconditionFailure("A title image and a subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
-            }
-            titlesStackView.addArrangedSubview(titleContainer)
-            titlesStackView.addArrangedSubview(subtitleContainer)
-            containingStackView.alignment = .center
-            containingStackView.axis = .horizontal
-            containingStackView.spacing = 8.0
-            containingStackView.addArrangedSubview(titleLeadingImageView)
-            containingStackView.addArrangedSubview(titlesStackView)
         }
     }
 
