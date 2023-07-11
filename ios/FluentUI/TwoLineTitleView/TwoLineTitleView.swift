@@ -289,25 +289,22 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart.contains(.subtitle), accessoryType: accessoryType)
 
         minimumContentSizeCategory = .large
+        setupContainingStackView(isTitleImageLeadingForTitleAndSubtitle: isTitleImageLeadingForTitleAndSubtitle,
+                                 alignment: alignment.stackViewAlignment)
 
         if isTitleImageLeadingForTitleAndSubtitle {
             guard subtitle?.isEmpty == false, titleImage != nil else {
                 preconditionFailure("A title image and a subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
             }
             maximumContentSizeCategory = .large
+
             titlesStackView.addArrangedSubview(titleContainer)
             titlesStackView.addArrangedSubview(subtitleContainer)
-            containingStackView.alignment = .center
-            containingStackView.axis = .horizontal
-            containingStackView.spacing = 8.0
+
             containingStackView.addArrangedSubview(titleLeadingImageView)
             containingStackView.addArrangedSubview(titlesStackView)
         } else {
-            containingStackView.removeAllSubviews()
-            containingStackView.alignment = alignment.stackViewAlignment
             containingStackView.addArrangedSubview(titleContainer)
-            containingStackView.axis = .vertical
-            containingStackView.spacing = 0.0
 
             if subtitle?.isEmpty == false {
                 maximumContentSizeCategory = .large
@@ -316,6 +313,13 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 maximumContentSizeCategory = .extraExtraLarge
             }
         }
+    }
+
+    private func setupContainingStackView(isTitleImageLeadingForTitleAndSubtitle: Bool, alignment: UIStackView.Alignment) {
+        containingStackView.removeAllSubviews()
+        containingStackView.alignment = isTitleImageLeadingForTitleAndSubtitle ? .center : alignment
+        containingStackView.axis = isTitleImageLeadingForTitleAndSubtitle ? .horizontal : .vertical
+        containingStackView.spacing = isTitleImageLeadingForTitleAndSubtitle ? TwoLineTitleViewTokenSet.leadingImageAndTitleSpacing : 0.0
     }
 
     // MARK: Highlighting
