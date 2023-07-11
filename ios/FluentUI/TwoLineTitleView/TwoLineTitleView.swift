@@ -298,8 +298,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
                 maximumContentSizeCategory = .extraExtraLarge
             }
         } else {
-            guard subtitle?.isEmpty == false else {
-                preconditionFailure("A subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
+            guard subtitle?.isEmpty == false, titleImage != nil else {
+                preconditionFailure("A title image and a subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
             }
             titlesStackView.addArrangedSubview(titleContainer)
             titlesStackView.addArrangedSubview(subtitleContainer)
