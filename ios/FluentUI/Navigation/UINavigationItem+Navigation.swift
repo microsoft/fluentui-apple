@@ -127,6 +127,7 @@ import UIKit
         }
     }
 
+    /// Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle of the navigation bar.
     var isTitleImageLeadingForTitleAndSubtitle: Bool {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.isTitleImageLeadingForTitleAndSubtitle) as? Bool ?? false

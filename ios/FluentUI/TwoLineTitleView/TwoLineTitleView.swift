@@ -146,6 +146,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         return stackView
     }()
 
+    // Container used for the title and subtitle when the title image is leading for both.
     private lazy var titlesStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -253,6 +254,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     ///   - customSubtitleTrailingImage: An optional image to be used as the trailing image of the subtitle if `interactivePart` is `.custom`.
+    ///   - isTitleImageLeadingForTitleAndSubtitle: Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle. Both `titleImage` and `subtitle` must be provided when this value is set to `true`.
     @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil, isTitleImageLeadingForTitleAndSubtitle: Bool = false) {
         setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesWhenPressed: true, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage, isTitleImageLeadingForTitleAndSubtitle: isTitleImageLeadingForTitleAndSubtitle)
     }
@@ -268,6 +270,7 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - animatesWhenPressed: If true, the text color will flash when pressed. Ignored if `interactivePart` is `.none`.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     ///   - customSubtitleTrailingImage: An optional image to be used as the trailing image of the subtitle if `interactivePart` is `.custom`.
+    ///   - isTitleImageLeadingForTitleAndSubtitle: Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle. Both `titleImage` and `subtitle` must be provided when this value is set to `true`.
     @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil, isTitleImageLeadingForTitleAndSubtitle: Bool = false) {
         self.alignment = alignment
         self.interactivePart = interactivePart
