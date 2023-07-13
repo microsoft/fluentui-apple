@@ -93,6 +93,9 @@ class CommandBarCommandGroupsView: UIView {
 
         updateButtonGroupViews()
         for view in buttonGroupViews {
+            if usesEqualWidthGroups() {
+                view.setEqualWidthButtons()
+            }
             buttonGroupsStackView.addArrangedSubview(view)
         }
     }
@@ -134,5 +137,9 @@ class CommandBarCommandGroupsView: UIView {
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         sender.item.handleTapped(sender)
         sender.updateState()
+    }
+
+    private func usesEqualWidthGroups() -> Bool {
+        return buttonGroupsStackView.distribution == .fillEqually
     }
 }

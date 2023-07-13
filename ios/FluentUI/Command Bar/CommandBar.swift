@@ -324,11 +324,10 @@ public class CommandBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.deactivate(mainCommandGroupsViewConstraints)
         if isScrollable {
             mainCommandGroupsViewConstraints = [
-                mainCommandGroupsView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
                 mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
                 mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor),
                 mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-                mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
+                mainCommandGroupsView.trailingAnchor.constraint(greaterThanOrEqualTo: scrollView.trailingAnchor)
             ]
         } else {
             mainCommandGroupsViewConstraints = [
