@@ -108,6 +108,7 @@ open class Button: NSButton {
 		// properties have their default values
 		let defaultFormat = ButtonFormat()
 		if style == defaultFormat.style {
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
 		}
 		if size == defaultFormat.size {
@@ -118,6 +119,23 @@ open class Button: NSButton {
 														  object: nil,
 														  queue: nil) {[weak self] _ in
 			self?.increaseContrastEnabled = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+		}
+	}
+	
+	func setupBorderShadowsIfNeeded() {
+		self.usesBorderShadows = style == .primary || style == .secondary
+	}
+	
+	var firstOuterDropShadowLayer : CALayer?
+	var secondOuterDropShadowLayer : CALayer?
+	var innerShadowLayer : CALayer?
+	
+	open override func layout() {
+		super.layout()
+		if usesBorderShadows {
+			firstOuterDropShadowLayer?.frame = self.bounds
+			secondOuterDropShadowLayer?.frame = self.bounds
+			innerShadowLayer?.frame = self.bounds
 		}
 	}
 
@@ -247,6 +265,24 @@ open class Button: NSButton {
 			layer.backgroundColor = backgroundColorRest?.cgColor
 			layer.borderColor = borderColorRest?.cgColor
 		}
+
+		if usesBorderShadows {
+			updateShadowLayer(shadowLayer: firstOuterDropShadowLayer,
+							  shadowColor: NSColor(named: "ButtonColors/firstOuterDropShadow", bundle: FluentUIResources.resourceBundle)?.cgColor)
+			updateShadowLayer(shadowLayer: secondOuterDropShadowLayer,
+							  shadowColor: NSColor(named: "ButtonColors/secondOuterDropShadow", bundle: FluentUIResources.resourceBundle)?.cgColor)
+			updateShadowLayer(shadowLayer: innerShadowLayer,
+							  shadowColor: NSColor(named: "ButtonColors/innerShadow", bundle: FluentUIResources.resourceBundle)?.cgColor)
+		}
+	}
+	
+	func updateShadowLayer(shadowLayer: CALayer?, shadowColor: CGColor?) {
+		guard let layer = layer else {
+			return
+		}
+		shadowLayer?.backgroundColor = layer.backgroundColor
+		shadowLayer?.cornerRadius = layer.cornerRadius
+		shadowLayer?.shadowColor = shadowColor
 	}
 
 	public override var wantsUpdateLayer: Bool {
@@ -433,7 +469,60 @@ open class Button: NSButton {
 			guard oldValue != style else {
 				return
 			}
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
+	}
+	
+	var usesBorderShadows: Bool = false {
+		didSet {
+			guard oldValue != usesBorderShadows else {
+				return
+			}
+
+			if (usesBorderShadows) {
+				firstOuterDropShadowLayer = CALayer()
+				secondOuterDropShadowLayer = CALayer()
+				innerShadowLayer = CALayer()
+				
+				self.layer?.masksToBounds = false
+
+				if let firstOuterDropShadowLayer = firstOuterDropShadowLayer {
+					firstOuterDropShadowLayer.shadowOffset = CGSize(width: 0.0, height: 1)
+					firstOuterDropShadowLayer.shadowRadius = 0.75
+					firstOuterDropShadowLayer.shadowOpacity = 1
+					firstOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+
+					self.layer?.addSublayer(firstOuterDropShadowLayer)
+				}
+
+				if let secondOuterDropShadowLayer = secondOuterDropShadowLayer {
+					secondOuterDropShadowLayer.shadowOffset = CGSize(width: 0, height: 0)
+					secondOuterDropShadowLayer.shadowRadius = 0.5
+					secondOuterDropShadowLayer.shadowOpacity = 1
+					secondOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+
+					self.layer?.addSublayer(secondOuterDropShadowLayer)
+				}
+				
+				if let innerShadowLayer = innerShadowLayer {
+					innerShadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
+					innerShadowLayer.shadowRadius = 0.5
+					innerShadowLayer.shadowOpacity = 1
+					innerShadowLayer.needsDisplayOnBoundsChange = true
+					
+					self.layer?.addSublayer(innerShadowLayer)
+				}
+			} else {
+				firstOuterDropShadowLayer?.removeFromSuperlayer()
+				secondOuterDropShadowLayer?.removeFromSuperlayer()
+				innerShadowLayer?.removeFromSuperlayer()
+				
+				firstOuterDropShadowLayer = nil
+				secondOuterDropShadowLayer = nil
+				innerShadowLayer = nil
+			}
 			needsDisplay = true
 		}
 	}
