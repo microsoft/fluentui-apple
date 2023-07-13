@@ -104,7 +104,19 @@ extension TableViewHeaderFooterViewDemoController {
 
     private func createCustomLeadingView(section: Int) -> UIView {
         let imageName = collapsedSections[section] ? "chevron-right-20x20" : "chevron-down-20x20"
-        return UIImageView(image: UIImage(named: imageName))
+        let chevron = UIImageView(image: UIImage(named: imageName))
+        chevron.translatesAutoresizingMaskIntoConstraints = false
+
+        let image = UIImageView(image: UIImage(named: "image-24x24"))
+        image.translatesAutoresizingMaskIntoConstraints = false
+
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = GlobalTokens.spacing(.size40)
+        stackView.addArrangedSubview(chevron)
+        stackView.addArrangedSubview(image)
+
+        return stackView
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
