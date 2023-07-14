@@ -1,14 +1,14 @@
 import Foundation
 
 guard CommandLine.arguments.count >= 2 else {
-    print("C'mon gimme a version")
+    print("Please provide a version in the format X.Y.Z.")
     exit(0)
 }
 
 let newValue = CommandLine.arguments[1]
-let versionRegex = try? NSRegularExpression(pattern: "^\\d+\\.\\d+\\.\\d+$")
+let versionRegex = try? Regex("^\\d+\\.\\d+\\.\\d+$")
 let versionRange = NSRange(location: 0, length: newValue.utf16.count)
-guard versionRegex?.firstMatch(in: newValue, options: [], range: versionRange) != nil else {
+guard let _ = try versionRegex?.firstMatch(in: newValue) else {
     print("Invalid version format. Please provide a version in the format X.Y.Z.")
     exit(0)
 }
@@ -25,8 +25,12 @@ let regexPattern = "s.version\\s*=\\s*'([^']*)'"
 
 if let range = fileContents.range(of: regexPattern, options: .regularExpression) {
     let oldValue = fileContents[range]
-    let updatedValue = oldValue.replacingOccurrences(of: oldValue, with: "s.version          = '\(newValue)'")
-    fileContents.replaceSubrange(range, with: updatedValue)
+    let oldVersion = "\\d+\\.\\d+\\.\\d+"
+    if let oldVersionRange = oldValue.range(of: oldVersion, options: .regularExpression) {
+        let version = oldValue[oldVersionRange]
+        let updatedValue = oldValue.replacingOccurrences(of: version, with: newValue)
+        fileContents.replaceSubrange(range, with: updatedValue)
+    }
 } else {
     print("Failed to find the field s.version in the MicrosoftFluentUI.podspec file.")
     exit(0)
