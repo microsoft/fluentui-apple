@@ -141,7 +141,9 @@ open class BottomCommandingController: UIViewController {
     /// Tapping the button will expand or collapse the sheet.
     @objc open var prefersSheetMoreButtonVisible: Bool = true {
         didSet {
-            reloadHeroCommandStack()
+            if isViewLoaded {
+                reloadHeroCommandStack()
+            }
         }
     }
 
