@@ -45,7 +45,7 @@ class BottomCommandingDemoController: UIViewController {
     private var mainTableViewController: UITableViewController?
 
     private lazy var heroItems: [CommandingItem] = {
-        return Array(1...4).map {
+        return Array(1...25).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
             return item
@@ -213,7 +213,7 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func incrementHeroCommands() {
         let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount < 4 {
+        if currentCount < 25 {
             let newCount = currentCount + 1
             bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
         }
