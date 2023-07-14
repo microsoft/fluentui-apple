@@ -495,9 +495,48 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func reloadHeroCommandStack() {
-        let heroViews = extendedHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroCommandStack.removeAllSubviews()
+        NSLayoutConstraint.deactivate(heroOverflowStackConstraints)
+        let featuredHeroCount: Int
+        let featuredHeroItems: [CommandingItem]
+        if prefersSheetMoreButtonVisible {
+            featuredHeroCount = Constants.heroCommandsPerRow - 1
+            featuredHeroItems = (heroItems.prefix(featuredHeroCount) + [moreHeroItem])
+        } else {
+            featuredHeroCount = Constants.heroCommandsPerRow
+            featuredHeroItems = Array(heroItems.prefix(featuredHeroCount))
+        }
+        let heroViews = featuredHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
+        if featuredHeroCount < heroItems.count {
+            reloadHeroCommandOverflowStack()
+        } else {
+            tableView.tableHeaderView = nil
+        }
+    }
+
+    private func reloadHeroCommandOverflowStack() {
+        let commandsPerRow = Constants.heroCommandsPerRow
+        heroCommandOverflowStack.removeAllSubviews()
+        let heroOverflowViews = heroItems.suffix(from: commandsPerRow - (prefersSheetMoreButtonVisible ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
+        for i in 0...(heroOverflowViews.count / commandsPerRow) {
+            var rowViews = Array(heroOverflowViews.suffix(from: i * commandsPerRow).prefix(commandsPerRow))
+            let heroCount = rowViews.count
+            if heroCount == 0 {
+                continue
+            } else if heroCount != commandsPerRow {
+                rowViews.append(contentsOf: Array(1...(commandsPerRow - heroCount)).map { _ in UIView() })
+            }
+            let rowStack = UIStackView(arrangedSubviews: rowViews)
+            rowStack.axis = .horizontal
+            rowStack.distribution = .fillEqually
+            let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+            rowStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
+            rowStack.isLayoutMarginsRelativeArrangement = true
+            heroCommandOverflowStack.addArrangedSubview(rowStack)
+        }
+        tableView.tableHeaderView = heroCommandOverflowStack
+        NSLayoutConstraint.activate(heroOverflowStackConstraints)
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -513,6 +552,26 @@ open class BottomCommandingController: UIViewController {
         stackView.alignment = .top
         return stackView
     }()
+
+    private lazy var heroCommandOverflowStack: UIStackView = {
+        let spacing = Constants.heroCommandOverflowStackSpacing
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addInteraction(UILargeContentViewerInteraction())
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = spacing
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: spacing, leading: 0, bottom: spacing, trailing: 0)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
+    private lazy var heroOverflowStackConstraints: [NSLayoutConstraint] = [
+        heroCommandOverflowStack.topAnchor.constraint(equalTo: tableView.topAnchor),
+        heroCommandOverflowStack.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+        heroCommandOverflowStack.widthAnchor.constraint(equalTo: tableView.widthAnchor)
+    ]
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -885,6 +944,8 @@ open class BottomCommandingController: UIViewController {
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
+        static let heroCommandsPerRow: Int = 5
+        static let heroCommandOverflowStackSpacing: CGFloat = 8
 
         struct BottomBar {
             static let height: CGFloat = 80
