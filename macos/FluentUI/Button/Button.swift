@@ -135,9 +135,9 @@ open class Button: NSButton {
 		self.usesBorderShadows = style == .primary || style == .secondary
 	}
 
-	var firstOuterDropShadowLayer : CALayer?
-	var secondOuterDropShadowLayer : CALayer?
-	var innerShadowLayer : CALayer?
+	var firstOuterDropShadowLayer: CALayer?
+	var secondOuterDropShadowLayer: CALayer?
+	var innerShadowLayer: CALayer?
 
 	open override func layout() {
 		super.layout()
@@ -293,7 +293,7 @@ open class Button: NSButton {
 							  shadowColor: ButtonColor.innerShadow?.cgColor)
 		}
 	}
-	
+
 	func updateShadowLayer(shadowLayer: CALayer?, shadowColor: CGColor?) {
 		guard let layer = layer else {
 			return
@@ -494,14 +494,14 @@ open class Button: NSButton {
 			needsDisplay = true
 		}
 	}
-	
+
 	var usesBorderShadows: Bool = false {
 		didSet {
 			guard oldValue != usesBorderShadows else {
 				return
 			}
 
-			if (usesBorderShadows) {
+			if usesBorderShadows {
 				firstOuterDropShadowLayer = CALayer()
 				secondOuterDropShadowLayer = CALayer()
 				innerShadowLayer = CALayer()
@@ -515,7 +515,6 @@ open class Button: NSButton {
 					firstOuterDropShadowLayer.shadowRadius = 0.75
 					firstOuterDropShadowLayer.shadowOpacity = 1
 					firstOuterDropShadowLayer.needsDisplayOnBoundsChange = true
-
 					self.layer?.addSublayer(firstOuterDropShadowLayer)
 				}
 
@@ -524,23 +523,20 @@ open class Button: NSButton {
 					secondOuterDropShadowLayer.shadowRadius = 0.5
 					secondOuterDropShadowLayer.shadowOpacity = 1
 					secondOuterDropShadowLayer.needsDisplayOnBoundsChange = true
-
 					self.layer?.addSublayer(secondOuterDropShadowLayer)
 				}
-				
+
 				if let innerShadowLayer = innerShadowLayer {
 					innerShadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
 					innerShadowLayer.shadowRadius = 0.5
 					innerShadowLayer.shadowOpacity = 1
 					innerShadowLayer.needsDisplayOnBoundsChange = true
-					
 					self.layer?.addSublayer(innerShadowLayer)
 				}
 			} else {
 				firstOuterDropShadowLayer?.removeFromSuperlayer()
 				secondOuterDropShadowLayer?.removeFromSuperlayer()
 				innerShadowLayer?.removeFromSuperlayer()
-				
 				firstOuterDropShadowLayer = nil
 				secondOuterDropShadowLayer = nil
 				innerShadowLayer = nil
