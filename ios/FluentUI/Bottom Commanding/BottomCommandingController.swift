@@ -84,14 +84,13 @@ open class BottomCommandingController: UIViewController {
     /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
     /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
     ///
-    /// At most 5 hero items are supported.
+    /// Up to 5 hero items will be displayed  in the bottom bar, the rest will be displayed with the items from
+    /// the `expandedListSections`.
     @objc open var heroItems: [CommandingItem] = [] {
         willSet {
             heroItems.forEach { removeBinding(for: $0) }
         }
         didSet {
-            precondition(heroItems.count <= 5, "At most 5 hero commands are supported.")
-
             if isViewLoaded {
                 reloadHeroCommandStack()
                 updateSheetHeaderSizingParameters()
