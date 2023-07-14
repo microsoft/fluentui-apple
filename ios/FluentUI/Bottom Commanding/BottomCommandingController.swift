@@ -412,8 +412,8 @@ open class BottomCommandingController: UIViewController {
             sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: Constants.BottomSheet.headerLeadingTrailingMargin),
-            heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -Constants.BottomSheet.headerLeadingTrailingMargin),
+            heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
             heroStackTopConstraint
         ])
 
@@ -562,6 +562,9 @@ open class BottomCommandingController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
         stackView.alignment = .top
+        let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
 
@@ -987,7 +990,7 @@ open class BottomCommandingController: UIViewController {
         struct BottomSheet {
             static let headerHeight: CGFloat = 66
             static let headerTopMargin: CGFloat = 8
-            static let headerLeadingTrailingMargin: CGFloat = 8
+            static let headerLeadingTrailingMargin: CGFloat = 16
         }
     }
 }
