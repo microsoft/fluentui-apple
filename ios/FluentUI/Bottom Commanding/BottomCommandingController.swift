@@ -321,6 +321,15 @@ open class BottomCommandingController: UIViewController {
         updateSheetHeaderSizingParameters()
     }
 
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if let tableHeaderView = tableView.tableHeaderView {
+            let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+            tableHeaderView.frame = CGRect(origin: .zero, size: fittingSize)
+        }
+    }
+
     /// A string to optionally customize the accessibility label of the bottom sheet handle.
     /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
     @objc public var handleExpandCustomAccessibilityLabel: String? {
@@ -537,6 +546,9 @@ open class BottomCommandingController: UIViewController {
         }
         tableView.tableHeaderView = heroCommandOverflowStack
         NSLayoutConstraint.activate(heroOverflowStackConstraints)
+        if isInSheetMode {
+            view.setNeedsLayout()
+        }
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -624,6 +636,11 @@ open class BottomCommandingController: UIViewController {
                 tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
                 tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
             ])
+            if let tableHeaderView = tableView.tableHeaderView {
+                let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+                tableHeaderView.frame = CGRect(origin: .zero, size: fittingSize)
+                popoverContentViewController.view.setNeedsLayout()
+            }
             present(popoverContentViewController, animated: true) { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -861,6 +878,10 @@ open class BottomCommandingController: UIViewController {
     // Estimated fitting height of `tableView`.
     private var estimatedTableViewHeight: CGFloat {
         var totalHeight: CGFloat = 0
+        if let tableHeaderView = tableView.tableHeaderView {
+            let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+            totalHeight += fittingSize.height
+        }
         for section in expandedListSections {
             totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
             for item in section.items {
