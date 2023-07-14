@@ -19,6 +19,7 @@ import UIKit
         static var titleStyle: UInt8 = 0
         static var customNavigationBarColor: UInt8 = 0
         static var customSubtitleTrailingImage: UInt8 = 0
+        static var isTitleImageLeadingForTitleAndSubtitle: UInt8 = 0
     }
 
     var accessoryView: UIView? {
@@ -123,6 +124,16 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.titleStyle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle of the navigation bar.
+    var isTitleImageLeadingForTitleAndSubtitle: Bool {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.isTitleImageLeadingForTitleAndSubtitle) as? Bool ?? false
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.isTitleImageLeadingForTitleAndSubtitle, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

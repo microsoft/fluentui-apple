@@ -146,6 +146,16 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         return stackView
     }()
 
+    // Container used for the title and subtitle when the title image is leading for both.
+    private lazy var titlesStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 0.0
+        stackView.alignment = .leading
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+
     private let titleContainer: UIStackView
     private let subtitleContainer: UIStackView
 
@@ -244,8 +254,9 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - interactivePart: Determines which line, if any, of the view will have interactive button behavior.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     ///   - customSubtitleTrailingImage: An optional image to be used as the trailing image of the subtitle if `interactivePart` is `.custom`.
-    @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil) {
-        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesWhenPressed: true, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage)
+    ///   - isTitleImageLeadingForTitleAndSubtitle: Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle. Both `titleImage` and `subtitle` must be provided when this value is set to `true`.
+    @objc open func setup(title: String, subtitle: String? = nil, interactivePart: InteractivePart = .none, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil, isTitleImageLeadingForTitleAndSubtitle: Bool = false) {
+        setup(title: title, subtitle: subtitle, alignment: .center, interactivePart: interactivePart, animatesWhenPressed: true, accessoryType: accessoryType, customSubtitleTrailingImage: customSubtitleTrailingImage, isTitleImageLeadingForTitleAndSubtitle: isTitleImageLeadingForTitleAndSubtitle)
     }
 
     /// Sets the relevant strings and button styles for the title and subtitle.
@@ -259,7 +270,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
     ///   - animatesWhenPressed: If true, the text color will flash when pressed. Ignored if `interactivePart` is `.none`.
     ///   - accessoryType: Determines which accessory will be shown with the `interactivePart` of the view, if any. Ignored if `interactivePart` is `.none`.
     ///   - customSubtitleTrailingImage: An optional image to be used as the trailing image of the subtitle if `interactivePart` is `.custom`.
-    @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil) {
+    ///   - isTitleImageLeadingForTitleAndSubtitle: Determines whether the provided `titleImage` is used on the leading end of both the title and subtitle. Both `titleImage` and `subtitle` must be provided when this value is set to `true`.
+    @objc open func setup(title: String, titleImage: UIImage? = nil, subtitle: String? = nil, alignment: Alignment = .center, interactivePart: InteractivePart = .none, animatesWhenPressed: Bool = true, accessoryType: AccessoryType = .none, customSubtitleTrailingImage: UIImage? = nil, isTitleImageLeadingForTitleAndSubtitle: Bool = false) {
         self.alignment = alignment
         self.interactivePart = interactivePart
         self.animatesWhenPressed = animatesWhenPressed
@@ -270,7 +282,8 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         titleLeadingImageView.isHidden = titleImage == nil
 
         setupTitleLine(titleContainer, label: titleLabel, trailingImageView: titleTrailingImageView, text: title, interactive: interactivePart.contains(.title), accessoryType: accessoryType)
-        if titleLeadingImageView.image != nil {
+
+        if !isTitleImageLeadingForTitleAndSubtitle && titleLeadingImageView.image != nil {
             titleContainer.insertArrangedSubview(titleLeadingImageView, at: 0)
         }
 
@@ -279,17 +292,37 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         setupTitleLine(subtitleContainer, label: subtitleLabel, trailingImageView: subtitleImageView, text: subtitle, interactive: interactivePart.contains(.subtitle), accessoryType: accessoryType)
 
         minimumContentSizeCategory = .large
+        setupContainingStackView(isTitleImageLeadingForTitleAndSubtitle: isTitleImageLeadingForTitleAndSubtitle,
+                                 alignment: alignment.stackViewAlignment)
 
-        containingStackView.removeAllSubviews()
-        containingStackView.alignment = alignment.stackViewAlignment
-        containingStackView.addArrangedSubview(titleContainer)
-
-        if subtitle?.isEmpty == false {
+        if isTitleImageLeadingForTitleAndSubtitle {
+            guard subtitle?.isEmpty == false, titleImage != nil else {
+                preconditionFailure("A title image and a subtitle must be provided when `isTitleImageLeadingForTitleAndSubtitle` is set to true.")
+            }
             maximumContentSizeCategory = .large
-            containingStackView.addArrangedSubview(subtitleContainer)
+
+            titlesStackView.addArrangedSubview(titleContainer)
+            titlesStackView.addArrangedSubview(subtitleContainer)
+
+            containingStackView.addArrangedSubview(titleLeadingImageView)
+            containingStackView.addArrangedSubview(titlesStackView)
         } else {
-            maximumContentSizeCategory = .extraExtraLarge
+            containingStackView.addArrangedSubview(titleContainer)
+
+            if subtitle?.isEmpty == false {
+                maximumContentSizeCategory = .large
+                containingStackView.addArrangedSubview(subtitleContainer)
+            } else {
+                maximumContentSizeCategory = .extraExtraLarge
+            }
         }
+    }
+
+    private func setupContainingStackView(isTitleImageLeadingForTitleAndSubtitle: Bool, alignment: UIStackView.Alignment) {
+        containingStackView.removeAllSubviews()
+        containingStackView.alignment = isTitleImageLeadingForTitleAndSubtitle ? .center : alignment
+        containingStackView.axis = isTitleImageLeadingForTitleAndSubtitle ? .horizontal : .vertical
+        containingStackView.spacing = isTitleImageLeadingForTitleAndSubtitle ? TwoLineTitleViewTokenSet.leadingImageAndTitleSpacing : 0.0
     }
 
     // MARK: Highlighting

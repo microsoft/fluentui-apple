@@ -416,6 +416,22 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             $0.navigationItem.subtitle = "Subtitle"
             $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+        },
+        17: TitleViewFeature(name: "Leading title with leading image for both title and subtitle") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
+        },
+        18: TitleViewFeature(name: "Centered title with leading image for both title and subtitle") {
+            $0.navigationItem.titleStyle = .system
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
         }
     ]
 

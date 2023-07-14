@@ -135,7 +135,8 @@
                           subtitle:nil
                    interactivePart:MSFTwoLineTitleViewInteractivePartTitle
                      accessoryType:MSFTwoLineTitleViewAccessoryTypeNone
-       customSubtitleTrailingImage:nil];
+       customSubtitleTrailingImage:nil
+isTitleImageLeadingForTitleAndSubtitle:false];
     self.titleView.delegate = self;
     self.navigationItem.titleView = self.titleView;
 }

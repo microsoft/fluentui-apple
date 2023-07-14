@@ -62,6 +62,6 @@ extension TwoLineTitleView {
             animatesWhenPressed = false
         }
 
-        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType, customSubtitleTrailingImage: navigationItem.customSubtitleTrailingImage)
+        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType, customSubtitleTrailingImage: navigationItem.customSubtitleTrailingImage, isTitleImageLeadingForTitleAndSubtitle: navigationItem.isTitleImageLeadingForTitleAndSubtitle)
     }
 }
