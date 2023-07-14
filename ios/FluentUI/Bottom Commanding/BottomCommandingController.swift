@@ -700,7 +700,7 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
+    private func createAndBindHeroCommandView(with item: CommandingItem, isOverflow: Bool = false) -> UIView {
         let itemImage = item.image ?? UIImage()
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
@@ -718,8 +718,14 @@ open class BottomCommandingController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
 
-        let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
-        widthConstraint.isActive = !isInSheetMode
+        let widthConstraint: NSLayoutConstraint?
+        if isOverflow {
+            widthConstraint = nil
+        } else {
+            let constraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
+            constraint.isActive = !isInSheetMode
+            widthConstraint = constraint
+        }
 
         item.delegate = self
         let binding = HeroItemBindingInfo(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
@@ -951,9 +957,9 @@ open class BottomCommandingController: UIViewController {
     }
 
     private class HeroItemBindingInfo: ItemBindingInfo {
-        let widthConstraint: NSLayoutConstraint
+        let widthConstraint: NSLayoutConstraint?
 
-        init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint) {
+        init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint?) {
             self.widthConstraint = widthConstraint
             super.init(item: item, view: view, location: location)
         }
