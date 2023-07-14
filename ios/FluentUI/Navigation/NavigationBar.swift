@@ -70,6 +70,7 @@ open class NavigationBarTitleAccessory: NSObject {
     public enum Style: Int {
         case disclosure
         case downArrow
+        case custom
     }
 
     /// The location of the accessory.
