@@ -335,8 +335,7 @@ public class CommandBar: UIView, TokenizedControlInternal {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
                 mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor),
-                mainCommandGroupsView.trailingAnchor.constraint(greaterThanOrEqualTo: scrollView.trailingAnchor)
+                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor)
             ]
 
             if isScrollableContentCentered {
