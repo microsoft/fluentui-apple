@@ -925,9 +925,8 @@ class ModalViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let tintColor = DynamicColor(light: GlobalTokens.brandColors(.comm80),
-                                     dark: GlobalTokens.neutralColors(.white))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: tintColor)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(light: GlobalTokens.brandColor(.comm80),
+                                                               dark: GlobalTokens.neutralColor(.white))
     }
 
     override func viewDidLoad() {
