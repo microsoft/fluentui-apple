@@ -202,7 +202,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     /// Whether or not the `CommandBar` is scrollable
-    /// Defaults to `false`
     public var isScrollable: Bool = true {
         didSet {
             updateViewHierarchy()
@@ -214,7 +213,6 @@ public class CommandBar: UIView, TokenizedControlInternal {
     }
 
     /// Whether or not the `CommandBar` scrollable content is centered in its container
-    /// Defaults to `false`
     public var isScrollableContentCentered: Bool = false {
         didSet {
             if isScrollable {
