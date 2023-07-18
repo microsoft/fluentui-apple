@@ -104,7 +104,9 @@ open class ControlHostingView: UIView {
             controller.disableSafeAreaInsets()
             return controller
         } else {
-            return UIHostingController.init(rootView: AnyView(EmptyView()))
+            let controller = UIHostingController.init(rootView: AnyView(EmptyView()))
+            controller.sizingOptions = [.intrinsicContentSize]
+            return controller
         }
     }()
     private let controlView: AnyView
