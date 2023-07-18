@@ -93,9 +93,7 @@ class CommandBarCommandGroupsView: UIView {
 
         updateButtonGroupViews()
         for view in buttonGroupViews {
-            if usesEqualWidthGroups() {
-                view.setEqualWidthButtons()
-            }
+            view.equalWidthButtons = equalWidthGroups
             buttonGroupsStackView.addArrangedSubview(view)
         }
     }
@@ -107,8 +105,10 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
-    func setEqualWidthGroups() {
-        buttonGroupsStackView.distribution = .fillEqually
+    var equalWidthGroups: Bool = false {
+        didSet {
+            buttonGroupsStackView.distribution = equalWidthGroups ? .fillEqually : .fill
+        }
     }
 
     // MARK: - Private properties
@@ -137,9 +137,5 @@ class CommandBarCommandGroupsView: UIView {
     @objc private func handleCommandButtonTapped(_ sender: CommandBarButton) {
         sender.item.handleTapped(sender)
         sender.updateState()
-    }
-
-    private func usesEqualWidthGroups() -> Bool {
-        return buttonGroupsStackView.distribution == .fillEqually
     }
 }

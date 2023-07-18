@@ -42,8 +42,10 @@ class CommandBarButtonGroupView: UIView {
         isHidden = allViewsHidden
     }
 
-    func setEqualWidthButtons() {
-        stackView.distribution = .fillEqually
+    var equalWidthButtons: Bool = false {
+        didSet {
+            stackView.distribution = equalWidthButtons ? .fillEqually : .fill
+        }
     }
 
     private lazy var stackView: UIStackView = {
