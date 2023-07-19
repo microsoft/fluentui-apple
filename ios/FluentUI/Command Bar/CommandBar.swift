@@ -201,13 +201,22 @@ public class CommandBar: UIView, TokenizedControlInternal {
         }
     }
 
-    /// Whether or not the CommandBar is scrollable
+    /// Whether or not the `CommandBar` is scrollable
     public var isScrollable: Bool = true {
         didSet {
             updateViewHierarchy()
             updateMainCommandGroupsViewConstraints()
             if !isScrollable {
-                mainCommandGroupsView.setEqualWidthGroups()
+                mainCommandGroupsView.equalWidthGroups = true
+            }
+        }
+    }
+
+    /// Whether or not the `CommandBar` scrollable content is centered in its container
+    public var isScrollableContentCentered: Bool = false {
+        didSet {
+            if isScrollable {
+                updateMainCommandGroupsViewConstraints()
             }
         }
     }
@@ -324,12 +333,15 @@ public class CommandBar: UIView, TokenizedControlInternal {
         NSLayoutConstraint.deactivate(mainCommandGroupsViewConstraints)
         if isScrollable {
             mainCommandGroupsViewConstraints = [
-                mainCommandGroupsView.widthAnchor.constraint(equalTo: scrollView.contentLayoutGuide.widthAnchor),
                 mainCommandGroupsView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
-                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor),
                 mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-                mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
+                mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor)
             ]
+
+            if isScrollableContentCentered {
+                let centerConstraint = mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
+                mainCommandGroupsViewConstraints.append(centerConstraint)
+            }
         } else {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.topAnchor.constraint(equalTo: containerView.topAnchor),
