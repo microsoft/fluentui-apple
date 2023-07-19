@@ -84,14 +84,13 @@ open class BottomCommandingController: UIViewController {
     /// Items to be displayed in an area that's always visible. This is either the top of the the sheet,
     /// or the main bottom bar area, depending on current horizontal UIUserInterfaceSizeClass.
     ///
-    /// At most 5 hero items are supported.
+    /// Up to 5 hero items will be displayed  in the bottom bar, the rest will be displayed with the items from
+    /// the `expandedListSections`.
     @objc open var heroItems: [CommandingItem] = [] {
         willSet {
             heroItems.forEach { removeBinding(for: $0) }
         }
         didSet {
-            precondition(heroItems.count <= 5, "At most 5 hero commands are supported.")
-
             if isViewLoaded {
                 reloadHeroCommandStack()
                 updateSheetHeaderSizingParameters()
@@ -142,7 +141,9 @@ open class BottomCommandingController: UIViewController {
     /// Tapping the button will expand or collapse the sheet.
     @objc open var prefersSheetMoreButtonVisible: Bool = true {
         didSet {
-            reloadHeroCommandStack()
+            if isViewLoaded {
+                reloadHeroCommandStack()
+            }
         }
     }
 
@@ -322,6 +323,15 @@ open class BottomCommandingController: UIViewController {
         updateSheetHeaderSizingParameters()
     }
 
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+
+        if let tableHeaderView = tableView.tableHeaderView {
+            let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+            tableHeaderView.frame = CGRect(origin: .zero, size: fittingSize)
+        }
+    }
+
     /// A string to optionally customize the accessibility label of the bottom sheet handle.
     /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
     @objc public var handleExpandCustomAccessibilityLabel: String? {
@@ -404,8 +414,8 @@ open class BottomCommandingController: UIViewController {
             sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: Constants.BottomSheet.headerLeadingTrailingMargin),
-            heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -Constants.BottomSheet.headerLeadingTrailingMargin),
+            heroCommandStack.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
+            heroCommandStack.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
             heroStackTopConstraint
         ])
 
@@ -496,9 +506,51 @@ open class BottomCommandingController: UIViewController {
     }
 
     private func reloadHeroCommandStack() {
-        let heroViews = extendedHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroCommandStack.removeAllSubviews()
+        NSLayoutConstraint.deactivate(heroOverflowStackConstraints)
+        let featuredHeroCount: Int
+        let featuredHeroItems: [CommandingItem]
+        if prefersSheetMoreButtonVisible {
+            featuredHeroCount = Constants.heroCommandsPerRow - 1
+            featuredHeroItems = (heroItems.prefix(featuredHeroCount) + [moreHeroItem])
+        } else {
+            featuredHeroCount = Constants.heroCommandsPerRow
+            featuredHeroItems = Array(heroItems.prefix(featuredHeroCount))
+        }
+        let heroViews = featuredHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
+        if featuredHeroCount < heroItems.count {
+            reloadHeroCommandOverflowStack()
+        } else {
+            tableView.tableHeaderView = nil
+        }
+    }
+
+    private func reloadHeroCommandOverflowStack() {
+        let commandsPerRow = Constants.heroCommandsPerRow
+        heroCommandOverflowStack.removeAllSubviews()
+        let heroOverflowViews = heroItems.suffix(from: commandsPerRow - (prefersSheetMoreButtonVisible ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
+        for i in 0...(heroOverflowViews.count / commandsPerRow) {
+            var rowViews = Array(heroOverflowViews.suffix(from: i * commandsPerRow).prefix(commandsPerRow))
+            let heroCount = rowViews.count
+            if heroCount == 0 {
+                continue
+            } else if heroCount != commandsPerRow {
+                rowViews.append(contentsOf: Array(1...(commandsPerRow - heroCount)).map { _ in UIView() })
+            }
+            let rowStack = UIStackView(arrangedSubviews: rowViews)
+            rowStack.axis = .horizontal
+            rowStack.distribution = .fillEqually
+            let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+            rowStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
+            rowStack.isLayoutMarginsRelativeArrangement = true
+            heroCommandOverflowStack.addArrangedSubview(rowStack)
+        }
+        tableView.tableHeaderView = heroCommandOverflowStack
+        NSLayoutConstraint.activate(heroOverflowStackConstraints)
+        if isInSheetMode {
+            view.setNeedsLayout()
+        }
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -512,8 +564,31 @@ open class BottomCommandingController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
         stackView.alignment = .top
+        let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
+
+    private lazy var heroCommandOverflowStack: UIStackView = {
+        let spacing = Constants.heroCommandOverflowStackSpacing
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addInteraction(UILargeContentViewerInteraction())
+        stackView.alignment = .fill
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = spacing
+        stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: spacing, leading: 0, bottom: spacing, trailing: 0)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
+    private lazy var heroOverflowStackConstraints: [NSLayoutConstraint] = [
+        heroCommandOverflowStack.topAnchor.constraint(equalTo: tableView.topAnchor),
+        heroCommandOverflowStack.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+        heroCommandOverflowStack.widthAnchor.constraint(equalTo: tableView.widthAnchor)
+    ]
 
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -566,6 +641,11 @@ open class BottomCommandingController: UIViewController {
                 tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
                 tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
             ])
+            if let tableHeaderView = tableView.tableHeaderView {
+                let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+                tableHeaderView.frame = CGRect(origin: .zero, size: fittingSize)
+                popoverContentViewController.view.setNeedsLayout()
+            }
             present(popoverContentViewController, animated: true) { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -622,7 +702,7 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private func createAndBindHeroCommandView(with item: CommandingItem) -> UIView {
+    private func createAndBindHeroCommandView(with item: CommandingItem, isOverflow: Bool = false) -> UIView {
         let itemImage = item.image ?? UIImage()
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
@@ -640,8 +720,14 @@ open class BottomCommandingController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
 
-        let widthConstraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
-        widthConstraint.isActive = !isInSheetMode
+        let widthConstraint: NSLayoutConstraint?
+        if isOverflow {
+            widthConstraint = nil
+        } else {
+            let constraint = itemView.widthAnchor.constraint(equalToConstant: Constants.heroButtonWidth)
+            constraint.isActive = !isInSheetMode
+            widthConstraint = constraint
+        }
 
         item.delegate = self
         let binding = HeroItemBindingInfo(item: item, view: itemView, location: .heroSet, widthConstraint: widthConstraint)
@@ -803,6 +889,10 @@ open class BottomCommandingController: UIViewController {
     // Estimated fitting height of `tableView`.
     private var estimatedTableViewHeight: CGFloat {
         var totalHeight: CGFloat = 0
+        if let tableHeaderView = tableView.tableHeaderView {
+            let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
+            totalHeight += fittingSize.height
+        }
         for section in expandedListSections {
             totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
             for item in section.items {
@@ -869,9 +959,9 @@ open class BottomCommandingController: UIViewController {
     }
 
     private class HeroItemBindingInfo: ItemBindingInfo {
-        let widthConstraint: NSLayoutConstraint
+        let widthConstraint: NSLayoutConstraint?
 
-        init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint) {
+        init(item: CommandingItem, view: UIView, location: ItemLocation, widthConstraint: NSLayoutConstraint?) {
             self.widthConstraint = widthConstraint
             super.init(item: item, view: view, location: location)
         }
@@ -886,6 +976,8 @@ open class BottomCommandingController: UIViewController {
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
+        static let heroCommandsPerRow: Int = 5
+        static let heroCommandOverflowStackSpacing: CGFloat = 8
 
         struct BottomBar {
             static let height: CGFloat = 80
@@ -906,7 +998,7 @@ open class BottomCommandingController: UIViewController {
         struct BottomSheet {
             static let headerHeight: CGFloat = 66
             static let headerTopMargin: CGFloat = 8
-            static let headerLeadingTrailingMargin: CGFloat = 8
+            static let headerLeadingTrailingMargin: CGFloat = 16
         }
     }
 }

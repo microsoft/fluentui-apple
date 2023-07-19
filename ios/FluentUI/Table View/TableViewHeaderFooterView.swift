@@ -206,6 +206,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             oldValue?.removeFromSuperview()
             if let leadingView = leadingView {
                 contentView.addSubview(leadingView)
+                contentView.layoutIfNeeded()
                 updateLeadingViewColor()
             }
         }

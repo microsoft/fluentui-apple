@@ -108,6 +108,7 @@ open class Button: NSButton {
 		// properties have their default values
 		let defaultFormat = ButtonFormat()
 		if style == defaultFormat.style {
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
 		}
 		if size == defaultFormat.size {
@@ -118,6 +119,37 @@ open class Button: NSButton {
 														  object: nil,
 														  queue: nil) {[weak self] _ in
 			self?.increaseContrastEnabled = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+		}
+	}
+
+	func setupBorderShadowsIfNeeded() {
+		// At the moment border shadows only apply for the Primary and Secondary Button Styles.
+		// Border shadows being meant for buttons and their corresponding States, that have ~some~
+		// background color other than `clear` which is why they don't apply to the Borderless Style
+		// buttons. Acrylic Style buttons do possess a background color, yet they maintain transparency.
+		// This transparency allows any underlying border shadow layers to bleed through, consequently
+		// impacting the overall button background color. Adding shadows in this context presents a
+		// challenge. Therefore, unless it becomes necessary, these buttons will remain without shadows.
+		// And perhaps shadowPath is the way to go, where you can have the CALayer have a Clear
+		// background color and still show a shadow by setting a hollow shadowPath around the button.
+		self.usesBorderShadows = style == .primary || style == .secondary
+	}
+
+	var firstOuterDropShadowLayer: CALayer?
+	var secondOuterDropShadowLayer: CALayer?
+	var innerShadowLayer: CALayer?
+
+	open override func layout() {
+		super.layout()
+		if usesBorderShadows {
+			// Set the frame of all the shadow layers to the same bounds as this Button View. This
+			// couldn't have been done in the init where the shadow layers are setup because the Button
+			// view doesn't yet have any bounds established, so we're forced to do it in the layout
+			// override where we're guaranteed to have bounds and is also invoked every time the view's
+			// size or position needs adjustments.
+			firstOuterDropShadowLayer?.frame = self.bounds
+			secondOuterDropShadowLayer?.frame = self.bounds
+			innerShadowLayer?.frame = self.bounds
 		}
 	}
 
@@ -247,6 +279,30 @@ open class Button: NSButton {
 			layer.backgroundColor = backgroundColorRest?.cgColor
 			layer.borderColor = borderColorRest?.cgColor
 		}
+
+		if usesBorderShadows {
+			// Although we're using an AssetCatalog color for the shadows, which has a dynamic dark/light
+			// appearance specified, we have to manually update the shadowColor property of the layer
+			// since it's a CGColor and not an NSColor, and CGColorRef objects don’t adapt to environment
+			// changes
+			updateShadowLayer(shadowLayer: firstOuterDropShadowLayer,
+							  shadowColor: ButtonColor.firstOuterDropShadow?.cgColor)
+			updateShadowLayer(shadowLayer: secondOuterDropShadowLayer,
+							  shadowColor: ButtonColor.secondOuterDropShadow?.cgColor)
+			updateShadowLayer(shadowLayer: innerShadowLayer,
+							  shadowColor: ButtonColor.innerShadow?.cgColor)
+		}
+	}
+
+	func updateShadowLayer(shadowLayer: CALayer?, shadowColor: CGColor?) {
+		guard let layer = layer else {
+			return
+		}
+		// Match the shadow background color with that of the Button layer so that the shadow layer
+		// content itself isn't visible, and just the shadow is.
+		shadowLayer?.backgroundColor = layer.backgroundColor
+		shadowLayer?.cornerRadius = layer.cornerRadius
+		shadowLayer?.shadowColor = shadowColor
 	}
 
 	public override var wantsUpdateLayer: Bool {
@@ -433,7 +489,58 @@ open class Button: NSButton {
 			guard oldValue != style else {
 				return
 			}
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
+	}
+
+	var usesBorderShadows: Bool = false {
+		didSet {
+			guard oldValue != usesBorderShadows else {
+				return
+			}
+
+			if usesBorderShadows {
+				firstOuterDropShadowLayer = CALayer()
+				secondOuterDropShadowLayer = CALayer()
+				innerShadowLayer = CALayer()
+
+				// Ensure that the Shadow sublayers can in fact extend beyond the bounds of the Button View's
+				// layer so that the shadows don't get clipped
+				self.layer?.masksToBounds = false
+
+				if let firstOuterDropShadowLayer = firstOuterDropShadowLayer {
+					firstOuterDropShadowLayer.shadowOffset = CGSize(width: 0.0, height: 1)
+					firstOuterDropShadowLayer.shadowRadius = 0.75
+					firstOuterDropShadowLayer.shadowOpacity = 1
+					firstOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(firstOuterDropShadowLayer)
+				}
+
+				if let secondOuterDropShadowLayer = secondOuterDropShadowLayer {
+					secondOuterDropShadowLayer.shadowOffset = CGSize(width: 0, height: 0)
+					secondOuterDropShadowLayer.shadowRadius = 0.5
+					secondOuterDropShadowLayer.shadowOpacity = 1
+					secondOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(secondOuterDropShadowLayer)
+				}
+
+				if let innerShadowLayer = innerShadowLayer {
+					innerShadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
+					innerShadowLayer.shadowRadius = 0.5
+					innerShadowLayer.shadowOpacity = 1
+					innerShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(innerShadowLayer)
+				}
+			} else {
+				firstOuterDropShadowLayer?.removeFromSuperlayer()
+				secondOuterDropShadowLayer?.removeFromSuperlayer()
+				innerShadowLayer?.removeFromSuperlayer()
+				firstOuterDropShadowLayer = nil
+				secondOuterDropShadowLayer = nil
+				innerShadowLayer = nil
+			}
 			needsDisplay = true
 		}
 	}
@@ -732,6 +839,9 @@ public struct ButtonFormat {
 
 @objc(MSFButtonColor)
 class ButtonColor: NSObject {
+	public static let firstOuterDropShadow = NSColor(named: "ButtonColors/firstOuterDropShadow", bundle: FluentUIResources.resourceBundle)
+	public static let secondOuterDropShadow = NSColor(named: "ButtonColors/secondOuterDropShadow", bundle: FluentUIResources.resourceBundle)
+	public static let innerShadow = NSColor(named: "ButtonColors/innerShadow", bundle: FluentUIResources.resourceBundle)
 	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)

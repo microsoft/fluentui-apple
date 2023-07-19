@@ -30,7 +30,9 @@ class TwoLineTitleViewDemoController: DemoController {
                                               alignment: TwoLineTitleView.Alignment = .center,
                                               interactivePart: TwoLineTitleView.InteractivePart = .none,
                                               animatesWhenPressed: Bool = true,
-                                              accessoryType: TwoLineTitleView.AccessoryType = .none) -> TwoLineTitleViewFactory {
+                                              accessoryType: TwoLineTitleView.AccessoryType = .none,
+                                              customSubtitleTrailingImage: UIImage? = nil,
+                                              isTitleImageLeadingForTitleAndSubtitle: Bool = false) -> TwoLineTitleViewFactory {
         return {
             let twoLineTitleView = createDemoTitleView(forBottomSheet: $0)
             twoLineTitleView.setup(title: title,
@@ -39,7 +41,9 @@ class TwoLineTitleViewDemoController: DemoController {
                                    alignment: alignment,
                                    interactivePart: interactivePart,
                                    animatesWhenPressed: animatesWhenPressed,
-                                   accessoryType: accessoryType)
+                                   accessoryType: accessoryType,
+                                   customSubtitleTrailingImage: customSubtitleTrailingImage,
+                                   isTitleImageLeadingForTitleAndSubtitle: isTitleImageLeadingForTitleAndSubtitle)
             return twoLineTitleView
         }
     }
@@ -54,7 +58,11 @@ class TwoLineTitleViewDemoController: DemoController {
         makeStandardTitleView(title: "Title here", subtitle: "Optional subtitle", animatesWhenPressed: false),
         makeStandardTitleView(title: "Custom image", titleImage: UIImage(named: "ic_fluent_star_16_regular"), animatesWhenPressed: false),
         makeStandardTitleView(title: "This one", subtitle: "can be tapped", interactivePart: .all),
-        makeStandardTitleView(title: "All the bells", titleImage: UIImage(named: "ic_fluent_star_16_regular"), subtitle: "and whistles", alignment: .leading, interactivePart: .subtitle, accessoryType: .downArrow)
+        makeStandardTitleView(title: "All the bells", titleImage: UIImage(named: "ic_fluent_star_16_regular"), subtitle: "and whistles", alignment: .leading, interactivePart: .subtitle, accessoryType: .downArrow),
+        makeStandardTitleView(title: "Leading title", subtitle: "Custom icon", alignment: .leading, interactivePart: .subtitle, accessoryType: .custom, customSubtitleTrailingImage: UIImage(named: "ic_fluent_star_16_regular")),
+        makeStandardTitleView(title: "Centered title", subtitle: "Custom icon", alignment: .center, interactivePart: .subtitle, accessoryType: .custom, customSubtitleTrailingImage: UIImage(named: "ic_fluent_star_16_regular")),
+        makeStandardTitleView(title: "Centered title", titleImage: UIImage(named: "ic_fluent_star_24_regular"), subtitle: "Custom icon", alignment: .center, interactivePart: .subtitle, accessoryType: .custom, customSubtitleTrailingImage: UIImage(named: "ic_fluent_star_16_regular"), isTitleImageLeadingForTitleAndSubtitle: true),
+        makeStandardTitleView(title: "Leading title", titleImage: UIImage(named: "ic_fluent_star_24_regular"), subtitle: "Subtitle", alignment: .leading, interactivePart: .title, accessoryType: .disclosure, customSubtitleTrailingImage: UIImage(named: "ic_fluent_star_16_regular"), isTitleImageLeadingForTitleAndSubtitle: true)
     ]
 
     private let exampleNavigationItems: [UINavigationItem] = [
@@ -79,6 +87,40 @@ class TwoLineTitleViewDemoController: DemoController {
             $0.title = "They can also be"
             $0.subtitle = "leading-aligned"
             $0.titleStyle = .leading
+        },
+        makeExampleNavigationItem {
+            $0.title = "Leading Title"
+            $0.titleStyle = .leading
+            $0.subtitle = "Custom icon"
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = .init(location: .subtitle, style: .custom)
+        },
+        makeExampleNavigationItem {
+            $0.title = "Centered Title"
+            $0.titleStyle = .system
+            $0.subtitle = "Custom icon"
+            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = .init(location: .subtitle, style: .custom)
+        },
+        makeExampleNavigationItem {
+            $0.title = "Centered Title"
+            $0.titleStyle = .system
+            $0.subtitle = "Custom icon"
+            $0.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = .init(location: .subtitle, style: .custom)
+            $0.isTitleImageLeadingForTitleAndSubtitle = true
+        },
+        makeExampleNavigationItem {
+            $0.title = "Leading Title"
+            $0.titleStyle = .leading
+            $0.subtitle = "Subtitle"
+            $0.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.titleAccessory = .init(location: .title, style: .downArrow)
+            $0.isTitleImageLeadingForTitleAndSubtitle = true
         }
     ]
 

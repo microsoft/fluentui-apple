@@ -35,6 +35,8 @@ fileprivate extension NavigationBarTitleAccessory.Style {
             return .downArrow
         case .disclosure:
             return .disclosure
+        case .custom:
+            return .custom
         }
     }
 }
@@ -60,6 +62,6 @@ extension TwoLineTitleView {
             animatesWhenPressed = false
         }
 
-        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType)
+        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType, customSubtitleTrailingImage: navigationItem.customSubtitleTrailingImage, isTitleImageLeadingForTitleAndSubtitle: navigationItem.isTitleImageLeadingForTitleAndSubtitle)
     }
 }
