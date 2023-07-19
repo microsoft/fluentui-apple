@@ -42,12 +42,17 @@ class CommandBarButtonGroupView: UIView {
         isHidden = allViewsHidden
     }
 
+    var equalWidthButtons: Bool = false {
+        didSet {
+            stackView.distribution = equalWidthButtons ? .fillEqually : .fill
+        }
+    }
+
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = CommandBarTokenSet.itemInterspace
-        stackView.distribution = .fillEqually
 
         return stackView
     }()
