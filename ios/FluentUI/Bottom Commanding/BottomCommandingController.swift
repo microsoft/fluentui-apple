@@ -60,7 +60,7 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
 /// Items from the `expandedListSections` are either presented in an expanded sheet or a popover, depending on the current style.
 ///
 @objc(MSFBottomCommandingController)
-open class BottomCommandingController: UIViewController {
+open class BottomCommandingController: UIViewController, TokenizedControlInternal {
 
     /// View controller that will be displayed below the bottom commanding UI.
     @objc public var contentViewController: UIViewController? {
@@ -280,6 +280,11 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -347,6 +352,17 @@ open class BottomCommandingController: UIViewController {
             bottomSheetController?.handleCollapseCustomAccessibilityLabel = handleCollapseCustomAccessibilityLabel
         }
     }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        tokenSet.update(fluentTheme)
+    }
+
+    public typealias TokenSetKeyType = BottomCommandingTokenSet.Tokens
+    public var tokenSet: BottomCommandingTokenSet = .init()
+
+    var fluentTheme: FluentTheme { return view.fluentTheme }
 
     private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
         if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
@@ -551,6 +567,10 @@ open class BottomCommandingController: UIViewController {
         if isInSheetMode {
             view.setNeedsLayout()
         }
+    }
+
+    private func updateAppearance() {
+        
     }
 
     private lazy var moreHeroItem: CommandingItem = {
