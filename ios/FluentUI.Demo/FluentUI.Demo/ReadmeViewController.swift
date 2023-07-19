@@ -46,10 +46,8 @@ class ReadmeViewController: UIViewController {
     private let readmeLabel: Label = {
         let label = Label()
         label.numberOfLines = 0
-
-        // TODO: Change color to fluent 2 tokens
-        label.textColor = UIColor(dynamicColor: DynamicColor(light: ColorValue(0x000000),
-                                                             dark: ColorValue(0xFFFFFF)))
+        label.textColor = UIColor(light: GlobalTokens.neutralColor(.black),
+                                  dark: GlobalTokens.neutralColor(.white))
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

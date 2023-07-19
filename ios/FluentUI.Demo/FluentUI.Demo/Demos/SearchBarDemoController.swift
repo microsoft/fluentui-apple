@@ -185,12 +185,12 @@ extension SearchBarDemoController: DemoAppearanceDelegate {
     private var themeWideOverrideSearchBarTokens: [SearchBarTokenSet.Tokens: ControlTokenValue] {
         return [
             .backgroundColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
-                                                         dark: GlobalTokens.sharedColors(.berry, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
+                               dark: GlobalTokens.sharedColor(.berry, .tint40))
             },
             .textColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                          dark: GlobalTokens.neutralColors(.grey98)))
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.neutralColor(.grey98))
             },
             .font: .uiFont {
                 return self.view.fluentTheme.typography(.body1Strong)
@@ -199,8 +199,8 @@ extension SearchBarDemoController: DemoAppearanceDelegate {
                 return .green
             },
             .activeSearchIconColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.neutralColors(.white),
-                                                         dark: GlobalTokens.sharedColors(.lime, .tint40)))
+                return UIColor(light: GlobalTokens.neutralColor(.white),
+                               dark: GlobalTokens.sharedColor(.lime, .tint40))
             }
         ]
     }
@@ -211,19 +211,19 @@ extension SearchBarDemoController: DemoAppearanceDelegate {
                 return self.view.fluentTheme.color(.dangerBackground1)
             },
             .textColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.lime, .shade30),
+                               dark: GlobalTokens.sharedColor(.lime, .tint40))
             },
             .cancelButtonColor: .uiColor {
                 return .red
             },
             .placeholderColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.berry, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.berry, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
+                               dark: GlobalTokens.sharedColor(.berry, .tint40))
             },
             .inactiveSearchIconColor: .uiColor {
-                return UIColor(dynamicColor: DynamicColor(light: GlobalTokens.sharedColors(.lime, .shade30),
-                                                          dark: GlobalTokens.sharedColors(.lime, .tint40)))
+                return UIColor(light: GlobalTokens.sharedColor(.lime, .shade30),
+                               dark: GlobalTokens.sharedColor(.lime, .tint40))
             },
             .font: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 12), size: 12)
