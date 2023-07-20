@@ -93,6 +93,7 @@ class CommandBarCommandGroupsView: UIView {
 
         updateButtonGroupViews()
         for view in buttonGroupViews {
+            view.equalWidthButtons = equalWidthGroups
             buttonGroupsStackView.addArrangedSubview(view)
         }
     }
@@ -104,8 +105,10 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
-    func setEqualWidthGroups() {
-        buttonGroupsStackView.distribution = .fillEqually
+    var equalWidthGroups: Bool = false {
+        didSet {
+            buttonGroupsStackView.distribution = equalWidthGroups ? .fillEqually : .fill
+        }
     }
 
     // MARK: - Private properties
