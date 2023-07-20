@@ -411,7 +411,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         headerView.addSubview(heroCommandStack)
 
         let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
-        sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
+        sheetController.headerContentHeight = BottomCommandingTokenSet.handleHeaderHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
         sheetController.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
@@ -458,9 +458,9 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let bottomBarView = UIView()
 
         let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = bottomBarBackgroundColor
+        roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
-        roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
+        roundedCornerView.layer.cornerRadius = BottomCommandingTokenSet.cornerRadius
         roundedCornerView.layer.cornerCurve = .continuous
         roundedCornerView.clipsToBounds = true
 
@@ -473,9 +473,9 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             roundedCornerView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
             roundedCornerView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
             roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor, constant: Constants.BottomBar.heroStackLeadingTrailingMargin),
-            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor, constant: -Constants.BottomBar.heroStackLeadingTrailingMargin),
-            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: Constants.BottomBar.heroStackTopMargin)
+            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.tabVerticalPadding)
         ])
 
         return bottomBarView
@@ -557,7 +557,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             let rowStack = UIStackView(arrangedSubviews: rowViews)
             rowStack.axis = .horizontal
             rowStack.distribution = .fillEqually
-            let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+            let horizontalMargin = BottomCommandingTokenSet.tabHorizontalPadding
             rowStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
             rowStack.isLayoutMarginsRelativeArrangement = true
             heroCommandOverflowStack.addArrangedSubview(rowStack)
@@ -584,14 +584,14 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
         stackView.alignment = .top
-        let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+        let horizontalMargin = BottomCommandingTokenSet.tabHorizontalPadding
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
 
     private lazy var heroCommandOverflowStack: UIStackView = {
-        let spacing = Constants.heroCommandOverflowStackSpacing
+        let spacing = BottomCommandingTokenSet.gridSpacing
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
@@ -616,7 +616,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = tableViewBackgroundColor
+        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
@@ -758,7 +758,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
-        iconView.tintColor = tableViewIconTintColor
+        iconView.tintColor = tokenSet[.listIconColor].uiColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
             booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
@@ -775,7 +775,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
-        cell.backgroundColor = tableViewBackgroundColor
+        cell.backgroundColor = tokenSet[.backgroundColor].uiColor
         cell.accessibilityIdentifier = item.accessibilityIdentifier
 
         let shouldShowSeparator = expandedListSections
@@ -815,7 +815,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         bottomSheetController.isExpandable = isExpandable
 
         let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
-        let headerHeightWithoutBottomWhitespace = Constants.BottomSheet.headerTopMargin + maxHeroItemHeight
+        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.handleHeaderHeight + maxHeroItemHeight
 
         // How much more whitespace is required at the bottom of the sheet header
         let requiredBottomWhitespace = max(0, Constants.BottomSheet.headerHeight - headerHeightWithoutBottomWhitespace)
@@ -828,7 +828,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let addedHeaderTopMargin = !isExpandable
             ? BottomSheetController.resizingHandleHeight
             : 0
-        bottomSheetHeroStackTopConstraint?.constant = Constants.BottomSheet.headerTopMargin + addedHeaderTopMargin
+        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.handleHeaderHeight + addedHeaderTopMargin
 
         let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
         let newCollapsedContentHeight = headerHeightWithoutBottomWhitespace + reducedBottomWhitespace + addedHeaderTopMargin
@@ -987,26 +987,18 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
     }
 
-    private lazy var tableViewIconTintColor: UIColor = GlobalTokens.neutralColor(.grey50)
-    private lazy var tableViewBackgroundColor: UIColor = view.fluentTheme.color(.background2)
-    private lazy var bottomBarBackgroundColor: UIColor = view.fluentTheme.color(.background2)
-
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
         static let heroCommandsPerRow: Int = 5
-        static let heroCommandOverflowStackSpacing: CGFloat = 8
 
         struct BottomBar {
             static let height: CGFloat = 80
-            static let cornerRadius: CGFloat = 14
 
             static let bottomOffset: CGFloat = 8
             static let hiddenBottomOffset: CGFloat = -110
-            static let heroStackLeadingTrailingMargin: CGFloat = 8
-            static let heroStackTopMargin: CGFloat = 20
 
             static let hidingSpringDuration: TimeInterval = 0.4
             static let hidingSpringDamping: CGFloat = 1.0
@@ -1017,8 +1009,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
         struct BottomSheet {
             static let headerHeight: CGFloat = 66
-            static let headerTopMargin: CGFloat = 8
-            static let headerLeadingTrailingMargin: CGFloat = 16
         }
     }
 }
