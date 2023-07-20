@@ -411,7 +411,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         headerView.addSubview(heroCommandStack)
 
         let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
-        sheetController.headerContentHeight = BottomCommandingTokenSet.handleHeaderHeight
+        sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
         sheetController.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
