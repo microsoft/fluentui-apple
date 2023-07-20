@@ -99,6 +99,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
              .dangerForeground1,
              .dangerForeground2,
              .dangerStroke1,
+             .dangerStroke2,
              .successBackground2,
              .successForeground1,
              .successForeground2,
@@ -252,6 +253,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
                     .dangerForeground1,
                     .dangerForeground2,
                     .dangerStroke1,
+                    .dangerStroke2,
                     .successBackground1,
                     .successBackground2,
                     .successForeground1,
@@ -409,6 +411,8 @@ private extension FluentTheme.ColorToken {
             return "DangerForeground2"
         case .dangerStroke1:
             return "DangerStroke1"
+        case .dangerStroke2:
+            return "DangerStroke2"
         case .successBackground1:
             return "SuccessBackground1"
         case .successBackground2:

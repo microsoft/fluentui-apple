@@ -17,8 +17,8 @@ class ActivityIndicatorTestSwiftUI: ActivityIndicatorTest {
     }
 
     override func testStartStopHide() throws {
-        let animatingSwitch: XCUIElement = app.switches["Animating"]
-        let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"]
+        let animatingSwitch: XCUIElement = app.switches["Animating"].switches.firstMatch
+        let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"].switches.firstMatch
 
         hidesWhenStoppedSwitch.tap()
         XCTAssert(activityIndicatorExists(status: inProgress))

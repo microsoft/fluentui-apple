@@ -442,6 +442,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primary ?? _primary
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primary = newValue
 		}
@@ -450,6 +451,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryShade10 ?? _primaryShade10
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryShade10 = newValue
 		}
@@ -458,6 +460,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryShade20 ?? _primaryShade20
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryShade20 = newValue
 		}
@@ -466,6 +469,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryShade30 ?? _primaryShade30
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryShade30 = newValue
 		}
@@ -474,6 +478,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryTint10 ?? _primaryTint10
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryTint10 = newValue
 		}
@@ -482,6 +487,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryTint20 ?? _primaryTint20
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryTint20 = newValue
 		}
@@ -490,6 +496,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryTint30 ?? _primaryTint30
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryTint30 = newValue
 		}
@@ -498,6 +505,7 @@ public final class Colors: NSObject {
 		get {
 			return colorProvider?.primaryTint40 ?? _primaryTint40
 		}
+		@available(*, deprecated, message: "Setting Primary colors directly is now deprecated in favor of using the ColorProviding protocol to retrieve them on demand")
 		set {
 			_primaryTint40 = newValue
 		}

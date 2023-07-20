@@ -410,6 +410,28 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             searchBar.placeholderText = "Search"
             $0.navigationItem.accessoryView = searchBar
             $0.navigationItem.contentScrollView = $0.tableView
+        },
+        16: TitleViewFeature(name: "Leading-aligned, subtitle with custom trailing image") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+        },
+        17: TitleViewFeature(name: "Leading title with leading image for both title and subtitle") {
+            $0.navigationItem.titleStyle = .leading
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
+        },
+        18: TitleViewFeature(name: "Centered title with leading image for both title and subtitle") {
+            $0.navigationItem.titleStyle = .system
+            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
         }
     ]
 
@@ -925,9 +947,8 @@ class ModalViewController: UITableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let tintColor = DynamicColor(light: GlobalTokens.brandColors(.comm80),
-                                     dark: GlobalTokens.neutralColors(.white))
-        navigationItem.rightBarButtonItem?.tintColor = UIColor(dynamicColor: tintColor)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor(light: GlobalTokens.brandColor(.comm80),
+                                                               dark: GlobalTokens.neutralColor(.white))
     }
 
     override func viewDidLoad() {
