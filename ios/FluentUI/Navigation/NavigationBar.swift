@@ -70,6 +70,7 @@ open class NavigationBarTitleAccessory: NSObject {
     public enum Style: Int {
         case disclosure
         case downArrow
+        case custom
     }
 
     /// The location of the accessory.
@@ -725,9 +726,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         if style == .system {
             button.badgeLabelStyle = .system
         } else if style == .gradient {
-            button.badgeLabelStyle = .gradient
-        } else {
             button.badgeLabelStyle = .brand
+        } else {
+            button.badgeLabelStyle = .onPrimary
         }
 
         // We want to hide the native right bar button items for non-system title styles when using the gradient style.

@@ -24,7 +24,7 @@ class BottomCommandingDemoController: UIViewController {
         optionTableView.separatorStyle = .none
 
         let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
-        bottomCommandingVC.heroItems = heroItems
+        bottomCommandingVC.heroItems = Array(heroItems.prefix(9))
         bottomCommandingVC.expandedListSections = shortCommandSectionList
         bottomCommandingVC.delegate = self
 
@@ -45,9 +45,11 @@ class BottomCommandingDemoController: UIViewController {
     private var mainTableViewController: UITableViewController?
 
     private lazy var heroItems: [CommandingItem] = {
-        return Array(1...4).map {
+        return Array(1...25).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
+            item.isOn = $0 % 3 == 1 ? true : false
+            item.isEnabled = $0 % 2 == 1 ? true : false
             return item
         }
     }()
@@ -101,8 +103,8 @@ class BottomCommandingDemoController: UIViewController {
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
-                DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff)),
-                DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: true),
+                DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff), isOn: true),
+                DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: false),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
                 DemoItem(title: "Long title hero items", type: .boolean, action: #selector(toggleLongTitleHeroItems), isOn: false),
                 DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
@@ -152,14 +154,18 @@ class BottomCommandingDemoController: UIViewController {
     private let modifiedCommandIndices: [Int] = [0, 3]
 
     @objc private func toggleHeroCommandOnOff(_ sender: BooleanCell) {
-        modifiedCommandIndices.forEach {
-            heroItems[$0].isOn = sender.isOn
+        for (index, heroItem) in heroItems.enumerated() {
+            if (index + 1) % 3 == 1 {
+                heroItem.isOn = sender.isOn
+            }
         }
     }
 
     @objc private func toggleHeroCommandEnabled(_ sender: BooleanCell) {
-        modifiedCommandIndices.forEach {
-            heroItems[$0].isEnabled = sender.isOn
+        for (index, heroItem) in heroItems.enumerated() {
+            if index % 2 == 1 {
+                heroItem.isEnabled = sender.isOn
+            }
         }
     }
 
@@ -213,7 +219,7 @@ class BottomCommandingDemoController: UIViewController {
 
     @objc private func incrementHeroCommands() {
         let currentCount = bottomCommandingController?.heroItems.count ?? 0
-        if currentCount < 4 {
+        if currentCount < 25 {
             let newCount = currentCount + 1
             bottomCommandingController?.heroItems = Array(heroItems[0..<newCount])
         }

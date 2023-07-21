@@ -127,6 +127,7 @@ public class MultilineCommandBar: UIViewController {
         for row in rows {
             let commandBarRow = CommandBar(itemGroups: row.itemGroups, leadingItemGroups: nil)
             commandBarRow.isScrollable = row.isScrollable
+            commandBarRow.isScrollableContentCentered = row.isScrollable
             commandBarRow.translatesAutoresizingMaskIntoConstraints = false
 
             if row.isScrollable {

@@ -55,6 +55,8 @@ class TableViewCellDemoController: DemoTableViewController {
 
     private var editButton: UIBarButtonItem?
 
+    private var accessoryViewAlignment: TableViewCellAccessoryViewVerticalAlignment = .center
+
     private var overrideTokens: [TableViewCellTokenSet.Tokens: ControlTokenValue]?
 
     override func viewDidLoad() {
@@ -186,6 +188,9 @@ extension TableViewCellDemoController {
                 customAccessoryView: section.hasAccessory ? TableViewCellSampleData.customAccessoryView : nil,
                 accessoryType: TableViewCellSampleData.accessoryType(for: indexPath)
             )
+            if section.title == "Cell with text wrapping" {
+                cell.titleTrailingAccessoryViewVerticalAlignment = accessoryViewAlignment
+            }
         }
 
         let showsLabelAccessoryView = TableViewCellSampleData.hasLabelAccessoryViews(at: indexPath)
@@ -228,9 +233,17 @@ extension TableViewCellDemoController {
 
 extension TableViewCellDemoController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
         let section = sections[section]
-        header?.setup(style: section.headerStyle, title: section.title)
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
+        if section.title == "Cell with text wrapping" {
+            let button = Button(style: .subtle)
+            button.sizeCategory = .small
+            button.setTitle("Switch alignment", for: .normal)
+            button.addTarget(self, action: #selector(switchAccessoryViewAlignment), for: .touchUpInside)
+            header?.setup(style: section.headerStyle, title: section.title, accessoryView: button)
+        } else {
+            header?.setup(style: section.headerStyle, title: section.title)
+        }
         header?.tableViewCellStyle = tableView.style == .plain ? .plain : .grouped
         return header
     }
@@ -259,6 +272,14 @@ extension TableViewCellDemoController {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    @objc private func switchAccessoryViewAlignment(sender: Button) {
+        accessoryViewAlignment = accessoryViewAlignment == .center ? .top : .center
+        let indexPath = IndexPath(row: 4, section: 7)
+        if let cell = tableView.cellForRow(at: indexPath) as? TableViewCell {
+            cell.titleTrailingAccessoryViewVerticalAlignment = accessoryViewAlignment
+        }
     }
 
     override func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
