@@ -57,7 +57,7 @@ public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingTokenSet.
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor { theme.color(.background1) }
+                return .uiColor { theme.color(.background2) }
             case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius120) }
             case .heroDisabledColor:
