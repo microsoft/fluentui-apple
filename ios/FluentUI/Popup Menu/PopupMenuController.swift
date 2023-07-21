@@ -340,6 +340,7 @@ extension PopupMenuController: UITableViewDelegate {
         }
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PopupMenuSectionHeaderView.identifier) as? PopupMenuSectionHeaderView
         headerView?.setup(section: section)
+        headerView?.tableViewCellStyle = .clear
         return headerView
     }
 
