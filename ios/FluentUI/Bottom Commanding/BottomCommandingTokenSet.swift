@@ -92,6 +92,7 @@ public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingTokenSet.
 }
 
 extension BottomCommandingTokenSet {
+    static let bottomBarTopSpacing: CGFloat = GlobalTokens.spacing(.size200)
     static let gridSpacing: CGFloat = GlobalTokens.spacing(.size80)
     static let tabVerticalPadding: CGFloat = GlobalTokens.spacing(.size80)
     static let tabHorizontalPadding: CGFloat = GlobalTokens.spacing(.size160)

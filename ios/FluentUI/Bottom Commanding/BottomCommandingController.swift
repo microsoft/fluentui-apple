@@ -476,7 +476,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
             contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
             contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.tabVerticalPadding)
+            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.bottomBarTopSpacing)
         ])
         bottomBarBackgroundView = roundedCornerView
         return bottomBarView
