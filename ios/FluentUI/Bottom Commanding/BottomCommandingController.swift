@@ -444,6 +444,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         NSLayoutConstraint.activate(layoutGuideConstraints)
 
         bottomSheetController = sheetController
+        updateBottomSheetAppearance()
 
         reloadHeroCommandStack()
         updateSheetHeaderSizingParameters()
@@ -460,7 +461,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let roundedCornerView = UIView()
         roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
-        roundedCornerView.layer.cornerRadius = BottomCommandingTokenSet.cornerRadius
+        roundedCornerView.layer.cornerRadius = tokenSet[.cornerRadius].float
         roundedCornerView.layer.cornerCurve = .continuous
         roundedCornerView.clipsToBounds = true
 
@@ -477,17 +478,18 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
             contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.tabVerticalPadding)
         ])
-
+        bottomBarBackgroundView = roundedCornerView
         return bottomBarView
     }
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+
         let separator = Separator()
         separator.translatesAutoresizingMaskIntoConstraints = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(tableView)
+        separator.tokenSet.setOverrideValue(tokenSet[.strokeColor], forToken: .color)
         view.addSubview(separator)
 
         NSLayoutConstraint.activate([
@@ -499,6 +501,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        sheetHeaderSeparator = separator
         return view
     }
 
@@ -570,7 +573,45 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     }
 
     private func updateAppearance() {
-        
+        guard isViewLoaded else {
+            return
+        }
+        updateBottomSheetAppearance()
+        reloadHeroCommandStack()
+        updateTableViewAppearance()
+        updateSeparatorColor()
+        updateBottomBar()
+    }
+
+    private func updateBottomSheetAppearance() {
+        guard let bottomSheetController else {
+            return
+        }
+        bottomSheetController.tokenSet.setOverrides(from: tokenSet,
+                                                    mapping: [.backgroundColor: .backgroundColor,
+                                                              .cornerRadius: .cornerRadius,
+                                                              .resizingHandleMarkColor: .resizingHandleMarkColor,
+                                                              .shadow: .shadow])
+    }
+
+    private func updateTableViewAppearance() {
+        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        tableView.reloadData()
+    }
+
+    private func updateSeparatorColor() {
+        guard let sheetHeaderSeparator else {
+            return
+        }
+        sheetHeaderSeparator.tokenSet.setOverrideValue(tokenSet[.strokeColor], forToken: .color)
+    }
+
+    private func updateBottomBar() {
+        guard let bottomBarBackgroundView else {
+            return
+        }
+        bottomBarBackgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        bottomBarBackgroundView.layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -589,6 +630,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
+
+    private var sheetHeaderSeparator: Separator?
 
     private lazy var heroCommandOverflowStack: UIStackView = {
         let spacing = BottomCommandingTokenSet.gridSpacing
@@ -626,6 +669,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         isTableViewLoaded = true
         return tableView
     }()
+
+    private var bottomBarBackgroundView: UIView?
 
     // MARK: - Command tap handling
 
@@ -736,6 +781,13 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemView.accessibilityIdentifier = item.accessibilityIdentifier
+        itemView.tokenSet.setOverrides(from: tokenSet,
+                                       mapping: [.disabledColor: .heroDisabledColor,
+                                                 .titleLabelFontLandscape: .heroLabelFont,
+                                                 .titleLabelFontPortrait: .heroLabelFont,
+                                                 .selectedColor: .heroSelectedColor,
+                                                 .unselectedImageColor: .heroRestIconColor,
+                                                 .unselectedTextColor: .heroRestLabelColor])
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -758,7 +810,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
-        iconView.tintColor = tokenSet[.listIconColor].uiColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
             booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
@@ -775,8 +826,12 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
-        cell.backgroundColor = tokenSet[.backgroundColor].uiColor
         cell.accessibilityIdentifier = item.accessibilityIdentifier
+        cell.tokenSet.setOverrides(from: tokenSet,
+                                   mapping: [.backgroundColor: .backgroundColor,
+                                             .imageColor: .listIconColor,
+                                             .titleColor: .listLabelColor,
+                                             .titleFont: .listLabelFont])
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
@@ -1069,6 +1124,9 @@ extension BottomCommandingController: UITableViewDelegate {
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
             header.tableViewCellStyle = .clear
+            header.tokenSet.setOverrides(from: tokenSet,
+                                         mapping: [.textFont: .listSectionLabelFont,
+                                                   .textColor: .listSectionLabelColor])
             configuredHeader = header
         }
 

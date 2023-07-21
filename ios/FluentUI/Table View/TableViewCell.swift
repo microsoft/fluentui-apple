@@ -2003,7 +2003,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         selectionImageView.tintColor = isSelected ? tokenSet[.brandTextColor].uiColor : tokenSet[.selectionIndicatorOffColor].uiColor
         unreadDotLayer.backgroundColor = tokenSet[.brandTextColor].uiColor.cgColor
     }
-    
+
     private func updateCustomViewColor() {
         guard let customView else {
             return
