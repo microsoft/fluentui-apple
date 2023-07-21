@@ -120,7 +120,7 @@ extension TableViewHeaderFooterViewDemoController {
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if tableView.style == .grouped && groupedSections[section].hasFooter {
+        if tableView.style != .plain && groupedSections[section].hasFooter {
             let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView
             let section = groupedSections[section]
             if section.footerLinkText.isEmpty {
