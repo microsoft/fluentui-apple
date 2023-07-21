@@ -322,7 +322,9 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
         twoLineTitleView.setup(navigationItem: navigationItem)
 
         // Hide the avatar if TwoLineTitleView has a leading image for both title and subtitle.
-        showsProfileButton = !navigationItem.isTitleImageLeadingForTitleAndSubtitle
+        if navigationItem.isTitleImageLeadingForTitleAndSubtitle {
+            showsProfileButton = false
+        }
 
         if navigationItem.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion
