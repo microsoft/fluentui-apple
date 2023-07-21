@@ -353,8 +353,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         tokenSet.update(fluentTheme)
     }
