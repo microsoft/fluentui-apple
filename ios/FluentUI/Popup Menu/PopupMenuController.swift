@@ -251,6 +251,7 @@ open class PopupMenuController: DrawerController {
         super.viewDidLayoutSubviews()
         tableView.layoutIfNeeded()
         tableView.scrollToNearestSelectedRow(at: .none, animated: false)
+        tableView.isScrollEnabled = preferredContentHeight > tableView.frame.height
     }
 
     private func initTableView() {
