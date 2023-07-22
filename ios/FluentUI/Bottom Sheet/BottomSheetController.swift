@@ -455,6 +455,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private func updateAppearance() {
         updateBackgroundColor()
+        updateResizingHandleColor()
         updateShadow()
         updateCornerRadius()
     }
@@ -463,6 +464,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let backgroundColor = tokenSet[.backgroundColor].uiColor
         bottomSheetView.subviews[0].backgroundColor = backgroundColor
         overflowView.backgroundColor = backgroundColor
+    }
+
+    private func updateResizingHandleColor() {
+        resizingHandleView.tokenSet.setOverrideValue(tokenSet[.resizingHandleMarkColor], forToken: .markColor)
     }
 
     private func updateShadow() {
@@ -498,6 +503,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         resizingHandleView.accessibilityTraits = .button
         resizingHandleView.isUserInteractionEnabled = true
         resizingHandleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleResizingHandleViewTap)))
+        resizingHandleView.tokenSet.setOverrideValue(tokenSet[.resizingHandleMarkColor], forToken: .markColor)
         return resizingHandleView
     }()
 

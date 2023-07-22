@@ -6,10 +6,10 @@
 import FluentUI
 import UIKit
 
-class BottomCommandingDemoController: UIViewController {
+class BottomCommandingDemoController: DemoController {
 
-    override func loadView() {
-        view = UIView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
         let optionTableViewController = UITableViewController(style: .insetGrouped)
         mainTableViewController = optionTableViewController
@@ -446,5 +446,104 @@ extension BottomCommandingDemoController: BottomCommandingControllerDelegate {
         if let tableView = mainTableViewController?.tableView {
             tableView.contentInset.bottom = bottomCommandingController.collapsedHeightInSafeArea
         }
+    }
+}
+
+extension BottomCommandingDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: BottomCommandingTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideBottomCommandingTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        bottomCommandingController?.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideBottomCommandingTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: BottomCommandingTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideBottomCommandingTokens: [BottomCommandingTokenSet.Tokens: ControlTokenValue] {
+        let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                      dark: GlobalTokens.sharedColor(.plum, .tint40))
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.plum, .tint40),
+                               dark: GlobalTokens.sharedColor(.plum, .shade30))
+            },
+            .cornerRadius: .float { GlobalTokens.corner(.radiusNone) },
+            .heroDisabledColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.plum, .tint30),
+                               dark: GlobalTokens.sharedColor(.plum, .tint20))
+            },
+            .heroLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
+            },
+            .heroRestIconColor: .uiColor { foregroundColor },
+            .heroRestLabelColor: .uiColor { foregroundColor },
+            .heroSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .shade30),
+                               dark: GlobalTokens.sharedColor(.forest, .tint40))
+            },
+            .listIconColor: .uiColor { foregroundColor },
+            .listLabelColor: .uiColor { foregroundColor },
+            .listLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
+            },
+            .listSectionLabelColor: .uiColor { foregroundColor },
+            .listSectionLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 16.0),
+                              size: 16.0)
+            },
+            .resizingHandleMarkColor: .uiColor { foregroundColor },
+            .strokeColor: .uiColor { foregroundColor },
+            .shadow: .shadowInfo { FluentTheme.shared.shadow(.clear) }
+        ]
+    }
+
+    private var perControlOverrideBottomCommandingTokens: [BottomCommandingTokenSet.Tokens: ControlTokenValue] {
+        let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.forest, .shade30),
+                                      dark: GlobalTokens.sharedColor(.forest, .tint40))
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint40),
+                               dark: GlobalTokens.sharedColor(.forest, .shade30))
+            },
+            .cornerRadius: .float { GlobalTokens.corner(.radius40) },
+            .heroDisabledColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint20),
+                               dark: GlobalTokens.sharedColor(.forest, .shade10))
+            },
+            .heroLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
+            },
+            .heroRestIconColor: .uiColor { foregroundColor },
+            .heroRestLabelColor: .uiColor { foregroundColor },
+            .heroSelectedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.plum, .primary),
+                               dark: GlobalTokens.sharedColor(.plum, .tint40))
+            },
+            .listIconColor: .uiColor { foregroundColor },
+            .listLabelColor: .uiColor { foregroundColor },
+            .listLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
+            },
+            .listSectionLabelColor: .uiColor { foregroundColor },
+            .listSectionLabelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 16.0),
+                              size: 16.0)
+            },
+            .resizingHandleMarkColor: .uiColor { foregroundColor },
+            .strokeColor: .uiColor { foregroundColor },
+            .shadow: .shadowInfo { FluentTheme.shared.shadow(.shadow64) }
+        ]
     }
 }
