@@ -60,7 +60,7 @@ public protocol BottomCommandingControllerDelegate: AnyObject {
 /// Items from the `expandedListSections` are either presented in an expanded sheet or a popover, depending on the current style.
 ///
 @objc(MSFBottomCommandingController)
-open class BottomCommandingController: UIViewController {
+open class BottomCommandingController: UIViewController, TokenizedControlInternal {
 
     /// View controller that will be displayed below the bottom commanding UI.
     @objc public var contentViewController: UIViewController? {
@@ -280,6 +280,11 @@ open class BottomCommandingController: UIViewController {
         if let contentViewController = contentViewController {
             addChildContentViewController(contentViewController)
         }
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: view) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -347,6 +352,17 @@ open class BottomCommandingController: UIViewController {
             bottomSheetController?.handleCollapseCustomAccessibilityLabel = handleCollapseCustomAccessibilityLabel
         }
     }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        tokenSet.update(fluentTheme)
+    }
+
+    public typealias TokenSetKeyType = BottomCommandingTokenSet.Tokens
+    public var tokenSet: BottomCommandingTokenSet = .init()
+
+    var fluentTheme: FluentTheme { return view.fluentTheme }
 
     private func setupCommandingLayout(traitCollection: UITraitCollection, forceLayoutPass: Bool = false) {
         if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
@@ -428,6 +444,7 @@ open class BottomCommandingController: UIViewController {
         NSLayoutConstraint.activate(layoutGuideConstraints)
 
         bottomSheetController = sheetController
+        updateBottomSheetAppearance()
 
         reloadHeroCommandStack()
         updateSheetHeaderSizingParameters()
@@ -442,9 +459,9 @@ open class BottomCommandingController: UIViewController {
         let bottomBarView = UIView()
 
         let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = bottomBarBackgroundColor
+        roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
         roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
-        roundedCornerView.layer.cornerRadius = Constants.BottomBar.cornerRadius
+        roundedCornerView.layer.cornerRadius = tokenSet[.cornerRadius].float
         roundedCornerView.layer.cornerCurve = .continuous
         roundedCornerView.clipsToBounds = true
 
@@ -457,21 +474,22 @@ open class BottomCommandingController: UIViewController {
             roundedCornerView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
             roundedCornerView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
             roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor, constant: Constants.BottomBar.heroStackLeadingTrailingMargin),
-            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor, constant: -Constants.BottomBar.heroStackLeadingTrailingMargin),
-            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: Constants.BottomBar.heroStackTopMargin)
+            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.bottomBarTopSpacing)
         ])
-
+        bottomBarBackgroundView = roundedCornerView
         return bottomBarView
     }
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
         let view = UIView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+
         let separator = Separator()
         separator.translatesAutoresizingMaskIntoConstraints = false
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-
-        view.addSubview(tableView)
+        separator.tokenSet.setOverrideValue(tokenSet[.strokeColor], forToken: .color)
         view.addSubview(separator)
 
         NSLayoutConstraint.activate([
@@ -483,6 +501,7 @@ open class BottomCommandingController: UIViewController {
             separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separator.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        sheetHeaderSeparator = separator
         return view
     }
 
@@ -541,7 +560,7 @@ open class BottomCommandingController: UIViewController {
             let rowStack = UIStackView(arrangedSubviews: rowViews)
             rowStack.axis = .horizontal
             rowStack.distribution = .fillEqually
-            let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+            let horizontalMargin = BottomCommandingTokenSet.tabHorizontalPadding
             rowStack.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
             rowStack.isLayoutMarginsRelativeArrangement = true
             heroCommandOverflowStack.addArrangedSubview(rowStack)
@@ -551,6 +570,48 @@ open class BottomCommandingController: UIViewController {
         if isInSheetMode {
             view.setNeedsLayout()
         }
+    }
+
+    private func updateAppearance() {
+        guard isViewLoaded else {
+            return
+        }
+        updateBottomSheetAppearance()
+        reloadHeroCommandStack()
+        updateTableViewAppearance()
+        updateSeparatorColor()
+        updateBottomBar()
+    }
+
+    private func updateBottomSheetAppearance() {
+        guard let bottomSheetController else {
+            return
+        }
+        bottomSheetController.tokenSet.setOverrides(from: tokenSet,
+                                                    mapping: [.backgroundColor: .backgroundColor,
+                                                              .cornerRadius: .cornerRadius,
+                                                              .resizingHandleMarkColor: .resizingHandleMarkColor,
+                                                              .shadow: .shadow])
+    }
+
+    private func updateTableViewAppearance() {
+        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        tableView.reloadData()
+    }
+
+    private func updateSeparatorColor() {
+        guard let sheetHeaderSeparator else {
+            return
+        }
+        sheetHeaderSeparator.tokenSet.setOverrideValue(tokenSet[.strokeColor], forToken: .color)
+    }
+
+    private func updateBottomBar() {
+        guard let bottomBarBackgroundView else {
+            return
+        }
+        bottomBarBackgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        bottomBarBackgroundView.layer.cornerRadius = tokenSet[.cornerRadius].float
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -564,14 +625,16 @@ open class BottomCommandingController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
         stackView.alignment = .top
-        let horizontalMargin = Constants.BottomSheet.headerLeadingTrailingMargin
+        let horizontalMargin = BottomCommandingTokenSet.tabHorizontalPadding
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
 
+    private var sheetHeaderSeparator: Separator?
+
     private lazy var heroCommandOverflowStack: UIStackView = {
-        let spacing = Constants.heroCommandOverflowStackSpacing
+        let spacing = BottomCommandingTokenSet.gridSpacing
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
@@ -596,7 +659,7 @@ open class BottomCommandingController: UIViewController {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = tableViewBackgroundColor
+        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
@@ -606,6 +669,8 @@ open class BottomCommandingController: UIViewController {
         isTableViewLoaded = true
         return tableView
     }()
+
+    private var bottomBarBackgroundView: UIView?
 
     // MARK: - Command tap handling
 
@@ -716,6 +781,13 @@ open class BottomCommandingController: UIViewController {
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
         itemView.accessibilityIdentifier = item.accessibilityIdentifier
+        itemView.tokenSet.setOverrides(from: tokenSet,
+                                       mapping: [.disabledColor: .heroDisabledColor,
+                                                 .titleLabelFontLandscape: .heroLabelFont,
+                                                 .titleLabelFontPortrait: .heroLabelFont,
+                                                 .selectedColor: .heroSelectedColor,
+                                                 .unselectedImageColor: .heroRestIconColor,
+                                                 .unselectedTextColor: .heroRestLabelColor])
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeroCommandTap(_:)))
         itemView.addGestureRecognizer(tapGesture)
@@ -738,7 +810,6 @@ open class BottomCommandingController: UIViewController {
 
     private func setupTableViewCell(_ cell: TableViewCell, with item: CommandingItem) {
         let iconView = UIImageView(image: item.image)
-        iconView.tintColor = tableViewIconTintColor
 
         if item.isToggleable, let booleanCell = cell as? BooleanCell {
             booleanCell.setup(title: item.title ?? "", customView: iconView, isOn: item.isOn)
@@ -755,8 +826,12 @@ open class BottomCommandingController: UIViewController {
         }
         cell.isEnabled = item.isEnabled
         cell.backgroundStyleType = .clear
-        cell.backgroundColor = tableViewBackgroundColor
         cell.accessibilityIdentifier = item.accessibilityIdentifier
+        cell.tokenSet.setOverrides(from: tokenSet,
+                                   mapping: [.backgroundColor: .backgroundColor,
+                                             .imageColor: .listIconColor,
+                                             .titleColor: .listLabelColor,
+                                             .titleFont: .listLabelFont])
 
         let shouldShowSeparator = expandedListSections
             .prefix(expandedListSections.count - 1)
@@ -795,7 +870,7 @@ open class BottomCommandingController: UIViewController {
         bottomSheetController.isExpandable = isExpandable
 
         let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
-        let headerHeightWithoutBottomWhitespace = Constants.BottomSheet.headerTopMargin + maxHeroItemHeight
+        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.handleHeaderHeight + maxHeroItemHeight
 
         // How much more whitespace is required at the bottom of the sheet header
         let requiredBottomWhitespace = max(0, Constants.BottomSheet.headerHeight - headerHeightWithoutBottomWhitespace)
@@ -808,7 +883,7 @@ open class BottomCommandingController: UIViewController {
         let addedHeaderTopMargin = !isExpandable
             ? BottomSheetController.resizingHandleHeight
             : 0
-        bottomSheetHeroStackTopConstraint?.constant = Constants.BottomSheet.headerTopMargin + addedHeaderTopMargin
+        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.handleHeaderHeight + addedHeaderTopMargin
 
         let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
         let newCollapsedContentHeight = headerHeightWithoutBottomWhitespace + reducedBottomWhitespace + addedHeaderTopMargin
@@ -967,26 +1042,18 @@ open class BottomCommandingController: UIViewController {
         }
     }
 
-    private lazy var tableViewIconTintColor: UIColor = GlobalTokens.neutralColor(.grey50)
-    private lazy var tableViewBackgroundColor: UIColor = view.fluentTheme.color(.background2)
-    private lazy var bottomBarBackgroundColor: UIColor = view.fluentTheme.color(.background2)
-
     private struct Constants {
         static let defaultHeroButtonHeight: CGFloat = 40
         static let heroButtonWidth: CGFloat = 96
         static let heroButtonLabelMaxWidth: CGFloat = 72
         static let heroButtonMaxTitleLines: Int = 2
         static let heroCommandsPerRow: Int = 5
-        static let heroCommandOverflowStackSpacing: CGFloat = 8
 
         struct BottomBar {
             static let height: CGFloat = 80
-            static let cornerRadius: CGFloat = 14
 
             static let bottomOffset: CGFloat = 8
             static let hiddenBottomOffset: CGFloat = -110
-            static let heroStackLeadingTrailingMargin: CGFloat = 8
-            static let heroStackTopMargin: CGFloat = 20
 
             static let hidingSpringDuration: TimeInterval = 0.4
             static let hidingSpringDamping: CGFloat = 1.0
@@ -997,8 +1064,6 @@ open class BottomCommandingController: UIViewController {
 
         struct BottomSheet {
             static let headerHeight: CGFloat = 66
-            static let headerTopMargin: CGFloat = 8
-            static let headerLeadingTrailingMargin: CGFloat = 16
         }
     }
 }
@@ -1059,6 +1124,9 @@ extension BottomCommandingController: UITableViewDelegate {
         if let sectionTitle = section.title {
             header.setup(style: .header, title: sectionTitle)
             header.tableViewCellStyle = .clear
+            header.tokenSet.setOverrides(from: tokenSet,
+                                         mapping: [.textFont: .listSectionLabelFont,
+                                                   .textColor: .listSectionLabelColor])
             configuredHeader = header
         }
 
