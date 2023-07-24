@@ -125,7 +125,7 @@
         [self setSelectedCityIndex:[weakMenu selectedItemIndexPath]];
     }];
 
-    [[self navigationController] presentViewController:popupMenu animated:YES completion:nil];
+    [self presentViewController:popupMenu animated:YES completion:nil];
 }
 
 @end

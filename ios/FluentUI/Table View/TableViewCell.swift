@@ -1202,6 +1202,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             if let customView = customView {
                 contentView.addSubview(customView)
                 customView.accessibilityElementsHidden = true
+                updateCustomViewColor()
             }
         }
     }
@@ -1894,6 +1895,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         updateSelectionImageColor()
         setupBackgroundColors()
         updateAccessoryViewColor()
+        updateCustomViewColor()
     }
 
     private func updateAccessoryViewColor() {
@@ -2000,6 +2002,13 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private func updateSelectionImageColor() {
         selectionImageView.tintColor = isSelected ? tokenSet[.brandTextColor].uiColor : tokenSet[.selectionIndicatorOffColor].uiColor
         unreadDotLayer.backgroundColor = tokenSet[.brandTextColor].uiColor.cgColor
+    }
+
+    private func updateCustomViewColor() {
+        guard let customView else {
+            return
+        }
+        customView.tintColor = tokenSet[.imageColor].uiColor
     }
 
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {

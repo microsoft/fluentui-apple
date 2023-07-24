@@ -63,6 +63,10 @@ open class Separator: UIView, TokenizedControlInternal {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.backgroundColor = self?.tokenSet[.color].uiColor
+        }
     }
 
     @objc private func themeDidChange(_ notification: Notification) {

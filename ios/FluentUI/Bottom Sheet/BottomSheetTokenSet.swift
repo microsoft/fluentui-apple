@@ -7,8 +7,16 @@ import UIKit
 
 public class BottomSheetTokenSet: ControlTokenSet<BottomSheetTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// Defines the background color of the `BottomSheetController`.
         case backgroundColor
+
+        /// Defines the corner radius of the `BottomSheetController`.
         case cornerRadius
+
+        /// Defines the color of the resizing handle of the `BottomSheetController`.
+        case resizingHandleMarkColor
+
+        /// Defines the shadows used by the `BottomSheetController`.
         case shadow
     }
 
@@ -21,6 +29,8 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetTokenSet.Tokens> {
                 }
             case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius120) }
+            case .resizingHandleMarkColor:
+                return .uiColor { theme.color(.strokeAccessible) }
             case .shadow:
                 return .shadowInfo { theme.shadow(.shadow28) }
             }

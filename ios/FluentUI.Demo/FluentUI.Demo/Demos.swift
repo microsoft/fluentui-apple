@@ -24,6 +24,7 @@ struct Demos {
         DemoDescriptor("AvatarGroup", AvatarGroupDemoController.self),
         DemoDescriptor("BadgeField", BadgeFieldDemoController.self),
         DemoDescriptor("BadgeView", BadgeViewDemoController.self),
+        DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("BottomSheetController", BottomSheetDemoController.self),
         DemoDescriptor("Button", ButtonDemoController.self),
         DemoDescriptor("CardNudge", CardNudgeDemoController.self),
@@ -60,7 +61,6 @@ struct Demos {
     ]
 
     static let controls: [DemoDescriptor] = [
-        DemoDescriptor("BottomCommandingController", BottomCommandingDemoController.self),
         DemoDescriptor("Card", CardViewDemoController.self),
         DemoDescriptor("DateTimePicker", DateTimePickerDemoController.self),
         DemoDescriptor("PeoplePicker", PeoplePickerDemoController.self),
