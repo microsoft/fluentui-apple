@@ -7,6 +7,8 @@ import FluentUI
 import UIKit
 
 class BadgeFieldDemoController: DemoController {
+    private var badgeFields = [BadgeField]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,7 +31,9 @@ class BadgeFieldDemoController: DemoController {
 
         let badgeField1 = setupBadgeField(label: "Send to:", dataSources: badgeDataSources1)
         badgeField1.numberOfLines = 1
+        badgeFields.append(badgeField1)
         let badgeField2 = setupBadgeField(label: "Cc:", dataSources: badgeDataSources2)
+        badgeFields.append(badgeField2)
 
         addDescription(text: "Badge field with limited number of lines")
         container.addArrangedSubview(badgeField1)
@@ -64,5 +68,74 @@ extension BadgeFieldDemoController: BadgeFieldDelegate {
     func badgeField(_ badgeField: BadgeField, didTapSelectedBadge badge: BadgeView) {
         badge.isSelected = false
         showMessage("\(badge.dataSource?.text ?? "A selected badge") was tapped")
+    }
+}
+
+extension BadgeFieldDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: BadgeFieldTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideBadgeFieldTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for badgeField in badgeFields {
+            badgeField.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideBadgeFieldTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: BadgeFieldTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideBadgeFieldTokens: [BadgeFieldTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.lavender, .tint40),
+                               dark: GlobalTokens.sharedColor(.lavender, .shade30))
+            },
+            .labelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 18.0), size: 18.0)
+            },
+            .placeholderFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 18.0), size: 18.0)
+            },
+            .textFieldFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 18.0), size: 18.0)
+            }
+        ]
+    }
+
+    private var perControlOverrideBadgeFieldTokens: [BadgeFieldTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orange, .tint40),
+                               dark: GlobalTokens.sharedColor(.orange, .shade30))
+            },
+            .labelColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .placeholderColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .textFieldColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .labelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .placeholderFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .textFieldFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            }
+        ]
     }
 }
