@@ -11,10 +11,10 @@ public typealias ListItemTokenSet = TableViewCellTokenSet
 
 /// View that represents an item in a List.
 public struct ListItem<LeadingView: View,
-					   TrailingView: View,
-					   Title: StringProtocol,
-					   Subtitle: StringProtocol,
-					   Footer: StringProtocol>: View {
+                       TrailingView: View,
+                       Title: StringProtocol,
+                       Subtitle: StringProtocol,
+                       Footer: StringProtocol>: View {
 
 	// MARK: Initializer
 
@@ -25,7 +25,7 @@ public struct ListItem<LeadingView: View,
 	///   - footer: Text that appears as the third line of text
 	///   - leadingView: The view that appears on the leading edge of the view
 	///   - trailingView: The view that appears on the trailing edge of the view, next to the accessory type if provided
-	public init(title: Title,
+    public init(title: Title,
                 subtitle: Subtitle = String(""),
                 footer: Footer = String(""),
                 leadingView: @escaping () -> LeadingView = { EmptyView() },
@@ -116,10 +116,10 @@ public struct ListItem<LeadingView: View,
 					.tint(Color(fluentTheme.color(.brandForeground1)))
 				accessoryView
 			}
-			.padding(EdgeInsets(top: ListItemTokenSet.paddingVertical + 1,
-								leading: ListItemTokenSet.paddingLeading,
-								bottom: ListItemTokenSet.paddingVertical + 1,
-								trailing: ListItemTokenSet.paddingTrailing))
+            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical + 1,
+                                leading: ListItemTokenSet.paddingLeading,
+                                bottom: ListItemTokenSet.paddingVertical + 1,
+                                trailing: ListItemTokenSet.paddingTrailing))
 			.frame(minHeight: minHeight)
 			.background(backgroundView)
 			.listRowInsets(EdgeInsets())

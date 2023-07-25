@@ -1161,8 +1161,8 @@
 			isa = PBXGroup;
 			children = (
 				F3F113882A705AD500DA852A /* ListItem.swift */,
-				F3F1138A2A705B4700DA852A /* ListItemState.swift */,
 				F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */,
+				F3F1138A2A705B4700DA852A /* ListItemState.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
