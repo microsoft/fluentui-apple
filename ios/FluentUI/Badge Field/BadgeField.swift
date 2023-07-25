@@ -191,7 +191,7 @@ open class BadgeField: UIView, TokenizedControlInternal {
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateTokenizedValues()
+            self?.updateAppearance()
         }
     }
 
@@ -199,10 +199,10 @@ open class BadgeField: UIView, TokenizedControlInternal {
         guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
             return
         }
-        updateTokenizedValues()
+        updateAppearance()
     }
 
-    private func updateTokenizedValues() {
+    private func updateAppearance() {
         updateColors()
         updateFonts()
     }
@@ -328,7 +328,7 @@ open class BadgeField: UIView, TokenizedControlInternal {
             return
         }
         tokenSet.update(newWindow.fluentTheme)
-        updateTokenizedValues()
+        updateAppearance()
     }
 
     private func shouldDragBadge(_ badge: BadgeView) -> Bool {
