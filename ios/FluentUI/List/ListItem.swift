@@ -112,9 +112,9 @@ public struct ListItem<LeadingView: View,
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
                 Spacer()
                 trailingView()
-                    .padding(.trailing, ListItemTokenSet.horizontalSpacing)
                     .tint(Color(fluentTheme.color(.brandForeground1)))
                 accessoryView
+                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
             .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical + 1,
                                 leading: ListItemTokenSet.paddingLeading,
