@@ -57,18 +57,13 @@ public protocol BadgeFieldDelegate: AnyObject {
  * voiceover and dynamic text sizing
  */
 @objc(MSFBadgeField)
-open class BadgeField: UIView {
+open class BadgeField: UIView, TokenizedControlInternal {
     private struct Constants {
-        static let badgeMarginHorizontal: CGFloat = 5
-        static let badgeMarginVertical: CGFloat = 5
         static let emptyTextFieldString: String = ""
         static let dragAndDropMinimumPressDuration: TimeInterval = 0.2
         static let dragAndDropScaleAnimationDuration: TimeInterval = 0.3
         static let dragAndDropScaleFactor: CGFloat = 1.10
         static let dragAndDropPositioningAnimationDuration: TimeInterval = 0.2
-        static let labelMarginRight: CGFloat = 5
-        static let labelColorStyle: TextColorStyle = .secondary
-        static let textFieldMinWidth: CGFloat = 100
     }
 
     @objc open var label: String = "" {
@@ -141,6 +136,9 @@ open class BadgeField: UIView {
 
     @objc public weak var badgeFieldDelegate: BadgeFieldDelegate?
 
+    public typealias TokenSetKeyType = BadgeFieldTokenSet.Tokens
+    public var tokenSet: BadgeFieldTokenSet = .init()
+
     var deviceOrientationIsChanging: Bool {
         originalDeviceOrientation != UIDevice.current.orientation
     }
@@ -161,17 +159,7 @@ open class BadgeField: UIView {
 
     @objc public init() {
         super.init(frame: .zero)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        updateBackgroundColor()
-
-        labelView.colorStyle = Constants.labelColorStyle
         addSubview(labelView)
-
-        placeholderView.colorStyle = Constants.labelColorStyle
         addSubview(placeholderView)
 
         updateLabelsVisibility()
@@ -200,17 +188,29 @@ open class BadgeField: UIView {
 
         // An accessible container must set isAccessibilityElement to false
         isAccessibilityElement = false
-    }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
         }
-        updateBackgroundColor()
     }
 
-    private func updateBackgroundColor() {
-        backgroundColor = fluentTheme.color(.background1)
+    private func updateAppearance() {
+        updateColors()
+        updateFonts()
+    }
+
+    private func updateColors() {
+        backgroundColor = tokenSet[.backgroundColor].uiColor
+        labelView.textColor = tokenSet[.labelColor].uiColor
+        placeholderView.textColor = tokenSet[.placeholderColor].uiColor
+        textField.textColor = tokenSet[.textFieldColor].uiColor
+    }
+
+    private func updateFonts() {
+        labelView.font = tokenSet[.labelFont].uiFont
+        placeholderView.font = tokenSet[.placeholderFont].uiFont
+        textField.font = tokenSet[.textFieldFont].uiFont
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -246,7 +246,6 @@ open class BadgeField: UIView {
     }
 
     private func setupTextField(_ textField: UITextField) {
-        textField.font = fluentTheme.typography(.body1)
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
@@ -291,7 +290,7 @@ open class BadgeField: UIView {
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         let textFieldHeight = ceil(textFieldSize.height)
         let textFieldVerticalOffset = ceil((badgeHeight - textFieldHeight) / 2.0)
-        let shouldAppendToCurrentLine = left + Constants.textFieldMinWidth <= frame.width
+        let shouldAppendToCurrentLine = left + BadgeFieldTokenSet.textFieldMinWidth <= frame.width
         if !shouldAppendToCurrentLine {
             lineIndex += 1
             left = 0
@@ -314,6 +313,14 @@ open class BadgeField: UIView {
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: contentHeight(forBoundingWidth: frame.width))
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
     }
 
     private func shouldDragBadge(_ badge: BadgeView) -> Bool {
@@ -355,7 +362,7 @@ open class BadgeField: UIView {
         if !moreBadges.isEmpty {
             let moreBadgesDataSources = moreBadges.compactMap { $0.dataSource }
             let moreBadge = createMoreBadge(withDataSources: moreBadgesDataSources)
-            moreBadgeOffset = Constants.badgeMarginHorizontal + width(forBadge: moreBadge,
+            moreBadgeOffset = BadgeFieldTokenSet.badgeMarginHorizontal + width(forBadge: moreBadge,
                                                                       isFirstBadge: false,
                                                                       isFirstBadgeOfLastDisplayedLine: false,
                                                                       moreBadgeOffset: 0,
@@ -388,7 +395,7 @@ open class BadgeField: UIView {
         }
         // Badge should be appended on current line: append and keep looping on following badges
         constrainedBadges.append(badge)
-        return (false, currentLeft + badgeWidth + Constants.badgeMarginHorizontal, currentLineIndex)
+        return (false, currentLeft + badgeWidth + BadgeFieldTokenSet.badgeMarginHorizontal, currentLineIndex)
     }
 
     private func frameForBadge(_ badgeToInsert: BadgeView, boundingWidth: CGFloat) -> CGRect {
@@ -430,7 +437,7 @@ open class BadgeField: UIView {
         if shouldUseConstrainedBadges, let moreBadge = moreBadge {
             let moreBadgeSize = moreBadge.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
             let moreBadgeWidth = ceil(moreBadgeSize.width)
-            return moreBadgeWidth + Constants.badgeMarginHorizontal
+            return moreBadgeWidth + BadgeFieldTokenSet.badgeMarginHorizontal
         } else {
             return 0
         }
@@ -438,8 +445,8 @@ open class BadgeField: UIView {
 
     @objc open func heightThatFits(badgeHeight: CGFloat, numberOfLines: Int) -> CGFloat {
         // Vertical margin not applicable to top line
-        let heightForAllLines = CGFloat(numberOfLines) * (badgeHeight + Constants.badgeMarginVertical)
-        return heightForAllLines - Constants.badgeMarginVertical
+        let heightForAllLines = CGFloat(numberOfLines) * (badgeHeight + BadgeFieldTokenSet.badgeMarginVertical)
+        return heightForAllLines - BadgeFieldTokenSet.badgeMarginVertical
     }
 
     private func contentHeight(forBoundingWidth boundingWidth: CGFloat) -> CGFloat {
@@ -454,7 +461,7 @@ open class BadgeField: UIView {
 
         let isFirstResponderOrHasTextFieldContent = isFirstResponder || !textFieldContent.isEmpty
 
-        if isEditable && isFirstResponderOrHasTextFieldContent && left + Constants.textFieldMinWidth > boundingWidth {
+        if isEditable && isFirstResponderOrHasTextFieldContent && left + BadgeFieldTokenSet.textFieldMinWidth > boundingWidth {
             lineIndex += 1
         }
         let textFieldSize = textField.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -489,13 +496,13 @@ open class BadgeField: UIView {
                                 width: badgeWidth,
                                 height: badgeHeight)
 
-        left += badgeWidth + Constants.badgeMarginHorizontal
+        left += badgeWidth + BadgeFieldTokenSet.badgeMarginHorizontal
 
         return badgeFrame
     }
 
     private func offsetForLine(badgeHeight: CGFloat, at lineIndex: Int) -> CGFloat {
-        return CGFloat(lineIndex) * (badgeHeight + Constants.badgeMarginVertical)
+        return CGFloat(lineIndex) * (badgeHeight + BadgeFieldTokenSet.badgeMarginVertical)
     }
 
     // MARK: Badges
@@ -734,7 +741,7 @@ open class BadgeField: UIView {
     private let placeholderView = Label()
 
     private var labelViewRightOffset: CGFloat {
-        return labelView.isHidden ? 0 : labelViewWidth + Constants.labelMarginRight
+        return labelView.isHidden ? 0 : labelViewWidth + BadgeFieldTokenSet.labelMarginRight
     }
 
     private var labelViewWidth: CGFloat {
