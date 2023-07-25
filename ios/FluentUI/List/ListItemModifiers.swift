@@ -3,8 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import Foundation
-
 public extension ListItem {
 
     /// The accessory type for the `ListItem`.

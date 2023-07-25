@@ -34,4 +34,3 @@ class ListItemState: ControlState {
     /// The truncation mode of the `footer`
     var footerTruncationMode: Text.TruncationMode = .tail
 }
-
