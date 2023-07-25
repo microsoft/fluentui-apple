@@ -30,11 +30,11 @@ public struct ListItem<LeadingView: View,
                 footer: Footer = String(""),
                 leadingView: @escaping () -> LeadingView = { EmptyView() },
                 trailingView: @escaping () -> TrailingView = { EmptyView() }) {
-		self.title = title
-		self.subtitle = subtitle
-		self.footer = footer
-		self.leadingView = leadingView
-		self.trailingView = trailingView
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.leadingView = leadingView
+        self.trailingView = trailingView
 	}
 
 	public var body: some View {
