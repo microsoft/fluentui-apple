@@ -159,6 +159,11 @@ open class BadgeField: UIView, TokenizedControlInternal {
 
     @objc public init() {
         super.init(frame: .zero)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
         addSubview(labelView)
         addSubview(placeholderView)
 
