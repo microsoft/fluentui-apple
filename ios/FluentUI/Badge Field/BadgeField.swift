@@ -159,11 +159,6 @@ open class BadgeField: UIView, TokenizedControlInternal {
 
     @objc public init() {
         super.init(frame: .zero)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         addSubview(labelView)
         addSubview(placeholderView)
 
@@ -198,13 +193,6 @@ open class BadgeField: UIView, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        updateAppearance()
     }
 
     private func updateAppearance() {
@@ -333,7 +321,6 @@ open class BadgeField: UIView, TokenizedControlInternal {
             return
         }
         tokenSet.update(newWindow.fluentTheme)
-        updateAppearance()
     }
 
     private func shouldDragBadge(_ badge: BadgeView) -> Bool {
