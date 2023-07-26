@@ -49,34 +49,32 @@ public struct ListItem<LeadingView: View,
                                 .frame(minHeight: ListItemTokenSet.titleHeight)
                                 .lineLimit(state.titleLineLimit)
                                 .truncationMode(state.titleTruncationMode)
-            let subtitleView = Text(subtitle)
-                                   .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
-                                   .lineLimit(state.subtitleLineLimit)
-                                   .truncationMode(state.subtitleTruncationMode)
-            let footerView = Text(footer)
-                                 .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
-                                 .font(Font(tokenSet[.footerFont].uiFont))
-                                 .frame(minHeight: ListItemTokenSet.footerHeight)
-                                 .lineLimit(state.footerLineLimit)
-                                 .truncationMode(state.footerTruncationMode)
 
             switch layoutType {
             case .oneLine:
                 titleView
-            case .twoLines:
+            case .twoLines, .threeLines:
+                let subtitleView = Text(subtitle)
+                    .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
+                    .lineLimit(state.subtitleLineLimit)
+                    .truncationMode(state.subtitleTruncationMode)
                 VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
                     titleView
-                    subtitleView
-                        .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
-                        .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
-                }
-            case .threeLines:
-                VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
-                    titleView
-                    subtitleView
-                        .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
-                        .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
-                    footerView
+                    if layoutType == .twoLines {
+                        subtitleView
+                            .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
+                            .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
+                    } else if layoutType == .threeLines {
+                        subtitleView
+                            .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
+                            .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
+                        Text(footer)
+                            .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
+                            .font(Font(tokenSet[.footerFont].uiFont))
+                            .frame(minHeight: ListItemTokenSet.footerHeight)
+                            .lineLimit(state.footerLineLimit)
+                            .truncationMode(state.footerTruncationMode)
+                    }
                 }
             }
         }
