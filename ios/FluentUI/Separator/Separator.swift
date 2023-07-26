@@ -45,6 +45,14 @@ open class Separator: UIView, TokenizedControlInternal {
         return fluentTheme.color(.stroke2)
     }
 
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+    }
+
     private func initialize(orientation: SeparatorOrientation) {
         backgroundColor = tokenSet[.color].uiColor
         self.orientation = orientation
@@ -59,21 +67,9 @@ open class Separator: UIView, TokenizedControlInternal {
         isAccessibilityElement = false
         isUserInteractionEnabled = false
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.backgroundColor = self?.tokenSet[.color].uiColor
         }
-    }
-
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
-            return
-        }
-        backgroundColor = tokenSet[.color].uiColor
     }
 
     open override var intrinsicContentSize: CGSize {
