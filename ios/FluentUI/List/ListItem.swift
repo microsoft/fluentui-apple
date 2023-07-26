@@ -7,6 +7,7 @@ import SwiftUI
 
 public typealias ListItemAccessoryType = TableViewCellAccessoryType
 public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
+public typealias ListItemCustomViewSize = MSFTableViewCellCustomViewSize
 public typealias ListItemTokenSet = TableViewCellTokenSet
 
 /// View that represents an item in a List.
@@ -26,50 +27,56 @@ public struct ListItem<LeadingView: View,
 	///   - leadingView: The view that appears on the leading edge of the view
 	///   - trailingView: The view that appears on the trailing edge of the view, next to the accessory type if provided
     public init(title: Title,
-                subtitle: Subtitle = String(""),
-                footer: Footer = String(""),
-                leadingView: @escaping () -> LeadingView = { EmptyView() },
-                trailingView: @escaping () -> TrailingView = { EmptyView() }) {
+                subtitle: Subtitle = String(),
+                footer: Footer = String(),
+                @ViewBuilder leadingView: @escaping () -> LeadingView,
+                @ViewBuilder trailingView: @escaping () -> TrailingView) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-        self.leadingView = leadingView
-        self.trailingView = trailingView
+        self.leadingView = leadingView()
+        self.trailingView = trailingView()
     }
 
     public var body: some View {
         tokenSet.update(fluentTheme)
 
         @ViewBuilder
-        var labelsView: some View {
-            VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
-                Text(title)
-                    .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
-                    .font(Font(tokenSet[.titleFont].uiFont))
-                    .frame(minHeight: ListItemTokenSet.titleHeight)
-                    .lineLimit(state.titleLineLimit)
-                    .truncationMode(state.titleTruncationMode)
-                
-                if !subtitle.isEmpty {
-                    let subtitleView = Text(subtitle)
-                        .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
-                        .lineLimit(state.subtitleLineLimit)
-                        .truncationMode(state.subtitleTruncationMode)
-                    if footer.isEmpty {
-                        subtitleView
-                            .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
-                    } else {
-                        subtitleView
-                            .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
-                        Text(footer)
-                            .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
-                            .font(Font(tokenSet[.footerFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.footerHeight)
-                            .lineLimit(state.footerLineLimit)
-                            .truncationMode(state.footerTruncationMode)
-                    }
+        var labelStack: some View {
+            let titleView = Text(title)
+                                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
+                                .font(Font(tokenSet[.titleFont].uiFont))
+                                .frame(minHeight: ListItemTokenSet.titleHeight)
+                                .lineLimit(state.titleLineLimit)
+                                .truncationMode(state.titleTruncationMode)
+            let subtitleView = Text(subtitle)
+                                   .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
+                                   .lineLimit(state.subtitleLineLimit)
+                                   .truncationMode(state.subtitleTruncationMode)
+            let footerView = Text(footer)
+                                 .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
+                                 .font(Font(tokenSet[.footerFont].uiFont))
+                                 .frame(minHeight: ListItemTokenSet.footerHeight)
+                                 .lineLimit(state.footerLineLimit)
+                                 .truncationMode(state.footerTruncationMode)
+
+            switch layoutType {
+            case .oneLine:
+                titleView
+            case .twoLines:
+                VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
+                    titleView
+                    subtitleView
+                        .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
+                        .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
+                }
+            case .threeLines:
+                VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
+                    titleView
+                    subtitleView
+                        .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
+                        .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
+                    footerView
                 }
             }
         }
@@ -100,18 +107,17 @@ public struct ListItem<LeadingView: View,
             if let backgroundColor = state.backgroundStyleType.defaultColor(tokenSet: tokenSet) {
                 Color(backgroundColor)
             }
-            EmptyView()
         }
 
         @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
-                leadingView()
+                leadingView
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
-                labelsView
+                labelStack
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
                 Spacer()
-                trailingView()
+                trailingView
                     .tint(Color(fluentTheme.color(.brandForeground1)))
                 accessoryView
                     .padding(.leading, ListItemTokenSet.horizontalSpacing)
@@ -120,35 +126,86 @@ public struct ListItem<LeadingView: View,
                                 leading: ListItemTokenSet.paddingLeading,
                                 bottom: ListItemTokenSet.paddingVertical + 1,
                                 trailing: ListItemTokenSet.paddingTrailing))
-            .frame(minHeight: minHeight)
+            .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
             .listRowInsets(EdgeInsets())
         }
-        
+
         return contentView
     }
 
     var state: ListItemState = ListItemState()
-    
-    private var minHeight: CGFloat {
+
+    private var layoutType: LayoutType {
         if !subtitle.isEmpty {
             if !footer.isEmpty {
-                return ListItemTokenSet.threeLineMinHeight
-            } else {
+                return .threeLines
+            }
+            return .twoLines
+        }
+        return .oneLine
+    }
+
+    private enum LayoutType {
+        case oneLine
+        case twoLines
+        case threeLines
+
+        var minHeight: CGFloat {
+            switch self {
+            case .oneLine:
+                return ListItemTokenSet.oneLineMinHeight
+            case .twoLines:
                 return ListItemTokenSet.twoLineMinHeight
+            case .threeLines:
+                return ListItemTokenSet.threeLineMinHeight
             }
         }
-        
-        return ListItemTokenSet.oneLineMinHeight
     }
-    
+
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
-    
-    @ViewBuilder private let leadingView: () -> LeadingView
-    @ViewBuilder private let trailingView: () -> TrailingView
-    
+
+    private var leadingView: LeadingView?
+    private var trailingView: TrailingView?
+
     private let footer: Footer
     private let subtitle: Subtitle
     private let title: Title
-    private let tokenSet: ListItemTokenSet = ListItemTokenSet(customViewSize: { MSFTableViewCellCustomViewSize.zero })
+    private let tokenSet: ListItemTokenSet = ListItemTokenSet(customViewSize: { ListItemCustomViewSize.zero })
+}
+
+// MARK: Additional Initializers
+
+public extension ListItem where LeadingView == EmptyView, TrailingView == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String()) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+    }
+}
+
+public extension ListItem where TrailingView == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder leadingView: @escaping () -> LeadingView) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.leadingView = leadingView()
+    }
+}
+
+public extension ListItem where LeadingView == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder trailingView: @escaping () -> TrailingView) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.trailingView = trailingView()
+    }
 }
