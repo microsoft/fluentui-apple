@@ -76,7 +76,6 @@ public struct CardNudge: View, TokenizedControlView {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: CardNudgeTokenSet.interTextVerticalPadding) {
             Text(state.title)
-                .lineLimit(1)
                 .foregroundColor(Color(tokenSet[.textColor].uiColor))
                 .showsLargeContentViewer(text: state.title, image: state.mainIcon)
                 .font(.init(tokenSet[.titleFont].uiFont))
