@@ -110,7 +110,7 @@ public struct CardNudge: View, TokenizedControlView {
 
     @ViewBuilder
     var buttons: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: CardNudgeTokenSet.buttonInnerPaddingHorizontal) {
             if let actionTitle = state.actionButtonTitle,
                       let action = state.actionButtonAction {
                 SwiftUI.Button(actionTitle) {
@@ -137,7 +137,6 @@ public struct CardNudge: View, TokenizedControlView {
                         Image(uiImage: image)
                     }
                 })
-                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
                 .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .accessibility(identifier: dismissLabel)
                 .foregroundColor(Color(tokenSet[.subtitleTextColor].uiColor))
