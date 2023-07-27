@@ -40,6 +40,9 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Action to be dispatched by tapping on the `CardNudge`.
+    @objc var messageButtonAction: CardNudgeButtonAction? { get set }
 }
 
 /// View that represents the CardNudge.
@@ -147,6 +150,7 @@ public struct CardNudge: View, TokenizedControlView {
 
     @ViewBuilder
     var innerContents: some View {
+        let messageAction = state.messageButtonAction
         HStack(spacing: 0) {
             icon
             textContainer
@@ -157,6 +161,16 @@ public struct CardNudge: View, TokenizedControlView {
         .padding(.vertical, CardNudgeTokenSet.mainContentVerticalPadding)
         .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
         .frame(minHeight: CardNudgeTokenSet.minimumHeight)
+        .modifyIf(messageAction != nil) { view in
+            view.accessibilityAddTraits(.isButton)
+                .hoverEffect()
+                .onTapGesture {
+                    guard let messageAction else {
+                        return
+                    }
+                    messageAction(state)
+                }
+        }
     }
 
     public var body: some View {
@@ -242,6 +256,9 @@ class MSFCardNudgeStateImpl: ControlState, MSFCardNudgeState {
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published var dismissButtonAction: CardNudgeButtonAction?
+
+    /// Action to be dispatched by tapping on the `CardNudge`.
+    @Published var messageButtonAction: CardNudgeButtonAction?
 
     /// Style to draw the control.
     @Published var style: MSFCardNudgeStyle
