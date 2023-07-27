@@ -129,6 +129,7 @@ public struct CardNudge: View, TokenizedControlView {
                         .foregroundColor(Color(tokenSet[.buttonBackgroundColor].uiColor))
                 )
                 .showsLargeContentViewer(text: actionTitle)
+                .hoverEffect()
             }
             if let dismissAction = state.dismissButtonAction {
                 let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
@@ -144,6 +145,7 @@ public struct CardNudge: View, TokenizedControlView {
                 .accessibility(identifier: dismissLabel)
                 .foregroundColor(Color(tokenSet[.subtitleTextColor].uiColor))
                 .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
+                .hoverEffect()
             }
         }
     }
