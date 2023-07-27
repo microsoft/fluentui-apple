@@ -11,8 +11,8 @@ public typealias ListItemCustomViewSize = MSFTableViewCellCustomViewSize
 public typealias ListItemTokenSet = TableViewCellTokenSet
 
 /// View that represents an item in a List.
-public struct ListItem<LeadingView: View,
-                       TrailingView: View,
+public struct ListItem<LeadingContent: View,
+                       TrailingContent: View,
                        Title: StringProtocol,
                        Subtitle: StringProtocol,
                        Footer: StringProtocol>: View {
@@ -24,18 +24,18 @@ public struct ListItem<LeadingView: View,
 	///   - title: Text that appears as the first line of text
 	///   - subtitle: Text that appears as the second line of text
 	///   - footer: Text that appears as the third line of text
-	///   - leadingView: The view that appears on the leading edge of the view
-	///   - trailingView: The view that appears on the trailing edge of the view, next to the accessory type if provided
+	///   - leadingContent: The content that appears on the leading edge of the view
+	///   - trailingContent: The content that appears on the trailing edge of the view, next to the accessory type if provided
     public init(title: Title,
                 subtitle: Subtitle = String(),
                 footer: Footer = String(),
-                @ViewBuilder leadingView: @escaping () -> LeadingView,
-                @ViewBuilder trailingView: @escaping () -> TrailingView) {
+                @ViewBuilder leadingContent: @escaping () -> LeadingContent,
+                @ViewBuilder trailingContent: @escaping () -> TrailingContent) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-        self.leadingView = leadingView()
-        self.trailingView = trailingView()
+        self.leadingContent = leadingContent
+        self.trailingContent = trailingContent
     }
 
     public var body: some View {
@@ -110,19 +110,23 @@ public struct ListItem<LeadingView: View,
         @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
-                leadingView
-                    .padding(.trailing, ListItemTokenSet.horizontalSpacing)
+                if let leadingContent {
+                    leadingContent()
+                        .padding(.trailing, ListItemTokenSet.horizontalSpacing)
+                }
                 labelStack
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
                 Spacer()
-                trailingView
-                    .tint(Color(fluentTheme.color(.brandForeground1)))
+                if let trailingContent {
+                    trailingContent()
+                        .tint(Color(fluentTheme.color(.brandForeground1)))
+                }
                 accessoryView
                     .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
-            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical + 1,
+            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
                                 leading: ListItemTokenSet.paddingLeading,
-                                bottom: ListItemTokenSet.paddingVertical + 1,
+                                bottom: ListItemTokenSet.paddingVertical,
                                 trailing: ListItemTokenSet.paddingTrailing))
             .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
@@ -132,7 +136,7 @@ public struct ListItem<LeadingView: View,
         return contentView
     }
 
-    var state: ListItemState = ListItemState()
+    @StateObject var state: ListItemState = ListItemState()
 
     private var layoutType: LayoutType {
         if !subtitle.isEmpty {
@@ -163,8 +167,8 @@ public struct ListItem<LeadingView: View,
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 
-    private var leadingView: LeadingView?
-    private var trailingView: TrailingView?
+    private var leadingContent: (() -> LeadingContent)?
+    private var trailingContent: (() -> TrailingContent)?
 
     private let footer: Footer
     private let subtitle: Subtitle
@@ -174,7 +178,7 @@ public struct ListItem<LeadingView: View,
 
 // MARK: Additional Initializers
 
-public extension ListItem where LeadingView == EmptyView, TrailingView == EmptyView {
+public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String()) {
@@ -184,26 +188,26 @@ public extension ListItem where LeadingView == EmptyView, TrailingView == EmptyV
     }
 }
 
-public extension ListItem where TrailingView == EmptyView {
+public extension ListItem where TrailingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         @ViewBuilder leadingView: @escaping () -> LeadingView) {
+         @ViewBuilder leadingContent: @escaping () -> LeadingContent) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-        self.leadingView = leadingView()
+        self.leadingContent = leadingContent
     }
 }
 
-public extension ListItem where LeadingView == EmptyView {
+public extension ListItem where LeadingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         @ViewBuilder trailingView: @escaping () -> TrailingView) {
+         @ViewBuilder trailingContent: @escaping () -> TrailingContent) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-        self.trailingView = trailingView()
+        self.trailingContent = trailingContent
     }
 }
