@@ -40,6 +40,9 @@ public typealias CardNudgeButtonAction = ((_ state: MSFCardNudgeState) -> Void)
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @objc var dismissButtonAction: CardNudgeButtonAction? { get set }
+
+    /// Action to be dispatched by tapping on the `CardNudge`.
+    @objc var messageButtonAction: CardNudgeButtonAction? { get set }
 }
 
 /// View that represents the CardNudge.
@@ -76,7 +79,6 @@ public struct CardNudge: View, TokenizedControlView {
     var textContainer: some View {
         VStack(alignment: .leading, spacing: CardNudgeTokenSet.interTextVerticalPadding) {
             Text(state.title)
-                .lineLimit(1)
                 .foregroundColor(Color(tokenSet[.textColor].uiColor))
                 .showsLargeContentViewer(text: state.title, image: state.mainIcon)
                 .font(.init(tokenSet[.titleFont].uiFont))
@@ -111,7 +113,7 @@ public struct CardNudge: View, TokenizedControlView {
 
     @ViewBuilder
     var buttons: some View {
-        HStack(spacing: 0) {
+        HStack(spacing: CardNudgeTokenSet.buttonInnerPaddingHorizontal) {
             if let actionTitle = state.actionButtonTitle,
                       let action = state.actionButtonAction {
                 SwiftUI.Button(actionTitle) {
@@ -127,6 +129,7 @@ public struct CardNudge: View, TokenizedControlView {
                         .foregroundColor(Color(tokenSet[.buttonBackgroundColor].uiColor))
                 )
                 .showsLargeContentViewer(text: actionTitle)
+                .hoverEffect()
             }
             if let dismissAction = state.dismissButtonAction {
                 let dismissImage = UIImage.staticImageNamed("dismiss-20x20")
@@ -138,17 +141,18 @@ public struct CardNudge: View, TokenizedControlView {
                         Image(uiImage: image)
                     }
                 })
-                .padding(.horizontal, CardNudgeTokenSet.buttonInnerPaddingHorizontal)
                 .padding(.vertical, CardNudgeTokenSet.verticalPadding)
                 .accessibility(identifier: dismissLabel)
                 .foregroundColor(Color(tokenSet[.subtitleTextColor].uiColor))
                 .showsLargeContentViewer(text: dismissLabel, image: dismissImage)
+                .hoverEffect()
             }
         }
     }
 
     @ViewBuilder
     var innerContents: some View {
+        let messageAction = state.messageButtonAction
         HStack(spacing: 0) {
             icon
             textContainer
@@ -159,6 +163,16 @@ public struct CardNudge: View, TokenizedControlView {
         .padding(.vertical, CardNudgeTokenSet.mainContentVerticalPadding)
         .padding(.horizontal, CardNudgeTokenSet.horizontalPadding)
         .frame(minHeight: CardNudgeTokenSet.minimumHeight)
+        .modifyIf(messageAction != nil) { view in
+            view.accessibilityAddTraits(.isButton)
+                .hoverEffect()
+                .onTapGesture {
+                    guard let messageAction else {
+                        return
+                    }
+                    messageAction(state)
+                }
+        }
     }
 
     public var body: some View {
@@ -244,6 +258,9 @@ class MSFCardNudgeStateImpl: ControlState, MSFCardNudgeState {
 
     /// Action to be dispatched by the dismiss ("close") button on the trailing edge of the control.
     @Published var dismissButtonAction: CardNudgeButtonAction?
+
+    /// Action to be dispatched by tapping on the `CardNudge`.
+    @Published var messageButtonAction: CardNudgeButtonAction?
 
     /// Style to draw the control.
     @Published var style: MSFCardNudgeStyle
