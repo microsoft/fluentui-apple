@@ -140,6 +140,8 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
+    private var peoplePickerTokenSet: PeoplePickerTokenSet = .init()
+
     private let separator = Separator()
 
     public typealias TokenSetKeyType = PeoplePickerTokenSet.Tokens
@@ -149,7 +151,6 @@ open class PeoplePicker: BadgeField {
         }
         set { }
     }
-    public var peoplePickerTokenSet: PeoplePickerTokenSet = .init()
 
     @objc public override init() {
         super.init()
