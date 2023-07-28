@@ -167,7 +167,7 @@ extension PeoplePickerDemoController: DemoAppearanceDelegate {
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
         for peoplePicker in peoplePickers {
-            peoplePicker.peoplePickerTokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverridePeoplePickerTokens : nil)
+            peoplePicker.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverridePeoplePickerTokens : nil)
         }
     }
 

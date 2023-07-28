@@ -143,6 +143,12 @@ open class PeoplePicker: BadgeField {
     private let separator = Separator()
 
     public typealias TokenSetKeyType = PeoplePickerTokenSet.Tokens
+    public override var tokenSet: BadgeFieldTokenSet {
+        get {
+            return peoplePickerTokenSet
+        }
+        set { }
+    }
     public var peoplePickerTokenSet: PeoplePickerTokenSet = .init()
 
     @objc public override init() {
@@ -168,8 +174,8 @@ open class PeoplePicker: BadgeField {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
-        // Update appearance whenever `peoplePickerTokenSet` changes.
-        peoplePickerTokenSet.registerOnUpdate(for: self) { [weak self] in
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateBackgroundColor()
         }
     }
@@ -198,15 +204,15 @@ open class PeoplePicker: BadgeField {
 
     open override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
-        guard let newWindow else {
-            return
-        }
-        peoplePickerTokenSet.update(newWindow.fluentTheme)
-
         // Don't remove persona list on orientation change
         if !deviceOrientationIsChanging {
             isShowingPersonaSuggestions = false
         }
+
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
     }
 
     open override func layoutSubviews() {
@@ -236,7 +242,8 @@ open class PeoplePicker: BadgeField {
     }
 
     private func updateBackgroundColor() {
-        personaListView.backgroundColor = peoplePickerTokenSet[.backgroundColor].uiColor
+        backgroundColor = tokenSet[.backgroundColor].uiColor
+        personaListView.backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
     private func layoutPersonaSuggestions() {

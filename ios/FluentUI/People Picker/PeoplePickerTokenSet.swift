@@ -6,21 +6,7 @@
 import UIKit
 
 /// Design token set for the `PeoplePicker` control.
-public class PeoplePickerTokenSet: ControlTokenSet<PeoplePickerTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color of the PeoplePicker.
-        case backgroundColor
-    }
-
-    init() {
-        super.init { token, theme in
-            switch token {
-            case .backgroundColor:
-                return .uiColor { theme.color(.background2) }
-            }
-        }
-    }
-}
+public class PeoplePickerTokenSet: BadgeFieldTokenSet {}
 
 // MARK: Constants
 extension PeoplePickerTokenSet {
