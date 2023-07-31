@@ -5,87 +5,90 @@
 
 import FluentUI
 import SwiftUI
-import UIKit
+
+typealias ListItemSampleData = TableViewCellSampleData
 
 class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     override init?(coder aDecoder: NSCoder, rootView: ListItemDemoView) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-    
+
     @objc required dynamic init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
-    
+
     init() {
         super.init(rootView: ListItemDemoView())
         self.title = "ListItem Fluent 2 (SwiftUI)"
     }
-    
+
     override func willMove(toParent parent: UIViewController?) {
         guard let parent,
               let window = parent.view.window else {
             return
         }
-        
+
         rootView.fluentTheme = window.fluentTheme
     }
 }
 
 struct ListItemDemoView: View {
-    @State var isAnimating: Bool = true
-    @State var hidesWhenStopsAnimating: Bool = true
-    @State var usesCustomColor: Bool = false
-    @State var size: MSFActivityIndicatorSize = .xLarge
+    @State var showingAlert: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
-    
+    let accessoryTypes: [ListItemAccessoryType] = [.none, .checkmark, .detailButton, .disclosureIndicator]
+
     public var body: some View {
-        VStack {
-            VStack {
-                ActivityIndicator(size: size)
-                    .isAnimating(isAnimating)
-                    .hidesWhenStopped(hidesWhenStopsAnimating)
-                    .color(usesCustomColor ? UIColor(colorValue: GlobalTokens.brandColors(.comm80)) : nil)
-            }
-            .frame(maxWidth: .infinity, minHeight: 100, alignment: .center)
-            
-            ScrollView {
-                Group {
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Settings")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
+        List {
+            ForEach(ListItemSampleData.sections) { section in
+                Section {
+                    ForEach(section.items) { item in
+                        ForEach(accessoryTypes, id: \.rawValue) { accessoryType in
+                            ListItem(title: item.text1,
+                                     subtitle: item.text2,
+                                     footer: item.text3,
+                                     leadingContent: {
+                                if !item.image.isEmpty {
+                                    Image(item.image)
+                                }
+                            },
+                                     trailingContent: {
+                                if section.hasAccessory {
+                                    UIViewWrapper {
+                                        ListItemSampleData.customAccessoryView
+                                    }
+                                    .fixedSize()
+                                }
+                            })
+                                .backgroundStyleType(.grouped)
+                                .accessoryType(accessoryType)
+                                .onAccessoryTapped {
+                                    if accessoryType == .detailButton {
+                                        showingAlert.toggle()
+                                    }
+                                }
+                                .alert("Detail button tapped", isPresented: $showingAlert) {
+                                    Button("OK", role: .cancel) { }
+                                }
                         }
-                        
-                        FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)
-                        FluentUIDemoToggle(titleKey: "Hides when stopped", isOn: $hidesWhenStopsAnimating)
-                        FluentUIDemoToggle(titleKey: "Uses custom color", isOn: $usesCustomColor)
                     }
-                    
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Size")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-                        
-                        Picker(selection: $size, label: EmptyView()) {
-                            Text(".xLarge").tag(MSFActivityIndicatorSize.xLarge)
-                            Text(".large").tag(MSFActivityIndicatorSize.large)
-                            Text(".medium").tag(MSFActivityIndicatorSize.medium)
-                            Text(".small").tag(MSFActivityIndicatorSize.small)
-                            Text(".xSmall").tag(MSFActivityIndicatorSize.xSmall)
-                        }
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
+                } header: {
+                    Text(section.title)
+                        .textCase(nil)
                 }
-                .padding()
             }
         }
+        .listStyle(.insetGrouped)
         .fluentTheme(fluentTheme)
-        .tint(Color(fluentTheme.color(.brandForeground1)))
     }
+}
+
+struct UIViewWrapper: UIViewRepresentable {
+
+    var view: () -> UIView
+
+    func makeUIView(context: Context) -> UIView {
+        return view()
+    }
+
+    func updateUIView(_ uiView: UIView, context: Context) {}
 }
