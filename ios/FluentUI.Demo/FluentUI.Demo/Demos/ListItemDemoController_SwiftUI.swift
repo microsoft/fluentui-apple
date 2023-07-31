@@ -51,6 +51,9 @@ struct ListItemDemoView: View {
                             })
                                 .backgroundStyleType(.grouped)
                                 .accessoryType(accessoryType)
+                                .titleLineLimit(section.numberOfLines)
+                                .subtitleLineLimit(section.numberOfLines)
+                                .footerLineLimit(section.numberOfLines)
                                 .onAccessoryTapped {
                                     if accessoryType == .detailButton {
                                         showingAlert.toggle()
