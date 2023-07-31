@@ -127,6 +127,8 @@
 		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
 		ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */; };
 		ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */; };
+		F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */; };
+		F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -263,6 +265,8 @@
 		EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldObjCDemoController.h; sourceTree = "<group>"; };
 		ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
 		ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandedSwitch.swift; sourceTree = "<group>"; };
+		F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -511,6 +515,8 @@
 				5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */,
 				5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */,
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
+				F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */,
+				F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */,
 				3ADA2E1C29C515890020434A /* MultilineCommandBarDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
@@ -807,10 +813,12 @@
 				92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
+				F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
+				F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */,
 				53097D3E27028ADC00A6E4DC /* NotificationViewDemoController.swift in Sources */,
 				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
