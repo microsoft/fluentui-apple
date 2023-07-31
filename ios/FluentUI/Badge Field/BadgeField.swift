@@ -195,7 +195,7 @@ open class BadgeField: UIView, TokenizedControlInternal {
         }
     }
 
-    private func updateAppearance() {
+    open func updateAppearance() {
         updateColors()
         updateFonts()
     }

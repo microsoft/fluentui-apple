@@ -190,6 +190,27 @@ extension PeoplePickerDemoController: DemoAppearanceDelegate {
             .backgroundColor: .uiColor {
                 return UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint40),
                                dark: GlobalTokens.sharedColor(.hotPink, .shade30))
+            },
+            .labelColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .placeholderColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .textFieldColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .labelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .placeholderFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .textFieldFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
             }
         ]
     }

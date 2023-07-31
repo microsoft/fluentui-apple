@@ -170,14 +170,14 @@ open class PeoplePicker: BadgeField {
             self.pickPersona(persona: persona)
         }
         personaListView.searchDirectoryDelegate = self
-        updateBackgroundColor()
+        updateAppearance()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
-            self?.updateBackgroundColor()
+            self?.updateAppearance()
         }
     }
 
@@ -242,8 +242,12 @@ open class PeoplePicker: BadgeField {
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
     }
 
+    open override func updateAppearance() {
+        super.updateAppearance()
+        updateBackgroundColor()
+    }
+
     private func updateBackgroundColor() {
-        backgroundColor = tokenSet[.backgroundColor].uiColor
         personaListView.backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
