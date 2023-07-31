@@ -20,15 +20,6 @@ class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     init() {
         super.init(rootView: ListItemDemoView())
     }
-
-    override func willMove(toParent parent: UIViewController?) {
-        guard let parent,
-              let window = parent.view.window else {
-            return
-        }
-
-        rootView.fluentTheme = window.fluentTheme
-    }
 }
 
 struct ListItemDemoView: View {
