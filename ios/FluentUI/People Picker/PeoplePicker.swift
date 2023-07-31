@@ -55,10 +55,6 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
  */
 @objc(MSFPeoplePicker)
 open class PeoplePicker: BadgeField {
-    private struct Constants {
-        static let personaSuggestionsVerticalMargin: CGFloat = 8
-    }
-
     /// Use `availablePersonas` to provide a list of personas that may be filtered and appear as `suggestedPersonas`in the persona list.
     @objc open var availablePersonas: [Persona] = [] {
         didSet {
@@ -144,7 +140,17 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
+    private var peoplePickerTokenSet: PeoplePickerTokenSet = .init()
+
     private let separator = Separator()
+
+    public typealias TokenSetKeyType = PeoplePickerTokenSet.Tokens
+    public override var tokenSet: BadgeFieldTokenSet {
+        get {
+            return peoplePickerTokenSet
+        }
+        set { }
+    }
 
     @objc public override init() {
         super.init()
@@ -164,11 +170,15 @@ open class PeoplePicker: BadgeField {
             self.pickPersona(persona: persona)
         }
         personaListView.searchDirectoryDelegate = self
-        personaListView.backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
-                                                  dark: fluentTheme.color(.background2).dark)
+        updateAppearance()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     /// Returns the badge for the associated persona
@@ -199,6 +209,11 @@ open class PeoplePicker: BadgeField {
         if !deviceOrientationIsChanging {
             isShowingPersonaSuggestions = false
         }
+
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
     }
 
     open override func layoutSubviews() {
@@ -227,6 +242,11 @@ open class PeoplePicker: BadgeField {
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
     }
 
+    open override func updateAppearance() {
+        super.updateAppearance()
+        personaListView.backgroundColor = tokenSet[.backgroundColor].uiColor
+    }
+
     private func layoutPersonaSuggestions() {
         guard let currentWindow = window, isShowingPersonaSuggestions else {
             return
@@ -246,12 +266,12 @@ open class PeoplePicker: BadgeField {
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
         if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {
-            personaSuggestionsY = position.y + frame.height + Constants.personaSuggestionsVerticalMargin
+            personaSuggestionsY = position.y + frame.height + PeoplePickerTokenSet.personaSuggestionsVerticalMargin
             personaSuggestionsHeight = windowSize.height - personaSuggestionsY - keyboardHeight
             separatorY = 0
         } else {
             personaSuggestionsY = statusBarHeight
-            personaSuggestionsHeight = position.y - personaSuggestionsY - Constants.personaSuggestionsVerticalMargin
+            personaSuggestionsHeight = position.y - personaSuggestionsY - PeoplePickerTokenSet.personaSuggestionsVerticalMargin
             separatorY = personaSuggestionsHeight
         }
 

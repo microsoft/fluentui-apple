@@ -12,6 +12,7 @@
 		0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */; };
 		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		3A9FC0F52A6AFAD40060A6BE /* BadgeFieldTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9FC0F42A6AFAD40060A6BE /* BadgeFieldTokenSet.swift */; };
+		3A9FC0F72A705C090060A6BE /* PeoplePickerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9FC0F62A705C090060A6BE /* PeoplePickerTokenSet.swift */; };
 		3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */; };
 		43488C46270FAD1300124C71 /* FluentNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C44270FAD0200124C71 /* FluentNotification.swift */; };
 		4B2E373D2991CB53008929B4 /* BottomSheetTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2E373C2991CB53008929B4 /* BottomSheetTokenSet.swift */; };
@@ -262,6 +263,7 @@
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTokenSet.swift; sourceTree = "<group>"; };
 		3A9FC0F42A6AFAD40060A6BE /* BadgeFieldTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeFieldTokenSet.swift; sourceTree = "<group>"; };
+		3A9FC0F62A705C090060A6BE /* PeoplePickerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePickerTokenSet.swift; sourceTree = "<group>"; };
 		3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineCommandBar.swift; sourceTree = "<group>"; };
 		43488C44270FAD0200124C71 /* FluentNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentNotification.swift; sourceTree = "<group>"; };
 		497DC2D724185885008D86F8 /* PillButtonBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBar.swift; sourceTree = "<group>"; };
@@ -1034,6 +1036,7 @@
 			isa = PBXGroup;
 			children = (
 				B47B58B722F8E5840078DE38 /* PeoplePicker.swift */,
+				3A9FC0F62A705C090060A6BE /* PeoplePickerTokenSet.swift */,
 				B4BA27872319DC0D0001563C /* PersonaBadgeViewDataSource.swift */,
 				B46D3F922151D95F0029772C /* PersonaCell.swift */,
 				B46D3F9C215985AC0029772C /* PersonaListView.swift */,
@@ -1576,6 +1579,7 @@
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				535559E42711411E0094A871 /* FluentUIHostingController.swift in Sources */,
+				3A9FC0F72A705C090060A6BE /* PeoplePickerTokenSet.swift in Sources */,
 				9231491628BF02B9001B033E /* Button.swift in Sources */,
 				5314E1B125F01A980099271A /* TooltipView.swift in Sources */,
 				5314E19525F019650099271A /* TabBarItemView.swift in Sources */,
