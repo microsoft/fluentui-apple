@@ -31,10 +31,16 @@ extension ListItemDemoController: DemoAppearanceDelegate {
         }
 
         fluentTheme.register(tokenSetType: ListItemTokenSet.self,
-                             tokenSet: isOverrideEnabled ? themeWideOverrideTableViewCellTokens : nil)
+                             tokenSet: isOverrideEnabled ? themeWideOverrideListItemTokens : nil)
     }
 
     func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: ListItemTokenSet.self,
+                             tokenSet: isOverrideEnabled ? perControlOverrideListItemTokens : nil)
     }
 
     func isThemeWideOverrideApplied() -> Bool {
@@ -42,7 +48,7 @@ extension ListItemDemoController: DemoAppearanceDelegate {
     }
 
     // MARK: - Custom tokens
-    private var themeWideOverrideTableViewCellTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
+    private var themeWideOverrideListItemTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
         return [
             .cellBackgroundColor: .uiColor {
                 // "Berry"
@@ -52,7 +58,7 @@ extension ListItemDemoController: DemoAppearanceDelegate {
         ]
     }
 
-    private var perControlOverrideTableViewCellTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
+    private var perControlOverrideListItemTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
         return [
             .cellBackgroundColor: .uiColor {
                 // "Brass"

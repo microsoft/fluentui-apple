@@ -19,7 +19,6 @@ class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
 
     init() {
         super.init(rootView: ListItemDemoView())
-        self.title = "ListItem Fluent 2 (SwiftUI)"
     }
 
     override func willMove(toParent parent: UIViewController?) {
