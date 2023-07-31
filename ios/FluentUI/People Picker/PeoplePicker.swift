@@ -244,10 +244,6 @@ open class PeoplePicker: BadgeField {
 
     open override func updateAppearance() {
         super.updateAppearance()
-        updateBackgroundColor()
-    }
-
-    private func updateBackgroundColor() {
         personaListView.backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
