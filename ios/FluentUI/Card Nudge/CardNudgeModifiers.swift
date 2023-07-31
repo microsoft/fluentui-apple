@@ -51,4 +51,10 @@ public extension CardNudge {
         state.dismissButtonAction = dismissButtonAction
         return self
     }
+
+    /// Action to be dispatched by tapping on the `CardNudge`.
+    func messageButtonAction(_ messageButtonAction: CardNudgeButtonAction?) -> CardNudge {
+        state.messageButtonAction = messageButtonAction
+        return self
+    }
 }
