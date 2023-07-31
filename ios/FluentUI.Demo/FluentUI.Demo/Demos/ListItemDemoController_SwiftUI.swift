@@ -29,40 +29,38 @@ struct ListItemDemoView: View {
 
     public var body: some View {
         List {
-            ForEach(ListItemSampleData.sections) { section in
+            ForEach(ListItemSampleData.sections, id: \.title) { section in
                 Section {
-                    ForEach(section.items) { item in
-                        ForEach(accessoryTypes, id: \.rawValue) { accessoryType in
-                            ListItem(title: item.text1,
-                                     subtitle: item.text2,
-                                     footer: item.text3,
-                                     leadingContent: {
-                                if !item.image.isEmpty {
-                                    Image(item.image)
+                    ForEach(accessoryTypes, id: \.rawValue) { accessoryType in
+                        ListItem(title: section.item.text1,
+                                 subtitle: section.item.text2,
+                                 footer: section.item.text3,
+                                 leadingContent: {
+                            if !section.item.image.isEmpty {
+                                Image(section.item.image)
+                            }
+                        },
+                                 trailingContent: {
+                            if section.hasAccessory {
+                                UIViewWrapper {
+                                    ListItemSampleData.customAccessoryView
                                 }
-                            },
-                                     trailingContent: {
-                                if section.hasAccessory {
-                                    UIViewWrapper {
-                                        ListItemSampleData.customAccessoryView
-                                    }
-                                    .fixedSize()
+                                .fixedSize()
+                            }
+                        })
+                            .backgroundStyleType(.grouped)
+                            .accessoryType(accessoryType)
+                            .titleLineLimit(section.numberOfLines)
+                            .subtitleLineLimit(section.numberOfLines)
+                            .footerLineLimit(section.numberOfLines)
+                            .onAccessoryTapped {
+                                if accessoryType == .detailButton {
+                                    showingAlert.toggle()
                                 }
-                            })
-                                .backgroundStyleType(.grouped)
-                                .accessoryType(accessoryType)
-                                .titleLineLimit(section.numberOfLines)
-                                .subtitleLineLimit(section.numberOfLines)
-                                .footerLineLimit(section.numberOfLines)
-                                .onAccessoryTapped {
-                                    if accessoryType == .detailButton {
-                                        showingAlert.toggle()
-                                    }
-                                }
-                                .alert("Detail button tapped", isPresented: $showingAlert) {
-                                    Button("OK", role: .cancel) { }
-                                }
-                        }
+                            }
+                            .alert("Detail button tapped", isPresented: $showingAlert) {
+                                Button("OK", role: .cancel) { }
+                            }
                     }
                 } header: {
                     Text(section.title)

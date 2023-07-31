@@ -7,7 +7,7 @@ import FluentUI
 import UIKit
 
 class TableViewSampleData {
-    struct Section: Identifiable {
+    struct Section {
         let title: String
         var item: Item { return items[0] }
         let items: [Item]
@@ -25,7 +25,6 @@ class TableViewSampleData {
         let hasCustomAccessoryView: Bool
         let hasCustomLeadingView: Bool
         let hasHandler: Bool
-        let id: UUID = UUID()
 
         init(title: String,
              items: [Item] = [],
@@ -62,7 +61,7 @@ class TableViewSampleData {
         }
     }
 
-    struct Item: Identifiable {
+    struct Item {
         typealias LabelAccessoryView = () -> UIView?
 
         let text1: String
@@ -75,7 +74,6 @@ class TableViewSampleData {
         let text2TrailingAccessoryView: LabelAccessoryView
         let text3LeadingAccessoryView: LabelAccessoryView
         let text3TrailingAccessoryView: LabelAccessoryView
-        let id: UUID = UUID()
 
         init(
             text1: String = "",
