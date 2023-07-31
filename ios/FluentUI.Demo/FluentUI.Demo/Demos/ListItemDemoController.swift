@@ -63,7 +63,7 @@ extension ListItemDemoController: DemoAppearanceDelegate {
     // MARK: - Custom tokens
     private var themeWideOverrideListItemTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .uiColor {
+            .cellBackgroundGroupedColor: .uiColor {
                 // "Berry"
                 return UIColor(light: GlobalTokens.sharedColor(.berry, .tint50),
                                dark: GlobalTokens.sharedColor(.berry, .shade40))
@@ -73,7 +73,7 @@ extension ListItemDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideListItemTokens: [ListItemTokenSet.Tokens: ControlTokenValue] {
         return [
-            .cellBackgroundColor: .uiColor {
+            .cellBackgroundGroupedColor: .uiColor {
                 // "Brass"
                 return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
                                dark: GlobalTokens.sharedColor(.brass, .shade40))
@@ -82,9 +82,6 @@ extension ListItemDemoController: DemoAppearanceDelegate {
                 // "Forest"
                 return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
                                dark: GlobalTokens.sharedColor(.forest, .shade40))
-            },
-            .customViewTrailingMargin: .float {
-                return 0
             }
         ]
     }
