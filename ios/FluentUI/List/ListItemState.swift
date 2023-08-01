@@ -8,6 +8,10 @@ import SwiftUI
 /// Properties available to customize the appearance of a `ListItem`.
 class ListItemState: ControlState {
 
+    init(leadingContentSize: ListItemLeadingContentSize) {
+        self.tokenSet = ListItemTokenSet(customViewSize: { leadingContentSize })
+    }
+
     /// The `ListItemAccessoryType` that the view should display.
     var accessoryType: ListItemAccessoryType?
 
@@ -34,4 +38,7 @@ class ListItemState: ControlState {
 
     /// The truncation mode of the `footer`.
     var footerTruncationMode: Text.TruncationMode = .tail
+
+    /// Tokens associated with the `ListItem`.
+    var tokenSet: ListItemTokenSet
 }

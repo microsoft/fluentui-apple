@@ -36,17 +36,18 @@ public struct ListItem<LeadingContent: View,
         self.footer = footer
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
-        updateTokenSet()
+        let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
+        self.state = ListItemState(leadingContentSize: layoutType.leadingContentSize)
     }
 
     public var body: some View {
-        tokenSet.update(fluentTheme)
+        state.tokenSet.update(fluentTheme)
 
         @ViewBuilder
         var labelStack: some View {
             let titleView = Text(title)
-                                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
-                                .font(Font(tokenSet[.titleFont].uiFont))
+                                .foregroundColor(Color(uiColor: state.tokenSet[.titleColor].uiColor))
+                                .font(Font(state.tokenSet[.titleFont].uiFont))
                                 .frame(minHeight: ListItemTokenSet.titleHeight)
                                 .lineLimit(state.titleLineLimit)
                                 .truncationMode(state.titleTruncationMode)
@@ -56,22 +57,22 @@ public struct ListItem<LeadingContent: View,
                 titleView
             case .twoLines, .threeLines:
                 let subtitleView = Text(subtitle)
-                    .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
+                    .foregroundColor(Color(uiColor: state.tokenSet[.subtitleColor].uiColor))
                     .lineLimit(state.subtitleLineLimit)
                     .truncationMode(state.subtitleTruncationMode)
                 VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
                     titleView
                     if layoutType == .twoLines {
                         subtitleView
-                            .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
+                            .font(Font(state.tokenSet[.subtitleTwoLinesFont].uiFont))
                             .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
                     } else if layoutType == .threeLines {
                         subtitleView
-                            .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
+                            .font(Font(state.tokenSet[.subtitleThreeLinesFont].uiFont))
                             .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
                         Text(footer)
-                            .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
-                            .font(Font(tokenSet[.footerFont].uiFont))
+                            .foregroundColor(Color(uiColor: state.tokenSet[.footerColor].uiColor))
+                            .font(Font(state.tokenSet[.footerFont].uiFont))
                             .frame(minHeight: ListItemTokenSet.footerHeight)
                             .lineLimit(state.footerLineLimit)
                             .truncationMode(state.footerTruncationMode)
@@ -84,7 +85,7 @@ public struct ListItem<LeadingContent: View,
         var accessoryView: some View {
             if let accessoryType = state.accessoryType,
                let icon = accessoryType.icon,
-               let iconColor = accessoryType.iconColor(tokenSet: tokenSet, fluentTheme: fluentTheme) {
+               let iconColor = accessoryType.iconColor(tokenSet: state.tokenSet, fluentTheme: fluentTheme) {
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
                 if accessoryType == .detailButton {
@@ -103,7 +104,7 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var backgroundView: some View {
-            if let backgroundColor = state.backgroundStyleType.defaultColor(tokenSet: tokenSet) {
+            if let backgroundColor = state.backgroundStyleType.defaultColor(tokenSet: state.tokenSet) {
                 Color(backgroundColor)
             }
         }
@@ -139,13 +140,9 @@ public struct ListItem<LeadingContent: View,
         return contentView
     }
 
-    @StateObject var state: ListItemState = ListItemState()
+    @ObservedObject var state: ListItemState
 
-    private func updateTokenSet() {
-        state.tokenSet = ListItemTokenSet(customViewSize: { [self] in  self.layoutType.leadingContentSize })
-    }
-
-    private var layoutType: LayoutType {
+    private static func layoutType(subtitle: Subtitle, footer: Footer) -> LayoutType {
         if !subtitle.isEmpty {
             if !footer.isEmpty {
                 return .threeLines
@@ -153,6 +150,10 @@ public struct ListItem<LeadingContent: View,
             return .twoLines
         }
         return .oneLine
+    }
+
+    private var layoutType: LayoutType {
+        return ListItem.layoutType(subtitle: subtitle, footer: footer)
     }
 
     private enum LayoutType {
@@ -189,7 +190,6 @@ public struct ListItem<LeadingContent: View,
     private let footer: Footer
     private let subtitle: Subtitle
     private let title: Title
-    private let tokenSet: ListItemTokenSet = ListItemTokenSet(customViewSize: { ListItemCustomViewSize.zero })
 }
 
 // MARK: Additional Initializers
@@ -201,7 +201,8 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-        updateTokenSet()
+        let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
+        self.state = ListItemState(leadingContentSize: layoutType.leadingContentSize)
     }
 }
 
@@ -214,7 +215,8 @@ public extension ListItem where TrailingContent == EmptyView {
         self.subtitle = subtitle
         self.footer = footer
         self.leadingContent = leadingContent
-        updateTokenSet()
+        let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
+        self.state = ListItemState(leadingContentSize: layoutType.leadingContentSize)
     }
 }
 
@@ -227,6 +229,7 @@ public extension ListItem where LeadingContent == EmptyView {
         self.subtitle = subtitle
         self.footer = footer
         self.trailingContent = trailingContent
-        updateTokenSet()
+        let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
+        self.state = ListItemState(leadingContentSize: layoutType.leadingContentSize)
     }
 }
