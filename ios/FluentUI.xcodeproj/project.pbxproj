@@ -226,7 +226,6 @@
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECF3C9882A67495A00CA35FC /* BottomCommandingTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */; };
 		F3F113892A705AD500DA852A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F113882A705AD500DA852A /* ListItem.swift */; };
-		F3F1138B2A705B4700DA852A /* ListItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138A2A705B4700DA852A /* ListItemState.swift */; };
 		F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
@@ -434,7 +433,6 @@
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingTokenSet.swift; sourceTree = "<group>"; };
 		F3F113882A705AD500DA852A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
-		F3F1138A2A705B4700DA852A /* ListItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemState.swift; sourceTree = "<group>"; };
 		F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemModifiers.swift; sourceTree = "<group>"; };
 		F5784DB9285D031800DBEAD6 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
@@ -1162,7 +1160,6 @@
 			children = (
 				F3F113882A705AD500DA852A /* ListItem.swift */,
 				F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */,
-				F3F1138A2A705B4700DA852A /* ListItemState.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1529,7 +1526,6 @@
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
 				6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */,
 				EC98E2B2298D97EC00B9DF91 /* TextFieldTokenSet.swift in Sources */,
-				F3F1138B2A705B4700DA852A /* ListItemState.swift in Sources */,
 				9231491528BF026A001B033E /* HUD.swift in Sources */,
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
 				5314E07B25F00F1A0099271A /* DateTimePickerViewDataSource.swift in Sources */,
