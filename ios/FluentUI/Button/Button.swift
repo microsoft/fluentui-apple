@@ -89,9 +89,9 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
         var configuration = UIButton.Configuration.plain()
         configuration.contentInsets = edgeInsets
-        let titleTransformer = UIConfigurationTextAttributesTransformer { incoming in
+        let titleTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
             var outgoing = incoming
-            outgoing.font = self.tokenSet[.titleFont].uiFont
+            outgoing.font = self?.tokenSet[.titleFont].uiFont
             return outgoing
         }
         configuration.titleTextAttributesTransformer = titleTransformer
