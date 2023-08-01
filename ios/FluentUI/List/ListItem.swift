@@ -7,7 +7,7 @@ import SwiftUI
 
 public typealias ListItemAccessoryType = TableViewCellAccessoryType
 public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
-public typealias ListItemCustomViewSize = MSFTableViewCellCustomViewSize
+public typealias ListItemLeadingContentSize = MSFTableViewCellCustomViewSize
 public typealias ListItemTokenSet = TableViewCellTokenSet
 
 /// View that represents an item in a List.
@@ -36,6 +36,7 @@ public struct ListItem<LeadingContent: View,
         self.footer = footer
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
+        updateTokenSet()
     }
 
     public var body: some View {
@@ -112,7 +113,9 @@ public struct ListItem<LeadingContent: View,
             HStack(alignment: .center) {
                 if let leadingContent {
                     leadingContent()
-                        .padding(.trailing, ListItemTokenSet.horizontalSpacing)
+                        .frame(width: state.tokenSet[.customViewDimensions].float,
+                               height: state.tokenSet[.customViewDimensions].float)
+                        .padding(.trailing, state.tokenSet[.customViewTrailingMargin].float)
                 }
                 labelStack
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
@@ -137,6 +140,10 @@ public struct ListItem<LeadingContent: View,
     }
 
     @StateObject var state: ListItemState = ListItemState()
+
+    private func updateTokenSet() {
+        state.tokenSet = ListItemTokenSet(customViewSize: { [self] in  self.layoutType.leadingContentSize })
+    }
 
     private var layoutType: LayoutType {
         if !subtitle.isEmpty {
@@ -163,6 +170,15 @@ public struct ListItem<LeadingContent: View,
                 return ListItemTokenSet.threeLineMinHeight
             }
         }
+
+        var leadingContentSize: ListItemLeadingContentSize {
+            switch self {
+            case .oneLine:
+                return .small
+            case .twoLines, .threeLines:
+                return .medium
+            }
+        }
     }
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
@@ -185,6 +201,7 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        updateTokenSet()
     }
 }
 
@@ -197,6 +214,7 @@ public extension ListItem where TrailingContent == EmptyView {
         self.subtitle = subtitle
         self.footer = footer
         self.leadingContent = leadingContent
+        updateTokenSet()
     }
 }
 
@@ -209,5 +227,6 @@ public extension ListItem where LeadingContent == EmptyView {
         self.subtitle = subtitle
         self.footer = footer
         self.trailingContent = trailingContent
+        updateTokenSet()
     }
 }

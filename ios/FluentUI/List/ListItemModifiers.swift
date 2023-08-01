@@ -52,4 +52,12 @@ public extension ListItem {
         state.backgroundStyleType = backgroundStyleType
         return self
     }
+
+    /// The size of the `LeadingContent`.
+    /// - Parameter size: The size the leading content should be.
+    /// - Returns: The modified `ListItem` with the property set.
+    func leadingContentSize(_ size: ListItemLeadingContentSize) -> ListItem {
+        state.tokenSet = ListItemTokenSet(customViewSize: { return size })
+        return self
+    }
 }

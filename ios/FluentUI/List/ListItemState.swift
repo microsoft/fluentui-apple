@@ -7,6 +7,7 @@ import SwiftUI
 
 /// Properties available to customize the appearance of a `ListItem`.
 class ListItemState: ControlState {
+
     /// The `ListItemAccessoryType` that the view should display.
     var accessoryType: ListItemAccessoryType?
 
