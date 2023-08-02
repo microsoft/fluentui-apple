@@ -5,6 +5,35 @@
 
 import UIKit
 
+@objc(MSFActionsCellActionType)
+public enum ActionType: Int {
+    case regular
+    case destructive
+    case communication
+
+    func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
+        switch self {
+        case .regular:
+            return tokenSet[.brandTextColor].uiColor.withAlphaComponent(0.4)
+        case .destructive:
+            return tokenSet[.dangerTextColor].uiColor.withAlphaComponent(0.4)
+        case .communication:
+            return tokenSet[.communicationTextColor].uiColor.withAlphaComponent(0.4)
+        }
+    }
+
+    func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
+        switch self {
+        case .regular:
+            return tokenSet[.brandTextColor].uiColor
+        case .destructive:
+            return tokenSet[.dangerTextColor].uiColor
+        case .communication:
+            return tokenSet[.communicationTextColor].uiColor
+        }
+    }
+}
+
 // MARK: ActionsCell
 
 /**
@@ -16,34 +45,6 @@ import UIKit
  */
 @objc(MSFActionsCell)
 open class ActionsCell: UITableViewCell, TokenizedControlInternal {
-    @objc(MSFActionsCellActionType)
-    public enum ActionType: Int {
-        case regular
-        case destructive
-        case communication
-
-        func highlightedTextColor(tokenSet: TableViewCellTokenSet) -> UIColor {
-            switch self {
-            case .regular:
-                return tokenSet[.brandTextColor].uiColor.withAlphaComponent(0.4)
-            case .destructive:
-                return tokenSet[.dangerTextColor].uiColor.withAlphaComponent(0.4)
-            case .communication:
-                return tokenSet[.communicationTextColor].uiColor.withAlphaComponent(0.4)
-            }
-        }
-
-        func textColor(tokenSet: TableViewCellTokenSet) -> UIColor {
-            switch self {
-            case .regular:
-                return tokenSet[.brandTextColor].uiColor
-            case .destructive:
-                return tokenSet[.dangerTextColor].uiColor
-            case .communication:
-                return tokenSet[.communicationTextColor].uiColor
-            }
-        }
-    }
 
     public static let identifier: String = "ActionsCell"
 
