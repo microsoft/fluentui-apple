@@ -27,49 +27,146 @@ struct ListItemDemoView: View {
     @ObservedObject var fluentTheme: FluentTheme = .shared
     let accessoryTypes: [ListItemAccessoryType] = [.none, .checkmark, .detailButton, .disclosureIndicator]
 
+    @State var title: String = "Contoso Survey"
+    @State var subtitle: String = "Research Notes"
+    @State var footer: String = "22 views"
+    @State var showSubtitle: Bool = false
+    @State var showFooter: Bool = false
+    @State var showLeadingContent: Bool = true
+    @State var showTrailingContent: Bool = true
+    @State var accessoryType: ListItemAccessoryType = .none
+    @State var leadingContentSize: ListItemLeadingContentSize = .default
+    @State var backgroundStyle: ListItemBackgroundStyleType = .grouped
+    @State var titleLineLimit: Int = 1
+    @State var subtitleLineLimit: Int = 1
+    @State var footerLineLimit: Int = 1
+
     public var body: some View {
-        List {
-            ForEach(ListItemSampleData.sections, id: \.title) { section in
-                Section {
-                    ForEach(accessoryTypes, id: \.rawValue) { accessoryType in
-                        ListItem(title: section.item.text1,
-                                 subtitle: section.item.text2,
-                                 footer: section.item.text3,
+
+        @ViewBuilder
+        var textFields: some View {
+            TextField("Title", text: $title)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .textFieldStyle(.roundedBorder)
+            TextField("Subtitle", text: $subtitle)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .textFieldStyle(.roundedBorder)
+            TextField("Footer", text: $footer)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+                .textFieldStyle(.roundedBorder)
+        }
+
+        @ViewBuilder
+        var toggles: some View {
+            FluentUIDemoToggle(titleKey: "Show subtitle", isOn: $showSubtitle)
+            FluentUIDemoToggle(titleKey: "Show footer", isOn: $showFooter)
+            FluentUIDemoToggle(titleKey: "Show leading content", isOn: $showLeadingContent)
+            FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
+        }
+
+        @ViewBuilder
+        var pickers: some View {
+            Picker("Accessory Type", selection: $accessoryType) {
+                Text(".none").tag(ListItemAccessoryType.none)
+                Text(".disclosureIndicator").tag(ListItemAccessoryType.disclosureIndicator)
+                Text(".checkmark").tag(ListItemAccessoryType.checkmark)
+                Text(".detailButton").tag(ListItemAccessoryType.detailButton)
+            }
+            Picker("Leading Content Size", selection: $leadingContentSize) {
+                Text(".default").tag(ListItemLeadingContentSize.default)
+                Text(".zero").tag(ListItemLeadingContentSize.zero)
+                Text(".small").tag(ListItemLeadingContentSize.small)
+                Text(".medium").tag(ListItemLeadingContentSize.medium)
+            }
+            Picker("Background Style", selection: $backgroundStyle) {
+                Text(".plain").tag(ListItemBackgroundStyleType.plain)
+                Text(".grouped").tag(ListItemBackgroundStyleType.grouped)
+                Text(".clear").tag(ListItemBackgroundStyleType.clear)
+                Text(".custom").tag(ListItemBackgroundStyleType.custom)
+            }
+        }
+
+        @ViewBuilder
+        var steppers: some View {
+            Stepper(value: $titleLineLimit, in: 0...5) {
+                Text("Title Line Limit: \(titleLineLimit)")
+            }
+            Stepper(value: $subtitleLineLimit, in: 0...5) {
+                Text("Subtitle Line Limit: \(subtitleLineLimit)")
+            }
+            Stepper(value: $footerLineLimit, in: 0...5) {
+                Text("Footer Line Limit: \(footerLineLimit)")
+            }
+        }
+
+        @ViewBuilder
+        var controls: some View {
+            Section {
+                textFields
+                    .listRowSeparator(.hidden)
+                toggles
+                pickers
+                steppers
+            } header: {
+                Text("Settings")
+            }
+        }
+
+        @ViewBuilder
+        var leadingContent: some View {
+            Image("excelIcon")
+                .resizable()
+        }
+
+        @ViewBuilder
+        var trailingContent: some View {
+            Text("Spreadsheet")
+        }
+
+        @ViewBuilder
+        var content: some View {
+            VStack {
+                List {
+                    Section {
+                        ListItem(title: title,
+                                 subtitle: showSubtitle ? subtitle : "",
+                                 footer: showFooter ? footer : "",
                                  leadingContent: {
-                            if !section.item.image.isEmpty {
-                                Image(section.item.image)
+                            if showLeadingContent {
+                                leadingContent
                             }
                         },
                                  trailingContent: {
-                            if section.hasAccessory {
-                                UIViewWrapper {
-                                    ListItemSampleData.customAccessoryView
-                                }
-                                .fixedSize()
+                            if showTrailingContent {
+                                trailingContent
                             }
                         })
-                            .backgroundStyleType(.grouped)
-                            .accessoryType(accessoryType)
-                            .titleLineLimit(section.numberOfLines)
-                            .subtitleLineLimit(section.numberOfLines)
-                            .footerLineLimit(section.numberOfLines)
-                            .onAccessoryTapped {
-                                if accessoryType == .detailButton {
-                                    showingAlert.toggle()
-                                }
-                            }
-                            .alert("Detail button tapped", isPresented: $showingAlert) {
-                                Button("OK", role: .cancel) { }
-                            }
+                        .backgroundStyleType(backgroundStyle)
+                        .accessoryType(accessoryType)
+                        .leadingContentSize(leadingContentSize)
+                        .titleLineLimit(titleLineLimit)
+                        .subtitleLineLimit(subtitleLineLimit)
+                        .footerLineLimit(footerLineLimit)
+                        .onAccessoryTapped {
+                            showingAlert = true
+                        }
+                        .alert("Detail button tapped", isPresented: $showingAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
+                    } header: {
+                        Text("ListItem")
                     }
-                } header: {
-                    Text(section.title)
-                        .textCase(nil)
+                    controls
                 }
+                .fluentTheme(fluentTheme)
+                .listStyle(.insetGrouped)
             }
         }
-        .listStyle(.insetGrouped)
-        .fluentTheme(fluentTheme)
+
+        return content
     }
 }
 
