@@ -38,6 +38,7 @@ struct ListItemDemoView: View {
                                  leadingContent: {
                             if !section.item.image.isEmpty {
                                 Image(section.item.image)
+                                    .resizable()
                             }
                         },
                                  trailingContent: {
