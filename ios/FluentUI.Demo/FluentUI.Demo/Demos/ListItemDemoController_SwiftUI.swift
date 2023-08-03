@@ -77,6 +77,7 @@ struct ListItemDemoView: View {
                 }, secondaryActionType: .destructive)
             } header: {
                 Text("Action Item")
+                    .textCase(nil)
             }
         }
         .alert("Button tapped", isPresented: $showingAlert) {
