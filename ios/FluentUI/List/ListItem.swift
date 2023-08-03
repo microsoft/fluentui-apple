@@ -60,6 +60,7 @@ public struct ListItem<LeadingContent: View,
                     .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
                     .lineLimit(subtitleLineLimit)
                     .truncationMode(subtitleTruncationMode)
+                    .accessibilityIdentifier("subtitle")
                 VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
                     titleView
                     if layoutType == .twoLines {
@@ -76,6 +77,7 @@ public struct ListItem<LeadingContent: View,
                             .frame(minHeight: ListItemTokenSet.footerHeight)
                             .lineLimit(footerLineLimit)
                             .truncationMode(footerTruncationMode)
+                            .accessibilityIdentifier("footer")
                     }
                 }
             }
@@ -117,6 +119,7 @@ public struct ListItem<LeadingContent: View,
                         .frame(width: tokenSet[.customViewDimensions].float,
                                height: tokenSet[.customViewDimensions].float)
                         .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
+                        .accessibilityIdentifier("leadingContent")
                 }
                 labelStack
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
@@ -124,6 +127,7 @@ public struct ListItem<LeadingContent: View,
                 if let trailingContent {
                     trailingContent()
                         .tint(Color(fluentTheme.color(.brandForeground1)))
+                        .accessibilityIdentifier("trailingContent")
                 }
                 accessoryView
                     .padding(.leading, ListItemTokenSet.horizontalSpacing)
