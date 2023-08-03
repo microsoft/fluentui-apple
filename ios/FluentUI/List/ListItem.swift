@@ -106,6 +106,8 @@ public struct ListItem<LeadingContent: View,
         var backgroundView: some View {
             if let backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet) {
                 Color(backgroundColor)
+            } else {
+                EmptyView()
             }
         }
 

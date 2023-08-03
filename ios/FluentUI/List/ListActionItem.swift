@@ -116,6 +116,15 @@ public struct ListActionItem: View {
         }
 
         @ViewBuilder
+        var backgroundView: some View {
+            if let backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet) {
+                Color(backgroundColor)
+            } else {
+                EmptyView()
+            }
+        }
+
+        @ViewBuilder
         var content: some View {
             if topSeparatorType != nil || bottomSeparatorType != nil {
                 ZStack {
@@ -131,6 +140,7 @@ public struct ListActionItem: View {
             .listRowInsets(EdgeInsets())
             .listRowSeparator(.hidden)
             .frame(minHeight: ListItemTokenSet.oneLineMinHeight)
+            .background(backgroundView)
     }
 
     /// The  type of separator on the top edge
