@@ -6,6 +6,11 @@
 import UIKit
 import SwiftUI
 
+public enum ListActionItemSeparatorType {
+    case inset
+    case full
+}
+
 /// View that represents an action that is displayed in a List.
 public struct ListActionItem: View {
 
@@ -40,7 +45,7 @@ public struct ListActionItem: View {
                 primaryAction.handler()
             }
             .buttonStyle(ActionButtonStyle(actionType: primaryAction.actionType, tokenSet: tokenSet))
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .center)
         }
 
         @ViewBuilder
@@ -50,35 +55,68 @@ public struct ListActionItem: View {
                     secondaryAction.handler()
                 }
                 .buttonStyle(ActionButtonStyle(actionType: secondaryAction.actionType, tokenSet: tokenSet))
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, alignment: .center)
             }
         }
 
         @ViewBuilder
-        var verticalSeparator: some View {
-            Color.black
-                .frame(width: 1)
+        var separatorsStack: some View {
+            VStack {
+                if let topSeparatorType {
+                    SeparatorRepresentable(orientation: .horizontal)
+                        .frame(height: Separator.thickness)
+                        .padding(edgeInsets(for: topSeparatorType))
+                }
+                Spacer()
+                if let bottomSeparatorType {
+                    SeparatorRepresentable(orientation: .horizontal)
+                        .frame(height: Separator.thickness)
+                        .padding(edgeInsets(for: bottomSeparatorType))
+                }
+            }
+        }
+
+        @ViewBuilder
+        var buttons: some View {
+            if secondaryAction != nil {
+                HStack {
+                    primaryButton
+                        .padding(.leading, ListItemTokenSet.paddingLeading)
+                        .padding(.trailing, ListItemTokenSet.horizontalSpacing)
+                    SeparatorRepresentable(orientation: .horizontal)
+                        .frame(width: Separator.thickness)
+                    secondaryButton
+                        .padding(.leading, ListItemTokenSet.horizontalSpacing)
+                        .padding(.trailing, ListItemTokenSet.paddingTrailing)
+                }
+            } else {
+                primaryButton
+                    .padding(.leading, ListItemTokenSet.paddingLeading)
+                    .padding(.trailing, ListItemTokenSet.paddingTrailing)
+            }
         }
 
         @ViewBuilder
         var content: some View {
-            if secondaryAction != nil {
-                HStack {
-                    primaryButton
-                    Rectangle()
-                        .frame(width: SeparatorTokenSet.thickness)
-                        .foregroundColor(Color(Separator.separatorDefaultColor(fluentTheme: fluentTheme)))
-                    secondaryButton
+            if topSeparatorType != nil || bottomSeparatorType != nil {
+                ZStack {
+                    buttons
+                    separatorsStack
                 }
-                .listRowInsets(EdgeInsets())
             } else {
-                primaryButton
-                    .listRowInsets(EdgeInsets())
+                buttons
             }
         }
 
         return content
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .frame(minHeight: ListItemTokenSet.oneLineMinHeight)
     }
+
+    var topSeparatorType: ListActionItemSeparatorType?
+    var bottomSeparatorType: ListActionItemSeparatorType?
+    var backgroundStyleType: ListItemBackgroundStyleType = .plain
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 
@@ -99,22 +137,31 @@ public struct ListActionItem: View {
         func makeBody(configuration: Self.Configuration) -> some View {
             configuration.label
                 .font(Font(tokenSet[.titleFont].uiFont))
+                .padding(.vertical, ListItemTokenSet.paddingVertical)
                 .foregroundColor(configuration.isPressed ?
                                  Color(uiColor: actionType.highlightedTextColor(tokenSet: tokenSet))
                                  : Color(uiColor: actionType.textColor(tokenSet: tokenSet)))
         }
     }
-}
 
+    private func edgeInsets(for separatorType: ListActionItemSeparatorType) -> EdgeInsets {
+        var edgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        switch separatorType {
+        case .inset:
+            edgeInsets.leading = ListItemTokenSet.horizontalSpacing
+        case .full:
+            break
+        }
+        return edgeInsets
+    }
+}
 
 private struct SeparatorRepresentable: UIViewRepresentable {
     let orientation: SeparatorOrientation
-    
+
     func makeUIView(context: Context) -> UIView {
         return Separator(orientation: orientation)
     }
-    
+
     func updateUIView(_ uiView: UIView, context: Context) {}
 }
-
-
