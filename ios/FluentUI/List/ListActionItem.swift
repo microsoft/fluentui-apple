@@ -6,22 +6,40 @@
 import UIKit
 import SwiftUI
 
+/// Enumeration of the styles used by the separator in `ListActionItem`.
 public enum ListActionItemSeparatorType {
+    /// Displays the separator with leading padding
     case inset
+    /// Displays the separator across the full width
     case full
 }
 
 /// View that represents an action that is displayed in a List.
 public struct ListActionItem: View {
 
-    public init(primaryActionTitle: String,
-                onPrimaryActionTapped: @escaping () -> Void,
-                primaryActionType: ActionType = .regular) {
-        self.primaryAction = Action(title: primaryActionTitle,
-                                    actionType: primaryActionType,
-                                    handler: onPrimaryActionTapped)
+    // MARK: Initializer
+
+    /// Creates a ListActionItem view
+    /// - Parameters:
+    ///   - title: The title of the action
+    ///   - onTapped: The logic to execute when the item is tapped
+    ///   - actionType: A type that defines how the action is communicated
+    public init(title: String,
+                onTapped: @escaping () -> Void,
+                actionType: ActionType = .regular) {
+        self.primaryAction = Action(title: title,
+                                    actionType: actionType,
+                                    handler: onTapped)
     }
 
+    /// Creates a ListActionItem view
+    /// - Parameters:
+    ///   - primaryActionTitle: The title of the action that is primary in the row
+    ///   - onPrimaryActionTapped: The logic to execute when the primary action is tapped
+    ///   - primaryActionType: A type that defines how the primary action is communicated
+    ///   - secondaryActionTitle: The title of the action that is secondary in the row
+    ///   - onSecondaryActionTapped: The logic to execute when the secondary action is tapped
+    ///   - secondaryActionType: A type that defines how the secondary action is communicated
     public init(primaryActionTitle: String,
                 onPrimaryActionTapped: @escaping () -> Void,
                 primaryActionType: ActionType = .regular,
@@ -74,6 +92,7 @@ public struct ListActionItem: View {
                         .padding(edgeInsets(for: bottomSeparatorType))
                 }
             }
+            .accessibilityHidden(true)
         }
 
         @ViewBuilder
@@ -114,8 +133,11 @@ public struct ListActionItem: View {
             .frame(minHeight: ListItemTokenSet.oneLineMinHeight)
     }
 
+    /// The  type of separator on the top edge
     var topSeparatorType: ListActionItemSeparatorType?
+    /// The  type of separator on the bottom edge
     var bottomSeparatorType: ListActionItemSeparatorType?
+    /// The background styling to match the type of `List` it is displayed in
     var backgroundStyleType: ListItemBackgroundStyleType = .plain
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
@@ -144,6 +166,16 @@ public struct ListActionItem: View {
         }
     }
 
+    private struct SeparatorRepresentable: UIViewRepresentable {
+        let orientation: SeparatorOrientation
+
+        func makeUIView(context: Context) -> UIView {
+            return Separator(orientation: orientation)
+        }
+
+        func updateUIView(_ uiView: UIView, context: Context) {}
+    }
+
     private func edgeInsets(for separatorType: ListActionItemSeparatorType) -> EdgeInsets {
         var edgeInsets = EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         switch separatorType {
@@ -154,14 +186,4 @@ public struct ListActionItem: View {
         }
         return edgeInsets
     }
-}
-
-private struct SeparatorRepresentable: UIViewRepresentable {
-    let orientation: SeparatorOrientation
-
-    func makeUIView(context: Context) -> UIView {
-        return Separator(orientation: orientation)
-    }
-
-    func updateUIView(_ uiView: UIView, context: Context) {}
 }

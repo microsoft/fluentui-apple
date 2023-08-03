@@ -58,15 +58,28 @@ struct ListItemDemoView: View {
                                     showingAlert.toggle()
                                 }
                             }
-                            .alert("Detail button tapped", isPresented: $showingAlert) {
-                                Button("OK", role: .cancel) { }
-                            }
                     }
                 } header: {
                     Text(section.title)
                         .textCase(nil)
                 }
             }
+            Section {
+                ListActionItem(title: "Search Directory") {
+                    showingAlert.toggle()
+                }
+                ListActionItem(primaryActionTitle: "Done",
+                               onPrimaryActionTapped: {
+                    showingAlert.toggle()
+                }, secondaryActionTitle: "Cancel", onSecondaryActionTapped: {
+                    showingAlert.toggle()
+                }, secondaryActionType: .destructive)
+            } header: {
+                Text("Action Item")
+            }
+        }
+        .alert("Button tapped", isPresented: $showingAlert) {
+            Button("OK", role: .cancel) { }
         }
         .listStyle(.insetGrouped)
         .fluentTheme(fluentTheme)
