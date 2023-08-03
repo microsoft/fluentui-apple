@@ -69,12 +69,14 @@ struct ListItemDemoView: View {
                 ListActionItem(title: "Search Directory") {
                     showingAlert.toggle()
                 }
+                    .backgroundStyleType(.grouped)
                 ListActionItem(primaryActionTitle: "Done",
                                onPrimaryActionTapped: {
                     showingAlert.toggle()
                 }, secondaryActionTitle: "Cancel", onSecondaryActionTapped: {
                     showingAlert.toggle()
                 }, secondaryActionType: .destructive)
+                    .backgroundStyleType(.grouped)
             } header: {
                 Text("Action Item")
                     .textCase(nil)
