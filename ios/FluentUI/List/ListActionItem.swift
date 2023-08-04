@@ -6,13 +6,7 @@
 import UIKit
 import SwiftUI
 
-/// Enumeration of the styles used by the separator in `ListActionItem`.
-public enum ListActionItemSeparatorType {
-    /// Displays the separator with leading padding
-    case inset
-    /// Displays the separator across the full width
-    case full
-}
+public typealias ListActionItemSeparatorType = TableViewCell.SeparatorType
 
 /// View that represents an action that is displayed in a List.
 public struct ListActionItem: View {
@@ -80,13 +74,13 @@ public struct ListActionItem: View {
         @ViewBuilder
         var separatorsStack: some View {
             VStack {
-                if let topSeparatorType {
+                if topSeparatorType != .none {
                     SeparatorRepresentable(orientation: .horizontal)
                         .frame(height: Separator.thickness)
                         .padding(edgeInsets(for: topSeparatorType))
                 }
                 Spacer()
-                if let bottomSeparatorType {
+                if bottomSeparatorType != .none {
                     SeparatorRepresentable(orientation: .horizontal)
                         .frame(height: Separator.thickness)
                         .padding(edgeInsets(for: bottomSeparatorType))
@@ -126,7 +120,7 @@ public struct ListActionItem: View {
 
         @ViewBuilder
         var content: some View {
-            if topSeparatorType != nil || bottomSeparatorType != nil {
+            if topSeparatorType != .none || bottomSeparatorType != .none {
                 ZStack {
                     buttons
                     separatorsStack
@@ -144,9 +138,9 @@ public struct ListActionItem: View {
     }
 
     /// The  type of separator on the top edge
-    var topSeparatorType: ListActionItemSeparatorType?
+    var topSeparatorType: ListActionItemSeparatorType = .none
     /// The  type of separator on the bottom edge
-    var bottomSeparatorType: ListActionItemSeparatorType?
+    var bottomSeparatorType: ListActionItemSeparatorType = .none
     /// The background styling to match the type of `List` it is displayed in
     var backgroundStyleType: ListItemBackgroundStyleType = .plain
 
@@ -191,7 +185,7 @@ public struct ListActionItem: View {
         switch separatorType {
         case .inset:
             edgeInsets.leading = ListItemTokenSet.horizontalSpacing
-        case .full:
+        case .full, .none:
             break
         }
         return edgeInsets
