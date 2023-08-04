@@ -121,6 +121,7 @@ struct ListActionItemDemoView: View {
 
                 Section {
                     FluentUIDemoToggle(titleKey: "Show secondary action", isOn: $showSecondaryAction)
+                        .accessibilityIdentifier("showSecondaryActionSwitch")
                     textFields
                     pickers
                 } header: {

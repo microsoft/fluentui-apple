@@ -29,8 +29,11 @@ class ListActionItemTest: BaseTest {
     func testTwoActions() throws {
         let primaryActionTitleTextField: XCUIElement = app.textFields.matching(identifier: "primaryActionTitleTextField").firstMatch
         let secondaryActionTitleTextField: XCUIElement = app.textFields.matching(identifier: "secondaryActionTitleTextField").firstMatch
+        let showSecondaryActionSwitch: XCUIElement = app.switches.matching(identifier: "showSecondaryActionSwitch").switches.firstMatch
         let newPrimaryActionTitle: String = "Dismiss"
         let newSecondaryActionTitle: String = "Error"
+
+        showSecondaryActionSwitch.tap()
 
         primaryButton.tap()
         XCTAssert(actionAlert.exists, "Should run action handler for primary action ListActionItem when tapped")
