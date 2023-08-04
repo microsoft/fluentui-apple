@@ -14,7 +14,7 @@ class ListItemTest: BaseTest {
     }
 
     func testTitle() throws {
-        let titleElement = app.staticTexts.matching(identifier: "title").firstMatch
+        let titleElement = app.staticTexts.matching(identifier: "ListItemTitle").firstMatch
         let textField: XCUIElement = app.textFields.matching(identifier: "titleTextField").firstMatch
         let newTitle = "A new title"
 
@@ -24,7 +24,7 @@ class ListItemTest: BaseTest {
     }
 
     func testSubtitle() throws {
-        let subtitleElement: XCUIElement = app.staticTexts.matching(identifier: "subtitle").firstMatch
+        let subtitleElement: XCUIElement = app.staticTexts.matching(identifier: "ListItemSubtitle").firstMatch
         let textField: XCUIElement = app.textFields.matching(identifier: "subtitleTextField").firstMatch
         let newSubtitle = "A new subtitle"
 
@@ -40,7 +40,7 @@ class ListItemTest: BaseTest {
     }
 
     func testFooter() throws {
-        let footerElement: XCUIElement = app.staticTexts.matching(identifier: "footer").firstMatch
+        let footerElement: XCUIElement = app.staticTexts.matching(identifier: "ListItemFooter").firstMatch
         let textField: XCUIElement = app.textFields.matching(identifier: "footerTextField").firstMatch
         let newFooter = "A new footer"
 
@@ -60,7 +60,7 @@ class ListItemTest: BaseTest {
 
     func testLeadingContent() throws {
         let showLeadingContentSwitch: XCUIElement = app.switches.matching(identifier: "leadingContentSwitch").switches.firstMatch
-        let leadingContentElement: XCUIElement = app.images.matching(identifier: "leadingContent").firstMatch
+        let leadingContentElement: XCUIElement = app.images.matching(identifier: "ListItemLeadingContent").firstMatch
         let leadingContentSizeButton: XCUIElement = app.buttons.matching(identifier: "leadingContentSizePicker").firstMatch
         let zeroSizeButton: XCUIElement = app.buttons[".zero"].firstMatch
         let smallSizeButton: XCUIElement = app.buttons[".small"].firstMatch
@@ -87,7 +87,7 @@ class ListItemTest: BaseTest {
 
     func testTrailingContent() throws {
         let showTrailingContentSwitch: XCUIElement = app.switches.matching(identifier: "trailingContentSwitch").switches.firstMatch
-        let leadingContentElement: XCUIElement = app.staticTexts.matching(identifier: "trailingContent").firstMatch
+        let leadingContentElement: XCUIElement = app.staticTexts.matching(identifier: "ListItemTrailingContent").firstMatch
 
         XCTAssert(leadingContentElement.exists, "Trailing content should appear when a value is passed in")
 
@@ -96,8 +96,8 @@ class ListItemTest: BaseTest {
     }
 
     func testAccessoryType() throws {
-        let accessoryImageElement: XCUIElement = app.images.matching(identifier: "accessoryImage").firstMatch
-        let accessoryButtonElement: XCUIElement = app.buttons.matching(identifier: "accessoryDetailButton").firstMatch
+        let accessoryImageElement: XCUIElement = app.images.matching(identifier: "ListItemAccessoryImage").firstMatch
+        let accessoryButtonElement: XCUIElement = app.buttons.matching(identifier: "ListItemAccessoryDetailButton").firstMatch
         let accessoryTypeButton: XCUIElement = app.buttons.matching(identifier: "accessoryTypePicker").firstMatch
         let noneTypeButton: XCUIElement = app.buttons[".none"].firstMatch
         let disclosureIndicatorTypeButton: XCUIElement = app.buttons[".disclosureIndicator"].firstMatch
