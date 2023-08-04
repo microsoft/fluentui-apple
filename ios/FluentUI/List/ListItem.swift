@@ -51,6 +51,7 @@ public struct ListItem<LeadingContent: View,
                                 .frame(minHeight: ListItemTokenSet.titleHeight)
                                 .lineLimit(titleLineLimit)
                                 .truncationMode(titleTruncationMode)
+                                .accessibilityIdentifier(AccessibilityIdentifiers.title)
 
             switch layoutType {
             case .oneLine:
@@ -60,6 +61,7 @@ public struct ListItem<LeadingContent: View,
                     .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
                     .lineLimit(subtitleLineLimit)
                     .truncationMode(subtitleTruncationMode)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.subtitle)
                 VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
                     titleView
                     if layoutType == .twoLines {
@@ -76,6 +78,7 @@ public struct ListItem<LeadingContent: View,
                             .frame(minHeight: ListItemTokenSet.footerHeight)
                             .lineLimit(footerLineLimit)
                             .truncationMode(footerTruncationMode)
+                            .accessibilityIdentifier(AccessibilityIdentifiers.footer)
                     }
                 }
             }
@@ -88,6 +91,7 @@ public struct ListItem<LeadingContent: View,
                let iconColor = accessoryType.iconColor(tokenSet: tokenSet, fluentTheme: fluentTheme) {
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
+                    .accessibilityIdentifier(AccessibilityIdentifiers.accessoryImage)
                 if accessoryType == .detailButton {
                     SwiftUI.Button {
                         if let onAccessoryTapped = onAccessoryTapped {
@@ -96,6 +100,7 @@ public struct ListItem<LeadingContent: View,
                     } label: {
                         image
                     }
+                    .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
                 } else {
                     image
                 }
@@ -117,6 +122,7 @@ public struct ListItem<LeadingContent: View,
                         .frame(width: tokenSet[.customViewDimensions].float,
                                height: tokenSet[.customViewDimensions].float)
                         .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
+                        .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
                 }
                 labelStack
                     .padding(.trailing, ListItemTokenSet.horizontalSpacing)
@@ -124,6 +130,7 @@ public struct ListItem<LeadingContent: View,
                 if let trailingContent {
                     trailingContent()
                         .tint(Color(fluentTheme.color(.brandForeground1)))
+                        .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
                 }
                 accessoryView
                     .padding(.leading, ListItemTokenSet.horizontalSpacing)
@@ -222,6 +229,18 @@ public struct ListItem<LeadingContent: View,
     private let footer: Footer
     private let subtitle: Subtitle
     private let title: Title
+}
+
+// MARK: Constants
+
+private struct AccessibilityIdentifiers {
+    static let title: String = "ListItemTitle"
+    static let subtitle: String = "ListItemSubtitle"
+    static let footer: String = "ListItemFooter"
+    static let leadingContent: String = "ListItemLeadingContent"
+    static let trailingContent: String = "ListItemTrailingContent"
+    static let accessoryImage: String = "ListItemAccessoryImage"
+    static let accessoryDetailButton: String = "ListItemAccessoryDetailButton"
 }
 
 // MARK: Additional Initializers
