@@ -7,6 +7,7 @@ import UIKit
 import SwiftUI
 
 public typealias ListActionItemSeparatorType = TableViewCell.SeparatorType
+public typealias ListActionItemActionType = ActionsCell.ActionType
 
 /// View that represents an action that is displayed in a List.
 public struct ListActionItem: View {
@@ -20,7 +21,7 @@ public struct ListActionItem: View {
     ///   - actionType: A type that defines how the action is communicated
     public init(title: String,
                 onTapped: @escaping () -> Void,
-                actionType: ActionType = .regular) {
+                actionType: ListActionItemActionType = .regular) {
         self.primaryAction = Action(title: title,
                                     actionType: actionType,
                                     handler: onTapped)
@@ -36,10 +37,10 @@ public struct ListActionItem: View {
     ///   - secondaryActionType: A type that defines how the secondary action is communicated
     public init(primaryActionTitle: String,
                 onPrimaryActionTapped: @escaping () -> Void,
-                primaryActionType: ActionType = .regular,
+                primaryActionType: ListActionItemActionType = .regular,
                 secondaryActionTitle: String,
                 onSecondaryActionTapped: @escaping () -> Void,
-                secondaryActionType: ActionType = .regular) {
+                secondaryActionType: ListActionItemActionType = .regular) {
         self.primaryAction = Action(title: primaryActionTitle,
                                     actionType: primaryActionType,
                                     handler: onPrimaryActionTapped)
@@ -152,12 +153,12 @@ public struct ListActionItem: View {
 
     private struct Action {
         let title: String
-        let actionType: ActionType
+        let actionType: ListActionItemActionType
         let handler: () -> Void
     }
 
     private struct ActionButtonStyle: SwiftUI.ButtonStyle {
-        let actionType: ActionType
+        let actionType: ListActionItemActionType
         let tokenSet: ListItemTokenSet
 
         func makeBody(configuration: Self.Configuration) -> some View {
