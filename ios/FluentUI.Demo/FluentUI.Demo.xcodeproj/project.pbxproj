@@ -129,6 +129,7 @@
 		ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */; };
 		F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */; };
 		F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */; };
+		F3DFD3632A7C358000014C6E /* ListItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3622A7C358000014C6E /* ListItemTest.swift */; };
 		FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC414E3625888BC300069E73 /* CommandBarDemoController.swift */; };
 		FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCF7C8221BF35680058E9E6 /* SegmentedControlDemoController.swift */; };
 /* End PBXBuildFile section */
@@ -267,6 +268,7 @@
 		ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandedSwitch.swift; sourceTree = "<group>"; };
 		F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController.swift; sourceTree = "<group>"; };
+		F3DFD3622A7C358000014C6E /* ListItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTest.swift; sourceTree = "<group>"; };
 		FC414E3625888BC300069E73 /* CommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarDemoController.swift; sourceTree = "<group>"; };
 		FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDemoController.swift; sourceTree = "<group>"; };
 		FD6AE76C225679A4002CFDFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				3A83F8E02953B99A00EF6629 /* IndeterminateProgressBarTest.swift */,
 				3A83F8E22953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */,
 				3A83F8E42953B9B800EF6629 /* LabelTest.swift */,
+				F3DFD3622A7C358000014C6E /* ListItemTest.swift */,
 				3AC1024B29DB969D002BF27E /* MultilineCommandBarTest.swift */,
 				3A83F8E62953B9D100EF6629 /* NavigationControllerTest.swift */,
 				3A83F8E82953BA4500EF6629 /* NotificationViewTest.swift */,
@@ -745,6 +748,7 @@
 				3A83F8CD2953B8F200EF6629 /* BottomSheetControllerTest.swift in Sources */,
 				3A83F8D12953B90D00EF6629 /* CardTest.swift in Sources */,
 				3A83F8CF2953B90000EF6629 /* ButtonTest.swift in Sources */,
+				F3DFD3632A7C358000014C6E /* ListItemTest.swift in Sources */,
 				3A83F8DF2953B97900EF6629 /* HUDTest_SwiftUI.swift in Sources */,
 				3A83F9012953BAEB00EF6629 /* SideTabBarTest.swift in Sources */,
 				3A83F8FF2953BADF00EF6629 /* ShimmerViewTest.swift in Sources */,
