@@ -127,6 +127,9 @@
 		EC98E2B62992FE5000B9DF91 /* TextFieldObjCDemoController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC98E2B52992FE5000B9DF91 /* TextFieldObjCDemoController.m */; };
 		ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */; };
 		ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */; };
+		F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */; };
+		F30B74382A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */; };
+		F30B743A2A7DB7EC000F63A0 /* ListActionItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */; };
 		F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */; };
 		F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */; };
 		F3DFD3632A7C358000014C6E /* ListItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3622A7C358000014C6E /* ListItemTest.swift */; };
@@ -266,6 +269,9 @@
 		EC98E2B72992FE6900B9DF91 /* TextFieldObjCDemoController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldObjCDemoController.h; sourceTree = "<group>"; };
 		ECA9D4892979F5370048ADEC /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
 		ECD95F5D2A0B19FF00152742 /* BrandedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandedSwitch.swift; sourceTree = "<group>"; };
+		F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemDemoController.swift; sourceTree = "<group>"; };
+		F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemTest.swift; sourceTree = "<group>"; };
 		F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController.swift; sourceTree = "<group>"; };
 		F3DFD3622A7C358000014C6E /* ListItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTest.swift; sourceTree = "<group>"; };
@@ -363,6 +369,7 @@
 				3A83F8E02953B99A00EF6629 /* IndeterminateProgressBarTest.swift */,
 				3A83F8E22953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */,
 				3A83F8E42953B9B800EF6629 /* LabelTest.swift */,
+				F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */,
 				F3DFD3622A7C358000014C6E /* ListItemTest.swift */,
 				3AC1024B29DB969D002BF27E /* MultilineCommandBarTest.swift */,
 				3A83F8E62953B9D100EF6629 /* NavigationControllerTest.swift */,
@@ -518,6 +525,8 @@
 				5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */,
 				5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */,
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
+				F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */,
+				F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */,
 				F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */,
 				F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */,
 				3ADA2E1C29C515890020434A /* MultilineCommandBarDemoController.swift */,
@@ -766,6 +775,7 @@
 				3A83F8E52953B9B800EF6629 /* LabelTest.swift in Sources */,
 				3A83F8EB2953BA5400EF6629 /* NotificationViewTest_SwiftUI.swift in Sources */,
 				3A83F8E72953B9D100EF6629 /* NavigationControllerTest.swift in Sources */,
+				F30B743A2A7DB7EC000F63A0 /* ListActionItemTest.swift in Sources */,
 				3A83F8C32953B8A400EF6629 /* AvatarTest_SwiftUI.swift in Sources */,
 				3A83F8E92953BA4500EF6629 /* NotificationViewTest.swift in Sources */,
 				3A83F8F72953BAAD00EF6629 /* PillButtonBarTest.swift in Sources */,
@@ -788,6 +798,7 @@
 				6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */,
 				6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
+				F30B74382A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift in Sources */,
 				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
@@ -819,6 +830,7 @@
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
+				F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,

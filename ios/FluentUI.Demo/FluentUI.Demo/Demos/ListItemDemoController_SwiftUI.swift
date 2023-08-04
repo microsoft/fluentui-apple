@@ -6,8 +6,6 @@
 import FluentUI
 import SwiftUI
 
-typealias ListItemSampleData = TableViewCellSampleData
-
 class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     override init?(coder aDecoder: NSCoder, rootView: ListItemDemoView) {
         preconditionFailure("init(coder:) has not been implemented")
