@@ -62,11 +62,11 @@ class ListItemTest: BaseTest {
         let showLeadingContentSwitch: XCUIElement = app.switches.matching(identifier: "leadingContentSwitch").switches.firstMatch
         let leadingContentElement: XCUIElement = app.images.matching(identifier: "ListItemLeadingContent").firstMatch
         let leadingContentSizeButton: XCUIElement = app.buttons.matching(identifier: "leadingContentSizePicker").firstMatch
-        let zeroSizeButton: XCUIElement = app.buttons[".zero"].firstMatch
-        let smallSizeButton: XCUIElement = app.buttons[".small"].firstMatch
-        let mediumSizeButton: XCUIElement = app.buttons[".medium"].firstMatch
+        let zeroSizeButton: XCUIElement = app.buttons.matching(identifier: ".zero").firstMatch
+        let smallSizeButton: XCUIElement = app.buttons.matching(identifier: ".small").firstMatch
+        let mediumSizeButton: XCUIElement = app.buttons.matching(identifier: ".medium").firstMatch
 
-        XCTAssert(leadingContentElement .exists, "Leading content should appear when a value is passed in")
+        XCTAssert(leadingContentElement.exists, "Leading content should appear when a value is passed in")
 
         showLeadingContentSwitch.tap()
         XCTAssertFalse(leadingContentElement.exists, "Leading content should not appear when no value is passed in")
@@ -99,10 +99,10 @@ class ListItemTest: BaseTest {
         let accessoryImageElement: XCUIElement = app.images.matching(identifier: "ListItemAccessoryImage").firstMatch
         let accessoryButtonElement: XCUIElement = app.buttons.matching(identifier: "ListItemAccessoryDetailButton").firstMatch
         let accessoryTypeButton: XCUIElement = app.buttons.matching(identifier: "accessoryTypePicker").firstMatch
-        let noneTypeButton: XCUIElement = app.buttons[".none"].firstMatch
-        let disclosureIndicatorTypeButton: XCUIElement = app.buttons[".disclosureIndicator"].firstMatch
-        let checkmarkTypeButton: XCUIElement = app.buttons[".checkmark"].firstMatch
-        let detailButtonTypeButton: XCUIElement = app.buttons[".detailButton"].firstMatch
+        let noneTypeButton: XCUIElement = app.buttons.matching(identifier: ".none").firstMatch
+        let disclosureIndicatorTypeButton: XCUIElement = app.buttons.matching(identifier: ".disclosureIndicator").firstMatch
+        let checkmarkTypeButton: XCUIElement = app.buttons.matching(identifier: ".checkmark").firstMatch
+        let detailButtonTypeButton: XCUIElement = app.buttons.matching(identifier: ".detailButton").firstMatch
 
         accessoryTypeButton.tap()
         noneTypeButton.tap()
