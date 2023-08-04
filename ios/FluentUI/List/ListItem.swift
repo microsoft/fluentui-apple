@@ -51,6 +51,7 @@ public struct ListItem<LeadingContent: View,
                                 .frame(minHeight: ListItemTokenSet.titleHeight)
                                 .lineLimit(titleLineLimit)
                                 .truncationMode(titleTruncationMode)
+                                .accessibilityIdentifier("title")
 
             switch layoutType {
             case .oneLine:
@@ -90,6 +91,7 @@ public struct ListItem<LeadingContent: View,
                let iconColor = accessoryType.iconColor(tokenSet: tokenSet, fluentTheme: fluentTheme) {
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
+                    .accessibilityIdentifier("accessoryImage")
                 if accessoryType == .detailButton {
                     SwiftUI.Button {
                         if let onAccessoryTapped = onAccessoryTapped {
@@ -98,6 +100,7 @@ public struct ListItem<LeadingContent: View,
                     } label: {
                         image
                     }
+                    .accessibilityIdentifier("accessoryDetailButton")
                 } else {
                     image
                 }

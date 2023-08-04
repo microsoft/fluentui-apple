@@ -49,22 +49,29 @@ struct ListItemDemoView: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
+                .accessibilityIdentifier("titleTextField")
             TextField("Subtitle", text: $subtitle)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
+                .accessibilityIdentifier("subtitleTextField")
             TextField("Footer", text: $footer)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .textFieldStyle(.roundedBorder)
+                .accessibilityIdentifier("footerTextField")
         }
 
         @ViewBuilder
         var toggles: some View {
             FluentUIDemoToggle(titleKey: "Show subtitle", isOn: $showSubtitle)
+                .accessibilityIdentifier("subtitleSwitch")
             FluentUIDemoToggle(titleKey: "Show footer", isOn: $showFooter)
+                .accessibilityIdentifier("footerSwitch")
             FluentUIDemoToggle(titleKey: "Show leading content", isOn: $showLeadingContent)
+                .accessibilityIdentifier("leadingContentSwitch")
             FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
+                .accessibilityIdentifier("trailingContentSwitch")
         }
 
         @ViewBuilder
@@ -75,12 +82,14 @@ struct ListItemDemoView: View {
                 Text(".checkmark").tag(ListItemAccessoryType.checkmark)
                 Text(".detailButton").tag(ListItemAccessoryType.detailButton)
             }
+            .accessibilityIdentifier("accessoryTypePicker")
             Picker("Leading Content Size", selection: $leadingContentSize) {
                 Text(".default").tag(ListItemLeadingContentSize.default)
                 Text(".zero").tag(ListItemLeadingContentSize.zero)
                 Text(".small").tag(ListItemLeadingContentSize.small)
                 Text(".medium").tag(ListItemLeadingContentSize.medium)
             }
+            .accessibilityIdentifier("leadingContentSizePicker")
             Picker("Background Style", selection: $backgroundStyle) {
                 Text(".plain").tag(ListItemBackgroundStyleType.plain)
                 Text(".grouped").tag(ListItemBackgroundStyleType.grouped)

@@ -13,43 +13,130 @@ class ListItemTest: BaseTest {
         XCTAssert(app.navigationBars[controlName].exists)
     }
 
-    override func setUpWithError() throws {
-        try super.setUpWithError()
-        // Set starting values for all settings
+    func testTitle() throws {
+        let titleElement = app.staticTexts.matching(identifier: "title").firstMatch
+        let textField: XCUIElement = app.textFields.matching(identifier: "titleTextField").firstMatch
+        let newTitle = "A new title"
+
+        clearText(in: textField)
+        textField.typeText(newTitle)
+        XCTAssert(titleElement.label == newTitle, "Title should update when passed in value changes")
     }
 
     func testSubtitle() throws {
-        let showSubtitleSwitch: XCUIElement = app.switches["Show subtitle"].switches.firstMatch
+        let subtitleElement: XCUIElement = app.staticTexts.matching(identifier: "subtitle").firstMatch
+        let textField: XCUIElement = app.textFields.matching(identifier: "subtitleTextField").firstMatch
+        let newSubtitle = "A new subtitle"
 
         showSubtitleSwitch.tap()
-        XCTAssert(app.staticTexts.matching(identifier: "subtitle").firstMatch.exists)
-        showSubtitleSwitch.tap()
-        XCTAssert(!app.staticTexts.matching(identifier: "subtitle").firstMatch.exists)
+        XCTAssert(subtitleElement.exists, "Subtitle should appear if a non empty string is passed in")
+
+        clearText(in: textField)
+        textField.typeText(newSubtitle)
+        XCTAssert(subtitleElement.label == newSubtitle, "Subtitle should update when passed in value changes")
+
+        clearText(in: textField)
+        XCTAssertFalse(subtitleElement.exists, "Subtitle should not appear when string is empty")
     }
 
     func testFooter() throws {
-        let showSubtitleSwitch: XCUIElement = app.switches["Show subtitle"].switches.firstMatch
-        let showFooterSwitch: XCUIElement = app.switches["Show footer"].switches.firstMatch
-        // footer should not be shown if subtitle is not
-        XCTAssert(!app.staticTexts.matching(identifier: "footer").firstMatch.exists)
+        let footerElement: XCUIElement = app.staticTexts.matching(identifier: "footer").firstMatch
+        let textField: XCUIElement = app.textFields.matching(identifier: "footerTextField").firstMatch
+        let newFooter = "A new footer"
+
+        XCTAssertFalse(footerElement.exists, "Footer should not appear unless a subtitle is passed in")
+
         showSubtitleSwitch.tap()
         showFooterSwitch.tap()
-        XCTAssert(app.staticTexts.matching(identifier: "footer").firstMatch.exists)
+        XCTAssert(footerElement.exists, "Footer should appear if a non empty string is passed in")
+
+        clearText(in: textField)
+        textField.typeText(newFooter)
+        XCTAssert(footerElement.label == newFooter, "Footer should update when passed in value changes")
+
         showFooterSwitch.tap()
-        XCTAssert(!app.staticTexts.matching(identifier: "footer").firstMatch.exists)
+        XCTAssertFalse(footerElement.exists, "Footer should not appear when string is empty")
     }
 
     func testLeadingContent() throws {
-        let showLeadingContentSwitch: XCUIElement = app.switches["Show leading content"].switches.firstMatch
-        XCTAssert(app.images.matching(identifier: "leadingContent").firstMatch.exists)
+        let showLeadingContentSwitch: XCUIElement = app.switches.matching(identifier: "leadingContentSwitch").switches.firstMatch
+        let leadingContentElement: XCUIElement = app.images.matching(identifier: "leadingContent").firstMatch
+        let leadingContentSizeButton: XCUIElement = app.buttons.matching(identifier: "leadingContentSizePicker").firstMatch
+        let zeroSizeButton: XCUIElement = app.buttons[".zero"].firstMatch
+        let smallSizeButton: XCUIElement = app.buttons[".small"].firstMatch
+        let mediumSizeButton: XCUIElement = app.buttons[".medium"].firstMatch
+
+        XCTAssert(leadingContentElement .exists, "Leading content should appear when a value is passed in")
+
         showLeadingContentSwitch.tap()
-        XCTAssert(!app.images.matching(identifier: "leadingContent").firstMatch.exists)
+        XCTAssertFalse(leadingContentElement.exists, "Leading content should not appear when no value is passed in")
+
+        showLeadingContentSwitch.tap()
+        leadingContentSizeButton.tap()
+        zeroSizeButton.tap()
+        XCTAssertFalse(leadingContentElement.isHittable, "Leading content should not appear for size .zero")
+
+        leadingContentSizeButton.tap()
+        smallSizeButton.tap()
+        XCTAssert(leadingContentElement.exists, "Leading content should appear for size .small")
+
+        leadingContentSizeButton.tap()
+        mediumSizeButton.tap()
+        XCTAssert(leadingContentElement.exists, "Leading content should appear for size .medium")
     }
 
     func testTrailingContent() throws {
-        let showTrailingContentSwitch: XCUIElement = app.switches["Show trailing content"].switches.firstMatch
-        XCTAssert(app.staticTexts.matching(identifier: "trailingContent").firstMatch.exists)
+        let showTrailingContentSwitch: XCUIElement = app.switches.matching(identifier: "trailingContentSwitch").switches.firstMatch
+        let leadingContentElement: XCUIElement = app.staticTexts.matching(identifier: "trailingContent").firstMatch
+
+        XCTAssert(leadingContentElement.exists, "Trailing content should appear when a value is passed in")
+
         showTrailingContentSwitch.tap()
-        XCTAssert(!app.staticTexts.matching(identifier: "trailingContent").firstMatch.exists)
+        XCTAssertFalse(leadingContentElement.exists, "Trailing content should not appear when no value is passed in")
+    }
+
+    func testAccessoryType() throws {
+        let accessoryImageElement: XCUIElement = app.images.matching(identifier: "accessoryImage").firstMatch
+        let accessoryButtonElement: XCUIElement = app.buttons.matching(identifier: "accessoryDetailButton").firstMatch
+        let accessoryTypeButton: XCUIElement = app.buttons.matching(identifier: "accessoryTypePicker").firstMatch
+        let noneTypeButton: XCUIElement = app.buttons[".none"].firstMatch
+        let disclosureIndicatorTypeButton: XCUIElement = app.buttons[".disclosureIndicator"].firstMatch
+        let checkmarkTypeButton: XCUIElement = app.buttons[".checkmark"].firstMatch
+        let detailButtonTypeButton: XCUIElement = app.buttons[".detailButton"].firstMatch
+
+        accessoryTypeButton.tap()
+        noneTypeButton.tap()
+        XCTAssertFalse(accessoryImageElement.exists, "Accessory should not appear for .none type")
+
+        accessoryTypeButton.tap()
+        disclosureIndicatorTypeButton.tap()
+        XCTAssert(accessoryImageElement.exists, "Accessory should appear for .disclosureIndicator type")
+        XCTAssertFalse(accessoryImageElement.isHittable, "Accessory should not not have a tap target for .disclosureIndicator type")
+
+        accessoryTypeButton.tap()
+        checkmarkTypeButton.tap()
+        XCTAssert(accessoryImageElement.exists, "Accessory should appear for .checkmark type")
+        XCTAssertFalse(accessoryImageElement.isHittable, "Accessory should not not have a tap target for .checkmark type")
+
+        accessoryTypeButton.tap()
+        detailButtonTypeButton.tap()
+        XCTAssert(accessoryButtonElement.exists, "Accessory should appear for .detailButton type")
+        XCTAssert(accessoryButtonElement.isEnabled, "Accessory should have a tap target for .detailButton type")
+    }
+
+    // MARK: Helper functions and variables
+
+    func clearText(in textField: XCUIElement) {
+        textField.tap()
+        let currentText = textField.value as? String ?? ""
+        textField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentText.count))
+    }
+
+    var showSubtitleSwitch: XCUIElement {
+        app.switches.matching(identifier: "subtitleSwitch").switches.firstMatch
+    }
+
+    var showFooterSwitch: XCUIElement {
+        app.switches.matching(identifier: "footerSwitch").switches.firstMatch
     }
 }
