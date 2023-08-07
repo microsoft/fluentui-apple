@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
 import SwiftUI
+import UIKit
 
 public typealias ListActionItemSeparatorType = TableViewCell.SeparatorType
 public typealias ListActionItemActionType = ActionsCell.ActionType
@@ -140,9 +140,9 @@ public struct ListActionItem: View {
             .background(backgroundView)
     }
 
-    /// The  type of separator on the top edge
+    /// The type of separator on the top edge
     var topSeparatorType: ListActionItemSeparatorType = .none
-    /// The  type of separator on the bottom edge
+    /// The type of separator on the bottom edge
     var bottomSeparatorType: ListActionItemSeparatorType = .none
     /// The background styling to match the type of `List` it is displayed in
     var backgroundStyleType: ListItemBackgroundStyleType = .plain
@@ -151,6 +151,7 @@ public struct ListActionItem: View {
 
     private let primaryAction: Action
     private var secondaryAction: Action?
+    /// The token set, which uses customViewSize as default as the control does not use those token values
     private let tokenSet: ListItemTokenSet = ListItemTokenSet(customViewSize: { .default })
 
     private struct Action {
