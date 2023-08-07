@@ -7,7 +7,7 @@ import Foundation
 
 public extension ListActionItem {
 
-    /// The  type of separator on the top edge of `ListActionItem`.
+    /// The type of separator on the top edge of `ListActionItem`.
     /// - Parameter separatorType: Type of separator to display.
     /// - Returns: The modified `ListActionItem` with the property set.
     func topSeparatorType(_ separatorType: ListActionItemSeparatorType) -> ListActionItem {
@@ -16,7 +16,7 @@ public extension ListActionItem {
         return listActionItem
     }
 
-    /// The  type of separator on the bottom edge of `ListActionItem`.
+    /// The type of separator on the bottom edge of `ListActionItem`.
     /// - Parameter separatorType: Type of separator to display.
     /// - Returns: The modified `ListActionItem` with the property set.
     func bottomSeparatorType(_ separatorType: ListActionItemSeparatorType) -> ListActionItem {
