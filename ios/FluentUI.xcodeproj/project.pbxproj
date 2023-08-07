@@ -225,8 +225,10 @@
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECF3C9882A67495A00CA35FC /* BottomCommandingTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */; };
+		F32E6E8B2A7997F3003F9AE7 /* ListActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */; };
+		F3DFD3612A7B210100014C6E /* ListActionItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */; };
 		F3F113892A705AD500DA852A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F113882A705AD500DA852A /* ListItem.swift */; };
-		F3F1138D2A705B6900DA852A /* ListItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138C2A705B6900DA852A /* ListItem+Extensions.swift */; };
+		F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -432,8 +434,10 @@
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingTokenSet.swift; sourceTree = "<group>"; };
+		F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItem.swift; sourceTree = "<group>"; };
+		F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemModifiers.swift; sourceTree = "<group>"; };
 		F3F113882A705AD500DA852A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
-		F3F1138C2A705B6900DA852A /* ListItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListItem+Extensions.swift"; sourceTree = "<group>"; };
+		F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemModifiers.swift; sourceTree = "<group>"; };
 		F5784DB9285D031800DBEAD6 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
@@ -1158,8 +1162,10 @@
 		F3F113872A705AC300DA852A /* List */ = {
 			isa = PBXGroup;
 			children = (
+				F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */,
+				F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */,
 				F3F113882A705AD500DA852A /* ListItem.swift */,
-				F3F1138C2A705B6900DA852A /* ListItem+Extensions.swift */,
+				F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1578,6 +1584,7 @@
 				5314E1BB25F01B070099271A /* TouchForwardingView.swift in Sources */,
 				5314E2EC25F025710099271A /* DayOfMonth.swift in Sources */,
 				5314E0B325F010400099271A /* EasyTapButton.swift in Sources */,
+				F32E6E8B2A7997F3003F9AE7 /* ListActionItem.swift in Sources */,
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
@@ -1675,6 +1682,7 @@
 				5373D5732694D66F0032A3B4 /* UIKit+SwiftUI_interoperability.swift in Sources */,
 				5314E09E25F00FE20099271A /* DotView.swift in Sources */,
 				5314E1A525F01A7C0099271A /* TableViewCell.swift in Sources */,
+				F3DFD3612A7B210100014C6E /* ListActionItemModifiers.swift in Sources */,
 				4BBD651F2755FD9500A8B09E /* MSFNotification.swift in Sources */,
 				5314E09525F00FA30099271A /* DimmingView.swift in Sources */,
 				5306075326A1E6A4002D49CF /* AvatarGroupTokenSet.swift in Sources */,
@@ -1713,7 +1721,7 @@
 				EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
-				F3F1138D2A705B6900DA852A /* ListItem+Extensions.swift in Sources */,
+				F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
