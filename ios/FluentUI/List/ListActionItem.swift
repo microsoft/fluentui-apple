@@ -59,6 +59,7 @@ public struct ListActionItem: View {
             }
             .buttonStyle(ActionButtonStyle(actionType: primaryAction.actionType, tokenSet: tokenSet))
             .frame(maxWidth: .infinity, alignment: .center)
+            .accessibilityIdentifier(AccessibilityIdentifiers.primaryActionButton)
         }
 
         @ViewBuilder
@@ -69,6 +70,7 @@ public struct ListActionItem: View {
                 }
                 .buttonStyle(ActionButtonStyle(actionType: secondaryAction.actionType, tokenSet: tokenSet))
                 .frame(maxWidth: .infinity, alignment: .center)
+                .accessibilityIdentifier(AccessibilityIdentifiers.secondaryActionButton)
             }
         }
 
@@ -192,4 +194,11 @@ public struct ListActionItem: View {
         }
         return edgeInsets
     }
+}
+
+// MARK: Constants
+
+private struct AccessibilityIdentifiers {
+    static let primaryActionButton: String = "ListActionItemPrimaryButton"
+    static let secondaryActionButton: String = "ListActionItemSecondaryButton"
 }
