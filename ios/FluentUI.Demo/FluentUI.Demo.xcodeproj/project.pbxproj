@@ -130,6 +130,7 @@
 		F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */; };
 		F30B74382A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */; };
 		F30B743A2A7DB7EC000F63A0 /* ListActionItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */; };
+		F30B74492A82DAE8000F63A0 /* XCUIElement+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30B74472A82DABB000F63A0 /* XCUIElement+Extensions.swift */; };
 		F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */; };
 		F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */; };
 		F3DFD3632A7C358000014C6E /* ListItemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3622A7C358000014C6E /* ListItemTest.swift */; };
@@ -272,6 +273,7 @@
 		F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemDemoController.swift; sourceTree = "<group>"; };
 		F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemTest.swift; sourceTree = "<group>"; };
+		F30B74472A82DABB000F63A0 /* XCUIElement+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCUIElement+Extensions.swift"; sourceTree = "<group>"; };
 		F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemDemoController.swift; sourceTree = "<group>"; };
 		F3DFD3622A7C358000014C6E /* ListItemTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTest.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 		3A83F7C0295110FF00EF6629 /* FluentUIDemoTests */ = {
 			isa = PBXGroup;
 			children = (
+				F30B744A2A82DAF3000F63A0 /* Utilities */,
 				3A83F8BC2953B75100EF6629 /* BaseTest.swift */,
 				3A83F8BA2953B73700EF6629 /* ActivityIndicatorTest.swift */,
 				3A83F8BE2953B83300EF6629 /* ActivityIndicatorTest_SwiftUI.swift */,
@@ -580,6 +583,14 @@
 			name = Utilities;
 			sourceTree = "<group>";
 		};
+		F30B744A2A82DAF3000F63A0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F30B74472A82DABB000F63A0 /* XCUIElement+Extensions.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -740,6 +751,7 @@
 				3AC1024C29DB969D002BF27E /* MultilineCommandBarTest.swift in Sources */,
 				3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */,
 				3A83F8BD2953B75100EF6629 /* BaseTest.swift in Sources */,
+				F30B74492A82DAE8000F63A0 /* XCUIElement+Extensions.swift in Sources */,
 				3A83F8F92953BABA00EF6629 /* PopupMenuControllerTest.swift in Sources */,
 				3A83F8CB2953B8E500EF6629 /* BottomCommandingControllerTest.swift in Sources */,
 				3A83F9092953BB1B00EF6629 /* TableViewCellShimmerTest.swift in Sources */,

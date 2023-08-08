@@ -18,7 +18,7 @@ class ListItemTest: BaseTest {
         let textField: XCUIElement = app.textFields.matching(identifier: "titleTextField").firstMatch
         let newTitle = "A new title"
 
-        clearText(in: textField)
+        textField.clearText()
         textField.typeText(newTitle)
         XCTAssert(titleElement.label == newTitle, "Title should update when passed in value changes")
     }
@@ -31,11 +31,11 @@ class ListItemTest: BaseTest {
         showSubtitleSwitch.tap()
         XCTAssert(subtitleElement.exists, "Subtitle should appear if a non empty string is passed in")
 
-        clearText(in: textField)
+        textField.clearText()
         textField.typeText(newSubtitle)
         XCTAssert(subtitleElement.label == newSubtitle, "Subtitle should update when passed in value changes")
 
-        clearText(in: textField)
+        textField.clearText()
         XCTAssertFalse(subtitleElement.exists, "Subtitle should not appear when string is empty")
     }
 
@@ -50,7 +50,7 @@ class ListItemTest: BaseTest {
         showFooterSwitch.tap()
         XCTAssert(footerElement.exists, "Footer should appear if a non empty string is passed in")
 
-        clearText(in: textField)
+        textField.clearText()
         textField.typeText(newFooter)
         XCTAssert(footerElement.label == newFooter, "Footer should update when passed in value changes")
 
@@ -124,13 +124,7 @@ class ListItemTest: BaseTest {
         XCTAssert(accessoryButtonElement.isEnabled, "Accessory should have a tap target for .detailButton type")
     }
 
-    // MARK: Helper functions and variables
-
-    func clearText(in textField: XCUIElement) {
-        textField.tap()
-        let currentText = textField.value as? String ?? ""
-        textField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentText.count))
-    }
+    // MARK: Helper variables
 
     var showSubtitleSwitch: XCUIElement {
         app.switches.matching(identifier: "subtitleSwitch").switches.firstMatch

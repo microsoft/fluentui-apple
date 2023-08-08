@@ -21,7 +21,7 @@ class ListActionItemTest: BaseTest {
         XCTAssert(actionAlert.exists, "Should run action handler for ListActionItem when tapped")
         dismissAlertButton.tap()
 
-        clearText(in: textField)
+        textField.clearText()
         textField.typeText(newTitle)
         XCTAssert(primaryButton.label == newTitle, "Title should update when passed in value changes")
     }
@@ -43,22 +43,16 @@ class ListActionItemTest: BaseTest {
         XCTAssert(actionAlert.exists, "Should run action handler for secondary action ListActionItem when tapped")
         dismissAlertButton.tap()
 
-        clearText(in: primaryActionTitleTextField)
+        primaryActionTitleTextField.clearText()
         primaryActionTitleTextField.typeText(newPrimaryActionTitle)
         XCTAssert(primaryButton.label == newPrimaryActionTitle, "Primary action title should update when passed in value changes")
 
-        clearText(in: secondaryActionTitleTextField)
+        secondaryActionTitleTextField.clearText()
         secondaryActionTitleTextField.typeText(newSecondaryActionTitle)
         XCTAssert(secondaryButton.label == newSecondaryActionTitle, "Secondary action title should update when passed in value changes")
     }
 
-    // MARK: Helper functions and variables
-
-    func clearText(in textField: XCUIElement) {
-        textField.tap()
-        let currentText = textField.value as? String ?? ""
-        textField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: currentText.count))
-    }
+    // MARK: Helper variables
 
     var primaryButton: XCUIElement {
         app.buttons.matching(identifier: "ListActionItemPrimaryButton").firstMatch
