@@ -777,6 +777,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines
         itemView.isSelected = item.isOn
         itemView.isEnabled = item.isEnabled
+        itemView.isHidden = item.isHidden
         itemView.accessibilityTraits.insert(.button)
         itemView.preferredLabelMaxLayoutWidth = Constants.heroButtonLabelMaxWidth
         itemView.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -825,6 +826,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             }
         }
         cell.isEnabled = item.isEnabled
+        cell.isHidden = item.isHidden
         cell.backgroundStyleType = .clear
         cell.accessibilityIdentifier = item.accessibilityIdentifier
         cell.tokenSet.setOverrides(from: tokenSet,
@@ -1133,6 +1135,13 @@ extension BottomCommandingController: UITableViewDelegate {
         return configuredHeader
     }
 
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let section = expandedListSections[indexPath.section]
+        let item = section.items[indexPath.row]
+
+        return item.isHidden ? 0 : UITableView.automaticDimension
+    }
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath), let binding = viewToBindingMap[cell] else {
             return
@@ -1205,6 +1214,26 @@ extension BottomCommandingController: CommandingItemDelegate {
         case let booleanCell as BooleanCell:
             if booleanCell.isOn != value {
                 booleanCell.isOn = value
+            }
+        default:
+            break
+        }
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeHiddenTo value: Bool) {
+        guard let view = itemToBindingMap[item]?.view else {
+            return
+        }
+
+        switch view {
+        case let tabBarItemView as TabBarItemView:
+            if tabBarItemView.isHidden != value {
+                tabBarItemView.isHidden = value
+            }
+        case let cell as TableViewCell:
+            if cell.isHidden != value {
+                cell.isHidden = value
+                tableView.reloadData()
             }
         default:
             break

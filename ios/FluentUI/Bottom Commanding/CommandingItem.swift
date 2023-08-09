@@ -82,6 +82,15 @@ open class CommandingItem: NSObject {
         }
     }
 
+    /// Indicates whether the command is hidden.
+    @objc open var isHidden: Bool = false {
+        didSet {
+            if isHidden != oldValue {
+                delegate?.commandingItem(self, didChangeHiddenTo: isHidden)
+            }
+        }
+    }
+
     /// The accessibility identifier of the command item.
     @objc open var accessibilityIdentifier: String?
 
@@ -126,4 +135,7 @@ protocol CommandingItemDelegate: AnyObject {
 
     /// Called after the `isEnabled` property changed.
     func commandingItem(_ item: CommandingItem, didChangeEnabledTo value: Bool)
+
+    /// Called after the `isHidden` property changed.
+    func commandingItem(_ item: CommandingItem, didChangeHiddenTo value: Bool)
 }

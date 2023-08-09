@@ -107,6 +107,8 @@ class BottomCommandingDemoController: DemoController {
                 DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: false),
                 DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
                 DemoItem(title: "Long title hero items", type: .boolean, action: #selector(toggleLongTitleHeroItems), isOn: false),
+                DemoItem(title: "Hero command isHidden", type: .boolean, action: #selector(toggleHeroCommandHidden), isOn: false),
+                DemoItem(title: "List command isHidden", type: .boolean, action: #selector(toggleListCommandHidden), isOn: false),
                 DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
                 DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
                 DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
@@ -172,6 +174,20 @@ class BottomCommandingDemoController: DemoController {
     @objc private func toggleListCommandEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].isEnabled = sender.isOn
+        }
+    }
+
+    @objc private func toggleHeroCommandHidden(_ sender: BooleanCell) {
+        for (index, heroItem) in heroItems.enumerated() {
+            if index % 2 == 1 {
+                heroItem.isHidden = sender.isOn
+            }
+        }
+    }
+
+    @objc private func toggleListCommandHidden(_ sender: BooleanCell) {
+        modifiedCommandIndices.forEach {
+            currentExpandedListSections[0].items[$0].isHidden = sender.isOn
         }
     }
 
