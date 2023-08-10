@@ -48,8 +48,8 @@ class BottomCommandingDemoController: DemoController {
         return Array(1...25).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
-            item.isOn = modifiedCommandIndices.contains($0) ? true : false
-            item.isEnabled = modifiedCommandIndices.contains($0) ? true : false
+            item.isOn = modifiedCommandIndices.contains($0)
+            item.isEnabled = modifiedCommandIndices.contains($0)
             return item
         }
     }()
