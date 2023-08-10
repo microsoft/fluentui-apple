@@ -48,8 +48,8 @@ class BottomCommandingDemoController: DemoController {
         return Array(1...25).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
-            item.isOn = $0 % 3 == 1 ? true : false
-            item.isEnabled = $0 % 2 == 1 ? true : false
+            item.isOn = modifiedCommandIndices.contains($0) ? true : false
+            item.isEnabled = modifiedCommandIndices.contains($0) ? true : false
             return item
         }
     }()
@@ -103,17 +103,17 @@ class BottomCommandingDemoController: DemoController {
                 DemoItem(title: "Expanded list items", type: .boolean, action: #selector(toggleExpandedItems), isOn: expandedItemsVisible),
                 DemoItem(title: "Additional expanded list items", type: .boolean, action: #selector(toggleAdditionalExpandedItems(_:)), isOn: additionalExpandedItemsVisible),
                 DemoItem(title: "Popover on hero command tap", type: .boolean, action: #selector(toggleHeroPopover)),
-                DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleHeroCommandOnOff), isOn: true),
-                DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleHeroCommandEnabled), isOn: false),
-                DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleListCommandEnabled), isOn: true),
+                DemoItem(title: "Hero command isOn", type: .boolean, action: #selector(toggleModifiableHeroCommandsOnOff), isOn: true),
+                DemoItem(title: "Hero command isEnabled", type: .boolean, action: #selector(toggleModifiableHeroCommandsEnabled), isOn: false),
+                DemoItem(title: "List command isEnabled", type: .boolean, action: #selector(toggleModifiableListCommandsEnabled), isOn: true),
                 DemoItem(title: "Long title hero items", type: .boolean, action: #selector(toggleLongTitleHeroItems), isOn: false),
-                DemoItem(title: "Hero command isHidden", type: .boolean, action: #selector(toggleHeroCommandHidden), isOn: false),
-                DemoItem(title: "List command isHidden", type: .boolean, action: #selector(toggleListCommandHidden), isOn: false),
+                DemoItem(title: "Hero command isHidden", type: .boolean, action: #selector(toggleModifiableHeroCommandsHidden), isOn: false),
+                DemoItem(title: "List command isHidden", type: .boolean, action: #selector(toggleModifiableListCommandsHidden), isOn: false),
                 DemoItem(title: "Toggle boolean cells", type: .action, action: #selector(toggleBooleanCells)),
-                DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeHeroCommandTitle)),
-                DemoItem(title: "Change hero command images", type: .action, action: #selector(changeHeroCommandIcon)),
-                DemoItem(title: "Change list command titles", type: .action, action: #selector(changeListCommandTitle)),
-                DemoItem(title: "Change list command images", type: .action, action: #selector(changeListCommandIcon))
+                DemoItem(title: "Change hero command titles", type: .action, action: #selector(changeModifiableHeroCommandsTitle)),
+                DemoItem(title: "Change hero command images", type: .action, action: #selector(changeModifiableHeroCommandsIcon)),
+                DemoItem(title: "Change list command titles", type: .action, action: #selector(changeModifiableListCommandsTitle)),
+                DemoItem(title: "Change list command images", type: .action, action: #selector(changeModifiableListCommandsIcon))
             ]
         ]
     }
@@ -155,37 +155,31 @@ class BottomCommandingDemoController: DemoController {
 
     private let modifiedCommandIndices: [Int] = [0, 3]
 
-    @objc private func toggleHeroCommandOnOff(_ sender: BooleanCell) {
-        for (index, heroItem) in heroItems.enumerated() {
-            if (index + 1) % 3 == 1 {
-                heroItem.isOn = sender.isOn
-            }
+    @objc private func toggleModifiableHeroCommandsOnOff(_ sender: BooleanCell) {
+        modifiedCommandIndices.forEach {
+            heroItems[$0].isOn = sender.isOn
         }
     }
 
-    @objc private func toggleHeroCommandEnabled(_ sender: BooleanCell) {
-        for (index, heroItem) in heroItems.enumerated() {
-            if index % 2 == 1 {
-                heroItem.isEnabled = sender.isOn
-            }
+    @objc private func toggleModifiableHeroCommandsEnabled(_ sender: BooleanCell) {
+        modifiedCommandIndices.forEach {
+            heroItems[$0].isEnabled = sender.isOn
         }
     }
 
-    @objc private func toggleListCommandEnabled(_ sender: BooleanCell) {
+    @objc private func toggleModifiableListCommandsEnabled(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].isEnabled = sender.isOn
         }
     }
 
-    @objc private func toggleHeroCommandHidden(_ sender: BooleanCell) {
-        for (index, heroItem) in heroItems.enumerated() {
-            if index % 2 == 1 {
-                heroItem.isHidden = sender.isOn
-            }
+    @objc private func toggleModifiableHeroCommandsHidden(_ sender: BooleanCell) {
+        modifiedCommandIndices.forEach {
+            heroItems[$0].isHidden = sender.isOn
         }
     }
 
-    @objc private func toggleListCommandHidden(_ sender: BooleanCell) {
+    @objc private func toggleModifiableListCommandsHidden(_ sender: BooleanCell) {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].isHidden = sender.isOn
         }
@@ -201,19 +195,19 @@ class BottomCommandingDemoController: DemoController {
         heroCommandPopoverEnabled = sender.isOn
     }
 
-    @objc private func changeHeroCommandTitle() {
+    @objc private func changeModifiableHeroCommandsTitle() {
         modifiedCommandIndices.forEach {
             heroItems[$0].title = "Item " + String(Int.random(in: 6..<100))
         }
     }
 
-    @objc private func changeListCommandTitle() {
+    @objc private func changeModifiableListCommandsTitle() {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].title = "Item " + String(Int.random(in: 6..<100))
         }
     }
 
-    @objc private func changeHeroCommandIcon() {
+    @objc private func changeModifiableHeroCommandsIcon() {
         modifiedCommandIndices.forEach {
             heroItems[$0].image = heroIconChanged ? homeImage : boldImage
             heroItems[$0].selectedImage = heroIconChanged ? homeSelectedImage : boldImage
@@ -221,7 +215,7 @@ class BottomCommandingDemoController: DemoController {
         heroIconChanged.toggle()
     }
 
-    @objc private func changeListCommandIcon() {
+    @objc private func changeModifiableListCommandsIcon() {
         modifiedCommandIndices.forEach {
             currentExpandedListSections[0].items[$0].image = listIconChanged ? homeImage : boldImage
             currentExpandedListSections[0].items[$0].selectedImage = listIconChanged ? homeSelectedImage : boldImage
