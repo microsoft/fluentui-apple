@@ -86,7 +86,7 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var accessoryView: some View {
-            if let accessoryType = accessoryType,
+            if accessoryType != .none,
                let icon = accessoryType.icon,
                let iconColor = accessoryType.iconColor(tokenSet: tokenSet, fluentTheme: fluentTheme) {
                 let image = Image(uiImage: icon)
@@ -121,21 +121,24 @@ public struct ListItem<LeadingContent: View,
         @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
-                if let leadingContent {
-                    leadingContent()
-                        .frame(width: tokenSet[.customViewDimensions].float,
-                               height: tokenSet[.customViewDimensions].float)
-                        .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
-                        .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
+                HStack {
+                    if let leadingContent {
+                        leadingContent()
+                            .frame(width: tokenSet[.customViewDimensions].float,
+                                   height: tokenSet[.customViewDimensions].float)
+                            .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
+                            .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
+                    }
+                    labelStack
+                        .padding(.trailing, ListItemTokenSet.horizontalSpacing)
+                    Spacer()
+                    if let trailingContent {
+                        trailingContent()
+                            .tint(Color(fluentTheme.color(.brandForeground1)))
+                            .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
+                    }
                 }
-                labelStack
-                    .padding(.trailing, ListItemTokenSet.horizontalSpacing)
-                Spacer()
-                if let trailingContent {
-                    trailingContent()
-                        .tint(Color(fluentTheme.color(.brandForeground1)))
-                        .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
-                }
+                .accessibilityElement(children: .combine)
                 accessoryView
                     .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
@@ -146,6 +149,10 @@ public struct ListItem<LeadingContent: View,
             .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
             .listRowInsets(EdgeInsets())
+            .modifyIf(accessoryType != .detailButton) { content in
+                content
+                    .accessibilityElement(children: .combine)
+            }
         }
 
         return contentView
@@ -194,7 +201,7 @@ public struct ListItem<LeadingContent: View,
     // MARK: Internal variables
 
     /// The `ListItemAccessoryType` that the view should display.
-    var accessoryType: ListItemAccessoryType?
+    var accessoryType: ListItemAccessoryType = .none
 
     /// The background styling of the `ListItem` to match the type of `List` it is displayed in.
     var backgroundStyleType: ListItemBackgroundStyleType = .plain
