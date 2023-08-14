@@ -101,6 +101,8 @@ public struct ListItem<LeadingContent: View,
                         image
                     }
                     .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
+                    .accessibility(label: Text("Accessibility.TableViewCell.MoreActions.Label".localized))
+                    .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
                 } else {
                     image
                 }
