@@ -111,6 +111,7 @@ public struct ListItem<LeadingContent: View,
                     .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
                 } else {
                     image
+                        .accessibilityHidden(true)
                 }
             }
         }
@@ -125,22 +126,34 @@ public struct ListItem<LeadingContent: View,
         }
 
         @ViewBuilder
+        var leadingContentView: some View {
+            if let leadingContent {
+                leadingContent()
+                    .frame(width: tokenSet[.customViewDimensions].float,
+                           height: tokenSet[.customViewDimensions].float)
+                    .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
+            }
+        }
+
+        @ViewBuilder
+        var trailingContentView: some View {
+            if let trailingContent {
+                trailingContent()
+                    .tint(Color(fluentTheme.color(.brandForeground1)))
+                    .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
+            }
+        }
+
+        @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
                 HStack {
-                    if let leadingContent {
-                        leadingContent()
-                            .frame(width: tokenSet[.customViewDimensions].float,
-                                   height: tokenSet[.customViewDimensions].float)
-                            .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
-                            .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
-                    }
+                    leadingContentView
                     labelStack
                     Spacer()
-                    if let trailingContent {
-                        trailingContent()
-                            .tint(Color(fluentTheme.color(.brandForeground1)))
-                            .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
+                    if combineTrailingContentAccessibilityElement {
+                        trailingContentView
                     }
                 }
                 .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
@@ -148,18 +161,16 @@ public struct ListItem<LeadingContent: View,
                                     bottom: ListItemTokenSet.paddingVertical,
                                     trailing: accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0))
                 // A non clear background must be applied for VoiceOver focus ring to be around the padded view
-
                 .background(backgroundView)
                 .accessibilityElement(children: .combine)
+                if !combineTrailingContentAccessibilityElement {
+                    trailingContentView
+                }
                 accessoryView
             }
             .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
             .listRowInsets(EdgeInsets())
-            .modifyIf(accessoryType != .detailButton) { content in
-                content
-                    .accessibilityElement(children: .combine)
-            }
         }
 
         return contentView
@@ -236,6 +247,9 @@ public struct ListItem<LeadingContent: View,
 
     /// Tokens associated with the `ListItem`.
     var tokenSet: ListItemTokenSet
+
+    /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
+    var combineTrailingContentAccessibilityElement: Bool = true
 
     // MARK: Private variables
 
