@@ -147,7 +147,7 @@ public struct ListItem<LeadingContent: View,
                                 bottom: ListItemTokenSet.paddingVertical,
                                 trailing: ListItemTokenSet.paddingTrailing))
             .frame(minHeight: layoutType.minHeight)
-            .background(backgroundView)
+            .listRowBackground(backgroundView)
             .listRowInsets(EdgeInsets())
             .modifyIf(accessoryType != .detailButton) { content in
                 content
