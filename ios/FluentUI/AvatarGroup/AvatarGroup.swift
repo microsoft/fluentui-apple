@@ -247,7 +247,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         guard displayedAvatarCount > 1 else {
             return displayedAvatarAccessibilityLabels.last ?? ""
         }
-        
+
         var str: String = ""
         for i in 0..<displayedAvatarAccessibilityLabels.count - 1 {
             str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
