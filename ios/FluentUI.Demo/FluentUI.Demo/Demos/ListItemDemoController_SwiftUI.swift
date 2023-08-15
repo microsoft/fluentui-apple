@@ -182,51 +182,6 @@ struct ListItemDemoView: View {
                         .alert("Detail button tapped", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         }
-                        ListItem(title: title,
-                                 subtitle: showSubtitle ? subtitle : "",
-                                 footer: showFooter ? footer : "",
-                                 leadingContent: {
-                            if showLeadingContent {
-                                leadingContent
-                            }
-                        },
-                                 trailingContent: {
-                            if showTrailingContent {
-                                switch trailingContentFocusableElementCount {
-                                case 0:
-                                    Text("Spreadsheet")
-                                case 1:
-                                    Toggle("", isOn: $trailingContentToggleEnabled)
-                                default:
-                                    HStack {
-                                        Button {
-                                            showingAlert = true
-                                        } label: {
-                                            Text("Button 1")
-                                        }
-                                        Button {
-                                            showingAlert = true
-                                        } label: {
-                                            Text("Button 2")
-                                        }
-
-                                    }
-                                }
-                            }
-                        })
-                        .backgroundStyleType(backgroundStyle)
-                        .accessoryType(accessoryType)
-                        .leadingContentSize(leadingContentSize)
-                        .titleLineLimit(titleLineLimit)
-                        .subtitleLineLimit(subtitleLineLimit)
-                        .footerLineLimit(footerLineLimit)
-                        .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-                        .onAccessoryTapped {
-                            showingAlert = true
-                        }
-                        .alert("Detail button tapped", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
-                        }
                     } header: {
                         Text("ListItem")
                     }

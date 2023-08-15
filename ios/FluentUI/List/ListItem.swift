@@ -160,8 +160,6 @@ public struct ListItem<LeadingContent: View,
                                     leading: ListItemTokenSet.paddingLeading,
                                     bottom: ListItemTokenSet.paddingVertical,
                                     trailing: accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0))
-                // A non clear background must be applied for VoiceOver focus ring to be around the padded view
-                .background(backgroundView)
                 .accessibilityElement(children: .combine)
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
