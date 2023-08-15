@@ -112,7 +112,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         let enumeratedAvatars = Array(avatars.enumerated())
         let avatarCount: Int = avatars.count
         let maxDisplayedAvatars: Int = state.maxDisplayedAvatars
-        let avatarsToDisplay: Int = min(maxDisplayedAvatars, avatarCount)
+        let avatarsToDisplay = avatarsToDisplay
         let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + state.overflowCount
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = state.style == .stack
@@ -221,6 +221,10 @@ public struct AvatarGroup: View, TokenizedControlView {
         }
 
         return avatarGroupContent
+    }
+
+    var avatarsToDisplay: Int {
+        return min(state.maxDisplayedAvatars, state.avatars.count)
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
