@@ -92,6 +92,12 @@ public struct ListItem<LeadingContent: View,
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
                     .accessibilityIdentifier(AccessibilityIdentifiers.accessoryImage)
+                    .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
+                                        leading: ListItemTokenSet.horizontalSpacing,
+                                        bottom: ListItemTokenSet.paddingVertical,
+                                        trailing: ListItemTokenSet.paddingTrailing))
+                    // A non clear background must be applied for VoiceOver focus ring to be around the padded view
+                    .background(backgroundView)
                 if accessoryType == .detailButton {
                     SwiftUI.Button {
                         if let onAccessoryTapped = onAccessoryTapped {
@@ -130,7 +136,6 @@ public struct ListItem<LeadingContent: View,
                             .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
                     }
                     labelStack
-                        .padding(.trailing, ListItemTokenSet.horizontalSpacing)
                     Spacer()
                     if let trailingContent {
                         trailingContent()
@@ -138,16 +143,18 @@ public struct ListItem<LeadingContent: View,
                             .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
                     }
                 }
+                .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
+                                    leading: ListItemTokenSet.paddingLeading,
+                                    bottom: ListItemTokenSet.paddingVertical,
+                                    trailing: accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0))
+                // A non clear background must be applied for VoiceOver focus ring to be around the padded view
+
+                .background(backgroundView)
                 .accessibilityElement(children: .combine)
                 accessoryView
-                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
-            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
-                                leading: ListItemTokenSet.paddingLeading,
-                                bottom: ListItemTokenSet.paddingVertical,
-                                trailing: ListItemTokenSet.paddingTrailing))
             .frame(minHeight: layoutType.minHeight)
-            .listRowBackground(backgroundView)
+            .background(backgroundView)
             .listRowInsets(EdgeInsets())
             .modifyIf(accessoryType != .detailButton) { content in
                 content
