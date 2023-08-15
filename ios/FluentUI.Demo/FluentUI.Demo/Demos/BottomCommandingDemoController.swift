@@ -48,8 +48,8 @@ class BottomCommandingDemoController: DemoController {
         return Array(1...25).map {
             let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
-            item.isOn = modifiedCommandIndices.contains($0)
-            item.isEnabled = modifiedCommandIndices.contains($0)
+            item.isOn = ($0 % 3 == 1)
+            item.isEnabled = ($0 % 2 == 1)
             return item
         }
     }()
@@ -156,14 +156,18 @@ class BottomCommandingDemoController: DemoController {
     private let modifiedCommandIndices: [Int] = [0, 3]
 
     @objc private func toggleModifiableHeroCommandsOnOff(_ sender: BooleanCell) {
-        modifiedCommandIndices.forEach {
-            heroItems[$0].isOn = sender.isOn
+        for (index, heroItem) in heroItems.enumerated() {
+            if (index + 1) % 3 == 1 {
+                heroItem.isOn = sender.isOn
+            }
         }
     }
 
     @objc private func toggleModifiableHeroCommandsEnabled(_ sender: BooleanCell) {
-        modifiedCommandIndices.forEach {
-            heroItems[$0].isEnabled = sender.isOn
+        for (index, heroItem) in heroItems.enumerated() {
+            if index % 2 == 1 {
+                heroItem.isEnabled = sender.isOn
+            }
         }
     }
 
@@ -174,8 +178,10 @@ class BottomCommandingDemoController: DemoController {
     }
 
     @objc private func toggleModifiableHeroCommandsHidden(_ sender: BooleanCell) {
-        modifiedCommandIndices.forEach {
-            heroItems[$0].isHidden = sender.isOn
+        for (index, heroItem) in heroItems.enumerated() {
+            if index % 2 == 1 {
+                heroItem.isHidden = sender.isOn
+            }
         }
     }
 
