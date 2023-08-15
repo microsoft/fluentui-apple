@@ -228,6 +228,33 @@ public struct AvatarGroup: View, TokenizedControlView {
         return min(state.maxDisplayedAvatars, state.avatars.count)
     }
 
+    var displayedAvatarAccessibilityLabels: [String] {
+        var labels: [String] = []
+        for i in 0..<avatarsToDisplay {
+            let avatar = state.avatars[i]
+            labels.append(avatar.accessibilityLabel ?? avatar.primaryText ?? avatar.secondaryText ?? "")
+        }
+        let overflowCount = state.avatars.count - avatarsToDisplay + state.overflowCount
+        if overflowCount > 0 {
+            labels.append(String(format: "Accessibility.AvatarGroup.Overflow.Value".localized, overflowCount))
+        }
+        return labels
+    }
+
+    var groupLabel: String {
+        let displayedAvatarCount = displayedAvatarAccessibilityLabels.count
+        guard displayedAvatarCount > 1 else {
+            return displayedAvatarAccessibilityLabels.last ?? ""
+        }
+        
+        var str: String = ""
+        for i in 0..<displayedAvatarAccessibilityLabels.count - 1 {
+            str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
+        }
+        str += String(format: "Accessibility.AvatarGroup.AvatarListLast".localized, displayedAvatarAccessibilityLabels.last ?? "")
+        return str
+    }
+
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.layoutDirection) var layoutDirection: LayoutDirection
     @ObservedObject var state: MSFAvatarGroupStateImpl
