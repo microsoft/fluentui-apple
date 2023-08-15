@@ -218,6 +218,7 @@ public struct AvatarGroup: View, TokenizedControlView {
                    minHeight: groupHeight,
                    maxHeight: .infinity,
                    alignment: .leading)
+            .accessibilityElement(children: .combine)
         }
 
         return avatarGroupContent
