@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!--> Accessibility: Used in the AvatarGroup for how many Avatars are represented by the overflow, i.e. "3 others" </!-->
 	<key>Accessibility.AvatarGroup.Overflow.Value</key>
 	<dict>
 		<key>NSStringLocalizedFormatKey</key>
