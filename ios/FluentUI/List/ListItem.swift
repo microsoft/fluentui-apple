@@ -171,7 +171,6 @@ public struct ListItem<LeadingContent: View,
                         .accessibilitySortPriority(1)
                 }
                 accessoryView
-                    .accessibilityElement(children: .contain)
             }
             .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
