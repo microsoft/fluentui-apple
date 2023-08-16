@@ -38,6 +38,8 @@ struct ListItemDemoView: View {
     @State var titleLineLimit: Int = 1
     @State var subtitleLineLimit: Int = 1
     @State var footerLineLimit: Int = 1
+    @State var trailingContentFocusableElementCount: Int = 0
+    @State var trailingContentToggleEnabled: Bool = true
 
     public var body: some View {
 
@@ -107,6 +109,9 @@ struct ListItemDemoView: View {
             Stepper(value: $footerLineLimit, in: 0...5) {
                 Text("Footer Line Limit: \(footerLineLimit)")
             }
+            Stepper(value: $trailingContentFocusableElementCount, in: 0...2) {
+                Text("Trailing Content focusable element count: \(trailingContentFocusableElementCount)")
+            }
         }
 
         @ViewBuilder
@@ -129,11 +134,6 @@ struct ListItemDemoView: View {
         }
 
         @ViewBuilder
-        var trailingContent: some View {
-            Text("Spreadsheet")
-        }
-
-        @ViewBuilder
         var content: some View {
             VStack {
                 List {
@@ -148,7 +148,25 @@ struct ListItemDemoView: View {
                         },
                                  trailingContent: {
                             if showTrailingContent {
-                                trailingContent
+                                switch trailingContentFocusableElementCount {
+                                case 0:
+                                    Text("Spreadsheet")
+                                case 1:
+                                    Toggle("", isOn: $trailingContentToggleEnabled)
+                                default:
+                                    HStack {
+                                        Button {
+                                            showingAlert = true
+                                        } label: {
+                                            Text("Button 1")
+                                        }
+                                        Button {
+                                            showingAlert = true
+                                        } label: {
+                                            Text("Button 2")
+                                        }
+                                    }
+                                }
                             }
                         })
                         .backgroundStyleType(backgroundStyle)
@@ -157,6 +175,7 @@ struct ListItemDemoView: View {
                         .titleLineLimit(titleLineLimit)
                         .subtitleLineLimit(subtitleLineLimit)
                         .footerLineLimit(footerLineLimit)
+                        .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
                         .onAccessoryTapped {
                             showingAlert = true
                         }

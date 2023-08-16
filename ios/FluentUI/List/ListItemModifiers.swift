@@ -67,4 +67,14 @@ public extension ListItem {
         listItem.tokenSet = ListItemTokenSet(customViewSize: { size })
         return listItem
     }
+
+    /// If the `TrailingContent` should be handled as its own accessibility element or not. If the `TrailingContent` has multiple
+    /// focusable elements, then not combining it would allow for each element to receive focus with VoiceOver.
+    /// - Parameter value: Whether or not the trailing content should be combined or be a separate accessibility element.
+    /// - Returns: The modified `ListItem` with the property set.
+    func combineTrailingContentAccessibilityElement(_ value: Bool) -> ListItem {
+        var listItem = self
+        listItem.combineTrailingContentAccessibilityElement = value
+        return listItem
+    }
 }

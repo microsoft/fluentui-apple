@@ -86,12 +86,18 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var accessoryView: some View {
-            if let accessoryType = accessoryType,
+            if accessoryType != .none,
                let icon = accessoryType.icon,
                let iconColor = accessoryType.iconColor(tokenSet: tokenSet, fluentTheme: fluentTheme) {
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
                     .accessibilityIdentifier(AccessibilityIdentifiers.accessoryImage)
+                    .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
+                                        leading: ListItemTokenSet.horizontalSpacing,
+                                        bottom: ListItemTokenSet.paddingVertical,
+                                        trailing: ListItemTokenSet.paddingTrailing))
+                    // A non clear background must be applied for VoiceOver focus ring to be around the padded view
+                    .background(backgroundView)
                 if accessoryType == .detailButton {
                     SwiftUI.Button {
                         if let onAccessoryTapped = onAccessoryTapped {
@@ -101,8 +107,11 @@ public struct ListItem<LeadingContent: View,
                         image
                     }
                     .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
+                    .accessibility(label: Text("Accessibility.TableViewCell.MoreActions.Label".localized))
+                    .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
                 } else {
                     image
+                        .accessibilityHidden(true)
                 }
             }
         }
@@ -117,30 +126,52 @@ public struct ListItem<LeadingContent: View,
         }
 
         @ViewBuilder
+        var leadingContentView: some View {
+            if let leadingContent {
+                leadingContent()
+                    .frame(width: tokenSet[.customViewDimensions].float,
+                           height: tokenSet[.customViewDimensions].float)
+                    .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
+            }
+        }
+
+        @ViewBuilder
+        var trailingContentView: some View {
+            if let trailingContent {
+                trailingContent()
+                    .tint(Color(fluentTheme.color(.brandForeground1)))
+                    .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
+            }
+        }
+
+        @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
-                if let leadingContent {
-                    leadingContent()
-                        .frame(width: tokenSet[.customViewDimensions].float,
-                               height: tokenSet[.customViewDimensions].float)
-                        .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
-                        .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
+                HStack {
+                    leadingContentView
+                    labelStack
+                    Spacer()
+                    if combineTrailingContentAccessibilityElement {
+                        trailingContentView
+                    }
                 }
-                labelStack
-                    .padding(.trailing, ListItemTokenSet.horizontalSpacing)
-                Spacer()
-                if let trailingContent {
-                    trailingContent()
-                        .tint(Color(fluentTheme.color(.brandForeground1)))
-                        .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
+                .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
+                                    leading: ListItemTokenSet.paddingLeading,
+                                    bottom: ListItemTokenSet.paddingVertical,
+                                    trailing: accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0))
+                .accessibilityElement(children: .combine)
+                .accessibilitySortPriority(2)
+                if !combineTrailingContentAccessibilityElement {
+                    trailingContentView
+                        .modifyIf(accessoryType == .none, { content in
+                            content
+                                .padding(.trailing, ListItemTokenSet.paddingTrailing)
+                        })
+                        .accessibilitySortPriority(1)
                 }
                 accessoryView
-                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
-            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
-                                leading: ListItemTokenSet.paddingLeading,
-                                bottom: ListItemTokenSet.paddingVertical,
-                                trailing: ListItemTokenSet.paddingTrailing))
             .frame(minHeight: layoutType.minHeight)
             .background(backgroundView)
             .listRowInsets(EdgeInsets())
@@ -192,7 +223,7 @@ public struct ListItem<LeadingContent: View,
     // MARK: Internal variables
 
     /// The `ListItemAccessoryType` that the view should display.
-    var accessoryType: ListItemAccessoryType?
+    var accessoryType: ListItemAccessoryType = .none
 
     /// The background styling of the `ListItem` to match the type of `List` it is displayed in.
     var backgroundStyleType: ListItemBackgroundStyleType = .plain
@@ -220,6 +251,9 @@ public struct ListItem<LeadingContent: View,
 
     /// Tokens associated with the `ListItem`.
     var tokenSet: ListItemTokenSet
+
+    /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
+    var combineTrailingContentAccessibilityElement: Bool = true
 
     // MARK: Private variables
 
