@@ -676,15 +676,19 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     /// Filters the `expandedListSections` 2D array for items with that are not hidden
     private func updateVisibleExpandedListSections() {
         /// Filter for all `CommandingSection`  that have at least 1 visible `CommandingItem`
-        let updatedVisibleExpandedListSections = expandedListSections.filter {$0.items.filter {!$0.isHidden}.count > 0}
+        let updatedVisibleExpandedListSections = expandedListSections.filter { expandedListSection in
+            return expandedListSection.items.contains { item in
+                return !item.isHidden
+            }
+        }
 
         /// Filter all `CommandingItem` that are not hidden and add to a new `CommandingSection` to holds the filtered items
-        visibleExpandedListSections = updatedVisibleExpandedListSections.map({ (section: CommandingSection) -> CommandingSection in
-            return CommandingSection(title: section.title,
-                                     items: section.items.filter({ item in
-                !item.isHidden
-            }))
-        })
+        visibleExpandedListSections = updatedVisibleExpandedListSections.map { expandedListSection in
+            return CommandingSection(title: expandedListSection.title,
+                                     items: expandedListSection.items.filter { item in
+                return !item.isHidden
+            })
+        }
     }
 
     /// Array of `CommandingItems` in the tab bar view which are visible
