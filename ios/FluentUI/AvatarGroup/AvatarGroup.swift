@@ -249,7 +249,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         }
 
         var str: String = ""
-        for i in 0..<displayedAvatarAccessibilityLabels.count - 1 {
+        for i in 0..<displayedAvatarCount - 1 {
             str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
         }
         str += String(format: "Accessibility.AvatarGroup.AvatarListLast".localized, displayedAvatarAccessibilityLabels.last ?? "")
