@@ -112,7 +112,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         let enumeratedAvatars = Array(avatars.enumerated())
         let avatarCount: Int = avatars.count
         let maxDisplayedAvatars: Int = state.maxDisplayedAvatars
-        let avatarsToDisplay: Int = min(maxDisplayedAvatars, avatarCount)
+        let avatarsToDisplay = avatarsToDisplay
         let overflowCount: Int = (avatarCount > maxDisplayedAvatars ? avatarCount - maxDisplayedAvatars : 0) + state.overflowCount
         let hasOverflow: Bool = overflowCount > 0
         let isStackStyle = state.style == .stack
@@ -218,9 +218,42 @@ public struct AvatarGroup: View, TokenizedControlView {
                    minHeight: groupHeight,
                    maxHeight: .infinity,
                    alignment: .leading)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(groupLabel)
         }
 
         return avatarGroupContent
+    }
+
+    var avatarsToDisplay: Int {
+        return min(state.maxDisplayedAvatars, state.avatars.count)
+    }
+
+    var displayedAvatarAccessibilityLabels: [String] {
+        var labels: [String] = []
+        for i in 0..<avatarsToDisplay {
+            let avatar = state.avatars[i]
+            labels.append(avatar.accessibilityLabel ?? avatar.primaryText ?? avatar.secondaryText ?? "")
+        }
+        let overflowCount = state.avatars.count - avatarsToDisplay + state.overflowCount
+        if overflowCount > 0 {
+            labels.append(String(format: "Accessibility.AvatarGroup.Overflow.Value".localized, overflowCount))
+        }
+        return labels
+    }
+
+    var groupLabel: String {
+        let displayedAvatarCount = displayedAvatarAccessibilityLabels.count
+        guard displayedAvatarCount > 1 else {
+            return displayedAvatarAccessibilityLabels.last ?? ""
+        }
+
+        var str: String = ""
+        for i in 0..<displayedAvatarCount - 1 {
+            str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
+        }
+        str += String(format: "Accessibility.AvatarGroup.AvatarListLast".localized, displayedAvatarAccessibilityLabels.last ?? "")
+        return str
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
