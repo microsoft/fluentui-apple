@@ -685,9 +685,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         /// Filter all `CommandingItem` that are not hidden and add to a new `CommandingSection` to holds the filtered items
         visibleExpandedListSections = updatedVisibleExpandedListSections.map { expandedListSection in
             return CommandingSection(title: expandedListSection.title,
-                                     items: expandedListSection.items.filter { item in
-                return !item.isHidden
-            })
+                                     items: expandedListSection.items.filter { item in return !item.isHidden }
+            )
         }
     }
 
