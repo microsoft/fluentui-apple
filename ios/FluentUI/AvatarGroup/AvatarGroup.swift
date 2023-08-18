@@ -193,7 +193,7 @@ public struct AvatarGroup: View, TokenizedControlView {
                                        style: FillStyle(eoFill: true))
                     })
             }
-            .padding(.trailing, isStackStyle ? stackPadding : interspace)
+            .padding(.trailing, (isLastDisplayed && !hasOverflow) ? 0 : isStackStyle ? stackPadding : interspace)
         }
 
         @ViewBuilder
