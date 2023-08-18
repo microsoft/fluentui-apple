@@ -16,6 +16,9 @@ import SwiftUI
     /// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
     var overflowCount: Int { get set }
 
+    /// Show a top-trailing aligned unread dot when set to true.
+    var isUnread: Bool { get set }
+
     ///  Style of the AvatarGroup.
     var style: MSFAvatarGroupStyle { get set }
 
@@ -301,6 +304,7 @@ class MSFAvatarGroupStateImpl: ControlState, MSFAvatarGroupState {
     @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
+    @Published var isUnread: Bool = false
 
     @Published var style: MSFAvatarGroupStyle
     @Published var size: MSFAvatarSize
