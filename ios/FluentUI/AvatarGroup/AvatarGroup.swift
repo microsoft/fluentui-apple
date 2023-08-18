@@ -256,6 +256,11 @@ public struct AvatarGroup: View, TokenizedControlView {
             str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
         }
         str += String(format: "Accessibility.AvatarGroup.AvatarListLast".localized, displayedAvatarAccessibilityLabels.last ?? "")
+
+        if state.isUnread {
+            str = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, str)
+        }
+
         return str
     }
 
