@@ -588,6 +588,7 @@ class AvatarGroupDemoController: DemoTableViewController {
 
                 avatarGroup.state.maxDisplayedAvatars = maxDisplayedAvatars
                 avatarGroup.state.overflowCount = overflowCount
+                avatarGroup.state.isUnread = row.avatarSize == .size20
                 avatarGroupsForCurrentSection.updateValue(avatarGroup, forKey: row)
                 allDemoAvatarGroupsCombined.append(avatarGroup)
             }

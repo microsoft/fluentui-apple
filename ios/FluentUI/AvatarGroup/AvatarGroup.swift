@@ -16,6 +16,9 @@ import SwiftUI
     /// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
     var overflowCount: Int { get set }
 
+    /// Show a top-trailing aligned unread dot when set to true.
+    var isUnread: Bool { get set }
+
     ///  Style of the AvatarGroup.
     var style: MSFAvatarGroupStyle { get set }
 
@@ -190,13 +193,11 @@ public struct AvatarGroup: View, TokenizedControlView {
                                        style: FillStyle(eoFill: true))
                     })
             }
-            .padding(.trailing, isStackStyle ? stackPadding : interspace)
+            .padding(.trailing, (isLastDisplayed && !hasOverflow) ? 0 : isStackStyle ? stackPadding : interspace)
         }
 
         @ViewBuilder
-        var avatarGroupContent: some View {
-            let animation = Animation.linear(duration: animationDuration)
-
+        var avatarGroup: some View {
             HStack(spacing: 0) {
                 ForEach(enumeratedAvatars.prefix(avatarsToDisplay), id: \.1) { index, avatar in
                     avatarView(at: index, for: avatar)
@@ -210,19 +211,52 @@ public struct AvatarGroup: View, TokenizedControlView {
                     .transition(AnyTransition.opacity)
                 }
             }
-            .animation(animation, value: state.avatars)
-            .animation(animation, value: [state.maxDisplayedAvatars, state.overflowCount])
-            .animation(animation, value: state.style)
-            .animation(animation, value: state.size)
-            .frame(maxWidth: .infinity,
-                   minHeight: groupHeight,
-                   maxHeight: .infinity,
-                   alignment: .leading)
-            .accessibilityElement(children: .combine)
-            .accessibilityLabel(groupLabel)
         }
 
-        return avatarGroupContent
+        @ViewBuilder
+        var unreadGroup: some View {
+            if state.isUnread {
+                let strokeWidth = AvatarGroupTokenSet.unreadDotStrokeWidth
+                let dotSize = AvatarGroupTokenSet.unreadDotSize
+                avatarGroup
+                    .overlay(alignment: .topTrailing) {
+                        Circle()
+                            .foregroundColor(Color(tokenSet[.unreadDotColor].uiColor))
+                            .frame(width: dotSize, height: dotSize)
+                            // Add half the strokeWidth as padding to get the stroke drawn around the outside of the
+                            // dot instead of having the stroke centered on the edge of the dot, but it needs to be
+                            // inset slightly to not have a gap.
+                            .padding(strokeWidth / 2 - strokeInset)
+                            .overlay {
+                                Circle()
+                                    .stroke(Color(tokenSet[.backgroundColor].uiColor),
+                                            lineWidth: strokeWidth)
+                            }
+                            .offset(x: AvatarGroupTokenSet.unreadDotHorizontalOffset,
+                                    y: AvatarGroupTokenSet.unreadDotVerticalOffset)
+                    }
+            } else {
+                avatarGroup
+            }
+        }
+
+        @ViewBuilder
+        var animatedGroup: some View {
+            let animation = Animation.linear(duration: animationDuration)
+            unreadGroup
+                .animation(animation, value: state.avatars)
+                .animation(animation, value: [state.maxDisplayedAvatars, state.overflowCount])
+                .animation(animation, value: state.style)
+                .animation(animation, value: state.size)
+                .frame(maxWidth: .infinity,
+                       minHeight: groupHeight,
+                       maxHeight: .infinity,
+                       alignment: .leading)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(groupLabel)
+        }
+
+        return animatedGroup
     }
 
     var avatarsToDisplay: Int {
@@ -253,6 +287,11 @@ public struct AvatarGroup: View, TokenizedControlView {
             str += String(format: "Accessibility.AvatarGroup.AvatarList".localized, displayedAvatarAccessibilityLabels[i])
         }
         str += String(format: "Accessibility.AvatarGroup.AvatarListLast".localized, displayedAvatarAccessibilityLabels.last ?? "")
+
+        if state.isUnread {
+            str = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, str)
+        }
+
         return str
     }
 
@@ -261,6 +300,7 @@ public struct AvatarGroup: View, TokenizedControlView {
     @ObservedObject var state: MSFAvatarGroupStateImpl
 
     private let animationDuration: CGFloat = 0.1
+    private let strokeInset: CGFloat = 0.1
 
     private func createOverflow(count: Int) -> Avatar {
         let state = MSFAvatarStateImpl(style: .overflow, size: state.size)
@@ -301,6 +341,7 @@ class MSFAvatarGroupStateImpl: ControlState, MSFAvatarGroupState {
     @Published var avatars: [MSFAvatarGroupAvatarStateImpl] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
+    @Published var isUnread: Bool = false
 
     @Published var style: MSFAvatarGroupStyle
     @Published var size: MSFAvatarSize
