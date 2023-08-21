@@ -18,6 +18,11 @@
 /* Accessibility multi select hint for common use */
 "Accessibility.MultiSelect.Hint" = "Dotknij dwukrotnie, aby przełączyć zaznaczenie";
 
+/* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
+"Accessibility.AvatarGroup.AvatarList" = "%@, ";
+/* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
+"Accessibility.AvatarGroup.AvatarListLast" = "and %@";
+
 /* Accessibility label for the upper calendar date picker view. */
 "Accessibility.Calendar.Label" = "Kalendarz";
 
