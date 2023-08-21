@@ -14,15 +14,15 @@
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>one</key>
-        <string>%d other</string>
+        <string>%d inna osoba</string>
         <key>two</key>
-        <string>%d others</string>
+        <string>%d inne osoby</string>
         <key>few</key>
-        <string>%d others</string>
+        <string>%d inne osoby</string>
         <key>many</key>
-        <string>%d others</string>
+        <string>%d innych osób</string>
         <key>other</key>
-        <string>%d others</string>
+        <string>%d innych osób</string>
       </dict>
     </dict>
     <key>Accessibility.DateTime.Hour.Value</key>
