@@ -67,5 +67,7 @@ class ActivityIndicatorTestSwiftUI: ActivityIndicatorTest {
         app.buttons[".large"].tap()
         app.buttons[".xLarge"].tap()
         XCTAssert(app.images.containing(NSPredicate(format: "identifier MATCHES %@", "Activity Indicator.*size 4")).element.exists)
+
+		XCTAssertFalse(true)
     }
 }
