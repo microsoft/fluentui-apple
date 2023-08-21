@@ -91,10 +91,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             heroItems.forEach { removeBinding(for: $0) }
         }
         didSet {
-            if isViewLoaded {
-                reloadHeroCommandStack()
-                updateSheetHeaderSizingParameters()
-            }
+            updateVisibleHeroItems()
         }
     }
 
@@ -109,15 +106,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             expandedListSections.forEach { section in
                 section.items.forEach { $0.delegate = self }
             }
-            if isTableViewLoaded {
-                // Item views and bindings will be lazily created during UITableView cellForRowAt
-                tableView.reloadData()
-            }
-            if isViewLoaded {
-                reloadHeroCommandStack()
-                updateSheetHeaderSizingParameters()
-                updateSheetPreferredExpandedContentHeight()
-            }
+
+            updateVisibleExpandedListSections()
         }
     }
 
@@ -531,14 +521,14 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let featuredHeroItems: [CommandingItem]
         if prefersSheetMoreButtonVisible {
             featuredHeroCount = Constants.heroCommandsPerRow - 1
-            featuredHeroItems = (heroItems.prefix(featuredHeroCount) + [moreHeroItem])
+            featuredHeroItems = (visibleHeroItems.prefix(featuredHeroCount) + [moreHeroItem])
         } else {
             featuredHeroCount = Constants.heroCommandsPerRow
-            featuredHeroItems = Array(heroItems.prefix(featuredHeroCount))
+            featuredHeroItems = Array(visibleHeroItems.prefix(featuredHeroCount))
         }
         let heroViews = featuredHeroItems.map { createAndBindHeroCommandView(with: $0) }
         heroViews.forEach { heroCommandStack.addArrangedSubview($0) }
-        if featuredHeroCount < heroItems.count {
+        if featuredHeroCount < visibleHeroItems.count {
             reloadHeroCommandOverflowStack()
         } else {
             tableView.tableHeaderView = nil
@@ -548,7 +538,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     private func reloadHeroCommandOverflowStack() {
         let commandsPerRow = Constants.heroCommandsPerRow
         heroCommandOverflowStack.removeAllSubviews()
-        let heroOverflowViews = heroItems.suffix(from: commandsPerRow - (prefersSheetMoreButtonVisible ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
+        let heroOverflowViews = visibleHeroItems.suffix(from: commandsPerRow - (prefersSheetMoreButtonVisible ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
         for i in 0...(heroOverflowViews.count / commandsPerRow) {
             var rowViews = Array(heroOverflowViews.suffix(from: i * commandsPerRow).prefix(commandsPerRow))
             let heroCount = rowViews.count
@@ -671,6 +661,61 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     }()
 
     private var bottomBarBackgroundView: UIView?
+
+    // MARK: - CommandingItem and CommandingSection filtering
+
+    /// Filters the `heroItems` array for items with that are not hidden
+    private func updateVisibleHeroItems() {
+        let updatedVisibleHeroItems = heroItems.filter { item in
+            return !item.isHidden
+        }
+
+        visibleHeroItems = updatedVisibleHeroItems
+    }
+
+    /// Filters the `expandedListSections` 2D array for items with that are not hidden
+    private func updateVisibleExpandedListSections() {
+        /// Filter for all `CommandingSection`  that have at least 1 visible `CommandingItem`
+        let updatedVisibleExpandedListSections = expandedListSections.filter { expandedListSection in
+            return expandedListSection.items.contains { item in
+                return !item.isHidden
+            }
+        }
+
+        /// Filter all `CommandingItem` that are not hidden and add to a new `CommandingSection` to holds the filtered items
+        visibleExpandedListSections = updatedVisibleExpandedListSections.map { expandedListSection in
+            return CommandingSection(title: expandedListSection.title,
+                                     items: expandedListSection.items.filter { item in return !item.isHidden }
+            )
+        }
+    }
+
+    /// Array of `CommandingItems` in the tab bar view which are visible
+    /// This property should be set by calling `updateVisibleHeroItems()`
+    private var visibleHeroItems: [CommandingItem] = [] {
+        didSet {
+            if isViewLoaded {
+                reloadHeroCommandStack()
+                updateSheetHeaderSizingParameters()
+            }
+        }
+    }
+
+    /// Array of `CommandingItems` in the table view which are visible
+    /// This property should be set by calling `updateVisibleExpandedListSections()`
+    private var visibleExpandedListSections: [CommandingSection] = [] {
+        didSet {
+            if isTableViewLoaded {
+                // Item views and bindings will be lazily created during UITableView cellForRowAt
+                tableView.reloadData()
+            }
+            if isViewLoaded {
+                reloadHeroCommandStack()
+                updateSheetHeaderSizingParameters()
+                updateSheetPreferredExpandedContentHeight()
+            }
+        }
+    }
 
     // MARK: - Command tap handling
 
@@ -825,6 +870,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             }
         }
         cell.isEnabled = item.isEnabled
+        cell.isHidden = item.isHidden
         cell.backgroundStyleType = .clear
         cell.accessibilityIdentifier = item.accessibilityIdentifier
         cell.tokenSet.setOverrides(from: tokenSet,
@@ -833,8 +879,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
                                              .titleColor: .listLabelColor,
                                              .titleFont: .listLabelFont])
 
-        let shouldShowSeparator = expandedListSections
-            .prefix(expandedListSections.count - 1)
+        let shouldShowSeparator = visibleExpandedListSections
+            .prefix(visibleExpandedListSections.count - 1)
             .contains(where: { $0.items.last == item })
         cell.bottomSeparatorType = shouldShowSeparator ? .full : .none
         cell.titleNumberOfLines = 0
@@ -968,7 +1014,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
             totalHeight += fittingSize.height
         }
-        for section in expandedListSections {
+        for section in visibleExpandedListSections {
             totalHeight += TableViewHeaderFooterView.height(style: .header, title: section.title ?? "")
             for item in section.items {
                 totalHeight += TableViewCell.height(title: item.title ?? "")
@@ -997,7 +1043,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
     private var isInSheetMode: Bool { bottomSheetController != nil }
 
-    private var isExpandable: Bool { expandedListSections.count > 0 }
+    private var isExpandable: Bool { visibleExpandedListSections.count > 0 }
 
     private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
 
@@ -1070,16 +1116,16 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
 extension BottomCommandingController: UITableViewDataSource {
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return expandedListSections.count
+        return visibleExpandedListSections.count
     }
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        precondition(section < expandedListSections.count)
+        precondition(section < visibleExpandedListSections.count)
 
-        return expandedListSections[section].items.count
+        return visibleExpandedListSections[section].items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = expandedListSections[indexPath.section]
+        let section = visibleExpandedListSections[indexPath.section]
         let item = section.items[indexPath.row]
         var cell: TableViewCell?
 
@@ -1118,7 +1164,7 @@ extension BottomCommandingController: UITableViewDelegate {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: TableViewHeaderFooterView.identifier) as? TableViewHeaderFooterView else {
             return nil
         }
-        let section = expandedListSections[section]
+        let section = visibleExpandedListSections[section]
 
         var configuredHeader: UIView?
         if let sectionTitle = section.title {
@@ -1209,6 +1255,11 @@ extension BottomCommandingController: CommandingItemDelegate {
         default:
             break
         }
+    }
+
+    func commandingItem(_ item: CommandingItem, didChangeHiddenTo value: Bool) {
+        updateVisibleHeroItems()
+        updateVisibleExpandedListSections()
     }
 }
 
