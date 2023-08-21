@@ -103,6 +103,9 @@
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Account Profile";
 
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "Back";
+
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
 
