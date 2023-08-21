@@ -227,7 +227,7 @@ public struct AvatarGroup: View, TokenizedControlView {
                             // dot instead of having the stroke centered on the edge of the dot, but it needs to be
                             // inset slightly to not have a gap.
                             .padding(strokeWidth / 2 - strokeInset)
-                            .overlay() {
+                            .overlay {
                                 Circle()
                                     .stroke(Color(tokenSet[.backgroundColor].uiColor),
                                             lineWidth: strokeWidth)
