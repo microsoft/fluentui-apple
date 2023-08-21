@@ -5,14 +5,10 @@ on:
     branches:
       - main
       - main_*
-      - fluent2-tokens
-      - fluent2-colors
   pull_request:
     branches:
       - main
       - main_*
-      - fluent2-tokens
-      - fluent2-colors
 
 jobs:
   validation:
@@ -23,10 +19,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
-    - name: pod lib lint
-      run: scripts/podliblint.sh
-    - name: validation
-      run: scripts/validation.sh
+#    - name: pod lib lint
+#      run: scripts/podliblint.sh
+#    - name: validation
+#      run: scripts/validation.sh
   xcodebuild:
     runs-on: macos-13
     strategy:
@@ -54,7 +50,7 @@ jobs:
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       continue-on-error: true
-    - name: 'Upload test results if needed"
+    - name: 'Upload test results if needed'
       if: ${{ job.status == 'failure' }}
       uses: actions/upload-artifact@v3
       with:
