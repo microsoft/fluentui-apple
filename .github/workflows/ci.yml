@@ -45,6 +45,8 @@ jobs:
       id: build_and_test
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcpretty
       continue-on-error: true
+    - name: echo path
+      run: echo $GITHUB_WORKSPACE
     - name: Upload test results
       uses: actions/upload-artifact@v3
       with:

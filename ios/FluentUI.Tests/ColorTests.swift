@@ -9,6 +9,7 @@ import XCTest
 class ColorTests: XCTestCase {
 
     func testColorValue() {
+        XCTAssertFalse(true)
         let hexColorValue = ColorValue(0xC7E0F4)
         XCTAssertEqual(hexColorValue.a, 1.0)
         XCTAssertEqual(hexColorValue.r, CGFloat(0xC7) / 255.0)

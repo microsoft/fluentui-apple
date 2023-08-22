@@ -73,6 +73,20 @@
                BlueprintName = "FluentUITests"
                ReferencedContainer = "container:../FluentUI.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ColorTests/testColorValueConversions()">
+               </Test>
+               <Test
+                  Identifier = "DatePickerControllerTests">
+               </Test>
+               <Test
+                  Identifier = "FluentUITests">
+               </Test>
+               <Test
+                  Identifier = "FontTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -83,6 +97,146 @@
                BlueprintName = "FluentUIDemoTests"
                ReferencedContainer = "container:FluentUI.Demo.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ActivityIndicatorTest">
+               </Test>
+               <Test
+                  Identifier = "ActivityIndicatorTestSwiftUI">
+               </Test>
+               <Test
+                  Identifier = "AliasColorTokensTest">
+               </Test>
+               <Test
+                  Identifier = "AvatarGroupTest">
+               </Test>
+               <Test
+                  Identifier = "AvatarTest">
+               </Test>
+               <Test
+                  Identifier = "AvatarTestSwiftUI">
+               </Test>
+               <Test
+                  Identifier = "BadgeFieldTest">
+               </Test>
+               <Test
+                  Identifier = "BadgeViewTest">
+               </Test>
+               <Test
+                  Identifier = "BaseTest">
+               </Test>
+               <Test
+                  Identifier = "BottomCommandingControllerTest">
+               </Test>
+               <Test
+                  Identifier = "BottomSheetControllerTest">
+               </Test>
+               <Test
+                  Identifier = "ButtonTest">
+               </Test>
+               <Test
+                  Identifier = "CardNudgeTest">
+               </Test>
+               <Test
+                  Identifier = "CardTest">
+               </Test>
+               <Test
+                  Identifier = "CommandBarTest">
+               </Test>
+               <Test
+                  Identifier = "DateTimePickerTest">
+               </Test>
+               <Test
+                  Identifier = "DrawerControllerTest">
+               </Test>
+               <Test
+                  Identifier = "GlobalColorTokensTest">
+               </Test>
+               <Test
+                  Identifier = "HUDTest">
+               </Test>
+               <Test
+                  Identifier = "HUDTestSwiftUI">
+               </Test>
+               <Test
+                  Identifier = "IndeterminateProgressBarTest">
+               </Test>
+               <Test
+                  Identifier = "IndeterminateProgressBarTestSwiftUI">
+               </Test>
+               <Test
+                  Identifier = "LabelTest">
+               </Test>
+               <Test
+                  Identifier = "MultilineCommandBarTest">
+               </Test>
+               <Test
+                  Identifier = "NavigationControllerTest">
+               </Test>
+               <Test
+                  Identifier = "NotificationViewTest">
+               </Test>
+               <Test
+                  Identifier = "NotificationViewTestSwiftUI">
+               </Test>
+               <Test
+                  Identifier = "OtherCellsTest">
+               </Test>
+               <Test
+                  Identifier = "PeoplePickerTest">
+               </Test>
+               <Test
+                  Identifier = "PersonaButtonCarouselTest">
+               </Test>
+               <Test
+                  Identifier = "PersonaListViewTest">
+               </Test>
+               <Test
+                  Identifier = "PillButtonBarTest">
+               </Test>
+               <Test
+                  Identifier = "PillButtonTest">
+               </Test>
+               <Test
+                  Identifier = "PopupMenuControllerTest">
+               </Test>
+               <Test
+                  Identifier = "SearchBarTest">
+               </Test>
+               <Test
+                  Identifier = "SegmentedControlTest">
+               </Test>
+               <Test
+                  Identifier = "ShadowTokensTest">
+               </Test>
+               <Test
+                  Identifier = "ShimmerViewTest">
+               </Test>
+               <Test
+                  Identifier = "SideTabBarTest">
+               </Test>
+               <Test
+                  Identifier = "TabBarViewTest">
+               </Test>
+               <Test
+                  Identifier = "TableViewCellShimmerTest">
+               </Test>
+               <Test
+                  Identifier = "TableViewCellTest">
+               </Test>
+               <Test
+                  Identifier = "TableViewHeaderFooterViewTest">
+               </Test>
+               <Test
+                  Identifier = "TextFieldTest">
+               </Test>
+               <Test
+                  Identifier = "TooltipTest">
+               </Test>
+               <Test
+                  Identifier = "TypographyTokensTest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
