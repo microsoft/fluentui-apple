@@ -51,5 +51,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: xctest-results
-        path: *.xcresult
+        path: TestResults.xcresult
         retention-days: 3
