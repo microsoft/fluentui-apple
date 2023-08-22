@@ -519,7 +519,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         NSLayoutConstraint.deactivate(heroOverflowStackConstraints)
         let featuredHeroCount: Int
         let featuredHeroItems: [CommandingItem]
-        if prefersSheetMoreButtonVisible {
+        if shouldDisplayMoreButton {
             featuredHeroCount = Constants.heroCommandsPerRow - 1
             featuredHeroItems = (visibleHeroItems.prefix(featuredHeroCount) + [moreHeroItem])
         } else {
@@ -538,7 +538,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     private func reloadHeroCommandOverflowStack() {
         let commandsPerRow = Constants.heroCommandsPerRow
         heroCommandOverflowStack.removeAllSubviews()
-        let heroOverflowViews = visibleHeroItems.suffix(from: commandsPerRow - (prefersSheetMoreButtonVisible ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
+        let heroOverflowViews = visibleHeroItems.suffix(from: commandsPerRow - (shouldDisplayMoreButton ? 1 : 0)).map { createAndBindHeroCommandView(with: $0, isOverflow: true) }
         for i in 0...(heroOverflowViews.count / commandsPerRow) {
             var rowViews = Array(heroOverflowViews.suffix(from: i * commandsPerRow).prefix(commandsPerRow))
             let heroCount = rowViews.count
@@ -1045,12 +1045,19 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
     private var isExpandable: Bool { visibleExpandedListSections.count > 0 }
 
+    /// Returns `true` if a more button should be shown.
+    ///
+    /// Note: Checking this property is the preferred way to determine if a more button should displayed. Just calling
+    /// `prefersSheetMoreButtonVisible` does not suffice as it does not make all the same checks.
+    private var shouldDisplayMoreButton: Bool {
+        return isExpandable && (prefersSheetMoreButtonVisible || !isInSheetMode)
+    }
+
     private var bottomSheetHeroStackTopConstraint: NSLayoutConstraint?
 
     // Hero items that include the more button if it should be shown
     private var extendedHeroItems: [CommandingItem] {
-        let shouldShowMoreButton = isExpandable && (prefersSheetMoreButtonVisible || !isInSheetMode)
-        return heroItems + (shouldShowMoreButton ? [moreHeroItem] : [])
+        return heroItems + (shouldDisplayMoreButton ? [moreHeroItem] : [])
     }
 
     private var heroCommandWidthConstraints: [NSLayoutConstraint] {
