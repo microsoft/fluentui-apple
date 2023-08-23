@@ -743,7 +743,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
             popoverContentViewController.modalPresentationStyle = .popover
             popoverContentViewController.popoverPresentationController?.sourceView = moreButtonView
             popoverContentViewController.popoverPresentationController?.delegate = self
-            popoverContentViewController.preferredContentSize.height = estimatedTableViewHeight
 
             NSLayoutConstraint.activate([
                 tableView.leadingAnchor.constraint(equalTo: popoverContentViewController.view.leadingAnchor),
@@ -751,11 +750,15 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
                 tableView.topAnchor.constraint(equalTo: popoverContentViewController.view.topAnchor),
                 tableView.bottomAnchor.constraint(equalTo: popoverContentViewController.view.bottomAnchor)
             ])
+
             if let tableHeaderView = tableView.tableHeaderView {
                 let fittingSize = tableHeaderView.systemLayoutSizeFitting(CGSize(width: tableView.bounds.width, height: 0))
                 tableHeaderView.frame = CGRect(origin: .zero, size: fittingSize)
                 popoverContentViewController.view.setNeedsLayout()
             }
+
+            popoverContentViewController.preferredContentSize.height = estimatedTableViewHeight
+
             present(popoverContentViewController, animated: true) { [weak self] in
                 guard let strongSelf = self else {
                     return
