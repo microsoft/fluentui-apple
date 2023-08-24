@@ -40,6 +40,21 @@ public struct ListItem<LeadingContent: View,
         self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
     }
 
+    /// The background color of `List` based on the style.
+    /// - Parameter backgroundStyle: The background style of the `List`.
+    /// - Returns: The color to use for the background of `List`.
+    public static func listbackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+        let tokenSet = ListItemTokenSet(customViewSize: { .default })
+        switch backgroundStyle {
+        case .grouped:
+            return Color(uiColor: tokenSet[.backgroundGroupedColor].uiColor)
+        case .plain:
+            return Color(uiColor: tokenSet[.backgroundColor].uiColor)
+        case .clear, .custom:
+            return .clear
+        }
+    }
+
     public var body: some View {
         tokenSet.update(fluentTheme)
 
