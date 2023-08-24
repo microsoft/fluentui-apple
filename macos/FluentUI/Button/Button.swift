@@ -263,25 +263,6 @@ open class Button: NSButton {
 		}
 	}
 
-	open override func viewDidChangeEffectiveAppearance() {
-		super.viewDidChangeEffectiveAppearance()
-
-		// At this point in code, the Appearance of the View has been changed either to darkAqua or
-		// aqua and since this button has Shadow Layers, it relies on updateLayer() getting called
-		// immediately after this function so that all the layers get the correct backgroundColors.
-		// However, based on how layer-backed views operate, updateLayer() isn't called immediately
-		// and is instead backloaded, to be called asynchronously along with all other UI updates
-		// already queued up, at a time determined by the system APIs. Call displayIfNeeded here to
-		// immediately invoke an updateLayer() call. This is especially need in the case where the
-		// Button's container view performs a
-		// (1) setAppearance, (which then triggers a viewDidChangeEffectiveAppearance call)
-		// immediately followed by a
-		// (2) window.toggleFullScreen
-		// where we need the appearance change effects on the layers to to take place BEFORE the
-		// FullScreen toggle, to prevent an overlap in animation changes in Button background colors.
-		displayIfNeeded()
-	}
-
 	open override func updateLayer() {
 		guard let layer = layer else {
 			return
@@ -333,6 +314,25 @@ open class Button: NSButton {
 		// rather than just around the image or title.
 		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
 		path.fill()
+	}
+
+	open override func viewDidChangeEffectiveAppearance() {
+		super.viewDidChangeEffectiveAppearance()
+
+		// At this point in code, the Appearance of the View has been changed either to darkAqua or
+		// aqua and since this button has Shadow Layers, it relies on updateLayer() getting called
+		// immediately after this function so that all the layers get the correct backgroundColors.
+		// However, based on how layer-backed views operate, updateLayer() isn't called immediately
+		// and is instead backloaded, to be called asynchronously along with all other UI updates
+		// already queued up, at a time determined by the system APIs. Call displayIfNeeded here to
+		// immediately invoke an updateLayer() call. This addresses a specific case where the
+		// Button's container view performs a
+		// (1) setAppearance, (which then triggers a viewDidChangeEffectiveAppearance call)
+		// immediately followed by a
+		// (2) window.toggleFullScreen
+		// where we need the appearance change effects on the layers to to take place BEFORE the
+		// FullScreen toggle, to prevent an overlap in animation changes in Button background colors.
+		displayIfNeeded()
 	}
 
 	public override func viewDidMoveToWindow() {
