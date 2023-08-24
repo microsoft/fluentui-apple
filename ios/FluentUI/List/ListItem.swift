@@ -68,7 +68,7 @@ public struct ListItem<LeadingContent: View,
                         subtitleView
                             .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
                             .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
-                    } else if layoutType == .threeLines {
+                    } else {
                         subtitleView
                             .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
                             .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
@@ -148,12 +148,13 @@ public struct ListItem<LeadingContent: View,
         @ViewBuilder
         var contentView: some View {
             HStack(alignment: .center) {
-                HStack {
+                HStack(spacing: 0) {
                     leadingContentView
                     labelStack
-                    Spacer()
+                    Spacer(minLength: 0)
                     if combineTrailingContentAccessibilityElement {
                         trailingContentView
+                            .padding(.leading, ListItemTokenSet.horizontalSpacing)
                     }
                 }
                 .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
