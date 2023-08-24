@@ -43,7 +43,7 @@ public struct ListItem<LeadingContent: View,
     /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
     /// - Returns: The color to use for the background of `List`.
-    public static func listbackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+    public static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
         let tokenSet = ListItemTokenSet(customViewSize: { .default })
         switch backgroundStyle {
         case .grouped:
