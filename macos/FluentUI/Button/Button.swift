@@ -265,7 +265,7 @@ open class Button: NSButton {
 
 	open override func viewDidChangeEffectiveAppearance() {
 		super.viewDidChangeEffectiveAppearance()
-		
+
 		// At this point in code, the Appearance of the View has been changed either to darkAqua or
 		// aqua and since this button has Shadow Layers, it relies on updateLayer() getting called
 		// immediately after this function so that all the layers get the correct backgroundColors.
