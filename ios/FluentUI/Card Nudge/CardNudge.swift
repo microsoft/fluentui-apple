@@ -61,8 +61,7 @@ public struct CardNudge: View, TokenizedControlView {
                 RoundedRectangle(cornerRadius: tokenSet[.circleRadius].float)
                     .frame(width: CardNudgeTokenSet.circleSize, height: CardNudgeTokenSet.circleSize)
                     .foregroundColor(Color(tokenSet[.buttonBackgroundColor].uiColor))
-                Image(uiImage: icon)
-                    .renderingMode(.template)
+                Image(uiImage: icon.renderingMode == .automatic ? icon.withRenderingMode(.alwaysTemplate) : icon)
                     .frame(width: CardNudgeTokenSet.iconSize, height: CardNudgeTokenSet.iconSize, alignment: .center)
                     .foregroundColor(Color(tokenSet[.buttonForegroundColor].uiColor))
             }
