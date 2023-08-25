@@ -155,3 +155,63 @@ extension PeoplePickerDemoController: PeoplePickerDelegate {
         UIAccessibility.post(notification: .layoutChanged, argument: peoplePicker.badges.last)
     }
 }
+
+extension PeoplePickerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PeoplePickerTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverridePeoplePickerTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for peoplePicker in peoplePickers {
+            peoplePicker.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverridePeoplePickerTokens : nil)
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: PeoplePickerTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverridePeoplePickerTokens: [PeoplePickerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.peach, .tint40),
+                               dark: GlobalTokens.sharedColor(.peach, .shade30))
+            }
+        ]
+    }
+
+    private var perControlOverridePeoplePickerTokens: [PeoplePickerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint40),
+                               dark: GlobalTokens.sharedColor(.hotPink, .shade30))
+            },
+            .labelColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .placeholderColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .textFieldColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.navy, .tint40),
+                               dark: GlobalTokens.sharedColor(.navy, .shade30))
+            },
+            .labelFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .placeholderFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            },
+            .textFieldFont: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 18.0), size: 18.0)
+            }
+        ]
+    }
+}

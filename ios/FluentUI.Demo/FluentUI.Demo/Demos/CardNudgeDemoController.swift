@@ -79,7 +79,8 @@ class CardNudgeDemoController: DemoTableViewController {
              .accentIcon,
              .accentText,
              .dismissButton,
-             .actionButton:
+             .actionButton,
+             .messageAction:
             guard let cell: BooleanCell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 preconditionFailure("Wrong kind of cell in BooleanCell index path")
             }
@@ -130,6 +131,15 @@ class CardNudgeDemoController: DemoTableViewController {
                 cardNudge.state.actionButtonTitle = (isOn ? "Action" : nil)
                 cardNudge.state.actionButtonAction = (isOn ? { state in
                     let alert = UIAlertController(title: "\(state.title) action performed", message: nil, preferredStyle: .alert)
+                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alert.addAction(action)
+                    self.present(alert, animated: true)
+                } : nil)
+            }
+        case .messageAction:
+            cardNudges.forEach { cardNudge in
+                cardNudge.state.messageButtonAction = (isOn ? { state in
+                    let alert = UIAlertController(title: "\(state.title) message action performed", message: nil, preferredStyle: .alert)
                     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
                     alert.addAction(action)
                     self.present(alert, animated: true)
@@ -195,7 +205,8 @@ class CardNudgeDemoController: DemoTableViewController {
                         .accentIcon,
                         .accentText,
                         .dismissButton,
-                        .actionButton]
+                        .actionButton,
+                        .messageAction]
             }
         }
     }
@@ -209,6 +220,7 @@ class CardNudgeDemoController: DemoTableViewController {
         case accentText
         case dismissButton
         case actionButton
+        case messageAction
 
         var text: String {
             switch self {
@@ -227,6 +239,8 @@ class CardNudgeDemoController: DemoTableViewController {
                 return "Dismiss Button"
             case .actionButton:
                 return "Action Button"
+            case .messageAction:
+                return "Message Action"
             }
         }
     }

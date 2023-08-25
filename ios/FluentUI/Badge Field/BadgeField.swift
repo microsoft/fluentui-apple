@@ -168,6 +168,8 @@ open class BadgeField: UIView, TokenizedControlInternal {
         resetTextFieldContent()
         addSubview(textField)
 
+        updateAppearance()
+
         setupTextField(selectedBadgeTextField)
         selectedBadgeTextField.delegate = self
         selectedBadgeTextField.frame = .zero
@@ -195,7 +197,7 @@ open class BadgeField: UIView, TokenizedControlInternal {
         }
     }
 
-    private func updateAppearance() {
+    open func updateAppearance() {
         updateColors()
         updateFonts()
     }
