@@ -22,7 +22,7 @@ let package = Package(
         .target(
             name: "FluentUI",
             dependencies: [
-                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS])),
+                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS, .macCatalyst])),
                 .target(name: "FluentUI_macos", condition: .when(platforms: [.macOS]))
             ],
             path: "public"
