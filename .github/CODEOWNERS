@@ -13,6 +13,7 @@ info.plist    @microsoft/fluentui-native-admins
 *.yml         @microsoft/fluentui-native-admins
 *.xcconfig    @microsoft/fluentui-native-admins
 Package.swift @microsoft/fluentui-native-admins
+CODEOWNERS    @microsoft/fluentui-native-admins
 
 # any scripts added to repo require admin approval
 *.sh          @microsoft/fluentui-native-admins
