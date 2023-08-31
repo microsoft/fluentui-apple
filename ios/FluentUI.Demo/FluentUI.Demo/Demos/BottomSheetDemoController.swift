@@ -442,7 +442,6 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
 
 struct BottomSheetDemoListContentView: View {
     var body: some View {
-        if #available(iOS 16.0, *) {
             List {
                 Text("Cell with Swipe Action")
                     .swipeActions {
@@ -452,19 +451,6 @@ struct BottomSheetDemoListContentView: View {
                     }
                 Text("Cell without Swipe Action")
             }
-            .scrollContentBackground(.hidden)
-            .listStyle(.grouped)
-        } else {
-            List {
-                Text("Cell with Swipe Action")
-                    .swipeActions {
-                        Button(action: {}, label: {
-                            Text("Action")
-                        })
-                    }
-                Text("Cell without Swipe Action")
-            }
-            .listStyle(.grouped)
-        }
+            .listStyle(.plain)
     }
 }
