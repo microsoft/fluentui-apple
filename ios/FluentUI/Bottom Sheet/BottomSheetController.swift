@@ -1097,6 +1097,10 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
         return gestureRecognizer == panGestureRecognizer && otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
     }
 
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return !(otherGestureRecognizer is UITapGestureRecognizer) && (otherGestureRecognizer != hostedScrollView?.panGestureRecognizer)
+    }
+
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let scrollView = hostedScrollView,
               let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
