@@ -47,9 +47,13 @@ jobs:
       continue-on-error: true
     - name: echo path
       run: 'echo $GITHUB_WORKSPACE; ls $GITHUB_WORKSPACE'
-    - name: Upload test results
+    - name: Zip xcresult bundle
+      run: zip -r TestResults.zip TestResults.xcresult
+    - name: check if i did it right
+      run: 'ls $GITHUB_WORKSPACE'
+    - name: Upload TestResults.zip
       uses: actions/upload-artifact@v3
       with:
         name: xctest-results
-        path: TestResults.xcresult
-        retention-days: 3
+        path: TestResults.zip
+        retention-days: 5
