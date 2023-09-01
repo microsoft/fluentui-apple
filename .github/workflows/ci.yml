@@ -40,6 +40,6 @@ jobs:
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: Install xcbeautify
-      run: gem install xcbeautify
+      run: brew install xcbeautify
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
