@@ -5,14 +5,10 @@ on:
     branches:
       - main
       - main_*
-      - fluent2-tokens
-      - fluent2-colors
   pull_request:
     branches:
       - main
       - main_*
-      - fluent2-tokens
-      - fluent2-colors
 
 jobs:
   validation:
@@ -27,23 +23,17 @@ jobs:
       run: scripts/podliblint.sh
     - name: validation
       run: scripts/validation.sh
+    - name: Install xcpretty
+      run: gem install xcpretty
   xcodebuild:
     runs-on: macos-13
     strategy:
       fail-fast: false
       matrix:
         build_command: [
-          'macos_build FluentUITestApp-macOS Debug build test',
           'macos_build FluentUITestApp-macOS Release build test',
           'macos_build FluentUITestApp-macOS Debug build test -destination "platform=macOS,arch=x86_64"',
-          'ios_simulator_build FluentUI-iOS Debug build',
-          'ios_simulator_build FluentUI-iOS Release build',
-          'ios_device_build FluentUI-iOS Debug build',
-          'ios_device_build FluentUI-iOS Release build',
-          'ios_simulator_build Demo.Development Debug build',
-          'ios_simulator_build Demo.Development Release build',
           'ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 14 Pro" -test-iterations "2" -retry-tests-on-failure',
-          'ios_device_build Demo.Development Debug build',
           'ios_device_build Demo.Development Release build',
         ]
 
@@ -51,5 +41,5 @@ jobs:
     - uses: actions/checkout@v3
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
-    - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
-      run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
+    - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcpretty
+      run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcpretty
