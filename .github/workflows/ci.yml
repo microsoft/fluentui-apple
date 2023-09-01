@@ -23,8 +23,6 @@ jobs:
 #      run: scripts/podliblint.sh
 #    - name: validation
 #      run: scripts/validation.sh
-    - name: Install xcpretty
-      run: gem install xcpretty
   xcodebuild:
     runs-on: macos-13
     strategy:
@@ -43,17 +41,21 @@ jobs:
       run: scripts/xcode_select_current_version.sh
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       id: build_and_test
-      run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcpretty
+      run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }}
       continue-on-error: true
     - name: echo path
       run: 'echo $GITHUB_WORKSPACE; ls $GITHUB_WORKSPACE'
-    - name: Zip xcresult bundle
-      run: zip -r TestResults.zip TestResults.xcresult
-    - name: check if i did it right
-      run: 'ls $GITHUB_WORKSPACE'
-    - name: Upload TestResults.zip
+    - name: Zip if TestResults.xcresult bundle exists
+      run: |
+        if [ -d "TestResults.xcresult" ]; then
+          zip -r TestResults.zip TestResults.xcresult
+        else
+          echo "TestResults.xcresult not found."
+        fi
+    - name: Upload TestResults.zip if it exists
       uses: actions/upload-artifact@v3
       with:
         name: xctest-results
         path: TestResults.zip
-        retention-days: 5
+        retention-days: 3
+      if: -e TestResults.zip # Only run if the zip file exists
