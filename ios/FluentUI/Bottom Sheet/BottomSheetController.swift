@@ -1098,6 +1098,8 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        // Enables other gesture recognizers to occur inside the bottom sheet alongside the `panGestureRecognizer`.
+        // The `otherGestureRecognizer` will be required to fail if it is not a tap gesture and it is not the `hostedScrollView` pan gesture.
         return !(otherGestureRecognizer is UITapGestureRecognizer) && (otherGestureRecognizer != hostedScrollView?.panGestureRecognizer)
     }
 
