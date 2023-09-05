@@ -33,6 +33,8 @@ struct Demos {
         DemoDescriptor("HUD", HUDDemoController.self),
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self),
         DemoDescriptor("Label", LabelDemoController.self),
+        DemoDescriptor("ListActionItem", ListActionItemDemoController.self),
+        DemoDescriptor("ListItem", ListItemDemoController.self),
         DemoDescriptor("MultilineCommandBar", MultilineCommandBarDemoController.self),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self),

@@ -9,18 +9,26 @@ import SwiftUI
 /// Design token set for the `AvatarGroup` control
 public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
+        /// Defines the color around the unread dot.
+        case backgroundColor
+
         /// CGFloat that defines the space between  the `Avatar` controls hosted by the `AvatarGroup`.
         case interspace
+
+        /// Defines the color of the unread dot.
+        case unreadDotColor
     }
 
     init(style: @escaping () -> MSFAvatarGroupStyle,
          size: @escaping () -> MSFAvatarSize) {
         self.style = style
         self.size = size
-        super.init { [style, size] token, _ in
-            return .float {
-                switch token {
-                case .interspace:
+        super.init { [style, size] token, theme in
+            switch token {
+            case .backgroundColor:
+                return .uiColor { theme.color(.background1) }
+            case .interspace:
+                return .float {
                     switch style() {
                     case .stack:
                         switch size() {
@@ -43,6 +51,8 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
                         }
                     }
                 }
+            case .unreadDotColor:
+                return .uiColor { theme.color(.brandForeground1) }
             }
         }
     }
@@ -52,4 +62,18 @@ public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
 
     /// Defines the size of the `Avatar` controls in the `AvatarGroup`.
     var size: () -> MSFAvatarSize
+}
+
+extension AvatarGroupTokenSet {
+    /// Size of the background behind the unread dot.
+    static let unreadDotStrokeWidth: CGFloat = GlobalTokens.stroke(.width20)
+
+    /// Size of the unread dot.
+    static let unreadDotSize: CGFloat = 8.0
+
+    /// Vertical offset of the unread dot.
+    static let unreadDotVerticalOffset: CGFloat = -3.0
+
+    /// Horizontal offset of the unread dot.
+    static let unreadDotHorizontalOffset: CGFloat = 7.0
 }
