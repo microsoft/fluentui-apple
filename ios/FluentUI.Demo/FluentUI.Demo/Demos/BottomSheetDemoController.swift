@@ -4,6 +4,7 @@
 //
 
 import FluentUI
+import SwiftUI
 import UIKit
 
 class BottomSheetDemoController: DemoController {
@@ -91,7 +92,11 @@ class BottomSheetDemoController: DemoController {
     }
 
     @objc private func showTransientSheet() {
-        let sheetContentView = UIView()
+        let hostingVC = UIHostingController(rootView: BottomSheetDemoListContentView())
+
+        guard let sheetContentView = hostingVC.view else {
+            return
+        }
 
         // This is the bottom sheet that will temporarily be displayed after tapping the "Show transient sheet" button.
         // There can be multiple of these on screen at the same time. All the currently presented transient sheets
@@ -432,5 +437,20 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
                                                  dark: GlobalTokens.sharedColor(.forest, .shade30))
             }
         ]
+    }
+}
+
+struct BottomSheetDemoListContentView: View {
+    var body: some View {
+            List {
+                Text("Cell with Swipe Action")
+                    .swipeActions {
+                        Button(action: {}, label: {
+                            Text("Action")
+                        })
+                    }
+                Text("Cell without Swipe Action")
+            }
+            .listStyle(.plain)
     }
 }
