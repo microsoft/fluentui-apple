@@ -317,7 +317,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var titleViewConstraint: NSLayoutConstraint?
+    private var titleViewConstraints: [NSLayoutConstraint]?
 
     private(set) var usesLeadingTitle: Bool = true {
         didSet {
@@ -873,18 +873,24 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateFakeCenterTitleConstraints() {
-        titleViewConstraint?.isActive = false
+        if var titleViewConstraints = titleViewConstraints {
+            NSLayoutConstraint.deactivate(titleViewConstraints)
+            titleViewConstraints.removeAll()
+        }
 
-        let newTitleViewConstraint: NSLayoutConstraint
         if !usesLeadingTitle && systemWantsCompactNavigationBar {
             // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
-            newTitleViewConstraint = titleView.centerXAnchor.constraint(equalTo: centerXAnchor)
+            titleViewConstraints = [titleView.centerXAnchor.constraint(equalTo: centerXAnchor)]
         } else {
             // Otherwise, keep `self.titleView` leading-justified
-            newTitleViewConstraint = preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)
+            titleViewConstraints = [preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0),
+                                    titleView.topAnchor.constraint(equalTo: topAnchor),
+                                    titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
         }
-        titleViewConstraint = newTitleViewConstraint
-        newTitleViewConstraint.isActive = true
+
+        if let titleViewConstraints = titleViewConstraints {
+            NSLayoutConstraint.activate(titleViewConstraints)
+        }
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
