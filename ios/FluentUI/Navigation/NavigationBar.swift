@@ -878,17 +878,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             titleViewConstraints.removeAll()
         }
 
-        if !usesLeadingTitle && systemWantsCompactNavigationBar {
-            // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
-            titleViewConstraints = [titleView.centerXAnchor.constraint(equalTo: centerXAnchor)]
-        } else {
-            // Otherwise, keep `self.titleView` leading-justified
-            titleViewConstraints = [preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0),
-                                    titleView.topAnchor.constraint(equalTo: topAnchor),
-                                    titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+        if usesLeadingTitle {
+            titleViewConstraints = [preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)]
         }
 
-        if let titleViewConstraints = titleViewConstraints {
+        if var titleViewConstraints = titleViewConstraints {
+            titleViewConstraints.append(titleView.topAnchor.constraint(equalTo: topAnchor))
+            titleViewConstraints.append(titleView.bottomAnchor.constraint(equalTo: bottomAnchor))
             NSLayoutConstraint.activate(titleViewConstraints)
         }
     }
