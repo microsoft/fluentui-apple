@@ -189,6 +189,7 @@ public struct ListItem<LeadingContent: View,
                 accessoryView
             }
             .frame(minHeight: layoutType.minHeight)
+            .opacity(isEnabled ? ListItemTokenSet.enabledAlpha : ListItemTokenSet.disabledAlpha)
             .background(backgroundView)
             .listRowInsets(EdgeInsets())
         }
@@ -274,6 +275,7 @@ public struct ListItem<LeadingContent: View,
     // MARK: Private variables
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
+    @Environment(\.isEnabled) private var isEnabled: Bool
 
     private var leadingContent: (() -> LeadingContent)?
     private var trailingContent: (() -> TrailingContent)?
