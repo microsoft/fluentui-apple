@@ -9,25 +9,24 @@
 
 /* Accessibility alert for common use */
 "Accessibility.Alert" = "Uyarı";
-/* Accessibility dismiss label for common use */
-"Accessibility.Dismiss.Label" = "Kapat";
-/* Accessibility dismiss hint for common use */
-"Accessibility.Dismiss.Hint" = "Kapatmak için iki kez dokunun";
-/* Accessibility done label for common use */
-"Accessibility.Done.Label" = "Bitti";
-/* Accessibility multi select hint for common use */
-"Accessibility.MultiSelect.Hint" = "Seçimi değiştirmek için iki kez dokunun ";
-
 /* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
 "Accessibility.AvatarGroup.AvatarList" = "%@, ";
 /* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
 "Accessibility.AvatarGroup.AvatarListLast" = "ve %@";
-
-/* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "Takvim";
-
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "Tarih seçin";
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Takvim";
+/* Accessibility dismiss hint for common use */
+"Accessibility.Dismiss.Hint" = "Kapatmak için iki kez dokunun";
+/* Accessibility dismiss label for common use */
+"Accessibility.Dismiss.Label" = "Kapat";
+/* Accessibility done label for common use */
+"Accessibility.Done.Label" = "Bitti";
+/* Accessibility multi select hint for common use */
+"Accessibility.MultiSelect.Hint" = "Seçimi değiştirmek için iki kez dokunun ";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
@@ -97,14 +96,14 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "Yükleniyor";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%1$d / %2$d";
-
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Hesap Profili";
 
-/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%1$d / %2$d";
+
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "Back";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "%1d / %2d";
