@@ -40,21 +40,6 @@ public struct ListItem<LeadingContent: View,
         self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
     }
 
-    /// The background color of `List` based on the style.
-    /// - Parameter backgroundStyle: The background style of the `List`.
-    /// - Returns: The color to use for the background of `List`.
-    public static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
-        let tokenSet = ListItemTokenSet(customViewSize: { .default })
-        switch backgroundStyle {
-        case .grouped:
-            return Color(uiColor: tokenSet[.backgroundGroupedColor].uiColor)
-        case .plain:
-            return Color(uiColor: tokenSet[.backgroundColor].uiColor)
-        case .clear, .custom:
-            return .clear
-        }
-    }
-
     public var body: some View {
         tokenSet.update(fluentTheme)
 
@@ -334,5 +319,24 @@ public extension ListItem where LeadingContent == EmptyView {
         self.trailingContent = trailingContent
         let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
         self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
+    }
+}
+
+/// Provide defaults for generic types so static methods can be called without needing to specify them.
+public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView, Title == String, Subtitle == String, Footer == String {
+
+    /// The background color of `List` based on the style.
+    /// - Parameter backgroundStyle: The background style of the `List`.
+    /// - Returns: The color to use for the background of `List`.
+    static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+        let tokenSet = ListItemTokenSet(customViewSize: { .default })
+        switch backgroundStyle {
+        case .grouped:
+            return Color(uiColor: tokenSet[.backgroundGroupedColor].uiColor)
+        case .plain:
+            return Color(uiColor: tokenSet[.backgroundColor].uiColor)
+        case .clear, .custom:
+            return .clear
+        }
     }
 }

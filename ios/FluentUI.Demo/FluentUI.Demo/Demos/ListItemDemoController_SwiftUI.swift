@@ -187,6 +187,7 @@ struct ListItemDemoView: View {
                     }
                     controls
                 }
+                .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
                 .listStyle(.insetGrouped)
             }
