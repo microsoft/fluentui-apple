@@ -32,6 +32,7 @@ struct ListItemDemoView: View {
     @State var showFooter: Bool = false
     @State var showLeadingContent: Bool = true
     @State var showTrailingContent: Bool = true
+    @State var isDisabled: Bool = false
     @State var accessoryType: ListItemAccessoryType = .none
     @State var leadingContentSize: ListItemLeadingContentSize = .default
     @State var backgroundStyle: ListItemBackgroundStyleType = .grouped
@@ -72,6 +73,7 @@ struct ListItemDemoView: View {
                 .accessibilityIdentifier("leadingContentSwitch")
             FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
                 .accessibilityIdentifier("trailingContentSwitch")
+            FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
         }
 
         @ViewBuilder
@@ -180,6 +182,7 @@ struct ListItemDemoView: View {
                             showingAlert = true
                         }
                         .background(ListItem.listBackgroundColor(for: .grouped))
+                        .disabled(isDisabled)
                         .alert("Detail button tapped", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         }
