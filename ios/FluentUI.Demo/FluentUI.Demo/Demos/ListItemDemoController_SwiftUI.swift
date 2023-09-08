@@ -179,6 +179,8 @@ struct ListItemDemoView: View {
                         .onAccessoryTapped {
                             showingAlert = true
                         }
+                        .background(ListItem.listBackgroundColor(for: .grouped))
+                        .disabled(isDisabled)
                         .alert("Detail button tapped", isPresented: $showingAlert) {
                             Button("OK", role: .cancel) { }
                         }
