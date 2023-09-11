@@ -878,13 +878,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             titleViewConstraints.removeAll()
         }
 
+        titleViewConstraints = [titleView.topAnchor.constraint(equalTo: topAnchor),
+                                titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+        
         if usesLeadingTitle {
-            titleViewConstraints = [preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)]
+            titleViewConstraints?.append(preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0))
         }
 
-        if var titleViewConstraints = titleViewConstraints {
-            titleViewConstraints.append(titleView.topAnchor.constraint(equalTo: topAnchor))
-            titleViewConstraints.append(titleView.bottomAnchor.constraint(equalTo: bottomAnchor))
+        if let titleViewConstraints = titleViewConstraints {
             NSLayoutConstraint.activate(titleViewConstraints)
         }
     }
