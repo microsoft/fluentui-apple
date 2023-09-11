@@ -103,7 +103,7 @@
 "Accessibility.MSPillButtonBar.Hint" = "全 %2$d ページ中 %1$d ページ目";
 
 /* Accessibility label for the navigation bar's back button */
-"Accessibility.NavigationBar.BackLabel" = "Back";
+"Accessibility.NavigationBar.BackLabel" = "戻る";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "全 %2d ページ中 %1d ページ目";
