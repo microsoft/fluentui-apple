@@ -873,21 +873,17 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateTitleViewConstraints() {
-        if var titleViewConstraints = titleViewConstraints {
-            NSLayoutConstraint.deactivate(titleViewConstraints)
-            titleViewConstraints.removeAll()
-        }
-
-        titleViewConstraints = [titleView.topAnchor.constraint(equalTo: topAnchor),
-                                titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
-        
-        if usesLeadingTitle {
-            titleViewConstraints?.append(preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0))
-        }
-
         if let titleViewConstraints = titleViewConstraints {
-            NSLayoutConstraint.activate(titleViewConstraints)
+            NSLayoutConstraint.deactivate(titleViewConstraints)
         }
+
+        let constraints = [titleView.topAnchor.constraint(equalTo: topAnchor),
+                           titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+
+        preTitleSpacerView.isHidden = usesLeadingTitle
+
+        NSLayoutConstraint.activate(constraints)
+        titleViewConstraints = constraints
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
