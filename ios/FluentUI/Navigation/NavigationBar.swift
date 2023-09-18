@@ -317,7 +317,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private var topAccessoryView: UIView?
     private var topAccessoryViewConstraints: [NSLayoutConstraint] = []
 
-    private var titleViewConstraints: [NSLayoutConstraint]?
+    private var titleViewConstraint: NSLayoutConstraint?
 
     private(set) var usesLeadingTitle: Bool = true {
         didSet {
@@ -518,12 +518,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
         let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
-        let systemHeight = systemWantsCompactNavigationBar ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: systemHeight - contentHeight,
+            bottom: contentHeight - TokenSetType.systemHeight,
             trailing: contentTrailingMargin
         )
     }
@@ -873,17 +872,18 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     private func updateTitleViewConstraints() {
-        if let titleViewConstraints = titleViewConstraints {
-            NSLayoutConstraint.deactivate(titleViewConstraints)
-        }
+        titleViewConstraint?.isActive = false
 
-        let constraints = [titleView.topAnchor.constraint(equalTo: topAnchor),
-                           titleView.bottomAnchor.constraint(equalTo: bottomAnchor)]
+        let bottomConstraint = titleView.bottomAnchor.constraint(equalTo: bottomAnchor)
+
+        // We lower the priority of this constraint to avoid breaking auto-layout's generated constraints
+        // when the navigation bar is hidden.
+        bottomConstraint.priority = .defaultHigh
 
         preTitleSpacerView.isHidden = usesLeadingTitle
 
-        NSLayoutConstraint.activate(constraints)
-        titleViewConstraints = constraints
+        bottomConstraint.isActive = true
+        titleViewConstraint = bottomConstraint
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
