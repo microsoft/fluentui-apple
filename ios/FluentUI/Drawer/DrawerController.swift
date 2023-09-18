@@ -190,6 +190,12 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             _contentView = newValue
             if let contentView = _contentView {
                 containerView.addArrangedSubview(contentView)
+                NSLayoutConstraint.activate([
+                    contentView.topAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.topAnchor),
+                    contentView.leadingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.leadingAnchor),
+                    contentView.bottomAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.bottomAnchor),
+                    contentView.trailingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.trailingAnchor)
+                ])
             }
         }
     }
