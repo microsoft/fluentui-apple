@@ -190,6 +190,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             _contentView = newValue
             if let contentView = _contentView {
                 containerView.addArrangedSubview(contentView)
+                containerView.isLayoutMarginsRelativeArrangement = true
             }
         }
     }
