@@ -190,15 +190,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
             _contentView = newValue
             if let contentView = _contentView {
                 containerView.addArrangedSubview(contentView)
-                // Need to set constraints to prevent view getting cut off from UIPopoverArrowDirection in iPad.
-                if !showsResizingHandle {
-                    NSLayoutConstraint.activate([
-                        contentView.topAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.topAnchor),
-                        contentView.leadingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.leadingAnchor),
-                        contentView.bottomAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.bottomAnchor),
-                        contentView.trailingAnchor.constraint(equalTo: containerView.safeAreaLayoutGuide.trailingAnchor)
-                    ])
-                }
+                containerView.isLayoutMarginsRelativeArrangement = true
             }
         }
     }
