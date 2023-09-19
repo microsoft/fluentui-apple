@@ -15,6 +15,10 @@ class PopupMenuDemoController: DemoController {
         case month
     }
 
+    private let navButtonTitleSwitch = BrandedSwitch()
+    private let navButtonSubtitleSwitch = BrandedSwitch()
+    private let switchTextWidth: CGFloat = 150
+
     private var calendarLayout: CalendarLayout = .agenda
     private var cityIndexPath: IndexPath? = IndexPath(item: 2, section: 1)
 
@@ -41,7 +45,11 @@ class PopupMenuDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: #selector(showNoDismissalItemsButtonTapped)))
         container.addArrangedSubview(UIView())
         container.addArrangedSubview(createButton(title: "Objective-C Demo", action: #selector(showObjCDemo)))
-        addTitle(text: "Show with...")
+        addTitle(text: "Navigation Button Settings")
+        addRow(text: "Show Title", items: [navButtonTitleSwitch], textWidth: switchTextWidth)
+        navButtonTitleSwitch.addTarget(self, action: #selector(handleOnSwitchChanged), for: .valueChanged)
+        addRow(text: "Show Subtitle", items: [navButtonSubtitleSwitch], textWidth: switchTextWidth)
+        navButtonSubtitleSwitch.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -61,8 +69,19 @@ class PopupMenuDemoController: DemoController {
         return accessoryView
     }
 
+    @objc private func handleOnSwitchChanged() {
+        navButtonSubtitleSwitch.isEnabled = navButtonTitleSwitch.isOn
+        if navButtonSubtitleSwitch.isOn && !navButtonSubtitleSwitch.isEnabled {
+            navButtonSubtitleSwitch.isOn = false
+        }
+    }
+
     @objc private func topBarButtonTapped(sender: UIBarButtonItem) {
         let controller = PopupMenuController(barButtonItem: sender, presentationDirection: .down)
+
+        if navButtonTitleSwitch.isOn {
+            controller.headerItem = PopupMenuItem(title: "Header Title", subtitle: navButtonSubtitleSwitch.isOn ? "Header Subtitle" : nil)
+        }
 
         controller.addItems([
             PopupMenuItem(image: UIImage(named: "mail-unread-24x24"), title: "Unread"),
