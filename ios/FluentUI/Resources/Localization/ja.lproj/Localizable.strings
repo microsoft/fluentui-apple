@@ -9,25 +9,24 @@
 
 /* Accessibility alert for common use */
 "Accessibility.Alert" = "アラート";
-/* Accessibility dismiss label for common use */
-"Accessibility.Dismiss.Label" = "閉じる";
-/* Accessibility dismiss hint for common use */
-"Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
-/* Accessibility done label for common use */
-"Accessibility.Done.Label" = "完了";
-/* Accessibility multi select hint for common use */
-"Accessibility.MultiSelect.Hint" = "ダブルタップして、選択を切り替えます ";
-
 /* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
 "Accessibility.AvatarGroup.AvatarList" = "%@、";
 /* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
 "Accessibility.AvatarGroup.AvatarListLast" = "および %@";
-
-/* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "予定表";
-
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@、 %@";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "日付の選択";
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "予定表";
+/* Accessibility dismiss hint for common use */
+"Accessibility.Dismiss.Hint" = "ダブルタップして閉じます";
+/* Accessibility dismiss label for common use */
+"Accessibility.Dismiss.Label" = "閉じる";
+/* Accessibility done label for common use */
+"Accessibility.Done.Label" = "完了";
+/* Accessibility multi select hint for common use */
+"Accessibility.MultiSelect.Hint" = "ダブルタップして、選択を切り替えます ";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
@@ -97,14 +96,14 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "読み込み中";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "全 %2$d ページ中 %1$d ページ目";
-
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "アカウント プロファイル";
 
-/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
-"Accessibility.AvatarView.LabelFormat" = "%@、 %@";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "全 %2$d ページ中 %1$d ページ目";
+
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "戻る";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "全 %2d ページ中 %1d ページ目";
