@@ -176,6 +176,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private let titleView = TableViewHeaderFooterTitleView()
+    private var customBackgroundColor: UIColor?
 
     private var accessoryView: UIView? {
         didSet {
@@ -295,6 +296,24 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         setup(style: style, title: title, accessoryButtonTitle: "")
         self.accessoryView = accessoryView
         self.leadingView = leadingView
+    }
+
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string.
+    ///   - backgroundColor: The background color of the `backgroundView`
+    @objc open func setup(style: Style, title: String, backgroundColor: UIColor) {
+        setup(style: style, title: title, accessoryButtonTitle: "")
+        customBackgroundColor = backgroundColor
+    }
+
+    /// - Parameters:
+    ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
+    ///   - backgroundColor: The background color of the `backgroundView`
+    @objc open func setup(style: Style, attributedTitle: NSAttributedString, backgroundColor: UIColor) {
+        setup(style: style, attributedTitle: attributedTitle)
+        customBackgroundColor = backgroundColor
     }
 
     /// - Parameters:
@@ -443,7 +462,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     private func updateTitleAndBackgroundColors() {
         titleView.textColor = tokenSet[.textColor].uiColor
 
-        if tableViewCellStyle == .grouped {
+        if let customBackgroundColor {
+            backgroundView?.backgroundColor = customBackgroundColor
+        } else if tableViewCellStyle == .grouped {
             backgroundView?.backgroundColor = tokenSet[.backgroundColorGrouped].uiColor
         } else if tableViewCellStyle == .plain {
             backgroundView?.backgroundColor = tokenSet[.backgroundColorPlain].uiColor
