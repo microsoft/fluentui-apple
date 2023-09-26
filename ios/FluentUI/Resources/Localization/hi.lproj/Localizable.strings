@@ -9,25 +9,24 @@
 
 /* Accessibility alert for common use */
 "Accessibility.Alert" = "चेतावनी";
-/* Accessibility dismiss label for common use */
-"Accessibility.Dismiss.Label" = "ख़ारिज करें";
-/* Accessibility dismiss hint for common use */
-"Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
-/* Accessibility done label for common use */
-"Accessibility.Done.Label" = "पूर्ण";
-/* Accessibility multi select hint for common use */
-"Accessibility.MultiSelect.Hint" = "चयन को टॉगल करने के लिए डबल टैप करें";
-
 /* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
 "Accessibility.AvatarGroup.AvatarList" = "%@, ";
 /* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
 "Accessibility.AvatarGroup.AvatarListLast" = "और %@";
-
-/* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "कैलेंडर";
-
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "किसी दिनांक का चयन करें";
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "कैलेंडर";
+/* Accessibility dismiss hint for common use */
+"Accessibility.Dismiss.Hint" = "ख़ारिज करने के लिए डबल-टैप करें";
+/* Accessibility dismiss label for common use */
+"Accessibility.Dismiss.Label" = "ख़ारिज करें";
+/* Accessibility done label for common use */
+"Accessibility.Done.Label" = "पूर्ण";
+/* Accessibility multi select hint for common use */
+"Accessibility.MultiSelect.Hint" = "चयन को टॉगल करने के लिए डबल टैप करें";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
@@ -97,14 +96,14 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "लोड हो रहा है";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%2$d में से %1$d";
-
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "खाता प्रोफ़ाइल";
 
-/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%2$d में से %1$d";
+
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "वापस जाएँ";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "%2d में से %1d";

@@ -9,25 +9,24 @@
 
 /* Accessibility alert for common use */
 "Accessibility.Alert" = "การแจ้งเตือน";
-/* Accessibility dismiss label for common use */
-"Accessibility.Dismiss.Label" = "ยกเลิก";
-/* Accessibility dismiss hint for common use */
-"Accessibility.Dismiss.Hint" = "แตะสองครั้งเพื่อยกเลิก";
-/* Accessibility done label for common use */
-"Accessibility.Done.Label" = "เสร็จสิ้น";
-/* Accessibility multi select hint for common use */
-"Accessibility.MultiSelect.Hint" = "แตะสองครั้งเพื่อสลับการเลือก ";
-
 /* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
 "Accessibility.AvatarGroup.AvatarList" = "%@, ";
 /* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
 "Accessibility.AvatarGroup.AvatarListLast" = "และ %@";
-
-/* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "ปฏิทิน";
-
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "เลือกวันที่";
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "ปฏิทิน";
+/* Accessibility dismiss hint for common use */
+"Accessibility.Dismiss.Hint" = "แตะสองครั้งเพื่อยกเลิก";
+/* Accessibility dismiss label for common use */
+"Accessibility.Dismiss.Label" = "ยกเลิก";
+/* Accessibility done label for common use */
+"Accessibility.Done.Label" = "เสร็จสิ้น";
+/* Accessibility multi select hint for common use */
+"Accessibility.MultiSelect.Hint" = "แตะสองครั้งเพื่อสลับการเลือก ";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
@@ -97,14 +96,14 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "กำลังโหลด";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%1$d จาก %2$d";
-
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "โปรไฟล์บัญชี";
 
-/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%1$d จาก %2$d";
+
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "ย้อนกลับ";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "%1d จาก %2d";
