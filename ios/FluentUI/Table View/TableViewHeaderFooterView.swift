@@ -39,20 +39,14 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
                                    containerWidth: CGFloat = .greatestFiniteMagnitude,
                                    accessoryView: UIView? = nil) -> CGFloat {
         let tokenSet: TableViewHeaderFooterViewTokenSet = .init(style: { style }, accessoryButtonStyle: { AccessoryButtonStyle.regular })
-        let verticalMargin: CGFloat
         let font = tokenSet[.textFont].uiFont
-        switch style {
-        case .header, .footer:
-            verticalMargin = TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin + TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
-        case .headerPrimary:
-            verticalMargin = TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin + TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
-        }
+        let verticalMargin = TableViewHeaderFooterViewTokenSet.titleDefaultTopMargin + TableViewHeaderFooterViewTokenSet.titleDefaultBottomMargin
 
         if let accessoryView = accessoryView {
             accessoryView.frame.size = accessoryView.systemLayoutSizeFitting(CGSize(width: containerWidth, height: .infinity))
         }
 
-        let titleWidth = containerWidth - (TableViewHeaderFooterViewTokenSet.horizontalMargin + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView) + TableViewHeaderFooterView.titleLeadingOffset())
+        let titleWidth = containerWidth - (TableViewHeaderFooterView.titleLeadingOffset() + TableViewHeaderFooterView.titleTrailingOffset(accessoryView: accessoryView))
         let titleHeight = title.preferredSize(for: font, width: titleWidth, numberOfLines: titleNumberOfLines).height
 
         return verticalMargin + titleHeight
@@ -413,7 +407,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
                 style: style,
                 title: titleView.text ?? "",
                 titleNumberOfLines: titleNumberOfLines,
-                containerWidth: size.width,
+                containerWidth: contentView.frame.width,
                 accessoryView: accessoryView
             )
         )

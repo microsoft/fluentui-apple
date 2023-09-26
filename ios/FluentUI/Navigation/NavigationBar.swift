@@ -349,6 +349,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
                                              target: nil,
                                              action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
         backButtonItem.accessibilityIdentifier = "Back"
+        backButtonItem.accessibilityLabel = "Accessibility.NavigationBar.BackLabel".localized
         return backButtonItem
     }()
 
@@ -517,12 +518,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     private func updateContentStackViewMargins(forExpandedContent contentIsExpanded: Bool) {
         let contentHeight = contentIsExpanded ? TokenSetType.expandedContentHeight : TokenSetType.normalContentHeight
-        let systemHeight = systemWantsCompactNavigationBar ? TokenSetType.compactSystemHeight : TokenSetType.systemHeight
 
         contentStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(
             top: 0,
             leading: contentLeadingMargin,
-            bottom: systemHeight - contentHeight,
+            bottom: contentHeight - TokenSetType.systemHeight,
             trailing: contentTrailingMargin
         )
     }
@@ -570,7 +570,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
             updateViewsForLargeTitlePresentation(for: topItem)
-            updateFakeCenterTitleConstraints()
+            updateTitleViewConstraints()
 
             // change bar button image size and title inset depending on device rotation
             if let navigationItem = topItem {
@@ -661,7 +661,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
         titleView.update(with: navigationItem)
 
-        updateFakeCenterTitleConstraints()
+        updateTitleViewConstraints()
 
         if navigationItem.backButtonTitle == nil {
             navigationItem.backButtonTitle = ""
@@ -871,19 +871,19 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         updateShadow(for: navigationItem)
     }
 
-    private func updateFakeCenterTitleConstraints() {
+    private func updateTitleViewConstraints() {
         titleViewConstraint?.isActive = false
 
-        let newTitleViewConstraint: NSLayoutConstraint
-        if !usesLeadingTitle && systemWantsCompactNavigationBar {
-            // If we're drawing our own system-style bar above the OS bar, align our title with the OS's
-            newTitleViewConstraint = titleView.centerXAnchor.constraint(equalTo: centerXAnchor)
-        } else {
-            // Otherwise, keep `self.titleView` leading-justified
-            newTitleViewConstraint = preTitleSpacerView.widthAnchor.constraint(equalToConstant: 0)
-        }
-        titleViewConstraint = newTitleViewConstraint
-        newTitleViewConstraint.isActive = true
+        let bottomConstraint = titleView.bottomAnchor.constraint(equalTo: bottomAnchor)
+
+        // We lower the priority of this constraint to avoid breaking auto-layout's generated constraints
+        // when the navigation bar is hidden.
+        bottomConstraint.priority = .defaultHigh
+
+        preTitleSpacerView.isHidden = usesLeadingTitle
+
+        bottomConstraint.isActive = true
+        titleViewConstraint = bottomConstraint
     }
 
     private func updateShadow(for navigationItem: UINavigationItem?) {
