@@ -92,7 +92,7 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
             updateAssistiveText()
         }
     }
-    
+
     @objc public override var canBecomeFirstResponder: Bool {
         textfield.canBecomeFirstResponder
     }
