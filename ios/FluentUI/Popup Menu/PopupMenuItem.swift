@@ -25,6 +25,8 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
 
     @objc public var isEnabled: Bool = true
     @objc public var isSelected: Bool = false
+
+    /// Number of lines for `title` string.
     @objc public var titleNumberOfLines: Int = 0
 
     /// `title` color
