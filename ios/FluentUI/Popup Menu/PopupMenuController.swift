@@ -93,6 +93,7 @@ open class PopupMenuController: DrawerController {
                 } else {
                     headerView.isHidden = false
                     headerView.setup(item: headerItem)
+                    headerView.titleNumberOfLines = headerItem.titleNumberOfLines
                 }
             }
         }
