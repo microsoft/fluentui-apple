@@ -73,7 +73,7 @@ public class CardNudgeTokenSet: ControlTokenSet<CardNudgeTokenSet.Tokens> {
                     return .uiColor {
                         theme.color(.background1)
                     }
-            }
+                }
 
             case .buttonBackgroundColor:
                 return .uiColor {
