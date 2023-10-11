@@ -203,7 +203,7 @@ extension PersonaListView: UITableViewDataSource {
             let persona = personaList[index]
             let isPersonaSelectable = onPersonaSelected != nil
             cell.setup(persona: persona, accessoryType: accessoryType)
-            cell.isUserInteractionEnabled = isPersonaSelectable ? true : false
+            cell.isUserInteractionEnabled = isPersonaSelectable
             cell.backgroundStyleType = .clear
             cell.accessibilityTraits = isPersonaSelectable ? .button : .none
             cell.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, personaList.count)
