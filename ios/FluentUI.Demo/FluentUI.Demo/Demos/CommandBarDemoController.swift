@@ -194,37 +194,37 @@ class CommandBarDemoController: DemoController {
 
         itemCustomizationContainer.addArrangedSubview(UIView()) //Spacer
 
-        let refreshButton = Button(style: .outline)
+        let refreshButton = Button(style: .outlineAccent)
         refreshButton.sizeCategory = .small
         refreshButton.setTitle("Refresh 'Default' Bar", for: .normal)
         refreshButton.addTarget(self, action: #selector(refreshDefaultBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshButton)
 
-        let removeTrailingItemButton = Button(style: .outline)
+        let removeTrailingItemButton = Button(style: .outlineAccent)
         removeTrailingItemButton.sizeCategory = .small
         removeTrailingItemButton.setTitle("Remove Trailing Button", for: .normal)
         removeTrailingItemButton.addTarget(self, action: #selector(removeDefaultTrailingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(removeTrailingItemButton)
 
-        let refreshTrailingItemButton = Button(style: .outline)
+        let refreshTrailingItemButton = Button(style: .outlineAccent)
         refreshTrailingItemButton.sizeCategory = .small
         refreshTrailingItemButton.setTitle("Refresh Trailing Button", for: .normal)
         refreshTrailingItemButton.addTarget(self, action: #selector(refreshDefaultTrailingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshTrailingItemButton)
 
-        let removeLeadingItemButton = Button(style: .outline)
+        let removeLeadingItemButton = Button(style: .outlineAccent)
         removeLeadingItemButton.sizeCategory = .small
         removeLeadingItemButton.setTitle("Remove Leading Button", for: .normal)
         removeLeadingItemButton.addTarget(self, action: #selector(removeDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(removeLeadingItemButton)
 
-        let refreshLeadingItemButton = Button(style: .outline)
+        let refreshLeadingItemButton = Button(style: .outlineAccent)
         refreshLeadingItemButton.sizeCategory = .small
         refreshLeadingItemButton.setTitle("Refresh Leading Button", for: .normal)
         refreshLeadingItemButton.addTarget(self, action: #selector(refreshDefaultLeadingBarItems), for: .touchUpInside)
         itemCustomizationContainer.addArrangedSubview(refreshLeadingItemButton)
 
-        let resetScrollPositionButton = Button(style: .outline)
+        let resetScrollPositionButton = Button(style: .outlineAccent)
         resetScrollPositionButton.sizeCategory = .small
         resetScrollPositionButton.setTitle("Reset Scroll Position", for: .normal)
         resetScrollPositionButton.addTarget(self, action: #selector(resetScrollPosition), for: .touchUpInside)
