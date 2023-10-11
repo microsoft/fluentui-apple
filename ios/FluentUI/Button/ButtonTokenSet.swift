@@ -19,7 +19,7 @@ public enum ButtonStyle: Int, CaseIterable {
                                                  dangerSubtle,
                                                  floatingAccent,
                                                  floatingSubtle]
-    
+
     /// A button with no border, neutral foreground, and brand background.
     case accent
 
