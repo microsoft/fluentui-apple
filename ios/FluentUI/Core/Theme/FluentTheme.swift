@@ -36,6 +36,16 @@ public class FluentTheme: NSObject, ObservableObject {
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
                 typographyOverrides: [TypographyToken: UIFont]? = nil,
                 gradientOverrides: [GradientToken: [UIColor]]? = nil) {
+
+        // Need to massage UIFonts into FontInfo objects
+        let mappedTypographyOverrides = typographyOverrides?.compactMapValues({ font in
+            return FontInfo(name: font.fontName, size: font.pointSize)
+        })
+
+        self.colorTokenSet = .init(FluentTheme.defaultColors(_:), colorOverrides)
+        self.shadowTokenSet = .init(FluentTheme.defaultShadows(_:), shadowOverrides)
+        self.typographyTokenSet = .init(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
+
         let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
             let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
             let newValue = value.dynamicColor!
@@ -59,10 +69,10 @@ public class FluentTheme: NSObject, ObservableObject {
         }) ?? [(AliasTokens.GradientTokens, [UIColor])]()
 
         // Pass overrides to AliasTokens
-        aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
-                            shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
-                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides),
-                            gradientOverrides: Dictionary(uniqueKeysWithValues: fixedGradientOverrides))
+        aliasTokensDeprecated = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
+                                      shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
+                                      typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides),
+                                      gradientOverrides: Dictionary(uniqueKeysWithValues: fixedGradientOverrides))
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
@@ -84,7 +94,8 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     /// The associated `AliasTokens` for this theme.
-    @objc public let aliasTokens: AliasTokens
+    @available(*, deprecated, message: "AliasTokens are deprecated. Please use the token lookup methods on FluentTheme directly.")
+    @objc public var aliasTokens: AliasTokens { return aliasTokensDeprecated }
 
     /// A shared, immutable, default `FluentTheme` instance.
     ///
@@ -95,9 +106,17 @@ public class FluentTheme: NSObject, ObservableObject {
     @objc(sharedTheme)
     public static let shared: FluentTheme = .init()
 
+    // Token storage
+    let colorTokenSet: TokenSet<ColorToken, UIColor>
+    let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
+    let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
+
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
     }
+
+    /// Backing storage for deprecated public `aliasTokens` property.
+    private let aliasTokensDeprecated: AliasTokens
 
     private var controlTokenSets: [String: Any] = [:]
 }
