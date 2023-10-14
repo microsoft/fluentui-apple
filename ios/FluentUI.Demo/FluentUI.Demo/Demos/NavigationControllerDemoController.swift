@@ -1032,7 +1032,8 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor,
+                       dark: GlobalTokens.neutralColor(.grey16))
     }
 }
 
