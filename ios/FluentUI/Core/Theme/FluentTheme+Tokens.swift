@@ -167,20 +167,35 @@ public extension FluentTheme {
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
-    /// - Returns: A `FontInfo` for the given token.
+    /// - Returns: A `UIFont` for the given token.
     @objc(typographyForToken:adjustsForContentSizeCategory:)
     func typography(_ token: TypographyToken, adjustsForContentSizeCategory: Bool = true) -> UIFont {
         return UIFont.fluent(typographyTokenSet[token],
                              shouldScale: adjustsForContentSizeCategory)
     }
 
+    /// Returns the font value for the given token.
+    ///
+    /// - Parameter token: The `TypographyTokens` value to be retrieved.
+    /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
+    /// - Parameter contentSizeCategory: An overridden `UIContentSizeCategory` to conform to.
+    /// - Returns: A `UIFont` for the given token.
+    @objc(typographyForToken:adjustsForContentSizeCategory:contentSizeCategory:)
+    func typography(_ token: TypographyToken,
+                    adjustsForContentSizeCategory: Bool = true,
+                    contentSizeCategory: UIContentSizeCategory) -> UIFont {
+        return UIFont.fluent(typographyTokenSet[token],
+                             shouldScale: adjustsForContentSizeCategory,
+                             contentSizeCategory: contentSizeCategory)
+    }
+
     /// Returns an array of colors for the given token.
     ///
     /// - Parameter token: The `GradientTokens` value to be retrieved.
-    /// - Returns: An array of `UIColor`s for the given token.
+    /// - Returns: An array of `UIColor` values for the given token.
     @objc(gradientColorsForToken:)
     func gradient(_ token: GradientToken) -> [UIColor] {
-        return aliasTokens.gradients[AliasTokens.GradientTokens(rawValue: token.rawValue)!]
+        return gradientTokenSet[token]
     }
 }
 
@@ -584,6 +599,19 @@ extension FluentTheme {
         case .caption2:
             return .init(size: GlobalTokens.fontSize(.size100),
                          weight: GlobalTokens.fontWeight(.regular))
+        }
+    }
+
+    /// Derives its default values from the theme's `colorTokenSet` values
+    static func defaultGradientColors(_ token: GradientToken, colorTokenSet: TokenSet<ColorToken, UIColor>) -> [UIColor] {
+        switch token {
+        case .flair:
+            return [colorTokenSet[.brandGradient1],
+                    colorTokenSet[.brandGradient2],
+                    colorTokenSet[.brandGradient3]]
+        case .tint:
+            return [colorTokenSet[.brandGradient2],
+                    colorTokenSet[.brandGradient3]]
         }
     }
 

@@ -186,52 +186,20 @@ public final class AliasTokens: NSObject {
     public func gradientColors(_ token: GradientTokens) -> [UIColor] {
         return gradients[token]
     }
-    /// `GradientTokens` need to be lazily initialized in order to fetch the correct alias color tokens from the instance's `self.colors`.
-    public lazy var gradients: TokenSet<GradientTokens, [UIColor]> = {
-        return .init(self.defaultGradientColors(_:), gradientOverrides)
-    }()
-
-    private let gradientOverrides: [GradientTokens: [UIColor]]?
+    public let gradients: TokenSet<GradientTokens, [UIColor]>
 
     // MARK: Initialization
 
-    init(colorOverrides: [ColorsTokens: DynamicColor]? = nil,
-         shadowOverrides: [ShadowTokens: ShadowInfo]? = nil,
-         typographyOverrides: [TypographyTokens: FontInfo]? = nil,
-         gradientOverrides: [GradientTokens: [UIColor]]? = nil) {
+    init(colorTokenSet: TokenSet<FluentTheme.ColorToken, UIColor>,
+         shadowTokenSet: TokenSet<FluentTheme.ShadowToken, ShadowInfo>,
+         typographyTokenSet: TokenSet<FluentTheme.TypographyToken, FontInfo>,
+         gradientTokenSet: TokenSet<FluentTheme.GradientToken, [UIColor]>) {
 
-        self.colors = .init({ token in
-            FluentTheme.defaultColors(FluentTheme.ColorToken(rawValue: token.rawValue)!).dynamicColor!
-        }, colorOverrides)
-
-        self.shadow = .init({ token in
-            FluentTheme.defaultShadows(FluentTheme.ShadowToken(rawValue: token.rawValue)!)
-        }, shadowOverrides)
-
-        self.typography = .init({ token in
-            FluentTheme.defaultTypography(FluentTheme.TypographyToken(rawValue: token.rawValue)!)
-        }, typographyOverrides)
-
-        self.gradientOverrides = gradientOverrides
+        self.colors = .init { colorTokenSet[FluentTheme.ColorToken(rawValue: $0.rawValue)!].dynamicColor! }
+        self.shadow = .init { shadowTokenSet[FluentTheme.ShadowToken(rawValue: $0.rawValue)!] }
+        self.typography = .init { typographyTokenSet[FluentTheme.TypographyToken(rawValue: $0.rawValue)!] }
+        self.gradients = .init { gradientTokenSet[FluentTheme.GradientToken(rawValue: $0.rawValue)!] }
 
         super.init()
     }
-}
-
-// MARK: - AliasTokens default values
-
-extension AliasTokens {
-
-    private func defaultGradientColors(_ token: GradientTokens) -> [UIColor] {
-        switch token {
-        case .flair:
-            return [UIColor(dynamicColor: colors[.brandGradient1]),
-                    UIColor(dynamicColor: colors[.brandGradient2]),
-                    UIColor(dynamicColor: colors[.brandGradient3])]
-        case .tint:
-            return [UIColor(dynamicColor: colors[.brandGradient2]),
-                    UIColor(dynamicColor: colors[.brandGradient3])]
-        }
-    }
-
 }
