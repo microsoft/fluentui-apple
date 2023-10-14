@@ -29,6 +29,7 @@ public final class AliasTokens: NSObject {
         case caption2
     }
 
+    @available(*, deprecated, message: "`AliasTokens` is now deprecated. Please use `typography` on `FluentTheme.")
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `typography` property directly.")
     @objc(typographyForToken:)
     public func typography(_ token: TypographyTokens) -> FontInfo {
@@ -50,6 +51,7 @@ public final class AliasTokens: NSObject {
         case shadow64
     }
 
+    @available(*, deprecated, message: "`AliasTokens` is now deprecated. Please use `shadow` on `FluentTheme.")
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `shadow` property directly.")
     @objc(shadowForToken:)
     public func shadow(_ token: ShadowTokens) -> ShadowInfo {
@@ -166,6 +168,7 @@ public final class AliasTokens: NSObject {
         case presenceOof
     }
 
+    @available(*, deprecated, message: "`AliasTokens` is now deprecated. Please use `color` on `FluentTheme.")
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `colors` property directly.")
     @objc(aliasColorForToken:)
     public func color(_ token: ColorsTokens) -> DynamicColor {
@@ -181,6 +184,7 @@ public final class AliasTokens: NSObject {
         case tint
     }
 
+    @available(*, deprecated, message: "`AliasTokens` is now deprecated. Please use `gradient` on `FluentTheme.")
     @available(swift, obsoleted: 1.0, message: "This method exists for Objective-C backwards compatibility and should not be invoked from Swift. Please use the `gradientColors` property directly.")
     @objc(aliasGradientColorsForToken:)
     public func gradientColors(_ token: GradientTokens) -> [UIColor] {

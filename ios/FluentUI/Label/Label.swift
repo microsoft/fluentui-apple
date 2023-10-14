@@ -23,6 +23,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
+    @available(*, renamed: "textStyle")
     @objc open var style: AliasTokens.TypographyTokens {
         get {
             return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
