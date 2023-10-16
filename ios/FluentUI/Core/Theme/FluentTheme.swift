@@ -54,12 +54,6 @@ public class FluentTheme: NSObject, ObservableObject {
         self.shadowTokenSet = shadowTokenSet
         self.typographyTokenSet = typographyTokenSet
         self.gradientTokenSet = gradientTokenSet
-
-        // Pass overrides to AliasTokens
-        aliasTokensDeprecated = .init(colorTokenSet: colorTokenSet,
-                                      shadowTokenSet: shadowTokenSet,
-                                      typographyTokenSet: typographyTokenSet,
-                                      gradientTokenSet: gradientTokenSet)
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
@@ -82,7 +76,12 @@ public class FluentTheme: NSObject, ObservableObject {
 
     /// The associated `AliasTokens` for this theme.
     @available(*, deprecated, message: "AliasTokens are deprecated. Please use the token lookup methods on FluentTheme directly.")
-    @objc public var aliasTokens: AliasTokens { return aliasTokensDeprecated }
+    @objc public lazy var aliasTokens: AliasTokens = {
+        AliasTokens(colorTokenSet: colorTokenSet,
+                    shadowTokenSet: shadowTokenSet,
+                    typographyTokenSet: typographyTokenSet,
+                    gradientTokenSet: gradientTokenSet)
+    }()
 
     /// A shared, immutable, default `FluentTheme` instance.
     ///
@@ -102,9 +101,6 @@ public class FluentTheme: NSObject, ObservableObject {
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
     }
-
-    /// Backing storage for deprecated public `aliasTokens` property.
-    private let aliasTokensDeprecated: AliasTokens
 
     private var controlTokenSets: [String: Any] = [:]
 }
