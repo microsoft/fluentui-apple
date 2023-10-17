@@ -171,7 +171,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
         MSFActivityIndicatorSize.allCases.forEach { size in
             let indicator = MSFActivityIndicator(size: size)
             indicator.state.isAnimating = true
-            indicator.state.color = UIColor(colorValue: GlobalTokens.brandColors(.comm80))
+            indicator.state.color = GlobalTokens.brandColor(.comm80)
             customColorIndicators.updateValue(indicator, forKey: size)
         }
 

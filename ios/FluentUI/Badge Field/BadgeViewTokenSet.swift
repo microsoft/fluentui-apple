@@ -209,7 +209,7 @@ public extension BadgeView {
         case small
         case medium
 
-        var labelTextStyle: AliasTokens.TypographyTokens {
+        var labelTextStyle: FluentTheme.TypographyToken {
             switch self {
             case .small:
                 return .caption1

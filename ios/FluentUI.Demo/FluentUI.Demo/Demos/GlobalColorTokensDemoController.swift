@@ -14,23 +14,23 @@ class GlobalColorTokensDemoController: DemoTableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return GlobalTokens.SharedColorSets.allCases.count
+        return GlobalTokens.SharedColorSet.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return GlobalTokens.SharedColorSets.allCases[section].text
+        return GlobalTokens.SharedColorSet.allCases[section].text
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return GlobalTokens.SharedColorsTokens.allCases.count
+        return GlobalTokens.SharedColorToken.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellID, for: indexPath)
-        let colorSet = GlobalTokens.SharedColorSets.allCases[indexPath.section]
-        let colorToken = GlobalTokens.SharedColorsTokens.allCases[indexPath.row]
+        let colorSet = GlobalTokens.SharedColorSet.allCases[indexPath.section]
+        let colorToken = GlobalTokens.SharedColorToken.allCases[indexPath.row]
 
-        cell.backgroundConfiguration?.backgroundColor = UIColor(colorValue: GlobalTokens.sharedColors(colorSet, colorToken))
+        cell.backgroundConfiguration?.backgroundColor = GlobalTokens.sharedColor(colorSet, colorToken)
         cell.selectionStyle = .none
 
         var contentConfiguration = cell.defaultContentConfiguration()
@@ -45,7 +45,7 @@ class GlobalColorTokensDemoController: DemoTableViewController {
         return cell
     }
 
-    private func textColor(for colorToken: GlobalTokens.SharedColorsTokens, in colorSet: GlobalTokens.SharedColorSets) -> UIColor {
+    private func textColor(for colorToken: GlobalTokens.SharedColorToken, in colorSet: GlobalTokens.SharedColorSet) -> UIColor {
         // Yellow is special: it's much lighter than the other colors, so it needs a different text color scale.
         if colorSet == .yellow {
             switch colorToken {
@@ -71,7 +71,7 @@ class GlobalColorTokensDemoController: DemoTableViewController {
 
 // MARK: - Private extensions
 
-private extension GlobalTokens.SharedColorSets {
+private extension GlobalTokens.SharedColorSet {
     var text: String {
         switch self {
         case .anchor:
@@ -176,7 +176,7 @@ private extension GlobalTokens.SharedColorSets {
     }
 }
 
-private extension GlobalTokens.SharedColorsTokens {
+private extension GlobalTokens.SharedColorToken {
     var text: String {
         switch self {
         case .shade50:

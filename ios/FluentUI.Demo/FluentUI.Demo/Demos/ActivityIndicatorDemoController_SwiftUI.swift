@@ -44,7 +44,7 @@ struct ActivityIndicatorDemoView: View {
                 ActivityIndicator(size: size)
                     .isAnimating(isAnimating)
                     .hidesWhenStopped(hidesWhenStopsAnimating)
-                    .color(usesCustomColor ? UIColor(colorValue: GlobalTokens.brandColors(.comm80)) : nil)
+                    .color(usesCustomColor ? GlobalTokens.brandColor(.comm80) : nil)
             }
             .frame(maxWidth: .infinity, minHeight: 100, alignment: .center)
 

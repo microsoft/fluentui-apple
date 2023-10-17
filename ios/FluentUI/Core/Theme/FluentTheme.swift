@@ -36,33 +36,24 @@ public class FluentTheme: NSObject, ObservableObject {
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
                 typographyOverrides: [TypographyToken: UIFont]? = nil,
                 gradientOverrides: [GradientToken: [UIColor]]? = nil) {
-        let fixedColorOverrides = colorOverrides?.map({ (key: ColorToken, value: UIColor) in
-            let newKey = AliasTokens.ColorsTokens(rawValue: key.rawValue)!
-            let newValue = value.dynamicColor!
-            return (newKey, newValue)
-        }) ?? [(AliasTokens.ColorsTokens, DynamicColor)]()
 
-        let fixedShadowOverrides = shadowOverrides?.map({ (key: ShadowToken, value: ShadowInfo) in
-            let newKey = AliasTokens.ShadowTokens(rawValue: key.rawValue)!
-            return (newKey, value)
-        }) ?? [(AliasTokens.ShadowTokens, ShadowInfo)]()
+        // Need to massage UIFonts into FontInfo objects
+        let mappedTypographyOverrides = typographyOverrides?.compactMapValues({ font in
+            return FontInfo(name: font.fontName, size: font.pointSize)
+        })
 
-        let fixedTypographyOverrides = typographyOverrides?.map({ (key: TypographyToken, value: UIFont) in
-            let newKey = AliasTokens.TypographyTokens(rawValue: key.rawValue)!
-            let newValue = FontInfo(name: value.fontName, size: value.pointSize)
-            return (newKey, newValue)
-        }) ?? [(AliasTokens.TypographyTokens, FontInfo)]()
+        let colorTokenSet = TokenSet<ColorToken, UIColor>(FluentTheme.defaultColors(_:), colorOverrides)
+        let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadows(_:), shadowOverrides)
+        let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
+        let gradientTokenSet = TokenSet<GradientToken, [UIColor]>({ [colorTokenSet] token in
+            // Reference the colorTokenSet as part of the gradient lookup
+            return FluentTheme.defaultGradientColors(token, colorTokenSet: colorTokenSet)
+        })
 
-        let fixedGradientOverrides = gradientOverrides?.map({ (key: GradientToken, value: [UIColor]) in
-            let newKey = AliasTokens.GradientTokens(rawValue: key.rawValue)!
-            return (newKey, value)
-        }) ?? [(AliasTokens.GradientTokens, [UIColor])]()
-
-        // Pass overrides to AliasTokens
-        aliasTokens = .init(colorOverrides: Dictionary(uniqueKeysWithValues: fixedColorOverrides),
-                            shadowOverrides: Dictionary(uniqueKeysWithValues: fixedShadowOverrides),
-                            typographyOverrides: Dictionary(uniqueKeysWithValues: fixedTypographyOverrides),
-                            gradientOverrides: Dictionary(uniqueKeysWithValues: fixedGradientOverrides))
+        self.colorTokenSet = colorTokenSet
+        self.shadowTokenSet = shadowTokenSet
+        self.typographyTokenSet = typographyTokenSet
+        self.gradientTokenSet = gradientTokenSet
     }
 
     /// Registers a custom set of `ControlTokenValue` instances for a given `ControlTokenSet`.
@@ -84,7 +75,13 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     /// The associated `AliasTokens` for this theme.
-    @objc public let aliasTokens: AliasTokens
+    @available(*, deprecated, message: "AliasTokens are deprecated. Please use the token lookup methods on FluentTheme directly.")
+    @objc public lazy var aliasTokens: AliasTokens = {
+        AliasTokens(colorTokenSet: colorTokenSet,
+                    shadowTokenSet: shadowTokenSet,
+                    typographyTokenSet: typographyTokenSet,
+                    gradientTokenSet: gradientTokenSet)
+    }()
 
     /// A shared, immutable, default `FluentTheme` instance.
     ///
@@ -94,6 +91,12 @@ public class FluentTheme: NSObject, ObservableObject {
     /// caller is certain that they are looking for the _default_ token values associated with Fluent.
     @objc(sharedTheme)
     public static let shared: FluentTheme = .init()
+
+    // Token storage
+    let colorTokenSet: TokenSet<ColorToken, UIColor>
+    let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
+    let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
+    let gradientTokenSet: TokenSet<GradientToken, [UIColor]>
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"

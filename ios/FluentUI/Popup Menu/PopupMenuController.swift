@@ -183,7 +183,7 @@ open class PopupMenuController: DrawerController {
         return view
     }()
     private let descriptionLabel: Label = {
-        let label = Label(style: .caption1)
+        let label = Label(textStyle: .caption1)
         label.textAlignment = .center
         label.lineBreakMode = .byTruncatingTail
         return label
