@@ -14,7 +14,7 @@ class LabelDemoController: DemoController {
         super.viewDidLoad()
         readmeString = "Labels are used to standardize text across your app."
 
-        addLabel(text: "Text Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
+        addTitle(text: "Text Styles")
 
         for style in FluentTheme.TypographyToken.allCases {
             let font = view.fluentTheme.typography(style)
@@ -25,12 +25,12 @@ class LabelDemoController: DemoController {
 
         container.addArrangedSubview(UIView())  // spacer
 
-        addLabel(text: "Text Color Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
+        addTitle(text: "Text Color Styles")
         for colorStyle in TextColorStyle.allCases {
             textColorLabels.append(addLabel(text: colorStyle.description, style: .body1, colorStyle: colorStyle))
         }
 
-        addLabel(text: "Text Color Custom Styles", style: .body1Strong, colorStyle: .regular).textAlignment = .center
+        addTitle(text: "Text Color Custom Styles")
 
         let dangerSuccessLabel = Label(textStyle: .body1Strong, colorForTheme: {
             theme in
