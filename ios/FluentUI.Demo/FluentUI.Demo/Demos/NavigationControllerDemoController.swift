@@ -311,7 +311,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
-        let meControl = Label(style: .title2, colorStyle: .regular)
+        let meControl = Label(textStyle: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
         meControl.textAlignment = .center
 

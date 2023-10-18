@@ -59,7 +59,7 @@ class DemoController: UIViewController {
     }
 
     func addTitle(text: String) {
-        let titleLabel = Label(style: .body1Strong)
+        let titleLabel = Label(textStyle: .body1Strong)
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
