@@ -154,51 +154,43 @@ extension UIColor {
     }
 
     @objc public var light: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .light)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .light)
     }
 
     @objc public var lightHighContrast: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .light,
-                                       accessibilityContrast: .high)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .light,
+                                  accessibilityContrast: .high)
     }
 
     @objc public var lightElevated: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .light,
-                                       userInterfaceLevel: .elevated)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .light,
+                                  userInterfaceLevel: .elevated)
     }
 
     @objc public var lightElevatedHighContrast: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .light,
-                                       accessibilityContrast: .high,
-                                       userInterfaceLevel: .elevated)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .light,
+                                  accessibilityContrast: .high,
+                                  userInterfaceLevel: .elevated)
     }
 
     @objc public var dark: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .dark)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .dark)
     }
 
     @objc public var darkHighContrast: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .dark,
-                                       accessibilityContrast: .high)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .dark,
+                                  accessibilityContrast: .high)
     }
 
     @objc public var darkElevated: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .dark,
-                                       userInterfaceLevel: .elevated)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .dark,
+                                  userInterfaceLevel: .elevated)
     }
 
     @objc public var darkElevatedHighContrast: UIColor {
-        let color = resolvedColorValue(userInterfaceStyle: .dark,
-                                       accessibilityContrast: .high,
-                                       userInterfaceLevel: .elevated)
-        return color
+        return resolvedColorValue(userInterfaceStyle: .dark,
+                                  accessibilityContrast: .high,
+                                  userInterfaceLevel: .elevated)
     }
 
     @available(*, deprecated, message: "Please use UIColor directly.")
