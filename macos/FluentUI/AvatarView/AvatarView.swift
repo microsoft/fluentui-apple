@@ -447,7 +447,7 @@ open class AvatarView: NSView {
 	static let maximumNumberOfInitials: Int = 2
 
 	/// the color used for the border
-	static let defaultBorderColor = NSColor(named: "AvatarView/borderColor", bundle: FluentUIResources.resourceBundle)!
+	static let defaultBorderColor: NSColor = NSColor(named: "AvatarView/borderColor", bundle: FluentUIResources.resourceBundle)!
 
 	static let borderWidth: CGFloat = 2.0
 
@@ -606,7 +606,7 @@ extension Character {
 
 fileprivate extension Unicode.Scalar {
 	/// Unicode representation of a  zero width space
-	static let zeroWidthSpace = Unicode.Scalar(0x200B)!
+	static let zeroWidthSpace: Unicode.Scalar = Unicode.Scalar(0x200B)!
 }
 
 extension AvatarView {

@@ -280,9 +280,9 @@ class BottomCommandingDemoController: UIViewController {
         return viewController
     }()
 
-    private let homeImage = UIImage(named: "Home_24")!
-    private let homeSelectedImage = UIImage(named: "Home_Selected_24")!
-    private let boldImage = UIImage(named: "textBold24Regular")!
+    private let homeImage: UIImage = UIImage(named: "Home_24")!
+    private let homeSelectedImage: UIImage = UIImage(named: "Home_Selected_24")!
+    private let boldImage: UIImage = UIImage(named: "textBold24Regular")!
 
     private var heroIconChanged: Bool = false
     private var listIconChanged: Bool = false
