@@ -15,7 +15,6 @@ open class CalendarConfiguration: NSObject {
         static let endYearsInterval: Int = 10
     }
 
-    // swiftlint:disable:next explicit_type_interface
     @objc public static let `default` = CalendarConfiguration()
 
     /// By default, this is Sunday ('1')
