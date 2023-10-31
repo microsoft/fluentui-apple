@@ -1875,6 +1875,7 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BrandColors
 
+    @available(*, deprecated, renamed: "BrandColorToken")
     @objc(MSFBrandColorsGlobalTokens)
     public enum BrandColorsTokens: Int, TokenSetKey {
         // Communication blue colors
@@ -1904,6 +1905,7 @@ public class GlobalTokens: NSObject {
         case gradientTertiaryDark
     }
 
+    @available(*, deprecated, renamed: "brandColor(_token:)")
     @objc(brandColorForGlobalToken:)
     public static func brandColors(_ token: BrandColorsTokens) -> ColorValue {
         switch token {
@@ -1956,6 +1958,7 @@ public class GlobalTokens: NSObject {
 
     // MARK: - NeutralColors
 
+    @available(*, deprecated, renamed: "NeutralColorToken")
     @objc(MSFNeutralColorsToken)
     public enum NeutralColorsToken: Int, TokenSetKey {
         case black
@@ -2010,6 +2013,7 @@ public class GlobalTokens: NSObject {
         case grey98
         case white
     }
+    @available(*, deprecated, renamed: "neutralColor(_:)")
     @objc(neutralColorForToken:)
     public static func neutralColors(_ token: NeutralColorsToken) -> ColorValue {
         switch token {
@@ -2120,6 +2124,7 @@ public class GlobalTokens: NSObject {
 
     // MARK: - SharedColors
 
+    @available(*, deprecated, renamed: "SharedColorSet")
     @objc(MSFSharedColorSets)
     public enum SharedColorSets: Int, TokenSetKey {
         case darkRed
@@ -2173,6 +2178,7 @@ public class GlobalTokens: NSObject {
         case charcoal
     }
 
+    @available(*, deprecated, renamed: "SharedColorToken")
     @objc(MSFSharedColorsTokens)
     public enum SharedColorsTokens: Int, TokenSetKey {
         case shade50
@@ -2189,6 +2195,7 @@ public class GlobalTokens: NSObject {
         case tint60
     }
 
+    @available(*, deprecated, renamed: "sharedColor(_:_:)")
     @objc(sharedColorForColorSet:token:)
     public static func sharedColors(_ sharedColor: SharedColorSets, _ token: SharedColorsTokens) -> ColorValue {
         switch sharedColor {

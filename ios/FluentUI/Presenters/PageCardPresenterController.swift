@@ -83,7 +83,7 @@ open class PageCardPresenterController: UIViewController {
     }
 
     private func updatePageControlColors() {
-        let color = UIColor(colorValue: GlobalTokens.neutralColors(.white))
+        let color = GlobalTokens.neutralColor(.white)
 
         pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
         pageControl.currentPageIndicatorTintColor = color

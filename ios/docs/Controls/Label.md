@@ -9,7 +9,7 @@ The design tokens determining the font size and weight represent Apple's fundame
 ### UIKit
 ```Swift
 // Label with tokenized style/color
-let label = Label(style: style, colorStyle: colorStyle)
+let label = Label(textStyle: style, colorStyle: colorStyle)
 label.text = text
 label.numberOfLines = 0
 

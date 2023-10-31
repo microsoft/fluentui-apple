@@ -311,7 +311,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     private func presentSideDrawer(presentingGesture: UIPanGestureRecognizer? = nil) {
-        let meControl = Label(style: .title2, colorStyle: .regular)
+        let meControl = Label(textStyle: .title2, colorStyle: .regular)
         meControl.text = "Me Control goes here"
         meControl.textAlignment = .center
 
@@ -1032,7 +1032,8 @@ class CustomGradient {
         }
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor, dark: UIColor(colorValue: GlobalTokens.neutralColors(.grey16)))
+        return UIColor(light: image != nil ? UIColor(patternImage: image!) : endColor,
+                       dark: GlobalTokens.neutralColor(.grey16))
     }
 }
 

@@ -246,7 +246,7 @@ class BadgeLabelButton: UIButton {
         }
 
         // For some reason, titleLabel doesn't resize to fit the new font size, so we do it ourselves.
-        titleLabel.font = UIFont.fluent(fluentTheme.aliasTokens.typography[.body1], contentSizeCategory: cappedContentSizeCategory)
+        titleLabel.font = fluentTheme.typography(.body1, contentSizeCategory: cappedContentSizeCategory)
         titleLabel.sizeToFit()
         sizeToFit()
         if superview != nil {

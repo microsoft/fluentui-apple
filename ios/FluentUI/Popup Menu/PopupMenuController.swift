@@ -88,10 +88,12 @@ open class PopupMenuController: DrawerController {
                 if headerItem.subtitle == nil {
                     descriptionView.isHidden = false
                     descriptionLabel.text = headerItem.title
+                    descriptionLabel.numberOfLines = headerItem.titleNumberOfLines
                     descriptionView.accessibilityLabel = headerItem.title
                 } else {
                     headerView.isHidden = false
                     headerView.setup(item: headerItem)
+                    headerView.titleNumberOfLines = headerItem.titleNumberOfLines
                 }
             }
         }
@@ -181,9 +183,9 @@ open class PopupMenuController: DrawerController {
         return view
     }()
     private let descriptionLabel: Label = {
-        let label = Label(style: .caption1)
+        let label = Label(textStyle: .caption1)
         label.textAlignment = .center
-        label.numberOfLines = 0
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     private let headerView: PopupMenuItemCell = {

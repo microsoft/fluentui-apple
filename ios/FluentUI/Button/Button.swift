@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 @objc(MSFButton)
 open class Button: UIButton, Shadowable, TokenizedControlInternal {
-    @objc open var style: ButtonStyle = .outline {
+    @objc open var style: ButtonStyle = .outlineAccent {
         didSet {
             if style != oldValue {
                 update()
@@ -146,7 +146,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         return bounds.insetBy(dx: -growX, dy: -growY).contains(point)
     }
 
-    @objc public init(style: ButtonStyle = .outline) {
+    @objc public init(style: ButtonStyle = .outlineAccent) {
         self.style = style
         super.init(frame: .zero)
         initialize()
@@ -192,7 +192,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
     @objc public var tappableSize: CGSize = .zero
 
     lazy public var tokenSet: ButtonTokenSet = .init(style: { [weak self] in
-        return self?.style ?? .outline
+        return self?.style ?? .outlineAccent
     },
                                                      size: { [weak self] in
         return self?.sizeCategory ?? .medium
