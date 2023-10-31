@@ -1892,6 +1892,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     func updateAppearance() {
         updateFonts()
         updateTextColors()
+        updateSeparatorColor()
         updateSelectionImageColor()
         setupBackgroundColors()
         updateAccessoryViewColor()
@@ -2014,6 +2015,11 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private func updateSeparator(_ separator: Separator, with type: SeparatorType) {
         separator.isHidden = type == .none
         setNeedsLayout()
+    }
+
+    private func updateSeparatorColor() {
+        topSeparator.tokenSet[.color] = tokenSet[.separatorColor]
+        bottomSeparator.tokenSet[.color] = tokenSet[.separatorColor]
     }
 
     @objc private func handleContentSizeCategoryDidChange() {

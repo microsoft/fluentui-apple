@@ -63,6 +63,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
         /// The color for the accessoryCheckmark.
         case accessoryCheckmarkColor
 
+        /// The color of the separator.
+        case separatorColor
+
         /// The main brand text color.
         case brandTextColor
 
@@ -154,6 +157,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens
 
             case .accessoryCheckmarkColor:
                 return .uiColor { theme.color(.brandForeground1) }
+
+            case .separatorColor:
+                return .uiColor { theme.color(.stroke2) }
 
             case .dangerTextColor:
                 return .uiColor { theme.color(.dangerForeground2) }
