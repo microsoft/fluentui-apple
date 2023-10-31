@@ -143,6 +143,11 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
             },
             .customViewTrailingMargin: .float {
                 return 0
+            },
+            .separatorColor: .uiColor {
+                // "Red"
+                return UIColor(light: GlobalTokens.sharedColor(.red, .shade30),
+                               dark: GlobalTokens.sharedColor(.red, .tint40))
             }
         ]
     }
