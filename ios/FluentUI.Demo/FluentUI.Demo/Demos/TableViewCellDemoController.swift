@@ -145,9 +145,9 @@ extension TableViewCellDemoController: DemoAppearanceDelegate {
                 return 0
             },
             .separatorColor: .uiColor {
-                // "Anchor"
-                return UIColor(light: GlobalTokens.sharedColor(.anchor, .primary),
-                               dark: GlobalTokens.sharedColor(.anchor, .primary))
+                // "Red"
+                return UIColor(light: GlobalTokens.sharedColor(.red, .shade30),
+                               dark: GlobalTokens.sharedColor(.red, .tint40))
             }
         ]
     }
