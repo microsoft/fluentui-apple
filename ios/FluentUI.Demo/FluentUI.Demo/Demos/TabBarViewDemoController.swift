@@ -251,6 +251,10 @@ extension TabBarViewDemoController: DemoAppearanceDelegate {
                                lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
                                dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
                                darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            },
+            .separatorColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.red, .shade10),
+                               dark: GlobalTokens.sharedColor(.red, .tint40))
             }
         ]
     }
