@@ -20,6 +20,9 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
         /// Font info for the title label when in landscape view.
         case tabBarItemTitleLabelFontLandscape
 
+        /// Defines the color of the top separator.
+        case separatorColor
+
     }
 
     init() {
@@ -48,6 +51,9 @@ public class TabBarTokenSet: ControlTokenSet<TabBarTokenSet.Tokens> {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
                     return theme.typography(.body1)
                 }
+
+            case .separatorColor:
+                return .uiColor { theme.color(.stroke2) }
             }
         }
     }
