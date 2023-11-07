@@ -91,6 +91,14 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.preferredExpandedContentHeight = sender.isOn ? 0 : 400
     }
 
+    @objc private func toggleTrailingEdge(_ sender: BooleanCell) {
+        bottomSheetViewController?.edgeToConstrainTo = sender.isOn ? .trailing : .none
+    }
+
+    @objc private func toggleCustomWidth(_ sender: BooleanCell) {
+        bottomSheetViewController?.preferredWidth = sender.isOn ? 400 :  200
+    }
+
     @objc private func showTransientSheet() {
         let hostingVC = UIHostingController(rootView: BottomSheetDemoListContentView())
 
@@ -249,7 +257,13 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
                 DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
                 DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
-                DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0)
+                DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0),
+
+                DemoItem(title: "Attach to trailing edge",
+                         type: .boolean,
+                         action: #selector(toggleTrailingEdge),
+                         isOn: bottomSheetViewController?.edgeToConstrainTo == .trailing),
+                DemoItem(title: "Set preferred width to 400", type: .boolean, action: #selector(toggleCustomWidth), isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))

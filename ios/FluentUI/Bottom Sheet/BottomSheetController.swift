@@ -39,6 +39,12 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case transitioning // Sheet is between states, only used during user interaction / animation
 }
 
+@objc public enum BottomSheetConstraintEdge: Int {
+    case none // Sheet is centered on the screen
+    case leading // Sheet is constrained to the leading edge
+    case trailing // Sheet is constrained to the trailing edge
+}
+
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController, Shadowable, TokenizedControlInternal {
 
@@ -220,6 +226,26 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                     bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", filled width", with: "")
                 }
 #endif
+        }
+    }
+
+    @objc open var preferredWidth: CGFloat = 0 {
+        didSet {
+            guard preferredWidth != oldValue && isViewLoaded else {
+                return
+            }
+            shouldAlwaysFillWidth = false
+            view.setNeedsLayout()
+        }
+    }
+
+    @objc open var edgeToConstrainTo: BottomSheetConstraintEdge = .none {
+        didSet {
+            guard edgeToConstrainTo != oldValue && isViewLoaded else {
+                return
+            }
+            shouldAlwaysFillWidth = false
+            view.setNeedsLayout()
         }
     }
 
@@ -722,7 +748,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // The output is only meaningful once view.bounds is non-zero i.e. a layout pass has occured.
     private func sheetFrame(offset: CGFloat) -> CGRect {
         let availableWidth: CGFloat = view.bounds.width
-        let sheetWidth = shouldAlwaysFillWidth ? availableWidth : min(Constants.maxSheetWidth, availableWidth)
+        let maxWidth = min(Constants.maxSheetWidth, availableWidth)
+
+        let sheetWidth: CGFloat = {
+            if (shouldAlwaysFillWidth) {
+                return availableWidth
+            } else if (Constants.minSheetWidth...maxWidth ~= preferredWidth) {
+                return preferredWidth
+            } else {
+                return maxWidth
+            }
+        }()
+
         let sheetHeight: CGFloat
 
         if isFlexibleHeight {
@@ -732,8 +769,21 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sheetHeight = expandedSheetHeight
         }
 
-        return CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
-                      size: CGSize(width: sheetWidth, height: sheetHeight))
+        let padding: CGFloat = 8
+
+        let frame: CGRect
+        if (edgeToConstrainTo == .trailing) {
+            frame = CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth - padding), y: offset),
+                          size: CGSize(width: sheetWidth, height: sheetHeight))
+        } else if (edgeToConstrainTo == .leading) {
+            frame = CGRect(origin: CGPoint(x: padding, y: offset),
+                           size: CGSize(width: sheetWidth, height: sheetHeight))
+        } else {
+            frame = CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
+                   size: CGSize(width: sheetWidth, height: sheetHeight))
+        }
+
+        return frame
     }
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
