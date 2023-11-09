@@ -70,58 +70,58 @@ public enum ButtonSizeCategory: Int, CaseIterable {
     case small
 }
 
+public enum ButtonToken: Int, TokenSetKey {
+    /// Defines the background color of the button
+    case backgroundColor
+
+    /// Defines the background color of the button when focused
+    case backgroundFocusedColor
+
+    /// Defines the background color of the button when disabled
+    case backgroundDisabledColor
+
+    /// Defines the background color of the button when pressed
+    case backgroundPressedColor
+
+    /// Defines the border color of the button
+    case borderColor
+
+    /// Defines the border color of the button when focused
+    case borderFocusedColor
+
+    /// Defines the border color of the button when disabled
+    case borderDisabledColor
+
+    /// Defines the border color of the button when pressed
+    case borderPressedColor
+
+    /// Defines the width of the border around the button
+    case borderWidth
+
+    /// Defines the radius of the corners of the button
+    case cornerRadius
+
+    /// Defines the colors of the text and icon of the button
+    case foregroundColor
+
+    /// Defines the colors of the text and icon of the button when disabled
+    case foregroundDisabledColor
+
+    /// Defines the colors of the text and icon of the button when pressed
+    case foregroundPressedColor
+
+    /// Defines the font of the title of the button
+    case titleFont
+
+    /// Defines the shadow of the button
+    case shadowRest
+
+    /// Defines the shadow of the button when focused, disabled, or pressed
+    case shadowPressed
+}
+
 /// Design token set for the `Button` control.
-public class ButtonTokenSet: ControlTokenSet<ButtonTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the background color of the button
-        case backgroundColor
-
-        /// Defines the background color of the button when focused
-        case backgroundFocusedColor
-
-        /// Defines the background color of the button when disabled
-        case backgroundDisabledColor
-
-        /// Defines the background color of the button when pressed
-        case backgroundPressedColor
-
-        /// Defines the border color of the button
-        case borderColor
-
-        /// Defines the border color of the button when focused
-        case borderFocusedColor
-
-        /// Defines the border color of the button when disabled
-        case borderDisabledColor
-
-        /// Defines the border color of the button when pressed
-        case borderPressedColor
-
-        /// Defines the width of the border around the button
-        case borderWidth
-
-        /// Defines the radius of the corners of the button
-        case cornerRadius
-
-        /// Defines the colors of the text and icon of the button
-        case foregroundColor
-
-        /// Defines the colors of the text and icon of the button when disabled
-        case foregroundDisabledColor
-
-        /// Defines the colors of the text and icon of the button when pressed
-        case foregroundPressedColor
-
-        /// Defines the font of the title of the button
-        case titleFont
-
-        /// Defines the shadow of the button
-        case shadowRest
-
-        /// Defines the shadow of the button when focused, disabled, or pressed
-        case shadowPressed
-    }
-
+public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
     init(style: @escaping () -> ButtonStyle,
          size: @escaping () -> ButtonSizeCategory) {
         self.style = style

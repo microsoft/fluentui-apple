@@ -5,54 +5,54 @@
 
 import SwiftUI
 
-public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the color of the background of the `BottomCommandingController`.
-        case backgroundColor
+public enum BottomCommandingToken: Int, TokenSetKey {
+    /// Defines the color of the background of the `BottomCommandingController`.
+    case backgroundColor
 
-        /// Defines the corner radius of the `BottomCommandingController`.
-        case cornerRadius
+    /// Defines the corner radius of the `BottomCommandingController`.
+    case cornerRadius
 
-        /// Defines the color of the disabled hero items of the `BottomCommandingController`.
-        case heroDisabledColor
+    /// Defines the color of the disabled hero items of the `BottomCommandingController`.
+    case heroDisabledColor
 
-        /// Defines the font of the hero items of the `BottomCommandingController`.
-        case heroLabelFont
+    /// Defines the font of the hero items of the `BottomCommandingController`.
+    case heroLabelFont
 
-        /// Defines the color of the icon of the hero items of the `BottomCommandingController`.
-        case heroRestIconColor
+    /// Defines the color of the icon of the hero items of the `BottomCommandingController`.
+    case heroRestIconColor
 
-        /// Defines the color of the label of the hero items of the `BottomCommandingController`.
-        case heroRestLabelColor
+    /// Defines the color of the label of the hero items of the `BottomCommandingController`.
+    case heroRestLabelColor
 
-        /// Defines the color of the hero item of the `BottomCommandingController` when `isOn` is true.
-        case heroSelectedColor
+    /// Defines the color of the hero item of the `BottomCommandingController` when `isOn` is true.
+    case heroSelectedColor
 
-        /// Defines the color of the icons in the list of the `BottomCommandingController`.
-        case listIconColor
+    /// Defines the color of the icons in the list of the `BottomCommandingController`.
+    case listIconColor
 
-        /// Defines the color of the labels in the list of the `BottomCommandingController`.
-        case listLabelColor
+    /// Defines the color of the labels in the list of the `BottomCommandingController`.
+    case listLabelColor
 
-        /// Defines the font of the items in the list of the `BottomCommandingController`.
-        case listLabelFont
+    /// Defines the font of the items in the list of the `BottomCommandingController`.
+    case listLabelFont
 
-        /// Defines the color of the section labels in the list of the `BottomCommandingController`.
-        case listSectionLabelColor
+    /// Defines the color of the section labels in the list of the `BottomCommandingController`.
+    case listSectionLabelColor
 
-        /// Defines the font of the section labels in the list of the `BottomCommandingController`.
-        case listSectionLabelFont
+    /// Defines the font of the section labels in the list of the `BottomCommandingController`.
+    case listSectionLabelFont
 
-        /// Defines the color of the resizing handle of the `BottomCommandingController`.
-        case resizingHandleMarkColor
+    /// Defines the color of the resizing handle of the `BottomCommandingController`.
+    case resizingHandleMarkColor
 
-        /// Defines the color of the separator in the `BottomCommandingController`.
-        case strokeColor
+    /// Defines the color of the separator in the `BottomCommandingController`.
+    case strokeColor
 
-        /// Defines the shadows used by the `BottomCommandingController`.
-        case shadow
-    }
+    /// Defines the shadows used by the `BottomCommandingController`.
+    case shadow
+}
 
+public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingToken> {
     init() {
         super.init { token, theme in
             switch token {

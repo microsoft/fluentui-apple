@@ -5,43 +5,43 @@
 
 import UIKit
 
+public enum SearchBarToken: Int, TokenSetKey {
+    /// The background color of the SearchBar
+    case backgroundColor
+
+    /// The background color of the cancel button
+    case cancelButtonColor
+
+    /// The background color of the clear icon
+    case clearIconColor
+
+    /// The color of the placeholder text
+    case placeholderColor
+
+    /// The color of the search icon when the user is typing
+    case activeSearchIconColor
+
+    /// The color of the search icon when the user isn't typing
+    case inactiveSearchIconColor
+
+    /// The color of the user's input text in the SearchBar
+    case textColor
+
+    /// The color of the search text field's cursor
+    case searchCursorColor
+
+    /// The color of the progress spinner
+    case progressSpinnerColor
+
+    /// The corner radius of the search text field
+    case searchTextFieldCornerRadius
+
+    /// The font used for the placeholder text, search input text and cancel button text
+    case font
+}
+
 /// Design token set for the `SearchBar` control.
-public class SearchBarTokenSet: ControlTokenSet<SearchBarTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color of the SearchBar
-        case backgroundColor
-
-        /// The background color of the cancel button
-        case cancelButtonColor
-
-        /// The background color of the clear icon
-        case clearIconColor
-
-        /// The color of the placeholder text
-        case placeholderColor
-
-        /// The color of the search icon when the user is typing
-        case activeSearchIconColor
-
-        /// The color of the search icon when the user isn't typing
-        case inactiveSearchIconColor
-
-        /// The color of the user's input text in the SearchBar
-        case textColor
-
-        /// The color of the search text field's cursor
-        case searchCursorColor
-
-        /// The color of the progress spinner
-        case progressSpinnerColor
-
-        /// The corner radius of the search text field
-        case searchTextFieldCornerRadius
-
-        /// The font used for the placeholder text, search input text and cancel button text
-        case font
-    }
-
+public class SearchBarTokenSet: ControlTokenSet<SearchBarToken> {
     init(style: @escaping () -> SearchBar.Style) {
         self.style = style
         super.init { [style] token, theme in

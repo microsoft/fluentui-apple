@@ -5,31 +5,31 @@
 
 import UIKit
 
+public enum DrawerToken: Int, TokenSetKey {
+    /// Corner radius for the popover style `Drawer` control.
+    case cornerRadius
+
+    /// Color used for the background of the content of the `Drawer` control.
+    case drawerContentBackgroundColor
+
+    /// Color used for the navigation bar of the `Drawer` control.
+    case navigationBarBackgroundColor
+
+    /// Color used for the background of the popover style `Drawer` control.
+    case popoverContentBackgroundColor
+
+    /// Color used for the background of the `ResizingHandleView` mark.
+    case resizingHandleMarkColor
+
+    /// Color used for the background of the `ResizingHandleView`.
+    case resizingHandleBackgroundColor
+
+    /// `ShadowInfo` for the shadow used in the `Drawer` control.
+    case shadow
+}
+
 /// Design token set for the `Drawer` control
-public class DrawerTokenSet: ControlTokenSet<DrawerTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Corner radius for the popover style `Drawer` control.
-        case cornerRadius
-
-        /// Color used for the background of the content of the `Drawer` control.
-        case drawerContentBackgroundColor
-
-        /// Color used for the navigation bar of the `Drawer` control.
-        case navigationBarBackgroundColor
-
-        /// Color used for the background of the popover style `Drawer` control.
-        case popoverContentBackgroundColor
-
-        /// Color used for the background of the `ResizingHandleView` mark.
-        case resizingHandleMarkColor
-
-        /// Color used for the background of the `ResizingHandleView`.
-        case resizingHandleBackgroundColor
-
-        /// `ShadowInfo` for the shadow used in the `Drawer` control.
-        case shadow
-    }
-
+public class DrawerTokenSet: ControlTokenSet<DrawerToken> {
     init() {
         super.init { token, theme in
             switch token {

@@ -4,33 +4,33 @@
 //
 import UIKit
 
-public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderFooterViewTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color in plain mode.
-        case backgroundColorPlain
+public enum TableViewHeaderFooterViewToken: Int, TokenSetKey {
+    /// The background color in plain mode.
+    case backgroundColorPlain
 
-        /// The background color in grouped mode.
-        case backgroundColorGrouped
+    /// The background color in grouped mode.
+    case backgroundColorGrouped
 
-        /// The color of the header/footer text.
-        case textColor
+    /// The color of the header/footer text.
+    case textColor
 
-        /// The font of the header/footer text.
-        case textFont
+    /// The font of the header/footer text.
+    case textFont
 
-        /// The color of the leading view.
-        case leadingViewColor
+    /// The color of the leading view.
+    case leadingViewColor
 
-        /// The color of the accessory button text.
-        case accessoryButtonTextColor
+    /// The color of the accessory button text.
+    case accessoryButtonTextColor
 
-        /// The font of the accessory button text.
-        case accessoryButtonTextFont
+    /// The font of the accessory button text.
+    case accessoryButtonTextFont
 
-        /// The color of the link text in the TableViewHeaderFooterViewTitleView.
-        case linkTextColor
-    }
+    /// The color of the link text in the TableViewHeaderFooterViewTitleView.
+    case linkTextColor
+}
 
+public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderFooterViewToken> {
     init(style: @escaping () -> TableViewHeaderFooterView.Style,
          accessoryButtonStyle: @escaping () -> TableViewHeaderFooterView.AccessoryButtonStyle) {
         self.style = style

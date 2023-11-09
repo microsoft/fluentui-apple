@@ -5,22 +5,22 @@
 
 import UIKit
 
+public enum SideTabBarToken: Int, TokenSetKey {
+    /// Optionally overrides the default background color of the  of the `TabBarItem` when selected.
+    case tabBarItemSelectedColor
+
+    /// Optionally overrides the default background color of the  of the `TabBarItem` when not selected.
+    case tabBarItemUnselectedColor
+
+    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in portrait view.
+    case tabBarItemTitleLabelFontPortrait
+
+    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in landscape view.
+    case tabBarItemTitleLabelFontLandscape
+}
+
 /// Design token set for the `TabBar`.
-public class SideTabBarTokenSet: ControlTokenSet<SideTabBarTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Optionally overrides the default background color of the  of the `TabBarItem` when selected.
-        case tabBarItemSelectedColor
-
-        /// Optionally overrides the default background color of the  of the `TabBarItem` when not selected.
-        case tabBarItemUnselectedColor
-
-        /// Optionally overrides the default font info for the title label of the `TabBarItem`when in portrait view.
-        case tabBarItemTitleLabelFontPortrait
-
-        /// Optionally overrides the default font info for the title label of the `TabBarItem`when in landscape view.
-        case tabBarItemTitleLabelFontLandscape
-    }
-
+public class SideTabBarTokenSet: ControlTokenSet<SideTabBarToken> {
     init() {
         super.init { token, theme in
             switch token {

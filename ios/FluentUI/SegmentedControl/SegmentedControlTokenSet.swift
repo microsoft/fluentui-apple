@@ -5,58 +5,58 @@
 
 import UIKit
 
+public enum SegmentedControlToken: Int, TokenSetKey {
+    /// Defines the background color of the unselected segments of the `SegmentedControl`.
+    case restTabColor
+
+    /// Defines the background color of the selected segments of the `SegmentedControl`.
+    case selectedTabColor
+
+    /// Defines the background color of the unselected segments of the `SegmentedControl` when disabled.
+    case disabledTabColor
+
+    /// Defines the background color of the selected segments of the `SegmentedControl` when disabled.
+    case disabledSelectedTabColor
+
+    /// Defines the label color of the unselected segments of the `SegmentedControl`.
+    case restLabelColor
+
+    /// Defines the label color of the selected segments of the `SegmentedControl`.
+    case selectedLabelColor
+
+    /// Defines the label color of the unselected segments of the `SegmentedControl` when disabled.
+    case disabledLabelColor
+
+    /// Defines the label color of the selected segments of the `SegmentedControl` when disabled.
+    case disabledSelectedLabelColor
+
+    /// The color of the unread dot when the `SegmentedControl` is enabled.
+    case enabledUnreadDotColor
+
+    /// The color of the unread dot when the `SegmentedControl` is disabled.
+    case disabledUnreadDotColor
+
+    /// The distance of the content from the top and bottom of the `SegmentedControl`.
+    case verticalInset
+
+    /// The distance of the content from the leading and trailing edges of the `SegmentedControl`.
+    case horizontalInset
+
+    /// The distance of the unread dot from the trailing edge of the content of the `SegmentedControl`.
+    case unreadDotOffsetX
+
+    /// The distance of the unread dot from the top of the content of the `SegmentedControl`.
+    case unreadDotOffsetY
+
+    /// The size of the unread dot of the `SegmentedControl`
+    case unreadDotSize
+
+    /// The font used for the label of the `SegmentedControl`.
+    case font
+}
+
 /// Design token set for the `SegmentedControl`.
-public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the background color of the unselected segments of the `SegmentedControl`.
-        case restTabColor
-
-        /// Defines the background color of the selected segments of the `SegmentedControl`.
-        case selectedTabColor
-
-        /// Defines the background color of the unselected segments of the `SegmentedControl` when disabled.
-        case disabledTabColor
-
-        /// Defines the background color of the selected segments of the `SegmentedControl` when disabled.
-        case disabledSelectedTabColor
-
-        /// Defines the label color of the unselected segments of the `SegmentedControl`.
-        case restLabelColor
-
-        /// Defines the label color of the selected segments of the `SegmentedControl`.
-        case selectedLabelColor
-
-        /// Defines the label color of the unselected segments of the `SegmentedControl` when disabled.
-        case disabledLabelColor
-
-        /// Defines the label color of the selected segments of the `SegmentedControl` when disabled.
-        case disabledSelectedLabelColor
-
-        /// The color of the unread dot when the `SegmentedControl` is enabled.
-        case enabledUnreadDotColor
-
-        /// The color of the unread dot when the `SegmentedControl` is disabled.
-        case disabledUnreadDotColor
-
-        /// The distance of the content from the top and bottom of the `SegmentedControl`.
-        case verticalInset
-
-        /// The distance of the content from the leading and trailing edges of the `SegmentedControl`.
-        case horizontalInset
-
-        /// The distance of the unread dot from the trailing edge of the content of the `SegmentedControl`.
-        case unreadDotOffsetX
-
-        /// The distance of the unread dot from the top of the content of the `SegmentedControl`.
-        case unreadDotOffsetY
-
-        /// The size of the unread dot of the `SegmentedControl`
-        case unreadDotSize
-
-        /// The font used for the label of the `SegmentedControl`.
-        case font
-    }
-
+public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlToken> {
     init(style: @escaping () -> SegmentedControlStyle) {
         self.style = style
         super.init { [style] token, theme in
