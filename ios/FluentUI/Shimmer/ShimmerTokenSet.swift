@@ -15,45 +15,45 @@ import UIKit
     case revealing
 }
 
+public enum ShimmerToken: Int, TokenSetKey {
+    /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer.
+    /// The alpha value of the view other than the gradient if shimmer is concealing shimmer.
+    case shimmerAlpha
+
+    /// Tint color of the view if shimmer is revealing shimmer.
+    /// Tint color of the middle of the gradient if shimmer is concealing shimmer.
+    case tintColor
+
+    ///  Color of the darkest part of the shimmer's gradient.
+    case darkGradient
+
+    /// The width of the gradient in the animation.
+    case shimmerWidth
+
+    /// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
+    case shimmerAngle
+
+    /// Speed of the animation, in point/seconds.
+    case shimmerSpeed
+
+    /// Delay between the end of a shimmering animation and the beginning of the next one.
+    case shimmerDelay
+
+    /// Corner radius on each view.
+    case cornerRadius
+
+    /// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
+    case labelCornerRadius
+
+    /// Height of shimmering labels.
+    case labelHeight
+
+    /// Spacing between (if lines > 1).
+    case labelSpacing
+}
+
 /// Design token set for the `Shimmer` control.
-public class ShimmerTokenSet: ControlTokenSet<ShimmerTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The alpha value of the center of the gradient in the animation if shimmer is revealing shimmer.
-        /// The alpha value of the view other than the gradient if shimmer is concealing shimmer.
-        case shimmerAlpha
-
-        /// Tint color of the view if shimmer is revealing shimmer.
-        /// Tint color of the middle of the gradient if shimmer is concealing shimmer.
-        case tintColor
-
-        ///  Color of the darkest part of the shimmer's gradient.
-        case darkGradient
-
-        /// The width of the gradient in the animation.
-        case shimmerWidth
-
-        /// Angle of the direction of the gradient, in radian. 0 means horizontal, Pi/2 means vertical.
-        case shimmerAngle
-
-        /// Speed of the animation, in point/seconds.
-        case shimmerSpeed
-
-        /// Delay between the end of a shimmering animation and the beginning of the next one.
-        case shimmerDelay
-
-        /// Corner radius on each view.
-        case cornerRadius
-
-        /// Corner radius on each UILabel. Set to  0 to disable and use default `cornerRadius`.
-        case labelCornerRadius
-
-        /// Height of shimmering labels.
-        case labelHeight
-
-        /// Spacing between (if lines > 1).
-        case labelSpacing
-    }
-
+public class ShimmerTokenSet: ControlTokenSet<ShimmerToken> {
     init(style: @escaping () -> MSFShimmerStyle) {
         self.style = style
         super.init { [style] token, theme in

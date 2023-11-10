@@ -5,31 +5,31 @@
 
 import UIKit
 
+public enum BadgeFieldToken: Int, TokenSetKey {
+    /// The background color of the BadgeField.
+    case backgroundColor
+
+    /// The color of the BadgeField's label.
+    case labelColor
+
+    /// The color of the BadgeField's placeholder.
+    case placeholderColor
+
+    /// The color of the BadgeField's text field.
+    case textFieldColor
+
+    /// The font of the BadgeField's label.
+    case labelFont
+
+    /// The font of the BadgeField's placeholder.
+    case placeholderFont
+
+    /// The font of the BadgeField's text field.
+    case textFieldFont
+}
+
 /// Design token set for the `BadgeField` control.
-public class BadgeFieldTokenSet: ControlTokenSet<BadgeFieldTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color of the BadgeField.
-        case backgroundColor
-
-        /// The color of the BadgeField's label.
-        case labelColor
-
-        /// The color of the BadgeField's placeholder.
-        case placeholderColor
-
-        /// The color of the BadgeField's text field.
-        case textFieldColor
-
-        /// The font of the BadgeField's label.
-        case labelFont
-
-        /// The font of the BadgeField's placeholder.
-        case placeholderFont
-
-        /// The font of the BadgeField's text field.
-        case textFieldFont
-    }
-
+public class BadgeFieldTokenSet: ControlTokenSet<BadgeFieldToken> {
     init() {
         super.init { token, theme in
             switch token {

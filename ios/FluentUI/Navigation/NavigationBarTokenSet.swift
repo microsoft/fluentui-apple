@@ -5,31 +5,31 @@
 
 import UIKit
 
+public enum NavigationBarToken: Int, TokenSetKey {
+    /// Describes the background color for the navigation bar.
+    case backgroundColor
+
+    /// Describes the color of the buttons at the top of the navigation bar.
+    case buttonTintColor
+
+    /// Describes the font used for a "large" title.
+    case largeTitleFont
+
+    /// Describes the color of the subtitle.
+    case subtitleColor
+
+    /// Describes the font used for the subtitle.
+    case subtitleFont
+
+    /// Describes the color of the title.
+    case titleColor
+
+    /// Describes the font used for a "small" title.
+    case titleFont
+}
+
 /// Design token set for the `NavigationBar` control.
-public class NavigationBarTokenSet: ControlTokenSet<NavigationBarTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Describes the background color for the navigation bar.
-        case backgroundColor
-
-        /// Describes the color of the buttons at the top of the navigation bar.
-        case buttonTintColor
-
-        /// Describes the font used for a "large" title.
-        case largeTitleFont
-
-        /// Describes the color of the subtitle.
-        case subtitleColor
-
-        /// Describes the font used for the subtitle.
-        case subtitleFont
-
-        /// Describes the color of the title.
-        case titleColor
-
-        /// Describes the font used for a "small" title.
-        case titleFont
-    }
-
+public class NavigationBarTokenSet: ControlTokenSet<NavigationBarToken> {
     init(style: @escaping () -> NavigationBar.Style) {
         super.init { [style] token, theme in
             switch token {

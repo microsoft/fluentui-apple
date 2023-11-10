@@ -6,49 +6,49 @@
 import UIKit
 import SwiftUI
 
+public enum AvatarToken: Int, TokenSetKey {
+    /// The radius of the corners of the `Avatar`.
+    case borderRadius
+
+    /// The font used for text in the `Avatar`
+    case textFont
+
+    /// The default color of the ring around the `Avatar`.
+    case ringDefaultColor
+
+    /// The color of the gap between the ring and `Avatar`.
+    case ringGapColor
+
+    /// The thickness of the ring around the `Avatar`.
+    case ringThickness
+
+    /// The gap between the `Avatar` and its ring.
+    case ringInnerGap
+
+    /// The gap around the ring around the `Avatar`.
+    case ringOuterGap
+
+    /// The thickness of the outline around the presence/activity.
+    case borderThickness
+
+    /// The color of the border around the presence/activity.
+    case borderColor
+
+    /// The foreground color of the activity.
+    case activityForegroundColor
+
+    /// The background color of the activity.
+    case activityBackgroundColor
+
+    /// The default color of the background of the `Avatar`.
+    case backgroundDefaultColor
+
+    /// The default color of the foreground of the `Avatar`
+    case foregroundDefaultColor
+}
+
 /// Design token set for the `Avatar` control.
-public class AvatarTokenSet: ControlTokenSet<AvatarTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The radius of the corners of the `Avatar`.
-        case borderRadius
-
-        /// The font used for text in the `Avatar`
-        case textFont
-
-        /// The default color of the ring around the `Avatar`.
-        case ringDefaultColor
-
-        /// The color of the gap between the ring and `Avatar`.
-        case ringGapColor
-
-        /// The thickness of the ring around the `Avatar`.
-        case ringThickness
-
-        /// The gap between the `Avatar` and its ring.
-        case ringInnerGap
-
-        /// The gap around the ring around the `Avatar`.
-        case ringOuterGap
-
-        /// The thickness of the outline around the presence/activity.
-        case borderThickness
-
-        /// The color of the border around the presence/activity.
-        case borderColor
-
-        /// The foreground color of the activity.
-        case activityForegroundColor
-
-        /// The background color of the activity.
-        case activityBackgroundColor
-
-        /// The default color of the background of the `Avatar`.
-        case backgroundDefaultColor
-
-        /// The default color of the foreground of the `Avatar`
-        case foregroundDefaultColor
-    }
-
+public class AvatarTokenSet: ControlTokenSet<AvatarToken> {
     init(style: @escaping () -> MSFAvatarStyle,
          size: @escaping () -> MSFAvatarSize) {
         self.style = style

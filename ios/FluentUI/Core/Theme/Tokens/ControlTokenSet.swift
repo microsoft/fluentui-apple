@@ -196,6 +196,9 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 
     /// A callback to be invoked after the token set has completed updating.
     private var onUpdate: (() -> Void)?
+
+    /// Common approach for addressing the tokens of a given control.
+    public typealias Tokens = T
 }
 
 /// Union-type enumeration of all possible token values to be stored by a `ControlTokenSet`.
@@ -245,6 +248,36 @@ public enum ControlTokenValue {
                               ambientBlur: 10.0,
                               xAmbient: 10.0,
                               yAmbient: 10.0)
+        }
+    }
+
+    /// Creates a `ControlTokenValue` from any supported object type.
+    ///
+    /// Mapping for types of `value` and the resulting `ControlTokenValue`:
+    ///
+    /// | `value` instance type | `ControlTokenValue` |
+    /// |---|---|
+    /// | `NSNumber`¹  | `.float` |
+    /// | `UIColor` | `.uiColor` |
+    /// | `UIFont` | `.uiFont` |
+    /// | `ShadowInfo` | `.shadowInfo` |
+    /// | All other types | `nil` |
+    ///
+    /// ¹ Note that, because `value` must be an object type, floats must be passed as a wrapped `NSNumber`.
+    ///
+    /// - Parameter value: An object of one of the supported types for `ControlTokenValue`.
+    init?(_ value: AnyObject) {
+        switch value {
+        case let number as NSNumber:
+            self = .float { CGFloat(number.doubleValue) }
+        case let color as UIColor:
+            self = .uiColor { color }
+        case let font as UIFont:
+            self = .uiFont { font }
+        case let shadowInfo as ShadowInfo:
+            self = .shadowInfo { shadowInfo }
+        default:
+            return nil
         }
     }
 

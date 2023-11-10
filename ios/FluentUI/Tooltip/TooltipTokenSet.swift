@@ -5,37 +5,37 @@
 
 import UIKit
 
+public enum TooltipToken: Int, TokenSetKey {
+    /// The color of the body of the tooltip.
+    case tooltipColor
+
+    /// The color of the text within the tooltip.
+    case textColor
+
+    /// The information for the tooltip's shadow.
+    case shadowInfo
+
+    /// The radius for the corners of the tooltip.
+    case backgroundCornerRadius
+
+    /// The TextStyle of the message label.
+    case messageLabelTextStyle
+
+    /// The TextStyle of the title label.
+    case titleLabelTextStyle
+
+    /// The maximum width of the tooltip if the device's text size is not an accessibility size (in which case there is no maximum width).
+    case maximumWidth
+
+    /// The height of the arrow of the tooltip.
+    case arrowHeight
+
+    /// The width of the arrow of the tooltip.
+    case arrowWidth
+}
+
 /// Design token set for the `Tooltip` control.
-public class TooltipTokenSet: ControlTokenSet<TooltipTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The color of the body of the tooltip.
-        case tooltipColor
-
-        /// The color of the text within the tooltip.
-        case textColor
-
-        /// The information for the tooltip's shadow.
-        case shadowInfo
-
-        /// The radius for the corners of the tooltip.
-        case backgroundCornerRadius
-
-        /// The TextStyle of the message label.
-        case messageLabelTextStyle
-
-        /// The TextStyle of the title label.
-        case titleLabelTextStyle
-
-        /// The maximum width of the tooltip if the device's text size is not an accessibility size (in which case there is no maximum width).
-        case maximumWidth
-
-        /// The height of the arrow of the tooltip.
-        case arrowHeight
-
-        /// The width of the arrow of the tooltip.
-        case arrowWidth
-    }
-
+public class TooltipTokenSet: ControlTokenSet<TooltipToken> {
     init() {
         super.init { token, theme in
             switch token {

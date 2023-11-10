@@ -4,81 +4,81 @@
 //
 import UIKit
 
-public class TableViewCellTokenSet: ControlTokenSet<TableViewCellTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color of the TableView.
-        case backgroundColor
+public enum TableViewCellToken: Int, TokenSetKey {
+    /// The background color of the TableView.
+    case backgroundColor
 
-        /// The grouped background color of the TableView.
-        case backgroundGroupedColor
+    /// The grouped background color of the TableView.
+    case backgroundGroupedColor
 
-        /// The background color of the TableViewCell.
-        case cellBackgroundColor
+    /// The background color of the TableViewCell.
+    case cellBackgroundColor
 
-        /// The grouped background color of the TableViewCell.
-        case cellBackgroundGroupedColor
+    /// The grouped background color of the TableViewCell.
+    case cellBackgroundGroupedColor
 
-        /// The selected background color of the TableViewCell.
-        case cellBackgroundSelectedColor
+    /// The selected background color of the TableViewCell.
+    case cellBackgroundSelectedColor
 
-        /// The leading image color.
-        case imageColor
+    /// The leading image color.
+    case imageColor
 
-        /// The size dimensions of the customView.
-        case customViewDimensions
+    /// The size dimensions of the customView.
+    case customViewDimensions
 
-        /// The trailing margin of the customView.
-        case customViewTrailingMargin
+    /// The trailing margin of the customView.
+    case customViewTrailingMargin
 
-        /// The title label color.
-        case titleColor
+    /// The title label color.
+    case titleColor
 
-        /// The subtitle label color.
-        case subtitleColor
+    /// The subtitle label color.
+    case subtitleColor
 
-        /// The footer label color.
-        case footerColor
+    /// The footer label color.
+    case footerColor
 
-        /// The color of the selectionImageView when it is not selected.
-        case selectionIndicatorOffColor
+    /// The color of the selectionImageView when it is not selected.
+    case selectionIndicatorOffColor
 
-        /// The font for the title.
-        case titleFont
+    /// The font for the title.
+    case titleFont
 
-        /// The font for the subtitle when the TableViewCell has two lines.
-        case subtitleTwoLinesFont
+    /// The font for the subtitle when the TableViewCell has two lines.
+    case subtitleTwoLinesFont
 
-        /// The font for the subtitle when the TableViewCell has three lines.
-        case subtitleThreeLinesFont
+    /// The font for the subtitle when the TableViewCell has three lines.
+    case subtitleThreeLinesFont
 
-        /// The font for the footer.
-        case footerFont
+    /// The font for the footer.
+    case footerFont
 
-        /// The color for the accessoryDisclosureIndicator.
-        case accessoryDisclosureIndicatorColor
+    /// The color for the accessoryDisclosureIndicator.
+    case accessoryDisclosureIndicatorColor
 
-        /// The color for the accessoryDetailButton.
-        case accessoryDetailButtonColor
+    /// The color for the accessoryDetailButton.
+    case accessoryDetailButtonColor
 
-        /// The color for the accessoryCheckmark.
-        case accessoryCheckmarkColor
+    /// The color for the accessoryCheckmark.
+    case accessoryCheckmarkColor
 
-        /// The color of the separator.
-        case separatorColor
+    /// The color of the separator.
+    case separatorColor
 
-        /// The main brand text color.
-        case brandTextColor
+    /// The main brand text color.
+    case brandTextColor
 
-        /// The brand background color for the boolean cell.
-        case booleanCellBrandColor
+    /// The brand background color for the boolean cell.
+    case booleanCellBrandColor
 
-        /// The danger text color in an ActionsCell.
-        case dangerTextColor
+    /// The danger text color in an ActionsCell.
+    case dangerTextColor
 
-        /// The communication text color in an ActionsCell.
-        case communicationTextColor
-    }
+    /// The communication text color in an ActionsCell.
+    case communicationTextColor
+}
 
+public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
     init(customViewSize: @escaping () -> MSFTableViewCellCustomViewSize) {
         self.customViewSize = customViewSize
         super.init { token, theme in
