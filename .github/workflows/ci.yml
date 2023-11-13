@@ -29,9 +29,9 @@ jobs:
       fail-fast: false
       matrix:
         build_command: [
-          'macos_build FluentUITestApp-macOS Release build test',
-          'macos_build FluentUITestApp-macOS Debug build -resultBundlePath TestResults test -destination "platform=macOS,arch=x86_64"',
-          'ios_simulator_build Demo.Development Debug build test -resultBundlePath TestResults -destination "platform=iOS Simulator,name=iPhone 14 Pro"',
+          'macos_build FluentUITestApp-macOS Release build',
+          'macos_build FluentUITestApp-macOS Debug build -resultBundlePath TestResultsMac test -destination "platform=macOS,arch=x86_64"',
+          'ios_simulator_build Demo.Development Debug build test -resultBundlePath TestResultsiOS -destination "platform=iOS Simulator,name=iPhone 14 Pro"',
           'ios_device_build Demo.Development Release build',
         ]
 
@@ -44,17 +44,29 @@ jobs:
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
       run: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
       continue-on-error: true
-    - name: Zip if TestResults.xcresult bundle exists
+    - name: Zip if TestResultsMac.xcresult bundle exists
       run: |
-        if [ -d "TestResults.xcresult" ]; then
-          zip -r TestResults.zip TestResults.xcresult
+        if [ -d "TestResultsMac.xcresult" ]; then
+          zip -r TestResultsMac.zip TestResultsMac.xcresult
         else
-          echo "TestResults.xcresult not found."
+          echo "TestResultsMac.xcresult not found."
         fi
-    - name: Upload TestResults.zip
+    - name: Upload TestResultsMac.zip
       uses: actions/upload-artifact@v3
       with:
-        name: xctest-results
-        path: TestResults.zip
+        name: xctest-resultsMac
+        path: TestResultsMac.zip
         retention-days: 3
-
+    - name: Zip if TestResultsiOS.xcresult bundle exists
+      run: |
+        if [ -d "TestResultsiOS.xcresult" ]; then
+          zip -r TestResultsiOS.zip TestResultsiOS.xcresult
+        else
+          echo "TestResultsiOS.xcresult not found."
+        fi
+    - name: Upload TestResultsiOS.zip
+      uses: actions/upload-artifact@v3
+      with:
+        name: xctest-resultsiOS
+        path: TestResultsiOS.zip
+        retention-days: 3
