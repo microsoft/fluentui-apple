@@ -206,6 +206,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         }
     }
 
+    private var attributedTitleFont: UIFont?
+    private var attributedTitleColor: UIColor?
+
     public override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         initialize()
@@ -249,6 +252,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - accessoryButtonTitle: Optional accessory button title string.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
+        attributedTitleFont = nil
+        attributedTitleColor = nil
         titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
         titleView.text = title
         titleView.isSelectable = false
@@ -272,6 +277,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
         titleView.attributedText = attributedTitle
         titleView.isSelectable = true
+
+        let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
+        attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont
+        attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor
 
         setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
@@ -430,18 +439,20 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     private func updateTitleViewFont() {
         if let window = window {
-            let titleFont = tokenSet[.textFont].uiFont
+            let titleFont = attributedTitleFont != nil ? attributedTitleFont : tokenSet[.textFont].uiFont
             titleView.font = titleFont
             // offset text container to center its content
-            let scale = window.rootViewController?.view.contentScaleFactor ?? window.screen.scale
-            let offset = (floor((abs(titleFont.leading) / 2) * scale) / scale) / 2
-            titleView.textContainerInset.top = offset
-            titleView.textContainerInset.bottom = -offset
+            if let titleFont = titleFont {
+                let scale = window.rootViewController?.view.contentScaleFactor ?? window.screen.scale
+                let offset = (floor((abs(titleFont.leading) / 2) * scale) / scale) / 2
+                titleView.textContainerInset.top = offset
+                titleView.textContainerInset.bottom = -offset
+            }
         }
     }
 
     private func updateTitleAndBackgroundColors() {
-        titleView.textColor = tokenSet[.textColor].uiColor
+		titleView.textColor = attributedTitleColor != nil ? attributedTitleColor : tokenSet[.textColor].uiColor
 
         if tableViewCellStyle == .grouped {
             backgroundView?.backgroundColor = tokenSet[.backgroundColorGrouped].uiColor
@@ -451,7 +462,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             backgroundView?.backgroundColor = .clear
         }
 
-        titleView.font = tokenSet[.textFont].uiFont
+        if attributedTitleFont == nil {
+            titleView.font = tokenSet[.textFont].uiFont
+        }
+
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
     }
 
