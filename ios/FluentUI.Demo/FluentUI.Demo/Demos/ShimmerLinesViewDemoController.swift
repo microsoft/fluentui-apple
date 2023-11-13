@@ -46,7 +46,7 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
             // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
-            let tintColor = UIColor(colorValue: ColorValue(0xF1F1F1))
+            let tintColor = UIColor(hexValue: 0xF1F1F1)
             let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(tintColor, renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
             let shimmerView = ShimmerView(containerView: containerView,
