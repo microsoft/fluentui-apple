@@ -50,11 +50,11 @@ extension UIView {
         }
 
         if horizontally {
-            frame.origin.x = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.frame.width - frame.width))
+            frame.origin.x = ceil(0.5 * (superview.frame.width - frame.width))
         }
 
         if vertically {
-            frame.origin.y = UIScreen.main.roundDownToDevicePixels(0.5 * (superview.frame.height - frame.height))
+            frame.origin.y = ceil(0.5 * (superview.frame.height - frame.height))
         }
     }
 

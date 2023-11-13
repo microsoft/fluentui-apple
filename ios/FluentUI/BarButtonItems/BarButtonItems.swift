@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "BarButtonItems")
-public typealias MSBarButtonItems = BarButtonItems
-
 public final class BarButtonItems: NSObject {
     /// When adding this barButtonItem to the view, tint it with appropriate app color UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
     @objc static func confirm(target: Any?, action: Selector?) -> UIBarButtonItem {

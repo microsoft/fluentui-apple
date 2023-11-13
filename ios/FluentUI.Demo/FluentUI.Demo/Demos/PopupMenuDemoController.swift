@@ -15,15 +15,19 @@ class PopupMenuDemoController: DemoController {
         case month
     }
 
-    override var allowsContentToScroll: Bool { return false }
+    private let navButtonTitleSwitch = BrandedSwitch()
+    private let navButtonSubtitleSwitch = BrandedSwitch()
+    private let switchTextWidth: CGFloat = 150
 
     private var calendarLayout: CalendarLayout = .agenda
     private var cityIndexPath: IndexPath? = IndexPath(item: 2, section: 1)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "A popup menu is a small, temporary window that appears on demand to give non-essential, contextual information.\n\nPopup menus can have structured content and interactive components but limit the functionality that you include in them. Generally, they work best in wider views. If you need to show contextual info in a compact view, try a sheet instead."
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        let showButton = UIBarButtonItem(title: "Show", style: .plain, target: self, action: #selector(topBarButtonTapped))
+        navigationItem.rightBarButtonItems?.append(showButton)
 
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -40,7 +44,12 @@ class PopupMenuDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show items with custom colors", action: #selector(showCustomColorsButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show items without dismissal after being tapped", action: #selector(showNoDismissalItemsButtonTapped)))
         container.addArrangedSubview(UIView())
-        addTitle(text: "Show with...")
+        container.addArrangedSubview(createButton(title: "Objective-C Demo", action: #selector(showObjCDemo)))
+        addTitle(text: "Navigation Button Settings")
+        addRow(text: "Show Title", items: [navButtonTitleSwitch], textWidth: switchTextWidth)
+        navButtonTitleSwitch.addTarget(self, action: #selector(handleOnSwitchChanged), for: .valueChanged)
+        addRow(text: "Show Subtitle", items: [navButtonSubtitleSwitch], textWidth: switchTextWidth)
+        navButtonSubtitleSwitch.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -48,15 +57,31 @@ class PopupMenuDemoController: DemoController {
         navigationController?.isToolbarHidden = false
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+
     private func createAccessoryView(text: String) -> UIView {
-        let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, size: .small))
+        let accessoryView = BadgeView(dataSource: BadgeViewDataSource(text: text, style: .default, sizeCategory: .small))
         accessoryView.isUserInteractionEnabled = false
         accessoryView.sizeToFit()
         return accessoryView
     }
 
+    @objc private func handleOnSwitchChanged() {
+        navButtonSubtitleSwitch.isEnabled = navButtonTitleSwitch.isOn
+        if navButtonSubtitleSwitch.isOn && !navButtonSubtitleSwitch.isEnabled {
+            navButtonSubtitleSwitch.isOn = false
+        }
+    }
+
     @objc private func topBarButtonTapped(sender: UIBarButtonItem) {
         let controller = PopupMenuController(barButtonItem: sender, presentationDirection: .down)
+
+        if navButtonTitleSwitch.isOn {
+            controller.headerItem = PopupMenuItem(title: "Header Title", subtitle: navButtonSubtitleSwitch.isOn ? "Header Subtitle" : nil)
+        }
 
         controller.addItems([
             PopupMenuItem(image: UIImage(named: "mail-unread-24x24"), title: "Unread"),
@@ -100,6 +125,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showTopMenuWithSectionsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         controller.addSections([
             PopupMenuSection(title: "Canada", items: [
@@ -125,6 +152,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showTopMenuWithScrollableItemsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = samplePersonas.map { PopupMenuItem(title: !$0.name.isEmpty ? $0.name : $0.email) }
         controller.addItems(items)
@@ -134,6 +163,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showCustomColorsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = [
             PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, onSelected: { self.calendarLayout = .agenda }),
@@ -154,7 +185,6 @@ class PopupMenuDemoController: DemoController {
         controller.addItems(items)
 
         controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
@@ -162,6 +192,8 @@ class PopupMenuDemoController: DemoController {
 
     @objc private func showNoDismissalItemsButtonTapped(sender: UIButton) {
         let controller = PopupMenuController(sourceView: sender, sourceRect: sender.bounds, presentationDirection: .down)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
 
         let items = [
             PopupMenuItem(image: UIImage(named: "agenda-24x24"), title: "Agenda", isSelected: calendarLayout == .agenda, executes: .onSelectionWithoutDismissal, onSelected: { self.calendarLayout = .agenda }),
@@ -182,9 +214,56 @@ class PopupMenuDemoController: DemoController {
         controller.addItems(items)
 
         controller.backgroundColor = menuBackgroundColor
-        controller.resizingHandleViewBackgroundColor = menuBackgroundColor
         controller.separatorColor = .lightGray
 
         present(controller, animated: true)
+    }
+
+    @objc private func showObjCDemo(sender: UIButton) {
+        navigationController?.pushViewController(PopupMenuObjCDemoController(), animated: true)
+    }
+
+    private var perControlOverrideEnabled: Bool = false
+}
+
+extension PopupMenuDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PopupMenuTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverridePopupMenuTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: PopupMenuTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                              dark: GlobalTokens.sharedColor(.plum, .tint60))
+            }
+        ]
+    }
+
+    private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                              dark: GlobalTokens.sharedColor(.forest, .tint60))
+            },
+            .resizingHandleMarkColor: .uiColor {
+                .red
+            },
+            .resizingHandleBackgroundColor: .uiColor {
+                .blue
+            }
+        ]
     }
 }

@@ -25,40 +25,43 @@ class CalendarViewDayTodayCell: CalendarViewDayCell {
     }
 
     // Only supports indicator levels from 0...4
-    override func setup(textStyle: CalendarViewDayCellTextStyle, backgroundStyle: CalendarViewDayCellBackgroundStyle, selectionStyle: CalendarViewDayCellSelectionStyle, dateLabelText: String, indicatorLevel: Int) {
-        super.setup(textStyle: textStyle, backgroundStyle: backgroundStyle, selectionStyle: selectionStyle, dateLabelText: dateLabelText, indicatorLevel: indicatorLevel)
+    override func setup(textStyle: CalendarViewDayCellTextStyle,
+                        backgroundStyle: CalendarViewDayCellBackgroundStyle,
+                        selectionStyle: CalendarViewDayCellSelectionStyle,
+                        dateLabelText: String,
+                        indicatorLevel: Int) {
+        super.setup(textStyle: textStyle,
+                    backgroundStyle: backgroundStyle,
+                    selectionStyle: selectionStyle,
+                    dateLabelText: dateLabelText,
+                    indicatorLevel: indicatorLevel)
 
+        updateAppearance()
+    }
+
+    override func updateAppearance() {
+        super.updateAppearance()
         configureBackgroundColor()
         configureFontColor()
     }
 
     private func configureBackgroundColor() {
-        if isHighlighted || isSelected {
-            switch backgroundStyle {
-            case .primary:
-                contentView.backgroundColor = Colors.Calendar.Day.backgroundPrimary
-            case .secondary:
-                contentView.backgroundColor = Colors.Calendar.Day.backgroundSecondary
-            }
-        } else {
-            contentView.backgroundColor = Colors.Calendar.Today.background
-        }
+        contentView.backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
+                                              dark: fluentTheme.color(.background2).dark)
     }
 
     private func configureFontColor() {
+        dateLabel.font = fluentTheme.typography(.body1)
+
         if isHighlighted || isSelected {
-            dateLabel.font = UIFontMetrics.default.scaledFont(for: Fonts.body, maximumPointSize: Constants.maximumFontSize)
-            dateLabel.textColor = Colors.Calendar.Day.textSelected
+            dateLabel.textColor = fluentTheme.color(.foregroundOnColor)
             dateLabel.showsLargeContentViewer = true
         } else {
-            dateLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: Fonts.headline, maximumPointSize: Constants.maximumFontSize)
             switch textStyle {
             case .primary:
-                dateLabel.textColor = Colors.Calendar.Day.textPrimary
-                dotView.color = Colors.Calendar.Day.textPrimary
+                dateLabel.textColor = fluentTheme.color(.foreground1)
             case .secondary:
-                dateLabel.textColor = Colors.Calendar.Day.textSecondary
-                dotView.color = Colors.Calendar.Day.textSecondary
+                dateLabel.textColor = fluentTheme.color(.foreground3)
             }
         }
     }

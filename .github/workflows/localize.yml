@@ -14,10 +14,11 @@ on:
 
 jobs:
   Localize:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    environment: localization
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - shell: bash
       name: Localize
       env:
@@ -26,12 +27,8 @@ jobs:
         TDBUILD_AAD_APPLICATION_CLIENT_SECRET: ${{ secrets.TDBUILD_AAD_APPLICATION_CLIENT_SECRET }}
       run: scripts/localize.sh
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v3.5.0
-      with:
-        commit-message: Latest localized resource files from Touchdown Build
-        title: '[Localization] Localized Resource Files'
-        body: 'Latest localized resource files from Touchdown Build'
-        branch: tdbuild
-        labels: Automated PR
-        branch-suffix: timestamp
-    
+      run: scripts/create_localization_pr.sh
+      env:
+          GITHUB_TOKEN: ${{ secrets.MSF_TOKEN }}
+          EMAIL: ${{ secrets.EMAIL }}
+          NAME: ${{ vars.NAME }}

@@ -3,12 +3,14 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI
 import UIKit
 
 class ShimmerViewDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        readmeString = "A shimmer lets people know that information is loading and gives them an idea of the structure of the information.\n\nUse shimmers for loading states that take longer than one second but avoid them for long loading processes. They are indeterminate indicators, so they don’t communicate how much time is left before the process is done. Seeing a shimmer for too long could make people think something’s gone wrong."
         let contentView = { () -> UIStackView in
             let label1 = UILabel()
             label1.text = "Label 1"
@@ -32,27 +34,32 @@ class ShimmerViewDemoController: DemoController {
 
         let shimmeringContentView = { (shimmersLeafViews: Bool) -> UIStackView in
             let containerView = contentView()
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmersLeafViews: shimmersLeafViews,
+                                          usesTextHeightForLabels: true)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmersLeafViews = shimmersLeafViews
-            shimmerView.usesTextHeightForLabels = true
-            shimmerView.labelHeight = -1 // Must be < 0 so we actually use the bool usesTextHeightForLabels
             containerView.addSubview(shimmerView)
             return containerView
         }
 
-        let shimmeringImageView = { (shimmerStyle: ShimmerStyle) -> UIView in
-            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.image(withPrimaryColor: Colors.Shimmer.tint))
+        let shimmeringImageView = { (shimmerStyle: MSFShimmerStyle) -> UIView in
+            // Uses a nice gray color that happens to match the gray of the shimmer control. Any color can be used here though.
+            let tintColor = UIColor(hexValue: 0xF1F1F1)
+            let imageView = UIImageView(image: UIImage(named: "PlaceholderImage")?.withTintColor(tintColor, renderingMode: .alwaysOriginal))
             let containerView = UIStackView(arrangedSubviews: [imageView])
-            let shimmerView = ShimmerView(containerView: containerView, excludedViews: [], animationSynchronizer: nil, shimmerStyle: shimmerStyle)
+            let shimmerView = ShimmerView(containerView: containerView,
+                                          excludedViews: [],
+                                          animationSynchronizer: nil,
+                                          shimmerStyle: shimmerStyle)
             shimmerView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            shimmerView.shimmerStyle = shimmerStyle
             containerView.addSubview(shimmerView)
             return containerView
         }
 
         let shimmerViewLabel = { (text: String) -> UILabel in
-            let label = Label(style: .headline)
+            let label = Label()
             label.numberOfLines = 0
             label.text = text
             return label
@@ -61,6 +68,15 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(shimmerViewLabel("A ShimmerLinesView needs no containerview or subviews"))
         container.addArrangedSubview(Separator())
         container.addArrangedSubview(ShimmerLinesView())
+        container.addArrangedSubview(Separator())
+
+        container.addArrangedSubview(shimmerViewLabel("The middle lines of ShimmerLinesView are always at 100% width"))
+        container.addArrangedSubview(Separator())
+        let shimmerLinesView = ShimmerLinesView(containerView: nil,
+                                                excludedViews: [],
+                                                animationSynchronizer: nil)
+        shimmerLinesView.lineCount = 6
+        container.addArrangedSubview(shimmerLinesView)
         container.addArrangedSubview(Separator())
 
         container.addArrangedSubview(shimmerViewLabel("ShimmerView shimmers all the top level subviews of its container view"))

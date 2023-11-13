@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "TabBarItem")
-public typealias MSTabBarItem = TabBarItem
-
 @objc(MSFTabBarItem)
 open class TabBarItem: NSObject {
     @objc public let title: String
@@ -18,6 +15,26 @@ open class TabBarItem: NSObject {
         didSet {
             if oldValue != badgeValue {
                 NotificationCenter.default.post(name: TabBarItem.badgeValueDidChangeNotification, object: self)
+            }
+        }
+    }
+
+    /// This value will determine whether or not to show the mark that represents the "unread" state.
+    /// If the badgeValue is set, the unreadDot will not be visible.
+    /// The default value of this property is false.
+    @objc public var isUnreadDotVisible: Bool = false {
+       didSet {
+           if oldValue != isUnreadDotVisible {
+               NotificationCenter.default.post(name: TabBarItem.isUnreadValueDidChangeNotification, object: self)
+           }
+       }
+   }
+
+    /// A string that uniquely identifies the element, typically for automation purposes.
+    @objc public var accessibilityIdentifier: String? {
+        didSet {
+            if accessibilityIdentifier != oldValue {
+                NotificationCenter.default.post(name: TabBarItem.accessibilityIdentifierDidChangeNotification, object: self)
             }
         }
     }
@@ -92,6 +109,12 @@ open class TabBarItem: NSObject {
 
     /// Notification sent when the tab bar item's badge value changes.
     static let badgeValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemBadgeValueDidChangeNotification")
+
+    /// Notification sent when item's `isUnread` value changes.
+    static let isUnreadValueDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemisUnreadValueDidChangeNotification")
+
+    /// Notification sent when item's `accessibilityIdentifier` value changes.
+    static let accessibilityIdentifierDidChangeNotification = NSNotification.Name(rawValue: "TabBarItemAccessibilityIdentifierDidChangeNotification")
 
     let image: UIImage
     let selectedImage: UIImage?

@@ -108,10 +108,48 @@ open class Button: NSButton {
 		// properties have their default values
 		let defaultFormat = ButtonFormat()
 		if style == defaultFormat.style {
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
 		}
 		if size == defaultFormat.size {
 			setSizeParameters(forSize: size)
+		}
+
+		NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,
+														  object: nil,
+														  queue: nil) {[weak self] _ in
+			self?.increaseContrastEnabled = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+		}
+	}
+
+	func setupBorderShadowsIfNeeded() {
+		// At the moment border shadows only apply for the Primary and Secondary Button Styles.
+		// Border shadows being meant for buttons and their corresponding States, that have ~some~
+		// background color other than `clear` which is why they don't apply to the Borderless Style
+		// buttons. Acrylic Style buttons do possess a background color, yet they maintain transparency.
+		// This transparency allows any underlying border shadow layers to bleed through, consequently
+		// impacting the overall button background color. Adding shadows in this context presents a
+		// challenge. Therefore, unless it becomes necessary, these buttons will remain without shadows.
+		// And perhaps shadowPath is the way to go, where you can have the CALayer have a Clear
+		// background color and still show a shadow by setting a hollow shadowPath around the button.
+		self.usesBorderShadows = style == .primary || style == .secondary
+	}
+
+	var firstOuterDropShadowLayer: CALayer?
+	var secondOuterDropShadowLayer: CALayer?
+	var innerShadowLayer: CALayer?
+
+	open override func layout() {
+		super.layout()
+		if usesBorderShadows {
+			// Set the frame of all the shadow layers to the same bounds as this Button View. This
+			// couldn't have been done in the init where the shadow layers are setup because the Button
+			// view doesn't yet have any bounds established, so we're forced to do it in the layout
+			// override where we're guaranteed to have bounds and is also invoked every time the view's
+			// size or position needs adjustments.
+			firstOuterDropShadowLayer?.frame = self.bounds
+			secondOuterDropShadowLayer?.frame = self.bounds
+			innerShadowLayer?.frame = self.bounds
 		}
 	}
 
@@ -130,6 +168,42 @@ open class Button: NSButton {
 			}
 		}
 	}
+
+	/// When set to a non `nil` value ,this image will always be placed on the trailing edge of the button.
+	/// It is designed to remain independent of  the `imagePosition` value of the NSButton which applies to the built-in `image` property.
+	@objc public var trailingImage: NSImage? {
+		didSet {
+			guard oldValue != trailingImage else {
+				return
+			}
+
+			guard let cell = cell as? ButtonCell else {
+				preconditionFailure("The FluentUI `Button` should only be used with the `ButtonCell` cell class.")
+			}
+
+			if let trailingImage = trailingImage {
+				if let trailingImageView = trailingImageView {
+					trailingImageView.image = trailingImage
+				} else {
+					let imageView = NSImageView(image: trailingImage)
+					imageView.translatesAutoresizingMaskIntoConstraints = false
+					addSubview(imageView)
+					NSLayoutConstraint.activate([
+						imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
+						imageView.centerYAnchor.constraint(equalTo: centerYAnchor)
+					])
+					trailingImageView = imageView
+				}
+				updateTrailingImageContentTintColor()
+			} else {
+				// Handle replacement/removal of a previously set image
+				trailingImageView?.removeFromSuperview()
+				trailingImageView = nil
+			}
+		}
+	}
+
+	private var trailingImageView: NSImageView?
 
 	/// Title string to display in the button.
 	public override var title: String {
@@ -205,6 +279,30 @@ open class Button: NSButton {
 			layer.backgroundColor = backgroundColorRest?.cgColor
 			layer.borderColor = borderColorRest?.cgColor
 		}
+
+		if usesBorderShadows {
+			// Although we're using an AssetCatalog color for the shadows, which has a dynamic dark/light
+			// appearance specified, we have to manually update the shadowColor property of the layer
+			// since it's a CGColor and not an NSColor, and CGColorRef objects don’t adapt to environment
+			// changes
+			updateShadowLayer(shadowLayer: firstOuterDropShadowLayer,
+							  shadowColor: ButtonColor.firstOuterDropShadow?.cgColor)
+			updateShadowLayer(shadowLayer: secondOuterDropShadowLayer,
+							  shadowColor: ButtonColor.secondOuterDropShadow?.cgColor)
+			updateShadowLayer(shadowLayer: innerShadowLayer,
+							  shadowColor: ButtonColor.innerShadow?.cgColor)
+		}
+	}
+
+	func updateShadowLayer(shadowLayer: CALayer?, shadowColor: CGColor?) {
+		guard let layer = layer else {
+			return
+		}
+		// Match the shadow background color with that of the Button layer so that the shadow layer
+		// content itself isn't visible, and just the shadow is.
+		shadowLayer?.backgroundColor = layer.backgroundColor
+		shadowLayer?.cornerRadius = layer.cornerRadius
+		shadowLayer?.shadowColor = shadowColor
 	}
 
 	public override var wantsUpdateLayer: Bool {
@@ -216,6 +314,38 @@ open class Button: NSButton {
 		// rather than just around the image or title.
 		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
 		path.fill()
+	}
+
+	public override func viewDidMoveToWindow() {
+		super.viewDidMoveToWindow()
+		isWindowInactive = !(window?.isMainWindow ?? false)
+
+		// Remove any previous Notification Observers if we're moving away from a window (in which case `viewDidMoveToWindow` is called and `window == nil`)
+		// Or, remove any Notification Observers from the old window if we're moving directly into a new window
+		if let resignMainWindowObserver = resignMainWindowObserver {
+			NotificationCenter.default.removeObserver(resignMainWindowObserver)
+			self.resignMainWindowObserver = nil
+		}
+
+		if let becomeMainWindowObserver = becomeMainWindowObserver {
+			NotificationCenter.default.removeObserver(becomeMainWindowObserver)
+			self.becomeMainWindowObserver = nil
+		}
+
+		if window != nil {
+			// Hook in Notification Handles to capture the Window's active and inactive states
+			resignMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResignMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = true
+			}
+
+			becomeMainWindowObserver = NotificationCenter.default.addObserver(forName: NSWindow.didBecomeMainNotification,
+												   object: window,
+												   queue: nil) {[weak self] _ in
+				self?.isWindowInactive = false
+			}
+		}
 	}
 
 	open override func viewDidChangeBackingProperties() {
@@ -245,6 +375,10 @@ open class Button: NSButton {
 		}
 	}
 
+	/// Stored Observers for NSWindow  Notifications, to be able to remove them from NotificationCenter when not needed
+	private var resignMainWindowObserver: NSObjectProtocol?
+	private var becomeMainWindowObserver: NSObjectProtocol?
+
 	/// State-specific colors for foreground, background and border
 	private var contentTintColorRest: NSColor?
 	private var contentTintColorPressed: NSColor?
@@ -264,20 +398,42 @@ open class Button: NSButton {
 		} else {
 			contentTintColor = contentTintColorRest
 		}
+		updateTrailingImageContentTintColor()
+	}
+
+	private func updateTrailingImageContentTintColor() {
+		if let trailingImageView = trailingImageView {
+			if !isEnabled {
+				trailingImageView.contentTintColor = contentTintColorDisabled
+			} else if isPressed {
+				trailingImageView.contentTintColor = contentTintColorPressed
+			} else {
+				trailingImageView.contentTintColor = contentTintColorRest
+			}
+		}
 	}
 
 	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+
+		// Use System Colors which respond correctly to accessibility settings like increase contrast
+		// https://developer.apple.com/documentation/appkit/nscolor/ui_element_colors
+		let increaseContrastBorderColor: NSColor = .textColor
+
 		switch forStyle {
 		case .primary:
-			contentTintColorRest = ButtonColor.neutralInverted
+			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
 			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-			backgroundColorRest = accentColor
+			backgroundColorRest = isWindowInactive ? ButtonColor.neutralBackground2 : accentColor
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-			borderColorRest = .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			if increaseContrastEnabled {
+				borderColorRest = increaseContrastBorderColor
+			} else {
+				borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
+			}
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		case .secondary:
 			contentTintColorRest = .textColor
 			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
@@ -285,9 +441,9 @@ open class Button: NSButton {
 			backgroundColorRest = ButtonColor.neutralBackground2
 			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
-			borderColorRest = ButtonColor.neutralStroke2
-			borderColorPressed = .clear
-			borderColorDisabled = ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
 		case .acrylic:
 			contentTintColorRest = ButtonColor.neutralForeground3
 			contentTintColorPressed = ButtonColor.neutralForeground3?.withSystemEffect(.pressed)
@@ -295,19 +451,19 @@ open class Button: NSButton {
 			backgroundColorRest = ButtonColor.neutralBackground3
 			backgroundColorPressed = ButtonColor.neutralBackground3?.withSystemEffect(.pressed)
 			backgroundColorDisabled = ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
-			borderColorRest = .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		case .borderless:
-			contentTintColorRest = accentColor
+			contentTintColorRest = isWindowInactive ? .textColor : accentColor
 			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
 			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
 			backgroundColorRest = .clear
 			backgroundColorPressed = .clear
 			backgroundColorDisabled = .clear
-			borderColorRest = .clear
-			borderColorPressed = .clear
-			borderColorDisabled = .clear
+			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
 		}
 		updateContentTintColor()
 	}
@@ -333,7 +489,58 @@ open class Button: NSButton {
 			guard oldValue != style else {
 				return
 			}
+			setupBorderShadowsIfNeeded()
 			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
+	}
+
+	var usesBorderShadows: Bool = false {
+		didSet {
+			guard oldValue != usesBorderShadows else {
+				return
+			}
+
+			if usesBorderShadows {
+				firstOuterDropShadowLayer = CALayer()
+				secondOuterDropShadowLayer = CALayer()
+				innerShadowLayer = CALayer()
+
+				// Ensure that the Shadow sublayers can in fact extend beyond the bounds of the Button View's
+				// layer so that the shadows don't get clipped
+				self.layer?.masksToBounds = false
+
+				if let firstOuterDropShadowLayer = firstOuterDropShadowLayer {
+					firstOuterDropShadowLayer.shadowOffset = CGSize(width: 0.0, height: 1)
+					firstOuterDropShadowLayer.shadowRadius = 0.75
+					firstOuterDropShadowLayer.shadowOpacity = 1
+					firstOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(firstOuterDropShadowLayer)
+				}
+
+				if let secondOuterDropShadowLayer = secondOuterDropShadowLayer {
+					secondOuterDropShadowLayer.shadowOffset = CGSize(width: 0, height: 0)
+					secondOuterDropShadowLayer.shadowRadius = 0.5
+					secondOuterDropShadowLayer.shadowOpacity = 1
+					secondOuterDropShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(secondOuterDropShadowLayer)
+				}
+
+				if let innerShadowLayer = innerShadowLayer {
+					innerShadowLayer.shadowOffset = CGSize(width: 0, height: 0.5)
+					innerShadowLayer.shadowRadius = 0.5
+					innerShadowLayer.shadowOpacity = 1
+					innerShadowLayer.needsDisplayOnBoundsChange = true
+					self.layer?.addSublayer(innerShadowLayer)
+				}
+			} else {
+				firstOuterDropShadowLayer?.removeFromSuperlayer()
+				secondOuterDropShadowLayer?.removeFromSuperlayer()
+				innerShadowLayer?.removeFromSuperlayer()
+				firstOuterDropShadowLayer = nil
+				secondOuterDropShadowLayer = nil
+				innerShadowLayer = nil
+			}
 			needsDisplay = true
 		}
 	}
@@ -342,10 +549,13 @@ open class Button: NSButton {
 
 	private static let borderWidth: CGFloat = 1
 
+	private var minButtonHeight: CGFloat = ButtonSizeParameters.large.minButtonHeight
+
 	private func setSizeParameters(forSize: ButtonSize) {
 		let parameters = ButtonSizeParameters.parameters(forSize: size)
 		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
+		minButtonHeight = parameters.minButtonHeight
 		guard let cell = cell as? ButtonCell else {
 			return
 		}
@@ -365,6 +575,45 @@ open class Button: NSButton {
 			}
 			setSizeParameters(forSize: size)
 			invalidateIntrinsicContentSize()
+			needsDisplay = true
+		}
+	}
+
+	open override var intrinsicContentSize: CGSize {
+		let superSize = super.intrinsicContentSize
+		let trailingImageAdjustment: CGFloat
+
+		// Account for extra space needed by `trailingImage`
+		if let trailingImage = trailingImage,
+		   let cell = cell as? ButtonCell {
+			trailingImageAdjustment = trailingImage.size.width + cell.titleToImageSpacing
+		} else {
+			trailingImageAdjustment = 0
+		}
+		return CGSize(width: superSize.width + trailingImageAdjustment,
+					  height: superSize.height < minButtonHeight ? minButtonHeight : superSize.height)
+	}
+
+	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
+	private var isWindowInactive: Bool = false {
+		didSet {
+			guard oldValue != isWindowInactive else {
+				return
+			}
+			// Re-compute the Button's color values for the latest Window State, and re-render it
+			setColorValues(forStyle: style, accentColor: accentColor)
+			needsDisplay = true
+		}
+	}
+
+	/// Indicates if the `Increase Contrast` Accessibility Setting is enabled
+	private var increaseContrastEnabled: Bool = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+		didSet {
+			guard oldValue != increaseContrastEnabled else {
+				return
+			}
+			// Re-compute the Button's color values for the latest Contrast State, and re-render it
+			setColorValues(forStyle: style, accentColor: accentColor)
 			needsDisplay = true
 		}
 	}
@@ -422,11 +671,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// Center the Primary Image
 		var x = (rect.width - imageSize.width) / 2
 		var y = (rect.height - imageSize.height) / 2
 
 		if xOffsetSign != 0 {
+			// Offset the Primary Image from the Title
 			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
 		}
@@ -482,11 +739,19 @@ class ButtonCell: NSButtonCell {
 			break
 		}
 
+		// Center the Title
 		var x = (rect.width - titleSize.width) / 2
 		var y = (rect.height - titleSize.height) / 2 + titleVerticalPositionAdjustment
 
 		if xOffsetSign != 0 {
+			// Offset the Title from the Primary Image
 			x += CGFloat(xOffsetSign) * (imageSize.width + titleToImageSpacing) / 2
+
+			// Offset the Title from the Trailing Image
+			if let controlView = controlView as? Button,
+			   let trailingImage = controlView.trailingImage {
+				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
+			}
 		} else if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (imageSize.height + titleToImageSpacing) / 2
 		}
@@ -523,7 +788,14 @@ class ButtonCell: NSButtonCell {
 /// Indicates the size of the button
 @objc(MSFButtonSize)
 public enum ButtonSize: Int, CaseIterable {
+
+	/// Minimum Button Height - 28 pts
 	case large
+
+	/// Minimum Button Height - 24 pts
+	case medium
+
+	/// Minimum Button Height - 20 pts
 	case small
 }
 
@@ -567,6 +839,9 @@ public struct ButtonFormat {
 
 @objc(MSFButtonColor)
 class ButtonColor: NSObject {
+	public static let firstOuterDropShadow = NSColor(named: "ButtonColors/firstOuterDropShadow", bundle: FluentUIResources.resourceBundle)
+	public static let secondOuterDropShadow = NSColor(named: "ButtonColors/secondOuterDropShadow", bundle: FluentUIResources.resourceBundle)
+	public static let innerShadow = NSColor(named: "ButtonColors/innerShadow", bundle: FluentUIResources.resourceBundle)
 	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)
@@ -587,6 +862,7 @@ private struct ButtonSizeParameters {
 	fileprivate let titleVerticalPositionAdjustment: CGFloat
 	fileprivate let titleToImageSpacing: CGFloat
 	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
+	fileprivate var minButtonHeight: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -595,7 +871,19 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 36,
 		titleVerticalPositionAdjustment: -0.25,
 		titleToImageSpacing: 10,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 28
+	)
+
+	static let medium = ButtonSizeParameters(
+		fontSize: 13,  // line height: 17
+		cornerRadius: 6,
+		verticalPadding: 2.0, // overall height: 24
+		horizontalPadding: 5,
+		titleVerticalPositionAdjustment: 0,
+		titleToImageSpacing: 3,
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 24
 	)
 
 	static let small = ButtonSizeParameters(
@@ -605,13 +893,16 @@ private struct ButtonSizeParameters {
 		horizontalPadding: 14,
 		titleVerticalPositionAdjustment: 0,
 		titleToImageSpacing: 6,
-		titleToImageVerticalSpacingAdjustment: 7
+		titleToImageVerticalSpacingAdjustment: 7,
+		minButtonHeight: 20
 	)
 
 	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
 		switch forSize {
 		case .large:
 			return .large
+		case .medium:
+			return .medium
 		case .small:
 			return .small
 		}

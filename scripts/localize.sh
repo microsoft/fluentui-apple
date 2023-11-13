@@ -23,4 +23,4 @@ fi
 scripts/GetLocalizedFiles.sh -t $TDBUILD_TEAM_ID -u -a $TDBUILD_AAD_APPLICATION_CLIENT_ID -p $TDBUILD_AAD_APPLICATION_CLIENT_SECRET -f ios/FluentUI/Resources/Localization/en.lproj -r ios -o ios/FluentUI/Resources/Localization
 
 # Localize macOS resources
-scripts/GetLocalizedFiles.sh -t $TDBUILD_TEAM_ID -u -a $TDBUILD_AAD_APPLICATION_CLIENT_ID -p $TDBUILD_AAD_APPLICATION_CLIENT_SECRET -f macos/FluentUIResources-macos/Strings/en.lproj -r macos -o macos/FluentUIResources-macos/Strings
+scripts/GetLocalizedFiles.sh -t $TDBUILD_TEAM_ID -u -a $TDBUILD_AAD_APPLICATION_CLIENT_ID -p $TDBUILD_AAD_APPLICATION_CLIENT_SECRET -f macos/FluentUI/Resources/Strings/en.lproj -r macos -o macos/FluentUI/Resources/Strings

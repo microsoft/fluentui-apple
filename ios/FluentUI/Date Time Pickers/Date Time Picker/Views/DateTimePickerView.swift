@@ -8,12 +8,9 @@ import UIKit
 // MARK: DateTimePickerViewMode
 
 enum DateTimePickerViewMode {
-    case date(startYear: Int, endYear: Int)
+    case date
     case dateTime   /// Date hour/minute am/pm
     case dayOfMonth /// Week of month / Day of week
-
-    static let defaultStartYear: Int = CalendarConfiguration.default.referenceStartDate.year
-    static let defaultEndYear: Int = CalendarConfiguration.default.referenceEndDate.year
 }
 
 // MARK: - DateTimePickerViewDelegate
@@ -51,42 +48,73 @@ class DateTimePickerView: UIControl {
     private let selectionTopSeparator = Separator()
     private let selectionBottomSeparator = Separator()
 
-    private let gradientLayer: CAGradientLayer = {
+    private var gradientLayer = CAGradientLayer()
+
+    private func createGradientLayer() -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        let backgroundColor = Colors.DateTimePicker.background
-        let transparentColor = backgroundColor.withAlphaComponent(0)
-        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
+        updateGradientLayerColors(gradientLayer: gradientLayer)
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
         return gradientLayer
-    }()
+    }
 
-    init(mode: DateTimePickerViewMode) {
+    private func updateGradientLayerColors(gradientLayer: CAGradientLayer) {
+        let backgroundColor = fluentTheme.color(.background2)
+        let transparentColor = backgroundColor.withAlphaComponent(0)
+        gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
+    }
+
+    init(mode: DateTimePickerViewMode, calendarConfiguration: CalendarConfiguration) {
         self.mode = mode
 
         componentTypes = DateTimePickerViewLayout.componentTypes(fromDatePickerMode: mode)
-        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode)
+        componentsByType = DateTimePickerViewLayout.componentsByType(fromTypes: componentTypes, mode: mode, calendarConfiguration: calendarConfiguration)
 
         super.init(frame: .zero)
 
-        for component in componentsByType.values {
-            component.delegate = self
-            addSubview(component.view)
-        }
-
-        layer.addSublayer(gradientLayer)
+        gradientLayer = createGradientLayer()
         addSubview(selectionTopSeparator)
         addSubview(selectionBottomSeparator)
         addInteraction(UILargeContentViewerInteraction())
 
-        backgroundColor = Colors.DateTimePicker.background
+        updateBackgroundColor()
 
         setDate(date, animated: false)
         setDayOfMonth(dayOfMonth, animated: false)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+        updateGradientLayerColors(gradientLayer: gradientLayer)
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = UIColor(light: fluentTheme.color(.background2).light,
+                                  dark: fluentTheme.color(.background2).dark)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    func setupComponents(for viewController: UIViewController) {
+        for component in componentsByType.values {
+            component.delegate = self
+            viewController.addChild(component)
+            addSubview(component.view)
+            component.didMove(toParent: viewController)
+        }
+
+        // Display the gradient layer above the components
+        layer.addSublayer(gradientLayer)
     }
 
     /// Set the date displayed on the picker. This does not trigger UIControlEventValueChanged

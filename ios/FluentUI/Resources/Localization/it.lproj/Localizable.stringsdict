@@ -2,28 +2,51 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <!--> Accessibility: Used in the AvatarGroup for how many Avatars are represented by the overflow, i.e. "3 others" </!-->
+    <key>Accessibility.AvatarGroup.Overflow.Value</key>
+    <dict>
+      <key>NSStringLocalizedFormatKey</key>
+      <string>%#@others@</string>
+      <key>others</key>
+      <dict>
+        <key>NSStringFormatSpecTypeKey</key>
+        <string>NSStringPluralRuleType</string>
+        <key>NSStringFormatValueTypeKey</key>
+        <string>d</string>
+        <key>one</key>
+        <string>%d altro</string>
+        <key>two</key>
+        <string>altre %d</string>
+        <key>few</key>
+        <string>altre %d</string>
+        <key>many</key>
+        <string>altre %d</string>
+        <key>other</key>
+        <string>altre %d</string>
+      </dict>
+    </dict>
     <key>Accessibility.DateTime.Hour.Value</key>
     <dict>
       <key>NSStringLocalizedFormatKey</key>
       <string>%#@hours@</string>
-      <key>Variable</key>
+      <key>hours</key>
       <dict>
         <key>NSStringFormatSpecTypeKey</key>
         <string>NSStringPluralRuleType</string>
         <key>NSStringFormatValueTypeKey</key>
         <string>d</string>
         <key>zero</key>
-        <string>%d</string>
+        <string>%d in punto</string>
         <key>one</key>
-        <string>%d</string>
+        <string>%d in punto</string>
         <key>two</key>
-        <string>%d</string>
+        <string>%d in punto</string>
         <key>few</key>
-        <string>%d</string>
+        <string>%d in punto</string>
         <key>many</key>
-        <string>%d</string>
+        <string>%d in punto</string>
         <key>other</key>
-        <string>%d</string>
+        <string>%d in punto</string>
       </dict>
     </dict>
     <key>Accessibility.DateTime.Minute.Value</key>

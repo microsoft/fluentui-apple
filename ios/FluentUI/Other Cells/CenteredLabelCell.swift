@@ -7,27 +7,46 @@ import UIKit
 
 // MARK: CenteredLabelCell
 
-@available(*, deprecated, renamed: "CenteredLabelCell")
-public typealias MSCenteredLabelCell = CenteredLabelCell
-
 @objc(MSFCenteredLabelCell)
-open class CenteredLabelCell: UITableViewCell {
+open class CenteredLabelCell: UITableViewCell, TokenizedControlInternal {
     public static let identifier: String = "CenteredLabelCell"
+
+    public typealias TokenSetKeyType = TableViewCellTokenSet.Tokens
+    public var tokenSet: TableViewCellTokenSet = .init(customViewSize: { .default })
+
+    private func updateAppearance() {
+        setupBackgroundColors()
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
+    }
 
     // Public to be able to change style without wrapping every property
     public let label: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
-        label.font = Constants.labelFont
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
         return label
     }()
 
+    @objc public var backgroundStyleType: TableViewCellBackgroundStyleType = .plain {
+        didSet {
+            if backgroundStyleType != oldValue {
+                setupBackgroundColors()
+            }
+        }
+    }
+
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         contentView.addSubview(label)
-        backgroundColor = Colors.Table.Cell.background
+        setupBackgroundColors()
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -39,6 +58,8 @@ open class CenteredLabelCell: UITableViewCell {
     /// - Parameter text: The text to be displayed
     @objc open func setup(text: String) {
         label.text = text
+        label.font = tokenSet[.titleFont].uiFont
+        label.textColor = tokenSet[.brandTextColor].uiColor
         setNeedsLayout()
     }
 
@@ -51,7 +72,8 @@ open class CenteredLabelCell: UITableViewCell {
 
         let labelWidthArea = maxWidth - layoutMargins.left - layoutMargins.right
         let labelFittingSize = label.sizeThatFits(CGSize(width: labelWidthArea, height: CGFloat.greatestFiniteMagnitude))
-        let height = max(Constants.paddingVertical * 2 + ceil(labelFittingSize.height), Constants.defaultHeight)
+        let height = max(TableViewCellTokenSet.paddingVertical * 2 + ceil(labelFittingSize.height),
+                         TableViewCellTokenSet.oneLineMinHeight)
         return CGSize(width: maxWidth, height: height)
     }
 
@@ -62,20 +84,24 @@ open class CenteredLabelCell: UITableViewCell {
         label.centerInSuperview()
     }
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        if let window = window {
-            label.textColor = Colors.primary(for: window)
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
         }
+        tokenSet.update(newWindow.fluentTheme)
+        updateAppearance()
     }
 
     open override func setHighlighted(_ highlighted: Bool, animated: Bool) { }
 
     open override func setSelected(_ selected: Bool, animated: Bool) { }
 
-    private struct Constants {
-        static let labelFont: UIFont = Fonts.body
-        static let paddingVertical: CGFloat = 11
-        static let defaultHeight: CGFloat = 48
+    private func setupBackgroundColors() {
+        if backgroundStyleType != .custom {
+            var customBackgroundConfig = UIBackgroundConfiguration.clear()
+            customBackgroundConfig.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
+            backgroundConfiguration = customBackgroundConfig
+        }
     }
 }

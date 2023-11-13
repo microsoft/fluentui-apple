@@ -47,6 +47,7 @@ class ShyHeaderController: UIViewController {
     private var accessoryViewObservation: NSKeyValueObservation?
 
     private var navigationBarCenterObservation: NSKeyValueObservation?
+    private var navigationBarStyleObservation: NSKeyValueObservation?
     private var navigationBarHeightObservation: NSKeyValueObservation?
     private var navigationBarColorObservation: NSKeyValueObservation?
 
@@ -65,16 +66,16 @@ class ShyHeaderController: UIViewController {
     private var contentScrollViewObservation: NSKeyValueObservation?
     private var previousContentScrollViewTraits = ContentScrollViewTraits() //properties of the scroll view at the last scrollDidOccurIn: update. Used with current traits to understand user action
 
-    init(contentViewController: UIViewController) {
+    // The context of the parent controller used to pull the correct FluentTheme to update visuals
+    weak var containingView: UIView?
+
+    init(contentViewController: UIViewController, containingView: UIView?) {
         self.contentViewController = contentViewController
-        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
-        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        self.containingView = containingView
 
         super.init(nibName: nil, bundle: nil)
 
-        shyHeaderView.maxHeightChanged = { [weak self] in
-            self?.updatePadding()
-        }
+        setupShyHeaderView()
 
         loadViewIfNeeded()
         addChild(contentViewController)
@@ -120,15 +121,13 @@ class ShyHeaderController: UIViewController {
 
         updatePadding()
         setupNotificationObservers()
+        updateNavigationBarStyle()
     }
 
+    // This is needed as a safety measure to ensure the colors are updated with the correct theme
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window,
-            let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
-            shyHeaderView.navigationBarStyle = actualStyle
-            updateBackgroundColor(with: actualItem, window: window)
-        }
+        updateNavigationBarStyle()
     }
 
     // MARK: - Base Construction
@@ -149,7 +148,7 @@ class ShyHeaderController: UIViewController {
         paddingHeightConstraint = paddingHeight
 
         let paddingLeading = paddingView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        paddingHeight.identifier = "paddingView_leading"
+        paddingLeading.identifier = "paddingView_leading"
         constraints.append(paddingLeading)
 
         let paddingTrailing = paddingView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -157,7 +156,7 @@ class ShyHeaderController: UIViewController {
         constraints.append(paddingTrailing)
 
         let paddingTop = paddingView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        paddingTop.identifier = "shyView_top"
+        paddingTop.identifier = "paddingView_top"
         constraints.append(paddingTop)
 
         // ShyHeaderView
@@ -211,11 +210,24 @@ class ShyHeaderController: UIViewController {
         view.bringSubviewToFront(paddingView)
     }
 
+    private func setupShyHeaderView() {
+        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
+        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        shyHeaderView.paddingView = paddingView
+        shyHeaderView.parentController = self
+        shyHeaderView.maxHeightChanged = { [weak self] in
+            self?.updatePadding()
+        }
+    }
+
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleAccessoryExpansionRequested), name: .accessoryExpansionRequested, object: nil)
         // Observing `center` instead of `isHidden` allows us to do our changes along the system animation
         navigationBarCenterObservation = navigationController?.navigationBar.observe(\.center) { [weak self] navigationBar, _ in
             self?.shyHeaderView.navigationBarIsHidden = navigationBar.frame.maxY == 0
+        }
+        navigationBarStyleObservation = msfNavigationController?.msfNavigationBar.observe(\.style) { [weak self] _, _ in
+            self?.updateNavigationBarStyle()
         }
         navigationBarHeightObservation = msfNavigationController?.msfNavigationBar.observe(\.barHeight) { [weak self] _, _ in
             self?.updatePadding()
@@ -248,8 +260,8 @@ class ShyHeaderController: UIViewController {
             }
         }
 
-        // if the originator is a LargeTitleView, make sure it belongs to this heirarchy
-        if let originatorTitleView = expansionRequestOriginator as? LargeTitleView {
+        // if the originator is an AvatarTitleView, make sure it belongs to this hierarchy
+        if let originatorTitleView = expansionRequestOriginator as? AvatarTitleView {
             guard originatorTitleView == msfNavigationController?.msfNavigationBar.titleView else {
                 return false
             }
@@ -258,18 +270,18 @@ class ShyHeaderController: UIViewController {
         return true
     }
 
-    private func updateBackgroundColor(with item: UINavigationItem, window: UIWindow) {
-        let color = item.navigationBarColor(for: window)
+    private func updateBackgroundColor(with item: UINavigationItem) {
+        let color = item.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
         navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [weak self] item, _ in
-            self?.updateBackgroundColor(with: item, window: window)
+            self?.updateBackgroundColor(with: item)
         }
     }
 
-    private func updatePadding() {
+    func updatePadding() {
         shyHeaderView.lockedInContractedState = msfNavigationController?.msfNavigationBar.barHeight == .contracted
         paddingHeightConstraint?.constant = paddingIsStatic ? paddingViewHeight : 0
         shyViewHeightConstraint?.constant = shyHeaderView.maxHeight
@@ -519,6 +531,14 @@ class ShyHeaderController: UIViewController {
         }
 
         shyHeaderView.exposure = ShyHeaderView.Exposure(withProgress: progress)
+    }
+
+    /// Updates based on the current navigation bar style.
+    private func updateNavigationBarStyle() {
+        if let (actualStyle, actualItem) = msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: navigationItem) {
+            shyHeaderView.navigationBarStyle = actualStyle
+            updateBackgroundColor(with: actualItem)
+        }
     }
 
     /// Calculates and sets the shy container's top constraint's constant value, moving the header

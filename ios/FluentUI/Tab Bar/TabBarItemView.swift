@@ -5,15 +5,34 @@
 
 import UIKit
 
-class TabBarItemView: UIView {
+class TabBarItemView: UIControl, TokenizedControlInternal {
     let item: TabBarItem
 
-    var isSelected: Bool = false {
+    typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
+    var tokenSet: TabBarItemTokenSet = .init()
+
+    func updateAppearance() {
+        updateColors()
+        updateBadgeView()
+        updateLayout()
+    }
+
+    override var isEnabled: Bool {
         didSet {
-            titleLabel.isHighlighted = isSelected
-            imageView.isHighlighted = isSelected
+            isUserInteractionEnabled = isEnabled
+            updateColors()
+        }
+    }
+
+    override var isSelected: Bool {
+        didSet {
+            updateImage()
             updateColors()
             if isSelected {
+                if item.isUnreadDotVisible {
+                    item.isUnreadDotVisible = false
+                    updateBadgeView()
+                }
                 accessibilityTraits.insert(.selected)
             } else {
                 accessibilityTraits.remove(.selected)
@@ -22,7 +41,7 @@ class TabBarItemView: UIView {
     }
 
     /// Maximum width for the badge view where the badge value is displayed.
-    var maxBadgeWidth: CGFloat = Constants.defaultBadgeMaxWidth {
+    lazy var maxBadgeWidth: CGFloat = TabBarItemTokenSet.defaultBadgeMaxWidth {
         didSet {
             if oldValue != maxBadgeWidth {
                 updateBadgeView()
@@ -38,7 +57,7 @@ class TabBarItemView: UIView {
                 updateLayout()
             }
         }
-	}
+    }
 
     /// The number of lines for the item's title label.
     var numberOfTitleLines: Int = 1 {
@@ -49,10 +68,19 @@ class TabBarItemView: UIView {
         }
     }
 
+    /// The `preferredMaxLayoutWidth` of the underlying title label.
+    var preferredLabelMaxLayoutWidth: CGFloat {
+        get {
+            titleLabel.preferredMaxLayoutWidth
+        }
+        set {
+            titleLabel.preferredMaxLayoutWidth = newValue
+        }
+    }
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
-        self.suggestImageSize = Constants.portraitImageSize
         super.init(frame: .zero)
 
         container.addArrangedSubview(imageView)
@@ -68,16 +96,12 @@ class TabBarItemView: UIView {
 
         container.addSubview(badgeView)
 
-        if #available(iOS 13.4, *) {
-            // Workaround check for beta iOS versions missing the Pointer Interactions API
-            if arePointerInteractionAPIsAvailable() {
-                let pointerInteraction = UIPointerInteraction(delegate: self)
-                addInteraction(pointerInteraction)
-            }
-        }
+        let pointerInteraction = UIPointerInteraction(delegate: self)
+        addInteraction(pointerInteraction)
 
         isAccessibilityElement = true
         updateAccessibilityLabel()
+        accessibilityIdentifier = item.accessibilityIdentifier
 
         self.largeContentImage = item.largeContentImage ?? item.image
         largeContentTitle = item.title
@@ -85,18 +109,32 @@ class TabBarItemView: UIView {
         scalesLargeContentImage = true
 
         NSLayoutConstraint.activate([
-			container.centerXAnchor.constraint(equalTo: centerXAnchor),
-			container.centerYAnchor.constraint(equalTo: centerYAnchor),
-			container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
-		])
+            container.centerXAnchor.constraint(equalTo: centerXAnchor),
+            container.centerYAnchor.constraint(equalTo: centerYAnchor),
+            container.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor)
+        ])
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
                                                name: TabBarItem.badgeValueDidChangeNotification,
                                                object: item)
 
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(isUnreadValueDidChange),
+                                               name: TabBarItem.isUnreadValueDidChangeNotification,
+                                               object: item)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(accessibilityIdentifierDidChange),
+                                               name: TabBarItem.accessibilityIdentifierDidChangeNotification,
+                                               object: item)
+
         badgeValue = item.badgeValue
         updateLayout()
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -116,9 +154,6 @@ class TabBarItemView: UIView {
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        if canResizeImage {
-            imageView.frame = CGRect(x: 0, y: 0, width: suggestImageSize, height: suggestImageSize)
-        }
         let size = container.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         return size
     }
@@ -132,27 +167,9 @@ class TabBarItemView: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        updateColors()
-    }
 
-    private struct Constants {
-        static let unselectedColor: UIColor = Colors.textSecondary
-        static let spacingVertical: CGFloat = 3
-        static let spacingHorizontal: CGFloat = 8
-        static let portraitImageSize: CGFloat = 28
-        static let portraitImageWithLabelSize: CGFloat = 24
-        static let landscapeImageSize: CGFloat = 24
-        static let badgeVerticalOffset: CGFloat = -4
-        static let badgePortraitTitleVerticalOffset: CGFloat = -2
-        static let singleDigitBadgeHorizontalOffset: CGFloat = 14
-        static let multiDigitBadgeHorizontalOffset: CGFloat = 12
-        static let badgeHeight: CGFloat = 16
-        static let badgeMinWidth: CGFloat = 16
-        static let defaultBadgeMaxWidth: CGFloat = 42
-        static let badgeBorderWidth: CGFloat = 2
-        static let badgeFontSize: CGFloat = 11
-        static let badgeHorizontalPadding: CGFloat = 10
-        static let badgeCorderRadii: CGFloat = 10
+        tokenSet.update(fluentTheme)
+        updateAppearance()
     }
 
     private var badgeValue: String? {
@@ -164,6 +181,19 @@ class TabBarItemView: UIView {
         }
     }
 
+    @objc private func isUnreadValueDidChange() {
+        isUnreadDotVisible = item.isUnreadDotVisible
+        updateBadgeView()
+        updateAccessibilityLabel()
+        setNeedsLayout()
+    }
+
+    @objc private func accessibilityIdentifierDidChange() {
+        accessibilityIdentifier = item.accessibilityIdentifier
+    }
+
+    private var isUnreadDotVisible: Bool = false
+
     private let container: UIStackView = {
         let container = UIStackView(frame: .zero)
         container.alignment = .center
@@ -172,36 +202,44 @@ class TabBarItemView: UIView {
         return container
     }()
 
-    private let imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = Constants.unselectedColor
 
+        if canResizeImage {
+            let sizeConstraints = (
+                width: imageView.widthAnchor.constraint(equalToConstant: suggestImageSize),
+                height: imageView.heightAnchor.constraint(equalToConstant: suggestImageSize)
+            )
+            sizeConstraints.width.isActive = true
+            sizeConstraints.height.isActive = true
+            imageViewSizeConstraints = sizeConstraints
+        }
         return imageView
     }()
 
-    private let titleLabel: Label = {
+    private var imageViewSizeConstraints: (width: NSLayoutConstraint, height: NSLayoutConstraint)?
+
+    private lazy var titleLabel: Label = {
         let titleLabel = Label()
         titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.textAlignment = .center
-        titleLabel.textColor = Constants.unselectedColor
 
         return titleLabel
     }()
 
-    private let badgeView: UILabel = {
-        let badgeView = UILabel(frame: .zero)
-        badgeView.layer.masksToBounds = true
-        badgeView.backgroundColor = Colors.Palette.dangerPrimary.color
-        badgeView.textColor = .white
-        badgeView.textAlignment = .center
-        badgeView.font = UIFont.systemFont(ofSize: Constants.badgeFontSize, weight: .regular)
-        badgeView.isHidden = true
+    let badgeView: UILabel = BadgeLabel(frame: .zero)
 
-        return badgeView
-    }()
+    private lazy var suggestImageSize: CGFloat = tokenSet[.portraitImageSize].float {
+        didSet {
+            if canResizeImage,
+               let sizeConstraints = imageViewSizeConstraints {
+                sizeConstraints.width.constant = suggestImageSize
+                sizeConstraints.height.constant = suggestImageSize
+            }
+        }
+    }
 
-    private var suggestImageSize: CGFloat
     private let canResizeImage: Bool
 
     private var imageViewFrame: CGRect = .zero {
@@ -217,93 +255,129 @@ class TabBarItemView: UIView {
     }
 
     private func updateColors() {
-        if let window = window {
-            let primaryColor = Colors.primary(for: window)
-            titleLabel.highlightedTextColor = primaryColor
-            imageView.tintColor = isSelected ? primaryColor : Constants.unselectedColor
-        }
+        let selectedColor = tokenSet[.selectedColor].uiColor
+        let disabledColor = tokenSet[.disabledColor].uiColor
+
+        titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedTextColor].uiColor) : disabledColor
+        imageView.tintColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedImageColor].uiColor) : disabledColor
+    }
+
+    private func updateImage() {
+        // Normally we'd set imageView.image and imageView.highlightedImage separately. However, there's a known issue with
+        // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
+        // this is a straightforward workaround that gets us the same effect without triggering the bug.
+        imageView.image = isSelected ?
+                            item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
+                            item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }
 
     private func updateLayout() {
-        imageView.image = item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-        imageView.highlightedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
-
         if isInPortraitMode {
             container.axis = .vertical
-            container.spacing = Constants.spacingVertical
-            titleLabel.style = .button2
-            titleLabel.maxFontSize = 10
+            container.spacing = TabBarItemTokenSet.spacingVertical
+            titleLabel.font = tokenSet[.titleLabelFontPortrait].uiFont
 
             if canResizeImage {
-                suggestImageSize = titleLabel.isHidden ? Constants.portraitImageSize : Constants.portraitImageWithLabelSize
+                suggestImageSize = titleLabel.isHidden ? tokenSet[.portraitImageSize].float : tokenSet[.portraitImageWithLabelSize].float
             }
         } else {
             container.axis = .horizontal
-            container.spacing = Constants.spacingHorizontal
-            titleLabel.style = .footnote
-            titleLabel.maxFontSize = 13
-
+            container.spacing = TabBarItemTokenSet.spacingHorizontal
+            titleLabel.font = tokenSet[.titleLabelFontLandscape].uiFont
             if canResizeImage {
-                 suggestImageSize = Constants.landscapeImageSize
+                 suggestImageSize = tokenSet[.landscapeImageSize].float
             }
         }
 
+        updateImage()
         updateBadgeView()
         invalidateIntrinsicContentSize()
     }
 
     private func updateBadgeView() {
-        badgeView.text = badgeValue
-        badgeView.isHidden = badgeValue == nil
+        isUnreadDotVisible = item.isUnreadDotVisible && badgeValue == nil
 
-        if badgeValue != nil {
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillRule = .evenOdd
+        // If nothing to display, remove mask and return
+        if badgeValue == nil && !isUnreadDotVisible {
+            badgeView.isHidden = true
+            imageView.layer.mask = nil
+            return
+        }
 
-            let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
-            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? Constants.badgePortraitTitleVerticalOffset : Constants.badgeVerticalOffset
+        // Otherwise, show either the badgeValue or an unreadDot
+        badgeView.isHidden = false
+        let maskLayer = CAShapeLayer()
+        maskLayer.fillRule = .evenOdd
+
+        let path = UIBezierPath(rect: CGRect(x: 0, y: 0, width: imageView.frame.size.width, height: imageView.frame.size.height))
+
+        if isUnreadDotVisible {
+            // Badge with empty string and round corners is a dot
+            badgeView.text = ""
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? TabBarItemTokenSet.unreadDotPortraitOffsetX : TabBarItemTokenSet.unreadDotOffsetX
+
+            createCircularBadgeFrame(labelView: badgeView,
+                                     path: path,
+                                     horizontalOffset: TabBarItemTokenSet.unreadDotOffsetY,
+                                     verticalOffset: badgeVerticalOffset,
+                                     frameWidth: tokenSet[.unreadDotSize].float,
+                                     frameHeight: tokenSet[.unreadDotSize].float)
+        } else {
+            badgeView.text = badgeValue
+            let badgeVerticalOffset = !titleLabel.isHidden && isInPortraitMode ? TabBarItemTokenSet.badgePortraitTitleVerticalOffset : TabBarItemTokenSet.badgeVerticalOffset
 
             if badgeView.text?.count ?? 1 > 1 {
-                let badgeWidth = min(max(badgeView.intrinsicContentSize.width + Constants.badgeHorizontalPadding, Constants.badgeMinWidth), maxBadgeWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.multiDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
-
-                let layer = CAShapeLayer()
-                layer.path = UIBezierPath(roundedRect: badgeView.bounds,
-                                          byRoundingCorners: .allCorners,
-                                          cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)).cgPath
-
-                path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: badgeView.frame),
-                                         byRoundingCorners: .allCorners,
-                                         cornerRadii: CGSize(width: Constants.badgeCorderRadii, height: Constants.badgeCorderRadii)))
-
-                badgeView.layer.mask = layer
-                badgeView.layer.cornerRadius = 0
+                createRoundedRectBadgeFrame(labelView: badgeView, path: path, verticalOffset: badgeVerticalOffset)
             } else {
-                let badgeWidth = max(badgeView.intrinsicContentSize.width, Constants.badgeMinWidth)
-
-                badgeView.frame = CGRect(x: badgeFrameOriginX(offset: Constants.singleDigitBadgeHorizontalOffset, frameWidth: badgeWidth),
-                                         y: imageView.frame.origin.y + badgeVerticalOffset,
-                                         width: badgeWidth,
-                                         height: Constants.badgeHeight)
-
-                path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: badgeView.frame)))
-
-                badgeView.layer.mask = nil
-                badgeView.layer.cornerRadius = badgeWidth / 2
+                createCircularBadgeFrame(labelView: badgeView,
+                                         path: path,
+                                         horizontalOffset: TabBarItemTokenSet.singleDigitBadgeHorizontalOffset,
+                                         verticalOffset: badgeVerticalOffset,
+                                         frameWidth: TabBarItemTokenSet.badgeMinWidth,
+                                         frameHeight: TabBarItemTokenSet.badgeHeight)
             }
-
-            maskLayer.path = path.cgPath
-            imageView.layer.mask = maskLayer
-        } else {
-            imageView.layer.mask = nil
         }
+
+        maskLayer.path = path.cgPath
+        imageView.layer.mask = maskLayer
     }
 
-    private func badgeFrameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
+    private func createRoundedRectBadgeFrame(labelView: UILabel, path: UIBezierPath, verticalOffset: CGFloat) {
+        let width = min(max(labelView.intrinsicContentSize.width + TabBarItemTokenSet.badgeHorizontalPadding, TabBarItemTokenSet.badgeMinWidth), maxBadgeWidth)
+
+        labelView.frame = CGRect(x: frameOriginX(offset: TabBarItemTokenSet.multiDigitBadgeHorizontalOffset, frameWidth: width),
+                                 y: imageView.frame.origin.y + verticalOffset,
+                                 width: width,
+                                 height: TabBarItemTokenSet.badgeHeight)
+
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: labelView.bounds,
+                                  byRoundingCorners: .allCorners,
+                                  cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)).cgPath
+
+        path.append(UIBezierPath(roundedRect: badgeBorderRect(badgeViewFrame: labelView.frame),
+                                 byRoundingCorners: .allCorners,
+                                 cornerRadii: CGSize(width: tokenSet[.badgeCornerRadii].float, height: tokenSet[.badgeCornerRadii].float)))
+
+        labelView.layer.mask = layer
+        labelView.layer.cornerRadius = 0
+    }
+
+    private func createCircularBadgeFrame(labelView: UILabel, path: UIBezierPath, horizontalOffset: CGFloat, verticalOffset: CGFloat, frameWidth: CGFloat, frameHeight: CGFloat) {
+        let width = max(labelView.intrinsicContentSize.width, frameWidth)
+
+        labelView.frame = CGRect(x: frameOriginX(offset: horizontalOffset, frameWidth: width),
+                                 y: imageView.frame.origin.y + verticalOffset,
+                                 width: width,
+                                 height: frameHeight)
+
+        path.append(UIBezierPath(ovalIn: badgeBorderRect(badgeViewFrame: labelView.frame)))
+
+        labelView.layer.mask = nil
+        labelView.layer.cornerRadius = width / 2
+    }
+
+    private func frameOriginX(offset: CGFloat, frameWidth: CGFloat) -> CGFloat {
         var xOrigin: CGFloat = 0
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
             xOrigin = imageView.frame.origin.x + offset
@@ -315,16 +389,23 @@ class TabBarItemView: UIView {
     }
 
     private func badgeBorderRect(badgeViewFrame: CGRect) -> CGRect {
-        return CGRect(x: badgeViewFrame.origin.x - Constants.badgeBorderWidth - imageView.frame.origin.x,
-                      y: badgeViewFrame.origin.y - Constants.badgeBorderWidth - imageView.frame.origin.y,
-                      width: badgeViewFrame.size.width + 2 * Constants.badgeBorderWidth,
-                      height: badgeViewFrame.size.height + 2 * Constants.badgeBorderWidth)
+        let badgeBorderWidth = tokenSet[.badgeBorderWidth].float
+        return CGRect(x: badgeViewFrame.origin.x - badgeBorderWidth - imageView.frame.origin.x,
+                      y: badgeViewFrame.origin.y - badgeBorderWidth - imageView.frame.origin.y,
+                      width: badgeViewFrame.size.width + 2 * badgeBorderWidth,
+                      height: badgeViewFrame.size.height + 2 * badgeBorderWidth)
     }
 
     @objc private func badgeValueDidChange() {
         badgeValue = item.badgeValue
     }
 
+    // The priority logic for accessibility label is:
+    //      If the badge is visible:
+    //          1. Use the badge format string supplied by the caller if available
+    //          2. If not, use the default localized badge label format
+    //      If the unread dot is visible, use the localized "unread" label
+    //      If neither, then use the item's title, as supplied by the caller
     private func updateAccessibilityLabel() {
         if let badgeValue = badgeValue {
             if let accessibilityLabelBadgeFormatString = item.accessibilityLabelBadgeFormatString {
@@ -333,7 +414,11 @@ class TabBarItemView: UIView {
                 accessibilityLabel = String(format: "Accessibility.TabBarItemView.LabelFormat".localized, item.title, badgeValue)
             }
         } else {
-            accessibilityLabel = item.title
+            if isUnreadDotVisible {
+                accessibilityLabel = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, item.title)
+            } else {
+                accessibilityLabel = item.title
+            }
         }
     }
 }
@@ -341,7 +426,6 @@ class TabBarItemView: UIView {
 // MARK: - TabBarItemView UIPointerInteractionDelegate
 
 extension TabBarItemView: UIPointerInteractionDelegate {
-    @available(iOS 13.4, *)
     func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
         let pointerEffect = UIPointerEffect.highlight(.init(view: self))
 

@@ -31,7 +31,7 @@ class TestColorViewController: NSViewController {
 			colorsStackView.addArrangedSubview(createColorRowStackView(name: color.name, color: color.color))
 		}
 
-		loadPrimaryColors(state: NSControl.StateValue.off)
+		loadPrimaryColors()
 
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,37 +50,36 @@ class TestColorViewController: NSViewController {
 			primaryColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor)
 		]
 
-		if #available(OSX 10.15, *) {
-			let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
-			switchButton.target = self
-			switchButton.action = #selector(toggleClicked)
-			toggleTextView.string = "Default"
-			toggleTextView.font = .systemFont(ofSize: 20)
-			toggleTextView.isEditable = false
-			toggleTextView.isSelectable = false
-			toggleTextView.backgroundColor = .clear
+		let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
+		switchButton.target = self
+		switchButton.state = useColorProvider ? .on : .off
+		switchButton.action = #selector(toggleClicked)
+		toggleTextView.string = "Use ColorProvider"
+		toggleTextView.font = .systemFont(ofSize: 20)
+		toggleTextView.isEditable = false
+		toggleTextView.isSelectable = false
+		toggleTextView.backgroundColor = .clear
 
-			let toggleStackView = NSStackView()
-			toggleStackView.translatesAutoresizingMaskIntoConstraints = false
-			toggleStackView.orientation = .horizontal
-			toggleStackView.spacing = 20.0
-			toggleStackView.addArrangedSubview(switchButton)
-			toggleStackView.addArrangedSubview(toggleTextView)
-			documentView.addSubview(toggleStackView)
+		let toggleStackView = NSStackView()
+		toggleStackView.translatesAutoresizingMaskIntoConstraints = false
+		toggleStackView.orientation = .horizontal
+		toggleStackView.spacing = 20.0
+		toggleStackView.addArrangedSubview(switchButton)
+		toggleStackView.addArrangedSubview(toggleTextView)
+		documentView.addSubview(toggleStackView)
 
-			subviewConstraints.append(contentsOf: [
-				toggleStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
-				toggleStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
-				toggleStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor, constant: colorRowSpacing),
-				toggleStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
-			])
-		} else {
-			subviewConstraints.append(primaryColorsStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing))
-		}
+		subviewConstraints.append(contentsOf: [
+			toggleStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
+			toggleStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
+			toggleStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor, constant: colorRowSpacing),
+			toggleStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
+		])
 
 		NSLayoutConstraint.activate(subviewConstraints)
 		view = containerView
 	}
+
+	// MARK: Private
 
 	private func createColorRowStackView(name: String?, color: NSColor?) -> NSStackView {
 		let rowStackView = NSStackView()
@@ -94,33 +93,19 @@ class TestColorViewController: NSViewController {
 		return rowStackView
 	}
 
-	@available(OSX 10.15, *)
 	@objc private func toggleClicked(button: NSSwitch?) {
 		primaryColorsStackView.subviews.removeAll()
-		loadPrimaryColors(state: button?.state ?? NSControl.StateValue.off)
+		useColorProvider = button?.state == .on ? true : false
+		loadPrimaryColors()
 	}
 
-	private func loadPrimaryColors(state: NSControl.StateValue) {
-		if state == NSControl.StateValue.on {
-			Colors.primary = (NSColor(named: "Colors/DemoPrimaryColor"))!
-			Colors.primaryShade10 = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
-			Colors.primaryShade20 = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
-			Colors.primaryShade30 = (NSColor(named: "Colors/DemoPrimaryShade30Color"))!
-			Colors.primaryTint10 = (NSColor(named: "Colors/DemoPrimaryTint10Color"))!
-			Colors.primaryTint20 = (NSColor(named: "Colors/DemoPrimaryTint20Color"))!
-			Colors.primaryTint30 = (NSColor(named: "Colors/DemoPrimaryTint30Color"))!
-			Colors.primaryTint40 = (NSColor(named: "Colors/DemoPrimaryTint40Color"))!
-			toggleTextView.string = "Green"
+	private func loadPrimaryColors() {
+		if useColorProvider {
+			// Set our Test Color Provider singleton
+			Colors.colorProvider = TestColorProvider.shared
 		} else {
-			Colors.primary = Colors.Palette.communicationBlue.color
-			Colors.primaryShade10 = Colors.Palette.communicationBlueShade10.color
-			Colors.primaryShade20 = Colors.Palette.communicationBlueShade20.color
-			Colors.primaryShade30 = Colors.Palette.communicationBlueShade30.color
-			Colors.primaryTint10 = Colors.Palette.communicationBlueTint10.color
-			Colors.primaryTint20 = Colors.Palette.communicationBlueTint20.color
-			Colors.primaryTint30 = Colors.Palette.communicationBlueTint30.color
-			Colors.primaryTint40 = Colors.Palette.communicationBlueTint40.color
-			toggleTextView.string = "Default"
+			// Clear Test Color Provider singleton so communication blue defaults will be used
+			Colors.colorProvider = nil
 		}
 
 		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "primary", color: Colors.primary))
@@ -159,3 +144,6 @@ class ColorRectView: NSView {
 }
 
 private let colorRowSpacing: CGFloat = 10.0
+
+// Default to using the new ColorProvider protocol for fetching the Fluent Primary Colors
+private var useColorProvider = true

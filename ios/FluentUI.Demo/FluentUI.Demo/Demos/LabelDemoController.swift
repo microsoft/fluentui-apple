@@ -8,21 +8,45 @@ import UIKit
 
 class LabelDemoController: DemoController {
     private var dynamicLabels = [Label]()
+    private var textColorLabels = [Label]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        readmeString = "Labels are used to standardize text across your app."
 
-        addLabel(text: "Text Styles", style: .headline, colorStyle: .regular).textAlignment = .center
-        for style in TextStyle.allCases {
-            dynamicLabels.append(addLabel(text: style.detailedDescription, style: style, colorStyle: .regular))
+        addTitle(text: "Text Styles")
+
+        for style in FluentTheme.TypographyToken.allCases {
+            let font = view.fluentTheme.typography(style)
+            let fontWeight = font.fontDescriptor.weightDescriptor
+            let detailedDescription = "\(style.description) is \(fontWeight) \(Int(font.pointSize))pt"
+            dynamicLabels.append(addLabel(text: detailedDescription, style: style, colorStyle: .regular))
         }
 
         container.addArrangedSubview(UIView())  // spacer
 
-        addLabel(text: "Text Color Styles", style: .headline, colorStyle: .regular).textAlignment = .center
+        addTitle(text: "Text Color Styles")
         for colorStyle in TextColorStyle.allCases {
-            addLabel(text: colorStyle.description, style: .body, colorStyle: colorStyle)
+            textColorLabels.append(addLabel(text: colorStyle.description, style: .body1, colorStyle: colorStyle))
         }
+
+        addTitle(text: "Text Color Custom Styles")
+
+        let dangerSuccessLabel = Label(textStyle: .body1Strong, colorForTheme: {
+            theme in
+            UIColor(light: theme.color(.dangerForeground1), dark: theme.color(.successBackground2))
+        })
+        dangerSuccessLabel.text = "Danger/Success"
+        container.addArrangedSubview(dangerSuccessLabel)
+        textColorLabels.append(dangerSuccessLabel)
+
+        let blueYellowLabel = Label(textStyle: .body1Strong, colorForTheme: {
+            _ in
+            UIColor(light: GlobalTokens.sharedColor(.blue, .primary), dark: GlobalTokens.sharedColor(.yellow, .primary))
+        })
+        blueYellowLabel.text = "Blue/Yellow"
+        container.addArrangedSubview(blueYellowLabel)
+        textColorLabels.append(blueYellowLabel)
 
         container.addArrangedSubview(UIView())  // spacer
 
@@ -30,8 +54,8 @@ class LabelDemoController: DemoController {
     }
 
     @discardableResult
-    func addLabel(text: String, style: TextStyle, colorStyle: TextColorStyle) -> Label {
-        let label = Label(style: style, colorStyle: colorStyle)
+    func addLabel(text: String, style: FluentTheme.TypographyToken, colorStyle: TextColorStyle) -> Label {
+        let label = Label(textStyle: style, colorStyle: colorStyle)
         label.text = text
         label.numberOfLines = 0
         if colorStyle == .white {
@@ -43,7 +67,10 @@ class LabelDemoController: DemoController {
 
     @objc private func handleContentSizeCategoryDidChange() {
         for label in dynamicLabels {
-            label.text = label.style.detailedDescription
+            let font = view.fluentTheme.typography(label.textStyle)
+            let fontWeight = font.fontDescriptor.weightDescriptor
+            let detailedDescription = "\(label.textStyle.description) is \(fontWeight) \(Int(font.pointSize))pt"
+            label.text = detailedDescription
         }
     }
 }
@@ -61,63 +88,117 @@ extension TextColorStyle {
             return "Primary"
         case .error:
             return "Error"
-        case .warning:
-            return "Warning"
-        case .disabled:
-            return "Disabled"
         }
     }
 }
 
-extension TextStyle {
+extension FluentTheme.TypographyToken {
     var description: String {
         switch self {
+        case .display:
+            return "Display"
         case .largeTitle:
             return "Large Title"
         case .title1:
             return "Title 1"
         case .title2:
             return "Title 2"
-        case .headline:
-            return "Headline"
-        case .body:
-            return "Body"
-        case .subhead:
-            return "Subhead"
-        case .footnote:
-            return "Footnote"
-        case .button1:
-            return "Button 1"
-        case .button2:
-            return "Button 2"
+        case .title3:
+            return "Title 3"
+        case .body1Strong:
+            return "Body 1 Strong"
+        case .body1:
+            return "Body 1"
+        case .body2Strong:
+            return "Body 2 Strong"
+        case .body2:
+            return "Body 2"
+        case .caption1Strong:
+            return "Caption 1 Strong"
         case .caption1:
             return "Caption 1"
         case .caption2:
             return "Caption 2"
         }
     }
-    var detailedDescription: String {
-        let weight: String
-        switch font.fontDescriptor.weight {
-        case .bold:
-            weight = "Bold"
-        case .semibold:
-            weight = "Semibold"
-        case .medium:
-            weight = "Medium"
-        default:
-            weight = "Regular"
-        }
-        return "\(description) is \(weight) \(Int(font.pointSize))pt"
-    }
 }
 
 extension UIFontDescriptor {
-    var weight: UIFont.Weight {
+    var weightDescriptor: String {
         let traits = object(forKey: .traits) as? [UIFontDescriptor.TraitKey: Any]
         if let weight = traits?[.weight] as? NSNumber {
-            return UIFont.Weight(CGFloat(weight.floatValue))
+            let fontWeight = UIFont.Weight(CGFloat(weight.floatValue))
+            switch fontWeight {
+            case .bold:
+                return "Bold"
+            case .semibold:
+                return "Semibold"
+            case .medium:
+                return "Medium"
+            default:
+                return "Regular"
+            }
         }
-        return .regular
+        return "Regular"
+    }
+}
+
+extension LabelDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: LabelTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideLabelTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        for label in dynamicLabels {
+            if isOverrideEnabled {
+                label.tokenSet[.font] = perControlOverrideLabelTokens[.font] ?? label.tokenSet[.font]
+            } else {
+                label.tokenSet.removeOverride(.font)
+            }
+        }
+
+        for label in textColorLabels {
+            if isOverrideEnabled {
+                label.tokenSet[.textColor] = perControlOverrideLabelTokens[.textColor] ?? label.tokenSet[.textColor]
+            } else {
+                label.tokenSet.removeOverride(.textColor)
+            }
+        }
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: LabelTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 20.0),
+                              size: 20.0)
+            },
+            .textColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.marigold, .shade30),
+                               dark: GlobalTokens.sharedColor(.marigold, .tint40))
+            }
+        ]
+    }
+
+    private var perControlOverrideLabelTokens: [LabelTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 20.0),
+                              size: 20.0)
+            },
+            .textColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30))
+            }
+        ]
     }
 }

@@ -7,20 +7,26 @@
 "Accessibility.ActivityIndicator.Animating.label" = "In Bearbeitung";
 "Accessibility.ActivityIndicator.Stopped.label" = "Bearbeitung angehalten";
 
+/* Accessibility alert for common use */
 "Accessibility.Alert" = "Warnung";
-"Accessibility.Dismiss.Label" = "Schließen";
-"Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
-"Accessibility.Done.Label" = "Fertig";
-"Accessibility.MultiSelect.Hint" = "Zum Umschalten der Auswahl doppelt tippen";
-"Accessibility.Select.Hint" = "Zum Auswählen doppeltippen";
-"Accessibility.Selected.Hint" = "Zum Anzeigen von Details doppeltippen.";
-"Accessibility.Selected.Value" = "Ausgewählt";
-
-/* Accessibility label for the upper calendar date picker view. */
-"Accessibility.Calendar.Label" = "Kalender";
-
+/* Accessibility: Used to list the Avatars in the AvatarGroup, i.e. 'Kat Larsson, Kristin Patterson, ' */
+"Accessibility.AvatarGroup.AvatarList" = "%@, ";
+/* Accessibility: Used for the last Avatar in the AvatarGroup, i.e. 'and Ashley McCarthy' or 'and 1 other' */
+"Accessibility.AvatarGroup.AvatarListLast" = "und %@";
+/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
+"Accessibility.AvatarView.LabelFormat" = "%@, %@";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "Datum auswählen";
+/* Accessibility label for the upper calendar date picker view. */
+"Accessibility.Calendar.Label" = "Kalender";
+/* Accessibility dismiss hint for common use */
+"Accessibility.Dismiss.Hint" = "Zum Schließen doppeltippen.";
+/* Accessibility dismiss label for common use */
+"Accessibility.Dismiss.Label" = "Schließen";
+/* Accessibility done label for common use */
+"Accessibility.Done.Label" = "Fertig";
+/* Accessibility multi select hint for common use */
+"Accessibility.MultiSelect.Hint" = "Zum Umschalten der Auswahl doppelt tippen";
 
 // TODO: Change to a stringsdict format
 // TODO: Reassess for generic indicator
@@ -90,14 +96,14 @@
 /* Accessibility label for when a task is in progress */
 "Accessibility.HUD.Loading" = "Wird geladen";
 
-/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
-"Accessibility.MSPillButtonBar.Hint" = "%1$d von %2$d";
-
 /* Accessibility label for the avatar (or profile) view */
 "Accessibility.LargeTitle.ProfileView" = "Kontoprofil";
 
-/* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
-"Accessibility.AvatarView.LabelFormat" = "%@, %@";
+/* Accessibility hint for MSPillButtons in an MSPillButtonBar. %1$d is placeholder for index and %2$d is a placeholder for total number of items */
+"Accessibility.MSPillButtonBar.Hint" = "%1$d von %2$d";
+
+/* Accessibility label for the navigation bar's back button */
+"Accessibility.NavigationBar.BackLabel" = "Zurück";
 
 /* Accessibility hint for TabBarItemView in TabBarView. %1$d is placeholder for index and %2$d is a placeholder for total number of tab items  */
 "Accessibility.TabBarItemView.Hint" = "%1d von %2d";
@@ -119,6 +125,18 @@
 
 /* Format string for tab bar item accessbility labels. Format: "<Title>, <BadgeValue> items". Example: "Home, 5 items" */
 "Accessibility.TabBarItemView.LabelFormat" = "%@, %@ Elemente";
+
+/* Accessibility hint for TabBarItem in TabBarItemView. Indicates whether the item is unread or not. Format: "<Title>, unread". Example: "Files, unread" */
+"Accessibility.TabBarItemView.UnreadFormat" = "%@, ungelesen";
+
+/* Accessibility hint for the button to delete the input text in the TextField. Should match the accessibility label from the system text fields.*/
+"Accessibility.TextField.ClearText" = "Text löschen";
+
+/* Format string for badge label button accessibility label. Format: "<Item Accessibility>, <Badge Label Accessibility>". Example: "Notifications, 5 new notifications" */
+"Accessibility.BadgeLabelButton.LabelFormat" = "%@, %@";
+
+/* Commanding Bottom Bar - More button */
+"CommandingBottomBar.More" = "Mehr";
 
 /* Generic label for cancel action */
 "Common.Cancel" = "Abbrechen";
@@ -147,7 +165,7 @@
 /* Day and time format string. Example: "Fri at 11:00 AM" */
 "Date.FormatDayTime" = "%@ um %@";
 
-// MSPersonaListView
+/* MSPersonaListView cell title: search(action) the directory */
 "MSPersonaListView.SearchDirectory" = "Verzeichnis durchsuchen";
 
 /* MSDateTimePicker label for the start time of a date range */

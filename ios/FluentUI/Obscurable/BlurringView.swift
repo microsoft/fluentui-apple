@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: BlurringView
 
-@available(*, deprecated, renamed: "BlurringView")
-public typealias MSBlurringView = BlurringView
-
 @objc(MSFBlurringView)
 open class BlurringView: UIView {
     private let blurEffect: UIBlurEffect

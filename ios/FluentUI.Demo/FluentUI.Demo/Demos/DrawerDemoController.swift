@@ -45,7 +45,6 @@ class DrawerDemoController: DemoController {
         addTitle(text: "Bottom Drawer")
         container.addArrangedSubview(createButton(title: "Show resizable", action: #selector(showBottomDrawerButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show resizable with max content height", action: #selector(showBottomDrawerWithMaxContentHeightTapped)))
-        container.addArrangedSubview(createButton(title: "Show with underlying interactable content view", action: #selector(showBottomDrawerWithUnderlyingInteractableViewButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show changing resizing behaviour", action: #selector(showBottomDrawerChangingResizingBehaviour)))
         container.addArrangedSubview(createButton(title: "Show with no animation", action: #selector(showBottomDrawerNotAnimatedButtonTapped)))
         container.addArrangedSubview(createButton(title: "Show from custom base", action: #selector(showBottomDrawerCustomOffsetButtonTapped)))
@@ -106,6 +105,7 @@ class DrawerDemoController: DemoController {
         controller.resizingBehavior = resizingBehavior
         controller.adjustsHeightForKeyboard = adjustHeightForKeyboard
         controller.shouldRespectSafeAreaForWindowFullWidth = respectSafeAreaWidth
+        controller.tokenSet.replaceAllOverrides(with: perControlOverrideEnabled ? perControlOverrideDrawerTokens : nil)
 
         if let contentView = contentView {
             // `preferredContentSize` can be used to specify the preferred size of a drawer,
@@ -124,6 +124,7 @@ class DrawerDemoController: DemoController {
         return controller
     }
 
+    var perControlOverrideEnabled: Bool = false
     private var contentControllerOriginalPreferredContentHeight: CGFloat = 0
 
     @objc private func customContentNavigationController(content: UIView) -> UINavigationController {
@@ -135,14 +136,16 @@ class DrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
+        let backgroundColor = view.fluentTheme.color(.background3)
+
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
         content.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        content.backgroundColor = Colors.NavigationBar.background
+        content.backgroundColor = backgroundColor
 
         let contentController = UINavigationController(rootViewController: controller)
-        contentController.navigationBar.barTintColor = Colors.NavigationBar.background
-        contentController.toolbar.barTintColor = Colors.Toolbar.background
+        contentController.navigationBar.barTintColor = backgroundColor
+        contentController.toolbar.barTintColor = backgroundColor
         contentController.isToolbarHidden = false
         contentController.preferredContentSize = CGSize(width: 400, height: 400)
         contentControllerOriginalPreferredContentHeight = contentController.preferredContentSize.height
@@ -243,10 +246,6 @@ class DrawerDemoController: DemoController {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(drawerHasFlexibleHeight: true, drawerHasToggleResizingBehaviorButton: true), resizingBehavior: .expand)
     }
 
-    @objc private func showBottomDrawerWithUnderlyingInteractableViewButtonTapped(sender: UIButton) {
-        navigationController?.pushViewController(PassThroughDrawerDemoController(), animated: true)
-    }
-
     @objc private func showBottomDrawerNotAnimatedButtonTapped(sender: UIButton) {
         presentDrawer(sourceView: sender, presentationDirection: .up, contentView: containerForActionViews(), animated: false)
     }
@@ -288,7 +287,6 @@ class DrawerDemoController: DemoController {
                                    contentController: contentController,
                                    resizingBehavior: .dismissOrExpand)
 
-        drawer.resizingHandleViewBackgroundColor = Colors.NavigationBar.background
         drawer.contentScrollView = personaListView
     }
 
@@ -379,7 +377,7 @@ class DrawerDemoController: DemoController {
     private var expandButton: Button?
 
     private let hideKeyboardButton: Button = {
-        let button = Button(style: .primaryFilled)
+        let button = Button(style: .accent)
         button.setTitle("Hide keyboard", for: .normal)
         button.setContentCompressionResistancePriority(.required, for: .vertical)
         button.setContentHuggingPriority(.required, for: .vertical)
@@ -426,5 +424,47 @@ extension DrawerDemoController: DrawerControllerDelegate {
 
     func drawerControllerDidChangeExpandedState(_ controller: DrawerController) {
         expandButton?.setTitle(controller.isExpanded ? "Return to normal" : "Expand", for: .normal)
+    }
+}
+
+extension DrawerDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: DrawerTokenSet.self, tokenSet: isOverrideEnabled ? themeWideOverrideDrawerTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        perControlOverrideEnabled = isOverrideEnabled
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: DrawerTokenSet.self)?.isEmpty == false
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
+                                                              dark: GlobalTokens.sharedColor(.plum, .tint60))
+            }
+        ]
+    }
+
+    private var perControlOverrideDrawerTokens: [DrawerTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
+                                                              dark: GlobalTokens.sharedColor(.forest, .tint60))
+            },
+            .shadow: .shadowInfo {
+                self.view.fluentTheme.shadow(.shadow02)
+            },
+            .resizingHandleMarkColor: .uiColor {
+                .red
+            }
+        ]
     }
 }

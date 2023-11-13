@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: NavigationController
 
-@available(*, deprecated, renamed: "NavigationController")
-public typealias MSNavigationController = NavigationController
-
 /// `UINavigationController` subclass that supports Large Title presentation and accessory view by wrapping each view controller that needs this functionality into a controller that provides the required behavior. The original view controller can be accessed by using `topContentViewController` or `contentViewController(for:)`.
 @objc(MSFNavigationController)
 open class NavigationController: UINavigationController {
@@ -35,7 +32,7 @@ open class NavigationController: UINavigationController {
         return nil
     }
     open override var preferredStatusBarStyle: UIStatusBarStyle {
-        return msfNavigationBar.style == .system ? .default : .lightContent
+        return (msfNavigationBar.style == .system || msfNavigationBar.style == .gradient) ? .default : .lightContent
     }
 
     open override var delegate: UINavigationControllerDelegate? {
@@ -50,11 +47,11 @@ open class NavigationController: UINavigationController {
     private var navigationBarWasHiddenBySearchBar: Bool = false
 
     @objc public convenience init() {
-        self.init(navigationBarClass: nil, toolbarClass: nil)
+        self.init(navigationBarClass: NavigationBar.self, toolbarClass: nil)
     }
 
     @objc public override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
-        super.init(navigationBarClass: NavigationBar.self, toolbarClass: toolbarClass)
+        super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
 
     @objc public convenience override init(rootViewController: UIViewController) {
@@ -81,6 +78,8 @@ open class NavigationController: UINavigationController {
         }
 
         super.delegate = self
+
+        msfNavigationBar.backButtonDelegate = self
 
         // Allow subviews to display a custom background view
         view.subviews.forEach { $0.clipsToBounds = false }
@@ -125,14 +124,14 @@ open class NavigationController: UINavigationController {
         if !viewControllerNeedsWrapping(viewController) {
             return viewController
         }
-        return ShyHeaderController(contentViewController: viewController)
+        return ShyHeaderController(contentViewController: viewController, containingView: self.parent?.view ?? view)
     }
 
     private func viewControllerNeedsWrapping(_ viewController: UIViewController) -> Bool {
         if viewController is ShyHeaderController {
             return false
         }
-        if viewController.navigationItem.usesLargeTitle || viewController.navigationItem.accessoryView != nil {
+        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
             return true
         }
         return false
@@ -145,6 +144,9 @@ open class NavigationController: UINavigationController {
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
             transitionAnimator.tintColor = backgroundColor
         }
+        // ShyHeaderController sets its padding before the navigation item loads in,
+        // so we need to recalculate its padding now
+        (topViewController as? ShyHeaderController)?.updatePadding()
     }
 
     private func updateNavigationBarVisibility(for viewController: UIViewController, animated: Bool) {
@@ -236,5 +238,13 @@ extension NavigationController: UINavigationControllerDelegate {
         transitionAnimator.navigationController = navigationController
         transitionAnimator.operation = operation
         return transitionAnimator
+    }
+}
+
+// MARK: - NavigationController: NavigationBarBackButtonDelegate
+
+extension NavigationController: NavigationBarBackButtonDelegate {
+    func backButtonWasPressed() {
+        popViewController(animated: true)
     }
 }

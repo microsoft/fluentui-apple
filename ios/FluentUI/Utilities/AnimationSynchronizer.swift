@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "AnimationSynchronizerProtocol")
-public typealias MSAnimationSynchronizerProtocol = AnimationSynchronizerProtocol
-
 /// An animation synchronizer syncs homogeneous layer animations by calculating the appropriate timeOffset
 /// of a referenceLayer so that newly added animations can stay in sync with existing animations.
 @objc(MSFAnimationSynchronizerProtocol)
@@ -20,9 +17,6 @@ public protocol AnimationSynchronizerProtocol: AnyObject {
     /// - Parameter layer: Layer to get the time offset for to sync with the referenceLayer.
     @objc func timeOffset(for layer: CALayer) -> CFTimeInterval
 }
-
-@available(*, deprecated, renamed: "AnimationSynchronizer")
-public typealias MSAnimationSynchronizer = AnimationSynchronizer
 
 @objc(MSFAnimationSynchronizer)
 public class AnimationSynchronizer: NSObject, AnimationSynchronizerProtocol {

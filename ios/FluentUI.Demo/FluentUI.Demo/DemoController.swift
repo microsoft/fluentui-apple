@@ -34,7 +34,7 @@ class DemoController: UIViewController {
     }
 
     let container: UIStackView = createVerticalContainer()
-    let scrollingContainer = ScrollView(frame: .zero)
+    let scrollingContainer = DemoControllerScrollView(frame: .zero)
 
     var allowsContentToScroll: Bool { return true }
 
@@ -49,23 +49,25 @@ class DemoController: UIViewController {
 
     @discardableResult
     func addDescription(text: String, textAlignment: NSTextAlignment = .natural) -> Label {
-        let description = Label(style: .subhead, colorStyle: .regular)
+        let description = Label()
         description.numberOfLines = 0
         description.text = text
         description.textAlignment = textAlignment
+        description.numberOfLines = 0
         container.addArrangedSubview(description)
         return description
     }
 
     func addTitle(text: String) {
-        let titleLabel = Label(style: .headline)
+        let titleLabel = Label(textStyle: .body1Strong)
         titleLabel.text = text
         titleLabel.textAlignment = .center
         titleLabel.accessibilityTraits.insert(.header)
+        titleLabel.numberOfLines = 0
         container.addArrangedSubview(titleLabel)
     }
 
-    func addRow(text: String = "", items: [UIView], textStyle: TextStyle = .subhead, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
+    func addRow(text: String = "", items: [UIView], textStyle: FluentTheme.TypographyToken = .body1Strong, textWidth: CGFloat = Constants.rowTextWidth, itemSpacing: CGFloat = Constants.horizontalSpacing, stretchItems: Bool = false, centerItems: Bool = false) {
         let itemsContainer = UIStackView()
         itemsContainer.axis = .vertical
         itemsContainer.alignment = stretchItems ? .fill : (centerItems ? .center : .leading)
@@ -77,7 +79,7 @@ class DemoController: UIViewController {
         itemRow.spacing = itemSpacing
 
         if !text.isEmpty {
-            let label = Label(style: textStyle, colorStyle: .regular)
+            let label = Label(textStyle: textStyle, colorStyle: .regular)
             label.text = text
             label.widthAnchor.constraint(equalToConstant: textWidth).isActive = true
             itemRow.addArrangedSubview(label)
@@ -108,21 +110,13 @@ class DemoController: UIViewController {
 
     }
 
-    func createLabelAndSwitchRow(labelText: String, switchAction: Selector, isOn: Bool = false) -> UIView {
-        let switchView = UISwitch()
-        switchView.isOn = isOn
-        switchView.addTarget(self, action: switchAction, for: .valueChanged)
-
-        return createLabelAndViewsRow(labelText: labelText, views: [switchView])
-    }
-
     func createLabelAndViewsRow(labelText: String, views: [UIView]) -> UIView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.spacing = Constants.stackViewSpacing
 
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = labelText
         stackView.addArrangedSubview(label)
 
@@ -135,7 +129,7 @@ class DemoController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Colors.surfacePrimary
+        view.backgroundColor = view.fluentTheme.color(.background1)
 
         if allowsContentToScroll {
             view.addSubview(scrollingContainer)
@@ -154,5 +148,58 @@ class DemoController: UIViewController {
             container.frame = view.bounds
             container.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         }
+
+        // Child scroll views interfere with largeTitleDisplayMode, so let's
+        // disable it for all DemoController subclasses.
+        self.navigationItem.largeTitleDisplayMode = .never
+
+        configureAppearanceAndReadmePopovers()
+    }
+
+    // MARK: - Demo Appearance Popover
+
+    func configureAppearanceAndReadmePopovers() {
+        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(showAppearancePopover(_:)))
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(showReadmePopover))
+        navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
+    }
+
+    @objc func showReadmePopover(_ sender: UIBarButtonItem) {
+        readmeViewController.popoverPresentationController?.barButtonItem = sender
+        readmeViewController.popoverPresentationController?.delegate = self
+        self.present(readmeViewController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
+        if let barButtonItem = sender as? UIBarButtonItem {
+            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
+        } else if let sourceView = sender as? UIView {
+            appearanceController.popoverPresentationController?.sourceView = sourceView
+            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
+        }
+        appearanceController.popoverPresentationController?.delegate = self
+        presenter.present(appearanceController, animated: true, completion: nil)
+    }
+
+    @objc func showAppearancePopover(_ sender: AnyObject) {
+        showAppearancePopover(sender, presenter: self)
+    }
+
+    var readmeString: String?
+
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeString)
+}
+
+extension DemoController: UIPopoverPresentationControllerDelegate {
+    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

@@ -5,41 +5,7 @@
 
 import UIKit
 
-// MARK: Separator Colors
-
-public extension Colors {
-    struct Separator {
-        public static var `default`: UIColor = dividerOnPrimary
-        public static var shadow: UIColor = dividerOnSecondary
-    }
-    // Objective-C support
-    @objc static var separatorDefault: UIColor { return Separator.default }
-}
-
-// MARK: - SeparatorStyle
-
-@available(*, deprecated, renamed: "SeparatorStyle")
-public typealias MSSeparatorStyle = SeparatorStyle
-
-@objc(MSFSeparatorStyle)
-public enum SeparatorStyle: Int {
-    case `default`
-    case shadow
-
-    fileprivate var color: UIColor {
-        switch self {
-        case .default:
-            return Colors.Separator.default
-        case .shadow:
-            return Colors.Separator.shadow
-        }
-    }
-}
-
 // MARK: - SeparatorOrientation
-
-@available(*, deprecated, renamed: "SeparatorOrientation")
-public typealias MSSeparatorOrientation = SeparatorOrientation
 
 @objc(MSFSeparatorOrientation)
 public enum SeparatorOrientation: Int {
@@ -49,21 +15,21 @@ public enum SeparatorOrientation: Int {
 
 // MARK: - Separator
 
-@available(*, deprecated, renamed: "Separator")
-public typealias MSSeparator = Separator
-
 @objc(MSFSeparator)
-open class Separator: UIView {
+open class Separator: UIView, TokenizedControlInternal {
+    public typealias TokenSetKeyType = SeparatorTokenSet.Tokens
+    lazy public var tokenSet: SeparatorTokenSet = .init()
+
     private var orientation: SeparatorOrientation = .horizontal
 
     @objc public override init(frame: CGRect) {
         super.init(frame: frame)
-        initialize(style: .default, orientation: .horizontal)
+        initialize(orientation: .horizontal)
     }
 
-    @objc public init(style: SeparatorStyle = .default, orientation: SeparatorOrientation = .horizontal) {
+    @objc public init(orientation: SeparatorOrientation = .horizontal) {
         super.init(frame: .zero)
-        initialize(style: style, orientation: orientation)
+        initialize(orientation: orientation)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -71,23 +37,39 @@ open class Separator: UIView {
     }
 
     /**
-     The default thickness for the separator: one device pixel.
+     The default thickness for the separator: half pt.
     */
-    @objc public static var thickness: CGFloat { return UIScreen.main.devicePixel }
+    @objc public static var thickness: CGFloat { return SeparatorTokenSet.thickness }
 
-    private func initialize(style: SeparatorStyle, orientation: SeparatorOrientation) {
-        super.backgroundColor = style.color
+    @objc public static func separatorDefaultColor(fluentTheme: FluentTheme) -> UIColor {
+        return fluentTheme.color(.stroke2)
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+    }
+
+    private func initialize(orientation: SeparatorOrientation) {
+        backgroundColor = tokenSet[.color].uiColor
         self.orientation = orientation
         switch orientation {
         case .horizontal:
-            frame.size.height = Separator.thickness
+            frame.size.height = SeparatorTokenSet.thickness
             autoresizingMask = .flexibleWidth
         case .vertical:
-            frame.size.width = Separator.thickness
+            frame.size.width = SeparatorTokenSet.thickness
             autoresizingMask = .flexibleHeight
         }
         isAccessibilityElement = false
         isUserInteractionEnabled = false
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.backgroundColor = self?.tokenSet[.color].uiColor
+        }
     }
 
     open override var intrinsicContentSize: CGSize {

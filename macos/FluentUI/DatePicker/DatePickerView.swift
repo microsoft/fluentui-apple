@@ -340,6 +340,7 @@ class DatePickerView: NSView {
 			self.monthClipView.heightAnchor.constraint(equalTo: self.calendarView.heightAnchor).isActive = true
 			self.updateSelection()
 			self.isAnimating = false
+			self.window?.recalculateKeyViewLoop()
 		})
 	}
 

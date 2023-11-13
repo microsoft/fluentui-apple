@@ -29,20 +29,21 @@ class CalendarView: UIView {
     init(headerStyle: DatePickerHeaderStyle = .light) {
         weekdayHeadingView = CalendarViewWeekdayHeadingView(headerStyle: headerStyle)
 
-        headingViewSeparator = Separator(style: .shadow)
+        headingViewSeparator = Separator()
 
         collectionViewLayout = CalendarViewLayout()
 
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: collectionViewLayout)
-        collectionView.backgroundColor = Colors.Calendar.background
         collectionView.showsVerticalScrollIndicator = false
         collectionView.scrollsToTop = false
         // Enable multiple selection to allow for one cell to be selected and another cell to be highlighted simultaneously
         collectionView.allowsMultipleSelection = true
 
-        collectionViewSeparator = Separator(style: .default)
+        collectionViewSeparator = Separator()
 
         super.init(frame: .zero)
+
+        updateCollectionViewBackgroundColor()
 
         addSubview(weekdayHeadingView)
         addSubview(collectionView)
@@ -52,6 +53,22 @@ class CalendarView: UIView {
         if headerStyle == .light {
             addSubview(headingViewSeparator)
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateCollectionViewBackgroundColor()
+    }
+
+    private func updateCollectionViewBackgroundColor() {
+        collectionView.backgroundColor = fluentTheme.color(.background2)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,7 +126,7 @@ class CalendarView: UIView {
         height += CalendarViewLayout.preferredItemHeight * rows(for: style)
 
         // Do not include last separator
-        height -= UIScreen.main.devicePixel
+        height -= Separator.thickness
 
         return height
     }

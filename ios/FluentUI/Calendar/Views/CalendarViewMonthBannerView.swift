@@ -20,7 +20,7 @@ class CalendarViewMonthBannerView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         // Month label
-        monthLabel = Label(style: .body, colorStyle: .regular)
+        monthLabel = Label(textStyle: .body1, colorStyle: .regular)
         monthLabel.textAlignment = .center
         monthLabel.alpha = 0.0  // Initial `isVisible` is `false`
 

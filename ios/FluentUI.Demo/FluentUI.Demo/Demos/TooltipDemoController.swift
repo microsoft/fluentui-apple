@@ -9,7 +9,7 @@ import UIKit
 // MARK: TooltipDemoController
 
 class TooltipDemoController: DemoController {
-    let titleView = TwoLineTitleView(style: .dark)
+    let titleView = TwoLineTitleView(style: .system)
     var edgeCaseStackView: UIStackView!
 
     override func viewDidLoad() {
@@ -17,10 +17,11 @@ class TooltipDemoController: DemoController {
         titleView.setup(title: title ?? "", interactivePart: .title)
         titleView.delegate = self
         navigationItem.titleView = titleView
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip))
+        navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip)))
 
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: #selector(showSingleTooltipBelow)))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: #selector(showDoubleTooltipAbove)))
+        container.addArrangedSubview(createButton(title: "Show tooltip with title above", action: #selector(showTooltipWithTitle)))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip dismissal", action: #selector(showTooltipWithTapOnTooltipDismissal)))
         container.addArrangedSubview(createButton(title: "Show with tap on tooltip or anchor dismissal", action: #selector(showTooltipWithTapOnTooltipOrAnchorDismissal)))
         container.addArrangedSubview(createLeftRightButtons())
@@ -74,7 +75,7 @@ class TooltipDemoController: DemoController {
         topContainer.addArrangedSubview(topleftButton)
         topContainer.addArrangedSubview(topRightButton)
 
-        let middleLabel = Label(style: .headline, colorStyle: .regular)
+        let middleLabel = Label(textStyle: .body1Strong, colorStyle: .regular)
         middleLabel.text = "Press corner buttons to show offset tooltips"
         middleLabel.numberOfLines = 0
         middleLabel.textAlignment = .center
@@ -103,6 +104,10 @@ class TooltipDemoController: DemoController {
         Tooltip.shared.show(with: "This is a very long message, and this is also pointing down.", for: sender)
     }
 
+    @objc func showTooltipWithTitle(sender: Button) {
+        Tooltip.shared.show(with: "This is the message of the tooltip.", title: "This is a tooltip title", for: sender)
+    }
+
     @objc func showTooltipWithTapOnTooltipDismissal(sender: Button) {
         Tooltip.shared.show(with: "Tap on this tooltip to dismiss.", for: sender, preferredArrowDirection: .up, dismissOn: .tapOnTooltip)
     }
@@ -124,22 +129,11 @@ class TooltipDemoController: DemoController {
     }
 
     @objc func showTopRightOffsetTooltip(sender: Button) {
-        guard let window = view.window else {
-            return
-        }
-        var margins = Tooltip.defaultScreenMargins
-        margins.top = edgeCaseStackView.convert(edgeCaseStackView.bounds, to: window).minY - window.safeAreaInsets.top
-        margins.left = window.frame.inset(by: window.safeAreaInsets).midX
-        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .right)
     }
 
     @objc func showBottomLeftOffsetTooltip(sender: Button) {
-        guard let window = view.window else {
-            return
-        }
-        var margins = Tooltip.defaultScreenMargins
-        margins.right = window.frame.inset(by: window.safeAreaInsets).midX
-        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left, screenMargins: margins)
+        Tooltip.shared.show(with: "This is a very long, offset message.", for: sender, preferredArrowDirection: .left)
     }
 
     @objc func showBottomRightOffsetTooltip(sender: Button) {
@@ -151,8 +145,58 @@ class TooltipDemoController: DemoController {
 
 extension TooltipDemoController: TwoLineTitleViewDelegate {
     func twoLineTitleViewDidTapOnTitle(_ twoLineTitleView: TwoLineTitleView) {
-        let alert = UIAlertController(title: nil, message: "The title button was pressed", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "The two line title view was pressed", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TooltipDemoController: DemoAppearanceDelegate
+
+extension TooltipDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: TooltipTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverrideTooltipTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        Tooltip.shared.tokenSet.replaceAllOverrides(with: isOverrideEnabled ? perControlOverrideTooltipTokens : nil)
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: TooltipTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+    private var themeWideOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tooltipColor: .uiColor {
+                // "Berry"
+                return UIColor(light: GlobalTokens.sharedColor(.berry, .shade30),
+                               dark: GlobalTokens.sharedColor(.berry, .tint20))
+            }
+        ]
+    }
+
+    private var perControlOverrideTooltipTokens: [TooltipTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .tooltipColor: .uiColor {
+                // "Brass"
+                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint40),
+                               dark: GlobalTokens.sharedColor(.brass, .shade30))
+            },
+            .textColor: .uiColor {
+                // "Forest"
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .shade30),
+                               dark: GlobalTokens.sharedColor(.forest, .tint40))
+            },
+            .backgroundCornerRadius: .float {
+                return 0
+            }
+        ]
     }
 }

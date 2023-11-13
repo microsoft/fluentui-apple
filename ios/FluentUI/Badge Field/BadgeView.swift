@@ -6,51 +6,46 @@
 import UIKit
 
 // MARK: BadgeViewDataSource
-
-@available(*, deprecated, renamed: "BadgeViewDataSource")
-public typealias MSBadgeViewDataSource = BadgeViewDataSource
-
 @objc(MSFBadgeViewDataSource)
 open class BadgeViewDataSource: NSObject {
     @objc open var text: String
     @objc open var style: BadgeView.Style
-    @objc open var size: BadgeView.Size
+    @objc open var sizeCategory: BadgeView.SizeCategory
+    @objc open var customView: UIView?
+    @objc open var customViewVerticalPadding: NSNumber?
+    @objc open var customViewPaddingLeft: NSNumber?
+    @objc open var customViewPaddingRight: NSNumber?
 
-    @objc public init(text: String, style: BadgeView.Style = .default, size: BadgeView.Size = .medium) {
+    @objc public init(text: String, style: BadgeView.Style = .default, sizeCategory: BadgeView.SizeCategory = .medium) {
         self.text = text
         self.style = style
-        self.size = size
+        self.sizeCategory = sizeCategory
         super.init()
+    }
+
+    @objc public convenience init(
+        text: String,
+        style: BadgeView.Style = .default,
+        sizeCategory: BadgeView.SizeCategory = .medium,
+        customView: UIView? = nil,
+        customViewVerticalPadding: NSNumber? = nil,
+        customViewPaddingLeft: NSNumber? = nil,
+        customViewPaddingRight: NSNumber? = nil
+    ) {
+        self.init(text: text, style: style, sizeCategory: sizeCategory)
+
+        self.customView = customView
+        self.customViewVerticalPadding = customViewVerticalPadding
+        self.customViewPaddingLeft = customViewPaddingLeft
+        self.customViewPaddingRight = customViewPaddingRight
     }
 }
 
 // MARK: - BadgeViewDelegate
-@available(*, deprecated, renamed: "BadgeViewDelegate")
-public typealias MSBadgeViewDelegate = BadgeViewDelegate
-
 @objc(MSFBadgeViewDelegate)
 public protocol BadgeViewDelegate {
     func didSelectBadge(_ badge: BadgeView)
     func didTapSelectedBadge(_ badge: BadgeView)
-}
-
-// MARK: - Badge Colors
-
-public extension Colors {
-    struct Badge {
-        public static var background: UIColor = .clear
-        public static var backgroundDisabled = UIColor(light: surfaceSecondary, dark: gray700)
-        public static var backgroundError = UIColor(light: Palette.dangerTint40.color, dark: Palette.dangerTint30.color)
-        public static var backgroundErrorSelected: UIColor = error
-        public static var backgroundWarning = UIColor(light: Palette.warningTint40.color, dark: Palette.warningTint30.color)
-        public static var backgroundWarningSelected: UIColor = warning
-        public static var textSelected: UIColor = textOnAccent
-        public static var textDisabled: UIColor = textSecondary
-        public static var textError: UIColor = Palette.dangerShade20.color
-        public static var textErrorSelected: UIColor = textOnAccent
-        public static var textWarning = UIColor(light: Palette.warningShade30.color, dark: Palette.warningPrimary.color)
-        public static var textWarningSelected: UIColor = .black
-    }
 }
 
 // MARK: - BadgeView
@@ -60,61 +55,8 @@ public extension Colors {
 
  `BadgeView` can be selected with a tap gesture and tapped again after entering a selected state for the purpose of displaying more details about the entity represented by the selected badge.
  */
-
-@available(*, deprecated, renamed: "BadgeView")
-public typealias MSBadgeView = BadgeView
-
 @objc(MSFBadgeView)
-open class BadgeView: UIView {
-    @objc(MSFBadgeViewStyle)
-    public enum Style: Int {
-        case `default`
-        case warning
-        case error
-    }
-
-    @objc(MSFBadgeViewSize)
-    public enum Size: Int, CaseIterable {
-        case small
-        case medium
-
-        var labelTextStyle: TextStyle {
-            switch self {
-            case .small:
-                return .footnote
-            case .medium:
-                return .subhead
-            }
-        }
-
-        var horizontalPadding: CGFloat {
-            switch self {
-            case .small:
-                return 4
-            case .medium:
-                return 5
-            }
-        }
-
-        var verticalPadding: CGFloat {
-            switch self {
-            case .small:
-                return 1.5
-            case .medium:
-                return 4
-            }
-        }
-
-        var height: CGFloat {
-            return verticalPadding + labelTextStyle.font.deviceLineHeight + verticalPadding
-        }
-    }
-
-    private struct Constants {
-        static let defaultMinWidth: CGFloat = 25
-        static let backgroundCornerRadius: CGFloat = 3
-    }
-
+open class BadgeView: UIView, TokenizedControlInternal {
     @objc open var dataSource: BadgeViewDataSource? {
         didSet {
             reload()
@@ -138,147 +80,48 @@ open class BadgeView: UIView {
     @objc open var isSelected: Bool = false {
         didSet {
             updateColors()
-            updateAccessibility()
+            if isSelected {
+                accessibilityTraits.insert(.selected)
+            } else {
+                accessibilityTraits.remove(.selected)
+            }
         }
     }
 
-    private var _labelTextColor: UIColor?
-    open var labelTextColor: UIColor? {
-        get {
-            if let customLabelTextColor = _labelTextColor {
-                return customLabelTextColor
-            }
-            switch style {
-            case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
-            case .warning:
-                return Colors.Badge.textWarning
-            case .error:
-                return Colors.Badge.textError
-            }
-            return nil
-        }
+    @objc open var lineBreakMode: NSLineBreakMode {
         set {
-            if labelTextColor != newValue {
-                _labelTextColor = newValue
-                updateColors()
-            }
+            label.lineBreakMode = newValue
         }
-    }
-
-    private var _selectedLabelTextColor: UIColor?
-    open var selectedLabelTextColor: UIColor {
         get {
-            if let customSelectedLabelTextColor = _selectedLabelTextColor {
-                return customSelectedLabelTextColor
-            }
-
-            switch style {
-            case .default:
-                return Colors.Badge.textSelected
-            case .warning:
-                return Colors.Badge.textWarningSelected
-            case .error:
-                return Colors.Badge.textErrorSelected
-            }
-        }
-        set {
-            if selectedLabelTextColor != newValue {
-                _selectedLabelTextColor = newValue
-                updateColors()
-            }
+            label.lineBreakMode
         }
     }
 
-    private var _disabledLabelTextColor: UIColor?
-    open var disabledLabelTextColor: UIColor? {
-        get {
-            if let customDisabledLabelTextColor = _disabledLabelTextColor {
-                return customDisabledLabelTextColor
-            }
-            return style == .default ? Colors.Badge.textDisabled : (isSelected ? self.selectedLabelTextColor : self.labelTextColor)
-        }
-        set {
-            if disabledBackgroundColor != newValue {
-                _disabledLabelTextColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _backgroundColor: UIColor?
-    open override var backgroundColor: UIColor? {
-        get {
-            if let customBackgroundColor = _backgroundColor {
-                return customBackgroundColor
-            }
-            switch style {
-            case .default:
-                if let window = window {
-                    return Colors.primaryTint40(for: window)
-                }
-            case .warning:
-                return Colors.Badge.backgroundWarning
-            case .error:
-                return Colors.Badge.backgroundError
-            }
-            return nil
-        }
-        set {
-            if backgroundColor != newValue {
-                _backgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _selectedBackgroundColor: UIColor?
-    open var selectedBackgroundColor: UIColor? {
-        get {
-            if let customSelectedBackgroundColor = _selectedBackgroundColor {
-                return customSelectedBackgroundColor
-            }
-            switch style {
-            case .default:
-                if let window = window {
-                    return Colors.primary(for: window)
-                }
-            case .warning:
-                return Colors.Badge.backgroundWarningSelected
-            case .error:
-                return Colors.Badge.backgroundErrorSelected
-            }
-            return nil
-        }
-        set {
-            if selectedBackgroundColor != newValue {
-                _selectedBackgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    private var _disabledBackgroundColor: UIColor?
-    open var disabledBackgroundColor: UIColor? {
-        get {
-            if let customDisabledBackgroundColor = _disabledBackgroundColor {
-                return customDisabledBackgroundColor
-            }
-            return style == .default ? Colors.Badge.backgroundDisabled : (isSelected ? self.selectedBackgroundColor : self.backgroundColor)
-        }
-        set {
-            if disabledBackgroundColor != newValue {
-                _disabledBackgroundColor = newValue
-                updateColors()
-            }
-        }
-    }
-
-    @objc open var minWidth: CGFloat = Constants.defaultMinWidth {
+    @objc open var minWidth: CGFloat = BadgeViewTokenSet.defaultMinWidth {
         didSet {
             setNeedsLayout()
+        }
+    }
+
+    /**
+     The maximum allowed size point for the label's font. This property can be used
+     to restrict the largest size of the label when scaling due to Dynamic Type. The
+     default value is 0, indicating there is no maximum size.
+     */
+    open var maxFontSize: CGFloat = 0 {
+        didSet {
+            label.maxFontSize = maxFontSize
+            invalidateIntrinsicContentSize()
+        }
+    }
+
+    /**
+     When set to true, the unselected Badge will have a stroke with a 3:1 contrast ratio against the background color.
+     This may be necessary for accessibility requirements with interactive Badges.
+     */
+    open var showAccessibleStroke: Bool = false {
+        didSet {
+            updateStrokeColor()
         }
     }
 
@@ -286,17 +129,49 @@ open class BadgeView: UIView {
         return sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
     }
 
+    public typealias TokenSetKeyType = BadgeViewTokenSet.Tokens
+    lazy public var tokenSet: BadgeViewTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .default
+    },
+                                                     sizeCategory: { [weak self] in
+        return self?.sizeCategory ?? .medium
+    })
+
     private var style: Style = .default {
         didSet {
             updateColors()
         }
     }
 
-    private var size: Size = .medium {
+    private var sizeCategory: SizeCategory = .medium {
         didSet {
-            label.style = size.labelTextStyle
+            label.textStyle = sizeCategory.labelTextStyle
             invalidateIntrinsicContentSize()
         }
+    }
+
+    private var labelSize: CGSize {
+        let size = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
+        let width = ceil(size.width)
+        let height = ceil(size.height)
+        return CGSize(width: width, height: height)
+    }
+
+    private var customViewPadding: UIEdgeInsets {
+        let getFloat: (_ number: NSNumber?, _ defaultValue: CGFloat) -> CGFloat = { (number, defaultValue) in
+            if let number = number {
+                return CGFloat(truncating: number)
+            }
+            return defaultValue
+        }
+        let defaultVerticalPadding = BadgeViewTokenSet.verticalPadding
+        let defaultHorizontalPadding = BadgeViewTokenSet.horizontalPadding(sizeCategory)
+        return UIEdgeInsets(
+            top: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
+            left: getFloat(dataSource?.customViewPaddingLeft, defaultHorizontalPadding),
+            bottom: getFloat(dataSource?.customViewVerticalPadding, defaultVerticalPadding),
+            right: getFloat(dataSource?.customViewPaddingRight, defaultHorizontalPadding)
+        )
     }
 
     private let backgroundView = UIView()
@@ -306,7 +181,7 @@ open class BadgeView: UIView {
     @objc public init(dataSource: BadgeViewDataSource) {
         super.init(frame: .zero)
 
-        backgroundView.layer.cornerRadius = Constants.backgroundCornerRadius
+        backgroundView.layer.cornerRadius = tokenSet[.borderRadius].float
         backgroundView.layer.cornerCurve = .continuous
 
         addSubview(backgroundView)
@@ -314,6 +189,7 @@ open class BadgeView: UIView {
         label.lineBreakMode = .byTruncatingMiddle
         label.textAlignment = .center
         label.backgroundColor = .clear
+        label.textStyle = sizeCategory.labelTextStyle
         addSubview(label)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(badgeTapped))
@@ -322,9 +198,16 @@ open class BadgeView: UIView {
 
         isAccessibilityElement = true
         accessibilityTraits = .button
-        updateAccessibility()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(invalidateIntrinsicContentSize), name: UIContentSizeCategory.didChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(invalidateIntrinsicContentSize),
+                                               name: UIContentSizeCategory.didChangeNotification,
+                                               object: nil)
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+            self?.updateFonts()
+        }
 
         defer {
             self.dataSource = dataSource
@@ -335,61 +218,99 @@ open class BadgeView: UIView {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    private func updateFonts() {
+        label.tokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .labelFont), forToken: .font)
+    }
+
     open override func layoutSubviews() {
         super.layoutSubviews()
         backgroundView.frame = bounds
 
-        let labelHeight = label.font.deviceLineHeight
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
-        let fittingLabelWidth = UIScreen.main.roundToDevicePixels(labelSize.width)
+        if let customViewSize = customViewSize(for: frame.size), customViewSize != .zero {
+            let customViewOrigin = CGPoint(x: customViewPadding.left, y: (frame.height - customViewSize.height) / 2)
+            dataSource?.customView?.frame = CGRect(origin: customViewOrigin, size: customViewSize)
+            let labelOrigin = CGPoint(x: customViewPadding.left + customViewPadding.right + customViewSize.width, y: (frame.height - labelSize.height) / 2)
+            let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x, height: labelSize.height)
+            label.frame = CGRect(origin: labelOrigin, size: labelSizeThatFits)
+        } else {
+            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory), dy: BadgeViewTokenSet.verticalPadding)
+        }
 
-        let minLabelWidth = minWidth - size.horizontalPadding * 2
-        let maxLabelWidth = frame.width - size.horizontalPadding * 2
-        let labelWidth = max(minLabelWidth, min(maxLabelWidth, fittingLabelWidth))
-        label.frame = CGRect(x: size.horizontalPadding, y: size.verticalPadding, width: labelWidth, height: labelHeight)
+        flipSubviewsForRTL()
     }
 
-    open func reload() {
+    func reload() {
         label.text = dataSource?.text
         style = dataSource?.style ?? .default
-        size = dataSource?.size ?? .medium
+        sizeCategory = dataSource?.sizeCategory ?? .medium
+
+        dataSource?.customView?.removeFromSuperview()
+        if let customView = dataSource?.customView {
+            addSubview(customView)
+        }
+
         setNeedsLayout()
     }
 
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let labelSize = label.sizeThatFits(CGSize(width: CGFloat.infinity, height: CGFloat.infinity))
-        let width = UIScreen.main.roundToDevicePixels(labelSize.width) + self.size.horizontalPadding * 2
-        let maxWidth = size.width > 0 ? size.width : .infinity
-        return CGSize(width: max(minWidth, min(width, maxWidth)), height: self.size.height)
-    }
+        let width: CGFloat
+        let height: CGFloat
 
-    open override func didMoveToWindow() {
-        super.didMoveToWindow()
-        updateColors()
-    }
-
-    private func updateAccessibility() {
-        if isSelected {
-            accessibilityValue = "Accessibility.Selected.Value".localized
-            accessibilityHint = "Accessibility.Selected.Hint".localized
+        if let customViewSize = customViewSize(for: size), customViewSize != .zero {
+            let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
+            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
+            height = max(heightForCustomView, heightForLabel)
+            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         } else {
-            accessibilityValue = nil
-            accessibilityHint = "Accessibility.Select.Hint".localized
+            height = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
+            width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
         }
+
+        let maxWidth = size.width > 0 ? size.width : .infinity
+        let maxHeight = size.height > 0 ? size.height : .infinity
+
+        return CGSize(width: max(minWidth, min(width, maxWidth)), height: min(height, maxHeight))
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors()
+        updateFonts()
+    }
+
+    private func customViewSize(for size: CGSize) -> CGSize? {
+        guard let customView = dataSource?.customView else {
+            return nil
+        }
+        return customView.bounds == .zero ? customView.sizeThatFits(size) : customView.bounds.size
     }
 
     private func updateColors() {
         updateBackgroundColor()
         updateLabelTextColor()
+        updateStrokeColor()
     }
 
     private func updateBackgroundColor() {
-        backgroundView.backgroundColor = isActive ? (isSelected ? selectedBackgroundColor : backgroundColor) : disabledBackgroundColor
-        super.backgroundColor = Colors.Badge.background
+        backgroundView.backgroundColor = isActive ? (isSelected ? tokenSet[.backgroundFilledColor].uiColor : tokenSet[.backgroundTintColor].uiColor) : tokenSet[.backgroundDisabledColor].uiColor
+        super.backgroundColor = .clear
     }
 
     private func updateLabelTextColor() {
-        label.textColor = isActive ? (isSelected ? selectedLabelTextColor : labelTextColor) : disabledLabelTextColor
+        label.textColor = isActive ? (isSelected ? tokenSet[.foregroundFilledColor].uiColor : tokenSet[.foregroundTintColor].uiColor) : tokenSet[.foregroundDisabledColor].uiColor
+    }
+
+    private func updateStrokeColor() {
+        if showAccessibleStroke && !isSelected {
+            backgroundView.layer.borderColor = tokenSet[.strokeTintColor].uiColor.cgColor
+            backgroundView.layer.borderWidth = tokenSet[.strokeWidth].float
+        } else {
+            backgroundView.layer.borderWidth = 0
+        }
     }
 
     @objc private func badgeTapped() {
@@ -403,5 +324,15 @@ open class BadgeView: UIView {
 
     // MARK: Accessibility
 
-    open override var accessibilityLabel: String? { get { return label.text } set { } }
+    open override var accessibilityLabel: String? {
+        get { return dataSource?.accessibilityLabel ?? label.text }
+        set { }
+    }
+
+#if DEBUG
+    open override var accessibilityIdentifier: String? {
+        get { return "Badge with label \(label.text ?? "") in style \(style.rawValue)" }
+        set { }
+    }
+#endif
 }

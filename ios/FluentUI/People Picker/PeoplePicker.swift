@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PeoplePickerDelegate
 
-@available(*, deprecated, renamed: "PeoplePickerDelegate")
-public typealias MSPeoplePickerDelegate = PeoplePickerDelegate
-
 @objc(MSFPeoplePickerDelegate)
 public protocol PeoplePickerDelegate: BadgeFieldDelegate {
     // Suggested personas
@@ -49,9 +46,6 @@ public protocol PeoplePickerDelegate: BadgeFieldDelegate {
 
 // MARK: - PeoplePicker
 
-@available(*, deprecated, renamed: "PeoplePicker")
-public typealias MSPeoplePicker = PeoplePicker
-
 /**
  `PeoplePicker` is used to select one or more personas from a list which is populated according to the text entered into its text field. Selected personas are added to a list of `pickedPersonas` and represented visually as "badges" which can be interacted with and removed.
 
@@ -61,10 +55,6 @@ public typealias MSPeoplePicker = PeoplePicker
  */
 @objc(MSFPeoplePicker)
 open class PeoplePicker: BadgeField {
-    private struct Constants {
-        static let personaSuggestionsVerticalMargin: CGFloat = 8
-    }
-
     /// Use `availablePersonas` to provide a list of personas that may be filtered and appear as `suggestedPersonas`in the persona list.
     @objc open var availablePersonas: [Persona] = [] {
         didSet {
@@ -91,6 +81,27 @@ open class PeoplePicker: BadgeField {
      Note: This property is disregarded if `getSuggestedPersonasForText` delegate method has been implemented.
      */
     @objc open var allowsPickedPersonasToAppearAsSuggested: Bool = true
+
+	/**
+	 Set `hidePersonaListViewWhenNoSuggestedPersonas` to true to hide the personaListView when no suggested personas are available, i.e. personaListView is empty.
+	 */
+	@objc open var hidePersonaListViewWhenNoSuggestedPersonas: Bool = false
+
+    /**
+     Set `showsAvatar` to true to show the persona's Avatar.
+     */
+    @objc open var showsAvatar: Bool = false {
+        didSet {
+            if showsAvatar {
+                deleteAllBadges()
+                pickedPersonas.forEach {
+                    let avatar = MSFAvatar(style: .default, size: .size16)
+                    avatar.state.image = $0.image
+                    addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
+                }
+            }
+        }
+    }
 
     @objc open weak var delegate: PeoplePickerDelegate? {
         didSet {
@@ -129,7 +140,17 @@ open class PeoplePicker: BadgeField {
 
     private var containingViewBoundsObservation: NSKeyValueObservation?
 
+    private var peoplePickerTokenSet: PeoplePickerTokenSet = .init()
+
     private let separator = Separator()
+
+    public typealias TokenSetKeyType = PeoplePickerTokenSet.Tokens
+    public override var tokenSet: BadgeFieldTokenSet {
+        get {
+            return peoplePickerTokenSet
+        }
+        set { }
+    }
 
     @objc public override init() {
         super.init()
@@ -149,9 +170,15 @@ open class PeoplePicker: BadgeField {
             self.pickPersona(persona: persona)
         }
         personaListView.searchDirectoryDelegate = self
+        updateAppearance()
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        // Update appearance whenever `tokenSet` changes.
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     /// Returns the badge for the associated persona
@@ -182,6 +209,11 @@ open class PeoplePicker: BadgeField {
         if !deviceOrientationIsChanging {
             isShowingPersonaSuggestions = false
         }
+
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
     }
 
     open override func layoutSubviews() {
@@ -210,13 +242,18 @@ open class PeoplePicker: BadgeField {
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
     }
 
+    open override func updateAppearance() {
+        super.updateAppearance()
+        personaListView.backgroundColor = tokenSet[.backgroundColor].uiColor
+    }
+
     private func layoutPersonaSuggestions() {
-        if !isShowingPersonaSuggestions {
+        guard let currentWindow = window, isShowingPersonaSuggestions else {
             return
         }
 
         let position = superview?.convert(frame.origin, to: nil) ?? .zero
-        let windowSize = window?.bounds.size ?? UIScreen.main.bounds.size
+        let windowSize = currentWindow.bounds.size
 
         let containingViewController = findContainingViewController()
         let containingViewFrame = containingViewController?.view.frame ?? CGRect(origin: .zero, size: windowSize)
@@ -225,16 +262,16 @@ open class PeoplePicker: BadgeField {
         let personaSuggestionsY: CGFloat
         let personaSuggestionsHeight: CGFloat
         let separatorY: CGFloat
-        let statusBarHeight = window?.safeAreaInsets.top ?? 0
+        let statusBarHeight = currentWindow.safeAreaInsets.top
         // If the space below people picker to the keyboard is larger than the space above minus the status bar
         // then position the suggestions list below the people picker, otherwise position above
         if windowSize.height - (position.y + frame.height) - keyboardHeight > position.y - statusBarHeight {
-            personaSuggestionsY = position.y + frame.height + Constants.personaSuggestionsVerticalMargin
+            personaSuggestionsY = position.y + frame.height + PeoplePickerTokenSet.personaSuggestionsVerticalMargin
             personaSuggestionsHeight = windowSize.height - personaSuggestionsY - keyboardHeight
             separatorY = 0
         } else {
             personaSuggestionsY = statusBarHeight
-            personaSuggestionsHeight = position.y - personaSuggestionsY - Constants.personaSuggestionsVerticalMargin
+            personaSuggestionsHeight = position.y - personaSuggestionsY - PeoplePickerTokenSet.personaSuggestionsVerticalMargin
             separatorY = personaSuggestionsHeight
         }
 
@@ -288,7 +325,13 @@ open class PeoplePicker: BadgeField {
     private func updatePickedPersonaBadges() {
         deleteAllBadges()
         pickedPersonas.forEach {
-            addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            if showsAvatar {
+                let avatar = MSFAvatar(style: .default, size: .size16)
+                avatar.state.image = $0.image
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0, customView: avatar))
+            } else {
+                addBadge(withDataSource: PersonaBadgeViewDataSource(persona: $0))
+            }
         }
     }
 
@@ -323,7 +366,7 @@ open class PeoplePicker: BadgeField {
             return
         }
         let isValid = delegate?.peoplePicker?(self, personaIsValid: personaBadgeDataSource.persona) ?? true
-        personaBadgeDataSource.style = isValid ? .default : .error
+        personaBadgeDataSource.style = isValid ? .default : .danger
         badge.reload()
         super.addBadge(badge)
     }
@@ -359,10 +402,11 @@ open class PeoplePicker: BadgeField {
     override func textFieldTextChanged() {
         super.textFieldTextChanged()
         let textFieldHasContent = !textFieldContent.isEmpty
-        isShowingPersonaSuggestions = textFieldHasContent
         if textFieldHasContent {
             getSuggestedPersonas()
         }
+        let hideEmptyPersonaListView = hidePersonaListViewWhenNoSuggestedPersonas && suggestedPersonas.isEmpty
+        isShowingPersonaSuggestions = textFieldHasContent && !hideEmptyPersonaListView
     }
 
     open override func resetTextFieldContent() {

@@ -7,9 +7,6 @@ import UIKit
 
 // MARK: PersonaListViewSelectionDirection
 
-@available(*, deprecated, renamed: "PersonaListViewSelectionDirection")
-public typealias MSPersonaListViewSelectionDirection = PersonaListViewSelectionDirection
-
 @objc(MSFPersonaListViewSelectionDirection)
 public enum PersonaListViewSelectionDirection: Int {
     case next = 1
@@ -18,18 +15,12 @@ public enum PersonaListViewSelectionDirection: Int {
 
 // MARK: - PersonaListViewSearchDirectoryDelegate
 
-@available(*, deprecated, renamed: "PersonaListViewSearchDirectoryDelegate")
-public typealias MSPersonaListViewSearchDirectoryDelegate = PersonaListViewSearchDirectoryDelegate
-
 @objc(MSFPersonaListViewSearchDirectoryDelegate)
 public protocol PersonaListViewSearchDirectoryDelegate {
     func personaListSearchDirectory(_ personaListView: PersonaListView, completion: @escaping ((_ success: Bool) -> Void))
 }
 
 // MARK: - PersonaListView
-
-@available(*, deprecated, renamed: "PersonaListView")
-public typealias MSPersonaListView = PersonaListView
 
 @objc(MSFPersonaListView)
 open class PersonaListView: UITableView {
@@ -87,7 +78,7 @@ open class PersonaListView: UITableView {
     @objc override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
-        backgroundColor = Colors.Table.background
+        updateBackgroundColor()
         separatorStyle = .none
         tableFooterView = UIView(frame: .zero)
 
@@ -101,6 +92,22 @@ open class PersonaListView: UITableView {
 
         dataSource = self
         delegate = self
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = fluentTheme.color(.background1)
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
@@ -192,10 +199,14 @@ extension PersonaListView: UITableViewDataSource {
             guard let cell = dequeueReusableCell(withIdentifier: PersonaCell.identifier, for: indexPath) as? PersonaCell else {
                 return UITableViewCell()
             }
-            let persona = personaList[indexPath.row]
+            let index = indexPath.row
+            let persona = personaList[index]
+            let isPersonaSelectable = onPersonaSelected != nil
             cell.setup(persona: persona, accessoryType: accessoryType)
-            cell.backgroundColor = .clear
-            cell.accessibilityTraits = .button
+            cell.isUserInteractionEnabled = isPersonaSelectable
+            cell.backgroundStyleType = .clear
+            cell.accessibilityTraits = isPersonaSelectable ? .button : .none
+            cell.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, index + 1, personaList.count)
             return cell
         case .searchDirectory:
             switch searchDirectoryState {
@@ -203,14 +214,12 @@ extension PersonaListView: UITableViewDataSource {
                 guard let cell = dequeueReusableCell(withIdentifier: ActivityIndicatorCell.identifier, for: indexPath) as? ActivityIndicatorCell else {
                     return UITableViewCell()
                 }
-                cell.hideSystemSeparator()
                 return cell
             case .displayingSearchResults:
                 guard let cell = dequeueReusableCell(withIdentifier: CenteredLabelCell.identifier, for: indexPath) as? CenteredLabelCell else {
                     return UITableViewCell()
                 }
                 cell.setup(text: searchResultText)
-                cell.hideSystemSeparator()
                 return cell
             case .idle:
                 guard let cell = dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
@@ -219,7 +228,6 @@ extension PersonaListView: UITableViewDataSource {
                 cell.setup(action1Title: "MSPersonaListView.SearchDirectory".localized)
                 cell.action1Button.addTarget(self, action: #selector(searchDirectoryButtonTapped), for: .touchUpInside)
                 cell.accessibilityTraits = .button
-                cell.hideSystemSeparator()
                 return cell
             }
         }

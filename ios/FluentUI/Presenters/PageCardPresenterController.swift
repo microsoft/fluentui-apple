@@ -5,16 +5,6 @@
 
 import UIKit
 
-// MARK: PageCardPresenter Colors
-
-public extension Colors {
-    struct PageCardPresenter {
-        // Should use physical color because page indicators are shown on physical blurred dark background
-        public static var currentPageIndicator: UIColor = .white
-        public static var pageIndicator = UIColor.white.withAlphaComponent(0.5)
-    }
-}
-
 // MARK: - CardPresentable
 
 protocol CardPresentable: AnyObject {
@@ -22,9 +12,6 @@ protocol CardPresentable: AnyObject {
 }
 
 // MARK: - PageCardPresenterController
-
-@available(*, deprecated, renamed: "PageCardPresenterController")
-public typealias MSPageCardPresenterController = PageCardPresenterController
 
 /**
  Presents viewController views as "cards" in a paged scrollView
@@ -57,8 +44,6 @@ open class PageCardPresenterController: UIViewController {
         let pageControl = UIPageControl()
         pageControl.hidesForSinglePage = true
         pageControl.isUserInteractionEnabled = false
-        pageControl.pageIndicatorTintColor = Colors.PageCardPresenter.pageIndicator
-        pageControl.currentPageIndicatorTintColor = Colors.PageCardPresenter.currentPageIndicator
         return pageControl
     }()
 
@@ -81,6 +66,27 @@ open class PageCardPresenterController: UIViewController {
         self.currentlyVisibleIndex = startingIndex
 
         super.init(nibName: nil, bundle: nil)
+
+        updatePageControlColors()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
+        updatePageControlColors()
+    }
+
+    private func updatePageControlColors() {
+        let color = GlobalTokens.neutralColor(.white)
+
+        pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
+        pageControl.currentPageIndicatorTintColor = color
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -187,8 +193,8 @@ open class PageCardPresenterController: UIViewController {
     private func frameForCard(_ card: CardPresentable) -> CGRect {
         let size = sizeForCard(card)
         return CGRect(
-            x: UIScreen.main.roundToDevicePixels((view.frame.width - size.width) / 2),
-            y: UIScreen.main.roundToDevicePixels((view.frame.height - size.height) / 2),
+            x: ceil((view.frame.width - size.width) / 2),
+            y: ceil((view.frame.height - size.height) / 2),
             width: size.width,
             height: size.height
         )

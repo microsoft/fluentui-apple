@@ -1,18 +1,18 @@
 Pod::Spec.new do |s|
   s.name             = 'MicrosoftFluentUI'
-  s.version          = '0.2.3'
+  s.version          = '0.23.0'
   s.summary          = 'Fluent UI is a set of reusable UI controls and tools'
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
   s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.0"
+  s.swift_version = "5.7.1"
   s.module_name = 'FluentUI'
 
 
 # iOS
 
-  s.ios.deployment_target = "13.0"
+  s.ios.deployment_target = "15.0"
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
@@ -21,15 +21,15 @@ Pod::Spec.new do |s|
     avatar_ios.source_files = ["ios/FluentUI/Avatar/**/*.{swift,h}"]
   end
 
-  s.subspec 'ActivityViewAnimating_ios' do |activityviewanimating_ios|
-    activityviewanimating_ios.platform = :ios
-    activityviewanimating_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    activityviewanimating_ios.source_files = ["ios/FluentUI/ActivityViewAnimating/**/*.{swift,h}"]
+  s.subspec 'AvatarGroup_ios' do |avatargroup_ios|
+    avatargroup_ios.platform = :ios
+    avatargroup_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    avatargroup_ios.source_files = ["ios/FluentUI/AvatarGroup/**/*.{swift,h}"]
   end
 
   s.subspec 'ActivityIndicator_ios' do |activityindicator_ios|
     activityindicator_ios.platform = :ios
-    activityindicator_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
+    activityindicator_ios.dependency 'MicrosoftFluentUI/Core_ios'
     activityindicator_ios.source_files = ["ios/FluentUI/ActivityIndicator/**/*.{swift,h}"]
   end
 
@@ -44,6 +44,24 @@ Pod::Spec.new do |s|
     barbuttonitems_ios.dependency 'MicrosoftFluentUI/Core_ios'
     barbuttonitems_ios.preserve_paths = ["ios/FluentUI/BarButtonItems/BarButtonItems.resources.xcfilelist"]
     barbuttonitems_ios.source_files = ["ios/FluentUI/BarButtonItems/**/*.{swift,h}"]
+  end
+
+  s.subspec 'BottomCommanding_ios' do |bottomcommanding_ios|
+    bottomcommanding_ios.platform = :ios
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/TabBar_ios'
+    bottomcommanding_ios.dependency 'MicrosoftFluentUI/TableView_ios'
+    bottomcommanding_ios.preserve_paths = ["ios/FluentUI/Bottom Commanding/BottomCommanding.resources.xcfilelist"]
+    bottomcommanding_ios.source_files = ["ios/FluentUI/Bottom Commanding/**/*.{swift,h}"]
+  end
+
+  s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
+    bottomsheet_ios.platform = :ios
+    bottomsheet_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
+    bottomsheet_ios.dependency 'MicrosoftFluentUI/ResizingHandleView_ios'
+    bottomsheet_ios.source_files = ["ios/FluentUI/Bottom Sheet/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_ios' do |button_ios|
@@ -71,6 +89,12 @@ Pod::Spec.new do |s|
     card_ios.source_files = ["ios/FluentUI/Card/**/*.{swift,h}"]
   end
 
+  s.subspec 'CardNudge_ios' do |cardnudge_ios|
+    cardnudge_ios.platform = :ios
+    cardnudge_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    cardnudge_ios.source_files = ["ios/FluentUI/Card Nudge/**/*.{swift,h}"]
+  end
+
   s.subspec 'CommandBar_ios' do |commandbar_ios|
     commandbar_ios.platform = :ios
     commandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -79,29 +103,43 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
-    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_ios.resource_bundle = { 'FluentUIResources-ios' => ["ios/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
-                              :script => 'echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
+                              :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
 
-XCODEBUILDPARAMS="-quiet"
+# Executes only once per "pod install" (if the script file exists)
+if [ -f ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ]; then
+    echo "=== Removing unused resources from FluentUI-ios.xcassets ==="
 
-if [ "${CONFIGURATION}" = "Debug" ]; then
-    CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
-    XCODEBUILDPARAMS=""
-fi
+    XCODEBUILDPARAMS="-quiet "
 
-xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+    if [ "${CONFIGURATION}" = "Debug" ]; then
+        CONDITIONALCOMPILATIONFLAGS="-D VERBOSE_OUTPUT"
+        XCODEBUILDPARAMS=""
+    fi
 
-echo "=== Rebuilding resource bundle target ==="
-xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}',
-                              :execution_position => :before_compile }
+    xcrun --sdk macosx swift ${CONDITIONALCOMPILATIONFLAGS} ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH} ${LOCROOT}/MicrosoftFluentUI/ios/FluentUI/Resources/FluentUI-ios.xcassets ${LOCROOT}/MicrosoftFluentUI/ios
+
+    echo "=== Rebuilding resource bundle target ==="
+    xcodebuild ${XCODEBUILDPARAMS} DISABLE_MANUAL_TARGET_ORDER_BUILD_WARNING=1 -project ${PROJECT_FILE_PATH} -target "MicrosoftFluentUI-FluentUIResources-ios" -sdk ${PLATFORM_NAME} -configuration ${CONFIGURATION} ARCHS="${ARCHS}" CONFIGURATION_BUILD_DIR="${CONFIGURATION_BUILD_DIR}" BUILD_ROOT="${BUILD_ROOT}" BUILT_PRODUCTS_DIR="${BUILT_PRODUCTS_DIR}" ${ACTION}
+
+    # Deletes the script to ensure it will not be needlessly executed more than once after each "pod install"
+    rm ${REMOVE_UNUSED_RESOURCES_SCRIPT_PATH}
+
+fi', :execution_position => :before_compile }
     core_ios.preserve_paths = ["ios/FluentUI/Core/Core.resources.xcfilelist",
                                "scripts/removeUnusedResourcesFromAssets.swift"]
     core_ios.source_files = ["ios/FluentUI/Configuration/**/*.{swift,h}",
                              "ios/FluentUI/Core/**/*.{swift,h}",
                              "ios/FluentUI/Extensions/**/*.{swift,h}"]
   end
+
+  # Temporarily removed while this is not part of our main project
+  # s.subspec 'Divider_ios' do |divider_ios|
+  #   divider_ios.platform = :ios
+  #   divider_ios.dependency 'MicrosoftFluentUI/Core_ios'
+  #   divider_ios.source_files = ["ios/FluentUI/Divider/**/*.{swift,h}"]
+  # end
 
   s.subspec 'DotView_ios' do |dotview_ios|
     dotview_ios.platform = :ios
@@ -135,7 +173,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
 
   s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|
     indeterminateprogressbar_ios.platform = :ios
-    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/ActivityViewAnimating_ios'
+    indeterminateprogressbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
     indeterminateprogressbar_ios.source_files = ["ios/FluentUI/IndeterminateProgressBar/**/*.{swift,h}"]
   end
 
@@ -143,6 +181,14 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     label_ios.platform = :ios
     label_ios.dependency 'MicrosoftFluentUI/Core_ios'
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
+  end
+
+  s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
+    multilinecommandbar_ios.platform = :ios
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/CommandBar_ios'
+    multilinecommandbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
+    multilinecommandbar_ios.source_files = ["ios/FluentUI/MultilineCommandBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Navigation_ios' do |navigation_ios|
@@ -159,7 +205,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     notification_ios.platform = :ios
     notification_ios.dependency 'MicrosoftFluentUI/Obscurable_ios'
     notification_ios.dependency 'MicrosoftFluentUI/Label_ios'
-    notification_ios.dependency 'MicrosoftFluentUI/Separator_ios'
     notification_ios.preserve_paths = ["ios/FluentUI/Notification/Notification.resources.xcfilelist"]
     notification_ios.source_files = ["ios/FluentUI/Notification/**/*.{swift,h}"]
   end
@@ -187,6 +232,18 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     peoplepicker_ios.source_files = ["ios/FluentUI/People Picker/**/*.{swift,h}"]
   end
 
+  s.subspec 'PersonaButton_ios' do |personaButton_ios|
+    personaButton_ios.platform = :ios
+    personaButton_ios.dependency 'MicrosoftFluentUI/Avatar_ios'
+    personaButton_ios.source_files = ["ios/FluentUI/PersonaButton/**/*.{swift,h}"]
+  end
+
+  s.subspec 'PersonaButtonCarousel_ios' do |personaButtonCarousel_ios|
+    personaButtonCarousel_ios.platform = :ios
+    personaButtonCarousel_ios.dependency 'MicrosoftFluentUI/PersonaButton_ios'
+    personaButtonCarousel_ios.source_files = ["ios/FluentUI/PersonaButtonCarousel/**/*.{swift,h}"]
+  end
+
   s.subspec 'PillButtonBar_ios' do |pillbuttonbar_ios|
     pillbuttonbar_ios.platform = :ios
     pillbuttonbar_ios.dependency 'MicrosoftFluentUI/Core_ios'
@@ -212,12 +269,6 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     resizinghandleview_ios.platform = :ios
     resizinghandleview_ios.dependency 'MicrosoftFluentUI/Core_ios'
     resizinghandleview_ios.source_files = ["ios/FluentUI/ResizingHandleView/**/*.{swift,h}"]
-  end
-
-  s.subspec 'ScrollView_ios' do |scrollview_ios|
-    scrollview_ios.platform = :ios
-    scrollview_ios.dependency 'MicrosoftFluentUI/Core_ios'
-    scrollview_ios.source_files = ["ios/FluentUI/ScrollView/**/*.{swift,h}"]
   end
 
   s.subspec 'SegmentedControl_ios' do |segmentedcontrol_ios|
@@ -255,6 +306,15 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
   end
 
+  s.subspec 'TextField_ios' do |textfield_ios|
+    textfield_ios.platform = :ios
+    textfield_ios.dependency 'MicrosoftFluentUI/Button_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Label_ios'
+    textfield_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    textfield_ios.preserve_paths = ["ios/FluentUI/TextField/TextField.resources.xcfilelist"]
+    textfield_ios.source_files = ["ios/FluentUI/TextField/**/*.{swift,h}"]
+  end
+
   s.subspec 'Tooltip_ios' do |tooltip_ios|
     tooltip_ios.platform = :ios
     tooltip_ios.dependency 'MicrosoftFluentUI/Label_ios'
@@ -285,7 +345,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
 
 # Mac
 
-  s.osx.deployment_target = "10.14"
+  s.osx.deployment_target = "10.15"
 
   s.subspec 'Appearance_mac' do |appearance_mac|
     appearance_mac.platform = :osx
@@ -299,6 +359,13 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
     avatarview_mac.source_files = ["macos/FluentUI/AvatarView/**/*.{swift,h}"]
   end
 
+  s.subspec 'BadgeView_mac' do |badgeview_mac|
+    badgeview_mac.platform = :osx
+    badgeview_mac.dependency 'MicrosoftFluentUI/Core_mac'
+    badgeview_mac.dependency 'MicrosoftFluentUI/DynamicColor_mac'
+    badgeview_mac.source_files = ["macos/FluentUI/Badge/**/*.{swift,h}"]
+  end
+
   s.subspec 'Button_mac' do |button_mac|
     button_mac.platform = :osx
     button_mac.dependency 'MicrosoftFluentUI/Core_mac'
@@ -307,8 +374,7 @@ xcodebuild ${XCODEBUILDPARAMS} -project ${PROJECT_FILE_PATH} -target "MicrosoftF
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
-    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["apple/Resources/**/*.{json,xcassets}",
-                                                             "macos/FluentUIResources-macos/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
+    core_mac.resource_bundle = { 'FluentUIResources-macos' => ["macos/FluentUI/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["macos/FluentUI/Core/**/*.{swift,h}"]
   end
 

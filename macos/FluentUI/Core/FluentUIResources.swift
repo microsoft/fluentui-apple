@@ -12,10 +12,19 @@ public class FluentUIResources: NSObject {
 
 	/// The resource bundle contained within the FluentUI framework
 	@objc public static let resourceBundle: Bundle = {
+		#if SWIFT_PACKAGE
+		return Bundle.module
+		#else
 		guard let url = bundle.resourceURL?.appendingPathComponent("FluentUIResources-macos.bundle", isDirectory: true), let bundle = Bundle(url: url) else {
 			preconditionFailure("FluentUI resource bundle is not found")
 		}
 
 		return bundle
+		#endif
 	}()
+
+    /// The resource bundle that points to our common color definitions
+	@objc public static let colorsBundle: Bundle = {
+        return resourceBundle
+    }()
 }

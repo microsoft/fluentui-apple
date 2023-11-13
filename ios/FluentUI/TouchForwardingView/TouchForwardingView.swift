@@ -5,9 +5,6 @@
 
 import UIKit
 
-@available(*, deprecated, renamed: "TouchForwardingView")
-public typealias MSTouchForwardingView = TouchForwardingView
-
 @objc(MSFTouchForwardingView)
 open class TouchForwardingView: UIView {
     var forwardsTouches: Bool = true

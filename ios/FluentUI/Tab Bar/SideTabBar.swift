@@ -17,18 +17,18 @@ public protocol SideTabBarDelegate {
     /// Called after the avatar view is tapped in the side tab bar.
     /// - Parameter sideTabBar: The side tab bar.
     /// - Parameter avatarView: The avatar view.
-    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: AvatarView)
+    @objc optional func sideTabBar(_ sideTabBar: SideTabBar, didActivate avatarView: MSFAvatar)
 }
 
 /// View for a vertical side tab bar that can be used for app navigation.
 /// Optimized for horizontal regular + vertical regular size class configuration. Prefer using TabBarView for other size class configurations.
 @objc(MSFSideTabBar)
-open class SideTabBar: UIView {
+open class SideTabBar: UIView, TokenizedControlInternal {
     /// Delegate to handle user interactions in the side tab bar.
     @objc public weak var delegate: SideTabBarDelegate? {
         didSet {
-            if let avatarView = avatarView {
-                avatarView.accessibilityTraits = delegate != nil ? .button : .image
+            if let avatar = avatar {
+                avatar.state.hasButtonAccessibilityTrait = delegate != nil
             }
         }
     }
@@ -36,26 +36,27 @@ open class SideTabBar: UIView {
     /// The avatar view that displays above the top tab bar items.
     /// The avatar view's size class should be AvatarSize.medium.
     /// Remember to enable pointer interactions on the avatar view if it handles pointer interactions.
-    @objc open var avatarView: AvatarView? {
+    @objc open var avatar: MSFAvatar? {
         willSet {
-            avatarView?.removeGestureRecognizer(avatarViewGestureRecognizer)
-            avatarView?.removeFromSuperview()
+            avatar?.removeGestureRecognizer(avatarViewGestureRecognizer)
+            avatar?.removeFromSuperview()
         }
         didSet {
-            if let avatarView = avatarView {
-                avatarView.avatarSize = .medium
-                avatarView.translatesAutoresizingMaskIntoConstraints = false
-                avatarView.overrideAccessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
-                addSubview(avatarView)
+            if let avatar = avatar {
+                let avatarState = avatar.state
+                avatarState.size = .size32
+                avatarState.accessibilityLabel = "Accessibility.LargeTitle.ProfileView".localized
+                avatarState.hasButtonAccessibilityTrait = delegate != nil
 
-                if delegate != nil {
-                    avatarView.accessibilityTraits = .button
-                }
+                let avatarView = avatar
+                avatarView.translatesAutoresizingMaskIntoConstraints = false
+                avatarView.showsLargeContentViewer = true
+                avatarView.largeContentTitle = avatarState.accessibilityLabel
+                addSubview(avatarView)
 
                 avatarView.addGestureRecognizer(avatarViewGestureRecognizer)
             }
 
-            updateAccessibilityIndex()
             setupLayoutConstraints()
         }
     }
@@ -88,6 +89,13 @@ open class SideTabBar: UIView {
             if let item = selectedTopItem {
                 itemView(with: item, in: .top)?.isSelected = true
             }
+        }
+    }
+
+    /// The badge style to be used for all `TabBarItemView`s.
+    @objc public var badgeStyle: BadgeLabelStyle = .system {
+        didSet {
+            updateAppearance()
         }
     }
 
@@ -126,10 +134,14 @@ open class SideTabBar: UIView {
         accessibilityTraits = .tabBar
         shouldGroupAccessibilityChildren = true
 
-        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: Constants.viewWidth),
+        NSLayoutConstraint.activate([widthAnchor.constraint(equalToConstant: SideTabBarTokenSet.sideTabBarWidth),
                                      borderLine.leadingAnchor.constraint(equalTo: trailingAnchor),
                                      borderLine.bottomAnchor.constraint(equalTo: bottomAnchor),
                                      borderLine.topAnchor.constraint(equalTo: topAnchor)])
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateAppearance()
+        }
     }
 
     @available(*, unavailable)
@@ -143,24 +155,11 @@ open class SideTabBar: UIView {
     }
 
     private struct Constants {
-        static let maxTabCount: Int = 5
-        static let viewWidth: CGFloat = 62
-        static let avatarViewSafeTopSpacing: CGFloat = 18
-        static let avatarViewMinTopSpacing: CGFloat = 36
-        static let avatarViewTopStackViewSpacing: CGFloat = 34
-        static let bottomStackViewSafeSpacing: CGFloat = 14
-        static let bottomStackViewMinSpacing: CGFloat = 24
-        static let topItemSpacing: CGFloat = 32
-        static let bottomItemSpacing: CGFloat = 24
-        static let topItemSize: CGFloat = 28
-        static let bottomItemSize: CGFloat = 24
-        static let badgeTopSectionPadding: CGFloat = 2
-        static let badgeBottomSectionPadding: CGFloat = 4
         static let numberOfTitleLines: Int = 2
     }
 
     private var layoutConstraints: [NSLayoutConstraint] = []
-    private let borderLine = Separator(style: .shadow, orientation: .vertical)
+    private let borderLine = Separator(orientation: .vertical)
 
     private let backgroundView: UIVisualEffectView = {
         var style = UIBlurEffect.Style.regular
@@ -169,12 +168,12 @@ open class SideTabBar: UIView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }()
 
-    private let topStackView: UIStackView = {
-        return createStackView(spacing: Constants.topItemSpacing)
+    private lazy var topStackView: UIStackView = {
+        return SideTabBar.createStackView(spacing: SideTabBarTokenSet.tabBarItemSpacing)
     }()
 
-    private let bottomStackView: UIStackView = {
-        return createStackView(spacing: Constants.bottomItemSpacing)
+    private lazy var bottomStackView: UIStackView = {
+        return SideTabBar.createStackView(spacing: SideTabBarTokenSet.tabBarItemSpacing)
     }()
 
     private lazy var avatarViewGestureRecognizer: UITapGestureRecognizer = {
@@ -187,36 +186,48 @@ open class SideTabBar: UIView {
             layoutConstraints.removeAll()
         }
 
-        if let avatarView = avatarView {
+        if let avatar = avatar {
             // The avatar view's distance from the top of the side tab bar depends on safe layout guides.
-            // There is a minimum spacing. If the layout guide spacing is large than the minimum spacing,
+            // There is a minimum spacing. If the layout guide spacing is larger than the minimum spacing,
             // then the spacing will be layoutGuideSpacing + safeTopSpacing.
-            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.avatarViewSafeTopSpacing)
+            let avatarView = avatar
+            let topSafeConstraint = avatarView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: SideTabBarTokenSet.avatarViewSafeTopSpacing)
             topSafeConstraint.priority = .defaultHigh
 
             layoutConstraints.append(contentsOf: [
                 topSafeConstraint,
-                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.avatarViewMinTopSpacing),
+                avatarView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: SideTabBarTokenSet.avatarViewMinTopSpacing),
                 avatarView.centerXAnchor.constraint(equalTo: centerXAnchor),
-                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: Constants.avatarViewTopStackViewSpacing)
+                topStackView.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: SideTabBarTokenSet.avatarViewTopStackViewSpacing)
             ])
         } else {
-            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: Constants.topItemSpacing))
+            layoutConstraints.append(topStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: SideTabBarTokenSet.tabBarItemSpacing))
         }
 
-        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -Constants.bottomStackViewSafeSpacing)
+        let bottomSafeConstraint = bottomStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -SideTabBarTokenSet.bottomStackViewSafeSpacing)
         bottomSafeConstraint.priority = .defaultHigh
 
         layoutConstraints.append(contentsOf: [
             topStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             topStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
+            bottomStackView.topAnchor.constraint(greaterThanOrEqualTo: topStackView.bottomAnchor, constant: SideTabBarTokenSet.tabBarItemSpacing),
             bottomStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             bottomStackView.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
             bottomSafeConstraint,
-            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -Constants.bottomStackViewMinSpacing)
+            bottomStackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor,
+                                                    constant: -SideTabBarTokenSet.bottomStackViewMinSpacing)
         ])
 
         NSLayoutConstraint.activate(layoutConstraints)
+    }
+
+    open override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateAppearance()
     }
 
     private func didUpdateItems(in section: Section) {
@@ -224,22 +235,17 @@ open class SideTabBar: UIView {
             subview.removeFromSuperview()
         }
 
-        let allItems = items(in: section)
-        let numberOfItems = allItems.count
-        if numberOfItems > Constants.maxTabCount {
-            preconditionFailure("tab bar items can't be more than \(Constants.maxTabCount)")
-        }
-
         let stackView = self.stackView(in: section)
-        let badgePadding = section == .top ? Constants.badgeTopSectionPadding : Constants.badgeBottomSectionPadding
+        let badgePadding = section == .top ? SideTabBarTokenSet.badgeTopSectionPadding : SideTabBarTokenSet.badgeBottomSectionPadding
         let showItemTitles = section == .top ? showTopItemTitles : showBottomItemTitles
         var didRestoreSelection = false
 
+        let allItems = items(in: section)
         for item in allItems {
             let tabBarItemView = TabBarItemView(item: item, showsTitle: showItemTitles, canResizeImage: false)
             tabBarItemView.translatesAutoresizingMaskIntoConstraints = false
             tabBarItemView.alwaysShowTitleBelowImage = true
-            tabBarItemView.maxBadgeWidth = Constants.viewWidth / 2 - badgePadding
+            tabBarItemView.maxBadgeWidth = SideTabBarTokenSet.sideTabBarWidth / 2 - badgePadding
             tabBarItemView.numberOfTitleLines = Constants.numberOfTitleLines
 
             if itemView(with: item, in: section) != nil && section == .top && item == selectedTopItem {
@@ -256,35 +262,7 @@ open class SideTabBar: UIView {
             selectedTopItem = allItems.first
         }
 
-        updateAccessibilityIndex()
         setupLayoutConstraints()
-    }
-
-    private func updateAccessibilityIndex() {
-        // seems like iOS 14 `.tabBar` accessibilityTrait doesn't seem to read out the index automatically
-        if #available(iOS 14.0, *) {
-            var totalCount: Int = 0
-            for section in Section.allCases {
-                let currentStackView = stackView(in: section)
-                totalCount += currentStackView.arrangedSubviews.count
-            }
-
-            var previousSectionCount: Int = 0
-            if let avatar = avatarView, !avatar.isHidden {
-                totalCount += 1
-                previousSectionCount += 1
-            }
-
-            for section in Section.allCases {
-                let currentStackView = stackView(in: section)
-
-                for (index, itemView) in currentStackView.arrangedSubviews.enumerated() {
-                    let accessibilityIndex = index + 1 + previousSectionCount
-                    itemView.accessibilityHint = String.localizedStringWithFormat( "Accessibility.TabBarItemView.Hint".localized, accessibilityIndex, totalCount)
-                }
-                previousSectionCount += currentStackView.arrangedSubviews.count
-            }
-        }
     }
 
     private func items(in section: Section) -> [TabBarItem] {
@@ -320,6 +298,16 @@ open class SideTabBar: UIView {
         return nil
     }
 
+    /// Returns the first match of an optional view for a given tab bar item.
+    /// Searches for the view in the top and bottom sections in that order of priority. Returns nil if the view is not found in either section.
+    @objc public func itemView(with item: TabBarItem) -> UIView? {
+        if let view = itemView(with: item, in: .top) {
+            return view
+        }
+
+        return itemView(with: item, in: .bottom)
+    }
+
     private class func createStackView(spacing: CGFloat) -> UIStackView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .vertical
@@ -332,7 +320,11 @@ open class SideTabBar: UIView {
     }
 
     @objc private func handleAvatarViewTapped(_ recognizer: UITapGestureRecognizer) {
-        delegate?.sideTabBar?(self, didActivate: avatarView!)
+        guard let avatar = avatar else {
+            return
+        }
+
+        delegate?.sideTabBar?(self, didActivate: avatar)
     }
 
     @objc private func handleTopItemTapped(_ recognizer: UITapGestureRecognizer) {
@@ -346,6 +338,37 @@ open class SideTabBar: UIView {
     @objc private func handleBottomItemTapped(_ recognizer: UITapGestureRecognizer) {
         if let item = (recognizer.view as? TabBarItemView)?.item {
             delegate?.sideTabBar?(self, didSelect: item, fromTop: false)
+        }
+    }
+
+    public typealias TokenSetKeyType = SideTabBarTokenSet.Tokens
+    public var tokenSet: SideTabBarTokenSet = .init()
+
+    private func updateAppearance() {
+        updateSideTabBarTokensForSection(in: .top)
+        updateSideTabBarTokensForSection(in: .bottom)
+    }
+
+    private func updateSideTabBarTokensForSection(in section: Section) {
+        for subview in stackView(in: section).arrangedSubviews {
+            if let tabBarItemView = subview as? TabBarItemView {
+                let tabBarItemTokenSet = tabBarItemView.tokenSet
+                if let badge = tabBarItemView.badgeView as? BadgeLabel {
+                    badge.style = badgeStyle
+                }
+
+                /// Directly map our custom values to theirs.
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemSelectedColor),
+                                                    forToken: .selectedColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedImageColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemUnselectedColor),
+                                                    forToken: .unselectedTextColor)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontPortrait),
+                                                    forToken: .titleLabelFontPortrait)
+                tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
+                                                    forToken: .titleLabelFontLandscape)
+            }
         }
     }
 }

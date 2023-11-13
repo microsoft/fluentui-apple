@@ -11,7 +11,10 @@ import UIKit
 /// Used to contain an accessory provided by the VC contained by the NavigatableShyContainerVC
 /// This class in itself is fairly straightforward, defining a height and a containment layout
 /// The animation around showing/hiding this view progressively is handled by its superview/superVC, an instance of ShyHeaderController
-class ShyHeaderView: UIView {
+class ShyHeaderView: UIView, TokenizedControlInternal {
+    typealias TokenSetKeyType = EmptyTokenSet.Tokens
+    public var tokenSet: EmptyTokenSet = .init()
+
     /// Defines all possible states of the header view's appearance
     ///
     /// - exposed: Fully showing header
@@ -59,9 +62,25 @@ class ShyHeaderView: UIView {
         static let contentBottomPadding: CGFloat = 10
         static let contentBottomPaddingCompact: CGFloat = 6
         static let accessoryHeight: CGFloat = 36
-        static let maxHeightNoAccessory: CGFloat = 56 - 44  // navigation bar - design: 56, system: 44
-        static let maxHeightNoAccessoryCompact: CGFloat = 44 - 32   // navigation bar - design: 44, system: 32
-        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - 44   // navigation bar - design: 44, system: 44
+        static let maxHeightNoAccessory: CGFloat = 56 - NavigationBarTokenSet.systemHeight  // navigation bar - design: 56, system: 44
+        static let maxHeightNoAccessoryCompact: CGFloat = 44 - NavigationBarTokenSet.compactSystemHeight   // navigation bar - design: 44, system: 32
+        static let maxHeightNoAccessoryCompactForLargePhone: CGFloat = 44 - NavigationBarTokenSet.systemHeight   // navigation bar - design: 44, system: 44
+    }
+
+    convenience init() {
+        self.init(frame: .zero)
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateColors()
+        }
+    }
+
+    override func willMove(toWindow newWindow: UIWindow?) {
+        super.willMove(toWindow: newWindow)
+        guard let newWindow else {
+            return
+        }
+        tokenSet.update(newWindow.fluentTheme)
+        updateColors()
     }
 
     private var contentInsets: UIEdgeInsets {
@@ -127,11 +146,17 @@ class ShyHeaderView: UIView {
         if traitCollection.verticalSizeClass == .compact {
             return traitCollection.horizontalSizeClass == .compact ? Constants.maxHeightNoAccessoryCompact : Constants.maxHeightNoAccessoryCompactForLargePhone
         }
+        if traitCollection.horizontalSizeClass == .compact && parentController?.msfNavigationController?.msfNavigationBar.usesLeadingTitle == false {
+            // This is a portrait phone with a system-style title, the navigation bar is already 44px tall
+            return 0
+        }
         return lockedInContractedState ? 0.0 : Constants.maxHeightNoAccessory
     }
     var maxHeightChanged: (() -> Void)?
 
     var lockedInContractedState: Bool = false
+    weak var parentController: ShyHeaderController?
+    weak var paddingView: UIView?
 
     var navigationBarIsHidden: Bool = false {
         didSet {
@@ -151,8 +176,17 @@ class ShyHeaderView: UIView {
         }
     }
 
+    private func updateColors() {
+        guard let parentController = parentController, let (_, actualItem) = parentController.msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: parentController.navigationItem) else {
+            return
+        }
+        let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        backgroundColor = color
+        paddingView?.backgroundColor = color
+    }
+
     private let contentStackView = UIStackView()
-    private let shadow = Separator(style: .shadow)
+    private let shadow = Separator()
 
     private var needsShadow: Bool {
         switch navigationBarShadow {
@@ -194,12 +228,13 @@ class ShyHeaderView: UIView {
     }
 
     private func initShadow() {
-        shadow.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(shadow)
+        let shadowView = shadow
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(shadowView)
         NSLayoutConstraint.activate([
-            shadow.leftAnchor.constraint(equalTo: leftAnchor),
-            shadow.rightAnchor.constraint(equalTo: rightAnchor),
-            shadow.topAnchor.constraint(equalTo: bottomAnchor)
+            shadowView.leftAnchor.constraint(equalTo: leftAnchor),
+            shadowView.rightAnchor.constraint(equalTo: rightAnchor),
+            shadowView.topAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 

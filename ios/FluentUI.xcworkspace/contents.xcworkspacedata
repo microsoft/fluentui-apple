@@ -7,7 +7,4 @@
    <FileRef
       location = "group:FluentUI.Demo/FluentUI.Demo.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:FluentUI.Demo/Pods/Pods.xcodeproj">
-   </FileRef>
 </Workspace>

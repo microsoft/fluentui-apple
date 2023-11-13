@@ -9,44 +9,47 @@ import UIKit
 class PillButtonBarDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        readmeString = "A pill button bar lets someone select one option from a set of two or more pill-shaped buttons aligned horizontally.\n\nPill button bars are ideal for narrowing down the information someone sees on a page, like filtering information. They’re often used in conjunction with search bars. "
+
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
                                           PillButtonBarItem(title: "Documents"),
-                                          PillButtonBarItem(title: "People"),
+                                          PillButtonBarItem(title: "People", isUnread: true),
                                           PillButtonBarItem(title: "Other"),
                                           PillButtonBarItem(title: "Templates"),
                                           PillButtonBarItem(title: "Actions"),
                                           PillButtonBarItem(title: "More")]
 
-        let disableOnBrandSwitchView = UISwitch()
+        let disableOnBrandSwitchView = BrandedSwitch()
         disableOnBrandSwitchView.isOn = true
         disableOnBrandSwitchView.addTarget(self, action: #selector(toggleOnBrandPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("onBrand"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), disableOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in onBrand Pill Bar"), switchView: disableOnBrandSwitchView)
         let onBrandBar = createBar(items: items, style: .onBrand)
         container.addArrangedSubview(onBrandBar)
         self.onBrandBar = onBrandBar
         container.addArrangedSubview(UIView())
 
-        let disableCustomOnBrandSwitchView = UISwitch()
+        let disableCustomOnBrandSwitchView = BrandedSwitch()
         disableCustomOnBrandSwitchView.isOn = true
         disableCustomOnBrandSwitchView.addTarget(self, action: #selector(toggleCustomOnBrandPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("onBrand With Custom Pills Background"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in custom onBrand Pill Bar"), disableCustomOnBrandSwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in custom onBrand Pill Bar"), switchView: disableCustomOnBrandSwitchView)
         let customBar = createBar(items: items, style: .onBrand, useCustomPillsColors: true)
         container.addArrangedSubview(customBar)
         self.customBar = customBar
         container.addArrangedSubview(UIView())
 
-        let disablePrimarySwitchView = UISwitch()
+        let disablePrimarySwitchView = BrandedSwitch()
         disablePrimarySwitchView.isOn = true
         disablePrimarySwitchView.addTarget(self, action: #selector(togglePrimaryPills(switchView:)), for: .valueChanged)
 
         container.addArrangedSubview(createLabelWithText("Primary"))
-        addRow(items: [createLabelWithText("Enable/Disable pills in Primary Pill bar"), disablePrimarySwitchView], itemSpacing: 20, centerItems: true)
+        addSectionToggle(toggleTitle: createLabelWithText("Enable/Disable pills in Primary Pill bar"), switchView: disablePrimarySwitchView)
         let primaryBar = createBar(items: items)
         container.addArrangedSubview(primaryBar)
         self.primaryBar = primaryBar
@@ -74,35 +77,29 @@ class PillButtonBarDemoController: DemoController {
         container.addArrangedSubview(UIView())
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if let window = view.window {
-            onBrandBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
-            customBar?.backgroundColor = UIColor(light: Colors.primary(for: window), dark: Colors.Navigation.System.background)
-        }
-    }
-
     func createBar(items: [PillButtonBarItem], style: PillButtonStyle = .primary, centerAligned: Bool = false, disabledItems: Bool = false, useCustomPillsColors: Bool = false) -> UIView {
-        let pillButtonBackgroundColor = useCustomPillsColors ? Colors.textOnAccent : nil
-        let pillSelectedButtonBackgroundColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillButtonTextColor = useCustomPillsColors ? Colors.textPrimary : nil
-        let pillSelectedButtontextColor = useCustomPillsColors ? Colors.textOnAccent : nil
-
-        let bar = PillButtonBar(pillButtonStyle: style, pillButtonBackgroundColor: pillButtonBackgroundColor, selectedPillButtonBackgroundColor: pillSelectedButtonBackgroundColor, pillButtonTextColor: pillButtonTextColor, selectedPillButtonTextColor: pillSelectedButtontextColor)
+        let bar = PillButtonBar(pillButtonStyle: style)
+        bar.pillButtonOverrideTokens = useCustomPillsColors ? customPillButtonTokens : nil
         bar.items = items
         _ = bar.selectItem(atIndex: 0)
         bar.barDelegate = self
         bar.centerAligned = centerAligned
+        bars.append(bar)
 
         if disabledItems {
             items.forEach { bar.disableItem($0) }
         }
 
-        let backgroundView = UIView()
-        if style == .primary {
-            backgroundView.backgroundColor = Colors.Navigation.System.background
-        }
+        let backgroundStyle: ColoredPillBackgroundStyle = {
+            switch style {
+            case .primary:
+                return .neutralNavBar
+            case .onBrand:
+                return .brandNavBar
+            }
+        }()
 
+        let backgroundView = ColoredPillBackgroundView(style: backgroundStyle)
         backgroundView.addSubview(bar)
         let margins = UIEdgeInsets(top: 16.0, left: 0, bottom: 16.0, right: 0.0)
         fitViewIntoSuperview(bar, margins: margins)
@@ -110,10 +107,17 @@ class PillButtonBarDemoController: DemoController {
     }
 
     func createLabelWithText(_ text: String = "") -> Label {
-        let label = Label(style: .subhead, colorStyle: .regular)
+        let label = Label()
         label.text = text
         label.textAlignment = .center
         return label
+    }
+
+    func addSectionToggle(toggleTitle: Label, switchView: UISwitch) {
+        toggleTitle.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        switchView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+
+        addRow(items: [toggleTitle, switchView], itemSpacing: 20, centerItems: true)
     }
 
     func fitViewIntoSuperview(_ view: UIView, margins: UIEdgeInsets) {
@@ -167,6 +171,31 @@ class PillButtonBarDemoController: DemoController {
     private var customBar: UIView?
 
     private var primaryBar: UIView?
+
+    private var bars: [PillButtonBar] = []
+
+    private var customPillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        let theme = FluentTheme()
+        return [
+            .backgroundColor: .uiColor { theme.color(.strokeFocus1) },
+
+            .backgroundColorSelected: .uiColor { theme.color(.strokeFocus2) },
+
+            .backgroundColorDisabled: .uiColor { theme.color(.strokeFocus1) },
+
+            .backgroundColorSelectedDisabled: .uiColor { theme.color(.strokeFocus1) },
+
+            .titleColor: .uiColor { theme.color(.strokeFocus2) },
+
+            .titleColorSelected: .uiColor { theme.color(.strokeFocus1) },
+
+            .titleColorDisabled: .uiColor { theme.color(.strokeFocus2) },
+
+            .titleColorSelectedDisabled: .uiColor { theme.color(.strokeFocus2) },
+
+            .enabledUnreadDotColor: .uiColor { theme.color(.strokeFocus2) }
+        ]
+    }
 }
 
 // MARK: - PillButtonBarDemoController: PillButtonBarDelegate
@@ -177,5 +206,85 @@ extension PillButtonBarDemoController: PillButtonBarDelegate {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+}
+
+extension PillButtonBarDemoController: DemoAppearanceDelegate {
+    func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
+        guard let fluentTheme = self.view.window?.fluentTheme else {
+            return
+        }
+
+        fluentTheme.register(tokenSetType: PillButtonTokenSet.self,
+                             tokenSet: isOverrideEnabled ? themeWideOverridePillButtonTokens : nil)
+    }
+
+    func perControlOverrideDidChange(isOverrideEnabled: Bool) {
+        self.bars.forEach({ bar in
+            let tokens = isOverrideEnabled ? perControlOverridePillButtonTokens : nil
+            bar.pillButtonOverrideTokens = tokens
+        })
+    }
+
+    func isThemeWideOverrideApplied() -> Bool {
+        return self.view.window?.fluentTheme.tokens(for: PillButtonTokenSet.self) != nil
+    }
+
+    // MARK: - Custom tokens
+
+    private var themeWideOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Times", size: 10.0), size: 10.0)
+            }
+        ]
+    }
+
+    private var perControlOverridePillButtonTokens: [PillButtonTokenSet.Tokens: ControlTokenValue] {
+        return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .tint40),
+                               dark: GlobalTokens.sharedColor(.steel, .shade30))
+            },
+
+            .backgroundColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .tint40),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .shade30))
+            },
+
+            .backgroundColorDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .tint40),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .shade30))
+            },
+
+            .backgroundColorSelectedDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .tint40),
+                               dark: GlobalTokens.sharedColor(.orchid, .shade30))
+            },
+
+            .titleColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.steel, .shade30),
+                               dark: GlobalTokens.sharedColor(.steel, .tint40))
+            },
+
+            .titleColorSelected: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.pumpkin, .shade30),
+                               dark: GlobalTokens.sharedColor(.pumpkin, .tint40))
+            },
+
+            .titleColorDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.darkTeal, .shade30),
+                               dark: GlobalTokens.sharedColor(.darkTeal, .tint40))
+            },
+
+            .titleColorSelectedDisabled: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.orchid, .shade30),
+                               dark: GlobalTokens.sharedColor(.orchid, .tint40))
+            },
+
+            .font: .uiFont {
+                return UIFont(descriptor: .init(name: "Papyrus", size: 10.0), size: 10.0)
+            }
+        ]
     }
 }

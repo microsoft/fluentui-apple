@@ -63,6 +63,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     weak var delegate: GenericDateTimePickerDelegate?
 
     private let mode: DateTimePickerMode
+    private let leftBarButtonItem: UIBarButtonItem?
+    private let rightBarButtonItem: UIBarButtonItem?
 
     private var titleView: TwoLineTitleView!
     private let customTitle: String?
@@ -76,6 +78,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     private let calendarView = CalendarView()
     private var calendarViewDataSource: CalendarViewDataSource!
     private var segmentedControl: SegmentedControl?
+
+    private let calendarConfiguration: CalendarConfiguration
 
     private var entireRangeIsVisible: Bool {
         guard let visibleDates = visibleDates else {
@@ -91,11 +95,14 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     /// - Parameters:
     ///   - startDate: A date object for the start day or day/time to be initially selected.
     ///   - endDate: A date object for an end day or day/time to be initially selected.
+    ///   - calendarConfiguration: The configuration for the picker to override the default first weekday, reference start date, and reference end date
     ///   - datePickerMode: The MSDateTimePicker mode this is presented in.
     ///   - selectionMode: The side (start or end) of the current range to be selected on this picker.
     ///   - rangePresentation: The `DateRangePresentation` in which this controller is being presented if `mode` is `.dateRange` or `.dateTimeRange`.
     ///   - titles: A `Titles` object that holds strings for use in overriding the default picker title, subtitle, and tab titles. If title is not provided, titleview will show currently selected date. If tab titles are not provided, they will default to "Start Date" and "End Date".
-    init(startDate: Date, endDate: Date, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?) {
+    ///   - leftBarButtonItem: optional UIBarButtonItem to be presented as left bar-button.
+    ///   - rightBarButtonItem: optional UIBarButtonItem to be presented oas right bar-button. Note that if this view is presented, the Confirm button is not generated automatically.
+    init(startDate: Date, endDate: Date, calendarConfiguration: CalendarConfiguration, mode: DateTimePickerMode, selectionMode: DatePickerSelectionManager.SelectionMode = .start, rangePresentation: DateTimePicker.DateRangePresentation, titles: DateTimePicker.Titles?, leftBarButtonItem: UIBarButtonItem?, rightBarButtonItem: UIBarButtonItem?) {
         if !mode.singleSelection && rangePresentation == .paged {
             customTitle = selectionMode == .start ? titles?.startTitle : titles?.endTitle
             customSubtitle = selectionMode == .start ?
@@ -108,6 +115,9 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         customStartTabTitle = titles?.startTab
         customEndTabTitle = titles?.endTab
         self.mode = mode
+        self.leftBarButtonItem = leftBarButtonItem
+        self.rightBarButtonItem = rightBarButtonItem
+        self.calendarConfiguration = calendarConfiguration
 
         super.init(nibName: nil, bundle: nil)
 
@@ -116,7 +126,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             self.endDate = endDate
         }
 
-        calendarViewDataSource = CalendarViewDataSource(styleDataSource: self)
+        calendarViewDataSource = CalendarViewDataSource(styleDataSource: self, calendarConfiguration: self.calendarConfiguration)
 
         let startDate = startDate.startOfDay
         selectionManager = DatePickerSelectionManager(
@@ -131,6 +141,19 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         if !mode.singleSelection && rangePresentation == .tabbed {
             initSegmentedControl()
         }
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+    }
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+            return
+        }
+        updateBackgroundColor()
+        updateBarButtonColors()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -140,7 +163,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: CalendarConfiguration.default.firstWeekday)
+        calendarView.weekdayHeadingView.setup(horizontalSizeClass: traitCollection.horizontalSizeClass, firstWeekday: calendarConfiguration.firstWeekday)
 
         let collectionView = calendarView.collectionView
 
@@ -158,11 +181,16 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
         if let segmentedControl = segmentedControl {
             view.addSubview(segmentedControl)
-            view.backgroundColor = Colors.Toolbar.background
         }
+        updateBackgroundColor()
         view.addSubview(calendarView)
 
         initNavigationBar()
+    }
+
+    private func updateBackgroundColor() {
+        view.backgroundColor = UIColor(light: view.fluentTheme.color(.background2).light,
+                                       dark: view.fluentTheme.color(.background2).dark)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -188,16 +216,19 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let window = view.window {
-            navigationItem.rightBarButtonItem?.tintColor = UIColor(light: Colors.primary(for: window), dark: Colors.textDominant)
-        }
+        updateBarButtonColors()
+    }
+
+    private func updateBarButtonColors() {
+        navigationItem.rightBarButtonItem?.tintColor = view.fluentTheme.color(.brandForeground1)
+        navigationItem.leftBarButtonItem?.tintColor = view.fluentTheme.color(.foreground2)
     }
 
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if let segmentedControl = segmentedControl, previousTraitCollection?.userInterfaceStyle != traitCollection.userInterfaceStyle {
-            segmentedControl.style = (traitCollection.userInterfaceStyle == .dark) ? .onBrandPill : .primaryPill
+            segmentedControl.style = (traitCollection.userInterfaceStyle == .dark) ? .brandOverNavBarPill : .neutralOverNavBarPill
         }
     }
 
@@ -210,17 +241,31 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
     }
 
     private func initNavigationBar() {
-        navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        if let leftBarButtonItem = leftBarButtonItem {
+            navigationItem.leftBarButtonItem = leftBarButtonItem
+        }
+        if let rightBarButtonItem = rightBarButtonItem {
+            navigationItem.rightBarButtonItem = rightBarButtonItem
+        } else {
+            navigationItem.rightBarButtonItem = BarButtonItems.confirm(target: self, action: #selector(handleDidTapDone))
+        }
         navigationItem.titleView = titleView
     }
 
     private func initSegmentedControl() {
-        let titles = [customStartTabTitle ?? "MSDateTimePicker.StartDate".localized,
-                      customEndTabTitle ?? "MSDateTimePicker.EndDate".localized]
-        segmentedControl = SegmentedControl(items: titles,
-                                            style: traitCollection.userInterfaceStyle == .dark ? .onBrandPill : .primaryPill)
-        segmentedControl?.addTarget(self, action: #selector(handleDidSelectStartEnd(_:)), for: .valueChanged)
-    }
+            let items = [SegmentItem(title: customStartTabTitle ?? "MSDateTimePicker.StartDate".localized),
+                         SegmentItem(title: customEndTabTitle ?? "MSDateTimePicker.EndDate".localized)]
+            let segmentedControl = SegmentedControl(items: items,
+                                                style: traitCollection.userInterfaceStyle == .dark ? .brandOverNavBarPill : .neutralOverNavBarPill)
+            segmentedControl.onSelectAction = { [weak self] (_, index) in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.handleDidSelectStartEnd(index)
+            }
+            self.segmentedControl = segmentedControl
+        }
 
     private func updateNavigationBar() {
         let title = customTitle ?? String.dateString(from: focusDate, compactness: .shortDaynameShortMonthnameDay)
@@ -255,6 +300,13 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
             return
         }
         let targetIndexPath = IndexPath(item: 0, section: max(focusDateRow - rowOffset, 0))
+
+        // There may be no items in the 0th section if we are constraining the calendar to today's date.
+        // Attempting to scroll in that case will throw an exception. But that's okay, there's no need
+        // to scroll there anyway, since the view will start at that date.
+        guard targetIndexPath.item < calendarView.collectionView.numberOfItems(inSection: targetIndexPath.section) else {
+            return
+        }
         calendarView.collectionView.scrollToItem(at: targetIndexPath, at: [.top], animated: animated)
         // TODO: Notify of visible date?
     }
@@ -302,8 +354,8 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         dismiss()
     }
 
-    @objc private func handleDidSelectStartEnd(_ segmentedControl: SegmentedControl) {
-        selectionManager.selectionMode = segmentedControl.selectedSegmentIndex == 0 ? .start : .end
+    @objc private func handleDidSelectStartEnd(_ selectedIndex: Int) {
+        selectionManager.selectionMode = selectedIndex == 0 ? .start : .end
         updateNavigationBar()
         if let visibleDates = visibleDates, focusDate > visibleDates.endDate || focusDate < visibleDates.startDate {
             scrollToFocusDate(animated: false)
@@ -457,7 +509,7 @@ extension DatePickerController: CalendarViewLayoutDelegate {
 extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, textStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents) -> CalendarViewDayCellTextStyle {
 
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary
@@ -467,7 +519,7 @@ extension DatePickerController: CalendarViewStyleDataSource {
     func calendarViewDataSource(_ dataSource: CalendarViewDataSource, backgroundStyleForDayWithStart dayStartDate: Date, end: Date, dayStartComponents: DateComponents, todayComponents: DateComponents
     ) -> CalendarViewDayCellBackgroundStyle {
 
-        if dayStartComponents.dateIsTodayOrLater(todayDateComponents: todayComponents) {
+        if dayStartComponents.dateIsInCurrentMonth(todayDateComponents: todayComponents) {
             return .primary
         } else {
             return .secondary
