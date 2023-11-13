@@ -452,7 +452,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private func updateTitleAndBackgroundColors() {
-		titleView.textColor = attributedTitleColor != nil ? attributedTitleColor : tokenSet[.textColor].uiColor
+        titleView.textColor = attributedTitleColor != nil ? attributedTitleColor : tokenSet[.textColor].uiColor
 
         if tableViewCellStyle == .grouped {
             backgroundView?.backgroundColor = tokenSet[.backgroundColorGrouped].uiColor
