@@ -332,13 +332,8 @@ open class PillButtonBar: UIScrollView {
         for button in buttons {
             button.layoutIfNeeded()
 
-            if #available(iOS 15.0, *) {
-                button.configuration?.contentInsets.leading += buttonExtraSidePadding
-                button.configuration?.contentInsets.trailing += buttonExtraSidePadding
-            } else {
-                button.contentEdgeInsets.right += buttonExtraSidePadding
-                button.contentEdgeInsets.left += buttonExtraSidePadding
-            }
+            button.configuration?.contentInsets.leading += buttonExtraSidePadding
+            button.configuration?.contentInsets.trailing += buttonExtraSidePadding
 
             button.layoutIfNeeded()
         }
@@ -381,13 +376,8 @@ open class PillButtonBar: UIScrollView {
             if buttonWidth > 0, buttonWidth < Constants.minButtonWidth {
                 let extraInset = floor((Constants.minButtonWidth - button.frame.width) / 2)
 
-                if #available(iOS 15.0, *) {
-                    button.configuration?.contentInsets.leading += extraInset
-                    button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
-                } else {
-                    button.contentEdgeInsets.left += extraInset
-                    button.contentEdgeInsets.right = button.contentEdgeInsets.left
-                }
+                button.configuration?.contentInsets.leading += extraInset
+                button.configuration?.contentInsets.trailing = button.configuration?.contentInsets.leading ?? extraInset
 
                 button.layoutIfNeeded()
             }
