@@ -38,6 +38,9 @@ public enum TableViewCellToken: Int, TokenSetKey {
     /// The footer label color.
     case footerColor
 
+    /// The color of the selectionImageView when it is selected.
+    case selectionIndicatorOnColor
+
     /// The color of the selectionImageView when it is not selected.
     case selectionIndicatorOffColor
 
@@ -133,6 +136,9 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
 
             case .footerColor:
                 return .uiColor { theme.color(.foreground2) }
+
+            case .selectionIndicatorOnColor:
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .selectionIndicatorOffColor:
                 return .uiColor { theme.color(.foreground3) }
