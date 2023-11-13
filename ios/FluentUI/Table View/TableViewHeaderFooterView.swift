@@ -462,10 +462,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             backgroundView?.backgroundColor = .clear
         }
 
-        if attributedTitleFont == nil {
-            titleView.font = tokenSet[.textFont].uiFont
-        }
-
+        titleView.font = attributedTitleFont != nil ? attributedTitleFont : tokenSet[.textFont].uiFont
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
     }
 
