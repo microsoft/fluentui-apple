@@ -75,7 +75,7 @@ class TooltipDemoController: DemoController {
         topContainer.addArrangedSubview(topleftButton)
         topContainer.addArrangedSubview(topRightButton)
 
-        let middleLabel = Label(style: .body1Strong, colorStyle: .regular)
+        let middleLabel = Label(textStyle: .body1Strong, colorStyle: .regular)
         middleLabel.text = "Press corner buttons to show offset tooltips"
         middleLabel.numberOfLines = 0
         middleLabel.textAlignment = .center

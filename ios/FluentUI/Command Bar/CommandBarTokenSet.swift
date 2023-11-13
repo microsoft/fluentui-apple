@@ -5,46 +5,46 @@
 
 import UIKit
 
+public enum CommandBarToken: Int, TokenSetKey {
+    /// The background color of the Command Bar.
+    case backgroundColor
+
+    /// The border radius for each group of item(s) inside the Command Bar.
+    case groupBorderRadius
+
+    /// The background color of a single Command Bar Item when in rest.
+    case itemBackgroundColorRest
+
+    /// The background color of a single Command Bar Item when hovered.
+    case itemBackgroundColorHover
+
+    /// The background color of a single Command Bar Item when pressed.
+    case itemBackgroundColorPressed
+
+    /// The background color of a single Command Bar Item when selected.
+    case itemBackgroundColorSelected
+
+    /// The background color of a single Command Bar Item when disabled.
+    case itemBackgroundColorDisabled
+
+    /// The icon color of a Command Bar Item when in rest.
+    case itemIconColorRest
+
+    /// The icon color of a Command Bar Item when hovered.
+    case itemIconColorHover
+
+    /// The icon color of a Command Bar Item when pressed.
+    case itemIconColorPressed
+
+    /// The icon color of a Command Bar Item when selected.
+    case itemIconColorSelected
+
+    /// The icon color of a Command Bar Item when disabled.
+    case itemIconColorDisabled
+}
+
 /// Design token set for the `CommandBar` control.
-public class CommandBarTokenSet: ControlTokenSet<CommandBarTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background color of the Command Bar.
-        case backgroundColor
-
-        /// The border radius for each group of item(s) inside the Command Bar.
-        case groupBorderRadius
-
-        /// The background color of a single Command Bar Item when in rest.
-        case itemBackgroundColorRest
-
-        /// The background color of a single Command Bar Item when hovered.
-        case itemBackgroundColorHover
-
-        /// The background color of a single Command Bar Item when pressed.
-        case itemBackgroundColorPressed
-
-        /// The background color of a single Command Bar Item when selected.
-        case itemBackgroundColorSelected
-
-        /// The background color of a single Command Bar Item when disabled.
-        case itemBackgroundColorDisabled
-
-        /// The icon color of a Command Bar Item when in rest.
-        case itemIconColorRest
-
-        /// The icon color of a Command Bar Item when hovered.
-        case itemIconColorHover
-
-        /// The icon color of a Command Bar Item when pressed.
-        case itemIconColorPressed
-
-        /// The icon color of a Command Bar Item when selected.
-        case itemIconColorSelected
-
-        /// The icon color of a Command Bar Item when disabled.
-        case itemIconColorDisabled
-    }
-
+public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
     init() {
         super.init { token, theme in
             switch token {

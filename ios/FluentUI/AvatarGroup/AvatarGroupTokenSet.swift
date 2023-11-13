@@ -6,19 +6,19 @@
 import UIKit
 import SwiftUI
 
+public enum AvatarGroupToken: Int, TokenSetKey {
+    /// Defines the color around the unread dot.
+    case backgroundColor
+
+    /// CGFloat that defines the space between  the `Avatar` controls hosted by the `AvatarGroup`.
+    case interspace
+
+    /// Defines the color of the unread dot.
+    case unreadDotColor
+}
+
 /// Design token set for the `AvatarGroup` control
-public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the color around the unread dot.
-        case backgroundColor
-
-        /// CGFloat that defines the space between  the `Avatar` controls hosted by the `AvatarGroup`.
-        case interspace
-
-        /// Defines the color of the unread dot.
-        case unreadDotColor
-    }
-
+public class AvatarGroupTokenSet: ControlTokenSet<AvatarGroupToken> {
     init(style: @escaping () -> MSFAvatarGroupStyle,
          size: @escaping () -> MSFAvatarSize) {
         self.style = style

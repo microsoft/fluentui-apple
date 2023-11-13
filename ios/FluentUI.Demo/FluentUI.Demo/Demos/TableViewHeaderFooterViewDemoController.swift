@@ -98,7 +98,7 @@ extension TableViewHeaderFooterViewDemoController {
     private func createCustomAccessoryView() -> UIView {
         let button = UIButton(type: .system)
         button.setTitle("Custom Accessory", for: .normal)
-        button.setTitleColor(UIColor(colorValue: GlobalTokens.sharedColors(.red, .primary)), for: .normal)
+        button.setTitleColor(GlobalTokens.sharedColor(.red, .primary), for: .normal)
         return button
     }
 

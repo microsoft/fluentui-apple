@@ -213,10 +213,15 @@ open class TwoLineTitleView: UIView, TokenizedControlInternal {
         addSubview(containingStackView)
         containingStackView.translatesAutoresizingMaskIntoConstraints = false
 
+        // We lower the priority of the height constraint to allow auto-layout to fit the
+        // TwoLineTitleView vertically as needed when used in the NavigationBar.
+        let heightConstraint = heightAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.height)
+        heightConstraint.priority = .defaultHigh
+
         NSLayoutConstraint.activate([
             // Ensure minimum touch size
             widthAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.width),
-            heightAnchor.constraint(greaterThanOrEqualToConstant: TokenSetType.minimumTouchSize.height),
+            heightConstraint,
             // Contain and center containingStackView within ourself
             centerXAnchor.constraint(equalTo: containingStackView.centerXAnchor),
             centerYAnchor.constraint(equalTo: containingStackView.centerYAnchor),

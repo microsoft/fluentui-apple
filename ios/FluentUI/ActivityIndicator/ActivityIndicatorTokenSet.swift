@@ -15,16 +15,16 @@ import UIKit
     case xLarge
 }
 
+public enum ActivityIndicatorToken: Int, TokenSetKey {
+    /// The default color of the Activity Indicator.
+    case defaultColor
+
+    /// The value for the thickness of the ActivityIndicator ring.
+    case thickness
+}
+
 /// Design token set for the `ActivityIndicator` control.
-public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The default color of the Activity Indicator.
-        case defaultColor
-
-        /// The value for the thickness of the ActivityIndicator ring.
-        case thickness
-    }
-
+public class ActivityIndicatorTokenSet: ControlTokenSet<ActivityIndicatorToken> {
     init(size: @escaping () -> MSFActivityIndicatorSize) {
         self.size = size
         super.init { [size] token, _ in

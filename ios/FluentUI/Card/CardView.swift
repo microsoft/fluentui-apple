@@ -273,7 +273,7 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
 
     /// The label for the Card's title
     private let primaryLabel: Label = {
-        let primaryLabel = Label(style: .body2)
+        let primaryLabel = Label(textStyle: .body2)
         primaryLabel.translatesAutoresizingMaskIntoConstraints = false
         primaryLabel.colorStyle = .primary
         return primaryLabel
@@ -281,7 +281,7 @@ open class CardView: UIView, Shadowable, TokenizedControlInternal {
 
     /// The label for the Card's subtitle
     private let secondaryLabel: Label = {
-        let secondaryLabel = Label(style: .caption1)
+        let secondaryLabel = Label(textStyle: .caption1)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
         secondaryLabel.colorStyle = .secondary
         return secondaryLabel

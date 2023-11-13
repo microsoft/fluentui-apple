@@ -31,12 +31,12 @@ public enum TextColorStyle: Int, CaseIterable {
     }
 }
 
-public class LabelTokenSet: ControlTokenSet<LabelTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        case font
-        case textColor
-    }
+public enum LabelToken: Int, TokenSetKey {
+    case font
+    case textColor
+}
 
+public class LabelTokenSet: ControlTokenSet<LabelToken> {
     convenience init(textStyle: @escaping () -> FluentTheme.TypographyToken,
                      colorStyle: @escaping () -> TextColorStyle) {
         self.init(textStyle: textStyle, colorForTheme: { colorStyle().uiColor(fluentTheme: $0) })

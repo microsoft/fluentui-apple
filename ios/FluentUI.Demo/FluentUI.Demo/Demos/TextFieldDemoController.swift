@@ -31,7 +31,7 @@ class TextFieldDemoController: DemoController {
         textField3.onReturn = onReturn
         textfields.append(textField3)
 
-        let objcDemoButton = Button(style: .outline)
+        let objcDemoButton = Button(style: .outlineAccent)
         objcDemoButton.setTitle("Show Objective C Demo", for: .normal)
         objcDemoButton.addTarget(self, action: #selector(showObjCDemo), for: .touchUpInside)
 

@@ -5,21 +5,21 @@
 
 import UIKit
 
-public class BottomSheetTokenSet: ControlTokenSet<BottomSheetTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the background color of the `BottomSheetController`.
-        case backgroundColor
+public enum BottomSheetToken: Int, TokenSetKey {
+    /// Defines the background color of the `BottomSheetController`.
+    case backgroundColor
 
-        /// Defines the corner radius of the `BottomSheetController`.
-        case cornerRadius
+    /// Defines the corner radius of the `BottomSheetController`.
+    case cornerRadius
 
-        /// Defines the color of the resizing handle of the `BottomSheetController`.
-        case resizingHandleMarkColor
+    /// Defines the color of the resizing handle of the `BottomSheetController`.
+    case resizingHandleMarkColor
 
-        /// Defines the shadows used by the `BottomSheetController`.
-        case shadow
-    }
+    /// Defines the shadows used by the `BottomSheetController`.
+    case shadow
+}
 
+public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
     init() {
         super.init { token, theme in
             switch token {

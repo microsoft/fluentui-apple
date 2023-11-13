@@ -93,6 +93,10 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
+    @objc public override var canBecomeFirstResponder: Bool {
+        textfield.canBecomeFirstResponder
+    }
+
     // Hierarchy:
     //
     // imageTextStack
@@ -151,6 +155,13 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateTokenizedValues()
         }
+    }
+
+    @discardableResult
+    @objc public override func becomeFirstResponder() -> Bool {
+        let didBecomeFirstResponder = textfield.becomeFirstResponder()
+        updateState()
+        return didBecomeFirstResponder
     }
 
     required init?(coder: NSCoder) {

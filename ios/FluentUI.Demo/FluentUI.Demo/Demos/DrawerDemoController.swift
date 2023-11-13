@@ -460,7 +460,7 @@ extension DrawerDemoController: DemoAppearanceDelegate {
                                                               dark: GlobalTokens.sharedColor(.forest, .tint60))
             },
             .shadow: .shadowInfo {
-                self.view.fluentTheme.aliasTokens.shadow[.shadow02]
+                self.view.fluentTheme.shadow(.shadow02)
             },
             .resizingHandleMarkColor: .uiColor {
                 .red

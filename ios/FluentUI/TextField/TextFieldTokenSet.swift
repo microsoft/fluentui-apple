@@ -12,46 +12,46 @@ public enum FluentTextFieldState: Int, CaseIterable {
     case error
 }
 
+public enum TextFieldToken: Int, TokenSetKey {
+    /// Defines the color of the text in the bottom label.
+    case assistiveTextColor
+
+    /// Defines the font of the  text in the bottom label.
+    case assistiveTextFont
+
+    /// Defines the background color of the entire control.
+    case backgroundColor
+
+    /// Defines the color of the cursor in the textfield.
+    case cursorColor
+
+    /// Defines the color of the input text in the textfield.
+    case inputTextColor
+
+    /// Defines the font of the input and placeholder text in the textfield.
+    case inputTextFont
+
+    /// Defines the color of the leading image.
+    case leadingIconColor
+
+    /// Defines the color of the placeholder text in the textfield.
+    case placeholderColor
+
+    /// Defines the color of the separator between the textfield and the bottom lablel
+    case strokeColor
+
+    /// Defines the color of the text in the title label.
+    case titleLabelColor
+
+    /// Defines the font of the text in the title label.
+    case titleLabelFont
+
+    /// Defines the color of the trailing icon in the textfield.
+    case trailingIconColor
+}
+
 /// Design token set for the `FluentTextField` control.
-public class TextFieldTokenSet: ControlTokenSet<TextFieldTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// Defines the color of the text in the bottom label.
-        case assistiveTextColor
-
-        /// Defines the font of the  text in the bottom label.
-        case assistiveTextFont
-
-        /// Defines the background color of the entire control.
-        case backgroundColor
-
-        /// Defines the color of the cursor in the textfield.
-        case cursorColor
-
-        /// Defines the color of the input text in the textfield.
-        case inputTextColor
-
-        /// Defines the font of the input and placeholder text in the textfield.
-        case inputTextFont
-
-        /// Defines the color of the leading image.
-        case leadingIconColor
-
-        /// Defines the color of the placeholder text in the textfield.
-        case placeholderColor
-
-        /// Defines the color of the separator between the textfield and the bottom lablel
-        case strokeColor
-
-        /// Defines the color of the text in the title label.
-        case titleLabelColor
-
-        /// Defines the font of the text in the title label.
-        case titleLabelFont
-
-        /// Defines the color of the trailing icon in the textfield.
-        case trailingIconColor
-    }
-
+public class TextFieldTokenSet: ControlTokenSet<TextFieldToken> {
     init(state: @escaping () -> FluentTextFieldState) {
         self.state = state
         super.init { [state] token, theme in

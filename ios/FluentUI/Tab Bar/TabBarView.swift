@@ -207,5 +207,6 @@ open class TabBarView: UIView, TokenizedControlInternal {
                                                     forToken: .titleLabelFontLandscape)
             }
         }
+        topBorderLine.tokenSet[.color] = tokenSet[.separatorColor]
     }
 }

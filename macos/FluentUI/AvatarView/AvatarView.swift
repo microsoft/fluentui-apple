@@ -730,7 +730,7 @@ class BorderView: NSView {
 	}
 
 	override func draw(_ dirtyRect: NSRect) {
-		let pathFrame = dirtyRect.insetBy(dx: strokeWidth / 2, dy: strokeWidth / 2)
+		let pathFrame = bounds.insetBy(dx: strokeWidth / 2, dy: strokeWidth / 2)
 		path = NSBezierPath(ovalIn: pathFrame)
 		path?.lineWidth = strokeWidth
 		strokeColor.set()

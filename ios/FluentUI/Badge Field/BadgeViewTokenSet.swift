@@ -5,40 +5,40 @@
 
 import UIKit
 
+public enum BadgeViewToken: Int, TokenSetKey {
+    /// The background tint color of the Badge.
+    case backgroundTintColor
+
+    /// The background filled color of the Badge.
+    case backgroundFilledColor
+
+    /// The background color of the Badge when disabled.
+    case backgroundDisabledColor
+
+    /// The foreground tint color of the Badge.
+    case foregroundTintColor
+
+    /// The foreground filled color of the Badge.
+    case foregroundFilledColor
+
+    /// The foreground color of the Badge when disabled.
+    case foregroundDisabledColor
+
+    /// The stroke tint color of the Badge.
+    case strokeTintColor
+
+    /// The stroke width of the Badge.
+    case strokeWidth
+
+    /// The border radius of the Badge.
+    case borderRadius
+
+    /// The font of the Badge label.
+    case labelFont
+}
+
 /// Design token set for the `BadgeView` control.
-public class BadgeViewTokenSet: ControlTokenSet<BadgeViewTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The background tint color of the Badge.
-        case backgroundTintColor
-
-        /// The background filled color of the Badge.
-        case backgroundFilledColor
-
-        /// The background color of the Badge when disabled.
-        case backgroundDisabledColor
-
-        /// The foreground tint color of the Badge.
-        case foregroundTintColor
-
-        /// The foreground filled color of the Badge.
-        case foregroundFilledColor
-
-        /// The foreground color of the Badge when disabled.
-        case foregroundDisabledColor
-
-        /// The stroke tint color of the Badge.
-        case strokeTintColor
-
-        /// The stroke width of the Badge.
-        case strokeWidth
-
-        /// The border radius of the Badge.
-        case borderRadius
-
-        /// The font of the Badge label.
-        case labelFont
-    }
-
+public class BadgeViewTokenSet: ControlTokenSet<BadgeViewToken> {
     init(style: @escaping () -> BadgeView.Style,
          sizeCategory: @escaping () -> BadgeView.SizeCategory) {
         self.style = style
@@ -209,7 +209,7 @@ public extension BadgeView {
         case small
         case medium
 
-        var labelTextStyle: AliasTokens.TypographyTokens {
+        var labelTextStyle: FluentTheme.TypographyToken {
             switch self {
             case .small:
                 return .caption1

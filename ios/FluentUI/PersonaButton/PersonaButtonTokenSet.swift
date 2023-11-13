@@ -35,13 +35,13 @@ public class PersonaButtonTokenSet: ControlTokenSet<PersonaButtonTokenSet.Tokens
         /// The background color for the `PersonaButton`.
         case backgroundColor
 
-        /// The `DynamicColor` to use for the control's primary label.
+        /// The color to use for the control's primary label.
         case labelColor
 
         /// The `FontInfo` to use for the control's primary label.
         case labelFont
 
-        /// The `DynamicColor` to use for the control's secondary label.
+        /// The color to use for the control's secondary label.
         case sublabelColor
 
         /// The `FontInfo` to use for the control's secondary label.

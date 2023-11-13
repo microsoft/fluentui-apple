@@ -5,13 +5,13 @@
 
 import UIKit
 
-/// Design token set for the `Separator` control.
-public class SeparatorTokenSet: ControlTokenSet<SeparatorTokenSet.Tokens> {
-    public enum Tokens: TokenSetKey {
-        /// The color of the Separator
-        case color
-    }
+public enum SeparatorToken: Int, TokenSetKey {
+    /// The color of the Separator
+    case color
+}
 
+/// Design token set for the `Separator` control.
+public class SeparatorTokenSet: ControlTokenSet<SeparatorToken> {
     init() {
         super.init { token, theme in
             switch token {

@@ -86,10 +86,10 @@
 }
 
 - (void)tokensButtonPressed:(id)sender {
-    MSFColorValue *colorValue = [MSFGlobalTokens sharedColorForColorSet:MSFSharedColorSetsPink
-                                                                  token:MSFSharedColorsTokensPrimary];
+    UIColor *color = [MSFGlobalTokens colorForSharedColorSet:MSFGlobalTokensSharedColorSetPink
+                                                       token:MSFGlobalTokensSharedColorPrimary];
     [self addLabelWithText:@"Test label with global color"
-                 textColor:[[UIColor alloc] initWithColorValue:colorValue]];
+                 textColor:color];
 
     // Add alias-colored label too
     MSFFluentTheme *fluentTheme = [[self view] fluentTheme];

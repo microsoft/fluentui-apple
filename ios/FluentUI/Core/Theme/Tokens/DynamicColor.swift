@@ -6,6 +6,7 @@
 import SwiftUI
 
 /// A platform-agnostic representation of a 32-bit RGBA color value.
+@available(*, deprecated, message: "Please use UIColor or Color directly.")
 @objc(MSFColorValue)
 public class ColorValue: NSObject {
 
@@ -54,6 +55,7 @@ public class ColorValue: NSObject {
 }
 
 /// Represents a set of color values to be used in different contexts.
+@available(*, deprecated, message: "Please use UIColor or Color directly.")
 @objc(MSFDynamicColor)
 public class DynamicColor: NSObject {
 
@@ -177,6 +179,7 @@ public extension Color {
     /// rendering context.
     ///
     /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
+    @available(*, deprecated, message: "Please use Color directly, or init via UIColor.")
     init(dynamicColor: DynamicColor) {
         self.init(UIColor(dynamicColor: dynamicColor))
     }
@@ -184,6 +187,7 @@ public extension Color {
     /// Creates a Color from a `ColorValue` instance.
     ///
     /// - Parameter colorValue: Color value to use to initialize this color.
+    @available(*, deprecated, message: "Please use Color directly, or init via UIColor.")
     init(colorValue: ColorValue) {
         self.init(UIColor(colorValue: colorValue))
     }

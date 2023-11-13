@@ -23,6 +23,7 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
+    @available(*, deprecated, renamed: "textStyle")
     @objc open var style: AliasTokens.TypographyTokens {
         get {
             return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
@@ -95,6 +96,7 @@ open class Label: UILabel, TokenizedControlInternal {
         self.init(textStyle: .body1, colorStyle: .regular)
     }
 
+    @available(*, deprecated, renamed: "init(textStyle:colorStyle:)")
     @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
         super.init(frame: .zero)
         self.style = style
