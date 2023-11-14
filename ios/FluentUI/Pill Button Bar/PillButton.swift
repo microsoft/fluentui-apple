@@ -108,30 +108,20 @@ open class PillButton: UIButton, TokenizedControlInternal {
     }()
 
     private func setupView() {
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
+        var configuration = UIButton.Configuration.plain()
 
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
-                                                                  leading: PillButtonTokenSet.horizontalInset,
-                                                                  bottom: PillButtonTokenSet.bottomInset,
-                                                                  trailing: PillButtonTokenSet.horizontalInset)
-            self.configuration = configuration
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
+                                                              leading: PillButtonTokenSet.horizontalInset,
+                                                              bottom: PillButtonTokenSet.bottomInset,
+                                                              trailing: PillButtonTokenSet.horizontalInset)
+        self.configuration = configuration
 
-            // This updates the attributed title stored in self.configuration,
-            // so it needs to be called after we set the configuration.
-            updateAttributedTitle()
+        // This updates the attributed title stored in self.configuration,
+        // so it needs to be called after we set the configuration.
+        updateAttributedTitle()
 
-            configurationUpdateHandler = { [weak self] _ in
-                self?.updateAppearance()
-            }
-        } else {
-            setTitle(pillBarItem.title, for: .normal)
-            titleLabel?.font = tokenSet[.font].uiFont
-
-            contentEdgeInsets = UIEdgeInsets(top: PillButtonTokenSet.topInset,
-                                             left: PillButtonTokenSet.horizontalInset,
-                                             bottom: PillButtonTokenSet.bottomInset,
-                                             right: PillButtonTokenSet.horizontalInset)
+        configurationUpdateHandler = { [weak self] _ in
+            self?.updateAppearance()
         }
 
         layer.cornerRadius = PillButton.cornerRadius
@@ -179,11 +169,7 @@ open class PillButton: UIButton, TokenizedControlInternal {
     }()
 
     @objc private func titleValueDidChange() {
-        if #available(iOS 15.0, *) {
-            updateAttributedTitle()
-        } else {
-            setTitle(pillBarItem.title, for: .normal)
-        }
+        updateAttributedTitle()
     }
 
     @available(iOS 15, *)
@@ -254,18 +240,10 @@ open class PillButton: UIButton, TokenizedControlInternal {
         if isSelected {
             if isEnabled {
                 resolvedBackgroundColor = tokenSet[.backgroundColorSelected].uiColor
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = tokenSet[.titleColorSelected].uiColor
-                } else {
-                    setTitleColor(tokenSet[.titleColorSelected].uiColor, for: .normal)
-                }
+                resolvedTitleColor = tokenSet[.titleColorSelected].uiColor
             } else {
                 resolvedBackgroundColor = tokenSet[.backgroundColorSelectedDisabled].uiColor
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = tokenSet[.titleColorSelectedDisabled].uiColor
-                } else {
-                    setTitleColor(tokenSet[.titleColorSelectedDisabled].uiColor, for: .normal)
-                }
+                resolvedTitleColor = tokenSet[.titleColorSelectedDisabled].uiColor
             }
         } else {
             unreadDotColor = isEnabled
@@ -273,26 +251,14 @@ open class PillButton: UIButton, TokenizedControlInternal {
                         : tokenSet[.disabledUnreadDotColor].uiColor
             if isEnabled {
                 resolvedBackgroundColor = tokenSet[.backgroundColor].uiColor
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = tokenSet[.titleColor].uiColor
-                } else {
-                    setTitleColor(tokenSet[.titleColor].uiColor, for: .normal)
-                }
+                resolvedTitleColor = tokenSet[.titleColor].uiColor
             } else {
                 resolvedBackgroundColor = tokenSet[.backgroundColorDisabled].uiColor
-                if #available(iOS 15.0, *) {
-                    resolvedTitleColor = tokenSet[.titleColorDisabled].uiColor
-                } else {
-                    setTitleColor(tokenSet[.titleColorDisabled].uiColor, for: .disabled)
-                }
+                resolvedTitleColor = tokenSet[.titleColorDisabled].uiColor
             }
         }
 
-        if #available(iOS 15.0, *) {
-            configuration?.background.backgroundColor = resolvedBackgroundColor
-            configuration?.attributedTitle?.foregroundColor = resolvedTitleColor
-        } else {
-            backgroundColor = resolvedBackgroundColor
-        }
+        configuration?.background.backgroundColor = resolvedBackgroundColor
+        configuration?.attributedTitle?.foregroundColor = resolvedTitleColor
     }
 }
