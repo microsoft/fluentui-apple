@@ -23,9 +23,7 @@ class BadgeLabelButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        if #available(iOS 15.0, *) {
-            configuration = UIButton.Configuration.plain()
-        }
+        configuration = UIButton.Configuration.plain()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(badgeValueDidChange),
@@ -75,15 +73,9 @@ class BadgeLabelButton: UIButton {
 
     private var badgeFrameOriginX: CGFloat {
         let xOrigin: CGFloat = {
-            if #available(iOS 15.0, *) {
-                return isLeftToRightUserInterfaceLayoutDirection ?
-                frame.size.width - (configuration?.contentInsets.leading ?? 0) :
-                configuration?.contentInsets.trailing ?? 0
-            } else {
-                return isLeftToRightUserInterfaceLayoutDirection ?
-                frame.size.width - contentEdgeInsets.left :
-                contentEdgeInsets.left
-            }
+            return isLeftToRightUserInterfaceLayoutDirection ?
+            frame.size.width - (configuration?.contentInsets.leading ?? 0) :
+            configuration?.contentInsets.trailing ?? 0
         }()
 
         return (xOrigin - badgeWidth / 2)
@@ -134,13 +126,8 @@ class BadgeLabelButton: UIButton {
             landscapeImage = landscapeImage?.withRenderingMode(.alwaysTemplate)
         }
 
-        if #available(iOS 15.0, *) {
-            configuration?.image = traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage
-            configuration?.title = item.title
-        } else {
-            setImage(traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage, for: .normal)
-            setTitle(item.title, for: .normal)
-        }
+        configuration?.image = traitCollection.verticalSizeClass == .regular ? portraitImage : landscapeImage
+        configuration?.title = item.title
 
         if let action = item.action {
             addTarget(item.target, action: action, for: .touchUpInside)
