@@ -2001,7 +2001,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     }
 
     private func updateSelectionImageColor() {
-        selectionImageView.tintColor = isSelected ? tokenSet[.brandTextColor].uiColor : tokenSet[.selectionIndicatorOffColor].uiColor
+        selectionImageView.tintColor = isSelected ? tokenSet[.selectionIndicatorOnColor].uiColor : tokenSet[.selectionIndicatorOffColor].uiColor
         unreadDotLayer.backgroundColor = tokenSet[.brandTextColor].uiColor.cgColor
     }
 

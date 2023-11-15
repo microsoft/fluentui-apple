@@ -34,27 +34,20 @@ class SegmentPillButton: UIButton {
         titleLabel?.font = tokenSet[.font].uiFont
         let verticalInset = tokenSet[.verticalInset].float
         let horizontalInset = tokenSet[.horizontalInset].float
-        if #available(iOS 15.0, *) {
-            var configuration = UIButton.Configuration.plain()
-            configuration.contentInsets = NSDirectionalEdgeInsets(top: verticalInset,
-                                                                  leading: horizontalInset,
-                                                                  bottom: verticalInset,
-                                                                  trailing: horizontalInset)
-            configuration.background.backgroundColor = .clear
-            configuration.baseForegroundColor = tokenSet[.restLabelColor].uiColor
-            let titleTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
-                var outgoing = incoming
-                outgoing.font = self?.tokenSet[.font].uiFont
-                return outgoing
-            }
-            configuration.titleTextAttributesTransformer = titleTransformer
-            self.configuration = configuration
-        } else {
-            self.contentEdgeInsets = UIEdgeInsets(top: verticalInset,
-                                                  left: horizontalInset,
-                                                  bottom: verticalInset,
-                                                  right: horizontalInset)
+        var configuration = UIButton.Configuration.plain()
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: verticalInset,
+                                                              leading: horizontalInset,
+                                                              bottom: verticalInset,
+                                                              trailing: horizontalInset)
+        configuration.background.backgroundColor = .clear
+        configuration.baseForegroundColor = tokenSet[.restLabelColor].uiColor
+        let titleTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
+            var outgoing = incoming
+            outgoing.font = self?.tokenSet[.font].uiFont
+            return outgoing
         }
+        configuration.titleTextAttributesTransformer = titleTransformer
+        self.configuration = configuration
     }
 
     init(withItem item: SegmentItem, tokenSet: SegmentedControlTokenSet) {
