@@ -65,6 +65,13 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
         self.modalPresentationStyle = .popover
         self.preferredContentSize.height = 400
         self.popoverPresentationController?.permittedArrowDirections = .up
+
+        // Different themes can have different overrides, so update our state when we detect a theme change.
+        self.themeObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme, object: nil, queue: nil) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.updateToggleConfiguration()
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,6 +96,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
     private func updateToggleConfiguration() {
         configuration.userInterfaceStyle = view.window?.overrideUserInterfaceStyle ?? .unspecified
         configuration.windowTheme = currentDemoListViewController?.theme ?? .default
+        configuration.appWideTheme = DemoColorTheme.currentAppWideTheme
         if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
             let newValue = isThemeOverrideEnabled()
             configuration.themeWideOverride = newValue
@@ -103,14 +111,12 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
               }
         currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
 
-        // Different themes can have different overrides, so update as needed.
-        updateToggleConfiguration()
         rootView.fluentTheme = window.fluentTheme
     }
 
     /// Callback for handling app-wide theme changes
     private func onAppWideThemeChanged(_ theme: DemoColorTheme) {
-        FluentTheme.setSharedThemeColorProvider(theme.provider)
+        DemoColorTheme.currentAppWideTheme = theme
     }
 
     /// Callback for handling color scheme changes.
@@ -127,6 +133,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
     }
 
     private var configuration: DemoAppearanceView.Configuration
+    private var themeObserver: NSObjectProtocol?
 }
 
 extension DemoAppearanceView.Configuration {

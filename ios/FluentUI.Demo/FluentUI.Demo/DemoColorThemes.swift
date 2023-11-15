@@ -32,6 +32,13 @@ enum DemoColorTheme: CaseIterable {
             return DemoColorPurpleTheme()
         }
     }
+
+    /// Controls the app-wide theme and caches the value for later review.
+    static var currentAppWideTheme: DemoColorTheme = .default {
+        didSet {
+            FluentTheme.setSharedThemeColorProvider(currentAppWideTheme.provider)
+        }
+    }
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
