@@ -9,7 +9,7 @@ import UIKit
 enum DemoColorTheme: CaseIterable {
     case `default`
     case green
-    case none
+    case purple
 
     var name: String {
         switch self {
@@ -17,123 +17,20 @@ enum DemoColorTheme: CaseIterable {
             return "Default"
         case .green:
             return "Green"
-        case .none:
-            return "None"
+        case .purple:
+            return "Purple"
         }
     }
 
     var provider: ColorProviding? {
         switch self {
         case .default:
-            return DemoColorDefaultTheme()
+            return nil
         case .green:
             return DemoColorGreenTheme()
-        case .none:
-            return nil
+        case .purple:
+            return DemoColorPurpleTheme()
         }
-    }
-}
-
-class DemoColorDefaultTheme: NSObject, ColorProviding {
-    var brandBackground1: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm80),
-                       dark: GlobalTokens.brandColor(.comm100))
-    }
-
-    var brandBackground1Pressed: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm50),
-                       dark: GlobalTokens.brandColor(.comm140))
-    }
-
-    var brandBackground1Selected: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm60),
-                       dark: GlobalTokens.brandColor(.comm120))
-    }
-
-    var brandBackground2: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm70))
-    }
-
-    var brandBackground2Pressed: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm40))
-    }
-
-    var brandBackground2Selected: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm80))
-    }
-
-    var brandBackground3: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm60),
-                       dark: GlobalTokens.brandColor(.comm120))
-    }
-
-    var brandBackgroundTint: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm150),
-                       dark: GlobalTokens.brandColor(.comm40))
-    }
-
-    var brandBackgroundDisabled: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm140),
-                       dark: GlobalTokens.brandColor(.comm40))
-    }
-
-    var brandForeground1: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm80),
-                       dark: GlobalTokens.brandColor(.comm100))
-    }
-
-    var brandForeground1Pressed: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm50),
-                       dark: GlobalTokens.brandColor(.comm140))
-    }
-
-    var brandForeground1Selected: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm60),
-                       dark: GlobalTokens.brandColor(.comm120))
-    }
-
-    var brandForegroundTint: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm60),
-                       dark: GlobalTokens.brandColor(.comm130))
-    }
-
-    var brandForegroundDisabled1: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm90))
-    }
-
-    var brandForegroundDisabled2: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm140),
-                       dark: GlobalTokens.brandColor(.comm40))
-    }
-
-    var brandStroke1: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm80),
-                       dark: GlobalTokens.brandColor(.comm100))
-    }
-
-    var brandStroke1Pressed: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm50),
-                       dark: GlobalTokens.brandColor(.comm140))
-    }
-
-    var brandStroke1Selected: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.comm60),
-                       dark: GlobalTokens.brandColor(.comm120))
-    }
-
-    var brandGradient1: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.gradientPrimaryLight),
-                       dark: GlobalTokens.brandColor(.gradientPrimaryDark))
-    }
-
-    var brandGradient2: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.gradientSecondaryLight),
-                       dark: GlobalTokens.brandColor(.gradientSecondaryDark))
-    }
-
-    var brandGradient3: UIColor {
-        return UIColor(light: GlobalTokens.brandColor(.gradientTertiaryLight),
-                       dark: GlobalTokens.brandColor(.gradientTertiaryDark))
     }
 }
 
@@ -235,5 +132,93 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
 
     var brandGradient3: UIColor {
         return UIColor(hexValue: 0x42B8B2)
+    }
+}
+
+class DemoColorPurpleTheme: NSObject, ColorProviding {
+    var brandBackground1: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x822FFF),
+                       dark: UIColor(hexValue: 0xA275FF))
+    }
+
+    var brandBackground1Pressed: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x550FBE),
+                       dark: UIColor(hexValue: 0xC2AAFD))
+    }
+
+    var brandBackground1Selected: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x6415DB),
+                       dark: UIColor(hexValue: 0xB695FF))
+    }
+
+    var brandBackground2: UIColor {
+        return UIColor(hexValue: 0x6415DB)
+    }
+
+    var brandBackground2Pressed: UIColor {
+        return UIColor(hexValue: 0x410693)
+    }
+
+    var brandBackground2Selected: UIColor {
+        return UIColor(hexValue: 0x4B09A8)
+    }
+
+    var brandBackground3: UIColor {
+        return UIColor(hexValue: 0x4B09A8)
+    }
+
+    var brandBackgroundTint: UIColor {
+        return UIColor(light: UIColor(hexValue: 0xEDE8FF),
+                       dark: UIColor(hexValue: 0x4B09A8))
+    }
+
+    var brandBackgroundDisabled: UIColor {
+        return UIColor(light: UIColor(hexValue: 0xD0BDFD),
+                       dark: UIColor(hexValue: 0x4B09A8))
+    }
+
+    var brandForeground1: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x822FFF),
+                       dark: UIColor(hexValue: 0xA275FF))
+    }
+
+    var brandForeground1Pressed: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x550FBE),
+                       dark: UIColor(hexValue: 0xC2AAFD))
+    }
+
+    var brandForeground1Selected: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x6415DB),
+                       dark: UIColor(hexValue: 0xB695FF))
+    }
+
+    var brandForegroundTint: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x6415DB),
+                       dark: UIColor(hexValue: 0xC2AAFD))
+    }
+
+    var brandForegroundDisabled1: UIColor {
+        return UIColor(light: UIColor(hexValue: 0xB695FF),
+                       dark: UIColor(hexValue: 0x751FF5))
+    }
+
+    var brandForegroundDisabled2: UIColor {
+        return UIColor(light: UIColor(hexValue: 0xC2AAFD),
+                       dark: UIColor(hexValue: 0x4B09A8))
+    }
+
+    var brandStroke1: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x822FFF),
+                       dark: UIColor(hexValue: 0xA275FF))
+    }
+
+    var brandStroke1Pressed: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x550FBE),
+                       dark: UIColor(hexValue: 0xC2AAFD))
+    }
+
+    var brandStroke1Selected: UIColor {
+        return UIColor(light: UIColor(hexValue: 0x6415DB),
+                       dark: UIColor(hexValue: 0xB695FF))
     }
 }
