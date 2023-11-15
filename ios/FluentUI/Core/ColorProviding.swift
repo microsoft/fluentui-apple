@@ -86,21 +86,19 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
         let fluentTheme = FluentTheme(colorOverrides: brandColors)
         self.fluentTheme = fluentTheme
     }
-
-    /// Removes any associated `ColorProvider` from the given `UIView`.
-    @objc(resetFluentTheme)
-    func resetFluentTheme() {
-        self.fluentTheme = FluentThemeKey.defaultValue
-    }
 }
 
 @objc public extension FluentTheme {
     /// Associates a `ColorProvider` with the default shared `FluentTheme` instance.
     ///
     /// - Parameters:
-    ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`.
-    @objc static func setSharedThemeColorProvider(_ provider: ColorProviding) {
-        let brandColors = brandColorOverrides(provider: provider)
-        FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`. Passing `nil` will reset to the default theme.
+    @objc static func setSharedThemeColorProvider(_ provider: ColorProviding?) {
+        if let provider {
+            let brandColors = brandColorOverrides(provider: provider)
+            FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
+        } else {
+            FluentTheme.shared = FluentThemeKey.defaultValue
+        }
     }
 }
