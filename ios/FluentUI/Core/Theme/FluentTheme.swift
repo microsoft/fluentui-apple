@@ -90,7 +90,20 @@ public class FluentTheme: NSObject, ObservableObject {
     /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
     /// caller is certain that they are looking for the _default_ token values associated with Fluent.
     @objc(sharedTheme)
-    public static let shared: FluentTheme = .init()
+    public internal(set) static var shared: FluentTheme = .init() {
+        didSet {
+            UIApplication.shared.connectedScenes
+                .compactMap {
+                    $0 as? UIWindowScene
+                }
+                .flatMap {
+                    $0.windows
+                }
+                .forEach { window in
+                    NotificationCenter.default.post(name: .didChangeTheme, object: window)
+                }
+        }
+    }
 
     // Token storage
     let colorTokenSet: TokenSet<ColorToken, UIColor>

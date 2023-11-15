@@ -93,3 +93,14 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
         self.fluentTheme = FluentThemeKey.defaultValue
     }
 }
+
+@objc public extension FluentTheme {
+    /// Associates a `ColorProvider` with the default shared `FluentTheme` instance.
+    ///
+    /// - Parameters:
+    ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`.
+    @objc static func setSharedThemeColorProvider(_ provider: ColorProviding) {
+        let brandColors = brandColorOverrides(provider: provider)
+        FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
+    }
+}
