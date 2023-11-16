@@ -90,7 +90,20 @@ public class FluentTheme: NSObject, ObservableObject {
     /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
     /// caller is certain that they are looking for the _default_ token values associated with Fluent.
     @objc(sharedTheme)
-    public static let shared: FluentTheme = .init()
+    public internal(set) static var shared: FluentTheme = FluentThemeKey.defaultValue {
+        didSet {
+            UIApplication.shared.connectedScenes
+                .compactMap {
+                    $0 as? UIWindowScene
+                }
+                .flatMap {
+                    $0.windows
+                }
+                .forEach { window in
+                    NotificationCenter.default.post(name: .didChangeTheme, object: window)
+                }
+        }
+    }
 
     // Token storage
     let colorTokenSet: TokenSet<ColorToken, UIColor>
@@ -147,6 +160,13 @@ public extension Notification.Name {
             NotificationCenter.default.post(name: .didChangeTheme, object: self)
         }
     }
+
+    /// Removes any associated `ColorProvider` from the given `UIView`.
+    @objc(resetFluentTheme)
+    public func resetFluentTheme() {
+        objc_setAssociatedObject(self, &Keys.fluentTheme, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        NotificationCenter.default.post(name: .didChangeTheme, object: self)
+    }
 }
 
 // MARK: - Environment
@@ -172,7 +192,5 @@ public extension EnvironmentValues {
 }
 
 struct FluentThemeKey: EnvironmentKey {
-    static var defaultValue: FluentTheme {
-        return FluentTheme.shared
-    }
+    static let defaultValue: FluentTheme = .init()
 }
