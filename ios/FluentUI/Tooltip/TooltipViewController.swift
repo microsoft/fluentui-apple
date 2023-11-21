@@ -49,7 +49,7 @@ class TooltipViewController: UIViewController {
         }
     }
 
-	@available(iOS, deprecated: 17.0)
+    @available(iOS, deprecated: 17.0)
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

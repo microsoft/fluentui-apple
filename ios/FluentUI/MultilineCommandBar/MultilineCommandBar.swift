@@ -68,7 +68,7 @@ public class MultilineCommandBar: UIViewController {
         bottomSheetController = sheetController
     }
 
-	@available(iOS, deprecated: 17.0)
+    @available(iOS, deprecated: 17.0)
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

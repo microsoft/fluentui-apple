@@ -122,7 +122,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-	@available(iOS, deprecated: 17.0)
+    @available(iOS, deprecated: 17.0)
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if previousTraitCollection?.horizontalSizeClass != traitCollection.horizontalSizeClass || previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
