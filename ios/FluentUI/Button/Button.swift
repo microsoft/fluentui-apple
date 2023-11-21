@@ -162,6 +162,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
         initialize()
     }
 
+	@available(iOS, deprecated: 17.0)
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 

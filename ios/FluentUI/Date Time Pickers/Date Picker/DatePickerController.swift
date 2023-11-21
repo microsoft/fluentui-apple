@@ -224,6 +224,7 @@ class DatePickerController: UIViewController, GenericDateTimePicker {
         navigationItem.leftBarButtonItem?.tintColor = view.fluentTheme.color(.foreground2)
     }
 
+	@available(iOS, deprecated: 17.0)
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
