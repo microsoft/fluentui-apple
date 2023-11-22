@@ -43,7 +43,7 @@ extension View {
 
     /// Adds a large content viewer for the view. If the text and image are both nil,
     /// the default large content viewer will be used.
-    /// - Parameters
+    /// - Parameters:
     ///  - text: Optional String to display in the large content viewer.
     ///  - image: Optional UIImage to display in the large content viewer.
     /// - Returns: The modified view.
@@ -52,11 +52,28 @@ extension View {
     }
 
     /// Applies multiple shadows on a View
-    /// - Parameters
+    /// - Parameters:
     ///  - shadowInfo: The values of the two shadows to be applied
     /// - Returns: The modified view.
     func applyShadow(shadowInfo: ShadowInfo) -> some View {
         modifier(ShadowModifier(shadowInfo: shadowInfo))
+    }
+
+    /// Abstracts away differences in pre-iOS 17 `onChange(of:perform:)` versus post-iOS 17 `onChange(of:_:)`.
+    ///
+    /// This function will be removed once FluentUI moves to iOS 17 as a minimum target.
+    /// - Parameters:
+    ///   - value: The value to check against when determining whether to run the closure.
+    ///   - action: A closure to run when the value changes.
+    /// - Returns: A view that fires an action when the specified value changes.
+    func onChange_iOS17<V>(of value: V, _ action: @escaping (V) -> Void) -> some View where V: Equatable {
+        if #available(iOS 17, *) {
+            return self.onChange(of: value) { _, newValue in
+                return action(newValue)
+            }
+        } else {
+            return self.onChange(of: value, perform: action)
+        }
     }
 }
 

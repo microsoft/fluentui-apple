@@ -564,6 +564,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
             contentStackView.point(inside: convert(point, to: contentStackView), with: event)
     }
 
+    @available(iOS, deprecated: 17.0)
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
