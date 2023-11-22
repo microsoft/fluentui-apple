@@ -313,13 +313,13 @@ public struct FluentNotification: View, TokenizedControlView {
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
                                maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
-                        .onChange(of: isPresented, perform: { present in
-                            if present {
+                        .onChange_iOS17(of: isPresented) { newPresent in
+                            if newPresent {
                                 presentAnimated()
                             } else {
                                 dismissAnimated()
                             }
-                        })
+                        }
                         .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
                         .onSizeChange { newSize in
                             bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yKey / 2)
