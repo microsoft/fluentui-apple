@@ -17,6 +17,7 @@ class PopupMenuDemoController: DemoController {
 
     private let navButtonTitleSwitch = BrandedSwitch()
     private let navButtonSubtitleSwitch = BrandedSwitch()
+    private let toolbarSearchSwitch = BrandedSwitch()
     private let switchTextWidth: CGFloat = 150
 
     private var calendarLayout: CalendarLayout = .agenda
@@ -50,6 +51,8 @@ class PopupMenuDemoController: DemoController {
         navButtonTitleSwitch.addTarget(self, action: #selector(handleOnSwitchChanged), for: .valueChanged)
         addRow(text: "Show Subtitle", items: [navButtonSubtitleSwitch], textWidth: switchTextWidth)
         navButtonSubtitleSwitch.isEnabled = false
+        addTitle(text: "Toolbar Button Settings")
+        addRow(text: "Show Search Bar", items: [toolbarSearchSwitch], textWidth: switchTextWidth)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -105,6 +108,9 @@ class PopupMenuDemoController: DemoController {
         }
 
         let controller = PopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
+        if toolbarSearchSwitch.isOn {
+            controller.searchBar(isVisible: true, placeholderText: "test")
+        }
 
         if sender.title == "1-line description" {
             controller.headerItem = PopupMenuItem(title: "Pick a calendar layout")

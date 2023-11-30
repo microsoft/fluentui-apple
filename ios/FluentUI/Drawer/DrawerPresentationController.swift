@@ -225,7 +225,7 @@ class DrawerPresentationController: UIPresentationController {
             }
         case .up:
             if actualPresentationOrigin == containerView.bounds.maxY {
-                return containerView.safeAreaInsets.bottom + keyboardHeight
+                return keyboardHeight == 0 ? containerView.safeAreaInsets.bottom : keyboardHeight
             }
         case .fromLeading:
             if actualPresentationOrigin == containerView.bounds.minX {
@@ -344,6 +344,9 @@ class DrawerPresentationController: UIPresentationController {
     }
 
     private func frameForContentView(in bounds: CGRect) -> CGRect {
+        guard let containerView = containerView else {
+            return .zero
+        }
         var contentFrame = bounds.inset(by: marginsForContentView())
 
         var contentSize = presentedViewController.preferredContentSize
@@ -380,7 +383,8 @@ class DrawerPresentationController: UIPresentationController {
 
             contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
             if presentationDirection == .up {
-                contentFrame.origin.y = contentFrame.maxY - contentSize.height
+                contentFrame.origin.y = keyboardHeight != 0 ? max(landscapeMode ? 0 : sourceViewController.view.safeAreaInsets.top, 
+                                                                  containerView.frame.maxY - keyboardHeight - contentSize.height) : contentFrame.maxY - contentSize.height
             }
         } else {
             if actualPresentationOffset == 0 {
@@ -510,7 +514,7 @@ class DrawerPresentationController: UIPresentationController {
         keyboardAnimationDuration = (notificationInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
 
         keyboardFrame = containerView.convert(keyboardFrame, from: nil)
-        keyboardHeight = max(0, containerView.bounds.maxY - containerView.safeAreaInsets.bottom - keyboardFrame.minY)
+        keyboardHeight = max(0, containerView.bounds.maxY - keyboardFrame.minY)
     }
 }
 
