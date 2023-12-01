@@ -211,11 +211,16 @@ open class PopupMenuController: DrawerController {
     }()
     private lazy var searchView: UIView = {
         let view = UIStackView()
+        let marginsSpacing = GlobalTokens.spacing(.size160)
+        let bottomMarginSpacing = GlobalTokens.spacing(.size120)
         view.axis = .vertical
         view.addArrangedSubview(searchBar)
         view.isHidden = searchBar.isHidden
         view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: 16, left: 16, bottom: 12, right: 16)
+        view.layoutMargins = UIEdgeInsets(top: marginsSpacing,
+                                          left: marginsSpacing,
+                                          bottom: bottomMarginSpacing,
+                                          right: marginsSpacing)
         return view
     }()
     private let searchBar: SearchBar = {
