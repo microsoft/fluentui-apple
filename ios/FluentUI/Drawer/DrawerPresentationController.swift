@@ -383,7 +383,7 @@ class DrawerPresentationController: UIPresentationController {
 
             contentFrame.origin.x += (contentFrame.width - contentSize.width) / 2
             if presentationDirection == .up {
-                contentFrame.origin.y = keyboardHeight != 0 ? max(landscapeMode ? 0 : sourceViewController.view.safeAreaInsets.top, 
+                contentFrame.origin.y = keyboardHeight != 0 ? max(landscapeMode ? 0 : sourceViewController.view.safeAreaInsets.top,
                                                                   containerView.frame.maxY - keyboardHeight - contentSize.height) : contentFrame.maxY - contentSize.height
             }
         } else {

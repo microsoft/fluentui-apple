@@ -102,12 +102,22 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    @objc open func searchBar(isVisible: Bool, placeholderText: String? = "") {
-        searchBar.isHidden = !isVisible
-        searchBar.placeholderText = placeholderText
-        adjustsHeightForKeyboard = true
+    /// Shows or hides the `SearchBar`
+    @objc open var isSearchBarVisible: Bool = false {
+        didSet {
+            searchBar.isHidden = !isSearchBarVisible
+            adjustsHeightForKeyboard = isSearchBarVisible
+        }
     }
 
+    /// The placeholder text to be displayed in the `SearchBar`
+    @objc open var searchPlaceholderText: String? {
+        didSet {
+            searchBar.placeholderText = searchPlaceholderText
+        }
+    }
+
+    /// Returns the typed text inside the `SearchBar` textfield
     @objc open var searchText: String? {
         return searchBar.isHidden ? nil : searchBar.searchText
     }
@@ -211,16 +221,16 @@ open class PopupMenuController: DrawerController {
     }()
     private lazy var searchView: UIView = {
         let view = UIStackView()
-        let marginsSpacing = GlobalTokens.spacing(.size160)
-        let bottomMarginSpacing = GlobalTokens.spacing(.size120)
+        let margins = GlobalTokens.spacing(.size160)
+        let bottomMargin = GlobalTokens.spacing(.size120)
         view.axis = .vertical
         view.addArrangedSubview(searchBar)
         view.isHidden = searchBar.isHidden
         view.isLayoutMarginsRelativeArrangement = true
-        view.layoutMargins = UIEdgeInsets(top: marginsSpacing,
-                                          left: marginsSpacing,
-                                          bottom: bottomMarginSpacing,
-                                          right: marginsSpacing)
+        view.layoutMargins = UIEdgeInsets(top: margins,
+                                          left: margins,
+                                          bottom: bottomMargin,
+                                          right: margins)
         return view
     }()
     private let searchBar: SearchBar = {
