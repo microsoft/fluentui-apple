@@ -102,26 +102,6 @@ open class PopupMenuController: DrawerController {
         }
     }
 
-    /// Shows or hides the `SearchBar`
-    @objc open var isSearchBarVisible: Bool = false {
-        didSet {
-            searchBar.isHidden = !isSearchBarVisible
-            adjustsHeightForKeyboard = isSearchBarVisible
-        }
-    }
-
-    /// The placeholder text to be displayed in the `SearchBar`
-    @objc open var searchPlaceholderText: String? {
-        didSet {
-            searchBar.placeholderText = searchPlaceholderText
-        }
-    }
-
-    /// Returns the typed text inside the `SearchBar` textfield
-    @objc open var searchText: String? {
-        return searchBar.isHidden ? nil : searchBar.searchText
-    }
-
     /// Use `selectedItemIndexPath` to get or set the selected menu item instead of doing this via `PopupMenuItem` directly
     @objc open var selectedItemIndexPath: IndexPath? {
         get {
@@ -151,6 +131,26 @@ open class PopupMenuController: DrawerController {
             }
             separator.backgroundColor = UIColor(cgColor: separatorColor.cgColor)
         }
+    }
+
+    /// Shows or hides the `SearchBar`
+    @objc public var isSearchBarVisible: Bool = false {
+        didSet {
+            searchBar.isHidden = !isSearchBarVisible
+            adjustsHeightForKeyboard = isSearchBarVisible
+        }
+    }
+
+    /// The placeholder text to be displayed in the `SearchBar`
+    @objc public var searchPlaceholderText: String? {
+        didSet {
+            searchBar.placeholderText = searchPlaceholderText
+        }
+    }
+
+    /// Returns the typed text inside the `SearchBar` textfield
+    @objc public var searchText: String? {
+        return searchBar.isHidden ? nil : searchBar.searchText
     }
 
     private var sections: [PopupMenuSection] = []
