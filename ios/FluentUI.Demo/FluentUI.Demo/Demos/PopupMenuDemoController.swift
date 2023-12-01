@@ -108,8 +108,10 @@ class PopupMenuDemoController: DemoController {
         }
 
         let controller = PopupMenuController(barButtonItem: sender, presentationOrigin: origin, presentationDirection: .up)
+        let overrideTokens = perControlOverrideEnabled ? perControlOverridePopupMenuTokens : nil
+        controller.popupTokenSet.replaceAllOverrides(with: overrideTokens)
         if toolbarSearchSwitch.isOn {
-            controller.searchBar(isVisible: true, placeholderText: "test")
+            controller.isSearchBarVisible = true
         }
 
         if sender.title == "1-line description" {
@@ -253,16 +255,16 @@ extension PopupMenuDemoController: DemoAppearanceDelegate {
 
     private var themeWideOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .shade30),
-                                                              dark: GlobalTokens.sharedColor(.plum, .tint60))
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.plum, .tint60),
+                                                              dark: GlobalTokens.sharedColor(.plum, .shade30))
             }
         ]
     }
 
     private var perControlOverridePopupMenuTokens: [PopupMenuTokenSet.Tokens: ControlTokenValue] {
         return [
-            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .shade40),
-                                                              dark: GlobalTokens.sharedColor(.forest, .tint60))
+            .drawerContentBackgroundColor: .uiColor { UIColor(light: GlobalTokens.sharedColor(.forest, .tint60),
+                                                              dark: GlobalTokens.sharedColor(.forest, .shade40))
             },
             .resizingHandleMarkColor: .uiColor {
                 .red
