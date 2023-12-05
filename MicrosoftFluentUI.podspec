@@ -183,6 +183,14 @@ fi', :execution_position => :before_compile }
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
   end
 
+  s.subspec 'ListItem_ios' do |listitem_ios|
+    label_ios.platform = :ios
+    othercells_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
+    popupmenu_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    popupmenu_ios.dependency 'MicrosoftFluentUI/TableView_ios'
+    label_ios.source_files = ["ios/FluentUI/List/**/*.swift"]
+  end
+
   s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
     multilinecommandbar_ios.platform = :ios
     multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
