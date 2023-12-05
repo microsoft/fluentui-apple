@@ -257,7 +257,7 @@ open class PopupMenuController: DrawerController {
     }
 
     private func initTableView() {
-        tableView.backgroundColor = backgroundColor
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.isAccessibilityElement = true
