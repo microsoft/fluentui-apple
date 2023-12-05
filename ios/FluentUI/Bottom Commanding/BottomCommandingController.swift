@@ -277,6 +277,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
     }
 
+    @available(iOS, deprecated: 17.0)
     public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
