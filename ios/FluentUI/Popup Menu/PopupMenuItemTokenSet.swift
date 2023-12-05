@@ -20,7 +20,7 @@ class PopupMenuItemTokenSet: TableViewCellTokenSet {
                 self.fluentTheme.color(.foreground3)
             },
             .cellBackgroundColor: .uiColor {
-                self.fluentTheme.color(.background1)
+                .clear
             }
         ])
     }
