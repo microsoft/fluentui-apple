@@ -369,6 +369,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
                                    height: CGFloat.greatestFiniteMagnitude))
     }
 
+    @available(iOS, deprecated: 17.0)
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         invalidateIntrinsicContentSize()

@@ -58,12 +58,20 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
         super.init(rootView: DemoAppearanceView(configuration: configuration))
 
-        configuration.onThemeChanged = self.onThemeChanged
-        configuration.onUserInterfaceStyleChanged = self.onUserInterfaceStyleChanged
+        configuration.onWindowThemeChanged = self.onWindowThemeChanged(_:)
+        configuration.onAppWideThemeChanged = self.onAppWideThemeChanged(_:)
+        configuration.onUserInterfaceStyleChanged = self.onUserInterfaceStyleChanged(_:)
 
         self.modalPresentationStyle = .popover
-        self.preferredContentSize.height = 375
+        self.preferredContentSize.height = 400
         self.popoverPresentationController?.permittedArrowDirections = .up
+
+        // Different themes can have different overrides, so update our state when we detect a theme change.
+        self.themeObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme, object: nil, queue: nil) { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.updateToggleConfiguration()
+            }
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -87,24 +95,28 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
 
     private func updateToggleConfiguration() {
         configuration.userInterfaceStyle = view.window?.overrideUserInterfaceStyle ?? .unspecified
-        configuration.theme = currentDemoListViewController?.theme ?? .default
+        configuration.windowTheme = currentDemoListViewController?.theme ?? .default
+        configuration.appWideTheme = DemoColorTheme.currentAppWideTheme
         if let isThemeOverrideEnabled = configuration.themeOverridePreviouslyApplied {
             let newValue = isThemeOverrideEnabled()
             configuration.themeWideOverride = newValue
         }
     }
 
-    /// Callback for handling theme changes.
-    private func onThemeChanged(_ theme: DemoColorTheme) {
+    /// Callback for handling per-window theme changes.
+    private func onWindowThemeChanged(_ theme: DemoColorTheme) {
         guard let currentDemoListViewController = currentDemoListViewController,
               let window = view.window else {
                   return
               }
         currentDemoListViewController.updateColorProviderFor(window: window, theme: theme)
 
-        // Different themes can have different overrides, so update as needed.
-        updateToggleConfiguration()
         rootView.fluentTheme = window.fluentTheme
+    }
+
+    /// Callback for handling app-wide theme changes
+    private func onAppWideThemeChanged(_ theme: DemoColorTheme) {
+        DemoColorTheme.currentAppWideTheme = theme
     }
 
     /// Callback for handling color scheme changes.
@@ -121,6 +133,7 @@ class DemoAppearanceController: UIHostingController<DemoAppearanceView>, Observa
     }
 
     private var configuration: DemoAppearanceView.Configuration
+    private var themeObserver: NSObjectProtocol?
 }
 
 extension DemoAppearanceView.Configuration {

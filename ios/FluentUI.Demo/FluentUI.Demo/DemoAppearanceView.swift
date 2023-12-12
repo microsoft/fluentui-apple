@@ -30,12 +30,13 @@ struct DemoAppearanceView: View {
 
     /// Picker for setting the current Fluent theme.
     @ViewBuilder
-    var themePicker: some View {
-        Text("Theme")
+    func themePicker(_ titleKey: String, selection: Binding<DemoColorTheme>) -> some View {
+        Text(titleKey)
             .font(.headline)
-        Picker("Theme", selection: $configuration.theme) {
+        Picker(titleKey, selection: selection) {
             Text("\(DemoColorTheme.default.name)").tag(DemoColorTheme.default)
             Text("\(DemoColorTheme.green.name)").tag(DemoColorTheme.green)
+            Text("\(DemoColorTheme.purple.name)").tag(DemoColorTheme.purple)
         }
         .pickerStyle(.segmented)
     }
@@ -45,10 +46,8 @@ struct DemoAppearanceView: View {
     var contents: some View {
         VStack {
             appColorSchemePicker
-            Divider()
-                .padding()
-
-            themePicker
+            themePicker("Window Theme", selection: $configuration.windowTheme)
+            themePicker("App-Wide Theme", selection: $configuration.appWideTheme)
             Divider()
                 .padding()
 
@@ -85,8 +84,11 @@ struct DemoAppearanceView: View {
                 .onChange(of: configuration.userInterfaceStyle) { newValue in
                     configuration.onUserInterfaceStyleChanged?(newValue)
                 }
-                .onChange(of: configuration.theme) { newValue in
-                    configuration.onThemeChanged?(newValue)
+                .onChange(of: configuration.windowTheme) { newValue in
+                    configuration.onWindowThemeChanged?(newValue)
+                }
+                .onChange(of: configuration.appWideTheme) { newValue in
+                    configuration.onAppWideThemeChanged?(newValue)
                 }
                 .onChange(of: configuration.themeWideOverride) { newValue in
                     configuration.onThemeWideOverrideChanged?(newValue)
@@ -110,16 +112,20 @@ struct DemoAppearanceView: View {
     class Configuration: ObservableObject {
         // Data
         @Published var userInterfaceStyle: UIUserInterfaceStyle = .unspecified
-        @Published var theme: DemoColorTheme = .default
+        @Published var windowTheme: DemoColorTheme = .default
+        @Published var appWideTheme: DemoColorTheme = .default
         @Published var themeWideOverride: Bool = false
         @Published var perControlOverride: Bool = false
 
         // Environment
         @Published var isConfigured: Bool = false
 
+        // Global callbacks
+        var onAppWideThemeChanged: ((_ theme: DemoColorTheme) -> Void)?
+
         // Window-specific callbacks
         var onUserInterfaceStyleChanged: ((_ userInterfaceStyle: UIUserInterfaceStyle) -> Void)?
-        var onThemeChanged: ((_ theme: DemoColorTheme) -> Void)?
+        var onWindowThemeChanged: ((_ theme: DemoColorTheme) -> Void)?
 
         // Control-specific callbacks
         var onThemeWideOverrideChanged: ((_ themeWideOverrideEnabled: Bool) -> Void)?
@@ -133,13 +139,5 @@ struct DemoAppearanceView: View {
 
     private var showPerControlOverrideToggle: Bool {
         return configuration.onPerControlOverrideChanged != nil
-    }
-}
-
-/// View modifiers
-extension DemoAppearanceView {
-    func theme(_ theme: DemoColorTheme) -> Self {
-        self.configuration.theme = theme
-        return self
     }
 }

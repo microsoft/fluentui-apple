@@ -35,6 +35,7 @@ class DemoListViewController: DemoTableViewController {
             let primaryColor = fluentTheme.color(.brandBackground1)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
+            window.resetFluentTheme()
             FluentUIFramework.initializeAppearance(with: UIColor(light: GlobalTokens.brandColor(.comm80), dark: GlobalTokens.brandColor(.comm90)))
         }
     }
@@ -140,6 +141,8 @@ class DemoListViewController: DemoTableViewController {
     }
 
     let cellReuseIdentifier: String = "TableViewCell"
+    var provider: ColorProviding? = DemoColorTheme.default.provider
+
     private static var isFirstLaunch: Bool = true
     private static let lastDemoControllerKey: String = "LastDemoController"
     private let cellTypeButton: UIButton = {
@@ -148,7 +151,6 @@ class DemoListViewController: DemoTableViewController {
         return button
     }()
     private var showGroupedTableViewCellStyle: Bool = true
-    private var provider: ColorProviding? = DemoColorTheme.default.provider
 
     private enum DemoControllerSection: CaseIterable {
         case fluent2Controls

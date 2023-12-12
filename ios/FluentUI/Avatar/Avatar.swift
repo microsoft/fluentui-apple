@@ -226,18 +226,14 @@ public struct Avatar: View, TokenizedControlView {
         @ViewBuilder
         var avatarRingView: some View {
             if let imageBasedRingColor = state.imageBasedRingColor {
-                // The potentially maximum size of the ring view must be used in order to avoid abrupt
-                // transitions during the animation as the ImagePaint scale value is not animatable.
-                let ringMaxSize = avatarImageSize + (tokenSet[.ringInnerGap].float + ringThicknessToken) * 2
-                let scaleFactor = ringMaxSize / imageBasedRingColor.size.width
-
-                // ImagePaint is being used as creating a Color struct from a UIColor created with
-                // the patternImage initializer (https://developer.apple.com/documentation/uikit/uicolor/1621933-init)
-                // does not render any content.
                 Circle()
-                    .strokeBorder(ImagePaint(image: Image(uiImage: imageBasedRingColor),
-                                             scale: scaleFactor),
-                                  lineWidth: ringThickness)
+                    .foregroundStyle(.clear)
+                    .background(Image(uiImage: imageBasedRingColor)
+                        .resizable())
+                    .mask {
+                        Circle()
+                            .strokeBorder(lineWidth: ringThickness)
+                    }
             } else {
                 Circle()
                     .strokeBorder(ringColor,
