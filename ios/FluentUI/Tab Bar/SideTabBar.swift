@@ -129,6 +129,8 @@ open class SideTabBar: UIView, TokenizedControlInternal {
         addSubview(topStackView)
         addSubview(bottomStackView)
 
+        updateAppearance()
+
         addInteraction(UILargeContentViewerInteraction())
 
         accessibilityTraits = .tabBar
@@ -160,13 +162,7 @@ open class SideTabBar: UIView, TokenizedControlInternal {
 
     private var layoutConstraints: [NSLayoutConstraint] = []
     private let borderLine = Separator(orientation: .vertical)
-
-    private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        style = .systemChromeMaterial
-
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
+    private let backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterial))
 
     private lazy var topStackView: UIStackView = {
         return SideTabBar.createStackView(spacing: SideTabBarTokenSet.tabBarItemSpacing)
@@ -345,8 +341,10 @@ open class SideTabBar: UIView, TokenizedControlInternal {
     public var tokenSet: SideTabBarTokenSet = .init()
 
     private func updateAppearance() {
+        backgroundColor = tokenSet[.backgroundColor].uiColor
         updateSideTabBarTokensForSection(in: .top)
         updateSideTabBarTokensForSection(in: .bottom)
+        borderLine.tokenSet[.color] = tokenSet[.separatorColor]
     }
 
     private func updateSideTabBarTokensForSection(in section: Section) {

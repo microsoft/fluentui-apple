@@ -6,17 +6,23 @@
 import UIKit
 
 public enum SideTabBarToken: Int, TokenSetKey {
-    /// Optionally overrides the default background color of the  of the `TabBarItem` when selected.
+    /// Optionally overrides the default background color of the `SideTabBar`.
+    case backgroundColor
+
+    /// Optionally overrides the default background color of the `TabBarItem` when selected.
     case tabBarItemSelectedColor
 
-    /// Optionally overrides the default background color of the  of the `TabBarItem` when not selected.
+    /// Optionally overrides the default background color of the `TabBarItem` when not selected.
     case tabBarItemUnselectedColor
 
-    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in portrait view.
+    /// Optionally overrides the default font info for the title label `TabBarItem`when in portrait view.
     case tabBarItemTitleLabelFontPortrait
 
-    /// Optionally overrides the default font info for the title label of the `TabBarItem`when in landscape view.
+    /// Optionally overrides the default font info for the title label `TabBarItem`when in landscape view.
     case tabBarItemTitleLabelFontLandscape
+
+    /// Optionally overrides the default color of the separator.
+    case separatorColor
 }
 
 /// Design token set for the `TabBar`.
@@ -24,6 +30,9 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarToken> {
     init() {
         super.init { token, theme in
             switch token {
+            case .backgroundColor:
+                return .uiColor { .clear }
+
             case .tabBarItemSelectedColor:
                 return .uiColor {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
@@ -47,6 +56,9 @@ public class SideTabBarTokenSet: ControlTokenSet<SideTabBarToken> {
                     assertionFailure("TabBarItem tokens are placeholders and should not be read.")
                     return theme.typography(.body1)
                 }
+
+            case .separatorColor:
+                return .uiColor { theme.color(.stroke2) }
             }
         }
     }
