@@ -20,7 +20,6 @@ public enum TabBarToken: Int, TokenSetKey {
 
     /// Defines the color of the top separator.
     case separatorColor
-
 }
 
 /// Design token set for the `TabBar`.
