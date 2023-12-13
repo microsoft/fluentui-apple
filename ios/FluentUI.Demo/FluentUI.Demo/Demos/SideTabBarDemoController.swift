@@ -359,6 +359,10 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
         return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.grape, .tint10),
+                               dark: GlobalTokens.sharedColor(.grape, .tint40))
+            },
             .tabBarItemTitleLabelFontPortrait: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             },
@@ -376,6 +380,10 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
                                lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
                                dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
                                darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            },
+            .separatorColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint10),
+                               dark: GlobalTokens.sharedColor(.hotPink, .tint40))
             }
         ]
     }

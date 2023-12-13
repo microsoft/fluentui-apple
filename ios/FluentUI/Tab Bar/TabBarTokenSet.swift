@@ -6,10 +6,10 @@
 import UIKit
 
 public enum TabBarToken: Int, TokenSetKey {
-    /// Defines the background color of the  of the `TabBarItem` when selected.
+    /// Defines the background color of the `TabBarItem` when selected.
     case tabBarItemSelectedColor
 
-    /// Defines the background color of the  of the `TabBarItem` when not selected.
+    /// Defines the background color of the `TabBarItem` when not selected.
     case tabBarItemUnselectedColor
 
     /// Font info for the title label when in portrait view.
@@ -18,9 +18,8 @@ public enum TabBarToken: Int, TokenSetKey {
     /// Font info for the title label when in landscape view.
     case tabBarItemTitleLabelFontLandscape
 
-        /// Defines the color of the top separator.
-        case separatorColor
-
+    /// Defines the color of the top separator.
+    case separatorColor
 }
 
 /// Design token set for the `TabBar`.
