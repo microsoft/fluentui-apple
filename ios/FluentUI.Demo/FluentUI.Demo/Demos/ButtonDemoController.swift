@@ -141,6 +141,8 @@ extension ButtonStyle {
             return "Outline neutral"
         case .subtle:
             return "Subtle"
+        case .transparentNeutral:
+            return "Transparent neutral"
         case .danger:
             return "Danger"
         case .dangerOutline:
