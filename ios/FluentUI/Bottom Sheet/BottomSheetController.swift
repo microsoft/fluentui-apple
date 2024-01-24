@@ -39,8 +39,8 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case transitioning // Sheet is between states, only used during user interaction / animation
 }
 
-@objc public enum BottomSheetConstraintEdge: Int {
-    case none // Sheet is centered on the screen
+@objc public enum BottomSheetAnchorEdge: Int {
+    case center // Sheet is centered on the screen
     case leading // Sheet is constrained to the leading edge
     case trailing // Sheet is constrained to the trailing edge
 }
@@ -217,6 +217,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             guard shouldAlwaysFillWidth != oldValue && isViewLoaded else {
                 return
             }
+
+            if (shouldAlwaysFillWidth) {
+                preferredWidth = view.bounds.width
+            }
+
             view.setNeedsLayout()
 
 #if DEBUG
@@ -228,20 +233,25 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 #endif
         }
     }
-
+    
+    /// Setting this property  will result in the sheet trying to be as close to this width as possible.
+    /// If the declared width is too large it will roll back to the maximum width
     @objc open var preferredWidth: CGFloat = 0 {
         didSet {
             guard preferredWidth != oldValue && isViewLoaded else {
                 return
             }
+
             shouldAlwaysFillWidth = false
             view.setNeedsLayout()
         }
     }
-
-    @objc open var edgeToConstrainTo: BottomSheetConstraintEdge = .none {
+    
+    /// Represents where the sheet should appear on the screen. 
+    /// Defaults to being centered
+    @objc open var anchoredEdge: BottomSheetAnchorEdge = .center {
         didSet {
-            guard edgeToConstrainTo != oldValue && isViewLoaded else {
+            guard anchoredEdge != oldValue && isViewLoaded else {
                 return
             }
             shouldAlwaysFillWidth = false
@@ -750,14 +760,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let availableWidth: CGFloat = view.bounds.width
         let maxWidth = min(Constants.maxSheetWidth, availableWidth)
 
+        /// Width will the full screen if should always fill width
+        /// Otherwise we will try and set the size to the preferred width if its between the max and min width
+        /// If its not between those we will make the maximum width size
         let sheetWidth: CGFloat = {
+            let determinedWidth: CGFloat
             if (shouldAlwaysFillWidth) {
-                return availableWidth
+                determinedWidth = availableWidth
             } else if (Constants.minSheetWidth...maxWidth ~= preferredWidth) {
-                return preferredWidth
+                determinedWidth = preferredWidth
             } else {
-                return maxWidth
+                determinedWidth = maxWidth
             }
+            return determinedWidth
         }()
 
         let sheetHeight: CGFloat
@@ -771,18 +786,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         let padding: CGFloat = 8
 
-        let frame: CGRect
-        if (edgeToConstrainTo == .trailing) {
-            frame = CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth - padding), y: offset),
-                          size: CGSize(width: sheetWidth, height: sheetHeight))
-        } else if (edgeToConstrainTo == .leading) {
-            frame = CGRect(origin: CGPoint(x: padding, y: offset),
-                           size: CGSize(width: sheetWidth, height: sheetHeight))
+        let xPosition: CGFloat
+        if (anchoredEdge == .trailing) {
+            xPosition = view.bounds.width - sheetWidth - padding
+        } else if (anchoredEdge == .leading) {
+            xPosition = padding
         } else {
-            frame = CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
-                   size: CGSize(width: sheetWidth, height: sheetHeight))
+            xPosition = (view.bounds.width - sheetWidth) / 2
         }
 
+        let frame = CGRect(origin: CGPoint(x: xPosition, y: offset),
+                             size: CGSize(width: sheetWidth, height: sheetHeight))
         return frame
     }
 

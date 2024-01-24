@@ -81,6 +81,10 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.isFlexibleHeight = sender.isOn
     }
 
+    @objc private func toggleIsExpanded(_ sender: BooleanCell) {
+        bottomSheetViewController?.setIsExpanded(sender.isOn)
+    }
+
     @objc private func toggleHandleUsingCustomAccessibilityLabel(_ sender: BooleanCell) {
         let isOn = sender.isOn
         bottomSheetViewController?.handleCollapseCustomAccessibilityLabel = isOn ? "Collapse Bottom Sheet" : nil
@@ -92,11 +96,11 @@ class BottomSheetDemoController: DemoController {
     }
 
     @objc private func toggleTrailingEdge(_ sender: BooleanCell) {
-        bottomSheetViewController?.edgeToConstrainTo = sender.isOn ? .trailing : .none
+        bottomSheetViewController?.anchoredEdge = sender.isOn ? .trailing : .center
     }
 
     @objc private func toggleCustomWidth(_ sender: BooleanCell) {
-        bottomSheetViewController?.preferredWidth = sender.isOn ? 400 :  200
+        bottomSheetViewController?.preferredWidth = sender.isOn ? 500 : 300
     }
 
     @objc private func showTransientSheet() {
@@ -262,7 +266,7 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Attach to trailing edge",
                          type: .boolean,
                          action: #selector(toggleTrailingEdge),
-                         isOn: bottomSheetViewController?.edgeToConstrainTo == .trailing),
+                         isOn: bottomSheetViewController?.anchoredEdge == .trailing),
                 DemoItem(title: "Set preferred width to 400", type: .boolean, action: #selector(toggleCustomWidth), isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
