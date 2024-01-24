@@ -39,6 +39,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case transitioning // Sheet is between states, only used during user interaction / animation
 }
 
+/// Defines where the sheet should be postionioned relative to the screen space
 @objc public enum BottomSheetAnchorEdge: Int {
     case center // Sheet is centered on the screen
     case leading // Sheet is constrained to the leading edge
@@ -788,9 +789,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         let xPosition: CGFloat
         if anchoredEdge == .trailing {
-            xPosition = view.bounds.width - sheetWidth - padding
+            if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
+                xPosition = view.bounds.width - sheetWidth - padding
+            } else {
+                xPosition = padding
+            }
         } else if anchoredEdge == .leading {
-            xPosition = padding
+            if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
+                xPosition = padding
+            } else {
+                xPosition = view.bounds.width - sheetWidth - padding
+            }
         } else {
             xPosition = (view.bounds.width - sheetWidth) / 2
         }

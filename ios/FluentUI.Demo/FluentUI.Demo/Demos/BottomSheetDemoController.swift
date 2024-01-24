@@ -81,10 +81,6 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.isFlexibleHeight = sender.isOn
     }
 
-    @objc private func toggleIsExpanded(_ sender: BooleanCell) {
-        bottomSheetViewController?.setIsExpanded(sender.isOn)
-    }
-
     @objc private func toggleHandleUsingCustomAccessibilityLabel(_ sender: BooleanCell) {
         let isOn = sender.isOn
         bottomSheetViewController?.handleCollapseCustomAccessibilityLabel = isOn ? "Collapse Bottom Sheet" : nil
@@ -99,8 +95,8 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.anchoredEdge = sender.isOn ? .trailing : .center
     }
 
-    @objc private func toggleCustomWidth(_ sender: BooleanCell) {
-        bottomSheetViewController?.preferredWidth = sender.isOn ? 500 : 300
+    @objc private func togglePreferredWidth(_ sender: BooleanCell) {
+        bottomSheetViewController?.preferredWidth = sender.isOn ? 400 : 0
     }
 
     @objc private func showTransientSheet() {
@@ -262,12 +258,13 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
                 DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
                 DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0),
-
                 DemoItem(title: "Attach to trailing edge",
                          type: .boolean,
                          action: #selector(toggleTrailingEdge),
                          isOn: bottomSheetViewController?.anchoredEdge == .trailing),
-                DemoItem(title: "Set preferred width to 400", type: .boolean, action: #selector(toggleCustomWidth), isOn: bottomSheetViewController?.preferredWidth == 400)
+                DemoItem(title: "Set preferred width to 400", type: .boolean,
+                         action: #selector(togglePreferredWidth),
+                         isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
