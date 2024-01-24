@@ -218,7 +218,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 return
             }
 
-            if (shouldAlwaysFillWidth) {
+            if shouldAlwaysFillWidth {
                 preferredWidth = view.bounds.width
             }
 
@@ -233,7 +233,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 #endif
         }
     }
-    
+
     /// Setting this property  will result in the sheet trying to be as close to this width as possible.
     /// If the declared width is too large it will roll back to the maximum width
     @objc open var preferredWidth: CGFloat = 0 {
@@ -246,7 +246,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.setNeedsLayout()
         }
     }
-    
+
     /// Represents where the sheet should appear on the screen. 
     /// Defaults to being centered
     @objc open var anchoredEdge: BottomSheetAnchorEdge = .center {
@@ -765,9 +765,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         /// If its not between those we will make the maximum width size
         let sheetWidth: CGFloat = {
             let determinedWidth: CGFloat
-            if (shouldAlwaysFillWidth) {
+            if shouldAlwaysFillWidth {
                 determinedWidth = availableWidth
-            } else if (Constants.minSheetWidth...maxWidth ~= preferredWidth) {
+            } else if Constants.minSheetWidth...maxWidth ~= preferredWidth {
                 determinedWidth = preferredWidth
             } else {
                 determinedWidth = maxWidth
@@ -787,9 +787,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let padding: CGFloat = 8
 
         let xPosition: CGFloat
-        if (anchoredEdge == .trailing) {
+        if anchoredEdge == .trailing {
             xPosition = view.bounds.width - sheetWidth - padding
-        } else if (anchoredEdge == .leading) {
+        } else if anchoredEdge == .leading {
             xPosition = padding
         } else {
             xPosition = (view.bounds.width - sheetWidth) / 2
