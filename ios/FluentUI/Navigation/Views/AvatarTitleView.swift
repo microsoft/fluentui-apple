@@ -76,7 +76,8 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
         didSet {
             updateAppearance()
             twoLineTitleView.currentStyle = style == .primary ? .primary : .system
-            avatar?.state.style = style == .primary ? .default : .accent
+            let avatarStyle: MSFAvatarStyle = (style == .primary) ? .default : .accent
+            avatar?.state.style = avatarOverrideStyle ?? avatarStyle
         }
     }
 
