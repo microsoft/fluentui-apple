@@ -259,12 +259,13 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
                 DemoItem(title: "Full screen sheet content", type: .boolean, action: #selector(toggleFullScreenSheetContent), isOn: bottomSheetViewController?.preferredExpandedContentHeight == 0),
                 DemoItem(title: "Attach to trailing edge",
-                         type: .boolean,
-                         action: #selector(toggleTrailingEdge),
-                         isOn: bottomSheetViewController?.anchoredEdge == .trailing),
-                DemoItem(title: "Set preferred width to 400", type: .boolean,
-                         action: #selector(togglePreferredWidth),
-                         isOn: bottomSheetViewController?.preferredWidth == 400)
+                          type: .boolean,
+                        action: #selector(toggleTrailingEdge),
+                          isOn: bottomSheetViewController?.anchoredEdge == .trailing),
+                DemoItem(title: "Set preferred width to 400",
+                          type: .boolean,
+                        action: #selector(togglePreferredWidth),
+                          isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
