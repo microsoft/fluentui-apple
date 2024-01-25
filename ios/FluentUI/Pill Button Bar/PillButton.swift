@@ -124,7 +124,11 @@ open class PillButton: UIButton, TokenizedControlInternal {
             self?.updateAppearance()
         }
 
+#if os(iOS)
+        // On vision, let the parent set the radius because the pill button height is not self-determined. 
+        // The proper solution may be to keep the corner radius updated to current height * 0.5 in layoutSubviews.
         layer.cornerRadius = PillButton.cornerRadius
+#endif // os(iOS)
         clipsToBounds = true
 
         layer.cornerCurve = .continuous

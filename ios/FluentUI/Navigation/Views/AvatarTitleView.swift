@@ -238,6 +238,10 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
 
         titleButton.showsLargeContentViewer = true
 
+        if #available(iOS 17, *) {
+            titleButton.hoverStyle = nil
+        }
+
         updateAvatarViewPointerInteraction()
     }
 

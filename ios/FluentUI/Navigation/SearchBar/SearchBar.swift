@@ -89,6 +89,9 @@ open class SearchBar: UIView, TokenizedControlInternal {
         textField.accessibilityTraits = .searchField
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
         textField.showsLargeContentViewer = true
+        if #available(iOS 17, *) {
+            textField.hoverStyle = nil
+        }
 
         return textField
     }()
@@ -104,6 +107,9 @@ open class SearchBar: UIView, TokenizedControlInternal {
         let backgroundView = UIView()
         backgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
         backgroundView.layer.cornerRadius = tokenSet[.searchTextFieldCornerRadius].float
+        if #available(iOS 17, *) {
+            backgroundView.hoverStyle = UIHoverStyle(shape: .capsule)
+        }
         return backgroundView
     }()
 
@@ -119,6 +125,9 @@ open class SearchBar: UIView, TokenizedControlInternal {
             let preview = UITargetedPreview(view: button)
             return UIPointerStyle(effect: .lift(preview))
         }
+        if #available(iOS 17, *) {
+            clearButton.hoverStyle = UIHoverStyle(shape: .circle)
+        }
 
         return clearButton
     }()
@@ -131,6 +140,9 @@ open class SearchBar: UIView, TokenizedControlInternal {
         button.alpha = 0.0
         button.showsLargeContentViewer = true
         button.isPointerInteractionEnabled = true
+        if #available(iOS 17, *) {
+            button.hoverStyle = UIHoverStyle(shape: .capsule)
+        }
 
         return button
     }()

@@ -626,7 +626,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     func updateColors(for navigationItem: UINavigationItem?) {
         let color = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
-        let shouldHideRegularTitle: Bool = (style == .gradient) && usesLeadingTitle
+        let shouldHideRegularTitle: Bool = (style == .gradient || color?.resolvedColor(with: traitCollection) == .clear) && usesLeadingTitle
 
         switch style {
         case .primary, .default, .custom:

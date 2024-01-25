@@ -96,7 +96,9 @@ open class TabBarView: UIView, TokenizedControlInternal {
         contain(view: backgroundView)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        contain(view: stackView, withInsets: .zero, respectingSafeAreaInsets: true)
+
+        let stackViewInsets = Compatibility.isDeviceIdiomVision() ? UIEdgeInsets(top: 12.0, left: 0.0, bottom: 12.0, right: 0.0) : .zero
+        contain(view: stackView, withInsets: stackViewInsets, respectingSafeAreaInsets: true)
 
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
