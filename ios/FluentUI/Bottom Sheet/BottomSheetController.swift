@@ -790,20 +790,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         /// For left aligned we only need to add in the padding
         /// For center aligned we need the position of the center offset by half the sheets width
         let xPosition: CGFloat
-        if anchoredEdge == .trailing {
-            if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
-                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
-            } else {
-                xPosition = Constants.horizontalSheetPadding
-            }
-        } else if anchoredEdge == .leading {
-            if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
-                xPosition = Constants.horizontalSheetPadding
-            } else {
-                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
-            }
-        } else {
+        let isLeftToRight: Bool = UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight
+        switch anchoredEdge {
+        case .center:
             xPosition = (view.bounds.width - sheetWidth) / 2
+        case .leading:
+            if isLeftToRight {
+                xPosition = Constants.horizontalSheetPadding
+            } else {
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
+            }
+        case .trailing:
+            if isLeftToRight {
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
+            } else {
+                xPosition = Constants.horizontalSheetPadding
+            }
         }
 
         let frame = CGRect(origin: CGPoint(x: xPosition, y: offset),
