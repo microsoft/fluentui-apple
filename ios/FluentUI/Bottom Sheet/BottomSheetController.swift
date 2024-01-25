@@ -761,9 +761,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let availableWidth: CGFloat = view.bounds.width
         let maxWidth = min(Constants.maxSheetWidth, availableWidth)
 
-        /// Width will the fill the screen if should always fill width
-        /// Otherwise we will try and set the size to the preferred width as long as its between the max and min width
-        /// If its not between those we will make the maximum width size
+        // Width will the fill the screen if should always fill width
+        // Otherwise we will try and set the size to the preferred width as long as its between the max and min width
+        // If its not between those we will make the maximum width size
         let sheetWidth: CGFloat = {
             let determinedWidth: CGFloat
             if shouldAlwaysFillWidth {
@@ -785,10 +785,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sheetHeight = expandedSheetHeight
         }
 
-        /// Calculates the location to put the left edge of the sheet relative to the view
-        /// For right aligned we get the width of the view offset by the sheets width and the padding
-        /// For left aligned we only need to add in the padding
-        /// For center aligned we need the position of the center offset by half the sheets width
+        // Calculates the location to put the left edge of the sheet relative to the view
+        // For right aligned we get the width of the view offset by the sheets width and the padding
+        // For left aligned we only need to add in the padding
+        // For center aligned we need the position of the center offset by half the sheets width
         let xPosition: CGFloat
         let isLeftToRight: Bool = UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight
         switch anchoredEdge {
@@ -1140,7 +1140,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         static let minimumTopExpandedPadding: CGFloat = 25.0
 
         // The padding allocated to the space between the sheet and the edge when attached to the leading or trailing edge
-        static let horizontalSheetPadding: CGFloat = 8
+        static let horizontalSheetPadding: CGFloat = GlobalTokens.spacing(.size80)
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
 
