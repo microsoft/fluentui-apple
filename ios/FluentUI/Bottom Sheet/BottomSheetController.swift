@@ -761,8 +761,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let availableWidth: CGFloat = view.bounds.width
         let maxWidth = min(Constants.maxSheetWidth, availableWidth)
 
-        /// Width will the full screen if should always fill width
-        /// Otherwise we will try and set the size to the preferred width if its between the max and min width
+        /// Width will the fill the screen if should always fill width
+        /// Otherwise we will try and set the size to the preferred width as long as its between the max and min width
         /// If its not between those we will make the maximum width size
         let sheetWidth: CGFloat = {
             let determinedWidth: CGFloat
@@ -785,20 +785,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sheetHeight = expandedSheetHeight
         }
 
-        let padding: CGFloat = 8
-
+        /// Calculates the location to put the left edge of the sheet relative to the view
+        /// For right aligned we get the width of the view offset by the sheets width and the padding
+        /// For left aligned we only need to add in the padding
+        /// For center aligned we need the position of the center offset by half the sheets width
         let xPosition: CGFloat
         if anchoredEdge == .trailing {
             if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
-                xPosition = view.bounds.width - sheetWidth - padding
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
             } else {
-                xPosition = padding
+                xPosition = Constants.horizontalSheetPadding
             }
         } else if anchoredEdge == .leading {
             if UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight {
-                xPosition = padding
+                xPosition = Constants.horizontalSheetPadding
             } else {
-                xPosition = view.bounds.width - sheetWidth - padding
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
             }
         } else {
             xPosition = (view.bounds.width - sheetWidth) / 2
@@ -1134,6 +1136,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         // Minimum padding from top when the sheet is fully expanded
         static let minimumTopExpandedPadding: CGFloat = 25.0
+
+        // The padding allocated to the space between the sheet and the edge when attached to the leading or trailing edge
+        static let horizontalSheetPadding: CGFloat = 8
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
 
