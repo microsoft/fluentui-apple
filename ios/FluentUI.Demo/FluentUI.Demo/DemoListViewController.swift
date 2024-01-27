@@ -113,6 +113,9 @@ class DemoListViewController: DemoTableViewController {
         }
         cell.titleNumberOfLinesForLargerDynamicType = 2
         cell.backgroundStyleType = .grouped
+#if os(visionOS)
+        cell.isEnabled = demo.supportsVisionOS
+#endif
 
         if indexPath.row == DemoControllerSection.allCases[indexPath.section].rows.count - 1 {
             cell.bottomSeparatorType = .none
@@ -176,24 +179,18 @@ class DemoListViewController: DemoTableViewController {
         }
 
         var rows: [DemoDescriptor] {
-            let demoRows = switch self {
+            switch self {
             case .fluent2Controls:
-                Demos.fluent2
+                return Demos.fluent2
             case .fluent2DesignTokens:
-                Demos.fluent2DesignTokens
+                return Demos.fluent2DesignTokens
             case .controls:
-                Demos.controls
+                return Demos.controls
 #if DEBUG
             case .debug:
-                Demos.debug
+                return Demos.debug
 #endif
             }
-
-#if os(visionOS)
-            return demoRows.filter { $0.supportsVisionOS }
-#else
-            return demoRows
-#endif
         }
     }
 }
