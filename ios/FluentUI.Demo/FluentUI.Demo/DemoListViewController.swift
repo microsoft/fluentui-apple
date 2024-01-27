@@ -176,18 +176,24 @@ class DemoListViewController: DemoTableViewController {
         }
 
         var rows: [DemoDescriptor] {
-            switch self {
+            let demoRows = switch self {
             case .fluent2Controls:
-                return Demos.fluent2
+                Demos.fluent2
             case .fluent2DesignTokens:
-                return Demos.fluent2DesignTokens
+                Demos.fluent2DesignTokens
             case .controls:
-                return Demos.controls
+                Demos.controls
 #if DEBUG
             case .debug:
-                return Demos.debug
+                Demos.debug
 #endif
             }
+
+#if os(visionOS)
+            return demoRows.filter { $0.supportsVisionOS }
+#else
+            return demoRows
+#endif
         }
     }
 }
