@@ -95,6 +95,7 @@
 		92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */; };
 		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
 		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
+		A1DE38D92B66250400CB8FA7 /* ButtonDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DE38D82B66250400CB8FA7 /* ButtonDemoController_SwiftUI.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
@@ -230,6 +231,7 @@
 		92E4784B2661AED800BAA058 /* PersonaButtonCarouselDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselDemoController.swift; sourceTree = "<group>"; };
 		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
 		92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
+		A1DE38D82B66250400CB8FA7 /* ButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* LabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDemoController.swift; sourceTree = "<group>"; };
 		A591A3F320F429EB001ED23B /* Demos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos.swift; sourceTree = "<group>"; };
 		A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuDemoController.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
 				80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
+				A1DE38D82B66250400CB8FA7 /* ButtonDemoController_SwiftUI.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
 				CCC18C2E2501C75F00BE830E /* CardViewDemoController.swift */,
 				9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */,
@@ -808,6 +811,7 @@
 				9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */,
 				D6296DB1295B8E5E002E8EB6 /* ObjectiveCDemoColorProviding.m in Sources */,
 				6F453CA528AC536300ED91A4 /* ShadowTokensDemoController.swift in Sources */,
+				A1DE38D92B66250400CB8FA7 /* ButtonDemoController_SwiftUI.swift in Sources */,
 				6FEED93B28A6E5520099D178 /* AliasColorTokensDemoController.swift in Sources */,
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				F30B74382A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift in Sources */,

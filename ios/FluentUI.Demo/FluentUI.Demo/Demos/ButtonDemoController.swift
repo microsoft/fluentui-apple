@@ -13,6 +13,8 @@ class ButtonDemoController: DemoController {
 
         container.alignment = .leading
 
+        addSwiftUIDemoButton()
+
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
                 if style.isFloating && size == .medium {
@@ -125,6 +127,23 @@ class ButtonDemoController: DemoController {
         let action = UIAlertAction(title: "OK", style: .default)
         alert.addAction(action)
         present(alert, animated: true)
+    }
+
+    private func addSwiftUIDemoButton() {
+        let swiftUIDemoButton = Button(style: .outlineAccent)
+        swiftUIDemoButton.sizeCategory = .large
+        swiftUIDemoButton.setTitle("Open SwiftUI Demo", for: .normal)
+        swiftUIDemoButton.addTarget(self, action: #selector(openSwiftUIDemo), for: .touchUpInside)
+        container.addArrangedSubview(swiftUIDemoButton)
+        let separator = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 2)))
+        container.addArrangedSubview(separator)
+        separator.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+        separator.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
+        separator.backgroundColor = .separator
+    }
+    
+    @objc private func openSwiftUIDemo() {
+        navigationController?.pushViewController(ButtonDemoControllerSwiftUI(), animated: true)
     }
 
     private var buttons: [Button] = []
