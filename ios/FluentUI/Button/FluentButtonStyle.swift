@@ -23,20 +23,37 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         let colors: Colors = colors(for: configuration)
         let cornerRadius: CGFloat = tokenSet[.cornerRadius].float
         let shadowInfo = tokenSet[configuration.isPressed ? .shadowPressed : .shadowRest].shadowInfo
+
+        @ViewBuilder var backgroundView: some View {
+            if style.isFloating {
+                colors.background.clipShape(Capsule())
+            } else {
+                colors.background.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            }
+        }
+
+        @ViewBuilder var overlayView: some View {
+            if colors.border != .clear {
+                if style.isFloating {
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
+                        .foregroundStyle(colors.border)
+                } else {
+                    Capsule()
+                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
+                        .foregroundStyle(colors.border)
+                }
+            }
+        }
+
         return configuration
             .label
             .font(tokenSet[.titleFont].font)
             .foregroundStyle(colors.foreground)
             .padding(EdgeInsets(directionalEdgeInsets))
             .frame(minHeight: minContainerHeight)
-            .background(colors.background.clipShape(RoundedRectangle(cornerRadius: cornerRadius)))
-            .overlay {
-                if colors.border != .clear {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
-                        .foregroundStyle(colors.border)
-                }
-            }
+            .background(backgroundView)
+            .overlay { overlayView }
             .applyShadow(shadowInfo: shadowInfo)
     }
 
