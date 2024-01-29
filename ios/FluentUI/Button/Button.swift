@@ -181,7 +181,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
     public func defaultEdgeInsets() -> NSDirectionalEdgeInsets {
         let leadingPadding = ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
-        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : ButtonTokenSet.horizontalPadding(style: style, size: sizeCategory)
+        let trailingPadding = style.isFloating && titleLabel?.text != nil && image != nil ? ButtonTokenSet.fabAlternativePadding(sizeCategory) : leadingPadding
         return NSDirectionalEdgeInsets(top: 0, leading: leadingPadding, bottom: 0, trailing: trailingPadding)
     }
 
