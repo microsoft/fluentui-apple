@@ -137,7 +137,7 @@ class ButtonDemoController: DemoController {
         container.addArrangedSubview(swiftUIDemoButton)
         let separator = Separator()
         container.addArrangedSubview(separator)
-        separator.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.9).isActive = true
+        separator.widthAnchor.constraint(equalTo: swiftUIDemoButton.widthAnchor).isActive = true
     }
 
     @objc private func openSwiftUIDemo() {

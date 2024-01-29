@@ -31,32 +31,39 @@ class ButtonDemoControllerSwiftUI: UIHostingController<ButtonDemoView> {
 }
 
 struct ButtonDemoView: View {
-    @State private var style: FluentUI.ButtonStyle = .accent
+    @State private var style: FluentUI.ButtonStyle = .floatingAccent
     @State private var state: ButtonState = .default
     @State private var size: ButtonSizeCategory = .medium
     @State private var buttonContent: ButtonContent = .both
 
     @State private var showAlert: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
+    @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
 
     var body: some View {
-      ScrollView {
-          VStack(spacing: 16) {
-              Divider()
-              button
-                  .frame(minHeight: 200)
-              Divider()
-              Text("Settings").font(.title2)
-              picker(selection: $style)
-                  .pickerStyle(.menu)
-              picker(selection: $state)
-              picker(selection: $size)
-              picker(selection: $buttonContent)
-          }
-          .padding()
-          .pickerStyle(.segmented)
-      }
-      .fluentTheme(fluentTheme)
+        dynamicView
+            .padding()
+            .fluentTheme(fluentTheme)
+    }
+
+    @ViewBuilder var dynamicView: some View {
+        if verticalSizeClass == .compact {
+            HStack {
+                button
+                    .frame(minWidth: 200)
+                Divider()
+                settingsStack
+            }
+        } else {
+            VStack(spacing: 24) {
+                Divider()
+                button
+                    .frame(minHeight: 200)
+                Divider()
+                settingsStack
+            }
+        }
     }
 
     var button: some View {
@@ -65,9 +72,21 @@ struct ButtonDemoView: View {
         }, label: {
             buttonContent.view
         })
-            .buttonStyle(FluentButtonStyle(style: style, size: size))
-            .environment(\.isEnabled, state != .disabled)
-            .alert("Button tapped", isPresented: $showAlert, actions: { EmptyView() })
+        .buttonStyle(FluentButtonStyle(style: style, size: size))
+        .environment(\.isEnabled, state != .disabled)
+        .alert("Button tapped", isPresented: $showAlert, actions: { EmptyView() })
+    }
+
+    var settingsStack: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Settings").font(.title2)
+            picker(selection: $style)
+                .pickerStyle(.menu)
+            picker(selection: $state)
+            picker(selection: $size)
+            picker(selection: $buttonContent)
+        }
+        .pickerStyle(.segmented)
     }
 
     @ViewBuilder private func picker<T: Describable & Hashable & CaseIterable>(selection: Binding<T>) -> some View {
