@@ -218,11 +218,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             guard shouldAlwaysFillWidth != oldValue && isViewLoaded else {
                 return
             }
-
-            if shouldAlwaysFillWidth {
-                preferredWidth = view.bounds.width
-            }
-
             view.setNeedsLayout()
 
 #if DEBUG
@@ -243,7 +238,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 return
             }
 
-            shouldAlwaysFillWidth = false
             view.setNeedsLayout()
         }
     }
@@ -255,7 +249,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             guard anchoredEdge != oldValue && isViewLoaded else {
                 return
             }
-            shouldAlwaysFillWidth = false
             view.setNeedsLayout()
         }
     }
