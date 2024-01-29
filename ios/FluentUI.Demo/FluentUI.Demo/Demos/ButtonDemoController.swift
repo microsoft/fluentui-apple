@@ -135,13 +135,11 @@ class ButtonDemoController: DemoController {
         swiftUIDemoButton.setTitle("Open SwiftUI Demo", for: .normal)
         swiftUIDemoButton.addTarget(self, action: #selector(openSwiftUIDemo), for: .touchUpInside)
         container.addArrangedSubview(swiftUIDemoButton)
-        let separator = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 100, height: 2)))
+        let separator = Separator()
         container.addArrangedSubview(separator)
-        separator.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
-        separator.widthAnchor.constraint(equalTo: container.widthAnchor).isActive = true
-        separator.backgroundColor = .separator
+        separator.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.9).isActive = true
     }
-    
+
     @objc private func openSwiftUIDemo() {
         navigationController?.pushViewController(ButtonDemoControllerSwiftUI(), animated: true)
     }
