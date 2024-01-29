@@ -6,7 +6,7 @@
 import SwiftUI
 
 public struct FluentButtonStyle: SwiftUI.ButtonStyle {
-    private let tokenSet: ButtonTokenSet
+    let tokenSet: ButtonTokenSet
     let style: ButtonStyle
     let size: ButtonSizeCategory
 
@@ -20,13 +20,15 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     }
 
     public func makeBody(configuration: Configuration) -> some View {
-        // TODO: Apply padding, font, shadow based on style
         let colors: Colors = colors(for: configuration)
         let cornerRadius: CGFloat = tokenSet[.cornerRadius].float
+        let shadowInfo = tokenSet[configuration.isPressed ? .shadowPressed : .shadowRest].shadowInfo
         return configuration
             .label
+            .font(tokenSet[.titleFont].font)
             .foregroundStyle(colors.foreground)
-            .padding()
+            .padding(EdgeInsets(directionalEdgeInsets))
+            .frame(minHeight: minContainerHeight)
             .background(colors.background.clipShape(RoundedRectangle(cornerRadius: cornerRadius)))
             .overlay {
                 if colors.border != .clear {
@@ -35,6 +37,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
                         .foregroundStyle(colors.border)
                 }
             }
+            .applyShadow(shadowInfo: shadowInfo)
     }
 
     private func colors(for config: Configuration) -> Colors {
@@ -72,8 +75,76 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     }
 }
 
+protocol CustomizableButton {
+    var tokenSet: ButtonTokenSet { get }
+    var style: ButtonStyle { get }
+    var size: ButtonSizeCategory { get }
+}
+
+extension FluentButtonStyle: CustomizableButton {}
+
+extension CustomizableButton {
+    var directionalEdgeInsets: NSDirectionalEdgeInsets {
+        NSDirectionalEdgeInsets(
+            top: .zero,
+            leading: horizontalPadding,
+            bottom: .zero,
+            trailing: style.isFloating ? fabAlternativePadding : horizontalPadding
+        )
+    }
+
+    var horizontalPadding: CGFloat {
+        if style.isFloating {
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size160)
+            case .medium, .small:
+                return GlobalTokens.spacing(.size120)
+            }
+        } else {
+            switch size {
+            case .large:
+                return GlobalTokens.spacing(.size200)
+            case .medium:
+                return GlobalTokens.spacing(.size120)
+            case .small:
+                return GlobalTokens.spacing(.size80)
+            }
+        }
+    }
+
+    var fabAlternativePadding: CGFloat {
+        switch size {
+        case .large:
+            return GlobalTokens.spacing(.size200)
+        case .medium, .small:
+            return GlobalTokens.spacing(.size160)
+        }
+    }
+
+    var minContainerHeight: CGFloat {
+        if style.isFloating {
+            switch size {
+            case .large:
+                return 56
+            case .medium, .small:
+                return 48
+            }
+        } else {
+            switch size {
+            case .large:
+                return 52
+            case .medium:
+                return 40
+            case .small:
+                return 28
+            }
+        }
+    }
+}
+
 extension ControlTokenValue {
-  var color: Color {
-    Color(uiColor: uiColor)
-  }
+    var color: Color { Color(uiColor: uiColor) }
+
+    var font: Font { Font(uiFont) }
 }
