@@ -22,7 +22,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         let colors: Colors = colors(for: configuration)
         let cornerRadius: CGFloat = tokenSet[.cornerRadius].float
-        let shadowInfo = tokenSet[configuration.isPressed ? .shadowPressed : .shadowRest].shadowInfo
+        let shadowInfo = tokenSet[!isEnabled || isFocused || configuration.isPressed ? .shadowPressed : .shadowRest].shadowInfo
 
         @ViewBuilder var backgroundView: some View {
             if style.isFloating {
