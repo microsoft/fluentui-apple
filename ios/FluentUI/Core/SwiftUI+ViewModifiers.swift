@@ -24,12 +24,14 @@ extension View {
     /// Enables iPad Pointer interaction for the view if available.
     /// - Parameter isEnabled: Whether the pointer interaction should be enabled.
     /// - Returns: The modified view.
-    func pointerInteraction(_ isEnabled: Bool) -> AnyView {
-        if isEnabled {
-            return AnyView(self.hoverEffect())
+    @ViewBuilder func pointerInteraction(_ isEnabled: Bool) -> some View {
+        if #available(iOS 17.0, *) {
+            hoverEffect(isEnabled: isEnabled)
+        } else if isEnabled {
+            hoverEffect()
+        } else {
+            self
         }
-
-        return AnyView(self)
     }
 
     /// Measures the size of a view, monitors when its size is updated, and takes a closure to be called when it does
