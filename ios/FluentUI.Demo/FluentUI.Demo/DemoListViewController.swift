@@ -30,7 +30,7 @@ class DemoListViewController: DemoTableViewController {
     func updateColorProviderFor(window: UIWindow, theme: DemoColorTheme) {
         self.theme = theme
         if let provider = self.provider {
-            window.setColorProvider(provider)
+            FluentTheme.setSharedThemeColorProvider(provider)
             let fluentTheme = self.view.fluentTheme
             let primaryColor = fluentTheme.color(.brandBackground1)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
@@ -113,6 +113,9 @@ class DemoListViewController: DemoTableViewController {
         }
         cell.titleNumberOfLinesForLargerDynamicType = 2
         cell.backgroundStyleType = .grouped
+#if os(visionOS)
+        cell.isEnabled = demo.supportsVisionOS
+#endif
 
         if indexPath.row == DemoControllerSection.allCases[indexPath.section].rows.count - 1 {
             cell.bottomSeparatorType = .none

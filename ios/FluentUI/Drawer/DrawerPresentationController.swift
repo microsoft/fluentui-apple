@@ -193,7 +193,7 @@ class DrawerPresentationController: UIPresentationController {
             return presentationOrigin
         }
 
-        let containerBounds = containerView?.bounds ?? (sourceViewController.view.window?.screen.bounds ?? .zero)
+        let containerBounds = containerView?.bounds ?? (sourceViewController.view.window?.bounds ?? .zero)
         switch presentationDirection {
         case .down:
             var controller = sourceViewController

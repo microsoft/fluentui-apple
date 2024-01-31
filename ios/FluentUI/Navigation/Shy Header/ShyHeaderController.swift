@@ -24,7 +24,7 @@ class ShyHeaderController: UIViewController {
 
     private let contentContainerView: UIView = { // within the gesture-based configuration, houses the contentViewController.view
         let contentContainerView = UIView()
-        contentContainerView.backgroundColor = UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
+        contentContainerView.backgroundColor = Compatibility.isDeviceIdiomVision() ? .clear : UIColor(red: 0.20, green: 0.20, blue: 0.20, alpha: 1.00)
         return contentContainerView
     }()
 

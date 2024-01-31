@@ -297,7 +297,9 @@ class CommandBarDemoController: DemoController {
 
         let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
         accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
+#if os(iOS)
         textField.inputAccessoryView = accessoryCommandBar
+#endif
     }
 
     func createItemGroups() -> [CommandBarItemGroup] {

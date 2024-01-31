@@ -633,7 +633,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
                 return
             }
 
-            let screenHeight: CGFloat = window.screen.bounds.height
+            let screenHeight: CGFloat = window.bounds.height
             if preferredMaximumExpansionHeight != -1 &&
                 preferredMaximumExpansionHeight < screenHeight &&
                 preferredMaximumExpansionHeight >= originalDrawerHeight {
@@ -1005,7 +1005,9 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
             return drawerPresentationController
         case .popover:
             let presentationController = UIPopoverPresentationController(presentedViewController: presented, presenting: presenting)
+#if os(iOS)
             presentationController.backgroundColor = backgroundColor
+#endif // os(iOS)
             presentationController.permittedArrowDirections = permittedArrowDirections
             presentationController.delegate = self
 

@@ -70,12 +70,14 @@ open class NavigationController: UINavigationController {
     open override func viewDidLoad() {
         super.viewDidLoad()
 
+#if os(iOS)
         // We tap into the NavController's pop gesture to coordinate our own NavBar's content alongside the native transition
         if let popGesture = interactivePopGestureRecognizer {
             popGesture.delegate = nil
             popGesture.removeTarget(nil, action: nil)
             popGesture.addTarget(self, action: #selector(navigationPopScreenPanGestureRecognizerRecognized))
         }
+#endif // os(iOS)
 
         super.delegate = self
 
@@ -140,7 +142,9 @@ open class NavigationController: UINavigationController {
     func updateNavigationBar(for viewController: UIViewController) {
         msfNavigationBar.update(with: viewController.navigationItem)
         viewController.navigationItem.accessorySearchBar?.navigationController = self
+#if os(iOS)
         setNeedsStatusBarAppearanceUpdate()
+#endif // os(iOS)
         if let backgroundColor = msfNavigationBar.backgroundView.backgroundColor {
             transitionAnimator.tintColor = backgroundColor
         }
@@ -175,6 +179,7 @@ open class NavigationController: UINavigationController {
         return viewController?.navigationItem.accessorySearchBar?.isActive == true
     }
 
+#if os(iOS)
     /// Secondary target for the default InteractivePopGestureRecognizer
     /// Used to handle the case of a cancelled pop gesture
     ///
@@ -207,6 +212,7 @@ open class NavigationController: UINavigationController {
             return
         }
     }
+#endif // os(iOS)
 }
 
 // MARK: - NavigationController: UINavigationControllerDelegate
