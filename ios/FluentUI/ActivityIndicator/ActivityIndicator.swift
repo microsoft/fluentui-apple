@@ -77,22 +77,16 @@ public struct ActivityIndicator: View, TokenizedControlView {
 #endif
 
         return semiRing
-            .modifyIf(state.isAnimating, { animatedView in
-                animatedView
-                    .rotationEffect(.degrees(rotationAngle), anchor: .center)
-                    .onAppear {
-                        startAnimation()
-                    }
-            })
-            .modifyIf(!state.isAnimating) { staticView in
-                staticView
-                    .onAppear {
-                        stopAnimation()
-                    }
+            .onAppear {
+                if state.isAnimating {
+                    startAnimation()
+                }
             }
-            .modifyIf(!state.isAnimating && state.hidesWhenStopped, { view in
-                view.hidden()
-            })
+            .opacity(!state.isAnimating && state.hidesWhenStopped ? 0 : 1)
+            .rotationEffect(.degrees(rotationAngle), anchor: .center)
+            .onChange(of: state.isAnimating) { newValue in
+                newValue ? startAnimation() : stopAnimation()
+            }
             .frame(width: side,
                    height: side,
                    alignment: .center)
