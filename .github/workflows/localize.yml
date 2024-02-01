@@ -16,6 +16,12 @@ jobs:
   Localize:
     runs-on: ubuntu-latest
     environment: localization
+    permissions:
+      actions: read
+      contents: read
+      deployments: read
+      packages: read
+      pull-requests: write
 
     steps:
     - uses: actions/checkout@v3
