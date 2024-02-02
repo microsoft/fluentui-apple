@@ -47,6 +47,13 @@ let package = Package(
                 "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
             ]
         ),
+        .testTarget(
+            name: "FluentUITests-iOS",
+            dependencies: [
+                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS, .visionOS])),
+            ],
+            path: "ios/FluentUI.Tests"
+        ),
         .target(
             name: "FluentUI_macos",
             path: "macos/FluentUI",

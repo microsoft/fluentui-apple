@@ -4,7 +4,11 @@
 //
 
 import XCTest
+#if SWIFT_PACKAGE
+@testable import FluentUI_ios
+#else
 @testable import FluentUI
+#endif
 
 class DatePickerControllerTests: XCTestCase {
     let startDate: Date = NSDate.now

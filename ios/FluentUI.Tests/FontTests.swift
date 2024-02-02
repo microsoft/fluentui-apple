@@ -5,7 +5,11 @@
 
 import XCTest
 import SwiftUI
+#if SWIFT_PACKAGE
+@testable import FluentUI_ios
+#else
 @testable import FluentUI
+#endif
 
 class FontTests: XCTestCase {
 
