@@ -4,10 +4,9 @@
 //
 
 import XCTest
+@testable import FluentUI
 #if SWIFT_PACKAGE
 @testable import FluentUI_ios
-#else
-@testable import FluentUI
 #endif
 
 class FluentUITests: XCTestCase {

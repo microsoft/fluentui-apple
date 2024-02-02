@@ -50,7 +50,7 @@ let package = Package(
         .testTarget(
             name: "FluentUITests-iOS",
             dependencies: [
-                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS, .visionOS])),
+                .target(name: "FluentUI", condition: .when(platforms: [.iOS, .visionOS])),
             ],
             path: "ios/FluentUI.Tests"
         ),
