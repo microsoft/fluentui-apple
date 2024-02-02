@@ -40,8 +40,8 @@ class SegmentPillButton: UIButton {
                                                               bottom: verticalInset,
                                                               trailing: horizontalInset)
         configuration.background.backgroundColor = .clear
+        configuration.background.cornerRadius = SegmentedControlTokenSet.pillButtonCornerRadius
         configuration.baseForegroundColor = tokenSet[.restLabelColor].uiColor
-        configuration.background.cornerRadius = 16
         let titleTransformer = UIConfigurationTextAttributesTransformer { [weak self] incoming in
             var outgoing = incoming
             outgoing.font = self?.tokenSet[.font].uiFont
