@@ -212,6 +212,12 @@ public class SegmentedControlTokenSet: ControlTokenSet<SegmentedControlToken> {
     var style: () -> SegmentedControlStyle
 }
 
+// MARK: Constants
+extension SegmentedControlTokenSet {
+    static let pillButtonCornerRadius: CGFloat = 16
+    static let pillContainerHorizontalInset: CGFloat = 16
+}
+
 @objc(MSFSegmentedControlStyle)
 public enum SegmentedControlStyle: Int {
     /// Segments are shown as labels inside a pill for use with a neutral or white background. Selection is indicated by a thumb under the selected label.
