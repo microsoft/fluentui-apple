@@ -5,9 +5,6 @@
 
 import XCTest
 @testable import FluentUI
-#if SWIFT_PACKAGE
-@testable import FluentUI_ios
-#endif
 
 class AvatarTests: XCTestCase {
 
