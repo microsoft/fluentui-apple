@@ -751,23 +751,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Source of truth for the sheet frame at a given offset from the top of the root view bounds.
     // The output is only meaningful once view.bounds is non-zero i.e. a layout pass has occured.
     private func sheetFrame(offset: CGFloat) -> CGRect {
-        let availableWidth: CGFloat = view.bounds.width
-        let maxWidth = min(Constants.maxSheetWidth, availableWidth)
-
-        // Width will the fill the screen if should always fill width
-        // Otherwise we will try and set the size to the preferred width as long as its between the max and min width
-        // If its not between those we will make the maximum width size
-        let sheetWidth: CGFloat = {
-            let determinedWidth: CGFloat
-            if shouldAlwaysFillWidth {
-                determinedWidth = availableWidth
-            } else if Constants.minSheetWidth...maxWidth ~= preferredWidth {
-                determinedWidth = preferredWidth
-            } else {
-                determinedWidth = maxWidth
-            }
-            return determinedWidth
-        }()
+        let sheetWidth: CGFloat = determineSheetWidth()
 
         let sheetHeight: CGFloat
 
@@ -804,6 +788,24 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let frame = CGRect(origin: CGPoint(x: xPosition, y: offset),
                              size: CGSize(width: sheetWidth, height: sheetHeight))
         return frame
+    }
+
+    // Helper function to determine how wide the sheet should be
+    private func determineSheetWidth() -> CGFloat {
+        // Width will the fill the screen if should always fill width
+        // Otherwise we will try and set the size to the preferred width as long as its between the max and min width
+        // If its not between those we will make the maximum width size
+        let availableWidth: CGFloat = view.bounds.width
+        let maxWidth = min(Constants.maxSheetWidth, availableWidth)
+        let determinedWidth: CGFloat
+        if shouldAlwaysFillWidth {
+            determinedWidth = availableWidth
+        } else if Constants.minSheetWidth...maxWidth ~= preferredWidth {
+            determinedWidth = preferredWidth
+        } else {
+            determinedWidth = maxWidth
+        }
+        return determinedWidth
     }
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
