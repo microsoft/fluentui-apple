@@ -84,7 +84,7 @@ public struct ActivityIndicator: View, TokenizedControlView {
             }
             .opacity(!state.isAnimating && state.hidesWhenStopped ? 0 : 1)
             .rotationEffect(.degrees(rotationAngle), anchor: .center)
-            .onChange(of: state.isAnimating) { newValue in
+            .onChange_iOS17(of: state.isAnimating) { newValue in
                 newValue ? startAnimation() : stopAnimation()
             }
             .frame(width: side,
