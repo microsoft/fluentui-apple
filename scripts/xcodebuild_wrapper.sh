@@ -56,6 +56,17 @@ function macos_build()
     return $?
 }
 
+# Run a visionOS simulator xcodebuild invocation with the specified scheme, configuration, and build commands
+#
+# \param $1 scheme
+# \param $2 configuration
+# \param $3+ build commands
+function visionos_simulator_build()
+{
+    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" xrsimulator "${@:3}"
+    return $?
+}
+
 # Execute commands passed in to this script and forward on the exit code.
 "$@"
 exit $?
