@@ -69,7 +69,7 @@ extension SideTabBarTokenSet {
     static let avatarViewSafeTopSpacing: CGFloat = 18.0
 
     /// The minimum spacing for the avatar.
-    static let avatarViewMinTopSpacing: CGFloat = GlobalTokens.spacing(.size360)
+    static let avatarViewMinTopSpacing: CGFloat = Compatibility.isDeviceIdiomVision() ? 34 : GlobalTokens.spacing(.size360)
 
     /// The spacing for the avatar StackView.
     static let avatarViewTopStackViewSpacing: CGFloat = GlobalTokens.spacing(.size360)
@@ -78,7 +78,7 @@ extension SideTabBarTokenSet {
     static let bottomStackViewSafeSpacing: CGFloat = 14.0
 
     /// The min spacing for the bottom StackView.
-    static let bottomStackViewMinSpacing: CGFloat = GlobalTokens.spacing(.size240)
+    static let bottomStackViewMinSpacing: CGFloat = Compatibility.isDeviceIdiomVision() ? GlobalTokens.spacing(.size360) : GlobalTokens.spacing(.size240)
 
     /// The padding for the badges on the top set of TabBarItems.
     static let badgeTopSectionPadding: CGFloat = GlobalTokens.spacing(.size20)

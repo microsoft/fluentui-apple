@@ -4,16 +4,9 @@
 //
 
 import XCTest
-import FluentUI
+@testable import FluentUI
 
 class AvatarTests: XCTestCase {
-
-    /// Validates that the number of colors defined for tokens textCalculatedBackgroundColors and textCalculatedForegroundColors are the same.
-    func testTextCalculatedBackgroundForegroundColorsCount() {
-        XCTAssertEqual(FluentUIThemeManager.S.MSFAvatarTokens.textCalculatedBackgroundColors.count,
-                       FluentUIThemeManager.S.MSFAvatarTokens.textCalculatedForegroundColors.count,
-                       "Text calculated background and foreground colors should provide the same number of options.")
-    }
 
     /// Validates that the background and foreground colors for a given index in both arrays (textCalculatedBackgroundColors and textCalculatedForegroundColors tokens) match comparing:
     ///  1. A color light mode background color with its counterpart dark mode foreground color. The color should be the same (tint40)
@@ -27,8 +20,9 @@ class AvatarTests: XCTestCase {
     ///    - Background: shade30
     ///    - Foreground: tint40
     func testTextCalculatedBackgroundForegroundColorsMatch() {
-        let bgColors = FluentUIThemeManager.S.MSFAvatarTokens.textCalculatedBackgroundColors
-        let fgColors = FluentUIThemeManager.S.MSFAvatarTokens.textCalculatedForegroundColors
+        let colors = Avatar.CalculatedColors.colors
+        let bgColors = (0..<colors.count).map { Avatar.CalculatedColors.backgroundColor(hashCode: $0) }
+        let fgColors = (0..<colors.count).map { Avatar.CalculatedColors.foregroundColor(hashCode: $0) }
         let lightModeTraitCollection = UITraitCollection(userInterfaceStyle: .light)
         let darkModeTraitCollection = UITraitCollection(userInterfaceStyle: .dark)
 

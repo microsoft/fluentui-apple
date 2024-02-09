@@ -997,7 +997,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
     /// Style describing whether or not the cell's bottom separator should be visible and how wide it should extend
-    @objc open var bottomSeparatorType: SeparatorType = .inset {
+    @objc open var bottomSeparatorType: SeparatorType = Compatibility.isDeviceIdiomVision() ? .full : .inset {
         didSet {
             if bottomSeparatorType != oldValue {
                 updateSeparator(bottomSeparator, with: bottomSeparatorType)
@@ -1764,7 +1764,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         customAccessoryViewExtendsToEdge = false
 
         topSeparatorType = .none
-        bottomSeparatorType = .inset
+        bottomSeparatorType = Compatibility.isDeviceIdiomVision() ? .full : .inset
 
         isEnabled = true
         isInSelectionMode = false

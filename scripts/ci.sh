@@ -49,6 +49,10 @@ echo "Building iOS Release Static Lib Device"
 $XCODEBUILD_WRAPPER_LOCATION ios_device_build FluentUI-iOS Release build
 handle_exit_code
 
+echo "Building visionOS Static Lib Debug Simulator"
+$XCODEBUILD_WRAPPER_LOCATION visionos_simulator_build FluentUI-iOS Debug build
+handle_exit_code
+
 echo "Building iOS Testapp Debug Simulator"
 $XCODEBUILD_WRAPPER_LOCATION ios_simulator_build Demo.Development Debug build
 handle_exit_code
@@ -67,6 +71,10 @@ handle_exit_code
 
 echo "Building iOS Testapp Release Device"
 $XCODEBUILD_WRAPPER_LOCATION ios_device_build Demo.Development Release build
+handle_exit_code
+
+echo "Building visionOS Testapp Debug Simulator"
+$XCODEBUILD_WRAPPER_LOCATION visionos_simulator_build Demo.Development Debug build
 handle_exit_code
 
 # Check if any of our individual build steps failed

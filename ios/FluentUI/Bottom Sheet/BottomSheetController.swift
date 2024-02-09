@@ -1075,7 +1075,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let oldContext = lastCollapsedSheetHeightResolutionContext
         let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
 
-        if oldContext?.maximumHeight != newContext.maximumHeight || !(oldContext?.containerTraitCollection.containsTraits(in: newContext.containerTraitCollection) ?? false) {
+        if oldContext?.maximumHeight != newContext.maximumHeight
+            || oldContext?.containerTraitCollection.horizontalSizeClass != newContext.containerTraitCollection.horizontalSizeClass
+            || oldContext?.containerTraitCollection.verticalSizeClass != newContext.containerTraitCollection.verticalSizeClass {
             lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
             lastCollapsedSheetHeightResolutionContext = newContext
         }

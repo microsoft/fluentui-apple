@@ -246,6 +246,9 @@ public struct FluentNotification: View, TokenizedControlView {
                             .hoverEffect()
                     })
                     button
+#if os(visionOS)
+                        .buttonStyle(.borderless)
+#endif // os(visionOS)
                         .layoutPriority(1)
                 }
                 .onSizeChange { newSize in
