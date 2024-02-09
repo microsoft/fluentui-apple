@@ -464,7 +464,7 @@ public struct Avatar: View, TokenizedControlView {
     }
 
     /// Handles calculating colors for Avatar foreground and background.
-    private struct CalculatedColors {
+    struct CalculatedColors {
         static func backgroundColor(hashCode: Int) -> UIColor {
             let colorSet = colors[hashCode % colors.count]
             return UIColor(light: GlobalTokens.sharedColor(colorSet, .tint40),
@@ -492,7 +492,7 @@ public struct Avatar: View, TokenizedControlView {
         /// Hash algorithm to determine Avatar color.
         /// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
         /// - Returns: Hash code
-        private static func hashCode(_ text: NSString) -> Int32 {
+        static func hashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
             for len in (0..<text.length).reversed() {
                 // Convert from `unichar` to `Int32` to avoid potential arithmetic overflow in the next few lines.
@@ -505,7 +505,7 @@ public struct Avatar: View, TokenizedControlView {
             return hash
         }
 
-        private static var colors: [GlobalTokens.SharedColorSet] = [
+        static var colors: [GlobalTokens.SharedColorSet] = [
             .darkRed,
             .cranberry,
             .red,

@@ -194,6 +194,7 @@
 		926FEEAA2B45A8B4002C61D0 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926FEEA92B45A8B4002C61D0 /* Compatibility.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
 		927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EB2BC278627440069753D /* PersonaButtonModifiers.swift */; };
+		929215B92B6C75E500D4EA9F /* AvatarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929215B82B6C75E500D4EA9F /* AvatarTests.swift */; };
 		9298798B2669A875002B1EB4 /* PersonaButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E34C62668350800998031 /* PersonaButtonTokenSet.swift */; };
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
@@ -359,6 +360,7 @@
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		927E34C62668350800998031 /* PersonaButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonTokenSet.swift; sourceTree = "<group>"; };
 		927EB2BC278627440069753D /* PersonaButtonModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonModifiers.swift; sourceTree = "<group>"; };
+		929215B82B6C75E500D4EA9F /* AvatarTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTests.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokenSet.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
@@ -983,6 +985,7 @@
 		A5CEC15E20D980B30016922A /* FluentUI.Tests */ = {
 			isa = PBXGroup;
 			children = (
+				929215B82B6C75E500D4EA9F /* AvatarTests.swift */,
 				8FA3CB5A246B19EA0049E431 /* ColorTests.swift */,
 				FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */,
 				A5CEC15F20D980B30016922A /* FluentUITests.swift */,
@@ -1751,6 +1754,7 @@
 			files = (
 				924268A2277AD9F700C5A452 /* FontTests.swift in Sources */,
 				A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */,
+				929215B92B6C75E500D4EA9F /* AvatarTests.swift in Sources */,
 				8FA3CB5B246B19EA0049E431 /* ColorTests.swift in Sources */,
 				FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */,
 			);
