@@ -363,33 +363,30 @@ public struct Avatar: View, TokenizedControlView, Equatable {
             }
         }
 
-        let standardAnimation = Animation.linear(duration: Self.animationDuration)
+        let standardAnimation = state.isAnimated ? Animation.linear(duration: Self.animationDuration) : nil
 
         return avatar
             .pointerInteraction(state.hasPointerInteraction)
-            .modifyIf(state.isAnimated, { thisView in
-                thisView
-                    .animation(standardAnimation,
-                               value: [state.hasRingInnerGap,
-                                       state.isRingVisible,
-                                       state.isTransparent,
-                                       state.isOutOfOffice])
-                    .animation(standardAnimation,
-                               value: [state.backgroundColor,
-                                       state.foregroundColor,
-                                       state.ringColor])
-                    .animation(standardAnimation,
-                               value: size)
-                    .animation(standardAnimation,
-                               value: [state.primaryText, state.secondaryText])
-                    .animation(standardAnimation,
-                               value: [state.image, state.imageBasedRingColor])
-                    .animation(standardAnimation,
-                               value: state.presence)
-                    .animation(standardAnimation,
-                               value: state.activityStyle)
-            })
             .showsLargeContentViewer(text: accessibilityLabel, image: shouldUseDefaultImage ? avatarImageInfo.image : nil)
+            .animation(standardAnimation,
+                       value: [state.hasRingInnerGap,
+                               state.isRingVisible,
+                               state.isTransparent,
+                               state.isOutOfOffice])
+            .animation(standardAnimation,
+                       value: [state.backgroundColor,
+                               state.foregroundColor,
+                               state.ringColor])
+            .animation(standardAnimation,
+                       value: size)
+            .animation(standardAnimation,
+                       value: [state.primaryText, state.secondaryText])
+            .animation(standardAnimation,
+                       value: [state.image, state.imageBasedRingColor])
+            .animation(standardAnimation,
+                       value: state.presence)
+            .animation(standardAnimation,
+                       value: state.activityStyle)
             .accessibilityElement(children: .ignore)
             .accessibility(addTraits: state.hasButtonAccessibilityTrait ? .isButton : .isImage)
             .accessibility(label: Text(accessibilityLabel))
