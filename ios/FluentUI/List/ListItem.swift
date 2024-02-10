@@ -165,10 +165,7 @@ public struct ListItem<LeadingContent: View,
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
                     trailingContentView
-                        .modifyIf(accessoryType == .none, { content in
-                            content
-                                .padding(.trailing, ListItemTokenSet.paddingTrailing)
-                        })
+                        .padding(.trailing, accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0)
                         .accessibilitySortPriority(1)
                 }
                 accessoryView
