@@ -1,5 +1,6 @@
 ### Platforms Impacted
 - [ ] iOS
+- [ ] visionOS
 - [ ] macOS
 
 ### Description of changes
