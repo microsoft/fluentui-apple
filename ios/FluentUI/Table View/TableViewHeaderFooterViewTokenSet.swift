@@ -58,7 +58,9 @@ public class TableViewHeaderFooterViewTokenSet: ControlTokenSet<TableViewHeaderF
                     switch style() {
                     case .headerPrimary:
                         return theme.typography(.body1Strong)
-                    case .header, .footer:
+                    case .header:
+                        return theme.typography(Compatibility.isDeviceIdiomVision() ? .body1Strong : .caption1)
+                    case .footer:
                         return theme.typography(.caption1)
                     }
                 }
