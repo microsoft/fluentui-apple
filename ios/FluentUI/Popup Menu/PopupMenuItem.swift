@@ -56,11 +56,11 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
             tokenSet[.imageColor] = .uiColor { newValue }
         }
     }
-    /// `title` color when`isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
+    /// `title` color when `isSelected` is true. If unset, brand color on iOS/white on visionOS will be used
     @objc public var titleSelectedColor: UIColor?
-    /// `subtitle` color when`isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
+    /// `subtitle` color when `isSelected` is true. If unset, brand color on iOS/white on visionOS will be used
     @objc public var subtitleSelectedColor: UIColor?
-    /// tint color if `selectedImage` is rendered as template and `isSelected` is true.  If unset, PopupMenuItemTokenSet.mainBrandColor will be used
+    /// tint color if `selectedImage` is rendered as template and `isSelected` is true. If unset, brand color on iOS/white on visionOS will be used
     @objc public var imageSelectedColor: UIColor?
     /// background color of PopupMenuItem corresponding cell
     @objc public var backgroundColor: UIColor {
@@ -71,7 +71,7 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
             tokenSet[.cellBackgroundColor] = .uiColor { newValue }
         }
     }
-    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, PopupMenuItemTokenSet.mainBrandColor will be used
+    /// checkmark color `isAccessoryCheckmarkVisible` and `isSelected` is true. If unset, brand color on iOS/white on visionOS will be used
     @objc public var accessoryCheckmarkColor: UIColor?
 
     @objc public let onSelected: (() -> Void)?
