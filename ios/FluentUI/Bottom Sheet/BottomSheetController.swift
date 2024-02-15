@@ -40,7 +40,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 /// Defines where the sheet should be postionioned relative to the screen space
-@objc public enum BottomSheetAnchorEdge: Int {
+@objc(MSFBottomSheetAnchorEdge) public enum BottomSheetAnchorEdge: Int {
     case center // Sheet is centered on the screen
     case leading // Sheet is constrained to the leading edge
     case trailing // Sheet is constrained to the trailing edge
@@ -234,11 +234,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// If the declared width is too large it will roll back to the maximum width
     @objc open var preferredWidth: CGFloat = 0 {
         didSet {
-            guard preferredWidth != oldValue && isViewLoaded else {
-                return
+            let shouldInvalidateLayout = (preferredWidth != oldValue) && isViewLoaded
+            if shouldInvalidateLayout {
+                view.setNeedsLayout()
             }
-
-            view.setNeedsLayout()
         }
     }
 
