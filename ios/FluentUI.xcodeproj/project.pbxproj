@@ -212,6 +212,7 @@
 		A542A9D7226FC01100204A52 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A559BB81212B6FA40055E107 /* Localizable.strings */; };
 		A542A9D8226FC01700204A52 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */; };
 		A5CEC16020D980B30016922A /* FluentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC15F20D980B30016922A /* FluentUITests.swift */; };
+		B70204342B7DD41200E5B549 /* UIBarButtonItem+RedDot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70204332B7DD41200E5B549 /* UIBarButtonItem+RedDot.swift */; };
 		C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B055260A86FA007190FA /* SegmentPillButton.swift */; };
 		C708B064260A87F7007190FA /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C708B04B260A8696007190FA /* SegmentItem.swift */; };
 		C77A04B825F03DD1001B3EB6 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A04B625F03DD1001B3EB6 /* String+Date.swift */; };
@@ -417,6 +418,7 @@
 		B4E782C62179509A00A7DFCE /* CenteredLabelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredLabelCell.swift; sourceTree = "<group>"; };
 		B4EF53C2215AF1AB00573E8F /* Persona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persona.swift; sourceTree = "<group>"; };
 		B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		B70204332B7DD41200E5B549 /* UIBarButtonItem+RedDot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+RedDot.swift"; sourceTree = "<group>"; };
 		C0938E43235E8ED500256251 /* AnimationSynchronizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationSynchronizer.swift; sourceTree = "<group>"; };
 		C0A0D76B233AEF6C00F432FD /* ShimmerLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShimmerLinesView.swift; sourceTree = "<group>"; };
 		C0EAAEAC2347E1DF00C7244E /* ShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerView.swift; sourceTree = "<group>"; };
@@ -1215,6 +1217,7 @@
 				667E54012A12B6F800728F93 /* TwoLineTitleView+Navigation.swift */,
 				FD41C8BD22DD47120086F899 /* UINavigationItem+Navigation.swift */,
 				FD9DA7B4232C33A80013E41B /* UIViewController+Navigation.swift */,
+				B70204332B7DD41200E5B549 /* UIBarButtonItem+RedDot.swift */,
 				6ED4C11A2695A6E800C30BD6 /* UIBarButtonItem+BadgeValue.swift */,
 				6FBFD62429CBB5B9002F3C81 /* SearchBar */,
 				FD41C87222DD13230086F899 /* Helpers */,
@@ -1684,6 +1687,7 @@
 				ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */,
 				5314E0EC25F012C40099271A /* NavigationAnimator.swift in Sources */,
 				5314E17225F0191C0099271A /* Separator.swift in Sources */,
+				B70204342B7DD41200E5B549 /* UIBarButtonItem+RedDot.swift in Sources */,
 				5314E14225F016860099271A /* CardPresenterNavigationController.swift in Sources */,
 				5314E11725F015EA0099271A /* PersonaCell.swift in Sources */,
 				5314E23025F022C80099271A /* UIScrollView+Extensions.swift in Sources */,
