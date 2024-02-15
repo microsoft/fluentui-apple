@@ -415,7 +415,7 @@ extension FluentTheme {
                            dark: GlobalTokens.sharedColor(.red, .tint30))
         case .dangerForeground2:
             return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: GlobalTokens.sharedColor(.red, .tint30))
+                           dark: Compatibility.isDeviceIdiomVision() ? GlobalTokens.sharedColor(.red, .primary) : GlobalTokens.sharedColor(.red, .tint30))
         case .dangerStroke1:
             return UIColor(light: GlobalTokens.sharedColor(.red, .tint20),
                            dark: GlobalTokens.sharedColor(.red, .tint20))
