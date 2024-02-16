@@ -162,13 +162,12 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                                                                       object: nil,
                                                                       queue: nil) { [weak self, weak control] notification in
             guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
                   let control,
-                  control.isDescendant(of: themeView)
+                  FluentTheme.isApplicableThemeChange(notification, for: control)
             else {
                 return
             }
-            strongSelf.update(themeView.fluentTheme)
+            strongSelf.update(control.fluentTheme)
         }
     }
 
