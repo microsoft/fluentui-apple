@@ -473,7 +473,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showSearchProgressSpinner: Bool = true
     var showRainbowRingForAvatar: Bool = false
     var showBadgeOnBarButtonItem: Bool = false
-	var showRedDotOnBarButtonItem: Bool = false
+    var showRedDotOnBarButtonItem: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -624,19 +624,19 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return cell
         }
 
-		if indexPath.row == 3 {
-			guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
-				return UITableViewCell()
-			}
-			cell.setup(title: "Show Red Dot on right bar button items",
-					   isOn: showRedDotOnBarButtonItem,
-					   isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
-			cell.titleNumberOfLines = 0
-			cell.onValueChanged = { [weak self, weak cell] in
-				self?.shouldShowRedDot(isOn: cell?.isOn ?? false)
-			}
-			return cell
-		}
+        if indexPath.row == 3 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Show Red Dot on right bar button items",
+                       isOn: showRedDotOnBarButtonItem,
+                       isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.shouldShowRedDot(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
 
         if indexPath.row == 4 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
@@ -763,15 +763,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         showBadgeOnBarButtonItem = isOn
     }
 
-	@objc private func shouldShowRedDot(isOn: Bool) {
-		guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else {
-			return
-		}
-		for item in items {
-			item.showRedDot(isOn)
-		}
-		showRedDotOnBarButtonItem = isOn
-	}
+    @objc private func shouldShowRedDot(isOn: Bool) {
+        guard let items = navigationItem.rightBarButtonItems, !items.isEmpty else {
+            return
+        }
+        for item in items {
+            item.showRedDot(isOn)
+        }
+        showRedDotOnBarButtonItem = isOn
+    }
 
     @objc private func showTooltipButtonPressed() {
         let navigationBar = msfNavigationController?.msfNavigationBar
