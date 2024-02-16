@@ -234,13 +234,13 @@ public struct ListItem<LeadingContent: View,
     var onAccessoryTapped: (() -> Void)?
 
     /// The maximum amount of lines shown for the `title`.
-    var titleLineLimit: Int = 1
+    var titleLineLimit: Int?
 
     /// The maximum amount of lines shown for the `subtitle`.
-    var subtitleLineLimit: Int = 1
+    var subtitleLineLimit: Int?
 
     /// The maximum amount of lines shown for the `footer`.
-    var footerLineLimit: Int = 1
+    var footerLineLimit: Int?
 
     /// The truncation mode of the `title`.
     var titleTruncationMode: Text.TruncationMode = .tail
