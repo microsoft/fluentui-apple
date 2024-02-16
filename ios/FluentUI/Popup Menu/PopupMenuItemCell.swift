@@ -210,15 +210,15 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
             _accessoryType = .none
             return
         }
-        let brandColor = item.tokenSet[.brandTextColor].uiColor
+        let selectedColor = Compatibility.isDeviceIdiomVision() ? .white : item.tokenSet[.brandTextColor].uiColor
         let imageColor: UIColor
         let titleColor: UIColor
         let subtitleColor: UIColor
         var accessoryType: TableViewCellAccessoryType = .none
         if isSelected {
-            imageColor = item.imageSelectedColor ?? brandColor
-            titleColor = item.titleSelectedColor ?? brandColor
-            subtitleColor = item.subtitleSelectedColor ?? brandColor
+            imageColor = item.imageSelectedColor ?? selectedColor
+            titleColor = item.titleSelectedColor ?? selectedColor
+            subtitleColor = item.subtitleSelectedColor ?? selectedColor
             if item.isAccessoryCheckmarkVisible {
                 accessoryType = .checkmark
             }
@@ -234,7 +234,7 @@ class PopupMenuItemCell: TableViewCell, PopupMenuItemTemplateCell {
         backgroundColor = item.backgroundColor
         _accessoryType = accessoryType
         if let accessoryTypeView = accessoryTypeView {
-            accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? brandColor
+            accessoryTypeView.customTintColor = item.accessoryCheckmarkColor ?? selectedColor
         }
     }
 }

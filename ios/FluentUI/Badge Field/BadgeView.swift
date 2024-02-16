@@ -227,13 +227,27 @@ open class BadgeView: UIView, TokenizedControlInternal {
         backgroundView.frame = bounds
 
         if let customViewSize = customViewSize(for: frame.size), customViewSize != .zero {
-            let customViewOrigin = CGPoint(x: customViewPadding.left, y: (frame.height - customViewSize.height) / 2)
-            dataSource?.customView?.frame = CGRect(origin: customViewOrigin, size: customViewSize)
-            let labelOrigin = CGPoint(x: customViewPadding.left + customViewPadding.right + customViewSize.width, y: (frame.height - labelSize.height) / 2)
-            let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x, height: labelSize.height)
+            // H:|-(cvp.left)-[customView]-(cvp.right)-[label]-(lhp)-|
+            let customViewPadding = customViewPadding
+            let customViewOrigin = CGPoint(x: customViewPadding.left,
+                                           y: floor((frame.height - customViewSize.height) / 2))
+            let customViewFrame = CGRect(origin: customViewOrigin, size: customViewSize)
+            dataSource?.customView?.frame = customViewFrame
+
+            // Let the label use whatever is left. It may be less horizontal space than the label
+            // would like, so we have to do some impromptu sizeThatFits calculations on the width.
+            let labelSize = labelSize
+            let labelOrigin = CGPoint(x: customViewFrame.maxX + customViewPadding.right,
+                                      y: floor((frame.height - labelSize.height) / 2))
+
+            // The space we can use starts at labelOrigin.x, but we need to leave horizontalPadding
+            // on the right edge so the label doesn't run into the edge of the badge.
+            let labelSizeThatFits = CGSize(width: frame.size.width - labelOrigin.x - BadgeViewTokenSet.horizontalPadding(sizeCategory),
+                                           height: labelSize.height)
             label.frame = CGRect(origin: labelOrigin, size: labelSizeThatFits)
         } else {
-            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory), dy: BadgeViewTokenSet.verticalPadding)
+            label.frame = bounds.insetBy(dx: BadgeViewTokenSet.horizontalPadding(sizeCategory),
+                                         dy: BadgeViewTokenSet.verticalPadding)
         }
 
         flipSubviewsForRTL()
@@ -255,15 +269,24 @@ open class BadgeView: UIView, TokenizedControlInternal {
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         let width: CGFloat
         let height: CGFloat
+        let labelSize = labelSize
+
+        let heightForLabel = labelSize.height + (BadgeViewTokenSet.verticalPadding * 2)
+        let labelHorizontalPadding = BadgeViewTokenSet.horizontalPadding(self.sizeCategory)
 
         if let customViewSize = customViewSize(for: size), customViewSize != .zero {
+            let customViewPadding = customViewPadding
             let heightForCustomView = customViewSize.height + customViewPadding.top + customViewPadding.bottom
-            let heightForLabel = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
             height = max(heightForCustomView, heightForLabel)
-            width = labelSize.width + customViewSize.width + customViewPadding.left + customViewPadding.right + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
+
+            // Width is tricky: 
+            // let cvp = customViewPadding, let lhp = labelHorizontalPadding
+            // H:|-(cvp.left)-[customView]-(cvp.right)-[label]-(lhp)-|
+            width = customViewPadding.left + customViewSize.width + customViewPadding.right + labelSize.width + labelHorizontalPadding
         } else {
-            height = labelSize.height + BadgeViewTokenSet.verticalPadding * 2
-            width = labelSize.width + BadgeViewTokenSet.horizontalPadding(self.sizeCategory) * 2
+            // No custom view? Just use the label sizes and paddings.
+            height = heightForLabel
+            width = labelSize.width + (labelHorizontalPadding * 2)
         }
 
         let maxWidth = size.width > 0 ? size.width : .infinity
