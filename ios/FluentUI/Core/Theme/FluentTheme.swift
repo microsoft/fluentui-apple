@@ -83,26 +83,43 @@ public class FluentTheme: NSObject, ObservableObject {
                     gradientTokenSet: gradientTokenSet)
     }()
 
-    /// A shared, immutable, default `FluentTheme` instance.
+    /// The shared `FluentTheme` instance used by default for controls in the app.
     ///
-    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
-    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
-    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
-    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
+    /// This static `FluentTheme` instance will normally return the default token values associated
+    /// with Fluent. However, it is also available for overriding in cases where a single custom theme
+    /// is desired for the app linking this library.
+    ///
+    /// Note that any custom themes set on a `UIView` hierarchy or via a SwiftUI view modifier will
+    /// take precedence over this value. This value provides the fallback theme for cases where those
+    /// overrides are not provided.
     @objc(sharedTheme)
-    public internal(set) static var shared: FluentTheme = FluentThemeKey.defaultValue {
+    public static var shared: FluentTheme = FluentThemeKey.defaultValue {
         didSet {
-            UIApplication.shared.connectedScenes
-                .compactMap {
-                    $0 as? UIWindowScene
-                }
-                .flatMap {
-                    $0.windows
-                }
-                .forEach { window in
-                    NotificationCenter.default.post(name: .didChangeTheme, object: window)
-                }
+            NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
+    }
+
+    /// Determines if a given `Notification` should cause an update for the given `UIView`.
+    ///
+    /// - Parameter notification: A `Notification` object that may be requesting a view update based on a theme change.
+    /// - Parameter view: The `UIView` instance that wants to determine whether to update.
+    ///
+    /// - Returns: `True` if the view should update, `false` otherwise.
+    @objc(isApplicableThemeChangeNotification:forView:)
+    public static func isApplicableThemeChange(_ notification: Notification,
+                                               for view: UIView) -> Bool {
+        // Do not update unless the notification's name is `.didChangeTheme`.
+        guard notification.name == .didChangeTheme else {
+            return false
+        }
+
+        // If there is no object, or it is not a UIView, we must assume that we need to update.
+        guard let themeView = notification.object as? UIView else {
+            return true
+        }
+
+        // If the object is a UIView, we only update if `view` is a descendant thereof.
+        return view.isDescendant(of: themeView)
     }
 
     // Token storage

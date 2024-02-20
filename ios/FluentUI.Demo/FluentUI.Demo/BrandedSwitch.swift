@@ -10,16 +10,15 @@ class BrandedSwitch: UISwitch {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        NotificationCenter.default.addObserver(forName: .didChangeTheme,
-                                               object: nil,
-                                               queue: nil) { [weak self] notification in
+        notificationObserver = NotificationCenter.default.addObserver(forName: .didChangeTheme,
+                                                                      object: nil,
+                                                                      queue: nil) { [weak self] notification in
             guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
-                  strongSelf.isDescendant(of: themeView)
+                  FluentTheme.isApplicableThemeChange(notification, for: strongSelf)
             else {
                 return
             }
-            strongSelf.onTintColor = themeView.fluentTheme.color(.brandForeground1)
+            strongSelf.onTintColor = strongSelf.fluentTheme.color(.brandForeground1)
         }
     }
 
@@ -34,4 +33,7 @@ class BrandedSwitch: UISwitch {
         }
         onTintColor = newWindow.fluentTheme.color(.brandForeground1)
     }
+
+    /// Stores the notification handler for .didChangeTheme notifications.
+    private var notificationObserver: NSObjectProtocol?
 }
