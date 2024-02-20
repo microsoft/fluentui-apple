@@ -302,6 +302,8 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
+    private(set) var badgeLabelStyle: Style?
+
     private var systemWantsCompactNavigationBar: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
     }
@@ -589,6 +591,12 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         titleView.avatarOverrideStyle = style
     }
 
+    /// Override BadgeLabelStyle for navigation bar
+    /// - Parameter badgeLabelStyle: updated style to be used
+    @objc public func overrideBadgeLabelStyle(_ badgeLabelStyle: Style) {
+        self.badgeLabelStyle = badgeLabelStyle
+    }
+
     // MARK: Element size handling
 
     private var currentAvatarSize: ElementSize {
@@ -724,9 +732,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        if style == .system {
+        let finalStyle = badgeLabelStyle != nil ? badgeLabelStyle : style
+        if finalStyle == .system {
             button.badgeLabelStyle = .system
-        } else if style == .gradient {
+        } else if finalStyle == .gradient {
             button.badgeLabelStyle = .brand
         } else {
             button.badgeLabelStyle = .onPrimary
