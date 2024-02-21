@@ -29,7 +29,7 @@ class ColoredPillBackgroundView: UIView {
     }
 
     @objc func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, self.isDescendant(of: themeView) else {
+        guard FluentTheme.isApplicableThemeChange(notification, for: self) else {
             return
         }
         updateBackgroundColor()
