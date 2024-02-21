@@ -732,7 +732,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        let finalStyle = badgeLabelStyle != nil ? badgeLabelStyle : style
+        let finalStyle = badgeLabelStyle ?? style
         if finalStyle == .system {
             button.badgeLabelStyle = .system
         } else if finalStyle == .gradient {
