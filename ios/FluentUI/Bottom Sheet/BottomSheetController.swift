@@ -32,7 +32,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 /// Defines the position the sheet is currently in
- @objc public enum BottomSheetExpansionState: Int {
+@objc public enum BottomSheetExpansionState: Int {
     case expanded // Sheet is fully expanded
     case collapsed // Sheet is collapsed
     case hidden // Sheet is hidden (fully off-screen)
