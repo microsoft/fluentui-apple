@@ -190,7 +190,7 @@ class TwoLineTitleViewDemoController: DemoController {
         secondarySheetController.allowsSwipeToHide = true
 
         let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
-            secondarySheetController.setIsHidden(true, animated: true)
+            secondarySheetController.setHidden(true, animated: true)
         }))
 
         dismissButton.style = .accent

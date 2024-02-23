@@ -173,7 +173,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         if isInSheetMode {
-            bottomSheetController?.setIsHidden(isHidden, animated: animated, completion: completion)
+            bottomSheetController?.setHidden(isHidden, animated: animated, completion: completion)
         } else {
             if isViewLoaded {
                 completeBottomBarAnimationsIfNeeded()

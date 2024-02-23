@@ -99,10 +99,6 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.preferredWidth = sender.isOn ? 400 : 0
     }
 
-    @objc private func toggleUnhideToExpandedState(_ sender: BooleanCell) {
-        bottomSheetViewController?.unhideFinishedState = sender.isOn ? .expanded : .collapsed
-    }
-
     @objc private func showTransientSheet() {
         let hostingVC = UIHostingController(rootView: BottomSheetDemoListContentView())
 
@@ -123,7 +119,7 @@ class BottomSheetDemoController: DemoController {
         secondarySheetController.allowsSwipeToHide = true
 
         let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
-            secondarySheetController.setIsHidden(true, animated: true)
+            secondarySheetController.setHidden(true, animated: true)
         }))
 
         dismissButton.style = .accent
@@ -269,11 +265,7 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Set preferred width to 400",
                           type: .boolean,
                         action: #selector(togglePreferredWidth),
-                          isOn: bottomSheetViewController?.preferredWidth == 400),
-                DemoItem(title: "Unhide to expanded state",
-                         type: .boolean,
-                        action: #selector(toggleUnhideToExpandedState),
-                         isOn: bottomSheetViewController?.unhideFinishedState == .expanded)
+                          isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
