@@ -89,6 +89,7 @@
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
 		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
+		928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928C00B02B8920E60023ECE7 /* View+Extensions.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
 		92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */; };
@@ -223,6 +224,7 @@
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
+		928C00B02B8920E60023ECE7 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
 		92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensDemoController.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 			isa = PBXGroup;
 			children = (
 				5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */,
+				928C00B02B8920E60023ECE7 /* View+Extensions.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -842,6 +845,7 @@
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
+				928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */,
 				F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
@@ -1059,6 +1063,7 @@
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1071,6 +1076,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DOGFOOD;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Dogfood;
@@ -1157,6 +1163,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1169,6 +1176,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
@@ -1215,6 +1223,7 @@
 				EXCLUDED_ARCHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1226,6 +1235,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
