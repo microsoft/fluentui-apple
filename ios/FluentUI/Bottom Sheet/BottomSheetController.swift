@@ -307,15 +307,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - completion: Closure to be called when the state change completes.
     @available(*, deprecated, message: "Use setHidden:unhiddenTargetState:animated:completion:")
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
-        if isViewLoaded {
-            move(to: targetState, animated: animated, allowUnhiding: true) { finalPosition in
-                completion?(finalPosition == .end)
-            }
-        } else {
-            currentExpansionState = targetState
-            completion?(true)
-        }
+        setHidden(isHidden, animated: animated, completion: completion)
     }
 
     /// Changes the `isHidden` state with a completion handler.
