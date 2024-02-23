@@ -321,7 +321,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Changes the `isHidden` state with a completion handler.
     /// - Parameters:
     ///   - isHidden: The new value.
-    ///   - unhiddenTargetState: The state the sheet should expand to when not hidden
+    ///   - unhiddenTargetState: The state the sheet should expand to when not hidden.
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setHidden(_ isHidden: Bool, unhiddenTargetState: BottomSheetExpansionState = .collapsed, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
