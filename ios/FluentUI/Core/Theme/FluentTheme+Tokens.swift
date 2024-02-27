@@ -200,26 +200,26 @@ public extension FluentTheme {
 }
 
 extension FluentTheme {
-    static func defaultColors(_ token: FluentTheme.ColorToken) -> UIColor {
+    static func defaultColor(_ token: FluentTheme.ColorToken) -> UIColor {
         switch token {
         case .foreground1:
             return UIColor(light: GlobalTokens.neutralColor(.grey14),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white : GlobalTokens.neutralColor(.white))
+                           dark: GlobalTokens.neutralColor(.white))
         case .foreground2:
             return UIColor(light: GlobalTokens.neutralColor(.grey38),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white : GlobalTokens.neutralColor(.grey84))
+                           dark: GlobalTokens.neutralColor(.grey84))
         case .foreground3:
             return UIColor(light: GlobalTokens.neutralColor(.grey50),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white : GlobalTokens.neutralColor(.grey68))
+                           dark: GlobalTokens.neutralColor(.grey68))
         case .foregroundDisabled1:
             return UIColor(light: GlobalTokens.neutralColor(.grey74),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.8) : GlobalTokens.neutralColor(.grey36))
+                           dark: GlobalTokens.neutralColor(.grey36))
         case .foregroundDisabled2:
             return UIColor(light: GlobalTokens.neutralColor(.white),
                            dark: GlobalTokens.neutralColor(.grey18))
         case .foregroundOnColor:
             return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white : GlobalTokens.neutralColor(.black))
+                           dark: GlobalTokens.neutralColor(.black))
         case .brandForegroundTint:
             return UIColor(light: GlobalTokens.brandColor(.comm60),
                            dark: GlobalTokens.brandColor(.comm130))
@@ -254,32 +254,32 @@ extension FluentTheme {
                            dark: GlobalTokens.neutralColor(.white))
         case .background1:
             return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.black),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey4))
+                           dark: GlobalTokens.neutralColor(.black),
+                           darkElevated: GlobalTokens.neutralColor(.grey4))
         case .background1Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey18),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey18))
+                           dark: GlobalTokens.neutralColor(.grey18),
+                           darkElevated: GlobalTokens.neutralColor(.grey18))
         case .background1Selected:
             return UIColor(light: GlobalTokens.neutralColor(.grey92),
                            dark: GlobalTokens.neutralColor(.grey14),
                            darkElevated: GlobalTokens.neutralColor(.grey14))
         case .background2:
             return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey12),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey16))
+                           dark: GlobalTokens.neutralColor(.grey12),
+                           darkElevated: GlobalTokens.neutralColor(.grey16))
         case .background2Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey30),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey30))
+                           dark: GlobalTokens.neutralColor(.grey30),
+                           darkElevated: GlobalTokens.neutralColor(.grey30))
         case .background2Selected:
             return UIColor(light: GlobalTokens.neutralColor(.grey92),
                            dark: GlobalTokens.neutralColor(.grey26),
                            darkElevated: GlobalTokens.neutralColor(.grey26))
         case .background3:
             return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey16),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey20))
+                           dark: GlobalTokens.neutralColor(.grey16),
+                           darkElevated: GlobalTokens.neutralColor(.grey20))
         case .background3Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey88),
                            dark: GlobalTokens.neutralColor(.grey34),
@@ -290,8 +290,8 @@ extension FluentTheme {
                            darkElevated: GlobalTokens.neutralColor(.grey30))
         case .background4:
             return UIColor(light: GlobalTokens.neutralColor(.grey98),
-                           dark: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey20),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey24))
+                           dark: GlobalTokens.neutralColor(.grey20),
+                           darkElevated: GlobalTokens.neutralColor(.grey24))
         case .background4Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey86),
                            dark: GlobalTokens.neutralColor(.grey38),
@@ -302,12 +302,12 @@ extension FluentTheme {
                            darkElevated: GlobalTokens.neutralColor(.grey34))
         case .background5:
             return UIColor(light: GlobalTokens.neutralColor(.grey94),
-                           dark: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.2) : GlobalTokens.neutralColor(.grey24),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.2) : GlobalTokens.neutralColor(.grey28))
+                           dark: GlobalTokens.neutralColor(.grey24),
+                           darkElevated: GlobalTokens.neutralColor(.grey28))
         case .background5Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey82),
-                           dark: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey42),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .black.withAlphaComponent(0.1) : GlobalTokens.neutralColor(.grey42))
+                           dark: GlobalTokens.neutralColor(.grey42),
+                           darkElevated: GlobalTokens.neutralColor(.grey42))
         case .background5Selected:
             return UIColor(light: GlobalTokens.neutralColor(.grey86),
                            dark: GlobalTokens.neutralColor(.grey38),
@@ -352,8 +352,8 @@ extension FluentTheme {
                            dark: GlobalTokens.neutralColor(.grey20))
         case .backgroundCanvas:
             return UIColor(light: GlobalTokens.neutralColor(.grey96),
-                           dark: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey8),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .clear : GlobalTokens.neutralColor(.grey14))
+                           dark: GlobalTokens.neutralColor(.grey8),
+                           darkElevated: GlobalTokens.neutralColor(.grey14))
         case .backgroundDarkStatic:
             return UIColor(light: GlobalTokens.neutralColor(.grey14),
                            dark: GlobalTokens.neutralColor(.grey24),
@@ -372,15 +372,15 @@ extension FluentTheme {
                            darkElevated: GlobalTokens.neutralColor(.grey42))
         case .stroke1:
             return UIColor(light: GlobalTokens.neutralColor(.grey82),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.4) : GlobalTokens.neutralColor(.grey30),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.4) : GlobalTokens.neutralColor(.grey36))
+                           dark: GlobalTokens.neutralColor(.grey30),
+                           darkElevated: GlobalTokens.neutralColor(.grey36))
         case .stroke1Pressed:
             return UIColor(light: GlobalTokens.neutralColor(.grey70),
                            dark: GlobalTokens.neutralColor(.grey48))
         case .stroke2:
             return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.5) : GlobalTokens.neutralColor(.grey24),
-                           darkElevated: Compatibility.isDeviceIdiomVision() ? .white.withAlphaComponent(0.5) : GlobalTokens.neutralColor(.grey30))
+                           dark: GlobalTokens.neutralColor(.grey24),
+                           darkElevated: GlobalTokens.neutralColor(.grey30))
         case .strokeAccessible:
             return UIColor(light: GlobalTokens.neutralColor(.grey38),
                            dark: GlobalTokens.neutralColor(.grey62),
@@ -415,7 +415,7 @@ extension FluentTheme {
                            dark: GlobalTokens.sharedColor(.red, .tint30))
         case .dangerForeground2:
             return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: Compatibility.isDeviceIdiomVision() ? GlobalTokens.sharedColor(.red, .primary) : GlobalTokens.sharedColor(.red, .tint30))
+                           dark: GlobalTokens.sharedColor(.red, .tint30))
         case .dangerStroke1:
             return UIColor(light: GlobalTokens.sharedColor(.red, .tint20),
                            dark: GlobalTokens.sharedColor(.red, .tint20))
@@ -481,7 +481,7 @@ extension FluentTheme {
         }
     }
 
-    static func defaultShadows(_ token: ShadowToken) -> ShadowInfo {
+    static func defaultShadow(_ token: ShadowToken) -> ShadowInfo {
         switch token {
         case .clear:
             return ShadowInfo(keyColor: .clear,
@@ -603,7 +603,7 @@ extension FluentTheme {
     }
 
     /// Derives its default values from the theme's `colorTokenSet` values
-    static func defaultGradientColors(_ token: GradientToken, colorTokenSet: TokenSet<ColorToken, UIColor>) -> [UIColor] {
+    static func defaultGradientColor(_ token: GradientToken, colorTokenSet: TokenSet<ColorToken, UIColor>) -> [UIColor] {
         switch token {
         case .flair:
             return [colorTokenSet[.brandGradient1],
