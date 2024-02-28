@@ -191,6 +191,7 @@
 		925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F8276D6B5800EE1019 /* FontInfo.swift */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
 		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
+		926B4C9A2B8E94F6001EBA16 /* FluentTheme+visionOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */; };
 		926FEEAA2B45A8B4002C61D0 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926FEEA92B45A8B4002C61D0 /* Compatibility.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
 		927EB2BD278627440069753D /* PersonaButtonModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927EB2BC278627440069753D /* PersonaButtonModifiers.swift */; };
@@ -356,6 +357,7 @@
 		925728F8276D6B5800EE1019 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
 		925D461B26FD133600179583 /* GlobalTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTokens.swift; sourceTree = "<group>"; };
 		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
+		926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+visionOS.swift"; sourceTree = "<group>"; };
 		926FEEA92B45A8B4002C61D0 /* Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
 		927E34C62668350800998031 /* PersonaButtonTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonTokenSet.swift; sourceTree = "<group>"; };
@@ -819,6 +821,7 @@
 				925D461A26FD126800179583 /* Tokens */,
 				923DB9D3274CB65700D8E58A /* FluentTheme.swift */,
 				9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */,
+				926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -1735,6 +1738,7 @@
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
 				0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */,
 				926FEEAA2B45A8B4002C61D0 /* Compatibility.swift in Sources */,
+				926B4C9A2B8E94F6001EBA16 /* FluentTheme+visionOS.swift in Sources */,
 				5314E03125F00DDD0099271A /* CardView.swift in Sources */,
 				5314E08925F00F2D0099271A /* CommandBarButtonGroupView.swift in Sources */,
 				5314E08C25F00F2D0099271A /* CommandBarButton.swift in Sources */,

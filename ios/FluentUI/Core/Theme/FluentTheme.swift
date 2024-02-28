@@ -42,12 +42,19 @@ public class FluentTheme: NSObject, ObservableObject {
             return FontInfo(name: font.fontName, size: font.pointSize)
         })
 
-        let colorTokenSet = TokenSet<ColorToken, UIColor>(FluentTheme.defaultColors(_:), colorOverrides)
-        let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadows(_:), shadowOverrides)
+#if os(visionOS)
+        // We have custom overrides for `defaultColors` in visionOS.
+        let defaultColorFunction = FluentTheme.defaultColor_visionOS(_:)
+#else
+        let defaultColorFunction = FluentTheme.defaultColor(_:)
+#endif
+
+        let colorTokenSet = TokenSet<ColorToken, UIColor>(defaultColorFunction, colorOverrides)
+        let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
         let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
         let gradientTokenSet = TokenSet<GradientToken, [UIColor]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
-            return FluentTheme.defaultGradientColors(token, colorTokenSet: colorTokenSet)
+            return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)
         })
 
         self.colorTokenSet = colorTokenSet
