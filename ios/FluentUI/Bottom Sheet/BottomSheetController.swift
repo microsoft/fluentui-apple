@@ -105,7 +105,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             return bottomSheetView.isHidden
         }
         set {
-            setHidden(newValue)
+            setIsHidden(newValue)
         }
     }
 
@@ -299,37 +299,54 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
-    /// Deprecated:
     /// Changes the `isHidden` state with a completion handler.
     /// - Parameters:
     ///   - isHidden: The new value.
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
-    @available(*, deprecated, message: "Use setHidden:unhiddenTargetState:animated:completion:")
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        setHidden(isHidden, animated: animated, completion: completion)
+        if isHidden {
+            dismissSheet(animated: animated, completion: completion)
+        } else {
+            presentSheet(expandedState: .expanded, animated: animated, completion: completion)
+        }
+
     }
 
-    /// Changes the `isHidden` state with a completion handler.
+    /// Presents the bottom sheet view
     /// - Parameters:
-    ///   - isHidden: The new value.
-    ///   - unhiddenTargetState: The state the sheet should expand to when not hidden.
+    ///   - expandedState: The state the bottom sheet should expand to when presented
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
-    @objc public func setHidden(_ isHidden: Bool, unhiddenTargetState: BottomSheetExpansionState = .collapsed, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        let targetState: BottomSheetExpansionState
-        if unhiddenTargetState != .collapsed && unhiddenTargetState != .expanded {
-            targetState = isHidden ? .hidden : .collapsed
+    @objc public func presentSheet(expandedState: BottomSheetExpansionState, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        let finishedState: BottomSheetExpansionState
+        if expandedState != .collapsed && expandedState != .expanded {
+            finishedState = .collapsed
         } else {
-            targetState = isHidden ? .hidden : unhiddenTargetState
+            finishedState = expandedState
         }
 
         if isViewLoaded {
-            move(to: targetState, animated: animated, allowUnhiding: true) { finalPosition in
+            move(to: finishedState, animated: animated, allowUnhiding: true) { finalPosition in
                 completion?(finalPosition == .end)
             }
         } else {
-            currentExpansionState = targetState
+            currentExpansionState = expandedState
+            completion?(true)
+        }
+    }
+
+    /// Dismiss the bottom the bottom sheet view
+    /// - Parameters:
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func dismissSheet(animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        if isViewLoaded {
+            move(to: .hidden, animated: animated, allowUnhiding: true) { finalPosition in
+                completion?(finalPosition == .end)
+            }
+        } else {
+            currentExpansionState = .hidden
             completion?(true)
         }
     }
