@@ -126,6 +126,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
+    @objc public class StyleWrapper: NSObject {
+        public var style: Style
+        @objc public init(style: Style) {
+            self.style = style
+        }
+    }
+
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
         return backgroundColor(for: .system, theme: fluentTheme)
     }
@@ -302,7 +309,14 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
-    private(set) var badgeLabelStyle: Style?
+    // by default pointing to .default,
+    @objc public var overriddenBadgeLabelStyle: StyleWrapper? {
+        didSet {
+            if let navigationItem = topItem {
+                updateBarButtonItems(with: navigationItem)
+            }
+        }
+    }
 
     private var systemWantsCompactNavigationBar: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
@@ -591,12 +605,6 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         titleView.avatarOverrideStyle = style
     }
 
-    /// Override BadgeLabelStyle for navigation bar
-    /// - Parameter badgeLabelStyle: updated style to be used
-    @objc public func overrideBadgeLabelStyle(_ badgeLabelStyle: Style) {
-        self.badgeLabelStyle = badgeLabelStyle
-    }
-
     // MARK: Element size handling
 
     private var currentAvatarSize: ElementSize {
@@ -732,7 +740,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        let finalStyle = badgeLabelStyle ?? style
+        let finalStyle = overriddenBadgeLabelStyle?.style ?? style
         if finalStyle == .system {
             button.badgeLabelStyle = .system
         } else if finalStyle == .gradient {

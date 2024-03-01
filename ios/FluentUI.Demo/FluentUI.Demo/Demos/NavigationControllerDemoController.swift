@@ -473,6 +473,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var showSearchProgressSpinner: Bool = true
     var showRainbowRingForAvatar: Bool = false
     var showBadgeOnBarButtonItem: Bool = false
+    var updateBadgeLabelStyle: Bool = false
 
     var allowsCellSelection: Bool = false {
         didSet {
@@ -624,6 +625,20 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         if indexPath.row == 3 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
+                return UITableViewCell()
+            }
+            cell.setup(title: "Override Badge Label Style",
+                       isOn: updateBadgeLabelStyle,
+                       isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.updateBadgeStyle(isOn: cell?.isOn ?? false)
+            }
+            return cell
+        }
+
+        if indexPath.row == 4 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
                 return UITableViewCell()
             }
@@ -746,6 +761,12 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             item.setBadgeValue(badgeValue, badgeAccessibilityLabel: badgeAccessibilityLabel)
         }
         showBadgeOnBarButtonItem = isOn
+    }
+
+    @objc private func updateBadgeStyle(isOn: Bool) {
+        let navigationBar = msfNavigationController?.msfNavigationBar
+        navigationBar?.overriddenBadgeLabelStyle = isOn ? NavigationBar.StyleWrapper(style: .system) : nil
+        updateBadgeLabelStyle = isOn
     }
 
     @objc private func showTooltipButtonPressed() {
