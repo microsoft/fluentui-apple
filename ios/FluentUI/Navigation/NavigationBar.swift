@@ -309,7 +309,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
 
-    // by default pointing to .default,
+    // Override value for BadgeLabel Style. We can set to nil when we don't wanna override.
     @objc public var overriddenBadgeLabelStyle: StyleWrapper? {
         didSet {
             if let navigationItem = topItem {
