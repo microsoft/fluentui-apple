@@ -308,7 +308,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if isHidden {
             dismissSheet(animated: animated, completion: completion)
         } else {
-            presentSheet(expandedState: .expanded, animated: animated, completion: completion)
+            presentSheet(expandedState: .collapsed, animated: animated, completion: completion)
         }
 
     }
@@ -320,10 +320,16 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - completion: Closure to be called when the state change completes.
     @objc public func presentSheet(expandedState: BottomSheetExpansionState, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         let finishedState: BottomSheetExpansionState
-        if expandedState != .collapsed && expandedState != .expanded {
-            finishedState = .collapsed
-        } else {
+
+        switch expandedState {
+        case .collapsed:
             finishedState = expandedState
+        case .expanded:
+            finishedState = expandedState
+        // Collapsed and expanded are the only valid states so we will default to
+        // collapsed if the user tries anything else
+        default:
+            finishedState = .collapsed
         }
 
         if isViewLoaded {
