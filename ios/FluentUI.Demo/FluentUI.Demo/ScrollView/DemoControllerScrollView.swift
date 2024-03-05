@@ -52,11 +52,6 @@ class DemoControllerScrollView: UIScrollView, ScrollableContainerView {
         return value(forKey: "verticalScrollIndicator") as? UIView
     }
 
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        initialize()
-    }
-
     func makeFirstResponderVisible() {
         if let firstResponder = UIResponder.firstResponder as? UIView, firstResponder.isDescendant(of: self) {
             makeSubviewVisible(firstResponder)

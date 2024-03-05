@@ -81,22 +81,22 @@ struct DemoAppearanceView: View {
                 .padding()
 
                 // Changes
-                .onChange(of: configuration.userInterfaceStyle) { newValue in
+                .onChange_iOS17(of: configuration.userInterfaceStyle) { newValue in
                     configuration.onUserInterfaceStyleChanged?(newValue)
                 }
-                .onChange(of: configuration.windowTheme) { newValue in
+                .onChange_iOS17(of: configuration.windowTheme) { newValue in
                     configuration.onWindowThemeChanged?(newValue)
                 }
-                .onChange(of: configuration.appWideTheme) { newValue in
+                .onChange_iOS17(of: configuration.appWideTheme) { newValue in
                     configuration.onAppWideThemeChanged?(newValue)
                 }
-                .onChange(of: configuration.themeWideOverride) { newValue in
+                .onChange_iOS17(of: configuration.themeWideOverride) { newValue in
                     configuration.onThemeWideOverrideChanged?(newValue)
 
                     // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
                     showingThemeWideAlert = true
                 }
-                .onChange(of: configuration.perControlOverride) { newValue in
+                .onChange_iOS17(of: configuration.perControlOverride) { newValue in
                     configuration.onPerControlOverrideChanged?(newValue)
                 }
 

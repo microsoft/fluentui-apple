@@ -1971,7 +1971,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private func setupBackgroundColors() {
         if backgroundStyleType != .custom {
             automaticallyUpdatesBackgroundConfiguration = false
-            var backgroundConfiguration = UIBackgroundConfiguration.clear()
+            var backgroundConfiguration: UIBackgroundConfiguration
+            if backgroundStyleType == .plain {
+                backgroundConfiguration = .listPlainCell()
+            } else if backgroundStyleType == .grouped {
+                backgroundConfiguration = .listGroupedCell()
+            } else {
+                backgroundConfiguration = .clear()
+            }
             backgroundConfiguration.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
             self.backgroundConfiguration = backgroundConfiguration
         }
