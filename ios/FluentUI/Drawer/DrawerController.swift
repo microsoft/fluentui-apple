@@ -588,6 +588,16 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         }
     }
 
+	@objc func handleEscapeKey() {
+		dismissPresentingViewController(animated: true)
+	}
+
+	open override var keyCommands: [UIKeyCommand]? {
+		return [
+			UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(self.handleEscapeKey))
+		]
+	}
+
     open override func accessibilityPerformEscape() -> Bool {
         return dismissPresentingViewController(animated: true)
     }
