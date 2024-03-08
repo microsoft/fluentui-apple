@@ -173,6 +173,7 @@
 		92016FF8299DF34A00660DB7 /* EmptyTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92016FF7299DF34A00660DB7 /* EmptyTokenSet.swift */; };
 		92088EF92666DB2C003F571A /* PersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92088EF72666DB2C003F571A /* PersonaButton.swift */; };
 		920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */; };
+		92279B332B97C7DC00994D88 /* FluentButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */; };
 		922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 922A34DE27BB87990062721F /* TokenizedControlView.swift */; };
 		9231491128BF026A001B033E /* HeadsUpDisplayTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17F27FB6D9B00B01E0D /* HeadsUpDisplayTokenSet.swift */; };
 		9231491228BF026A001B033E /* HUDModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17027F77EB700B01E0D /* HUDModifiers.swift */; };
@@ -347,6 +348,7 @@
 		92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeModifiers.swift; sourceTree = "<group>"; };
 		92088EF72666DB2C003F571A /* PersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButton.swift; sourceTree = "<group>"; };
 		920945472703DDA000B38E1A /* CardNudgeTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeTokenSet.swift; sourceTree = "<group>"; };
+		92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentButtonStyle.swift; sourceTree = "<group>"; };
 		922A34DE27BB87990062721F /* TokenizedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizedControlView.swift; sourceTree = "<group>"; };
 		9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+Tokens.swift"; sourceTree = "<group>"; };
 		923DB9D2274CB65700D8E58A /* TokenizedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenizedControl.swift; sourceTree = "<group>"; };
@@ -664,6 +666,7 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
+				92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */,
 				EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */,
 			);
 			path = Button;
@@ -1560,6 +1563,7 @@
 				5314E12B25F016230099271A /* PillButtonBar.swift in Sources */,
 				5314E07E25F00F1A0099271A /* DateTimePickerView.swift in Sources */,
 				5328D97726FBA3D700F3723B /* IndeterminateProgressBar.swift in Sources */,
+				92279B332B97C7DC00994D88 /* FluentButtonStyle.swift in Sources */,
 				5314E07625F00F160099271A /* DateTimePickerController.swift in Sources */,
 				922A34DF27BB87990062721F /* TokenizedControlView.swift in Sources */,
 				92016FF8299DF34A00660DB7 /* EmptyTokenSet.swift in Sources */,
