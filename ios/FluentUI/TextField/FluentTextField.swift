@@ -55,14 +55,14 @@ public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedContro
         }
     }
 
-	@objc public var keyboardType: UIKeyboardType {
-		get {
-			return textfield.keyboardType
-		}
-		set {
-			textfield.keyboardType = newValue
-		}
-	}
+    @objc public var keyboardType: UIKeyboardType {
+        get {
+            return textfield.keyboardType
+        }
+        set {
+            textfield.keyboardType = newValue
+        }
+    }
 
     /// String representing the placeholder text.
     @objc public var placeholder: String? {

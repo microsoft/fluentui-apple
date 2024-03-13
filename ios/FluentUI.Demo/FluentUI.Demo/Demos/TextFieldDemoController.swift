@@ -11,7 +11,7 @@ class TextFieldDemoController: DemoController {
         super.viewDidLoad()
 
         let textField1 = FluentTextField()
-		textField1.keyboardType = .URL
+        textField1.keyboardType = .URL
         textField1.placeholder = "Validates text on each input character"
         textField1.leadingImage = UIImage(named: "Placeholder_24")
         textField1.onEditingChanged = onEditingChanged
