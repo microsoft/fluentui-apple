@@ -33,90 +33,69 @@ struct ButtonDemoView: View {
 
     public var body: some View {
         VStack {
-            Button(action: {
-                showAlert = true
-                // TODO: add a real theme switcher to the demo controller
-//                DemoColorTheme.currentAppWideTheme = .purple
-            }, label: {
-                HStack {
-                    if showImage {
-                        Image("Placeholder_24")
-                    }
-                    if showLabel {
-                        Text(text)
+            demoButton
+            demoOptions
+        }
+    }
+
+    @ViewBuilder
+    private var demoButton: some View {
+        Button(action: {
+            showAlert = true
+            // TODO: add a real theme switcher to the demo controller
+//            DemoColorTheme.currentAppWideTheme = .purple
+        }, label: {
+            HStack {
+                if showImage {
+                    Image("Placeholder_24")
+                }
+                if showLabel && text.count > 0 {
+                    Text(text)
+                }
+            }
+        })
+        .buttonStyle(FluentButtonStyle(style: style, size: size))
+        .disabled(isDisabled)
+        .fixedSize()
+        .padding()
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text("Button tapped"))
+        })
+    }
+
+    @ViewBuilder
+    private var demoOptions: some View {
+        Form {
+            Section("Content") {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Button Text")
+                    Spacer()
+                    TextField("Text", text: $text)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .multilineTextAlignment(.trailing)
+                }
+                .frame(maxWidth: .infinity)
+
+                FluentUIDemoToggle(titleKey: "Show image", isOn: $showImage)
+                FluentUIDemoToggle(titleKey: "Show label", isOn: $showLabel)
+                FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
+            }
+
+            Section("Style") {
+                Picker("Style", selection: $style) {
+                    ForEach(Array(FluentUI.ButtonStyle.allCases.enumerated()), id: \.element) { _, buttonStyle in
+                        Text("\(buttonStyle.description)").tag(buttonStyle.rawValue)
                     }
                 }
-            })
-            .buttonStyle(FluentButtonStyle(style: style, size: size))
-            .disabled(isDisabled)
-            .fixedSize()
-            .padding()
-            .alert(isPresented: $showAlert, content: {
-                Alert(title: Text("Button tapped"))
-            })
+            }
 
-            ScrollView {
-                Group {
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Content")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-
-                        TextField("Text", text: $text)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                        FluentUIDemoToggle(titleKey: "Show image", isOn: $showImage)
-                        FluentUIDemoToggle(titleKey: "Show label", isOn: $showLabel)
-                        FluentUIDemoToggle(titleKey: "Disable", isOn: $isDisabled)
-                    }
-
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Style")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-
-                        Picker(selection: $style, label: EmptyView()) {
-                            Text("accent").tag(FluentUI.ButtonStyle.accent)
-                            Text("outlineAccent").tag(FluentUI.ButtonStyle.outlineAccent)
-                            Text("outlineNeutral").tag(FluentUI.ButtonStyle.outlineNeutral)
-                            Text("subtle").tag(FluentUI.ButtonStyle.subtle)
-                            Text("transparentNeutral").tag(FluentUI.ButtonStyle.transparentNeutral)
-                            Text("danger").tag(FluentUI.ButtonStyle.danger)
-                            Text("dangerOutline").tag(FluentUI.ButtonStyle.dangerOutline)
-                            Text("dangerSubtle").tag(FluentUI.ButtonStyle.dangerSubtle)
-                            Text("floatingAccent").tag(FluentUI.ButtonStyle.floatingAccent)
-                            Text("floatingSubtle").tag(FluentUI.ButtonStyle.floatingSubtle)
-                        }
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Size")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-
-                        Picker(selection: $size, label: EmptyView()) {
-                            Text(".large").tag(FluentUI.ButtonSizeCategory.large)
-                            Text(".medium").tag(FluentUI.ButtonSizeCategory.medium)
-                            Text(".small").tag(FluentUI.ButtonSizeCategory.small)
-                        }
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+            Section("Size") {
+                Picker("Size", selection: $size) {
+                    ForEach(Array(FluentUI.ButtonSizeCategory.allCases.enumerated()), id: \.element) { _, buttonSize in
+                        Text("\(buttonSize.description)").tag(buttonSize.rawValue)
                     }
                 }
-                .padding()
             }
         }
     }
