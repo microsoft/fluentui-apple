@@ -216,5 +216,5 @@ public extension EnvironmentValues {
 }
 
 struct FluentThemeKey: EnvironmentKey {
-    static let defaultValue: FluentTheme = .shared
+    static var defaultValue: FluentTheme { .shared }
 }
