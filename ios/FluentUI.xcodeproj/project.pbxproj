@@ -666,8 +666,8 @@
 			isa = PBXGroup;
 			children = (
 				A5CEC23020E451D00016922A /* Button.swift */,
-				92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */,
 				EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */,
+				92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
