@@ -216,7 +216,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.titleStyle = titleStyle
         content.navigationItem.subtitle = subtitle
         content.navigationItem.backButtonTitle = "99+"
-        content.navigationItem.navigationBarStyle = .system
+        content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
