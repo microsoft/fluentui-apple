@@ -100,7 +100,7 @@ public class FluentTheme: NSObject, ObservableObject {
     /// take precedence over this value. This value provides the fallback theme for cases where those
     /// overrides are not provided.
     @objc(sharedTheme)
-    public static var shared: FluentTheme = FluentThemeKey.defaultValue {
+    public static var shared: FluentTheme = .init() {
         didSet {
             NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
@@ -216,5 +216,5 @@ public extension EnvironmentValues {
 }
 
 struct FluentThemeKey: EnvironmentKey {
-    static let defaultValue: FluentTheme = .init()
+    static let defaultValue: FluentTheme = .shared
 }
