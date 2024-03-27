@@ -126,9 +126,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
-    @objc public class StyleWrapper: NSObject {
-        public var style: Style
-        @objc public init(style: Style) {
+    @objc public class BadgeLabelStyleWrapper: NSObject {
+        public var style: BadgeLabelStyle
+        @objc public init(style: BadgeLabelStyle) {
             self.style = style
         }
     }
@@ -310,7 +310,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     @objc dynamic private(set) var style: Style = defaultStyle
 
     // Override value for BadgeLabel Style. We can set to nil when we don't wanna override.
-    @objc public var overriddenBadgeLabelStyle: StyleWrapper? {
+    @objc public var overriddenBadgeLabelStyle: BadgeLabelStyleWrapper? {
         didSet {
             if let navigationItem = topItem {
                 updateBarButtonItems(with: navigationItem)
@@ -740,10 +740,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        let finalStyle = overriddenBadgeLabelStyle?.style ?? style
-        if finalStyle == .system {
+        if let badgeLabelStyle = overriddenBadgeLabelStyle?.style {
+            button.badgeLabelStyle = badgeLabelStyle
+        } else if style == .system {
             button.badgeLabelStyle = .system
-        } else if finalStyle == .gradient {
+        } else if style == .gradient {
             button.badgeLabelStyle = .brand
         } else {
             button.badgeLabelStyle = .onPrimary

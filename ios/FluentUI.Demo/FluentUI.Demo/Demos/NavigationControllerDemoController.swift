@@ -216,7 +216,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.titleStyle = titleStyle
         content.navigationItem.subtitle = subtitle
         content.navigationItem.backButtonTitle = "99+"
-        content.navigationItem.navigationBarStyle = style
+        content.navigationItem.navigationBarStyle = .system
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
@@ -765,7 +765,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     @objc private func updateBadgeStyle(isOn: Bool) {
         let navigationBar = msfNavigationController?.msfNavigationBar
-        navigationBar?.overriddenBadgeLabelStyle = isOn ? NavigationBar.StyleWrapper(style: .system) : nil
+        navigationBar?.overriddenBadgeLabelStyle = isOn ? NavigationBar.BadgeLabelStyleWrapper(style: .system) : nil
         updateBadgeLabelStyle = isOn
     }
 
