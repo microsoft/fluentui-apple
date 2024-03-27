@@ -40,16 +40,71 @@ extension UIView {
 }
 
 /// FluentUI specific implementation of the UIHostingController which adds a workaround for disabling safeAreaInsets for its view.
-@available(iOS, deprecated: 16)
-class FluentUIHostingController: UIHostingController<AnyView> {
+open class FluentUIHostingController: UIHostingController<AnyView> {
 
-    /// iOS 15.0 fix for UIHostingController that does not automatically resize to hug subviews
-    override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
+    @MainActor required dynamic public override init(rootView: AnyView) {
+        controlView = rootView
+        super.init(rootView: rootView)
 
-            view.setNeedsUpdateConstraints()
+        // We need to observe theme changes, and use them to update our wrapped control.
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(themeDidChange),
+                                               name: .didChangeTheme,
+                                               object: nil)
+
+        // Set the initial appearance of our control.
+        updateRootView()
     }
 
+    @MainActor required dynamic public init?(coder aDecoder: NSCoder) {
+        preconditionFailure("init(coder:) has not been implemented")
+    }
+
+    open override func willMove(toParent parent: UIViewController?) {
+        super.willMove(toParent: parent)
+        if parent != nil {
+            updateRootView()
+        }
+    }
+
+    /// iOS 15.0 fix for UIHostingController that does not automatically resize to hug subviews
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        view.setNeedsUpdateConstraints()
+    }
+
+    // MARK: - Theme management
+
+    @objc private func themeDidChange(_ notification: Notification) {
+        guard FluentTheme.isApplicableThemeChange(notification, for: self.view) else {
+            return
+        }
+        updateRootView()
+    }
+
+    private func updateRootView() {
+        self.rootView = AnyView(
+            controlView
+                .fluentTheme(view.fluentTheme)
+                .onAppear { [weak self] in
+                    // We don't usually have a window at construction time, so fetch our
+                    // custom theme during `onAppear`
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    strongSelf.updateRootView()
+                }
+            )
+    }
+
+    private var controlView: AnyView
+    private var themeObserver: NSObjectProtocol?
+}
+
+// MARK: - Safe Area Inset swizzling
+
+extension FluentUIHostingController {
     /// Static constant that will be guaranteed to have its initialization executed only once during the lifetime of the application.
     private static let swizzleSafeAreaInsetsOnce: Void = {
         // A FluentUIHostingController instance needs to be created so that the class type for the private UIHostingViewwe can be retrived.
@@ -66,7 +121,13 @@ class FluentUIHostingController: UIHostingController<AnyView> {
     /// Disables the UIHostingController's view safe area insets by swizzling the UIView.safeAreaInsets property and returning UIEdgeInsets.zero if the UIView.shouldUseZeroEdgeInsets is true.
     /// This is a known issue and it's currently tracked by Radar bug FB8176223 - https://openradar.appspot.com/FB8176223
     func disableSafeAreaInsets() {
-        view.shouldUseZeroEdgeInsets = true
-        _ = FluentUIHostingController.swizzleSafeAreaInsetsOnce
+        // We no longer need the workarounds from `FluentUIHostingController` in
+        // iOS 16, but we still need it for 14 and 15.
+        if #unavailable(iOS 16) {
+            view.shouldUseZeroEdgeInsets = true
+            _ = FluentUIHostingController.swizzleSafeAreaInsetsOnce
+        } else {
+            sizingOptions = [.intrinsicContentSize]
+        }
     }
 }

@@ -36,17 +36,10 @@ open class ControlHostingView: UIView {
     ///
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
     init(_ controlView: AnyView) {
-        self.controlView = controlView
+        hostingController = FluentUIHostingController.init(rootView: AnyView(controlView))
+        hostingController.disableSafeAreaInsets()
         super.init(frame: .zero)
 
-        // We need to observe theme changes, and use them to update our wrapped control.
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(themeDidChange),
-                                               name: .didChangeTheme,
-                                               object: nil)
-
-        // Set the initial appearance of our control.
-        self.updateRootView()
         self.configureHostedView()
     }
 
@@ -73,42 +66,5 @@ open class ControlHostingView: UIView {
         self.addConstraints(requiredConstraints)
     }
 
-    @objc private func themeDidChange(_ notification: Notification) {
-        guard FluentTheme.isApplicableThemeChange(notification, for: self) else {
-            return
-        }
-        updateRootView()
-    }
-
-    private func updateRootView() {
-        self.hostingController.rootView = tokenizedView
-    }
-
-    private var tokenizedView: AnyView {
-        return AnyView(controlView
-                        .fluentTheme(fluentTheme)
-                        .onAppear { [weak self] in
-                            // We don't usually have a window at construction time, so fetch our
-                            // custom theme during `onAppear`
-                            self?.updateRootView()
-                        }
-        )
-    }
-
-    private let hostingController: UIHostingController = {
-        // We no longer need the workarounds from `FluentUIHostingController` in
-        // iOS 16, but we still need it for 14 and 15. Once we drop 14/15, we
-        // can just delete the entire class.
-        if #unavailable(iOS 16) {
-            let controller = FluentUIHostingController.init(rootView: AnyView(EmptyView()))
-            controller.disableSafeAreaInsets()
-            return controller
-        } else {
-            let controller = UIHostingController.init(rootView: AnyView(EmptyView()))
-            controller.sizingOptions = [.intrinsicContentSize]
-            return controller
-        }
-    }()
-    private let controlView: AnyView
-    private var themeObserver: NSObjectProtocol?
+    private let hostingController: FluentUIHostingController
 }
