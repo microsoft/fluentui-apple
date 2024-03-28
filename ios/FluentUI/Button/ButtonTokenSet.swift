@@ -128,8 +128,6 @@ public enum ButtonToken: Int, TokenSetKey {
 public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
     init(style: @escaping () -> ButtonStyle,
          size: @escaping () -> ButtonSizeCategory) {
-        self.style = style
-        self.size = size
         super.init { [style, size] token, theme in
             switch token {
             case .backgroundColor:
@@ -298,9 +296,6 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             }
         }
     }
-
-    var style: () -> ButtonStyle
-    var size: () -> ButtonSizeCategory
 }
 
 extension ButtonTokenSet {
