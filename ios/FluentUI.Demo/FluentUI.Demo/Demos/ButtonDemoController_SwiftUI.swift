@@ -63,6 +63,13 @@ extension ButtonDemoControllerSwiftUI: UIPopoverPresentationControllerDelegate {
 }
 
 struct ButtonDemoView: View {
+    public var body: some View {
+        VStack {
+            demoButton(style, size, isDisabled: isDisabled)
+            demoOptions
+        }
+    }
+
     @State var isDisabled: Bool = false
     @State var text: String = "Button"
     @State var showImage: Bool = true
@@ -71,15 +78,10 @@ struct ButtonDemoView: View {
     @State var size: ControlSize = .large
     @State var style: FluentUI.ButtonStyle = .accent
 
-    public var body: some View {
-        VStack {
-            demoButton
-            demoOptions
-        }
-    }
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
     @ViewBuilder
-    private var demoButton: some View {
+    private func demoButton(_ buttonStyle: FluentUI.ButtonStyle, _ controlSize: ControlSize, isDisabled: Bool) -> some View {
         Button(action: {
             showAlert = true
         }, label: {
@@ -92,11 +94,11 @@ struct ButtonDemoView: View {
                 }
             }
         })
-        .buttonStyle(FluentButtonStyle(style: style))
-        .controlSize(size)
+        .buttonStyle(FluentButtonStyle(style: buttonStyle))
+        .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
-        .padding()
+        .padding(8.0)
         .alert(isPresented: $showAlert, content: {
             Alert(title: Text("Button tapped"))
         })
@@ -132,6 +134,29 @@ struct ButtonDemoView: View {
                     ForEach(Array(SwiftUI.ControlSize.allCases.enumerated()), id: \.element) { _, buttonSize in
                         Text("\(buttonSize.description)").tag(buttonSize)
                     }
+                }
+            }
+
+            Section("More") {
+                NavigationLink("All Button Styles") {
+                    allButtonStyles
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var allButtonStyles: some View {
+        ScrollView {
+            ForEach(Array(FluentUI.ButtonStyle.allCases.enumerated()), id: \.element) { _, buttonStyle in
+                Text("\(buttonStyle.description)")
+                    .font(Font(fluentTheme.typography(.title2)))
+                ForEach(Array([ControlSize.small, ControlSize.regular, ControlSize.large].enumerated()), id: \.element) { _, controlSize in
+                    HStack {
+                        demoButton(buttonStyle, controlSize, isDisabled: false)
+                        demoButton(buttonStyle, controlSize, isDisabled: true)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
             }
         }
