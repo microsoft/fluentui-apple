@@ -53,6 +53,11 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
     }
 
+    @objc open var keyboardType: UIKeyboardType {
+        get { return searchTextField.keyboardType }
+        set { searchTextField.keyboardType = newValue }
+    }
+
     /// Indicates when search bar either has focus or contains a search text.
     @objc open private(set) var isActive: Bool = false
 
