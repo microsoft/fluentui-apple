@@ -13,7 +13,7 @@ class ButtonDemoController: DemoController {
 
         container.alignment = .leading
 
-        addTitle(text: "SwiftUI Demo")
+        addTitle(text: "SwiftUI Button Demo")
         container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
 
         for style in ButtonStyle.allCases {

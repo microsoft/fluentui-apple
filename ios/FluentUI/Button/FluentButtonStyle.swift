@@ -11,11 +11,12 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     public init(style: ButtonStyle, size: ButtonSizeCategory) {
         self.style = style
         self.size = size
-        self.tokenSet = ButtonTokenSet(style: { style }, size: { size })
     }
 
     public func makeBody(configuration: Configuration) -> some View {
+        let tokenSet = ButtonTokenSet(style: { style }, size: { size })
         tokenSet.update(fluentTheme)
+
         let isPressed = configuration.isPressed
         let isDisabled = !isEnabled
         let isFocused = isFocused
@@ -50,7 +51,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         }
 
         @ViewBuilder var overlayView: some View {
-            if borderColor != .clear {
+            if borderColor != Color(.clear) {
                 if isFloatingStyle {
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                         .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
@@ -73,8 +74,6 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             .applyShadow(shadowInfo: shadowInfo)
             .pointerInteraction(isEnabled)
     }
-
-    @ObservedObject private var tokenSet: ButtonTokenSet
 
     private let style: ButtonStyle
     private let size: ButtonSizeCategory
