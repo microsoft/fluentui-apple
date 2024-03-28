@@ -54,11 +54,11 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         @ViewBuilder var overlayView: some View {
             if borderColor != Color(.clear) {
                 if isFloatingStyle {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                    Capsule()
                         .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
                         .foregroundStyle(borderColor)
                 } else {
-                    Capsule()
+                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                         .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
                         .foregroundStyle(borderColor)
                 }
