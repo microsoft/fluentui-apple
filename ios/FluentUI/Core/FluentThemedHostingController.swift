@@ -39,8 +39,9 @@ extension UIView {
     }
 }
 
-/// FluentUI specific implementation of the UIHostingController which adds a workaround for disabling safeAreaInsets for its view.
-open class FluentUIHostingController: UIHostingController<AnyView> {
+/// FluentUI specific implementation of the UIHostingController. This is primarily useful for adding `FluentTheme` observation
+/// to any wrapped Fluent controls. Additionally, this class adds a workaround for disabling safeAreaInsets for its view on iOS 15.
+open class FluentThemedHostingController: UIHostingController<AnyView> {
 
     @MainActor required dynamic public override init(rootView: AnyView) {
         controlView = rootView
@@ -99,16 +100,15 @@ open class FluentUIHostingController: UIHostingController<AnyView> {
     }
 
     private var controlView: AnyView
-    private var themeObserver: NSObjectProtocol?
 }
 
 // MARK: - Safe Area Inset swizzling
 
-extension FluentUIHostingController {
+extension FluentThemedHostingController {
     /// Static constant that will be guaranteed to have its initialization executed only once during the lifetime of the application.
     private static let swizzleSafeAreaInsetsOnce: Void = {
         // A FluentUIHostingController instance needs to be created so that the class type for the private UIHostingViewwe can be retrived.
-        let hostingControllerViewClass: AnyClass = FluentUIHostingController(rootView: AnyView(EmptyView())).view.classForCoder
+        let hostingControllerViewClass: AnyClass = FluentThemedHostingController(rootView: AnyView(EmptyView())).view.classForCoder
 
         guard let originalMethod = class_getInstanceMethod(hostingControllerViewClass, #selector(getter: UIView.safeAreaInsets)),
               let swizzledMethod = class_getInstanceMethod(hostingControllerViewClass, #selector(getter: UIView.customSafeAreaInsets)) else {
@@ -125,7 +125,7 @@ extension FluentUIHostingController {
         // iOS 16, but we still need it for 14 and 15.
         if #unavailable(iOS 16) {
             view.shouldUseZeroEdgeInsets = true
-            _ = FluentUIHostingController.swizzleSafeAreaInsetsOnce
+            _ = FluentThemedHostingController.swizzleSafeAreaInsetsOnce
         } else {
             sizingOptions = [.intrinsicContentSize]
         }

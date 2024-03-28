@@ -36,7 +36,7 @@ open class ControlHostingView: UIView {
     ///
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
     init(_ controlView: AnyView) {
-        hostingController = FluentUIHostingController.init(rootView: AnyView(controlView))
+        hostingController = FluentThemedHostingController.init(rootView: controlView)
         hostingController.disableSafeAreaInsets()
         super.init(frame: .zero)
 
@@ -66,5 +66,5 @@ open class ControlHostingView: UIView {
         self.addConstraints(requiredConstraints)
     }
 
-    private let hostingController: FluentUIHostingController
+    private let hostingController: FluentThemedHostingController
 }

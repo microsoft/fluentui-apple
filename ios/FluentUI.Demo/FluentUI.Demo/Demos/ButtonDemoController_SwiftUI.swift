@@ -7,7 +7,7 @@ import FluentUI
 import SwiftUI
 import UIKit
 
-class ButtonDemoControllerSwiftUI: FluentUIHostingController {
+class ButtonDemoControllerSwiftUI: FluentThemedHostingController {
     @objc required dynamic init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
