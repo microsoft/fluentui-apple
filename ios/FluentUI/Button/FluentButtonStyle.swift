@@ -8,18 +8,19 @@ import UIKit
 
 /// ButtonStyle which configures the Button View according to its state and design tokens.
 public struct FluentButtonStyle: SwiftUI.ButtonStyle {
-    public init(style: ButtonStyle, size: ButtonSizeCategory) {
+    public init(style: ButtonStyle) {
         self.style = style
-        self.size = size
     }
 
     public func makeBody(configuration: Configuration) -> some View {
-        let tokenSet = ButtonTokenSet(style: { style }, size: { size })
-        tokenSet.update(fluentTheme)
-
         let isPressed = configuration.isPressed
         let isDisabled = !isEnabled
         let isFocused = isFocused
+        let isFloatingStyle = style.isFloating
+        let size = size
+
+        let tokenSet = ButtonTokenSet(style: { style }, size: { size })
+        tokenSet.update(fluentTheme)
 
         let cornerRadius = tokenSet[.cornerRadius].float
         let shadowToken = (isDisabled || isFocused || isPressed) ? ButtonToken.shadowPressed : ButtonToken.shadowRest
@@ -75,14 +76,29 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             .pointerInteraction(isEnabled)
     }
 
-    private let style: ButtonStyle
-    private let size: ButtonSizeCategory
-
+    @Environment(\.controlSize) private var controlSize: ControlSize
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
     @Environment(\.isFocused) private var isFocused: Bool
 
+    private let style: ButtonStyle
+
+    private var size: ButtonSizeCategory {
+        switch controlSize {
+        case .mini, .small:
+            return .small
+        case .regular:
+            return .medium
+        case .large, .extraLarge:
+            return .large
+        @unknown default:
+            assertionFailure("Unknown SwiftUI.ControlSize: \(controlSize). Reverting to .medium")
+            return .medium
+        }
+    }
+
     private var edgeInsets: EdgeInsets {
+        let size = size
         let horizontalPadding = ButtonTokenSet.horizontalPadding(style: style, size: size)
         let fabAlternativePadding = ButtonTokenSet.fabAlternativePadding(size)
         return EdgeInsets(
@@ -92,6 +108,4 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             trailing: style.isFloating ? fabAlternativePadding : horizontalPadding
         )
     }
-
-    private var isFloatingStyle: Bool { style.isFloating }
 }

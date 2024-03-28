@@ -68,7 +68,7 @@ struct ButtonDemoView: View {
     @State var showImage: Bool = true
     @State var showLabel: Bool = true
     @State var showAlert: Bool = false
-    @State var size: FluentUI.ButtonSizeCategory = .large
+    @State var size: ControlSize = .large
     @State var style: FluentUI.ButtonStyle = .accent
 
     public var body: some View {
@@ -92,7 +92,8 @@ struct ButtonDemoView: View {
                 }
             }
         })
-        .buttonStyle(FluentButtonStyle(style: style, size: size))
+        .buttonStyle(FluentButtonStyle(style: style))
+        .controlSize(size)
         .disabled(isDisabled)
         .fixedSize()
         .padding()
@@ -120,21 +121,38 @@ struct ButtonDemoView: View {
                 FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
             }
 
-            Section("Style") {
+            Section("Style and Size") {
                 Picker("Style", selection: $style) {
                     ForEach(Array(FluentUI.ButtonStyle.allCases.enumerated()), id: \.element) { _, buttonStyle in
                         Text("\(buttonStyle.description)").tag(buttonStyle.rawValue)
                     }
                 }
-            }
 
-            Section("Size") {
-                Picker("Size", selection: $size) {
-                    ForEach(Array(FluentUI.ButtonSizeCategory.allCases.enumerated()), id: \.element) { _, buttonSize in
-                        Text("\(buttonSize.description)").tag(buttonSize.rawValue)
+                Picker("Control Size", selection: $size) {
+                    ForEach(Array(SwiftUI.ControlSize.allCases.enumerated()), id: \.element) { _, buttonSize in
+                        Text("\(buttonSize.description)").tag(buttonSize)
                     }
                 }
             }
+        }
+    }
+}
+
+private extension ControlSize {
+    var description: String {
+        switch self {
+        case .mini:
+            return "mini"
+        case .small:
+            return "small"
+        case .regular:
+            return "regular"
+        case .large:
+            return "large"
+        case .extraLarge:
+            return "extraLarge"
+        @unknown default:
+            return "UNKNOWN"
         }
     }
 }
