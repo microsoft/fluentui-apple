@@ -104,7 +104,7 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
             let brandColors = brandColorOverrides(provider: provider)
             FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
         } else {
-            FluentTheme.shared = FluentThemeKey.defaultValue
+            FluentTheme.shared = .init()
         }
     }
 }
