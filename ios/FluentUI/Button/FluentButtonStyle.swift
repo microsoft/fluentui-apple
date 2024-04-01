@@ -6,7 +6,7 @@
 import SwiftUI
 import UIKit
 
-/// ButtonStyle which configures the Button View according to its state and design tokens.
+/// `ButtonStyle` which configures the `Button` according to its state and design tokens.
 public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     public init(style: ButtonStyle) {
         self.style = style
@@ -20,6 +20,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         let size = size
 
         let tokenSet = ButtonTokenSet(style: { style }, size: { size })
+        tokenSet.replaceAllOverrides(with: tokenOverrides)
         tokenSet.update(fluentTheme)
 
         let cornerRadius = tokenSet[.cornerRadius].float
@@ -44,10 +45,12 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         }
 
         @ViewBuilder var backgroundView: some View {
-            if isFloatingStyle {
-                backgroundColor.clipShape(Capsule())
-            } else {
-                backgroundColor.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            if backgroundColor != Color(.clear) {
+                if isFloatingStyle {
+                    backgroundColor.clipShape(Capsule())
+                } else {
+                    backgroundColor.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+                }
             }
         }
 
@@ -107,5 +110,14 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             bottom: .zero,
             trailing: style.isFloating ? fabAlternativePadding : horizontalPadding
         )
+    }
+
+    private var tokenOverrides: [ButtonToken: ControlTokenValue]?
+}
+
+public extension FluentButtonStyle {
+    /// Provide override values for various `ButtokToken` values.
+    mutating func overrideTokens(_ overrides: [ButtonToken: ControlTokenValue]) {
+        tokenOverrides = overrides
     }
 }
