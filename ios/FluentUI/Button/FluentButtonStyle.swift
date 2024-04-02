@@ -72,7 +72,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             .frame(minHeight: ButtonTokenSet.minContainerHeight(style: style, size: size))
             .background(backgroundView)
             .overlay { overlayView }
-            .applyShadow(shadowInfo: shadowInfo)
+            .applyFluentShadow(shadowInfo: shadowInfo)
             .pointerInteraction(isEnabled)
     }
 
