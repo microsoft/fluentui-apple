@@ -51,6 +51,14 @@ extension View {
         modifier(LargeContentViewerModifier(text: text, image: image))
     }
 
+    /// Applies a key and an ambient shadow on a `View`.
+    /// - Parameters:
+    ///   - shadowInfo: The values of the two shadows to be applied.
+    /// - Returns: The modified view.
+    public func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
+        modifier(ShadowModifier(shadowInfo: shadowInfo))
+    }
+
     /// Abstracts away differences in pre-iOS 17 `onChange(of:perform:)` versus post-iOS 17 `onChange(of:_:)`.
     ///
     /// This function will be removed once FluentUI moves to iOS 17 as a minimum target.
