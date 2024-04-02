@@ -5,7 +5,7 @@
 
 import CoreGraphics
 import UIKit
-import Foundation
+import SwiftUI
 
 /// Represents a two-part shadow as used by FluentUI.
 @objc(MSFShadowInfo)
@@ -107,9 +107,18 @@ public extension ShadowInfo {
     }
 }
 
+public extension View {
+    /// Applies multiple shadows on a View
+    /// - Parameters:
+    ///  - shadowInfo: The values of the two shadows to be applied
+    /// - Returns: The modified view.
+    func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
+        modifier(ShadowModifier(shadowInfo: shadowInfo))
+    }
+}
+
 /// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
 public protocol Shadowable {
-
     /// The layer on which the ambient shadow is implemented
     var ambientShadow: CALayer? { get set }
 
