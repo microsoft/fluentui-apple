@@ -90,9 +90,9 @@ public extension ShadowInfo {
         view.layer.insertSublayer(keyShadow, below: ambientShadow)
     }
 
-    /// Initializes a `CALayer` with the relevant `ShadowInfo` values
+    /// Initializes a `CALayer` with the relevant `ShadowInfo` values.
     /// - Parameters:
-    ///   - view: The view on which the shadows will be applied.
+    ///   - view: The view on which the shadow layer will be applied.
     ///   - isAmbientShadow: Determines whether to apply ambient or key shadow values on the layer.
     /// - Returns: The modified `CALayer`.
     func initializeShadowLayer(view: UIView, isAmbientShadow: Bool = false) -> CALayer {
