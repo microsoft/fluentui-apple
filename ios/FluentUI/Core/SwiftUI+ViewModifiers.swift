@@ -67,6 +67,13 @@ extension View {
     ///   - action: A closure to run when the value changes.
     /// - Returns: A view that fires an action when the specified value changes.
     func onChange_iOS17<V>(of value: V, _ action: @escaping (V) -> Void) -> some View where V: Equatable {
+#if os(visionOS)
+        // Known bug when using #available and self.onChange together in visionOS: it'll crash!
+        // So for this OS, just use the new .onChange unconditionally.
+        return self.onChange(of: value) { _, newValue in
+            return action(newValue)
+        }
+#else
         if #available(iOS 17, *) {
             return self.onChange(of: value) { _, newValue in
                 return action(newValue)
@@ -74,6 +81,7 @@ extension View {
         } else {
             return self.onChange(of: value, perform: action)
         }
+#endif
     }
 }
 
