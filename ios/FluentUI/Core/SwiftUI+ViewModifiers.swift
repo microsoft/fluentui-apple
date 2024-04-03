@@ -51,11 +51,11 @@ extension View {
         modifier(LargeContentViewerModifier(text: text, image: image))
     }
 
-    /// Applies multiple shadows on a View
+    /// Applies a key and an ambient shadow on a `View`.
     /// - Parameters:
-    ///  - shadowInfo: The values of the two shadows to be applied
+    ///   - shadowInfo: The values of the two shadows to be applied.
     /// - Returns: The modified view.
-    func applyShadow(shadowInfo: ShadowInfo) -> some View {
+    public func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
         modifier(ShadowModifier(shadowInfo: shadowInfo))
     }
 

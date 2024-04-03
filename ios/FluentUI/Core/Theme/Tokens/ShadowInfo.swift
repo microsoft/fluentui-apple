@@ -5,7 +5,6 @@
 
 import CoreGraphics
 import UIKit
-import Foundation
 
 /// Represents a two-part shadow as used by FluentUI.
 @objc(MSFShadowInfo)
@@ -68,7 +67,10 @@ public class ShadowInfo: NSObject {
 }
 
 public extension ShadowInfo {
-
+    /// Applies a key and an ambient shadow on a `UIView`.
+    /// - Parameters:
+    ///   - view: The view on which the shadows will be applied.
+    ///   - parentController: The view controller responsible for the view on which the shadows will be applied.
     func applyShadow(to view: UIView, parentController: UIViewController? = nil) {
         guard var shadowable = (view as? Shadowable) ?? (view.superview as? Shadowable) ?? (parentController as? Shadowable) else {
             assertionFailure("Cannot apply Fluent shadows to a non-Shadowable view")
@@ -88,6 +90,11 @@ public extension ShadowInfo {
         view.layer.insertSublayer(keyShadow, below: ambientShadow)
     }
 
+    /// Initializes a `CALayer` with the relevant `ShadowInfo` values.
+    /// - Parameters:
+    ///   - view: The view on which the shadow layer will be applied.
+    ///   - isAmbientShadow: Determines whether to apply ambient or key shadow values on the layer.
+    /// - Returns: The modified `CALayer`.
     func initializeShadowLayer(view: UIView, isAmbientShadow: Bool = false) -> CALayer {
         let layer = CALayer()
 
@@ -109,7 +116,6 @@ public extension ShadowInfo {
 
 /// Public protocol that, when implemented, allows any UIView or one of its subviews to implement fluent shadows
 public protocol Shadowable {
-
     /// The layer on which the ambient shadow is implemented
     var ambientShadow: CALayer? { get set }
 
