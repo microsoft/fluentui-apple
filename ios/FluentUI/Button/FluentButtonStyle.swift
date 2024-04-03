@@ -6,7 +6,7 @@
 import SwiftUI
 import UIKit
 
-/// ButtonStyle which configures the Button View according to its state and design tokens.
+/// `ButtonStyle` which configures the `Button` according to its state and design tokens.
 public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     public init(style: ButtonStyle) {
         self.style = style
@@ -16,10 +16,10 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         let isPressed = configuration.isPressed
         let isDisabled = !isEnabled
         let isFocused = isFocused
-        let isFloatingStyle = style.isFloating
         let size = size
 
         let tokenSet = ButtonTokenSet(style: { style }, size: { size })
+        tokenSet.replaceAllOverrides(with: tokenOverrides)
         tokenSet.update(fluentTheme)
 
         let cornerRadius = tokenSet[.cornerRadius].float
@@ -44,25 +44,21 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         }
 
         @ViewBuilder var backgroundView: some View {
-            if isFloatingStyle {
-                backgroundColor.clipShape(Capsule())
-            } else {
+            if backgroundColor != Color(.clear) {
                 backgroundColor.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             }
         }
 
         @ViewBuilder var overlayView: some View {
             if borderColor != Color(.clear) {
-                if isFloatingStyle {
-                    Capsule()
-                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
-                        .foregroundStyle(borderColor)
-                } else {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
-                        .foregroundStyle(borderColor)
-                }
+                contentShape
+                    .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
+                    .foregroundStyle(borderColor)
             }
+        }
+
+        @ViewBuilder var contentShape: some Shape {
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         }
 
         return configuration.label
@@ -73,6 +69,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             .background(backgroundView)
             .overlay { overlayView }
             .applyFluentShadow(shadowInfo: shadowInfo)
+            .contentShape(contentShape)
             .pointerInteraction(isEnabled)
     }
 
@@ -107,5 +104,14 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             bottom: .zero,
             trailing: style.isFloating ? fabAlternativePadding : horizontalPadding
         )
+    }
+
+    private var tokenOverrides: [ButtonToken: ControlTokenValue]?
+}
+
+public extension FluentButtonStyle {
+    /// Provide override values for various `ButtonToken` values.
+    mutating func overrideTokens(_ overrides: [ButtonToken: ControlTokenValue]) {
+        tokenOverrides = overrides
     }
 }
