@@ -16,7 +16,6 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
         let isPressed = configuration.isPressed
         let isDisabled = !isEnabled
         let isFocused = isFocused
-        let isFloatingStyle = style.isFloating
         let size = size
 
         let tokenSet = ButtonTokenSet(style: { style }, size: { size })
@@ -46,26 +45,20 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
 
         @ViewBuilder var backgroundView: some View {
             if backgroundColor != Color(.clear) {
-                if isFloatingStyle {
-                    backgroundColor.clipShape(Capsule())
-                } else {
-                    backgroundColor.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-                }
+                backgroundColor.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             }
         }
 
         @ViewBuilder var overlayView: some View {
             if borderColor != Color(.clear) {
-                if isFloatingStyle {
-                    Capsule()
-                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
-                        .foregroundStyle(borderColor)
-                } else {
-                    RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                        .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
-                        .foregroundStyle(borderColor)
-                }
+                contentShape
+                    .stroke(style: .init(lineWidth: tokenSet[.borderWidth].float))
+                    .foregroundStyle(borderColor)
             }
+        }
+
+        @ViewBuilder var contentShape: some Shape {
+            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         }
 
         return configuration.label
@@ -76,6 +69,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
             .background(backgroundView)
             .overlay { overlayView }
             .applyFluentShadow(shadowInfo: shadowInfo)
+            .contentShape(contentShape)
             .pointerInteraction(isEnabled)
     }
 

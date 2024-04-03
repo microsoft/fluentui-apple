@@ -233,7 +233,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                 }
             case .cornerRadius:
                 return .float {
-                    if Compatibility.isDeviceIdiomVision() {
+                    if style().isFloating || Compatibility.isDeviceIdiomVision() {
                         return ButtonTokenSet.minContainerHeight(style: style(), size: size()) / 2
                     }
                     switch size() {
