@@ -110,7 +110,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
 }
 
 public extension FluentButtonStyle {
-    /// Provide override values for various `ButtokToken` values.
+    /// Provide override values for various `ButtonToken` values.
     mutating func overrideTokens(_ overrides: [ButtonToken: ControlTokenValue]) {
         tokenOverrides = overrides
     }

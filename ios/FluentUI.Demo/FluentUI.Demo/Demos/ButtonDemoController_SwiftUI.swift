@@ -110,7 +110,7 @@ struct ButtonDemoView: View {
         .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
-        .padding(8.0)
+        .padding(GlobalTokens.spacing(.size80))
         .alert(isPresented: $showAlert, content: {
             Alert(title: Text("Button tapped"))
         })
@@ -125,7 +125,7 @@ struct ButtonDemoView: View {
         .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
-        .padding(8.0)
+        .padding(GlobalTokens.spacing(.size80))
     }
 
     @ViewBuilder

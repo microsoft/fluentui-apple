@@ -17,7 +17,7 @@ public struct FluentButtonToggleStyle: ToggleStyle {
         }, label: {
             configuration.label
         })
-        .buttonStyle(configuration.isOn ? buttonStylePressed : buttonStyle)
+        .buttonStyle(configuration.isOn ? buttonStyleOn : buttonStyle)
     }
 
     private var buttonStyle: FluentButtonStyle {
@@ -26,9 +26,9 @@ public struct FluentButtonToggleStyle: ToggleStyle {
         return style
     }
 
-    private var buttonStylePressed: FluentButtonStyle {
+    private var buttonStyleOn: FluentButtonStyle {
         var style = FluentButtonStyle(style: .subtle)
-        style.overrideTokens(pressedButtonTokens)
+        style.overrideTokens(buttonOnTokens)
         return style
     }
 
@@ -38,7 +38,7 @@ public struct FluentButtonToggleStyle: ToggleStyle {
         ]
     }
 
-    private var pressedButtonTokens: [ButtonToken: ControlTokenValue] {
+    private var buttonOnTokens: [ButtonToken: ControlTokenValue] {
         let backgroundColor = fluentTheme.color(.brandBackgroundTint)
         return buttonTokens.merging([
             .backgroundColor: .uiColor { backgroundColor },
