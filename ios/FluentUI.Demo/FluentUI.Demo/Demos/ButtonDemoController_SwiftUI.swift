@@ -65,7 +65,11 @@ extension ButtonDemoControllerSwiftUI: UIPopoverPresentationControllerDelegate {
 struct ButtonDemoView: View {
     public var body: some View {
         VStack {
-            demoButton(style, size, isDisabled: isDisabled)
+            if showToggle {
+                demoToggle(size, isDisabled: isDisabled)
+            } else {
+                demoButton(style, size, isDisabled: isDisabled)
+            }
             demoOptions
         }
     }
@@ -77,31 +81,51 @@ struct ButtonDemoView: View {
     @State var showAlert: Bool = false
     @State var size: ControlSize = .large
     @State var style: FluentUI.ButtonStyle = .accent
+    @State var showToggle: Bool = false
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+
+    @State var isToggleOn: Bool = false
+
+    @ViewBuilder
+    private var buttonLabel: some View {
+        HStack {
+            if showImage {
+                Image("Placeholder_24")
+            }
+            if showLabel && text.count > 0 {
+                Text(text)
+            }
+        }
+    }
 
     @ViewBuilder
     private func demoButton(_ buttonStyle: FluentUI.ButtonStyle, _ controlSize: ControlSize, isDisabled: Bool) -> some View {
         Button(action: {
             showAlert = true
         }, label: {
-            HStack {
-                if showImage {
-                    Image("Placeholder_24")
-                }
-                if showLabel && text.count > 0 {
-                    Text(text)
-                }
-            }
+            buttonLabel
         })
         .buttonStyle(FluentButtonStyle(style: buttonStyle))
         .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
-        .padding(8.0)
+        .padding(GlobalTokens.spacing(.size80))
         .alert(isPresented: $showAlert, content: {
             Alert(title: Text("Button tapped"))
         })
+    }
+
+    @ViewBuilder
+    private func demoToggle(_ controlSize: ControlSize, isDisabled: Bool) -> some View {
+        Toggle(isOn: $isToggleOn, label: {
+            buttonLabel
+        })
+        .toggleStyle(FluentButtonToggleStyle())
+        .controlSize(controlSize)
+        .disabled(isDisabled)
+        .fixedSize()
+        .padding(GlobalTokens.spacing(.size80))
     }
 
     @ViewBuilder
@@ -124,9 +148,12 @@ struct ButtonDemoView: View {
             }
 
             Section("Style and Size") {
-                Picker("Style", selection: $style) {
-                    ForEach(Array(FluentUI.ButtonStyle.allCases.enumerated()), id: \.element) { _, buttonStyle in
-                        Text("\(buttonStyle.description)").tag(buttonStyle.rawValue)
+                FluentUIDemoToggle(titleKey: "Present as toggle", isOn: $showToggle)
+                if !showToggle {
+                    Picker("Style", selection: $style) {
+                        ForEach(Array(FluentUI.ButtonStyle.allCases.enumerated()), id: \.element) { _, buttonStyle in
+                            Text("\(buttonStyle.description)").tag(buttonStyle.rawValue)
+                        }
                     }
                 }
 

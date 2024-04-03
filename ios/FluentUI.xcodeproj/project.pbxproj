@@ -200,6 +200,7 @@
 		9298798B2669A875002B1EB4 /* PersonaButtonTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E34C62668350800998031 /* PersonaButtonTokenSet.swift */; };
 		929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift */; };
 		929DD25A266ED3B600E8175E /* PersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */; };
+		929F2ACF2BB77ED100683EA8 /* FluentButtonToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929F2ACE2BB77ED100683EA8 /* FluentButtonToggleStyle.swift */; };
 		92A1E4F526A791590007ED60 /* MSFCardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A1E4F326A791590007ED60 /* MSFCardNudge.swift */; };
 		92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */; };
 		92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */; };
@@ -367,6 +368,7 @@
 		929215B82B6C75E500D4EA9F /* AvatarTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTests.swift; sourceTree = "<group>"; };
 		929DD255266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselTokenSet.swift; sourceTree = "<group>"; };
 		929DD258266ED3B600E8175E /* PersonaButtonCarousel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarousel.swift; sourceTree = "<group>"; };
+		929F2ACE2BB77ED100683EA8 /* FluentButtonToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentButtonToggleStyle.swift; sourceTree = "<group>"; };
 		92A1E4F326A791590007ED60 /* MSFCardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFCardNudge.swift; sourceTree = "<group>"; };
 		92B7E6A12684262900EFC15E /* MSFPersonaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButton.swift; sourceTree = "<group>"; };
 		92D49053278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaButtonCarouselModifiers.swift; sourceTree = "<group>"; };
@@ -668,6 +670,7 @@
 				A5CEC23020E451D00016922A /* Button.swift */,
 				EC65F78F292EDCEF002A1A23 /* ButtonTokenSet.swift */,
 				92279B322B97C7DC00994D88 /* FluentButtonStyle.swift */,
+				929F2ACE2BB77ED100683EA8 /* FluentButtonToggleStyle.swift */,
 			);
 			path = Button;
 			sourceTree = "<group>";
@@ -1733,6 +1736,7 @@
 				925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */,
 				66963D0A29CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
+				929F2ACF2BB77ED100683EA8 /* FluentButtonToggleStyle.swift in Sources */,
 				923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
 				EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */,
