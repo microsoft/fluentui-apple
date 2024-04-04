@@ -288,7 +288,7 @@ public struct FluentNotification: View, TokenizedControlView {
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
                         )
-                        .applyShadow(shadowInfo: shadowInfo)
+                        .applyFluentShadow(shadowInfo: shadowInfo)
                 )
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
