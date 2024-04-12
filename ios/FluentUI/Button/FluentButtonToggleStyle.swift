@@ -38,7 +38,7 @@ public struct FluentButtonToggleStyle: ToggleStyle {
         ]
 
         if let tokenOverrides = tokenOverrides {
-            tokens = tokens.merging(tokenOverrides) { (_, new) in new}
+            tokens = tokens.merging(tokenOverrides) { (_, new) in new }
         }
 
         return tokens
