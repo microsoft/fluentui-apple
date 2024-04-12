@@ -33,17 +33,38 @@ public struct FluentButtonToggleStyle: ToggleStyle {
     }
 
     private var buttonTokens: [ButtonToken: ControlTokenValue] {
-        [
+        var tokens: [ButtonToken: ControlTokenValue] = [
             .cornerRadius: .float { GlobalTokens.corner(.radius40) }
         ]
+
+        if let tokenOverrides = tokenOverrides {
+            tokens = tokens.merging(tokenOverrides) { (_, new) in new}
+        }
+
+        return tokens
     }
 
     private var buttonOnTokens: [ButtonToken: ControlTokenValue] {
         let backgroundColor = fluentTheme.color(.brandBackgroundTint)
-        return buttonTokens.merging([
+        var tokens: [ButtonToken: ControlTokenValue] = buttonTokens.merging([
             .backgroundColor: .uiColor { backgroundColor },
             .backgroundPressedColor: .uiColor { backgroundColor },
             .backgroundFocusedColor: .uiColor { backgroundColor }
         ]) { (_, new) in new }
+
+        if let tokenOverrides = tokenOverrides {
+            tokens = tokens.merging(tokenOverrides) { (_, new) in new }
+        }
+
+        return tokens
+    }
+
+    private var tokenOverrides: [ButtonToken: ControlTokenValue]?
+}
+
+public extension FluentButtonToggleStyle {
+    /// Provide override values for various `ButtonToken` values.
+    mutating func overrideTokens(_ overrides: [ButtonToken: ControlTokenValue]) {
+        tokenOverrides = overrides
     }
 }
