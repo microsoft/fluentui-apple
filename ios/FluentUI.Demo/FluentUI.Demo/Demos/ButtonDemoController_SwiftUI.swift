@@ -82,6 +82,7 @@ struct ButtonDemoView: View {
     @State var size: ControlSize = .large
     @State var style: FluentUI.ButtonStyle = .accent
     @State var showToggle: Bool = false
+    @State var showThemeOverrides: Bool = false
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
@@ -106,7 +107,7 @@ struct ButtonDemoView: View {
         }, label: {
             buttonLabel
         })
-        .buttonStyle(FluentButtonStyle(style: buttonStyle))
+        .buttonStyle(fluentButtonStyle(style: buttonStyle))
         .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
@@ -121,7 +122,7 @@ struct ButtonDemoView: View {
         Toggle(isOn: $isToggleOn, label: {
             buttonLabel
         })
-        .toggleStyle(FluentButtonToggleStyle())
+        .toggleStyle(fluentButtonToggleStyle())
         .controlSize(controlSize)
         .disabled(isDisabled)
         .fixedSize()
@@ -162,6 +163,8 @@ struct ButtonDemoView: View {
                         Text("\(buttonSize.description)").tag(buttonSize)
                     }
                 }
+
+                FluentUIDemoToggle(titleKey: "Show theme overrides", isOn: $showThemeOverrides)
             }
 
             Section("More") {
@@ -188,6 +191,26 @@ struct ButtonDemoView: View {
             }
         }
     }
+
+    private func fluentButtonStyle(style: FluentUI.ButtonStyle) -> FluentButtonStyle {
+        var buttonStyle = FluentButtonStyle(style: style)
+        if showThemeOverrides {
+            buttonStyle.overrideTokens(tokenOverrides)
+        }
+        return buttonStyle
+    }
+
+    private func fluentButtonToggleStyle() -> FluentButtonToggleStyle {
+        var buttonToggleStyle = FluentButtonToggleStyle()
+        if showThemeOverrides {
+            buttonToggleStyle.overrideTokens(tokenOverrides)
+        }
+        return buttonToggleStyle
+    }
+
+    private var tokenOverrides: [ButtonToken: ControlTokenValue] = [
+        .backgroundPressedColor: .uiColor { .red }
+    ]
 }
 
 private extension ControlSize {
