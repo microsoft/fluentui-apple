@@ -79,6 +79,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
+                        .minimumScaleFactor(0.6)
                         .foregroundColor(Color(tokenSet[.labelColor].uiColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
