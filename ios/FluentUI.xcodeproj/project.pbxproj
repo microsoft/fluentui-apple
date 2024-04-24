@@ -231,7 +231,7 @@
 		ECA9218627A3301C00B66117 /* MSFAvatarGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218527A3301C00B66117 /* MSFAvatarGroup.swift */; };
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECF3C9882A67495A00CA35FC /* BottomCommandingTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */; };
-		F30FEEC42BD84F0800743789 /* StringKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FEEC32BD84F0800743789 /* StringKeys.swift */; };
+		F30FEEC42BD84F0800743789 /* LocalizedStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30FEEC32BD84F0800743789 /* LocalizedStrings.swift */; };
 		F32E6E8B2A7997F3003F9AE7 /* ListActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */; };
 		F3DFD3612A7B210100014C6E /* ListActionItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */; };
 		F3F113892A705AD500DA852A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F113882A705AD500DA852A /* ListItem.swift */; };
@@ -447,7 +447,7 @@
 		ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupModifiers.swift; sourceTree = "<group>"; };
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingTokenSet.swift; sourceTree = "<group>"; };
-		F30FEEC32BD84F0800743789 /* StringKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringKeys.swift; sourceTree = "<group>"; };
+		F30FEEC32BD84F0800743789 /* LocalizedStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStrings.swift; sourceTree = "<group>"; };
 		F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItem.swift; sourceTree = "<group>"; };
 		F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemModifiers.swift; sourceTree = "<group>"; };
 		F3F113882A705AD500DA852A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
@@ -1039,7 +1039,7 @@
 			children = (
 				A559BB81212B6FA40055E107 /* Localizable.strings */,
 				A5DF1EAD2213B26900CC741A /* Localizable.stringsdict */,
-				F30FEEC32BD84F0800743789 /* StringKeys.swift */,
+				F30FEEC32BD84F0800743789 /* LocalizedStrings.swift */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -1616,7 +1616,7 @@
 				929DD257266ED3AC00E8175E /* PersonaButtonCarouselTokenSet.swift in Sources */,
 				EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
-				F30FEEC42BD84F0800743789 /* StringKeys.swift in Sources */,
+				F30FEEC42BD84F0800743789 /* LocalizedStrings.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
