@@ -206,7 +206,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
 
             case .shadow:
                 return .shadowInfo {
-                    if style().isToast {
+                    if style().isToast && !Compatibility.isDeviceIdiomVision() {
                         return theme.shadow(.shadow16)
                     } else {
                         return theme.shadow(.clear)
