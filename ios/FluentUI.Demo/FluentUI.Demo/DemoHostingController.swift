@@ -8,7 +8,7 @@ import FluentUI
 
 /// A specialized subclass of `FluentThemedHostingController` that can be used for SwiftUI demo screens.
 class DemoHostingController: FluentThemedHostingController {
-    init(rootView: AnyView, title: String) {
+    init(rootView: AnyView, title: String, readmeText: String? = nil) {
         super.init(rootView: rootView)
         self.title = title
     }
@@ -34,6 +34,17 @@ class DemoHostingController: FluentThemedHostingController {
                                              target: self,
                                              action: #selector(showAppearancePopover(_:)))
         navigationItem.rightBarButtonItems = [settingsButton]
+        let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(showReadmePopover))
+        navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
+    }
+
+    @objc func showReadmePopover(_ sender: UIBarButtonItem) {
+        readmeViewController.popoverPresentationController?.barButtonItem = sender
+        readmeViewController.popoverPresentationController?.delegate = self
+        self.present(readmeViewController, animated: true, completion: nil)
     }
 
     @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
@@ -51,8 +62,10 @@ class DemoHostingController: FluentThemedHostingController {
         showAppearancePopover(sender, presenter: self)
     }
 
-    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private var readmeText: String?
 
+    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeText)
 }
 
 extension DemoHostingController: UIPopoverPresentationControllerDelegate {
