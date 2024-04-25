@@ -354,7 +354,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
                                              target: nil,
                                              action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
         backButtonItem.accessibilityIdentifier = "Back"
-        backButtonItem.accessibilityLabel = "Accessibility.NavigationBar.BackLabel".localized
+        backButtonItem.accessibilityLabel = backButtonAccessibilityLabel
         return backButtonItem
     }()
 
