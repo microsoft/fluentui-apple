@@ -76,6 +76,4 @@ extension HeadsUpDisplayTokenSet {
     /// The maximum value for the side of the squared background of the Heads-up display.
     static let maxSize: CGFloat = 192
 
-    /// The minimum scale factor to use for the label when its text does not fit.
-    static let labelMinimumScaleFactor: CGFloat = 0.6
 }
