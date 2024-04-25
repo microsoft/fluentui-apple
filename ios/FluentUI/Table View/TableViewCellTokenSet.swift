@@ -162,7 +162,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
                 return .uiColor { theme.color(.foreground3) }
 
             case .accessoryCheckmarkColor:
-                return .uiColor { Compatibility.isDeviceIdiomVision() ? .white : theme.color(.brandForeground1) }
+                return .uiColor { theme.color(.brandForeground1) }
 
             case .separatorColor:
                 return .uiColor { theme.color(.stroke2) }
