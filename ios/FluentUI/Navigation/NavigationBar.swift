@@ -166,6 +166,7 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     }
 
     /// The accessibility label that should be applied for the back button.
+    /// A temporary change so that consumers who use SwiftUI for navigation can avoid duplicated resources until support of a swiftUI control is available.
     @objc public static let backButtonAccessibilityLabel: String = "Accessibility.NavigationBar.BackLabel".localized
 
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
