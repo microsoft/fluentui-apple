@@ -33,7 +33,6 @@ class DemoHostingController: FluentThemedHostingController {
                                              style: .plain,
                                              target: self,
                                              action: #selector(showAppearancePopover(_:)))
-        navigationItem.rightBarButtonItems = [settingsButton]
         let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
                                            style: .plain,
                                            target: self,
