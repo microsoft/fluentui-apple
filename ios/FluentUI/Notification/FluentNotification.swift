@@ -290,6 +290,9 @@ public struct FluentNotification: View, TokenizedControlView {
                         )
                         .applyFluentShadow(shadowInfo: shadowInfo)
                 )
+#if os(visionOS)
+                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
+#endif // os(visionOS)
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
                         isPresented = false
