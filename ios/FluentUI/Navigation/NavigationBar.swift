@@ -165,6 +165,11 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
+    /// The accessibility label that should be applied for the back button.
+    @objc public static var backButtonAccessibilityLabel: String {
+        "Accessibility.NavigationBar.BackLabel".localized
+    }
+
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
     @objc open var avatarSize: ElementSize = .automatic {
         didSet {
