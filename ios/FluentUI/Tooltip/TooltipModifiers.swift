@@ -80,8 +80,6 @@ private class TooltipAnchorView: UIView {
         self.values = values
         self.isPresented = isPresented
         super.init(frame: .zero)
-
-        self.backgroundColor = .clear
     }
 
     required init?(coder: NSCoder) {
