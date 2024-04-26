@@ -22,7 +22,7 @@ class TooltipDemoControllerSwiftUI: DemoHostingController {
 }
 
 struct TooltipDemoView: View {
-    public var body: some View {
+     var body: some View {
         VStack {
             tooltipAnchor
             demoOptions
