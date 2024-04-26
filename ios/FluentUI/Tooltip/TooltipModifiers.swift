@@ -6,24 +6,39 @@
 import SwiftUI
 
 public extension View {
+
+    /// Displays a tooltip based on the current settings, pointing to the `View` being modified.
+    /// If another tooltip view is already showing, it will be dismissed and the new tooltip will be shown.
+    ///
+    /// - Parameters:
+    ///   - message: The text to be displayed on the new tooltip view.
+    ///   - title: The optional bolded text to be displayed above the message on the new tooltip view.
+    ///   - preferredArrowDirection: The preferrred direction for the tooltip's arrow. Only the arrow's axis is guaranteed; the direction may be changed based on available space between the anchorView and the screen's margins. Defaults to down.
+    ///   - offset: An offset from the tooltip's default position.
+    ///   - dismissMode: The mode of tooltip dismissal. Defaults to tapping anywhere.
+    ///   - isPresented: A binding to a Boolean value that determines whether to present the tooltip. When the user dismisses the tooltip, this value is set to `false`.
+    ///   - onTap: An optional closure used to do work after the user taps
+    @ViewBuilder
     func fluentTooltip(message: String,
                        title: String? = nil,
-                       hostViewController: UIViewController? = nil,
                        preferredArrowDirection: Tooltip.ArrowDirection = .down,
                        offset: CGPoint = CGPoint(x: 0, y: 0),
                        dismissMode: Tooltip.DismissMode = .tapAnywhere,
+                       isPresented: Binding<Bool>,
                        onTap: (() -> Void)? = nil) -> some View {
         // Package up all the values to pass through.
+        let values = TooltipAnchorViewValues(
+            message: message,
+            title: title,
+            preferredArrowDirection: preferredArrowDirection,
+            offset: offset,
+            dismissMode: dismissMode,
+            onTap: onTap)
+
         self.modifier(
             TooltipModifier(
-                values: ToolbarAnchorViewValues(
-                    message: message,
-                    title: title,
-                    hostViewController: hostViewController,
-                    preferredArrowDirection: preferredArrowDirection,
-                    offset: offset,
-                    dismissMode: dismissMode,
-                    onTap: onTap)
+                values: values,
+                isPresented: isPresented
             )
         )
     }
@@ -31,10 +46,10 @@ public extension View {
 
 // MARK: - Private support for public modifiers
 
-private struct ToolbarAnchorViewValues {
+/// Convenience wrapper for the values used to show a `Tooltip`.
+private struct TooltipAnchorViewValues {
     let message: String
     let title: String?
-    let hostViewController: UIViewController?
     let preferredArrowDirection: Tooltip.ArrowDirection
     let offset: CGPoint
     let dismissMode: Tooltip.DismissMode
@@ -42,19 +57,31 @@ private struct ToolbarAnchorViewValues {
 }
 
 private struct TooltipModifier: ViewModifier {
-    let values: ToolbarAnchorViewValues
+    let values: TooltipAnchorViewValues
+    @Binding var isPresented: Bool
+
     func body(content: Content) -> some View {
         content
             .background {
-                ToolbarAnchorViewRepresentable(values: values)
+                TooltipAnchorViewRepresentable(values: values, isPresented: $isPresented)
             }
     }
 }
 
-private class ToolbarAnchorView: UIView {
-    init(values: ToolbarAnchorViewValues) {
+/// `UIView` subclass that serves as an anchor to the `Tooltip`.
+///
+/// Our existing `Tooltip` logic is built entirely around `UIView` anchoring. To reuse this in SwiftUI, we create
+/// a simple `UIView` that acts as this anchor.
+private class TooltipAnchorView: UIView {
+    var values: TooltipAnchorViewValues
+    var isPresented: Binding<Bool>
+
+    init(values: TooltipAnchorViewValues, isPresented: Binding<Bool>) {
         self.values = values
+        self.isPresented = isPresented
         super.init(frame: .zero)
+
+        self.backgroundColor = .clear
     }
 
     required init?(coder: NSCoder) {
@@ -63,31 +90,50 @@ private class ToolbarAnchorView: UIView {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        if window != nil {
+
+        // It's possible that we were asked to show the tooltip before we had loaded into a window.
+        // Check again now, just to be safe.
+        showTooltipIfPossible()
+    }
+
+    func hideTooltip() {
+        Tooltip.shared.hide()
+    }
+
+    func showTooltipIfPossible() {
+        if isPresented.wrappedValue && window != nil {
             Tooltip.shared.show(with: values.message,
                                 title: values.title,
                                 for: self,
-                                in: values.hostViewController,
                                 preferredArrowDirection: values.preferredArrowDirection,
                                 offset: values.offset,
                                 dismissOn: values.dismissMode,
-                                onTap: values.onTap)
+                                onTap: { [weak self, values] in
+                values.onTap?()
+
+                // Set the `isPresented` binding back to `false` once the tooltip dismisses.
+                self?.isPresented.wrappedValue = false
+            })
         }
     }
-
-    private let values: ToolbarAnchorViewValues
 }
 
-private struct ToolbarAnchorViewRepresentable: UIViewRepresentable {
-    func makeUIView(context: Self.Context) -> ToolbarAnchorView {
-        let view = ToolbarAnchorView(values: values)
-        view.backgroundColor = .red
+/// Subclass of `UIViewRepresentable` that creates the `TooltipAnchorView`.
+private struct TooltipAnchorViewRepresentable: UIViewRepresentable {
+    var values: TooltipAnchorViewValues
+    @Binding var isPresented: Bool
+
+    func makeUIView(context: Self.Context) -> TooltipAnchorView {
+        let view = TooltipAnchorView(values: values, isPresented: $isPresented)
         return view
     }
 
-    func updateUIView(_ uiView: ToolbarAnchorView, context: Context) {
-        // no-op
+    func updateUIView(_ uiView: TooltipAnchorView, context: Context) {
+        uiView.values = values
+        if isPresented {
+            uiView.showTooltipIfPossible()
+        } else {
+            uiView.hideTooltip()
+        }
     }
-
-    let values: ToolbarAnchorViewValues
 }

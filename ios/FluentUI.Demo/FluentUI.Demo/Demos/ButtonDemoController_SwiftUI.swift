@@ -28,8 +28,6 @@ struct ButtonDemoView: View {
                 demoToggle(size, isDisabled: isDisabled)
             } else {
                 demoButton(style, size, isDisabled: isDisabled)
-                    .fluentTooltip(message: "This is a tooltip!",
-                                   preferredArrowDirection: .left)
             }
             demoOptions
         }
