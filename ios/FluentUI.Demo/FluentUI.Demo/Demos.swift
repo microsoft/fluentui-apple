@@ -54,7 +54,7 @@ struct Demos {
         DemoDescriptor("TableViewCell", TableViewCellDemoController.self, supportsVisionOS: true),
         DemoDescriptor("TableViewHeaderFooterView", TableViewHeaderFooterViewDemoController.self, supportsVisionOS: true),
         DemoDescriptor("Text Field", TextFieldDemoController.self, supportsVisionOS: false),
-        DemoDescriptor("Tooltip", TooltipDemoController.self, supportsVisionOS: false),
+        DemoDescriptor("Tooltip", TooltipDemoController.self, supportsVisionOS: true),
         DemoDescriptor("TwoLineTitleView", TwoLineTitleViewDemoController.self, supportsVisionOS: false)
     ]
 
