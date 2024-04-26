@@ -96,10 +96,6 @@ private class TooltipAnchorView: UIView {
         showTooltipIfPossible()
     }
 
-    func hideTooltip() {
-        Tooltip.shared.hide()
-    }
-
     func showTooltipIfPossible() {
         if isPresented.wrappedValue && window != nil {
             Tooltip.shared.show(with: values.message,
@@ -133,7 +129,7 @@ private struct TooltipAnchorViewRepresentable: UIViewRepresentable {
         if isPresented {
             uiView.showTooltipIfPossible()
         } else {
-            uiView.hideTooltip()
+            Tooltip.shared.hide()
         }
     }
 }
