@@ -169,6 +169,10 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     /// A temporary change so that consumers who use SwiftUI for navigation can avoid duplicated resources until support of a swiftUI control is available.
     @objc public static let backButtonAccessibilityLabel: String = "Accessibility.NavigationBar.BackLabel".localized
 
+	/// The accessibility label that should be applied for the done button for when navigation bar is shown in a modal view.
+	/// A temporary change so that consumers who use SwiftUI for navigation can avoid duplicated resources until support of a swiftUI control is available.
+	@objc public static let doneButtonAccessibilityLabel: String = "Accessibility.Done.Label".localized
+
     /// An element size to describe the behavior of large title's avatar. If `.automatic`, avatar will resize when `expand(animated:)` and `contract(animated:)` are called.
     @objc open var avatarSize: ElementSize = .automatic {
         didSet {
