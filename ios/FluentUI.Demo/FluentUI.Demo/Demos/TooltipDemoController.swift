@@ -19,6 +19,7 @@ class TooltipDemoController: DemoController {
         navigationItem.titleView = titleView
         navigationItem.rightBarButtonItems?.append(UIBarButtonItem(title: "Show on title", style: .plain, target: self, action: #selector(showTitleTooltip)))
 
+        container.addArrangedSubview(createButton(title: "Show SwiftUI Demo", action: #selector(showSwiftUIDemo)))
         container.addArrangedSubview(createButton(title: "Show single-line tooltip below", action: #selector(showSingleTooltipBelow)))
         container.addArrangedSubview(createButton(title: "Show double-line tooltip above", action: #selector(showDoubleTooltipAbove)))
         container.addArrangedSubview(createButton(title: "Show tooltip with title above", action: #selector(showTooltipWithTitle)))
@@ -90,6 +91,11 @@ class TooltipDemoController: DemoController {
         container.addArrangedSubview(middleLabel)
         container.addArrangedSubview(bottomContainer)
         return container
+    }
+
+    @objc func showSwiftUIDemo() {
+        navigationController?.pushViewController(TooltipDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 
     @objc func showTitleTooltip(sender: UIBarButtonItem) {
