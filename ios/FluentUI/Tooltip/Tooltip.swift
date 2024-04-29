@@ -229,7 +229,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     @objc(MSFTooltipArrowDirection)
-    public enum ArrowDirection: Int {
+    public enum ArrowDirection: Int, CaseIterable {
         case up, down, left, right
 
         var isVertical: Bool {
@@ -256,7 +256,7 @@ open class Tooltip: NSObject, TokenizedControlInternal {
     }
 
     @objc(MSFTooltipDismissMode)
-    public enum DismissMode: Int {
+    public enum DismissMode: Int, CaseIterable {
         case tapAnywhere
         case tapOnTooltip
         case tapOnTooltipOrAnchor

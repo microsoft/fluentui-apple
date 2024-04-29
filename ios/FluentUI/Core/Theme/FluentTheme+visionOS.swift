@@ -8,48 +8,52 @@ import UIKit
 #if os(visionOS)
 extension FluentTheme {
     static func defaultColor_visionOS(_ token: FluentTheme.ColorToken) -> UIColor {
+        let visionColor: UIColor
+
         // Apply overrides as needed. Note that visionOS only supports one mode, so there's no
         // need to provide multiple values (e.g. light + dark, elevated, etc).
         switch token {
         case .foreground1:
-            return .white
+            visionColor = .white
         case .foreground2:
-            return .white
+            visionColor = .white
         case .foreground3:
-            return .white
+            visionColor = .white
         case .foregroundDisabled1:
-            return .white.withAlphaComponent(0.8)
+            visionColor = .white.withAlphaComponent(0.8)
         case .foregroundOnColor:
-            return .white
+            visionColor = .white
         case .background1:
-            return .clear
+            visionColor = .clear
         case .background1Pressed:
-            return .white.withAlphaComponent(0.1)
+            visionColor = .white.withAlphaComponent(0.1)
         case .background2:
-            return .black.withAlphaComponent(0.1)
+            visionColor = .black.withAlphaComponent(0.1)
         case .background2Pressed:
-            return .clear
+            visionColor = .clear
         case .background3:
-            return .black.withAlphaComponent(0.1)
+            visionColor = .black.withAlphaComponent(0.1)
         case .background4:
-            return .clear
+            visionColor = .clear
         case .background5:
-            return .black.withAlphaComponent(0.2)
+            visionColor = .black.withAlphaComponent(0.2)
         case .background5Pressed:
-            return .black.withAlphaComponent(0.1)
+            visionColor = .black.withAlphaComponent(0.1)
         case .backgroundCanvas:
-            return .clear
+            visionColor = .clear
         case .stroke1:
-            return .white.withAlphaComponent(0.4)
+            visionColor = .white.withAlphaComponent(0.4)
         case .stroke2:
-            return .white.withAlphaComponent(0.5)
+            visionColor = .white.withAlphaComponent(0.5)
         case .dangerForeground2:
-            return GlobalTokens.sharedColor(.red, .primary)
+            visionColor = GlobalTokens.sharedColor(.red, .primary)
 
         default:
             // Return the standard iOS color by default.
-            return defaultColor(token)
+            visionColor = defaultColor(token)
         }
+
+        return UIColor(light: defaultColor(token).light, dark: visionColor.dark)
     }
 }
 #endif
