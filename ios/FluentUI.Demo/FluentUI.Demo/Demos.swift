@@ -36,7 +36,7 @@ struct Demos {
         DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self, supportsVisionOS: false),
         DemoDescriptor("Label", LabelDemoController.self, supportsVisionOS: true),
         DemoDescriptor("ListActionItem", ListActionItemDemoController.self, supportsVisionOS: false),
-        DemoDescriptor("ListItem", ListItemDemoController.self, supportsVisionOS: false),
+        DemoDescriptor("ListItem", ListItemDemoController.self, supportsVisionOS: true),
         DemoDescriptor("MultilineCommandBar", MultilineCommandBarDemoController.self, supportsVisionOS: false),
         DemoDescriptor("NavigationController", NavigationControllerDemoController.self, supportsVisionOS: true),
         DemoDescriptor("NotificationView", NotificationViewDemoController.self, supportsVisionOS: true),
