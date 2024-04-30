@@ -190,6 +190,12 @@ public struct ListItem<LeadingContent: View,
                     .buttonStyle(ListItemButtonStyle(backgroundStyleType: backgroundStyleType, tokenSet: tokenSet))
                 } else {
                     innerContent
+                        // This is necessary so that the VoiceOver focus ring includes the `innerContent` padding.
+                        // When accessoryType == .detailButton, the detail button should be its own accessiblity element.
+                        .modifyIf(accessoryType != .detailButton, { content in
+                            content
+                                .accessibilityElement(children: .combine)
+                        })
                 }
             }
             .listRowInsets(EdgeInsets())
