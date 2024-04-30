@@ -95,27 +95,30 @@ public struct ListItem<LeadingContent: View,
                 let image = Image(uiImage: icon)
                     .foregroundColor(Color(uiColor: iconColor))
                     .accessibilityIdentifier(AccessibilityIdentifiers.accessoryImage)
-                if accessoryType == .detailButton {
-                    SwiftUI.Button {
-                        if let onAccessoryTapped = onAccessoryTapped {
-                            onAccessoryTapped()
+                Group {
+                    if accessoryType == .detailButton {
+                        SwiftUI.Button {
+                            if let onAccessoryTapped = onAccessoryTapped {
+                                onAccessoryTapped()
+                            }
+                        } label: {
+                            image
                         }
-                    } label: {
-                        image
-                    }
 #if os(visionOS)
-                    .buttonStyle(.bordered)
-                    .clipShape(Circle())
+                        .buttonStyle(.bordered)
+                        .clipShape(Circle())
 #else
-                    .buttonStyle(.plain)
+                        .buttonStyle(.plain)
 #endif
-                    .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
-                    .accessibility(label: Text("Accessibility.TableViewCell.MoreActions.Label".localized))
-                    .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
-                } else {
-                    image
-                        .accessibilityHidden(true)
+                        .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
+                        .accessibility(label: Text("Accessibility.TableViewCell.MoreActions.Label".localized))
+                        .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
+                    } else {
+                        image
+                            .accessibilityHidden(true)
+                    }
                 }
+                .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
         }
 
@@ -144,6 +147,7 @@ public struct ListItem<LeadingContent: View,
             if let trailingContent {
                 trailingContent()
                     .tint(Color(fluentTheme.color(.brandForeground1)))
+                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
                     .accessibilityIdentifier(AccessibilityIdentifiers.trailingContent)
             }
         }
@@ -157,18 +161,15 @@ public struct ListItem<LeadingContent: View,
                     Spacer(minLength: 0)
                     if combineTrailingContentAccessibilityElement {
                         trailingContentView
-                            .padding(.leading, ListItemTokenSet.horizontalSpacing)
                     }
                 }
                 .accessibilityElement(children: .combine)
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
                     trailingContentView
-                        .padding(.leading, ListItemTokenSet.horizontalSpacing)
                         .accessibilitySortPriority(1)
                 }
                 accessoryView
-                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
             .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
                                 leading: ListItemTokenSet.paddingLeading,
@@ -181,18 +182,20 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var contentView: some View {
-            if let action = action {
-                SwiftUI.Button(action: action, label: {
+            Group {
+                if let action = action {
+                    SwiftUI.Button(action: action, label: {
+                        innerContent
+                    })
+                    .buttonStyle(ListItemButtonStyle(backgroundStyleTyle: backgroundStyleType, tokenSet: tokenSet))
+                } else {
                     innerContent
-                })
-                .buttonStyle(ListItemButtonStyle(backgroundStyleTyle: backgroundStyleType, tokenSet: tokenSet))
-            } else {
-                innerContent
+                }
             }
+            .listRowInsets(EdgeInsets())
         }
 
         return contentView
-                .listRowInsets(EdgeInsets())
     }
 
     private static func layoutType(subtitle: Subtitle, footer: Footer) -> LayoutType {
