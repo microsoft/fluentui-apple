@@ -160,26 +160,20 @@ public struct ListItem<LeadingContent: View,
                             .padding(.leading, ListItemTokenSet.horizontalSpacing)
                     }
                 }
-                .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
-                                    leading: ListItemTokenSet.paddingLeading,
-                                    bottom: ListItemTokenSet.paddingVertical,
-                                    trailing: accessoryType == .none ? ListItemTokenSet.paddingTrailing : 0))
                 .accessibilityElement(children: .combine)
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
                     trailingContentView
-                        .modifyIf(accessoryType == .none, { content in
-                            content
-                                .padding(.trailing, ListItemTokenSet.paddingTrailing)
-                        })
+                        .padding(.leading, ListItemTokenSet.horizontalSpacing)
                         .accessibilitySortPriority(1)
                 }
                 accessoryView
-                    .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
-                                        leading: ListItemTokenSet.horizontalSpacing,
-                                        bottom: ListItemTokenSet.paddingVertical,
-                                        trailing: ListItemTokenSet.paddingTrailing))
+                    .padding(.leading, ListItemTokenSet.horizontalSpacing)
             }
+            .padding(EdgeInsets(top: ListItemTokenSet.paddingVertical,
+                                leading: ListItemTokenSet.paddingLeading,
+                                bottom: ListItemTokenSet.paddingVertical,
+                                trailing: ListItemTokenSet.paddingTrailing))
             .frame(minHeight: layoutType.minHeight)
             .opacity(isEnabled ? ListItemTokenSet.enabledAlpha : ListItemTokenSet.disabledAlpha)
             .background(backgroundView)
