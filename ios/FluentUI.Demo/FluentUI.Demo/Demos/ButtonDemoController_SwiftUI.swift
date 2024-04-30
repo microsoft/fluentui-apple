@@ -7,58 +7,17 @@ import FluentUI
 import SwiftUI
 import UIKit
 
-class ButtonDemoControllerSwiftUI: FluentThemedHostingController {
+class ButtonDemoControllerSwiftUI: DemoHostingController {
+    init() {
+        super.init(rootView: AnyView(ButtonDemoView()), title: "Button (SwiftUI)")
+    }
+
     @objc required dynamic init?(coder aDecoder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
-    init() {
-        super.init(rootView: AnyView(ButtonDemoView()))
-        self.title = "Button (SwiftUI)"
-    }
-
     @MainActor required dynamic init(rootView: AnyView) {
-        super.init(rootView: rootView)
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureAppearanceAndReadmePopovers()
-    }
-
-    // MARK: - Demo Appearance Popover
-
-    func configureAppearanceAndReadmePopovers() {
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(showAppearancePopover(_:)))
-        navigationItem.rightBarButtonItems = [settingsButton]
-    }
-
-    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
-        if let barButtonItem = sender as? UIBarButtonItem {
-            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
-        } else if let sourceView = sender as? UIView {
-            appearanceController.popoverPresentationController?.sourceView = sourceView
-            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
-        }
-        appearanceController.popoverPresentationController?.delegate = self
-        presenter.present(appearanceController, animated: true, completion: nil)
-    }
-
-    @objc func showAppearancePopover(_ sender: AnyObject) {
-        showAppearancePopover(sender, presenter: self)
-    }
-
-    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
-
-}
-
-extension ButtonDemoControllerSwiftUI: UIPopoverPresentationControllerDelegate {
-    /// Overridden to allow for popover-style modal presentation on compact (e.g. iPhone) devices.
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none
+        preconditionFailure("init(rootView:) has not been implemented")
     }
 }
 
