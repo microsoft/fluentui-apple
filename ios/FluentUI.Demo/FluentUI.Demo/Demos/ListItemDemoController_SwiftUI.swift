@@ -8,6 +8,7 @@ import SwiftUI
 
 class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     override init?(coder aDecoder: NSCoder, rootView: ListItemDemoView) {
+        BarButtonItems.doneButtonAccessibilityLabel
         preconditionFailure("init(coder:) has not been implemented")
     }
 
