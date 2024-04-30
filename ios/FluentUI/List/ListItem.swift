@@ -191,7 +191,7 @@ public struct ListItem<LeadingContent: View,
                 SwiftUI.Button(action: action, label: {
                     innerContent
                 })
-                .buttonStyle(ListItemButtonStyle(backgroundStyle: backgroundStyleType))
+                .buttonStyle(ListItemButtonStyle(backgroundStyleTyle: backgroundStyleType, tokenSet: tokenSet))
             } else {
                 innerContent
             }
@@ -293,13 +293,14 @@ public struct ListItem<LeadingContent: View,
 // MARK: Internal structs
 
 private struct ListItemButtonStyle: SwiftUI.ButtonStyle {
-    init(backgroundStyle: ListItemBackgroundStyleType) {
-        self.backgroundStyle = backgroundStyle
+    init(backgroundStyleTyle: ListItemBackgroundStyleType, tokenSet: ListItemTokenSet) {
+        self.backgroundStyleTyle = backgroundStyleTyle
+        self.tokenSet = tokenSet
     }
 
     func makeBody(configuration: Configuration) -> some View {
-        let backgroundColor = configuration.isPressed ? ListItemTokenSet(customViewSize: { ListItemLeadingContentSize.zero })[.cellBackgroundSelectedColor].uiColor : .clear
-        let cornerRadius = backgroundStyle == .plain && Compatibility.isDeviceIdiomVision() ? 16.0 : 0
+        let backgroundColor = configuration.isPressed ? tokenSet[.cellBackgroundSelectedColor].uiColor : .clear
+        let cornerRadius = backgroundStyleTyle == .plain && Compatibility.isDeviceIdiomVision() ? 16.0 : 0
 
         return configuration.label
             .background(Color(backgroundColor))
@@ -308,7 +309,8 @@ private struct ListItemButtonStyle: SwiftUI.ButtonStyle {
             .pointerInteraction(isEnabled)
     }
 
-    let backgroundStyle: ListItemBackgroundStyleType
+    let backgroundStyleTyle: ListItemBackgroundStyleType
+    let tokenSet: ListItemTokenSet
 
     @Environment(\.isEnabled) private var isEnabled: Bool
 }
