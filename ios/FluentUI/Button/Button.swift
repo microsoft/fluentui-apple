@@ -130,7 +130,7 @@ open class Button: UIButton, Shadowable, TokenizedControlInternal {
 
     open override func layoutSubviews() {
         super.layoutSubviews()
-//        updateShadow()
+        updateShadow()
 
         updateProposedTitleLabelWidth()
     }
