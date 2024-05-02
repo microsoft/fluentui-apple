@@ -79,7 +79,7 @@ struct DynamicColor: Hashable {
 @available(iOS 17, *)
 extension DynamicColor: ShapeStyle {
     /// Evaluate to a resolved `Color` (in the form of a `ShapeStyle`) given the current `environment`.
-    public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+    func resolve(in environment: EnvironmentValues) -> Color.Resolved {
         if environment.colorScheme == .dark {
             if environment.isPresented, let darkElevated = darkElevated {
                 return darkElevated.resolve(in: environment)
