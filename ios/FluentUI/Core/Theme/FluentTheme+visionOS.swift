@@ -3,57 +3,58 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import SwiftUI
 
 #if os(visionOS)
 extension FluentTheme {
-    static func defaultColor_visionOS(_ token: FluentTheme.ColorToken) -> UIColor {
-        let visionColor: UIColor
+    static func defaultColor_visionOS(_ token: FluentTheme.ColorToken) -> DynamicColor {
+        let visionColorDark: Color
 
         // Apply overrides as needed. Note that visionOS only supports one mode, so there's no
         // need to provide multiple values (e.g. light + dark, elevated, etc).
         switch token {
         case .foreground1:
-            visionColor = .white
+            visionColorDark = GlobalTokens.neutralColor(.white)
         case .foreground2:
-            visionColor = .white
+            visionColorDark = .white
         case .foreground3:
-            visionColor = .white
+            visionColorDark = .white
         case .foregroundDisabled1:
-            visionColor = .white.withAlphaComponent(0.8)
+            visionColorDark = .white.opacity(0.8)
         case .foregroundOnColor:
-            visionColor = .white
+            visionColorDark = .white
         case .background1:
-            visionColor = .clear
+            visionColorDark = .clear
         case .background1Pressed:
-            visionColor = .white.withAlphaComponent(0.1)
+            visionColorDark = .white.opacity(0.1)
         case .background2:
-            visionColor = .black.withAlphaComponent(0.1)
+            visionColorDark = .black.opacity(0.1)
         case .background2Pressed:
-            visionColor = .clear
+            visionColorDark = .clear
         case .background3:
-            visionColor = .black.withAlphaComponent(0.1)
+            visionColorDark = .black.opacity(0.1)
         case .background4:
-            visionColor = .clear
+            visionColorDark = .clear
         case .background5:
-            visionColor = .black.withAlphaComponent(0.2)
+            visionColorDark = .black.opacity(0.2)
         case .background5Pressed:
-            visionColor = .black.withAlphaComponent(0.1)
+            visionColorDark = .black.opacity(0.1)
         case .backgroundCanvas:
-            visionColor = .clear
+            visionColorDark = .clear
         case .stroke1:
-            visionColor = .white.withAlphaComponent(0.4)
+            visionColorDark = .white.opacity(0.4)
         case .stroke2:
-            visionColor = .white.withAlphaComponent(0.5)
+            visionColorDark = .white.opacity(0.5)
         case .dangerForeground2:
-            visionColor = GlobalTokens.sharedColor(.red, .primary)
+            visionColorDark = GlobalTokens.sharedColor(.red, .primary)
 
         default:
             // Return the standard iOS color by default.
-            visionColor = defaultColor(token)
+            return defaultColor(token)
         }
 
-        return UIColor(light: defaultColor(token).light, dark: visionColor.dark)
+        // Otherwise, use the override for `dark` and fall back to the default for `light`.
+        return DynamicColor(light: defaultColor(token).light, dark: visionColorDark)
     }
 }
 #endif

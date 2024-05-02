@@ -8,6 +8,7 @@ CODE_SIGN_STYLE = Automatic
 DEVELOPMENT_TEAM = UBF8T346G9
 INFOPLIST_FILE = FluentUI.Tests/Info.plist
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+OTHER_LDFLAGS = -ObjC
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUITests
 PRODUCT_NAME = $(TARGET_NAME)
 SUPPORTED_PLATFORMS = iphoneos iphonesimulator xros xrsimulator

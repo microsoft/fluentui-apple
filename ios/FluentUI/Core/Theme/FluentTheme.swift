@@ -42,17 +42,21 @@ public class FluentTheme: NSObject, ObservableObject {
             return FontInfo(name: font.fontName, size: font.pointSize)
         })
 
+        let mappedColorOverrides = colorOverrides?.compactMapValues({ color in
+            return DynamicColor(uiColor: color)
+        })
+
 #if os(visionOS)
         // We have custom overrides for `defaultColors` in visionOS.
-        let defaultColorFunction = FluentTheme.defaultColor_visionOS(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor_visionOS(_:)
 #else
-        let defaultColorFunction = FluentTheme.defaultColor(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor(_:)
 #endif
 
-        let colorTokenSet = TokenSet<ColorToken, UIColor>(defaultColorFunction, colorOverrides)
+        let colorTokenSet = TokenSet<ColorToken, DynamicColor>(defaultColorFunction, mappedColorOverrides)
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
         let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
-        let gradientTokenSet = TokenSet<GradientToken, [UIColor]>({ [colorTokenSet] token in
+        let gradientTokenSet = TokenSet<GradientToken, [DynamicColor]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
             return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)
         })
@@ -80,15 +84,6 @@ public class FluentTheme: NSObject, ObservableObject {
     public func tokens<T: TokenSetKey>(for tokenSetType: ControlTokenSet<T>.Type) -> [T: ControlTokenValue]? {
         return controlTokenSets[tokenKey(tokenSetType)] as? [T: ControlTokenValue]
     }
-
-    /// The associated `AliasTokens` for this theme.
-    @available(*, deprecated, message: "AliasTokens are deprecated. Please use the token lookup methods on FluentTheme directly.")
-    @objc public lazy var aliasTokens: AliasTokens = {
-        AliasTokens(colorTokenSet: colorTokenSet,
-                    shadowTokenSet: shadowTokenSet,
-                    typographyTokenSet: typographyTokenSet,
-                    gradientTokenSet: gradientTokenSet)
-    }()
 
     /// The shared `FluentTheme` instance used by default for controls in the app.
     ///
@@ -130,10 +125,10 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     // Token storage
-    let colorTokenSet: TokenSet<ColorToken, UIColor>
+    let colorTokenSet: TokenSet<ColorToken, DynamicColor>
     let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
     let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
-    let gradientTokenSet: TokenSet<GradientToken, [UIColor]>
+    let gradientTokenSet: TokenSet<GradientToken, [DynamicColor]>
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"

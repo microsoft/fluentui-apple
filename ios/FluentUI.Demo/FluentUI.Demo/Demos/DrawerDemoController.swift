@@ -138,7 +138,7 @@ class DrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        let backgroundColor = view.fluentTheme.color(.background3)
+        let backgroundColor: UIColor = view.fluentTheme.color(.background3)
 
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
