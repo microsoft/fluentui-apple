@@ -34,7 +34,7 @@ class CardNudgeDemoController: DemoTableViewController {
                                                name: UIContentSizeCategory.didChangeNotification,
                                                object: nil)
 
-        self.configureAppearancePopover()
+        self.configureBarButtonItems()
     }
 
     // MARK: - Table view data source
