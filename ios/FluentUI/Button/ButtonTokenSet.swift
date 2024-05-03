@@ -344,9 +344,9 @@ extension ButtonTokenSet {
             case .large:
                 return 52
             case .medium:
-                return 40
+                return Compatibility.isDeviceIdiomVision() ? 44 : 40
             case .small:
-                return 28
+                return Compatibility.isDeviceIdiomVision() ? 44 : 28
             }
         }
     }
