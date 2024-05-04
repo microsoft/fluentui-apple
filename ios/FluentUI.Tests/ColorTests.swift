@@ -4,43 +4,12 @@
 //
 
 import XCTest
+import SwiftUI
 @testable import FluentUI
 
 class ColorTests: XCTestCase {
 
-    @available(*, deprecated)
-    func testColorValue() {
-        let hexColorValue = ColorValue(0xC7E0F4)
-        XCTAssertEqual(hexColorValue.a, 1.0)
-        XCTAssertEqual(hexColorValue.r, CGFloat(0xC7) / 255.0)
-        XCTAssertEqual(hexColorValue.g, CGFloat(0xE0) / 255.0)
-        XCTAssertEqual(hexColorValue.b, CGFloat(0xF4) / 255.0)
-
-        let rgbaColorValue = ColorValue(r: 0.35, g: 1.0, b: 0.82, a: 0.75)
-        XCTAssertEqual(rgbaColorValue.a, 0.75, accuracy: 0.01)
-        XCTAssertEqual(rgbaColorValue.r, 0.35, accuracy: 0.01)
-        XCTAssertEqual(rgbaColorValue.g, 1.0, accuracy: 0.01)
-        XCTAssertEqual(rgbaColorValue.b, 0.82, accuracy: 0.01)
-    }
-
-    @available(*, deprecated)
-    func testColorValueConversions() {
-        let colorValue = ColorValue(r: 0.35, g: 1.0, b: 0.82, a: 0.75)
-        let color = UIColor(colorValue: colorValue)
-        var red: CGFloat = 0.0
-        var green: CGFloat = 0.0
-        var blue: CGFloat = 0.0
-        var alpha: CGFloat = 0.0
-
-        // Verify that UIColor's getters return the same values as ColorValue's
-        XCTAssertTrue(color.getRed(&red, green: &green, blue: &blue, alpha: &alpha))
-        XCTAssertEqual(colorValue.a, alpha)
-        XCTAssertEqual(colorValue.r, red)
-        XCTAssertEqual(colorValue.g, green)
-        XCTAssertEqual(colorValue.b, blue)
-    }
-
-    func testColorHexValue() {
+    func testUIColorHexValue() {
         let hexValue = UInt32(0xC7E0F4)
         let color = UIColor(hexValue: hexValue)
         var red: CGFloat = 0.0
@@ -48,12 +17,60 @@ class ColorTests: XCTestCase {
         var blue: CGFloat = 0.0
         var alpha: CGFloat = 0.0
 
-        // Verify that UIColor's getters return the same values as ColorValue's
+        // Verify that UIColor's getters return the same values as the hex value
         XCTAssertTrue(color.getRed(&red, green: &green, blue: &blue, alpha: &alpha))
         XCTAssertEqual(1.0, alpha)
         XCTAssertEqual(CGFloat(0xC7) / 255.0, red, accuracy: 0.01)
         XCTAssertEqual(CGFloat(0xE0) / 255.0, green, accuracy: 0.01)
         XCTAssertEqual(CGFloat(0xF4) / 255.0, blue, accuracy: 0.01)
+    }
+
+    func testColorHexValue() {
+        let hexValue = UInt32(0xC7E0F4)
+        let color = Color(hexValue: hexValue)
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+
+        // Verify that UIColor's getters return the same values as the hex value
+        let uiColor = UIColor(color)
+        XCTAssertTrue(uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha))
+        XCTAssertEqual(1.0, alpha)
+        XCTAssertEqual(CGFloat(0xC7) / 255.0, red, accuracy: 0.01)
+        XCTAssertEqual(CGFloat(0xE0) / 255.0, green, accuracy: 0.01)
+        XCTAssertEqual(CGFloat(0xF4) / 255.0, blue, accuracy: 0.01)
+
+        if #available(iOS 17, *) {
+            let components = color.resolve(in: EnvironmentValues())
+            XCTAssertEqual(red, CGFloat(components.red), accuracy: 0.01)
+            XCTAssertEqual(green, CGFloat(components.green), accuracy: 0.01)
+            XCTAssertEqual(blue, CGFloat(components.blue), accuracy: 0.01)
+            XCTAssertEqual(alpha, CGFloat(components.opacity), accuracy: 0.01)
+        }
+    }
+
+    func testDynamicColorValue() {
+        let dynamicColor = DynamicColor(light: .white,
+                                        dark: .black)
+        let dynamicUIColor = UIColor(dynamicColor: dynamicColor)
+        XCTAssertEqual(dynamicUIColor.light, UIColor(Color.white))
+        XCTAssertEqual(dynamicUIColor.dark, UIColor(Color.black))
+        XCTAssertEqual(dynamicUIColor.darkElevated, UIColor(Color.black))
+
+        if #available(iOS 17, *) {
+            var lightColorEnvironment = EnvironmentValues()
+            lightColorEnvironment.colorScheme = .light
+            XCTAssertEqual(lightColorEnvironment.colorScheme, .light)
+            let lightColor = dynamicColor.resolve(in: lightColorEnvironment)
+            XCTAssertEqual(lightColor, Color.white.resolve(in: .init()))
+
+            var darkColorEnvironment = EnvironmentValues()
+            darkColorEnvironment.colorScheme = .dark
+            XCTAssertEqual(darkColorEnvironment.colorScheme, .dark)
+            let darkColor = dynamicColor.resolve(in: darkColorEnvironment)
+            XCTAssertEqual(darkColor, Color.black.resolve(in: darkColorEnvironment))
+        }
     }
 
     func testColorExtensions() {

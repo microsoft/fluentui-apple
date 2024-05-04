@@ -59,7 +59,7 @@ class DateTimePickerView: UIControl {
     }
 
     private func updateGradientLayerColors(gradientLayer: CAGradientLayer) {
-        let backgroundColor = fluentTheme.color(.background2)
+        let backgroundColor: UIColor = fluentTheme.color(.background2)
         let transparentColor = backgroundColor.withAlphaComponent(0)
         gradientLayer.colors = [backgroundColor.cgColor, transparentColor.cgColor, transparentColor.cgColor, backgroundColor.cgColor]
     }

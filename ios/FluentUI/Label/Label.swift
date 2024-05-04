@@ -23,16 +23,6 @@ open class Label: UILabel, TokenizedControlInternal {
         }
     }
 
-    @available(*, deprecated, renamed: "textStyle")
-    @objc open var style: AliasTokens.TypographyTokens {
-        get {
-            return AliasTokens.TypographyTokens(rawValue: textStyle.rawValue)!
-        }
-        set {
-            self.textStyle = FluentTheme.TypographyToken(rawValue: newValue.rawValue)!
-        }
-    }
-
     @objc open var textStyle: FluentTheme.TypographyToken = .body1 {
         didSet {
             updateFont()
@@ -94,14 +84,6 @@ open class Label: UILabel, TokenizedControlInternal {
 
     @objc convenience public init() {
         self.init(textStyle: .body1, colorStyle: .regular)
-    }
-
-    @available(*, deprecated, renamed: "init(textStyle:colorStyle:)")
-    @objc public init(style: AliasTokens.TypographyTokens = .body1, colorStyle: TextColorStyle = .regular) {
-        super.init(frame: .zero)
-        self.style = style
-        self.colorStyle = colorStyle
-        initialize()
     }
 
     @objc public init(textStyle: FluentTheme.TypographyToken = .body1, colorStyle: TextColorStyle = .regular) {
