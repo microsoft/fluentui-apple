@@ -191,7 +191,6 @@
 		925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F6276D6AF800EE1019 /* ShadowInfo.swift */; };
 		925728F9276D6B5800EE1019 /* FontInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925728F8276D6B5800EE1019 /* FontInfo.swift */; };
 		925D461D26FD133600179583 /* GlobalTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461B26FD133600179583 /* GlobalTokens.swift */; };
-		925D462026FD18B200179583 /* AliasTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 925D461E26FD18B200179583 /* AliasTokens.swift */; };
 		926B4C9A2B8E94F6001EBA16 /* FluentTheme+visionOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */; };
 		926FEEAA2B45A8B4002C61D0 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926FEEA92B45A8B4002C61D0 /* Compatibility.swift */; };
 		9275105626815A7100F12730 /* MSFPersonaButtonCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */; };
@@ -208,7 +207,9 @@
 		92D5598226A0FD2800328FD3 /* CardNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598026A0FD2800328FD3 /* CardNudge.swift */; };
 		92D5FDFB28A713990087894B /* LinearGradientInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFA28A713990087894B /* LinearGradientInfo.swift */; };
 		92DEE2252723D34400E31ED0 /* ControlTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */; };
-		92E7AD5026FE51FF00AE7FF8 /* DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */; };
+		92ECB2DB2BE0697F00404D79 /* GlobalTokens+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB2DA2BE0697F00404D79 /* GlobalTokens+UIKit.swift */; };
+		92ECB2DD2BE069D100404D79 /* Color+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB2DC2BE069D100404D79 /* Color+DynamicColor.swift */; };
+		92ECB2DF2BE06BCB00404D79 /* FluentTheme+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB2DE2BE06BCB00404D79 /* FluentTheme+UIKit.swift */; };
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */; };
 		94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */; };
@@ -360,7 +361,6 @@
 		925728F6276D6AF800EE1019 /* ShadowInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowInfo.swift; sourceTree = "<group>"; };
 		925728F8276D6B5800EE1019 /* FontInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontInfo.swift; sourceTree = "<group>"; };
 		925D461B26FD133600179583 /* GlobalTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTokens.swift; sourceTree = "<group>"; };
-		925D461E26FD18B200179583 /* AliasTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasTokens.swift; sourceTree = "<group>"; };
 		926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+visionOS.swift"; sourceTree = "<group>"; };
 		926FEEA92B45A8B4002C61D0 /* Compatibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compatibility.swift; sourceTree = "<group>"; };
 		9275105426815A7100F12730 /* MSFPersonaButtonCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MSFPersonaButtonCarousel.swift; sourceTree = "<group>"; };
@@ -377,7 +377,9 @@
 		92D5598026A0FD2800328FD3 /* CardNudge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudge.swift; sourceTree = "<group>"; };
 		92D5FDFA28A713990087894B /* LinearGradientInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradientInfo.swift; sourceTree = "<group>"; };
 		92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlTokenSet.swift; sourceTree = "<group>"; };
-		92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicColor.swift; sourceTree = "<group>"; };
+		92ECB2DA2BE0697F00404D79 /* GlobalTokens+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GlobalTokens+UIKit.swift"; sourceTree = "<group>"; };
+		92ECB2DC2BE069D100404D79 /* Color+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DynamicColor.swift"; sourceTree = "<group>"; };
+		92ECB2DE2BE06BCB00404D79 /* FluentTheme+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+UIKit.swift"; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
 		94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarCommandGroupsView.swift; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
@@ -829,6 +831,7 @@
 				925D461A26FD126800179583 /* Tokens */,
 				923DB9D3274CB65700D8E58A /* FluentTheme.swift */,
 				9231F10229BB99090079CD94 /* FluentTheme+Tokens.swift */,
+				92ECB2DE2BE06BCB00404D79 /* FluentTheme+UIKit.swift */,
 				926B4C992B8E94F6001EBA16 /* FluentTheme+visionOS.swift */,
 			);
 			path = Theme;
@@ -837,12 +840,11 @@
 		925D461A26FD126800179583 /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
-				925D461E26FD18B200179583 /* AliasTokens.swift */,
 				92DEE2232723D34400E31ED0 /* ControlTokenSet.swift */,
-				92E7AD4E26FE51FF00AE7FF8 /* DynamicColor.swift */,
 				92016FF7299DF34A00660DB7 /* EmptyTokenSet.swift */,
 				925728F8276D6B5800EE1019 /* FontInfo.swift */,
 				925D461B26FD133600179583 /* GlobalTokens.swift */,
+				92ECB2DA2BE0697F00404D79 /* GlobalTokens+UIKit.swift */,
 				92D5FDFA28A713990087894B /* LinearGradientInfo.swift */,
 				925728F6276D6AF800EE1019 /* ShadowInfo.swift */,
 				923DB9D2274CB65700D8E58A /* TokenizedControl.swift */,
@@ -892,6 +894,7 @@
 		A5B87AED211BCA4A0038C37C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				92ECB2DC2BE069D100404D79 /* Color+DynamicColor.swift */,
 				FD41C8B422DD3EA20086F899 /* NSLayoutConstraint+Extensions.swift */,
 				A559BB7D212B6D100055E107 /* String+Extension.swift */,
 				A56CE7B522E68A7800AA77EE /* UIColor+Extensions.swift */,
@@ -1617,6 +1620,7 @@
 				EC65F790292EDCEF002A1A23 /* ButtonTokenSet.swift in Sources */,
 				5314E26625F023B20099271A /* UIColor+Extensions.swift in Sources */,
 				5314E30225F0260E0099271A /* AccessibilityContainerView.swift in Sources */,
+				92ECB2DB2BE0697F00404D79 /* GlobalTokens+UIKit.swift in Sources */,
 				8035CAD026377C17007B3FD1 /* CommandingItem.swift in Sources */,
 				5314E0F325F012C80099271A /* ShyHeaderController.swift in Sources */,
 				535559E42711411E0094A871 /* FluentThemedHostingController.swift in Sources */,
@@ -1640,6 +1644,7 @@
 				4BDBE18928EC9E6F00314696 /* ShimmerTokenSet.swift in Sources */,
 				2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */,
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
+				92ECB2DD2BE069D100404D79 /* Color+DynamicColor.swift in Sources */,
 				6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */,
@@ -1648,10 +1653,8 @@
 				4B53505F27F63E3F0033B47F /* NotificationModifiers.swift in Sources */,
 				5314E14425F016860099271A /* PageCardPresenterController.swift in Sources */,
 				5314E11B25F015EA0099271A /* PersonaListView.swift in Sources */,
-				925D462026FD18B200179583 /* AliasTokens.swift in Sources */,
 				5314E28E25F024590099271A /* Date+Extensions.swift in Sources */,
 				5306076126A201C8002D49CF /* Persona.swift in Sources */,
-				92E7AD5026FE51FF00AE7FF8 /* DynamicColor.swift in Sources */,
 				5314E14E25F016CD0099271A /* ResizingHandleView.swift in Sources */,
 				804EDE1528C00CA400371C6B /* ContentHeightResolutionContext.swift in Sources */,
 				4B8245D8293FC7A200CF0C77 /* TooltipTokenSet.swift in Sources */,
@@ -1741,6 +1744,7 @@
 				925728F7276D6AF800EE1019 /* ShadowInfo.swift in Sources */,
 				66963D0A29CA7F89006F5FA9 /* TwoLineTitleViewTokenSet.swift in Sources */,
 				5328D97326FBA3D700F3723B /* IndeterminateProgressBarModifiers.swift in Sources */,
+				92ECB2DF2BE06BCB00404D79 /* FluentTheme+UIKit.swift in Sources */,
 				929F2ACF2BB77ED100683EA8 /* FluentButtonToggleStyle.swift in Sources */,
 				923DB9D7274CB66D00D8E58A /* ControlHostingView.swift in Sources */,
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,

@@ -45,11 +45,11 @@ public struct FluentButtonToggleStyle: ToggleStyle {
     }
 
     private var buttonOnTokens: [ButtonToken: ControlTokenValue] {
-        let backgroundColor = fluentTheme.color(.brandBackgroundTint)
+        let backgroundColor: Color = fluentTheme.color(.brandBackgroundTint)
         var tokens: [ButtonToken: ControlTokenValue] = buttonTokens.merging([
-            .backgroundColor: .uiColor { backgroundColor },
-            .backgroundPressedColor: .uiColor { backgroundColor },
-            .backgroundFocusedColor: .uiColor { backgroundColor }
+            .backgroundColor: .color { backgroundColor },
+            .backgroundPressedColor: .color { backgroundColor },
+            .backgroundFocusedColor: .color { backgroundColor }
         ]) { (_, new) in new }
 
         if let tokenOverrides = tokenOverrides {

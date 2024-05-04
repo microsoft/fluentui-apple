@@ -93,6 +93,7 @@
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928C00B02B8920E60023ECE7 /* View+Extensions.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */; };
+		92BF13322BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
 		92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */; };
 		92DD1E8D279F496300FDEE0F /* DemoAppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */; };
@@ -231,6 +232,7 @@
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		928C00B02B8920E60023ECE7 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceController.swift; sourceTree = "<group>"; };
+		92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
 		92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensDemoController.swift; sourceTree = "<group>"; };
 		92DD1E8C279F496300FDEE0F /* DemoAppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceView.swift; sourceTree = "<group>"; };
@@ -577,6 +579,7 @@
 				66963D0B29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift */,
 				92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */,
 				6FEED93A28A6E5520099D178 /* AliasColorTokensDemoController.swift */,
+				92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */,
 				6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */,
 			);
 			path = Demos;
@@ -834,6 +837,7 @@
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
 				B4EF66562295F729007FEAB0 /* TableViewHeaderFooterSampleData.swift in Sources */,
 				53097D3A27028AC900A6E4DC /* DateTimePickerDemoController.swift in Sources */,
+				92BF13322BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift in Sources */,
 				B4D852DB225C010A004B1B29 /* ButtonDemoController.swift in Sources */,
 				53097D4127028AEA00A6E4DC /* PopupMenuDemoController.swift in Sources */,
 				5306075926A1E73F002D49CF /* AvatarGroupDemoController.swift in Sources */,

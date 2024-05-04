@@ -11,6 +11,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -22,14 +23,28 @@ class AliasColorTokensDemoController: DemoTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if AliasColorTokensDemoSection.allCases[section] == .swiftUI {
+            // Special case for the SwiftUI demo dispatch
+            return 1
+        }
         return AliasColorTokensDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath)
         let section = AliasColorTokensDemoSection.allCases[indexPath.section]
-        let row = section.rows[indexPath.row]
 
+        if section == .swiftUI {
+            // Special case!
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier, for: indexPath) as? ActionsCell else {
+                preconditionFailure()
+            }
+            cell.setup(action1Title: "Show SwiftUI Demo")
+            cell.action1Button.addTarget(self, action: #selector(showSwiftUIDemo), for: .touchUpInside)
+            return cell
+        }
+
+        let row = section.rows[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath)
         cell.backgroundConfiguration?.backgroundColor = fluentTheme.color(row)
         cell.selectionStyle = .none
 
@@ -37,7 +52,7 @@ class AliasColorTokensDemoController: DemoTableViewController {
         let text = "\(row.text)"
         contentConfiguration.attributedText = NSAttributedString(string: text,
                                                                  attributes: [
-                                                                    .foregroundColor: textColor(for: row)
+                                                                    .foregroundColor: row.textColor(fluentTheme)
                                                                  ])
         contentConfiguration.textProperties.alignment = .center
         cell.contentConfiguration = contentConfiguration
@@ -45,98 +60,9 @@ class AliasColorTokensDemoController: DemoTableViewController {
         return cell
     }
 
-    private func textColor(for token: FluentTheme.ColorToken) -> UIColor {
-        switch token {
-        case .background1,
-             .background1Pressed,
-             .background1Selected,
-             .background2,
-             .background2Pressed,
-             .background2Selected,
-             .background3,
-             .background3Pressed,
-             .background3Selected,
-             .background4,
-             .background4Pressed,
-             .background4Selected,
-             .background5,
-             .background5Pressed,
-             .background5Selected,
-             .background6,
-             .backgroundDisabled,
-             .brandBackgroundDisabled,
-             .backgroundCanvas,
-             .stencil1,
-             .stencil2,
-             .foregroundDisabled2,
-             .foregroundOnColor,
-             .brandForegroundDisabled2,
-             .stroke1,
-             .stroke1Pressed,
-             .stroke2,
-             .strokeFocus1,
-             .strokeDisabled,
-             .brandBackgroundTint,
-             .foregroundDisabled1,
-             .dangerBackground1,
-             .successBackground1,
-             .warningBackground1,
-             .severeBackground1:
-            return fluentTheme.color(.foreground1)
-        case .foreground1,
-             .foreground2,
-             .foreground3,
-             .strokeFocus2,
-             .strokeAccessible,
-             .brandBackground1Pressed,
-             .brandForeground1Pressed,
-             .brandStroke1Pressed,
-             .brandStroke1,
-             .brandForegroundTint,
-             .brandStroke1Selected,
-             .brandGradient1,
-             .dangerBackground2,
-             .dangerForeground1,
-             .dangerForeground2,
-             .dangerStroke1,
-             .dangerStroke2,
-             .successBackground2,
-             .successForeground1,
-             .successForeground2,
-             .successStroke1,
-             .warningForeground1,
-             .warningForeground2,
-             .warningStroke1,
-             .severeBackground2,
-             .severeForeground1,
-             .severeForeground2,
-             .severeStroke1:
-            return fluentTheme.color(.foregroundOnColor)
-        case .foregroundLightStatic,
-             .backgroundLightStatic,
-             .backgroundLightStaticDisabled,
-             .warningBackground2,
-             .brandGradient2,
-             .brandGradient3:
-            return fluentTheme.color(.foregroundDarkStatic)
-        case .brandForeground1,
-             .brandForeground1Selected,
-             .brandForegroundDisabled1,
-             .backgroundInverted,
-             .brandBackground1,
-             .brandBackground1Selected,
-             .brandBackground2,
-             .brandBackground2Pressed,
-             .brandBackground2Selected,
-             .brandBackground3,
-             .backgroundDarkStatic,
-             .foregroundDarkStatic,
-             .presenceAway,
-             .presenceDnd,
-             .presenceAvailable,
-             .presenceOof:
-            return fluentTheme.color(.foregroundLightStatic)
-        }
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(AliasColorTokensDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 
     private var fluentTheme: FluentTheme {
@@ -144,7 +70,8 @@ class AliasColorTokensDemoController: DemoTableViewController {
     }
 }
 
-private enum AliasColorTokensDemoSection: CaseIterable {
+enum AliasColorTokensDemoSection: CaseIterable {
+    case swiftUI
     case neutralBackgrounds
     case brandBackgrounds
     case neutralForegrounds
@@ -157,6 +84,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
 
     var title: String {
         switch self {
+        case .swiftUI:
+            return "SwiftUI Demo"
         case .neutralBackgrounds:
             return "Neutral Backgrounds"
         case .brandBackgrounds:
@@ -180,6 +109,8 @@ private enum AliasColorTokensDemoSection: CaseIterable {
 
     var rows: [FluentTheme.ColorToken] {
         switch self {
+        case .swiftUI:
+            preconditionFailure("Should not fetch colors for SwiftUI section!")
         case .neutralBackgrounds:
             return [.background1,
                     .background1Pressed,
@@ -278,7 +209,7 @@ private enum AliasColorTokensDemoSection: CaseIterable {
     }
 }
 
-private extension FluentTheme.ColorToken {
+extension FluentTheme.ColorToken {
     var text: String {
         switch self {
         case .foreground1:
@@ -453,4 +384,99 @@ private extension FluentTheme.ColorToken {
             return "PresenceOof"
         }
     }
+
+    func textColor(_ fluentTheme: FluentTheme) -> UIColor {
+        switch self {
+        case .background1,
+             .background1Pressed,
+             .background1Selected,
+             .background2,
+             .background2Pressed,
+             .background2Selected,
+             .background3,
+             .background3Pressed,
+             .background3Selected,
+             .background4,
+             .background4Pressed,
+             .background4Selected,
+             .background5,
+             .background5Pressed,
+             .background5Selected,
+             .background6,
+             .backgroundDisabled,
+             .brandBackgroundDisabled,
+             .backgroundCanvas,
+             .stencil1,
+             .stencil2,
+             .foregroundDisabled2,
+             .foregroundOnColor,
+             .brandForegroundDisabled2,
+             .stroke1,
+             .stroke1Pressed,
+             .stroke2,
+             .strokeFocus1,
+             .strokeDisabled,
+             .brandBackgroundTint,
+             .foregroundDisabled1,
+             .dangerBackground1,
+             .successBackground1,
+             .warningBackground1,
+             .severeBackground1:
+            return fluentTheme.color(.foreground1)
+        case .foreground1,
+             .foreground2,
+             .foreground3,
+             .strokeFocus2,
+             .strokeAccessible,
+             .brandBackground1Pressed,
+             .brandForeground1Pressed,
+             .brandStroke1Pressed,
+             .brandStroke1,
+             .brandForegroundTint,
+             .brandStroke1Selected,
+             .brandGradient1,
+             .dangerBackground2,
+             .dangerForeground1,
+             .dangerForeground2,
+             .dangerStroke1,
+             .dangerStroke2,
+             .successBackground2,
+             .successForeground1,
+             .successForeground2,
+             .successStroke1,
+             .warningForeground1,
+             .warningForeground2,
+             .warningStroke1,
+             .severeBackground2,
+             .severeForeground1,
+             .severeForeground2,
+             .severeStroke1:
+            return fluentTheme.color(.foregroundOnColor)
+        case .foregroundLightStatic,
+             .backgroundLightStatic,
+             .backgroundLightStaticDisabled,
+             .warningBackground2,
+             .brandGradient2,
+             .brandGradient3:
+            return fluentTheme.color(.foregroundDarkStatic)
+        case .brandForeground1,
+             .brandForeground1Selected,
+             .brandForegroundDisabled1,
+             .backgroundInverted,
+             .brandBackground1,
+             .brandBackground1Selected,
+             .brandBackground2,
+             .brandBackground2Pressed,
+             .brandBackground2Selected,
+             .brandBackground3,
+             .backgroundDarkStatic,
+             .foregroundDarkStatic,
+             .presenceAway,
+             .presenceDnd,
+             .presenceAvailable,
+             .presenceOof:
+            return fluentTheme.color(.foregroundLightStatic)
+        }
+    }
+
 }

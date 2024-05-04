@@ -28,7 +28,7 @@ public class FluentUIFramework: NSObject {
 
     @available(*, deprecated, renamed: "initializeAppearance(with:whenContainedInInstancesOf:)")
     @objc public static func initializeAppearance() {
-        let primaryColor = FluentTheme.shared.color(.brandBackground1)
+        let primaryColor: UIColor = FluentTheme.shared.color(.brandBackground1)
         initializeAppearance(with: primaryColor)
     }
 
@@ -99,8 +99,9 @@ public class FluentUIFramework: NSObject {
         navigationBar.shadowImage = traits.userInterfaceStyle == .dark ? UIImage() : nil
 
         var titleAttributes = standardAppearance.titleTextAttributes
+        let foregroundColor: UIColor = fluentTheme.color(.foreground1)
         titleAttributes[.font] = fluentTheme.typography(.body1Strong)
-        titleAttributes[.foregroundColor] = fluentTheme.color(.foreground1)
+        titleAttributes[.foregroundColor] = foregroundColor
 
         standardAppearance.titleTextAttributes = titleAttributes
 
