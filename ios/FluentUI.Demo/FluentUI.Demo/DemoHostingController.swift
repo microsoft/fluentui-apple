@@ -23,16 +23,13 @@ class DemoHostingController: FluentThemedHostingController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureAppearanceAndReadmePopovers()
+        configureBarButtonItems()
     }
 
     // MARK: - Demo Appearance Popover
 
-    func configureAppearanceAndReadmePopovers() {
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(showAppearancePopover(_:)))
+    func configureBarButtonItems() {
+        let settingsButton = UIBarButtonItem(customView: appearanceControlView)
         let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
                                            style: .plain,
                                            target: self,
@@ -46,24 +43,9 @@ class DemoHostingController: FluentThemedHostingController {
         self.present(readmeViewController, animated: true, completion: nil)
     }
 
-    @objc func showAppearancePopover(_ sender: AnyObject, presenter: UIViewController) {
-        if let barButtonItem = sender as? UIBarButtonItem {
-            appearanceController.popoverPresentationController?.barButtonItem = barButtonItem
-        } else if let sourceView = sender as? UIView {
-            appearanceController.popoverPresentationController?.sourceView = sourceView
-            appearanceController.popoverPresentationController?.sourceRect = sourceView.bounds
-        }
-        appearanceController.popoverPresentationController?.delegate = self
-        presenter.present(appearanceController, animated: true, completion: nil)
-    }
-
-    @objc func showAppearancePopover(_ sender: AnyObject) {
-        showAppearancePopover(sender, presenter: self)
-    }
-
     private var readmeText: String?
 
-    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var appearanceControlView: DemoAppearanceControlView = .init(delegate: self as? DemoAppearanceDelegate)
     private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeText)
 }
 

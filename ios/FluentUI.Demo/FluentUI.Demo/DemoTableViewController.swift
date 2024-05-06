@@ -25,7 +25,7 @@ class DemoTableViewController: UITableViewController {
         tableView.backgroundColor = TableViewCell.tableBackgroundGroupedColor
         tableView.separatorStyle = .none
 
-        configureAppearancePopover()
+        configureBarButtonItems()
     }
 
     func showMessage(_ message: String, autoDismiss: Bool = true, completion: (() -> Void)? = nil) {
@@ -46,25 +46,16 @@ class DemoTableViewController: UITableViewController {
         }
     }
 
-    // MARK: - Demo Appearance Popover
+    // MARK: - Demo Appearance
 
-    func configureAppearancePopover() {
-        // Display the DemoAppearancePopover button
-        let settingsButton = UIBarButtonItem(image: UIImage(named: "ic_fluent_settings_24_regular"),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(showAppearancePopover))
+    func configureBarButtonItems() {
+        // Display the DemoAppearance and Readme buttons
+        let settingsButton = UIBarButtonItem(customView: appearanceControlView)
         let readmeButton = UIBarButtonItem(image: UIImage(systemName: "info.circle.fill"),
                                            style: .plain,
                                            target: self,
                                            action: #selector(showReadmePopover(_:)))
         navigationItem.rightBarButtonItems = [readmeButton, settingsButton]
-    }
-
-    @objc func showAppearancePopover(_ sender: UIBarButtonItem) {
-        appearanceController.popoverPresentationController?.barButtonItem = sender
-        appearanceController.popoverPresentationController?.delegate = self
-        self.present(appearanceController, animated: true, completion: nil)
     }
 
     @objc func showReadmePopover(_ sender: UIBarButtonItem) {
@@ -75,7 +66,7 @@ class DemoTableViewController: UITableViewController {
 
     var readmeString: String?
 
-    private lazy var appearanceController: DemoAppearanceController = .init(delegate: self as? DemoAppearanceDelegate)
+    private lazy var appearanceControlView: DemoAppearanceControlView = .init(delegate: self as? DemoAppearanceDelegate)
     private lazy var readmeViewController: ReadmeViewController = .init(readmeString: readmeString)
 }
 
