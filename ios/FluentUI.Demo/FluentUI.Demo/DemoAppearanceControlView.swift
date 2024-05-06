@@ -7,7 +7,7 @@ import FluentUI
 import SwiftUI
 import UIKit
 
-/// Callbacks for changes to a `DemoAppearanceView` via the `DemoAppearanceControlView`. This delegate should
+/// Callbacks for changes to a `DemoAppearanceMenu` via the `DemoAppearanceControlView`. This delegate should
 /// ensure that the appropriate token overrides are set when these callbacks are received.
 @objc(MSFDemoAppearanceDelegate)
 protocol DemoAppearanceDelegate: NSObjectProtocol {
@@ -34,7 +34,7 @@ protocol DemoAppearanceDelegate: NSObjectProtocol {
     @objc func isThemeWideOverrideApplied() -> Bool
 }
 
-/// Wrapper class to allow presenting of `DemoAppearanceView` from a UIKit host.
+/// Wrapper class to allow presenting of `DemoAppearanceMenu` from a UIKit host.
 @objc(MSFDemoAppearanceControlView)
 class DemoAppearanceControlView: FluentUI.ControlHostingView, ObservableObject {
     @objc(initWithDelegate:)
@@ -114,7 +114,7 @@ class DemoAppearanceControlView: FluentUI.ControlHostingView, ObservableObject {
 }
 
 extension DemoAppearanceMenu.Configuration {
-    /// Allows `DemoAppearanceView.Configuration` to be initialized with an optional instance of `DemoAppearanceDelegate`.
+    /// Allows `DemoAppearanceMenu.Configuration` to be initialized with an optional instance of `DemoAppearanceDelegate`.
     convenience init(delegate: DemoAppearanceDelegate?) {
         self.init()
 
