@@ -1,0 +1,35 @@
+# ListItem
+
+## Overview
+`ListItem` can be used either in a `List` or standalone to represent a single item within a vertical container. It can display a title, optional subtitle, optional footer, optional leading content view, and optional trailing content view. You can also customize the top and bottom separators, accessory type, and action. When an `action` parameter is passed in, `ListItem` will render as a `Button`. When `action` is nil or no `action` parameter is passed in, `ListItem` will render as a `View`.
+
+| In a List | Standalone |
+| - | - |
+| ![ListItem-List.png](.attachments/ListItem-List.png) | ![ListItem-Standalone.png](.attachments/ListItem-Standalone.png) |
+
+| Button | View |
+| - | - |
+| ![ListItem-Button.png](.attachments/ListItem-Button.png) | ![ListItem-View.png](.attachments/ListItem-View.png) |
+
+## Usage
+```Swift
+ListItem(title: "Title",
+         subtitle: "Subtitle",
+         leadingContent: {
+             leadingContent
+         },
+         action: !isTappable ? nil : {
+             showingAlert = true
+         }
+)
+```
+
+## Implementation
+### Control Name
+`ListItem` in SwiftUI
+
+### Source Code
+- [ListItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/List/ListItem.swift)
+
+### Sample Code
+- [ListItemDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/ListItemDemoController_SwiftUI.swift)
