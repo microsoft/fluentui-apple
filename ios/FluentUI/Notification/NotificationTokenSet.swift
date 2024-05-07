@@ -108,7 +108,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
         super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -127,7 +127,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .foregroundColor:
-                return .uiColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -145,7 +145,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 }
 
             case .imageColor:
-                return .uiColor {
+                return .color {
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
@@ -192,7 +192,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                 return .float { 52.0 }
 
             case .outlineColor:
-                return .uiColor {
+                return .color {
                     switch style() {
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
                         return .clear

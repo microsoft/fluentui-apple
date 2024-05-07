@@ -137,7 +137,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .frame(width: imageSize.width,
                                height: imageSize.height,
                                alignment: .center)
-                        .foregroundColor(Color(tokenSet[.imageColor].uiColor))
+                        .foregroundColor(tokenSet[.imageColor].color)
                 }
             }
         }
@@ -146,16 +146,11 @@ public struct FluentNotification: View, TokenizedControlView {
         var titleLabel: some View {
             if state.style.isToast && hasSecondTextRow {
                 if let attributedTitle = state.attributedTitle {
-                    AttributedText(attributedTitle, attributedTitleSize.width)
-                        .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
-                        .onSizeChange { newSize in
-                            attributedTitleSize = newSize
-                        }
-                        .accessibilityLabel(attributedTitle.string)
+                    Text(AttributedString(attributedTitle))
+                        .frame(idealWidth: attributedTitleSize.width)
                 } else if let title = state.title {
                     Text(title)
                         .font(.init(tokenSet[.boldTextFont].uiFont))
-                        .foregroundColor(Color(tokenSet[.foregroundColor].uiColor))
                 }
             }
         }
@@ -163,16 +158,11 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
-                AttributedText(attributedMessage, attributedMessageSize.width)
-                    .fixedSize(horizontal: isFlexibleWidthToast, vertical: true)
-                    .onSizeChange { newSize in
-                        attributedMessageSize = newSize
-                    }
-                    .accessibilityLabel(attributedMessage.string)
+                Text(AttributedString(attributedMessage))
+                    .frame(idealWidth: attributedMessageSize.width)
             } else if let message = state.message {
                 Text(message)
                     .font(.init(tokenSet[.regularTextFont].uiFont))
-                    .foregroundColor(Color(tokenSet[.foregroundColor].uiColor))
             }
         }
 
@@ -191,14 +181,12 @@ public struct FluentNotification: View, TokenizedControlView {
         var button: some View {
             let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
             if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
-                let foregroundColor = tokenSet[.foregroundColor].uiColor
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
                         buttonAction()
                     }
                     .lineLimit(1)
-                    .foregroundColor(Color(foregroundColor))
                     .font(.init(tokenSet[.boldTextFont].uiFont))
                     .hoverEffect()
                 } else {
@@ -214,7 +202,6 @@ public struct FluentNotification: View, TokenizedControlView {
                                 .accessibilityLabel("Accessibility.Dismiss.Label".localized)
                         }
                     })
-                    .foregroundColor(Color(foregroundColor))
                     .hoverEffect()
                 }
             }
@@ -271,7 +258,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
                 }
             } else {
-                Color(tokenSet[.backgroundColor].uiColor)
+                tokenSet[.backgroundColor].color
             }
         }
 
@@ -279,11 +266,12 @@ public struct FluentNotification: View, TokenizedControlView {
         var notification: some View {
             let shadowInfo = tokenSet[.shadow].shadowInfo
             innerContents
+                .foregroundStyle(tokenSet[.foregroundColor].color)
                 .background(
                     RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
                         .border(width: tokenSet[.outlineWidth].float,
                                 edges: state.showFromBottom ? [.top] : [.bottom],
-                                color: Color(tokenSet[.outlineColor].uiColor)).foregroundColor(.clear)
+                                color: tokenSet[.outlineColor].color).foregroundColor(.clear)
                         .background(
                             backgroundFill
                                 .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
