@@ -352,7 +352,7 @@ public struct FluentNotification: View, TokenizedControlView {
     }
 
     private func presentAnimated() {
-        withAnimation(.spring(response: state.style.animationDurationForShow,
+        withAnimation(.spring(response: state.style.animationDurationForShow / 2.0,
                               dampingFraction: state.style.animationDampingRatio,
                               blendDuration: 0)) {
             bottomOffset = 0
@@ -361,7 +361,7 @@ public struct FluentNotification: View, TokenizedControlView {
     }
 
     private func dismissAnimated() {
-        withAnimation(.linear(duration: state.style.animationDurationForHide)) {
+        withAnimation(.linear(duration: state.style.animationDurationForHide / 2.0)) {
             bottomOffset = bottomOffsetForDismissedState
             opacity = 0
         }
