@@ -11,7 +11,7 @@
 | - | - |
 | ![ListItem-Button.png](.attachments/ListItem-Button.png) | ![ListItem-View.png](.attachments/ListItem-View.png) |
 
-Accessory types
+### Accessory types
 | None | Disclosure Indicator | Checkmark | Detail Button |
 | - | - | - | - |
 |  ![ListItem-None.png](.attachments/ListItem-None.png) | ![ListItem-Disclosure.png](.attachments/ListItem-Disclosure.png) | ![ListItem-Checkmark.png](.attachments/ListItem-Checkmark.png) | ![ListItem-Detail.png](.attachments/ListItem-Detail.png) |
