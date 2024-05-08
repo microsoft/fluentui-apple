@@ -17,7 +17,7 @@ class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDem
 
     init() {
         super.init(rootView: NotificationDemoView())
-        self.title = "Notification View Vnext (SwiftUI)"
+        self.title = "NotificationView (SwiftUI)"
     }
 
     override func willMove(toParent parent: UIViewController?) {
