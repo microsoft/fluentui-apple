@@ -84,8 +84,8 @@ struct ListActionItemDemoView: View {
 
         @ViewBuilder
         var content: some View {
-            List {
-                Section {
+            FluentList {
+                FluentListSection {
                     if showSecondaryAction {
                         ListActionItem(primaryActionTitle: primaryActionTitle,
                                        onPrimaryActionTapped: {
@@ -110,7 +110,6 @@ struct ListActionItemDemoView: View {
                         .bottomSeparatorType(bottomSeparatorType)
                         .backgroundStyleType(backgroundStyleType)
                     }
-
                 } header: {
                     Text("ListActionItem")
                 }
@@ -119,7 +118,7 @@ struct ListActionItemDemoView: View {
                         .accessibilityIdentifier("DismissAlertButton")
                 }
 
-                Section {
+                FluentListSection {
                     FluentUIDemoToggle(titleKey: "Show secondary action", isOn: $showSecondaryAction)
                         .accessibilityIdentifier("showSecondaryActionSwitch")
                     textFields
@@ -129,7 +128,6 @@ struct ListActionItemDemoView: View {
                 }
             }
             .fluentTheme(fluentTheme)
-            .listStyle(.insetGrouped)
         }
 
         return content

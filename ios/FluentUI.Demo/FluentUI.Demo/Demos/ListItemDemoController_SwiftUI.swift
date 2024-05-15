@@ -202,9 +202,9 @@ struct ListItemDemoView: View {
                 if renderStandalone {
                     listItem
                 }
-                List {
+                FluentList {
                     if !renderStandalone {
-                        Section {
+                        FluentListSection {
                             listItem
                         } header: {
                             Text("ListItem")
@@ -214,7 +214,6 @@ struct ListItemDemoView: View {
                 }
                 .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
-                .listStyle(.insetGrouped)
             }
         }
 

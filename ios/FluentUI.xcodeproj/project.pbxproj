@@ -212,6 +212,8 @@
 		92ECB2DF2BE06BCB00404D79 /* FluentTheme+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB2DE2BE06BCB00404D79 /* FluentTheme+UIKit.swift */; };
 		92EE82AE27025A94009D52B5 /* TokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EE82AC27025A94009D52B5 /* TokenSet.swift */; };
 		92F8054E272B2DF3000EAFDB /* CardNudgeModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92079C8E26B66E5100D688DA /* CardNudgeModifiers.swift */; };
+		94679F2C2BF55059004A1560 /* FluentListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94679F2A2BF55059004A1560 /* FluentListSection.swift */; };
+		94679F2D2BF55059004A1560 /* FluentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94679F2B2BF55059004A1560 /* FluentList.swift */; };
 		94A7EC1A2836DCB200BFFBAE /* CommandBarCommandGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */; };
 		A257F82C251D98F3002CAA6E /* FluentUI-ios.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */; };
 		A542A9D7226FC01100204A52 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A559BB81212B6FA40055E107 /* Localizable.strings */; };
@@ -383,6 +385,8 @@
 		92ECB2DC2BE069D100404D79 /* Color+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DynamicColor.swift"; sourceTree = "<group>"; };
 		92ECB2DE2BE06BCB00404D79 /* FluentTheme+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FluentTheme+UIKit.swift"; sourceTree = "<group>"; };
 		92EE82AC27025A94009D52B5 /* TokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenSet.swift; sourceTree = "<group>"; };
+		94679F2A2BF55059004A1560 /* FluentListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentListSection.swift; sourceTree = "<group>"; };
+		94679F2B2BF55059004A1560 /* FluentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentList.swift; sourceTree = "<group>"; };
 		94A7EC192836DCB100BFFBAE /* CommandBarCommandGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarCommandGroupsView.swift; sourceTree = "<group>"; };
 		A257F82B251D98F3002CAA6E /* FluentUI-ios.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = "FluentUI-ios.xcassets"; path = "FluentUI/Resources/FluentUI-ios.xcassets"; sourceTree = "<group>"; };
 		A5237ACA21DED7030040BF27 /* ResizingHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizingHandleView.swift; sourceTree = "<group>"; };
@@ -1190,6 +1194,8 @@
 		F3F113872A705AC300DA852A /* List */ = {
 			isa = PBXGroup;
 			children = (
+				94679F2B2BF55059004A1560 /* FluentList.swift */,
+				94679F2A2BF55059004A1560 /* FluentListSection.swift */,
 				F3A87D5F2BF57421000D6A64 /* FluentListSectionFooter.swift */,
 				F3A87D5D2BF5606E000D6A64 /* FluentListSectionHeader.swift */,
 				F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */,
@@ -1610,6 +1616,7 @@
 				5314E13725F016370099271A /* PopupMenuProtocols.swift in Sources */,
 				5314E19725F019650099271A /* TabBarItem.swift in Sources */,
 				EC98E2B4298D989100B9DF91 /* FluentTextInputError.swift in Sources */,
+				94679F2C2BF55059004A1560 /* FluentListSection.swift in Sources */,
 				6F2F218F2A12BFD900C50EAB /* BadgeLabelTokenSet.swift in Sources */,
 				6FC3705E29E7707F0096B239 /* BadgeViewTokenSet.swift in Sources */,
 				92B7E6A326864AE900EFC15E /* MSFPersonaButton.swift in Sources */,
@@ -1758,6 +1765,7 @@
 				5314E03B25F00E3D0099271A /* BadgeStringExtractor.swift in Sources */,
 				EC1C31732923022E00CF052C /* SegmentedControlTokenSet.swift in Sources */,
 				5314E19825F019650099271A /* SideTabBar.swift in Sources */,
+				94679F2D2BF55059004A1560 /* FluentList.swift in Sources */,
 				5314E10A25F014600099271A /* Obscurable.swift in Sources */,
 				F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */,
 				5314E07D25F00F1A0099271A /* DateTimePickerViewComponentTableView.swift in Sources */,
