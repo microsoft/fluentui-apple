@@ -5,6 +5,9 @@
 
 import SwiftUI
 
+/// This component is a work in progress. Expect changes to be made to it on a somewhat regular basis.
+///
+/// It is intended to be used in conjunction with `FluentUI.FluentListSection` and `FluentUI.ListItem`
 public struct FluentListSectionHeader<Title: StringProtocol, TrailingContent: View>: View {
 
     // MARK: Initializer
