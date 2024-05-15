@@ -204,6 +204,15 @@ struct ListItemDemoView: View {
                 }
                 FluentList {
                     if !renderStandalone {
+                        Section {
+                            Text("Test")
+                        }
+                        Section {
+                            Text("Test")
+                        }
+                        FluentListSection {
+                            Text("Test")
+                        }
                         FluentListSection {
                             listItem
                         } header: {

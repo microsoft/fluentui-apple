@@ -7,6 +7,8 @@ import SwiftUI
 
 /// This a wrapper around `SwiftUI.List` that has fluent style applied. It is intended to be used in conjunction with `FluentUI.FluentListSection` and `FluentUI.ListItem`
 /// to provide a completely fluentized list, however, it can be used on it's own if desired.
+///
+/// This component is a work in progress. Expect changes to be made to it on a somewhat regular basis.
 public struct FluentList<ListContent: View>: View {
 
     // MARK: Initializer
