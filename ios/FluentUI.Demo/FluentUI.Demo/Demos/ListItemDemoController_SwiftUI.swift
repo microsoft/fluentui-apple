@@ -217,8 +217,6 @@ struct ListItemDemoView: View {
                     listItem
                 } header: {
                     Text("ListItem")
-                } footer: {
-                    Text("Footer for demo purposes")
                 }
             }
             controls

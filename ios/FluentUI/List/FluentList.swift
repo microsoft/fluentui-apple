@@ -34,6 +34,7 @@ public struct FluentList<ListContent: View, Style: ListStyle>: View {
     /// Content to render inside the list
     private var content: () -> ListContent
 
+    /// Style to apply to list
     private var style: Style
 
 }
