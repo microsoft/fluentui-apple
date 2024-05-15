@@ -6,6 +6,13 @@
 import FluentUI
 import SwiftUI
 
+enum FluentListStyle {
+    case plain
+    case grouped
+    case insetGrouped
+    case inset
+}
+
 class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     override init?(coder aDecoder: NSCoder, rootView: ListItemDemoView) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -44,6 +51,7 @@ struct ListItemDemoView: View {
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
     @State var renderStandalone: Bool = false
+    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
 
@@ -102,6 +110,12 @@ struct ListItemDemoView: View {
                 Text(".grouped").tag(ListItemBackgroundStyleType.grouped)
                 Text(".clear").tag(ListItemBackgroundStyleType.clear)
                 Text(".custom").tag(ListItemBackgroundStyleType.custom)
+            }
+            Picker("List Style Type", selection: $listStyle) {
+                Text(".plain").tag(FluentListStyle.plain)
+                Text(".grouped").tag(FluentListStyle.grouped)
+                Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
+                Text(".inset").tag(FluentListStyle.inset)
             }
         }
 
@@ -197,21 +211,47 @@ struct ListItemDemoView: View {
         }
 
         @ViewBuilder
+        var listContent: some View {
+            if !renderStandalone {
+                FluentListSection {
+                    listItem
+                } header: {
+                    Text("ListItem")
+                } footer: {
+                    Text("Footer for demo purposes")
+                }
+            }
+            controls
+        }
+
+        @ViewBuilder
+        var list: some View {
+            if listStyle == .grouped {
+                FluentList(listStyle: .grouped) {
+                    listContent
+                }
+            } else if listStyle == .inset {
+                FluentList(listStyle: .inset) {
+                    listContent
+                }
+            } else if listStyle == .insetGrouped {
+                FluentList(listStyle: .insetGrouped) {
+                    listContent
+                }
+            } else {
+                FluentList {
+                    listContent
+                }
+            }
+        }
+
+        @ViewBuilder
         var content: some View {
             VStack {
                 if renderStandalone {
                     listItem
                 }
-                FluentList {
-                    if !renderStandalone {
-                        FluentListSection {
-                            listItem
-                        } header: {
-                            Text("ListItem")
-                        }
-                    }
-                    controls
-                }
+                list
                 .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
             }
