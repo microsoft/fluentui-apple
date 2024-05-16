@@ -234,6 +234,8 @@
 		ECA9218A27A33A2D00B66117 /* AvatarGroupModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA9218927A33A2D00B66117 /* AvatarGroupModifiers.swift */; };
 		ECF3C9882A67495A00CA35FC /* BottomCommandingTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */; };
 		F32E6E8B2A7997F3003F9AE7 /* ListActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */; };
+		F3A87D5E2BF5606E000D6A64 /* FluentListSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A87D5D2BF5606E000D6A64 /* FluentListSectionHeader.swift */; };
+		F3A87D602BF57421000D6A64 /* FluentListSectionFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A87D5F2BF57421000D6A64 /* FluentListSectionFooter.swift */; };
 		F3DFD3612A7B210100014C6E /* ListActionItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */; };
 		F3F113892A705AD500DA852A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F113882A705AD500DA852A /* ListItem.swift */; };
 		F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */; };
@@ -451,6 +453,8 @@
 		ECEBA8FB25EDF3380048EE24 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		ECF3C9872A67495A00CA35FC /* BottomCommandingTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomCommandingTokenSet.swift; sourceTree = "<group>"; };
 		F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItem.swift; sourceTree = "<group>"; };
+		F3A87D5D2BF5606E000D6A64 /* FluentListSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentListSectionHeader.swift; sourceTree = "<group>"; };
+		F3A87D5F2BF57421000D6A64 /* FluentListSectionFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentListSectionFooter.swift; sourceTree = "<group>"; };
 		F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListActionItemModifiers.swift; sourceTree = "<group>"; };
 		F3F113882A705AD500DA852A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemModifiers.swift; sourceTree = "<group>"; };
@@ -1186,6 +1190,8 @@
 		F3F113872A705AC300DA852A /* List */ = {
 			isa = PBXGroup;
 			children = (
+				F3A87D5F2BF57421000D6A64 /* FluentListSectionFooter.swift */,
+				F3A87D5D2BF5606E000D6A64 /* FluentListSectionHeader.swift */,
 				F32E6E8A2A7997F3003F9AE7 /* ListActionItem.swift */,
 				F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */,
 				F3F113882A705AD500DA852A /* ListItem.swift */,
@@ -1612,6 +1618,7 @@
 				5314E0B325F010400099271A /* EasyTapButton.swift in Sources */,
 				F32E6E8B2A7997F3003F9AE7 /* ListActionItem.swift in Sources */,
 				5314E19625F019650099271A /* TabBarView.swift in Sources */,
+				F3A87D5E2BF5606E000D6A64 /* FluentListSectionHeader.swift in Sources */,
 				C708B05F260A8778007190FA /* SegmentPillButton.swift in Sources */,
 				5314E13525F016370099271A /* PopupMenuItemCell.swift in Sources */,
 				5314E2A025F024860099271A /* NSLayoutConstraint+Extensions.swift in Sources */,
@@ -1646,6 +1653,7 @@
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				92ECB2DD2BE069D100404D79 /* Color+DynamicColor.swift in Sources */,
 				6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */,
+				F3A87D602BF57421000D6A64 /* FluentListSectionFooter.swift in Sources */,
 				5314E0E725F012C00099271A /* UINavigationItem+Navigation.swift in Sources */,
 				920945492703DDA000B38E1A /* CardNudgeTokenSet.swift in Sources */,
 				92D49054278FF4E50085C018 /* PersonaButtonCarouselModifiers.swift in Sources */,
