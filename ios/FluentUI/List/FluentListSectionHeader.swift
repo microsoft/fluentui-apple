@@ -25,6 +25,7 @@ public struct FluentListSectionHeader<Title: StringProtocol, TrailingContent: Vi
     public var body: some View {
         @ViewBuilder var titleView: some View {
             Text(title)
+                // By default uppercasing is applied, setting nil to not enforce casing
                 .textCase(nil)
         }
 
