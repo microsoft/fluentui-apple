@@ -44,6 +44,7 @@ struct ListItemDemoView: View {
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
     @State var renderStandalone: Bool = false
+    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
 
@@ -102,6 +103,11 @@ struct ListItemDemoView: View {
                 Text(".grouped").tag(ListItemBackgroundStyleType.grouped)
                 Text(".clear").tag(ListItemBackgroundStyleType.clear)
                 Text(".custom").tag(ListItemBackgroundStyleType.custom)
+            }
+            Picker("List Style Type", selection: $listStyle) {
+                Text(".plain").tag(FluentListStyle.plain)
+                Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
+                Text(".inset").tag(FluentListStyle.inset)
             }
         }
 
@@ -202,9 +208,9 @@ struct ListItemDemoView: View {
                 if renderStandalone {
                     listItem
                 }
-                List {
+                FluentList {
                     if !renderStandalone {
-                        Section {
+                        FluentListSection {
                             listItem
                         } header: {
                             Text("ListItem")
@@ -212,9 +218,9 @@ struct ListItemDemoView: View {
                     }
                     controls
                 }
+                .fluentListStyle(listStyle)
                 .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
-                .listStyle(.insetGrouped)
             }
         }
 
