@@ -46,9 +46,18 @@ struct AvatarDemoView: View {
     @State var showActivityImage: Bool = false
     @State var showImage: Bool = false
     @State var showImageBasedRingColor: Bool = false
+    @State var useCustomDefaultImage: Bool = false
     @State var size: MSFAvatarSize = .size72
     @State var style: MSFAvatarStyle = .default
     @ObservedObject var fluentTheme: FluentTheme = .shared
+
+    var customDefaultImage: UIImage? {
+        if useCustomDefaultImage {
+            return UIImage(named: "flag-48x48")
+        } else {
+            return nil
+        }
+    }
 
     public var body: some View {
         VStack {
@@ -60,6 +69,7 @@ struct AvatarDemoView: View {
                 .isRingVisible(showImageBasedRingColor || isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
+                .customDefaultImage(customDefaultImage)
                 .isTransparent(isTransparent)
                 .presence(presence)
                 .activity(activityStyle, showActivityImage ? (activityStyle == .circle ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")) : nil)
@@ -94,6 +104,7 @@ struct AvatarDemoView: View {
                         FluentUIDemoToggle(titleKey: "Transparency", isOn: $isTransparent)
                         FluentUIDemoToggle(titleKey: "iPad Pointer interaction", isOn: $hasPointerInteraction)
                         FluentUIDemoToggle(titleKey: "Animate transitions", isOn: $isAnimated)
+                        FluentUIDemoToggle(titleKey: "Use custom default image", isOn: $useCustomDefaultImage)
                     }
 
                     Group {
