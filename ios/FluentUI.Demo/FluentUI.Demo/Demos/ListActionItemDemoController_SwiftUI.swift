@@ -138,27 +138,11 @@ struct ListActionItemDemoView: View {
             }
         }
 
-        @ViewBuilder
-        var list: some View {
-            if listStyle == .grouped {
-                FluentList(listStyle: .grouped) {
-                    content
-                }
-            } else if listStyle == .inset {
-                FluentList(listStyle: .inset) {
-                    content
-                }
-            } else if listStyle == .insetGrouped {
-                FluentList(listStyle: .insetGrouped) {
-                    content
-                }
-            } else {
-                FluentList {
-                    content
-                }
-            }
+        return FluentList {
+            content
         }
-
-        return list.fluentTheme(fluentTheme)
+        .fluentListStyle(listStyle)
+        .background(ListItem.listBackgroundColor(for: .grouped))
+        .fluentTheme(fluentTheme)
     }
 }

@@ -6,13 +6,6 @@
 import FluentUI
 import SwiftUI
 
-enum FluentListStyle {
-    case plain
-    case grouped
-    case insetGrouped
-    case inset
-}
-
 class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
     override init?(coder aDecoder: NSCoder, rootView: ListItemDemoView) {
         preconditionFailure("init(coder:) has not been implemented")
@@ -211,51 +204,27 @@ struct ListItemDemoView: View {
         }
 
         @ViewBuilder
-        var listContent: some View {
-            if !renderStandalone {
-                FluentListSection {
-                    listItem
-                } header: {
-                    Text("ListItem")
-                }
-            }
-            controls
-        }
-
-        @ViewBuilder
-        var list: some View {
-            if listStyle == .grouped {
-                FluentList(listStyle: .grouped) {
-                    listContent
-                }
-            } else if listStyle == .inset {
-                FluentList(listStyle: .inset) {
-                    listContent
-                }
-            } else if listStyle == .insetGrouped {
-                FluentList(listStyle: .insetGrouped) {
-                    listContent
-                }
-            } else {
-                FluentList {
-                    listContent
-                }
-            }
-        }
-
-        @ViewBuilder
         var content: some View {
             VStack {
                 if renderStandalone {
                     listItem
                 }
-                list
-                .background(ListItem.listBackgroundColor(for: .grouped))
+                FluentList {
+                    if !renderStandalone {
+                        FluentListSection {
+                            listItem
+                        } header: {
+                            Text("ListItem")
+                        }
+                    }
+                    controls
+                }
+                .fluentListStyle(listStyle)
                 .fluentTheme(fluentTheme)
             }
         }
 
-        return content
+        return content.background(ListItem.listBackgroundColor(for: .grouped))
     }
 }
 

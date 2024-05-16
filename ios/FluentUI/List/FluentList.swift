@@ -5,36 +5,60 @@
 
 import SwiftUI
 
+/// Fluent specific list style enum
+public enum FluentListStyle {
+    case plain
+    case grouped
+    case insetGrouped
+    case inset
+}
+
 /// This a wrapper around `SwiftUI.List` that has fluent style applied. It is intended to be used in conjunction with `FluentUI.FluentListSection` and `FluentUI.ListItem`
 /// to provide a completely fluentized list, however, it can be used on it's own if desired.
 ///
 /// This component is a work in progress. Expect changes to be made to it on a somewhat regular basis.
-public struct FluentList<ListContent: View, Style: ListStyle>: View {
+public struct FluentList<ListContent: View>: View {
 
     // MARK: Initializer
 
     /// Creates a `FluentList`
     /// - Parameters:
-    ///   - listStyle: `ListStyle` to use to style the list contents
     ///   - content: content to show inside of the list.
-    public init(listStyle: Style = .plain, @ViewBuilder content: @escaping () -> ListContent) {
+    public init(@ViewBuilder content: @escaping () -> ListContent) {
         self.content = content
-        self.style = listStyle
     }
 
     public var body: some View {
-        List {
-            content()
+        @ViewBuilder
+        var list: some View {
+            List {
+                content()
+            }
         }
-        .listStyle(style)
+
+        @ViewBuilder
+        var styledList: some View {
+            switch listStyle {
+            case .inset:
+                list.listStyle(.inset)
+            case .grouped:
+                list.listStyle(.grouped)
+            case .insetGrouped:
+                list.listStyle(.insetGrouped)
+            case .plain:
+                list.listStyle(.plain)
+            }
+        }
+
+        return styledList
     }
+
+    /// Style to be used by the list
+    var listStyle: FluentListStyle = .plain
 
     // MARK: Private variables
 
     /// Content to render inside the list
     private var content: () -> ListContent
-
-    /// Style to apply to list
-    private var style: Style
 
 }
