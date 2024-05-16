@@ -34,6 +34,9 @@ import SwiftUI
     /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
 
+    /// An override for the template icon to use when there is no set image or name.
+    var customDefaultImage: UIImage? { get set }
+
     /// Defines whether the avatar state transitions are animated or not. Animations are enabled by default.
     var isAnimated: Bool { get set }
 
@@ -161,11 +164,17 @@ public struct Avatar: View, TokenizedControlView {
 
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
-                let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
-                return (UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled"), .template)
+                var defaultImage: UIImage?
+                if let customDefaultImage = state.customDefaultImage {
+                    defaultImage = customDefaultImage
+                } else {
+                    let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
+                    defaultImage = UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled")
+                }
+                return (defaultImage, .template)
+            } else {
+                return (state.image, .original)
             }
-
-            return (state.image, .original)
         }()
         let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
@@ -553,6 +562,7 @@ class MSFAvatarStateImpl: ControlState, MSFAvatarState {
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?
     @Published var imageBasedRingColor: UIImage?
+    @Published var customDefaultImage: UIImage?
     @Published var isAnimated: Bool = true
     @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false

@@ -50,6 +50,11 @@ public extension Avatar {
         return self
     }
 
+    func customDefaultImage(_ customDefaultImage: UIImage?) -> Avatar {
+        state.customDefaultImage = customDefaultImage
+        return self
+    }
+
     /// The image used to fill the ring as a custom color.
     /// - Parameter imageBasedRingColor: Image to be used as a the ring fill pattern.
     /// - Returns: The modified Avatar with the property set.
