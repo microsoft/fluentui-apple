@@ -106,7 +106,6 @@ struct ListItemDemoView: View {
             }
             Picker("List Style Type", selection: $listStyle) {
                 Text(".plain").tag(FluentListStyle.plain)
-                Text(".grouped").tag(FluentListStyle.grouped)
                 Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
                 Text(".inset").tag(FluentListStyle.inset)
             }
@@ -220,11 +219,12 @@ struct ListItemDemoView: View {
                     controls
                 }
                 .fluentListStyle(listStyle)
+                .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
             }
         }
 
-        return content.background(ListItem.listBackgroundColor(for: .grouped))
+        return content
     }
 }
 

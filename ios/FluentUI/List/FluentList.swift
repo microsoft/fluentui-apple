@@ -8,7 +8,6 @@ import SwiftUI
 /// Fluent specific list style enum
 public enum FluentListStyle {
     case plain
-    case grouped
     case insetGrouped
     case inset
 }
@@ -41,8 +40,6 @@ public struct FluentList<ListContent: View>: View {
             switch listStyle {
             case .inset:
                 list.listStyle(.inset)
-            case .grouped:
-                list.listStyle(.grouped)
             case .insetGrouped:
                 list.listStyle(.insetGrouped)
             case .plain:
