@@ -51,10 +51,10 @@ public extension Avatar {
     }
 
     /// An override for the template icon to use when there is no set image or name.
-    /// - Parameter customDefaultImage: Image to be used as the Avatar's default image.
+    /// - Parameter defaultImage: Image to be used as the Avatar's default image.
     /// - Returns: The modified Avatar with the property set.
-    func customDefaultImage(_ customDefaultImage: UIImage?) -> Avatar {
-        state.customDefaultImage = customDefaultImage
+    func defaultImage(_ defaultImage: UIImage?) -> Avatar {
+        state.defaultImage = defaultImage
         return self
     }
 

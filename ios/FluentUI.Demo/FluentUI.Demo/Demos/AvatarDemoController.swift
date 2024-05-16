@@ -55,7 +55,7 @@ class AvatarDemoController: DemoTableViewController {
              .activity,
              .ringInnerGap,
              .transparency,
-             .customDefaultImage:
+             .defaultImage:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
             }
@@ -291,7 +291,7 @@ class AvatarDemoController: DemoTableViewController {
         didSet {
             if oldValue != useCustomDefaultImage {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.customDefaultImage = useCustomDefaultImage ? UIImage(named: "flag-48x48") : nil
+                    avatar.state.defaultImage = useCustomDefaultImage ? UIImage(named: "flag-48x48") : nil
                 }
             }
         }
@@ -408,7 +408,7 @@ class AvatarDemoController: DemoTableViewController {
             return self.isShowingRingInnerGap
         case .transparency:
             return self.isTransparent
-        case .customDefaultImage:
+        case .defaultImage:
             return self.useCustomDefaultImage
         }
     }
@@ -446,7 +446,7 @@ class AvatarDemoController: DemoTableViewController {
             self.isShowingRingInnerGap = isOn
         case .transparency:
             self.isTransparent = isOn
-        case .customDefaultImage:
+        case .defaultImage:
             self.useCustomDefaultImage = isOn
         }
     }
@@ -525,7 +525,7 @@ class AvatarDemoController: DemoTableViewController {
                         .ring,
                         .ringInnerGap,
                         .imageBasedRingColor,
-                        .customDefaultImage]
+                        .defaultImage]
             case .size72,
                  .size56,
                  .size40,
@@ -567,7 +567,7 @@ class AvatarDemoController: DemoTableViewController {
         case ringInnerGap
         case swiftUIDemo
         case transparency
-        case customDefaultImage
+        case defaultImage
 
         var isDemoRow: Bool {
             switch self {
@@ -592,7 +592,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ringInnerGap,
                  .swiftUIDemo,
                  .transparency,
-                 .customDefaultImage:
+                 .defaultImage:
                 return false
             }
         }
@@ -621,7 +621,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ringInnerGap,
                  .swiftUIDemo,
                  .transparency,
-                 .customDefaultImage:
+                 .defaultImage:
                 return nil
             }
         }
@@ -652,7 +652,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ringInnerGap,
                  .swiftUIDemo,
                  .transparency,
-                 .customDefaultImage:
+                 .defaultImage:
                 return nil
             }
         }
@@ -685,7 +685,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ringInnerGap,
                  .swiftUIDemo,
                  .transparency,
-                 .customDefaultImage:
+                 .defaultImage:
                 preconditionFailure("Row does not have an associated avatar style")
             }
         }
@@ -732,7 +732,7 @@ class AvatarDemoController: DemoTableViewController {
                 return "SwiftUI Demo"
             case .transparency:
                 return "Use transparency"
-            case .customDefaultImage:
+            case .defaultImage:
                 return "Use custom default image"
             }
         }

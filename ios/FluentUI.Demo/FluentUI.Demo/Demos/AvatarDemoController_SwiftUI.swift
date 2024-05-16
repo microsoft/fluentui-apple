@@ -51,7 +51,7 @@ struct AvatarDemoView: View {
     @State var style: MSFAvatarStyle = .default
     @ObservedObject var fluentTheme: FluentTheme = .shared
 
-    var customDefaultImage: UIImage? {
+    var defaultImage: UIImage? {
         if useCustomDefaultImage {
             return UIImage(named: "flag-48x48")
         } else {
@@ -69,7 +69,7 @@ struct AvatarDemoView: View {
                 .isRingVisible(showImageBasedRingColor || isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
-                .customDefaultImage(customDefaultImage)
+                .defaultImage(defaultImage)
                 .isTransparent(isTransparent)
                 .presence(presence)
                 .activity(activityStyle, showActivityImage ? (activityStyle == .circle ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")) : nil)
