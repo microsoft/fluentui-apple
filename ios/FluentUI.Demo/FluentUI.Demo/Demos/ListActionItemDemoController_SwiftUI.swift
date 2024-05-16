@@ -31,9 +31,9 @@ struct ListActionItemDemoView: View {
     @State var topSeparatorType: ListActionItemSeparatorType = .none
     @State var bottomSeparatorType: ListActionItemSeparatorType = .inset
     @State var backgroundStyleType: ListItemBackgroundStyleType = .grouped
+    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
-
         @ViewBuilder
         var textFields: some View {
             TextField("Primary Action Title", text: $primaryActionTitle)
@@ -80,58 +80,72 @@ struct ListActionItemDemoView: View {
             Picker("Bottom Separator Type", selection: $bottomSeparatorType) {
                 separatorTypePickerOptions
             }
+
+            let listStylePickerOptions = Group {
+                Text(".plain").tag(FluentListStyle.plain)
+                Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
+                Text(".inset").tag(FluentListStyle.inset)
+            }
+
+            Picker("List Style Type", selection: $listStyle) {
+                listStylePickerOptions
+            }
         }
 
         @ViewBuilder
         var content: some View {
-            List {
-                Section {
-                    if showSecondaryAction {
-                        ListActionItem(primaryActionTitle: primaryActionTitle,
-                                       onPrimaryActionTapped: {
-                            showingAlert.toggle()
-                        },
-                                       primaryActionType: primaryActionType,
-                                       secondaryActionTitle: secondaryActionTitle,
-                                       onSecondaryActionTapped: {
-                            showingAlert.toggle()
-                        },
-                                       secondaryActionType: secondaryActionType)
-                        .topSeparatorType(topSeparatorType)
-                        .bottomSeparatorType(bottomSeparatorType)
-                        .backgroundStyleType(backgroundStyleType)
-                    } else {
-                        ListActionItem(title: primaryActionTitle,
-                                       onTapped: {
-                            showingAlert.toggle()
-                        },
-                                       actionType: primaryActionType)
-                        .topSeparatorType(topSeparatorType)
-                        .bottomSeparatorType(bottomSeparatorType)
-                        .backgroundStyleType(backgroundStyleType)
-                    }
-
-                } header: {
-                    Text("ListActionItem")
+            FluentListSection {
+                if showSecondaryAction {
+                    ListActionItem(primaryActionTitle: primaryActionTitle,
+                                   onPrimaryActionTapped: {
+                        showingAlert.toggle()
+                    },
+                                   primaryActionType: primaryActionType,
+                                   secondaryActionTitle: secondaryActionTitle,
+                                   onSecondaryActionTapped: {
+                        showingAlert.toggle()
+                    },
+                                   secondaryActionType: secondaryActionType)
+                    .topSeparatorType(topSeparatorType)
+                    .bottomSeparatorType(bottomSeparatorType)
+                    .backgroundStyleType(backgroundStyleType)
+                } else {
+                    ListActionItem(title: primaryActionTitle,
+                                   onTapped: {
+                        showingAlert.toggle()
+                    },
+                                   actionType: primaryActionType)
+                    .topSeparatorType(topSeparatorType)
+                    .bottomSeparatorType(bottomSeparatorType)
+                    .backgroundStyleType(backgroundStyleType)
                 }
-                .alert("Action tapped", isPresented: $showingAlert) {
-                    Button("OK", role: .cancel) { }
-                        .accessibilityIdentifier("DismissAlertButton")
-                }
-
-                Section {
-                    FluentUIDemoToggle(titleKey: "Show secondary action", isOn: $showSecondaryAction)
-                        .accessibilityIdentifier("showSecondaryActionSwitch")
-                    textFields
-                    pickers
-                } header: {
-                    Text("Settings")
-                }
+            } header: {
+                Text("ListActionItem")
             }
-            .fluentTheme(fluentTheme)
-            .listStyle(.insetGrouped)
+            .alert("Action tapped", isPresented: $showingAlert) {
+                Button("OK", role: .cancel) { }
+                    .accessibilityIdentifier("DismissAlertButton")
+            }
+
+            FluentListSection {
+                FluentUIDemoToggle(titleKey: "Show secondary action", isOn: $showSecondaryAction)
+                    .accessibilityIdentifier("showSecondaryActionSwitch")
+                textFields
+                pickers
+            } header: {
+                Text("Settings")
+            }
         }
 
-        return content
+        @ViewBuilder
+        var list: some View {
+            FluentList {
+                content
+            }
+            .fluentListStyle(listStyle)
+            .fluentTheme(fluentTheme)
+        }
+
+        return list
     }
 }
