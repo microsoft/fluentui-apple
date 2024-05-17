@@ -108,7 +108,7 @@ public struct AvatarGroup: View, TokenizedControlView {
     public init(style: MSFAvatarGroupStyle,
                 size: MSFAvatarSize,
                 avatarCount: Int = 0,
-                maxDisplayedAvatars: Int = 5,
+                maxDisplayedAvatars: Int = Int.max,
                 overflowCount: Int = 0,
                 isUnread: Bool = false,
                 @ViewBuilder avatarBuilder: @escaping (_ index: Int) -> Avatar) {
@@ -266,7 +266,9 @@ public struct AvatarGroup: View, TokenizedControlView {
         var labels: [String] = []
         for i in 0..<avatarsToDisplay {
             let avatarState = state.avatars[i].state
-            labels.append(avatarState.accessibilityLabel ?? avatarState.primaryText ?? avatarState.secondaryText ?? "")
+            if let label = avatarState.accessibilityLabel ?? avatarState.primaryText ?? avatarState.secondaryText {
+                labels.append(label)
+            }
         }
         let overflowCount = state.avatars.count - avatarsToDisplay + state.overflowCount
         if overflowCount > 0 {

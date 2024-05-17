@@ -59,7 +59,7 @@ struct AvatarGroupDemoView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                fluentTheme.color(useAlternateBackground ? .backgroundCanvas : .background1)
+                fluentTheme.swiftUIColor(useAlternateBackground ? .backgroundCanvas : .background1)
                 AvatarGroup(style: style,
                             size: size,
                             avatarCount: avatarCount,
@@ -68,7 +68,6 @@ struct AvatarGroupDemoView: View {
                             isUnread: isUnread) { index in
                     avatarFromSamplePersona(index)
                 }.fixedSize()
-                
             }
             .frame(height: 120, alignment: .center)
 
