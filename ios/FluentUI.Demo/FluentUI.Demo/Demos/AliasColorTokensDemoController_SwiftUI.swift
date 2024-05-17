@@ -47,7 +47,7 @@ struct AliasColorTokensDemoView: View {
                 }
             }
         }
-        .background(fluentTheme.color(.backgroundCanvas))
+        .background(fluentTheme.swiftUIColor(.backgroundCanvas))
     }
 
     @ViewBuilder
@@ -56,7 +56,7 @@ struct AliasColorTokensDemoView: View {
             ForEach(demoSection.rows, id: \.self) { colorRow in
                 Text(colorRow.text)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .listRowBackground(fluentTheme.color(colorRow))
+                    .listRowBackground(fluentTheme.swiftUIColor(colorRow))
                     .foregroundStyle(Color(colorRow.textColor(fluentTheme)))
             }
         }
