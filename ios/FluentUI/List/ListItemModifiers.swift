@@ -50,12 +50,12 @@ public extension ListItem {
         return listItem
     }
 
-    /// The background styling of the `ListItem` to match the type of `List` it is displayed in.
+    /// The background styling of the `ListItem` which overrides the inherited value from `FluentList`.
     /// - Parameter backgroundStyleType: The style of the background.
     /// - Returns: The modified `ListItem` with the property set.
     func backgroundStyleType(_ backgroundStyleType: ListItemBackgroundStyleType) -> ListItem {
         var listItem = self
-        listItem.backgroundStyleType = backgroundStyleType
+        listItem.customBackgroundStyleType = backgroundStyleType
         return listItem
     }
 
