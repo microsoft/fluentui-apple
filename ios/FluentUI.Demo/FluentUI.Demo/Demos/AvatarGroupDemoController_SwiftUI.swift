@@ -48,10 +48,10 @@ struct AvatarGroupDemoView: View {
     func avatarFromSamplePersona(_ index: Int) -> Avatar {
         let samplePersona = samplePersonas[index % samplePersonas.count]
         Avatar(style: .default,
-                      size: size,
-                      image: showImage ? samplePersona.image : nil,
-                      primaryText: samplePersona.name,
-                      secondaryText: samplePersona.email)
+               size: size,
+               image: showImage ? samplePersona.image : nil,
+               primaryText: samplePersona.name,
+               secondaryText: samplePersona.email)
         .isRingVisible(isRingVisible)
         .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
     }
@@ -67,8 +67,8 @@ struct AvatarGroupDemoView: View {
                             overflowCount: overflowCount,
                             isUnread: isUnread) { index in
                     avatarFromSamplePersona(index)
-                }
-                .fixedSize()
+                }.fixedSize()
+                
             }
             .frame(height: 120, alignment: .center)
 
