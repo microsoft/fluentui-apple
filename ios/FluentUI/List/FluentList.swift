@@ -67,7 +67,7 @@ public struct FluentList<ListContent: View>: View {
 
 // MARK: - Environment
 
-public extension EnvironmentValues {
+extension EnvironmentValues {
     var listStyle: FluentListStyle {
         get {
             self[FluentListStyleKey.self]
