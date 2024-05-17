@@ -48,7 +48,10 @@ public struct FluentList<ListContent: View>: View {
                     .background(ListItem.listBackgroundColor(for: .grouped))
                     .listStyling_iOS17()
             case .plain:
-                list.listStyle(.plain)
+                list
+                    .listStyle(.plain)
+                    // TODO: Directly use `FluentList` token set instead of `ListItem`
+                    .background(ListItem.listBackgroundColor(for: .plain))
             }
         }
 
