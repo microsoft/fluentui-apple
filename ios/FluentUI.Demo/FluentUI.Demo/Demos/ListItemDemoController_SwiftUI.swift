@@ -210,10 +210,8 @@ struct ListItemDemoView: View {
                 }
                 FluentList {
                     if !renderStandalone {
-                        FluentListSection {
+                        FluentListSection("ListItem") {
                             listItem
-                        } header: {
-                            Text("ListItem")
                         }
                     }
                     controls

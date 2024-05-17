@@ -94,7 +94,7 @@ struct ListActionItemDemoView: View {
 
         @ViewBuilder
         var content: some View {
-            FluentListSection {
+            FluentListSection("ListActionItem") {
                 if showSecondaryAction {
                     ListActionItem(primaryActionTitle: primaryActionTitle,
                                    onPrimaryActionTapped: {
@@ -119,21 +119,17 @@ struct ListActionItemDemoView: View {
                     .bottomSeparatorType(bottomSeparatorType)
                     .backgroundStyleType(backgroundStyleType)
                 }
-            } header: {
-                Text("ListActionItem")
             }
             .alert("Action tapped", isPresented: $showingAlert) {
                 Button("OK", role: .cancel) { }
                     .accessibilityIdentifier("DismissAlertButton")
             }
 
-            FluentListSection {
+            FluentListSection("Settings") {
                 FluentUIDemoToggle(titleKey: "Show secondary action", isOn: $showSecondaryAction)
                     .accessibilityIdentifier("showSecondaryActionSwitch")
                 textFields
                 pickers
-            } header: {
-                Text("Settings")
             }
         }
 
