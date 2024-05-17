@@ -249,7 +249,7 @@ public struct ListItem<LeadingContent: View,
     /// The `ListItemAccessoryType` that the `ListItem` should display.
     var accessoryType: ListItemAccessoryType = .none
 
-    /// The custom background styling of the `ListItem`, which is preferred over the `ListStyle` environment value.
+    /// The custom background styling of the `ListItem`, which is preferred over the `FLuentListStyle` environment value.
     var customBackgroundStyleType: ListItemBackgroundStyleType?
 
     /// The handler for when the `detailButton` accessory view is tapped.

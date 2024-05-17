@@ -95,8 +95,8 @@ extension View {
     func listStyling_iOS17() -> some View {
         if #available(iOS 17, *) {
             return self
-                .listSectionSpacing(0)
-                .environment(\.defaultMinListHeaderHeight, 42)
+                .listSectionSpacing(16)
+                .environment(\.defaultMinListHeaderHeight, 32)
         } else {
             return self
         }
