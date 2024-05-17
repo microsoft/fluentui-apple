@@ -77,11 +77,9 @@ public extension FluentListSection where SectionHeaderContent == EmptyView {
     }
 }
 
-public extension FluentListSection where SectionHeaderContent == Text, SectionFooterContent == EmptyView {
-    init(_ titleKey: LocalizedStringKey, @ViewBuilder content: @escaping () -> SectionContent) {
+public extension FluentListSection where SectionHeaderContent == FluentListSectionHeader<String, EmptyView>, SectionFooterContent == EmptyView {
+    init(_ title: String, @ViewBuilder content: @escaping () -> SectionContent) {
         self.content = content
-        self.header = {
-            Text(titleKey)
-        }
+        self.header = { FluentListSectionHeader(title: title) }
     }
 }
