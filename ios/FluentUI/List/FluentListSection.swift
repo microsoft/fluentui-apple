@@ -76,3 +76,10 @@ public extension FluentListSection where SectionHeaderContent == EmptyView {
         self.footer = footer
     }
 }
+
+public extension FluentListSection where SectionHeaderContent == FluentListSectionHeader<String, EmptyView>, SectionFooterContent == EmptyView {
+    init(_ title: String, @ViewBuilder content: @escaping () -> SectionContent) {
+        self.content = content
+        self.header = { FluentListSectionHeader(title: title) }
+    }
+}
