@@ -32,6 +32,7 @@ public struct FluentList<ListContent: View>: View {
         var list: some View {
             List {
                 content()
+                    .environment(\.listStyle, listStyle)
             }
         }
 
@@ -41,7 +42,11 @@ public struct FluentList<ListContent: View>: View {
             case .inset:
                 list.listStyle(.inset)
             case .insetGrouped:
-                list.listStyle(.insetGrouped)
+                list
+                    .listStyle(.insetGrouped)
+                    // TODO: Directly use `FluentList` token set instead of `ListItem`
+                    .background(ListItem.listBackgroundColor(for: .grouped))
+                    .listStyling_iOS17()
             case .plain:
                 list.listStyle(.plain)
             }
@@ -58,4 +63,42 @@ public struct FluentList<ListContent: View>: View {
     /// Content to render inside the list
     private var content: () -> ListContent
 
+}
+
+// MARK: - Environment
+
+public extension EnvironmentValues {
+    var listStyle: FluentListStyle {
+        get {
+            self[FluentListStyleKey.self]
+        }
+        set {
+            self[FluentListStyleKey.self] = newValue
+        }
+    }
+}
+
+struct FluentListStyleKey: EnvironmentKey {
+    static var defaultValue: FluentListStyle { .plain }
+}
+
+// MARK: - View
+
+extension View {
+    /// Abstracts away differences in pre-iOS 17 for list styling
+    ///
+    /// This function should be removed once we move to iOS 17 as a minimum target.
+    /// - Parameters:
+    ///   - spacing: The amount of spacing between sections.
+    ///   - minHeaderHeight: The minimum header height for sections in the list
+    /// - Returns: A view that has list section spacing applied if iOS 17 is available.
+    func listStyling_iOS17() -> some View {
+        if #available(iOS 17, *) {
+            return self
+                .listSectionSpacing(0)
+                .environment(\.defaultMinListHeaderHeight, 42)
+        } else {
+            return self
+        }
+    }
 }

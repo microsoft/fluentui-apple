@@ -249,8 +249,8 @@ public struct ListItem<LeadingContent: View,
     /// The `ListItemAccessoryType` that the `ListItem` should display.
     var accessoryType: ListItemAccessoryType = .none
 
-    /// The background styling of the `ListItem` to match the type of `List` it is displayed in.
-    var backgroundStyleType: ListItemBackgroundStyleType = .plain
+    /// The custom background styling of the `ListItem`, which is preferred over the `ListStyle` environment value.
+    var customBackgroundStyleType: ListItemBackgroundStyleType?
 
     /// The handler for when the `detailButton` accessory view is tapped.
     var onAccessoryTapped: (() -> Void)?
@@ -281,8 +281,24 @@ public struct ListItem<LeadingContent: View,
 
     // MARK: Private variables
 
+    /// The background styling of the `ListItem`.
+    private var backgroundStyleType: ListItemBackgroundStyleType {
+        if let customBackgroundStyleType {
+                return customBackgroundStyleType
+        }
+
+        switch listStyle {
+        case .plain, .inset:
+            return .plain
+        case .insetGrouped:
+            return .grouped
+        }
+    }
+
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
+    /// The style of the parent list for the section
+    @Environment(\.listStyle) private var listStyle: FluentListStyle
 
     private var leadingContent: (() -> LeadingContent)?
     private var trailingContent: (() -> TrailingContent)?
@@ -316,6 +332,9 @@ private struct ListItemButtonStyle: SwiftUI.ButtonStyle {
     let tokenSet: ListItemTokenSet
 
     @Environment(\.isEnabled) private var isEnabled: Bool
+
+    /// The style of the parent list for the section
+    @Environment(\.listStyle) private var listStyle: FluentListStyle
 }
 
 // MARK: Constants

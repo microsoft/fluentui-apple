@@ -34,6 +34,17 @@ public struct FluentListSection<SectionContent: View, SectionHeaderContent: View
             } header: {
                 if let header = header {
                     header()
+                } else {
+                    if listStyle == .insetGrouped {
+                        // Currently only a minimum header height and section spacing can
+                        // be specified for a SwiftUI.List. To have a consistent
+                        // minimum height it needs to be specified but it doesn't account for section spacing.
+                        // This is an issue as it will always be larger then we want unless we set
+                        // section spacing to 0. If we do that and don't have a header, there will
+                        // be no spacing between sections so providing a default header.
+                        Text("")
+                            .accessibilityHidden(true)
+                    }
                 }
             } footer: {
                 if let footer = footer {
@@ -55,6 +66,8 @@ public struct FluentListSection<SectionContent: View, SectionHeaderContent: View
     /// Content to display in the header of the section
     private var header: (() -> SectionHeaderContent)?
 
+    /// The style of the parent list for the section
+    @Environment(\.listStyle) private var listStyle: FluentListStyle
 }
 
 public extension FluentListSection where SectionHeaderContent == EmptyView, SectionFooterContent == EmptyView {
