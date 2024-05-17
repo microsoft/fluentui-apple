@@ -309,9 +309,9 @@ public enum ControlTokenValue {
     private var fallbackColor: Color {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
-        return GlobalTokens.sharedColor(.hotPink, .primary)
+        return GlobalTokens.sharedSwiftUIColor(.hotPink, .primary)
 #else
-        return GlobalTokens.neutralColor(.black)
+        return GlobalTokens.neutralSwiftUIColor(.black)
 #endif
     }
 }

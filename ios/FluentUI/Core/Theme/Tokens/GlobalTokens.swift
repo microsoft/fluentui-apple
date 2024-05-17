@@ -42,7 +42,7 @@ public class GlobalTokens: NSObject {
         case gradientTertiaryDark
     }
 
-    public static func brandColor(_ token: BrandColorToken) -> Color {
+    public static func brandSwiftUIColor(_ token: BrandColorToken) -> Color {
         switch token {
         case .comm10:
             return Color(hexValue: 0x061724)
@@ -147,7 +147,7 @@ public class GlobalTokens: NSObject {
         case grey98
         case white
     }
-    public static func neutralColor(_ token: NeutralColorToken) -> Color {
+    public static func neutralSwiftUIColor(_ token: NeutralColorToken) -> Color {
         switch token {
         case .black:
             return Color(hexValue: 0x000000)
@@ -325,7 +325,7 @@ public class GlobalTokens: NSObject {
         case tint60
     }
 
-    public static func sharedColor(_ sharedColor: SharedColorSet, _ token: SharedColorToken) -> Color {
+    public static func sharedSwiftUIColor(_ sharedColor: SharedColorSet, _ token: SharedColorToken) -> Color {
         switch sharedColor {
         case .anchor:
             switch token {

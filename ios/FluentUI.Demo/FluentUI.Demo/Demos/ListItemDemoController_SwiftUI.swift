@@ -217,7 +217,6 @@ struct ListItemDemoView: View {
                     controls
                 }
                 .fluentListStyle(listStyle)
-                .background(ListItem.listBackgroundColor(for: .grouped))
                 .fluentTheme(fluentTheme)
             }
         }
