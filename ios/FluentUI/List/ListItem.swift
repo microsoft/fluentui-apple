@@ -249,7 +249,7 @@ public struct ListItem<LeadingContent: View,
     /// The `ListItemAccessoryType` that the `ListItem` should display.
     var accessoryType: ListItemAccessoryType = .none
 
-    /// The custom background styling of the `ListItem`, which is preferred over the `FLuentListStyle` environment value.
+    /// The custom background styling of the `ListItem`, which is preferred over the `FluentListStyle` environment value.
     var customBackgroundStyleType: ListItemBackgroundStyleType?
 
     /// The handler for when the `detailButton` accessory view is tapped.
@@ -283,16 +283,18 @@ public struct ListItem<LeadingContent: View,
 
     /// The background styling of the `ListItem`.
     private var backgroundStyleType: ListItemBackgroundStyleType {
+        let styleType: ListItemBackgroundStyleType
         if let customBackgroundStyleType {
-                return customBackgroundStyleType
+            styleType = customBackgroundStyleType
+        } else {
+            switch listStyle {
+            case .plain, .inset:
+                styleType = .plain
+            case .insetGrouped:
+                styleType = .grouped
+            }
         }
-
-        switch listStyle {
-        case .plain, .inset:
-            return .plain
-        case .insetGrouped:
-            return .grouped
-        }
+        return styleType
     }
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
