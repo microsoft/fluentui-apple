@@ -82,7 +82,11 @@ import SwiftUI
 }
 
 /// View that represents the avatar.
-public struct Avatar: View, TokenizedControlView {
+public struct Avatar: View, TokenizedControlView, Equatable {
+    public static func == (lhs: Avatar, rhs: Avatar) -> Bool {
+        lhs.state == rhs.state
+    }
+
     public typealias TokenSetKeyType = AvatarTokenSet.Tokens
     @ObservedObject public var tokenSet: AvatarTokenSet
 
