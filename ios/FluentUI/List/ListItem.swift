@@ -297,7 +297,7 @@ public struct ListItem<LeadingContent: View,
 
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
-    /// The style of the parent list for the section
+    /// The style of the parent `FluentList`.
     @Environment(\.listStyle) private var listStyle: FluentListStyle
 
     private var leadingContent: (() -> LeadingContent)?
@@ -332,9 +332,6 @@ private struct ListItemButtonStyle: SwiftUI.ButtonStyle {
     let tokenSet: ListItemTokenSet
 
     @Environment(\.isEnabled) private var isEnabled: Bool
-
-    /// The style of the parent list for the section
-    @Environment(\.listStyle) private var listStyle: FluentListStyle
 }
 
 // MARK: Constants

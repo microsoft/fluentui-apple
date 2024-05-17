@@ -54,6 +54,7 @@ public struct FluentListSection<SectionContent: View, SectionHeaderContent: View
 
     /// Content to display in the header of the section
     private var header: (() -> SectionHeaderContent)?
+
 }
 
 public extension FluentListSection where SectionHeaderContent == EmptyView, SectionFooterContent == EmptyView {
