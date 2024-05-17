@@ -166,8 +166,7 @@ public struct Avatar: View, TokenizedControlView {
             if shouldUseDefaultImage {
                 var defaultImage = state.defaultImage
                 if defaultImage == nil {
-                    let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
-                    defaultImage = UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled")
+                    defaultImage = UIImage.staticImageNamed(AvatarTokenSet.defaultImageName(style))
                 }
                 return (defaultImage, .template)
             } else {

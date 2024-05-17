@@ -273,6 +273,12 @@ extension AvatarTokenSet {
             return GlobalTokens.icon(.size280)
         }
     }
+
+    /// The name of the icon to use for the default image.
+    static func defaultImageName(_ style: MSFAvatarStyle) -> String {
+        let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
+        return isOutlinedStyle ? "person_48_regular" : "person_48_filled"
+    }
 }
 
 /// Pre-defined styles of the avatar.
