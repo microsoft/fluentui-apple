@@ -72,7 +72,7 @@ struct AvatarGroupDemoView: View {
             .frame(height: 120, alignment: .center)
 
             FluentList {
-                Section("Content") {
+                FluentListSection("Content") {
                     Stepper("Avatar Count: \(avatarCount)", value: $avatarCount, in: (0...Int.max))
                     Stepper("Max Displayed Avatars: \(maxDisplayedAvatars)", value: $maxDisplayedAvatars)
                     Stepper("Overflow Count: \(overflowCount)", value: $overflowCount)
@@ -81,12 +81,12 @@ struct AvatarGroupDemoView: View {
                     Toggle("Alternate Background", isOn: $useAlternateBackground)
                 }
 
-                Section("Ring") {
+                FluentListSection("Ring") {
                     Toggle("Ring Visible", isOn: $isRingVisible)
                     Toggle("Image Based Ring Color", isOn: $showImageBasedRingColor)
                 }
 
-                Section("Style") {
+                FluentListSection("Style") {
                     Picker(selection: $style, label: EmptyView()) {
                         Text(".stack").tag(MSFAvatarGroupStyle.stack)
                         Text(".pile").tag(MSFAvatarGroupStyle.pile)
@@ -95,7 +95,7 @@ struct AvatarGroupDemoView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                Section("Size") {
+                FluentListSection("Size") {
                     Picker("Avatar Size", selection: $size) {
                         ForEach(MSFAvatarSize.allCases.reversed(), id: \.self) { avatarSize in
                             Text("\(avatarSize.description)").tag(avatarSize)
