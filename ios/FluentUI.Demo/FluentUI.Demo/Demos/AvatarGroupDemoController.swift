@@ -51,6 +51,15 @@ class AvatarGroupDemoController: DemoTableViewController {
         let row = section.rows[indexPath.row]
 
         switch row {
+        case .swiftUIDemo:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+                return UITableViewCell()
+            }
+            cell.setup(action1Title: "Show SwiftUI Demo")
+            cell.action1Button.addTarget(self, action: #selector(showSwiftUIDemo(_:)), for: .touchUpInside)
+
+            return cell
+
         case .avatarCount:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
                 return UITableViewCell()
@@ -168,6 +177,7 @@ class AvatarGroupDemoController: DemoTableViewController {
     // MARK: - Helpers
 
     private enum AvatarGroupDemoSection: CaseIterable {
+        case swiftUIDemo
         case settings
         case avatarStackNoActivityRing
         case avatarStackWithActivityRing
@@ -186,8 +196,9 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarPileWithActivityRing,
                  .avatarPileWithMixedActivityRing:
                 return .pile
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUIDemo:
+                preconditionFailure("Settings and SwiftUI rows should not display an Avatar Group")
             }
         }
 
@@ -201,8 +212,9 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarPileWithActivityRing,
                  .avatarPileWithMixedActivityRing:
                 return true
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUIDemo:
+                preconditionFailure("Settings and SwiftUI rows should not display an Avatar Group")
             }
         }
 
@@ -216,17 +228,25 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarPileWithActivityRing,
                  .avatarPileNoActivityRing:
                 return false
-            case .settings:
-                preconditionFailure("Settings rows should not display an Avatar Group")
+            case .settings,
+                 .swiftUIDemo:
+                preconditionFailure("Settings and SwiftUI rows should not display an Avatar Group")
             }
         }
 
         var isDemoSection: Bool {
-            return self != .settings
+            switch self {
+            case .settings, .swiftUIDemo:
+                return false
+            default:
+                return true
+            }
         }
 
         var title: String {
             switch self {
+            case .swiftUIDemo:
+                return "SwiftUI Demo"
             case .settings:
                 return "Settings"
             case .avatarStackNoActivityRing:
@@ -246,6 +266,8 @@ class AvatarGroupDemoController: DemoTableViewController {
 
         var rows: [AvatarGroupDemoRow] {
             switch self {
+            case .swiftUIDemo:
+                return [.swiftUIDemo]
             case .settings:
                 return [.avatarCount,
                         .alternateBackground,
@@ -277,6 +299,7 @@ class AvatarGroupDemoController: DemoTableViewController {
     }
 
     private enum AvatarGroupDemoRow: CaseIterable {
+        case swiftUIDemo
         case avatarCount
         case alternateBackground
         case customRingColor
@@ -318,7 +341,8 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .alternateBackground,
                  .customRingColor,
                  .maxDisplayedAvatars,
-                 .overflow:
+                 .overflow,
+                 .swiftUIDemo:
                 return false
             }
         }
@@ -350,13 +374,16 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .alternateBackground,
                  .customRingColor,
                  .maxDisplayedAvatars,
-                 .overflow:
+                 .overflow,
+                 .swiftUIDemo:
                 preconditionFailure("Row should not display an Avatar Group")
             }
         }
 
         var title: String {
             switch self {
+            case .swiftUIDemo:
+                return "SwiftUI Demo"
             case .avatarCount:
                 return "Avatar count"
             case .alternateBackground:
@@ -515,6 +542,11 @@ class AvatarGroupDemoController: DemoTableViewController {
                 demoAvatarGroupsBySection.updateValue(avatarGroupsForCurrentSection, forKey: section)
             }
         }
+    }
+
+    @objc private func showSwiftUIDemo(_ cell: ActionsCell) {
+        navigationController?.pushViewController(AvatarGroupDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 
     @objc private func addAvatarCount(_ cell: ActionsCell) {
