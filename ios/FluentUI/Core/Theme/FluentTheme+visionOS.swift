@@ -14,7 +14,7 @@ extension FluentTheme {
         // need to provide multiple values (e.g. light + dark, elevated, etc).
         switch token {
         case .foreground1:
-            visionColorDark = GlobalTokens.neutralColor(.white)
+            visionColorDark = GlobalTokens.neutralSwiftUIColor(.white)
         case .foreground2:
             visionColorDark = .white
         case .foreground3:
@@ -46,7 +46,7 @@ extension FluentTheme {
         case .stroke2:
             visionColorDark = .white.opacity(0.5)
         case .dangerForeground2:
-            visionColorDark = GlobalTokens.sharedColor(.red, .primary)
+            visionColorDark = GlobalTokens.sharedSwiftUIColor(.red, .primary)
 
         default:
             // Return the standard iOS color by default.
