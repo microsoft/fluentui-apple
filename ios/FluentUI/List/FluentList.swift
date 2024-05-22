@@ -96,12 +96,20 @@ extension View {
     ///   - minHeaderHeight: The minimum header height for sections in the list
     /// - Returns: A view that has list section spacing applied if iOS 17 is available.
     func listStyling_iOS17() -> some View {
+#if os(visionOS)
+        // On visionOS, using #available and .environment crashes.
+        // As a workaround, move this to a separate ifdef
+        return self
+            .listSectionSpacing(GlobalTokens.spacing(.size160))
+            .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
+#else
         if #available(iOS 17, *) {
             return self
-                .listSectionSpacing(16)
-                .environment(\.defaultMinListHeaderHeight, 32)
+                .listSectionSpacing(GlobalTokens.spacing(.size160))
+                .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
         } else {
             return self
         }
+#endif // os(visionOS)
     }
 }
