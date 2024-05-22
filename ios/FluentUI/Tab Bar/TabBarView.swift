@@ -146,6 +146,8 @@ open class TabBarView: UIView, TokenizedControlInternal {
         return nil
     }
 
+    @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
+
     private struct Constants {
         static let maxTabCount: Int = 5
     }
@@ -184,8 +186,6 @@ open class TabBarView: UIView, TokenizedControlInternal {
             delegate?.tabBarView?(self, didSelect: item)
         }
     }
-
-    @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
 
     public typealias TokenSetKeyType = TabBarTokenSet.Tokens
     public var tokenSet: TabBarTokenSet = .init()
