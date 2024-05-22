@@ -185,6 +185,8 @@ open class TabBarView: UIView, TokenizedControlInternal {
         }
     }
 
+    @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
+
     public typealias TokenSetKeyType = TabBarTokenSet.Tokens
     public var tokenSet: TabBarTokenSet = .init()
 
