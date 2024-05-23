@@ -351,7 +351,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             subtitleHeight: labelSize(text: subtitle,
                                       attributedText: attributedSubtitle,
                                       isAttributedTextSet: isAttributedSubtitleSet,
-                                      font: subtitleFont ?? (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont),
+                                      font: subtitleFont ?? (layoutType == .threeLines ? tokenSet[.subtitleThreeLinesFont].uiFont : tokenSet[.subtitleTwoLinesFont].uiFont),
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -1232,7 +1232,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             titleLabel.font = tokenSet[.titleFont].uiFont
         }
         if !isAttributedSubtitleSet {
-            subtitleLabel.font = (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont)
+            subtitleLabel.font = (layoutType == .threeLines ? tokenSet[.subtitleThreeLinesFont].uiFont : tokenSet[.subtitleTwoLinesFont].uiFont)
         }
         if !isAttributedFooterSet {
             footerLabel.font = tokenSet[.footerFont].uiFont
