@@ -85,8 +85,6 @@ public class FluentUIFramework: NSObject {
     }
 
     static func initializeUINavigationBarAppearance(_ navigationBar: UINavigationBar, traits: UITraitCollection? = nil, navigationBarStyle: NavigationBarStyle = .normal, fluentTheme: FluentTheme? = nil) {
-        navigationBar.isTranslucent = false
-
         let standardAppearance = navigationBar.standardAppearance
 
         let fluentTheme = fluentTheme ?? FluentTheme.shared
