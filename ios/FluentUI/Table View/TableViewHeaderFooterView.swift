@@ -244,7 +244,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - title: The title string.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "") {
-        setup(style: style, title: title, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
+        setupBase(style: style, title: title, accessoryButtonTitle: accessoryButtonTitle)
     }
 
     /// - Parameters:
@@ -253,11 +253,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - accessoryButtonTitle: Optional accessory button title string.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     @objc open func setup(style: Style, title: String, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
-        titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
-        titleView.text = title
-        titleView.isSelectable = false
-
-        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
+        setupBase(style: style, title: title, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
     /// - Parameters:
@@ -265,23 +261,25 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
-        setup(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
+        setupBase(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
-
+    
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
-        titleView.attributedText = attributedTitle
-        titleView.isSelectable = true
-
-        let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
-        attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont ?? tokenSet[.textFont].uiFont
-        attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor ?? tokenSet[.textColor].uiColor
-
-        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
+//        titleView.attributedText = attributedTitle
+//        titleView.isSelectable = true
+//
+//        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
+//
+//        let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
+//        attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont ?? tokenSet[.textFont].uiFont
+//        attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor ?? tokenSet[.textColor].uiColor
+        
+        setupBase(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
     /// - Parameters:
@@ -289,7 +287,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - title: The title string.
     ///   - accessoryView: The optional custom accessory view in the trailing edge of this view.
     @objc open func setup(style: Style, title: String, accessoryView: UIView) {
-        setup(style: style, title: title, accessoryView: accessoryView, leadingView: nil)
+        setupBase(style: style, title: title, accessoryView: accessoryView)
     }
 
     /// - Parameters:
@@ -300,30 +298,50 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     /// If `accessoryView` is set, the accessory button (if any) will be replaced by this custom view. Clients are responsible
     /// for the appearance and behavior of both the `accessoryView` and `leadingView`, including event handling and accessibility.
     @objc open func setup(style: Style, title: String, accessoryView: UIView, leadingView: UIView? = nil) {
-        setup(style: style, title: title, accessoryButtonTitle: "")
-        self.accessoryView = accessoryView
-        self.leadingView = leadingView
+        setupBase(style: style, title: title, accessoryView: accessoryView, leadingView: leadingView)
     }
 
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     @objc open func setup(style: Style, accessoryButtonTitle: String) {
-        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: nil)
+        setupBase(style: style, accessoryButtonTitle: accessoryButtonTitle)
     }
 
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - title: The title string.
     @objc open func setup(style: Style, title: String) {
-        setup(style: style, title: title, accessoryButtonTitle: "")
+        setupBase(style: style, title: title)
     }
 
+    /// This is the base setup method. All other setup methods call this one at some point in their implementation.
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
-    private func setup(style: Style, accessoryButtonTitle: String, leadingView: UIView? = nil) {
+    private func setupBase(style: Style,
+                           title: String? = nil,
+                           attributedTitle: NSAttributedString? = nil,
+                           accessoryButtonTitle: String = "",
+                           accessoryView: UIView? = nil,
+                           leadingView: UIView? = nil) {
+        attributedTitleFont = nil
+        attributedTitleColor = nil
+
+        if let attributedTitle = attributedTitle {
+            titleView.attributedText = attributedTitle
+            titleView.isSelectable = true
+
+            let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
+            attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont ?? tokenSet[.textFont].uiFont
+            attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor ?? tokenSet[.textColor].uiColor
+        } else {
+            titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
+            titleView.text = title
+            titleView.isSelectable = false
+        }
+
         updateTitleViewFont()
         switch style {
         case .header, .headerPrimary:
@@ -333,7 +351,9 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         }
 
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
+
         self.leadingView = leadingView
+        self.accessoryView = accessoryView
 
         self.style = style
 
@@ -504,6 +524,11 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     @objc private func handleHeaderViewTapped() {
         onHeaderViewTapped?()
+    }
+
+    private func cleanupAttributedProperties() {
+        attributedTitleFont = nil
+        attributedTitleColor = nil
     }
 
     private var attributedTitleFont: UIFont?
