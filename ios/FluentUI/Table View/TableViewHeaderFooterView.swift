@@ -346,8 +346,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
         accessoryButton = !accessoryButtonTitle.isEmpty ? createAccessoryButton(withTitle: accessoryButtonTitle) : nil
 
+        /// `accessoryButton` and `accessoryView` occupy the same space at the trailing end of the view. If both are provided, the `accessoryView` will be given priority
+        if accessoryView != nil {
+            self.accessoryView = accessoryView
+        }
+
         self.leadingView = leadingView
-        self.accessoryView = accessoryView
 
         self.style = style
 
