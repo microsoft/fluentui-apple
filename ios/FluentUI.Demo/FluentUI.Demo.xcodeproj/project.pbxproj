@@ -91,7 +91,6 @@
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
 		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
-		928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928C00B02B8920E60023ECE7 /* View+Extensions.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */; };
 		92BF13322BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */; };
 		92C55CB72BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C55CB62BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift */; };
@@ -231,7 +230,6 @@
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
-		928C00B02B8920E60023ECE7 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceControlView.swift; sourceTree = "<group>"; };
 		92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		92C55CB62BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -417,7 +415,6 @@
 			isa = PBXGroup;
 			children = (
 				5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */,
-				928C00B02B8920E60023ECE7 /* View+Extensions.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -865,7 +862,6 @@
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
-				928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */,
 				F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
