@@ -261,24 +261,15 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "") {
-        setupBase(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
+        setupBase(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle)
     }
-    
+
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
     ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
     ///   - accessoryButtonTitle: Optional accessory button title string.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     @objc open func setup(style: Style, attributedTitle: NSAttributedString, accessoryButtonTitle: String = "", leadingView: UIView? = nil) {
-//        titleView.attributedText = attributedTitle
-//        titleView.isSelectable = true
-//
-//        setup(style: style, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
-//
-//        let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
-//        attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont ?? tokenSet[.textFont].uiFont
-//        attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor ?? tokenSet[.textColor].uiColor
-        
         setupBase(style: style, attributedTitle: attributedTitle, accessoryButtonTitle: accessoryButtonTitle, leadingView: leadingView)
     }
 
@@ -315,10 +306,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         setupBase(style: style, title: title)
     }
 
-    /// This is the base setup method. All other setup methods call this one at some point in their implementation.
+    /// This is the base setup method. All other setup methods call this method with their parameters.
     /// - Parameters:
     ///   - style: The `TableViewHeaderFooterView.Style` used to set up the view.
+    ///   - title: The title string
+    ///   - attributedTitle: Title as an NSAttributedString for additional attributes.
     ///   - accessoryButtonTitle: Optional accessory button title string.
+    ///   - accessoryView: The optional custom accessory view in the trailing edge of this view.
     ///   - leadingView: An optional custom view that appears near the leading edge of the view.
     private func setupBase(style: Style,
                            title: String? = nil,
@@ -524,11 +518,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     @objc private func handleHeaderViewTapped() {
         onHeaderViewTapped?()
-    }
-
-    private func cleanupAttributedProperties() {
-        attributedTitleFont = nil
-        attributedTitleColor = nil
     }
 
     private var attributedTitleFont: UIFont?
