@@ -533,7 +533,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         } else {
             tableView.tableHeaderView = nil
         }
-        updateHeaderHeight()
+        calculateHeaderHeight()
     }
 
     private func reloadHeroCommandOverflowStack() {
@@ -563,9 +563,11 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
     }
 
-    private func updateHeaderHeight() {
-        headerHeight = heroCommandStack.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height + BottomSheetController.resizingHandleHeight
+    @discardableResult
+    private func calculateHeaderHeight() -> CGFloat {
+        let headerHeight = heroCommandStack.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height + BottomSheetController.resizingHandleHeight
         bottomSheetController?.headerContentHeight = headerHeight
+        return headerHeight
     }
 
     private func updateAppearance() {
@@ -626,8 +628,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
-
-    private var headerHeight: CGFloat = 0
 
     private var sheetHeaderSeparator: Separator?
 
@@ -929,11 +929,8 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
         let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.handleHeaderHeight + maxHeroItemHeight
 
-        // Update the header height in case a title change has caused a change
-        updateHeaderHeight()
-
         // How much more whitespace is required at the bottom of the sheet header
-        let requiredBottomWhitespace = max(0, headerHeight - headerHeightWithoutBottomWhitespace)
+        let requiredBottomWhitespace = max(0, calculateHeaderHeight() - headerHeightWithoutBottomWhitespace)
 
         // The safe area inset can fulfill some or all of our bottom whitespace requirement.
         // This is how much more we need, taking the inset into account.
