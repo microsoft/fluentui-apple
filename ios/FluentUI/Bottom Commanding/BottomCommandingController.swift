@@ -919,7 +919,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         }
     }
 
-    /// Recalculates header top margin constraint and updates the `collapsedContentHeight`, `isExpandable`, and `headerContentHeight` properties of the sheet controller.
+    /// Recalculates header top margin constraint and updates the `collapsedContentHeight` and `isExpandable` properties of the sheet controller.
     private func updateSheetHeaderSizingParameters() {
         guard let bottomSheetController = bottomSheetController else {
             return
