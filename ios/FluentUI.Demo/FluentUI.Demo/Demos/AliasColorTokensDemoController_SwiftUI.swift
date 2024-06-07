@@ -33,6 +33,7 @@ struct AliasColorTokensDemoView: View {
                 }
             }
         }
+        .fluentListStyle(.insetGrouped)
     }
 
     @ViewBuilder
