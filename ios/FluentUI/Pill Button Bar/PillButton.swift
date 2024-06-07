@@ -176,7 +176,6 @@ open class PillButton: UIButton, TokenizedControlInternal {
         updateAttributedTitle()
     }
 
-    @available(iOS 15, *)
     private func updateAttributedTitle() {
         let itemTitle = pillBarItem.title
         var attributedTitle = AttributedString(itemTitle)

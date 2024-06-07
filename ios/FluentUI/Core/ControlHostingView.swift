@@ -37,7 +37,7 @@ open class ControlHostingView: UIView {
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
     public init(_ controlView: AnyView) {
         hostingController = FluentThemedHostingController.init(rootView: controlView)
-        hostingController.disableSafeAreaInsets()
+        hostingController.sizingOptions = [.intrinsicContentSize]
         super.init(frame: .zero)
 
         self.configureHostedView()
