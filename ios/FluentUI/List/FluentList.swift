@@ -44,12 +44,14 @@ public struct FluentList<ListContent: View>: View {
             case .insetGrouped:
                 list
                     .listStyle(.insetGrouped)
+                    .scrollContentBackground(.hidden)
                     // TODO: Directly use `FluentList` token set instead of `ListItem`
                     .background(ListItem.listBackgroundColor(for: .grouped))
                     .listStyling_iOS17()
             case .plain:
                 list
                     .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
                     // TODO: Directly use `FluentList` token set instead of `ListItem`
                     .background(ListItem.listBackgroundColor(for: .plain))
             }
@@ -66,6 +68,7 @@ public struct FluentList<ListContent: View>: View {
     /// Content to render inside the list
     private var content: () -> ListContent
 
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 }
 
 // MARK: - Environment
