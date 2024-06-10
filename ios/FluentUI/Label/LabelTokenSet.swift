@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: TextColorStyle
 
-@objc (MSFTextColorStyle)
+@objc(MSFTextColorStyle)
 public enum TextColorStyle: Int, CaseIterable {
     case regular
     case secondary
