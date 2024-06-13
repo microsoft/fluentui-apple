@@ -80,6 +80,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
+    ///   - verticalOffset: How much to vertically offset the notification from its default position.
     public init(style: MSFNotificationStyle,
                 shouldSelfPresent: Bool = true,
                 isFlexibleWidthToast: Bool = false,
@@ -95,7 +96,8 @@ public struct FluentNotification: View, TokenizedControlView {
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
                 messageButtonAction: (() -> Void)? = nil,
-                showFromBottom: Bool = true) {
+                showFromBottom: Bool = true,
+                verticalOffset: CGFloat = 0.0) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              attributedMessage: attributedMessage,
@@ -108,7 +110,8 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                                              messageButtonAction: messageButtonAction,
-                                             showFromBottom: showFromBottom)
+                                             showFromBottom: showFromBottom,
+                                             verticalOffset: verticalOffset)
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
@@ -355,7 +358,7 @@ public struct FluentNotification: View, TokenizedControlView {
         withAnimation(.spring(response: state.style.animationDurationForShow / 2.0,
                               dampingFraction: state.style.animationDampingRatio,
                               blendDuration: 0)) {
-            bottomOffset = 0
+            bottomOffset = -state.verticalOffset
             opacity = 1
         }
     }
@@ -400,6 +403,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var showDefaultDismissActionButton: Bool
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
+    @Published var verticalOffset: CGFloat
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -430,7 +434,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
                   messageButtonAction: nil,
-                  showFromBottom: true)
+                  showFromBottom: true,
+                  verticalOffset: 0.0)
     }
 
     init(style: MSFNotificationStyle,
@@ -445,7 +450,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
          messageButtonAction: (() -> Void)? = nil,
-         showFromBottom: Bool = true) {
+         showFromBottom: Bool = true,
+         verticalOffset: CGFloat) {
         self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
@@ -459,6 +465,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+        self.verticalOffset = verticalOffset
 
         super.init()
     }
