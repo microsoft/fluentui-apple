@@ -147,7 +147,7 @@ public struct FluentNotification: View, TokenizedControlView {
             if state.style.isToast && hasSecondTextRow {
                 if let attributedTitle = state.attributedTitle {
                     Text(AttributedString(attributedTitle))
-                        .frame(idealWidth: attributedTitleSize.width)
+                        .fixedSize(horizontal: false, vertical: true)
                 } else if let title = state.title {
                     Text(title)
                         .font(.init(tokenSet[.boldTextFont].uiFont))
@@ -159,7 +159,7 @@ public struct FluentNotification: View, TokenizedControlView {
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
                 Text(AttributedString(attributedMessage))
-                    .frame(idealWidth: attributedMessageSize.width)
+                    .fixedSize(horizontal: false, vertical: true)
             } else if let message = state.message {
                 Text(message)
                     .font(.init(tokenSet[.regularTextFont].uiFont))

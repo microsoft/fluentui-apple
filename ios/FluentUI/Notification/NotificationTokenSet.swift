@@ -112,17 +112,17 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.color(.brandBackgroundTint)
+                        return theme.swiftUIColor(.brandBackgroundTint)
                     case .neutralToast:
-                        return theme.color(.background4)
+                        return theme.swiftUIColor(.background4)
                     case .primaryOutlineBar:
-                        return theme.color(.background1)
+                        return theme.swiftUIColor(.background1)
                     case .neutralBar:
-                        return theme.color(.background5)
+                        return theme.swiftUIColor(.background5)
                     case .dangerToast:
-                        return theme.color(.dangerBackground1)
+                        return theme.swiftUIColor(.dangerBackground1)
                     case .warningToast:
-                        return theme.color(.warningBackground1)
+                        return theme.swiftUIColor(.warningBackground1)
                     }
                 }
 
@@ -131,16 +131,16 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.color(.brandForegroundTint)
+                        return theme.swiftUIColor(.brandForegroundTint)
                     case .neutralToast,
                             .neutralBar:
-                        return theme.color(.foreground2)
+                        return theme.swiftUIColor(.foreground2)
                     case .primaryOutlineBar:
-                        return theme.color(.brandForeground1)
+                        return theme.swiftUIColor(.brandForeground1)
                     case .dangerToast:
-                        return theme.color(.dangerForeground1)
+                        return theme.swiftUIColor(.dangerForeground1)
                     case .warningToast:
-                        return theme.color(.warningForeground1)
+                        return theme.swiftUIColor(.warningForeground1)
                     }
                 }
 
@@ -149,16 +149,16 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     switch style() {
                     case .primaryToast,
                             .primaryBar:
-                        return theme.color(.brandForegroundTint)
+                        return theme.swiftUIColor(.brandForegroundTint)
                     case .neutralToast,
                             .neutralBar:
-                        return theme.color(.foreground2)
+                        return theme.swiftUIColor(.foreground2)
                     case .primaryOutlineBar:
-                        return theme.color(.brandForeground1)
+                        return theme.swiftUIColor(.brandForeground1)
                     case .dangerToast:
-                        return theme.color(.dangerForeground1)
+                        return theme.swiftUIColor(.dangerForeground1)
                     case .warningToast:
-                        return theme.color(.warningForeground1)
+                        return theme.swiftUIColor(.warningForeground1)
                     }
                 }
 
@@ -197,7 +197,7 @@ public class NotificationTokenSet: ControlTokenSet<NotificationTokenSet.Tokens> 
                     case .primaryToast, .neutralToast, .primaryBar, .neutralBar, .dangerToast, .warningToast:
                         return .clear
                     case .primaryOutlineBar:
-                        return theme.color(.stroke2)
+                        return theme.swiftUIColor(.stroke2)
                     }
                 }
 
