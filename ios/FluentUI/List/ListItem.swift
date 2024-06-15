@@ -78,22 +78,29 @@ public struct ListItem<LeadingContent: View,
         }
 
         @ViewBuilder
+        var footerView: some View {
+            Text(footer)
+                .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
+                .font(Font(tokenSet[.footerFont].uiFont))
+                .frame(minHeight: ListItemTokenSet.footerHeight)
+                .lineLimit(footerLineLimit)
+                .truncationMode(footerTruncationMode)
+                .accessibilityIdentifier(AccessibilityIdentifiers.footer)
+        }
+
+        @ViewBuilder
         var labelStack: some View {
             VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
-                titleView
-
-                if layoutType == .twoLines || layoutType == .threeLines {
+                switch layoutType {
+                case .oneLine:
+                    titleView
+                case .twoLines:
+                    titleView
                     subtitleView
-                }
-
-                if layoutType == .threeLines {
-                    Text(footer)
-                        .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
-                        .font(Font(tokenSet[.footerFont].uiFont))
-                        .frame(minHeight: ListItemTokenSet.footerHeight)
-                        .lineLimit(footerLineLimit)
-                        .truncationMode(footerTruncationMode)
-                        .accessibilityIdentifier(AccessibilityIdentifiers.footer)
+                case .threeLines:
+                    titleView
+                    subtitleView
+                    footerView
                 }
             }
         }
@@ -169,7 +176,7 @@ public struct ListItem<LeadingContent: View,
                 HStack(spacing: 0) {
                     leadingContentView
                     labelStack
-                        .animation(.easeInOut, value: layoutType)
+                        .animation(.default, value: layoutType)
                     Spacer(minLength: 0)
                     if combineTrailingContentAccessibilityElement {
                         trailingContentView
