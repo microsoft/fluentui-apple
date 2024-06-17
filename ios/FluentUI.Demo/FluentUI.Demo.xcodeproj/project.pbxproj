@@ -91,9 +91,9 @@
 		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
 		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
-		928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928C00B02B8920E60023ECE7 /* View+Extensions.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */; };
 		92BF13322BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */; };
+		92C55CB72BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C55CB62BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift */; };
 		92D5598426A1523400328FD3 /* CardNudgeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */; };
 		92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */; };
 		92DD1E8D279F496300FDEE0F /* DemoAppearanceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DD1E8C279F496300FDEE0F /* DemoAppearanceMenu.swift */; };
@@ -230,9 +230,9 @@
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
-		928C00B02B8920E60023ECE7 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceControlView.swift; sourceTree = "<group>"; };
 		92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		92C55CB62BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardNudgeDemoController.swift; sourceTree = "<group>"; };
 		92D5FDFC28AC57650087894B /* TypographyTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensDemoController.swift; sourceTree = "<group>"; };
 		92DD1E8C279F496300FDEE0F /* DemoAppearanceMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceMenu.swift; sourceTree = "<group>"; };
@@ -415,7 +415,6 @@
 			isa = PBXGroup;
 			children = (
 				5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */,
-				928C00B02B8920E60023ECE7 /* View+Extensions.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -525,6 +524,7 @@
 				5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */,
 				5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */,
 				5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */,
+				92C55CB62BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift */,
 				B45EB79121A4D047008646A2 /* BadgeFieldDemoController.swift */,
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
@@ -862,7 +862,6 @@
 				2F0A96FC25CA047100EF9736 /* SearchBarDemoController.swift in Sources */,
 				F362C8082A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift in Sources */,
 				CCC18C2F2501C75F00BE830E /* CardViewDemoController.swift in Sources */,
-				928C00B12B8920E60023ECE7 /* View+Extensions.swift in Sources */,
 				F30B74362A7DB168000F63A0 /* ListActionItemDemoController.swift in Sources */,
 				B4575C5122FB8B6900EBD0EB /* PeoplePickerDemoController.swift in Sources */,
 				92D5FDFD28AC57650087894B /* TypographyTokensDemoController.swift in Sources */,
@@ -875,6 +874,7 @@
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,
 				92DD1E8D279F496300FDEE0F /* DemoAppearanceMenu.swift in Sources */,
 				53097D4027028AE500A6E4DC /* PersonaButtonCarouselDemoController.swift in Sources */,
+				92C55CB72BEAA94500E0AB8D /* AvatarGroupDemoController_SwiftUI.swift in Sources */,
 				C0938E4A235F733100256251 /* ShimmerLinesViewDemoController.swift in Sources */,
 				EC1C31752923032000CF052C /* ColoredPillBackgroundView.swift in Sources */,
 				80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */,
@@ -1087,7 +1087,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DOGFOOD;
@@ -1187,7 +1187,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1247,7 +1247,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

@@ -45,7 +45,7 @@ public struct FluentButtonToggleStyle: ToggleStyle {
     }
 
     private var buttonOnTokens: [ButtonToken: ControlTokenValue] {
-        let backgroundColor: Color = fluentTheme.color(.brandBackgroundTint)
+        let backgroundColor = fluentTheme.swiftUIColor(.brandBackgroundTint)
         var tokens: [ButtonToken: ControlTokenValue] = buttonTokens.merging([
             .backgroundColor: .color { backgroundColor },
             .backgroundPressedColor: .color { backgroundColor },

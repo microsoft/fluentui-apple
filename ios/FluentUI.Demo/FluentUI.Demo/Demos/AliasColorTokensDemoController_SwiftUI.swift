@@ -25,21 +25,7 @@ struct AliasColorTokensDemoView: View {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
     var body: some View {
-        if #available(iOS 16.0, *) {
-            formContent.scrollContentBackground(.hidden)
-        } else {
-            formContent.onAppear {
-                UITableView.appearance().backgroundColor = .clear
-            }
-            .onDisappear {
-                UITableView.appearance().backgroundColor = .systemGroupedBackground
-            }
-        }
-    }
-
-    @ViewBuilder
-    var formContent: some View {
-        Form {
+        FluentList {
             ForEach(AliasColorTokensDemoSection.allCases, id: \.self) { demoSection in
                 // No need for SwiftUI section in SwiftUI demo!
                 if demoSection != .swiftUI {
@@ -47,7 +33,7 @@ struct AliasColorTokensDemoView: View {
                 }
             }
         }
-        .background(fluentTheme.color(.backgroundCanvas))
+        .fluentListStyle(.insetGrouped)
     }
 
     @ViewBuilder
@@ -56,7 +42,7 @@ struct AliasColorTokensDemoView: View {
             ForEach(demoSection.rows, id: \.self) { colorRow in
                 Text(colorRow.text)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .listRowBackground(fluentTheme.color(colorRow))
+                    .listRowBackground(fluentTheme.swiftUIColor(colorRow))
                     .foregroundStyle(Color(colorRow.textColor(fluentTheme)))
             }
         }
