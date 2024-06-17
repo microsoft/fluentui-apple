@@ -15,7 +15,9 @@ public struct ListItem<LeadingContent: View,
                        TrailingContent: View,
                        Title: StringProtocol,
                        Subtitle: StringProtocol,
-                       Footer: StringProtocol>: View {
+                       Footer: StringProtocol>: View, TokenizedControlView {
+    public typealias TokenSetKeyType = ListItemTokenSet.Tokens
+    @ObservedObject public var tokenSet: ListItemTokenSet
 
     // MARK: Initializer
 
@@ -273,9 +275,6 @@ public struct ListItem<LeadingContent: View,
     /// The truncation mode of the `footer`.
     var footerTruncationMode: Text.TruncationMode = .tail
 
-    /// Tokens associated with the `ListItem`.
-    var tokenSet: ListItemTokenSet
-
     /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
     var combineTrailingContentAccessibilityElement: Bool = true
 
@@ -297,7 +296,7 @@ public struct ListItem<LeadingContent: View,
         return styleType
     }
 
-    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
     /// The style of the parent `FluentList`.
     @Environment(\.listStyle) private var listStyle: FluentListStyle

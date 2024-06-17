@@ -35,16 +35,17 @@ struct ListItemDemoView: View {
     @State var showTrailingContent: Bool = true
     @State var isTappable: Bool = true
     @State var isDisabled: Bool = false
+    @State var renderStandalone: Bool = false
+    @State var overrideTokens: Bool = false
     @State var accessoryType: ListItemAccessoryType = .none
     @State var leadingContentSize: ListItemLeadingContentSize = .default
     @State var backgroundStyle: ListItemBackgroundStyleType = .grouped
+    @State var listStyle: FluentListStyle = .plain
     @State var titleLineLimit: Int = 1
     @State var subtitleLineLimit: Int = 1
     @State var footerLineLimit: Int = 1
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
-    @State var renderStandalone: Bool = false
-    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
 
@@ -80,6 +81,7 @@ struct ListItemDemoView: View {
             FluentUIDemoToggle(titleKey: "Tappable", isOn: $isTappable)
             FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
             FluentUIDemoToggle(titleKey: "Render standalone", isOn: $renderStandalone)
+            FluentUIDemoToggle(titleKey: "Override tokens", isOn: $overrideTokens)
         }
 
         @ViewBuilder
@@ -186,6 +188,7 @@ struct ListItemDemoView: View {
             .backgroundStyleType(backgroundStyle)
             .accessoryType(accessoryType)
             .leadingContentSize(leadingContentSize)
+            .overrideTokens($overrideTokens.wrappedValue ? listItemOverrideTokens : nil)
             .titleLineLimit(titleLineLimit)
             .subtitleLineLimit(subtitleLineLimit)
             .footerLineLimit(footerLineLimit)
@@ -222,6 +225,22 @@ struct ListItemDemoView: View {
         }
 
         return content
+    }
+
+    private var listItemOverrideTokens: [ListItem.TokenSetKeyType: ControlTokenValue] {
+        return [
+            .titleColor: .uiColor {
+                return GlobalTokens.sharedColor(.red, .primary)
+            },
+            .cellBackgroundGroupedColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
+                               dark: GlobalTokens.sharedColor(.brass, .shade40))
+            },
+            .accessoryDisclosureIndicatorColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
+                               dark: GlobalTokens.sharedColor(.forest, .shade40))
+            }
+        ]
     }
 }
 
