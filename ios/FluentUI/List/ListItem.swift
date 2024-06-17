@@ -66,7 +66,10 @@ public struct ListItem<LeadingContent: View,
                 .accessibilityIdentifier(AccessibilityIdentifiers.subtitle)
 
             switch layoutType {
-            case .oneLine, .twoLines:
+            case .oneLine:
+                // Subtitle is not shown for oneLine
+                EmptyView()
+            case .twoLines:
                 subtitleView
                     .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
                     .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
