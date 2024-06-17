@@ -76,14 +76,14 @@ open class PageCardPresenterController: UIViewController {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+        guard FluentTheme.isApplicableThemeChange(notification, for: view) else {
             return
         }
         updatePageControlColors()
     }
 
     private func updatePageControlColors() {
-        let color = GlobalTokens.neutralColor(.white)
+        let color: UIColor = GlobalTokens.neutralColor(.white)
 
         pageControl.pageIndicatorTintColor = color.withAlphaComponent(0.5)
         pageControl.currentPageIndicatorTintColor = color

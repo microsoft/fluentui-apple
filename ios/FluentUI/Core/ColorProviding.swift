@@ -69,6 +69,12 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
         brandColors[.brandGradient3] = brandGradient3
     }
 
+#if os(visionOS)
+    // Remove the dark values from all our brand colors on visionOS.
+    // We only want the light variants.
+    brandColors = brandColors.mapValues({ $0.light })
+#endif
+
     return brandColors
 }
 
@@ -98,7 +104,7 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
             let brandColors = brandColorOverrides(provider: provider)
             FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
         } else {
-            FluentTheme.shared = FluentThemeKey.defaultValue
+            FluentTheme.shared = .init()
         }
     }
 }

@@ -14,6 +14,7 @@ public enum ButtonStyle: Int, CaseIterable {
                                                  outlineAccent,
                                                  outlineNeutral,
                                                  subtle,
+                                                 transparentNeutral,
                                                  danger,
                                                  dangerOutline,
                                                  dangerSubtle,
@@ -30,11 +31,14 @@ public enum ButtonStyle: Int, CaseIterable {
     /// A button with brand border, brand foreground, and no background.
     case outlineAccent
 
-    /// A button with neutral border, neutral foreground, and no brackground.
+    /// A button with neutral border, neutral foreground, and no background.
     case outlineNeutral
 
     /// A button with no border, brand foreground, and no background.
     case subtle
+
+    /// A button with no border, neutral foreground, and no background.
+    case transparentNeutral
 
     /// A button with no border, neutral foreground, and danger background.
     case danger
@@ -124,8 +128,6 @@ public enum ButtonToken: Int, TokenSetKey {
 public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
     init(style: @escaping () -> ButtonStyle,
          size: @escaping () -> ButtonSizeCategory) {
-        self.style = style
-        self.size = size
         super.init { [style, size] token, theme in
             switch token {
             case .backgroundColor:
@@ -133,7 +135,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1)
-                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .transparentNeutral, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
@@ -146,7 +148,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Selected)
-                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .transparentNeutral, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
@@ -159,7 +161,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                     switch style() {
                     case .accent, .danger, .floatingAccent, .floatingSubtle:
                         return theme.color(.background5)
-                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .transparentNeutral, .dangerOutline, .dangerSubtle:
                         return .clear
                     }
                 }
@@ -168,7 +170,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                     switch style() {
                     case .accent, .floatingAccent:
                         return theme.color(.brandBackground1Pressed)
-                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .dangerOutline, .dangerSubtle:
+                    case .outline, .outlineAccent, .outlineNeutral, .subtle, .transparentNeutral, .dangerOutline, .dangerSubtle:
                         return .clear
                     case .danger:
                         return theme.color(.dangerBackground2)
@@ -179,7 +181,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             case .borderColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                    case .accent, .subtle, .transparentNeutral, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .outlineAccent:
                         return theme.color(.brandStroke1)
@@ -192,7 +194,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             case .borderFocusedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                    case .accent, .subtle, .transparentNeutral, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .outlineAccent, .outlineNeutral, .dangerOutline:
                         return theme.color(.strokeFocus2)
@@ -201,7 +203,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             case .borderDisabledColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                    case .accent, .subtle, .transparentNeutral, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .outlineAccent, .outlineNeutral, .dangerOutline:
                         return theme.color(.strokeDisabled)
@@ -210,7 +212,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             case .borderPressedColor:
                 return .uiColor {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                    case .accent, .subtle, .transparentNeutral, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return .clear
                     case .outline, .outlineAccent:
                         return theme.color(.brandStroke1Pressed)
@@ -223,7 +225,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             case .borderWidth:
                 return .float {
                     switch style() {
-                    case .accent, .subtle, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
+                    case .accent, .subtle, .transparentNeutral, .danger, .dangerSubtle, .floatingAccent, .floatingSubtle:
                         return GlobalTokens.stroke(.widthNone)
                     case .outline, .outlineAccent, .outlineNeutral, .dangerOutline:
                         return GlobalTokens.stroke(.width10)
@@ -231,6 +233,9 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                 }
             case .cornerRadius:
                 return .float {
+                    if style().isFloating || Compatibility.isDeviceIdiomVision() {
+                        return ButtonTokenSet.minContainerHeight(style: style(), size: size()) / 2
+                    }
                     switch size() {
                     case .large:
                         return GlobalTokens.corner(.radius120)
@@ -245,7 +250,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                         return theme.color(.foregroundOnColor)
                     case .outline, .outlineAccent, .subtle:
                         return theme.color(.brandForeground1)
-                    case .outlineNeutral:
+                    case .outlineNeutral, .transparentNeutral:
                         return theme.color(.foreground1)
                     case .danger:
                         return theme.color(.foregroundLightStatic)
@@ -264,7 +269,7 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
                         return theme.color(.foregroundOnColor)
                     case .outline, .outlineAccent, .subtle:
                         return theme.color(.brandForeground1Pressed)
-                    case .outlineNeutral:
+                    case .outlineNeutral, .transparentNeutral:
                         return theme.color(.foreground1)
                     case .danger:
                         return theme.color(.foregroundLightStatic)
@@ -291,9 +296,6 @@ public class ButtonTokenSet: ControlTokenSet<ButtonToken> {
             }
         }
     }
-
-    var style: () -> ButtonStyle
-    var size: () -> ButtonSizeCategory
 }
 
 extension ButtonTokenSet {

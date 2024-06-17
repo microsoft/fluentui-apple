@@ -140,10 +140,16 @@ open class BadgeField: UIView, TokenizedControlInternal {
     public var tokenSet: BadgeFieldTokenSet = .init()
 
     var deviceOrientationIsChanging: Bool {
+#if os(iOS)
         originalDeviceOrientation != UIDevice.current.orientation
+#elseif os(visionOS)
+        false
+#endif // os(visionOS)
     }
 
+#if os(iOS)
     private var originalDeviceOrientation: UIDeviceOrientation = UIDevice.current.orientation
+#endif // os(iOS)
 
     private var cachedContentHeight: CGFloat = 0 {
         didSet {
@@ -183,8 +189,10 @@ open class BadgeField: UIView, TokenizedControlInternal {
 
         textField.addTarget(self, action: #selector(textFieldTextChanged), for: .editingChanged)
 
+#if os(iOS)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChanged), name: UIDevice.orientationDidChangeNotification, object: nil)
+#endif // os(iOS)
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleContentSizeCategoryDidChange), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
@@ -219,9 +227,11 @@ open class BadgeField: UIView, TokenizedControlInternal {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+#if os(iOS)
     deinit {
         UIDevice.current.endGeneratingDeviceOrientationNotifications()
     }
+#endif // os(iOS)
 
     /**
      Sets up the view using the badge data sources.
@@ -252,6 +262,9 @@ open class BadgeField: UIView, TokenizedControlInternal {
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
         textField.delegate = self
+        if #available(iOS 17, *) {
+            textField.hoverStyle = nil
+        }
     }
 
     private func setupDraggingWindow() {
@@ -798,11 +811,13 @@ open class BadgeField: UIView, TokenizedControlInternal {
         textField.isPaste = false
     }
 
+#if os(iOS)
     @objc private func handleOrientationChanged() {
         // Hack: to avoid properly handling rotations for the dragging window (which is annoying and overkill for this feature), let's just reset the dragging window
         resetDraggingWindow()
         originalDeviceOrientation = UIDevice.current.orientation
     }
+#endif // os(iOS)
 
     @objc private func handleContentSizeCategoryDidChange() {
         invalidateIntrinsicContentSize()

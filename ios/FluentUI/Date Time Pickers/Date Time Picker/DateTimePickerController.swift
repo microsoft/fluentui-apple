@@ -115,7 +115,7 @@ class DateTimePickerController: UIViewController, GenericDateTimePicker {
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
-        guard let themeView = notification.object as? UIView, view.isDescendant(of: themeView) else {
+        guard FluentTheme.isApplicableThemeChange(notification, for: view) else {
             return
         }
         updateBackgroundColor()

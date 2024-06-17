@@ -252,12 +252,14 @@ class NavigationControllerDemoController: DemoController {
         }
 
         controller.modalPresentationStyle = .fullScreen
+#if os(iOS)
         if titleStyle.usesLeadingAlignment {
             let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
             leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
             leadingEdgeGesture.delegate = self
             controller.view.addGestureRecognizer(leadingEdgeGesture)
         }
+#endif
 
         present(controller, animated: false)
 
@@ -279,7 +281,9 @@ class NavigationControllerDemoController: DemoController {
             }
 
             navigationItem.navigationBarStyle = newStyle
+#if os(iOS)
             self.setNeedsStatusBarAppearanceUpdate()
+#endif
             self.changeStyleContinuously(in: navigationItem)
         }
     }
@@ -327,13 +331,16 @@ class NavigationControllerDemoController: DemoController {
         presentSideDrawer()
     }
 
+#if os(iOS)
     @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
         if gesture.state == .began {
             presentSideDrawer(presentingGesture: gesture)
         }
     }
+#endif
 }
 
+#if os(iOS)
 // MARK: - NavigationControllerDemoController: UIGestureRecognizerDelegate
 
 extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
@@ -346,6 +353,7 @@ extension NavigationControllerDemoController: UIGestureRecognizerDelegate {
         return true
     }
 }
+#endif
 
 // MARK: - RootViewController
 
@@ -815,7 +823,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
         if let topItem = sender.topItem {
             topItem.navigationBarStyle = topItem.navigationBarStyle == .primary ? .system : .primary
+#if os(iOS)
             setNeedsStatusBarAppearanceUpdate()
+#endif
         }
     }
 }

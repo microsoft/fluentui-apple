@@ -42,12 +42,23 @@ public class FluentTheme: NSObject, ObservableObject {
             return FontInfo(name: font.fontName, size: font.pointSize)
         })
 
-        let colorTokenSet = TokenSet<ColorToken, UIColor>(FluentTheme.defaultColors(_:), colorOverrides)
-        let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadows(_:), shadowOverrides)
+        let mappedColorOverrides = colorOverrides?.compactMapValues({ color in
+            return DynamicColor(uiColor: color)
+        })
+
+#if os(visionOS)
+        // We have custom overrides for `defaultColors` in visionOS.
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor_visionOS(_:)
+#else
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor(_:)
+#endif
+
+        let colorTokenSet = TokenSet<ColorToken, DynamicColor>(defaultColorFunction, mappedColorOverrides)
+        let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
         let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
-        let gradientTokenSet = TokenSet<GradientToken, [UIColor]>({ [colorTokenSet] token in
+        let gradientTokenSet = TokenSet<GradientToken, [DynamicColor]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
-            return FluentTheme.defaultGradientColors(token, colorTokenSet: colorTokenSet)
+            return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)
         })
 
         self.colorTokenSet = colorTokenSet
@@ -74,42 +85,50 @@ public class FluentTheme: NSObject, ObservableObject {
         return controlTokenSets[tokenKey(tokenSetType)] as? [T: ControlTokenValue]
     }
 
-    /// The associated `AliasTokens` for this theme.
-    @available(*, deprecated, message: "AliasTokens are deprecated. Please use the token lookup methods on FluentTheme directly.")
-    @objc public lazy var aliasTokens: AliasTokens = {
-        AliasTokens(colorTokenSet: colorTokenSet,
-                    shadowTokenSet: shadowTokenSet,
-                    typographyTokenSet: typographyTokenSet,
-                    gradientTokenSet: gradientTokenSet)
-    }()
-
-    /// A shared, immutable, default `FluentTheme` instance.
+    /// The shared `FluentTheme` instance used by default for controls in the app.
     ///
-    /// This instance of `FluentTheme` is not customizable, and will not return any overridden values that may be
-    /// applied to other instances of `FluentTheme`. For example, any branding colors applied via an instantiation of
-    /// the `ColorProviding` protocol will not be reflected here. As such, this should only be used in cases where the
-    /// caller is certain that they are looking for the _default_ token values associated with Fluent.
+    /// This static `FluentTheme` instance will normally return the default token values associated
+    /// with Fluent. However, it is also available for overriding in cases where a single custom theme
+    /// is desired for the app linking this library.
+    ///
+    /// Note that any custom themes set on a `UIView` hierarchy or via a SwiftUI view modifier will
+    /// take precedence over this value. This value provides the fallback theme for cases where those
+    /// overrides are not provided.
     @objc(sharedTheme)
-    public internal(set) static var shared: FluentTheme = FluentThemeKey.defaultValue {
+    public static var shared: FluentTheme = .init() {
         didSet {
-            UIApplication.shared.connectedScenes
-                .compactMap {
-                    $0 as? UIWindowScene
-                }
-                .flatMap {
-                    $0.windows
-                }
-                .forEach { window in
-                    NotificationCenter.default.post(name: .didChangeTheme, object: window)
-                }
+            NotificationCenter.default.post(name: .didChangeTheme, object: nil)
         }
     }
 
+    /// Determines if a given `Notification` should cause an update for the given `UIView`.
+    ///
+    /// - Parameter notification: A `Notification` object that may be requesting a view update based on a theme change.
+    /// - Parameter view: The `UIView` instance that wants to determine whether to update.
+    ///
+    /// - Returns: `True` if the view should update, `false` otherwise.
+    @objc(isApplicableThemeChangeNotification:forView:)
+    public static func isApplicableThemeChange(_ notification: Notification,
+                                               for view: UIView) -> Bool {
+        // Do not update unless the notification's name is `.didChangeTheme`.
+        guard notification.name == .didChangeTheme else {
+            return false
+        }
+
+        // If there is no object, or it is not a UIView, we must assume that we need to update.
+        guard let themeView = notification.object as? UIView else {
+            return true
+        }
+
+        // If the object is a UIView, we only update if `view` is a descendant thereof.
+        return view.isDescendant(of: themeView)
+    }
+
     // Token storage
-    let colorTokenSet: TokenSet<ColorToken, UIColor>
+    let colorTokenSet: TokenSet<ColorToken, DynamicColor>
     let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
     let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
-    let gradientTokenSet: TokenSet<GradientToken, [UIColor]>
+    let gradientTokenSet: TokenSet<GradientToken, [DynamicColor]>
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
@@ -192,5 +211,5 @@ public extension EnvironmentValues {
 }
 
 struct FluentThemeKey: EnvironmentKey {
-    static let defaultValue: FluentTheme = .init()
+    static var defaultValue: FluentTheme { .shared }
 }

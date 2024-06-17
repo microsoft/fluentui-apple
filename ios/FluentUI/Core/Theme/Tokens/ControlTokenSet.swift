@@ -5,6 +5,7 @@
 
 import Combine
 import UIKit
+import SwiftUI
 
 /// Base class for all Fluent control tokenization.
 public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
@@ -162,13 +163,12 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
                                                                       object: nil,
                                                                       queue: nil) { [weak self, weak control] notification in
             guard let strongSelf = self,
-                  let themeView = notification.object as? UIView,
                   let control,
-                  control.isDescendant(of: themeView)
+                  FluentTheme.isApplicableThemeChange(notification, for: control)
             else {
                 return
             }
-            strongSelf.update(themeView.fluentTheme)
+            strongSelf.update(control.fluentTheme)
         }
     }
 
@@ -205,6 +205,7 @@ public class ControlTokenSet<T: TokenSetKey>: ObservableObject {
 public enum ControlTokenValue {
     case float(() -> CGFloat)
     case uiColor(() -> UIColor)
+    case color(() -> Color)
     case uiFont(() -> UIFont)
     case shadowInfo(() -> ShadowInfo)
 
@@ -220,8 +221,21 @@ public enum ControlTokenValue {
     public var uiColor: UIColor {
         if case .uiColor(let uiColor) = self {
             return uiColor()
+        } else if case .color(let color) = self {
+            return UIColor(color())
         } else {
             assertionFailure("Cannot convert token to UIColor: \(self)")
+            return fallbackUIColor
+        }
+    }
+
+    public var color: Color {
+        if case .color(let color) = self {
+            return color()
+        } else if case .uiColor(let uiColor) = self {
+            return Color(uiColor())
+        } else {
+            assertionFailure("Cannot convert token to Color: \(self)")
             return fallbackColor
         }
     }
@@ -240,11 +254,11 @@ public enum ControlTokenValue {
             return shadowInfo()
         } else {
             assertionFailure("Cannot convert token to ShadowInfo: \(self)")
-            return ShadowInfo(keyColor: fallbackColor,
+            return ShadowInfo(keyColor: fallbackUIColor,
                               keyBlur: 10.0,
                               xKey: 10.0,
                               yKey: 10.0,
-                              ambientColor: fallbackColor,
+                              ambientColor: fallbackUIColor,
                               ambientBlur: 10.0,
                               xAmbient: 10.0,
                               yAmbient: 10.0)
@@ -283,12 +297,21 @@ public enum ControlTokenValue {
 
     // MARK: - Helpers
 
-    private var fallbackColor: UIColor {
+    private var fallbackUIColor: UIColor {
 #if DEBUG
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
         return GlobalTokens.sharedColor(.hotPink, .primary)
 #else
         return GlobalTokens.neutralColor(.black)
+#endif
+    }
+
+    private var fallbackColor: Color {
+#if DEBUG
+        // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
+        return GlobalTokens.sharedSwiftUIColor(.hotPink, .primary)
+#else
+        return GlobalTokens.neutralSwiftUIColor(.black)
 #endif
     }
 }
@@ -302,6 +325,8 @@ extension ControlTokenValue: CustomStringConvertible {
             return "ControlTokenValue.float (\(float())"
         case .uiColor(let uiColor):
             return "ControlTokenValue.uiColor (\(uiColor())"
+        case .color(let color):
+            return "ControlTokenValue.color (\(color())"
         case .uiFont(let uiFont):
             return "ControlTokenValue.uiFont (\(uiFont())"
         case .shadowInfo(let shadowInfo):

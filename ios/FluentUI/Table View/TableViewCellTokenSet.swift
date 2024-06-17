@@ -162,7 +162,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
                 return .uiColor { theme.color(.foreground3) }
 
             case .accessoryCheckmarkColor:
-                return .uiColor { theme.color(.brandForeground1) }
+                return .uiColor { Compatibility.isDeviceIdiomVision() ? .white : theme.color(.brandForeground1) }
 
             case .separatorColor:
                 return .uiColor { theme.color(.stroke2) }
@@ -193,7 +193,7 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
 
 extension TableViewCellTokenSet {
     /// The minimum TableViewCell height; the height of a TableViewCell with one line of text.
-    static let oneLineMinHeight: CGFloat = GlobalTokens.spacing(.size480)
+    static let oneLineMinHeight: CGFloat = Compatibility.isDeviceIdiomVision() ? 60.0 : GlobalTokens.spacing(.size480)
 
     /// The height of a TableViewCell with two lines of text.
     static let twoLineMinHeight: CGFloat = 64.0
@@ -250,10 +250,10 @@ extension TableViewCellTokenSet {
     static let customAccessoryViewMinVerticalMargin: CGFloat = 6.0
 
     /// The vertical margin for the label when it has one or three lines.
-    static let defaultLabelVerticalMarginForOneAndThreeLines: CGFloat = 11.0
+    static let defaultLabelVerticalMarginForOneAndThreeLines: CGFloat = Compatibility.isDeviceIdiomVision() ? 19.0 : 11.0
 
     /// The vertical margin for the label when it has two lines.
-    static let labelVerticalMarginForTwoLines: CGFloat = GlobalTokens.spacing(.size120)
+    static let labelVerticalMarginForTwoLines: CGFloat = Compatibility.isDeviceIdiomVision() ? GlobalTokens.spacing(.size200) : GlobalTokens.spacing(.size120)
 
     /// The vertical spacing for the label.
     static let labelVerticalSpacing: CGFloat = GlobalTokens.spacing(.sizeNone)

@@ -34,6 +34,9 @@ import SwiftUI
     /// The image used to fill the ring as a custom color.
     var imageBasedRingColor: UIImage? { get set }
 
+    /// An override for the template icon to use when there is no set image or name.
+    var defaultImage: UIImage? { get set }
+
     /// Defines whether the avatar state transitions are animated or not. Animations are enabled by default.
     var isAnimated: Bool { get set }
 
@@ -82,7 +85,11 @@ import SwiftUI
 }
 
 /// View that represents the avatar.
-public struct Avatar: View, TokenizedControlView {
+public struct Avatar: View, TokenizedControlView, Equatable {
+    public static func == (lhs: Avatar, rhs: Avatar) -> Bool {
+        lhs.state == rhs.state
+    }
+
     public typealias TokenSetKeyType = AvatarTokenSet.Tokens
     @ObservedObject public var tokenSet: AvatarTokenSet
 
@@ -161,11 +168,14 @@ public struct Avatar: View, TokenizedControlView {
 
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
-                let isOutlinedStyle = style == .outlined || style == .outlinedPrimary
-                return (UIImage.staticImageNamed(isOutlinedStyle ? "person_48_regular" : "person_48_filled"), .template)
+                var defaultImage = state.defaultImage
+                if defaultImage == nil {
+                    defaultImage = UIImage.staticImageNamed(AvatarTokenSet.defaultImageName(style))
+                }
+                return (defaultImage, .template)
+            } else {
+                return (state.image, .original)
             }
-
-            return (state.image, .original)
         }()
         let avatarImageSizeRatio: CGFloat = (shouldUseDefaultImage) ? 0.7 : 1
 
@@ -464,7 +474,7 @@ public struct Avatar: View, TokenizedControlView {
     }
 
     /// Handles calculating colors for Avatar foreground and background.
-    private struct CalculatedColors {
+    struct CalculatedColors {
         static func backgroundColor(hashCode: Int) -> UIColor {
             let colorSet = colors[hashCode % colors.count]
             return UIColor(light: GlobalTokens.sharedColor(colorSet, .tint40),
@@ -492,7 +502,7 @@ public struct Avatar: View, TokenizedControlView {
         /// Hash algorithm to determine Avatar color.
         /// Referenced from: https://github.com/microsoft/fluentui/blob/master/packages/react-components/react-avatar/src/components/Avatar/useAvatar.tsx#L200
         /// - Returns: Hash code
-        private static func hashCode(_ text: NSString) -> Int32 {
+        static func hashCode(_ text: NSString) -> Int32 {
             var hash: Int32 = 0
             for len in (0..<text.length).reversed() {
                 // Convert from `unichar` to `Int32` to avoid potential arithmetic overflow in the next few lines.
@@ -505,7 +515,7 @@ public struct Avatar: View, TokenizedControlView {
             return hash
         }
 
-        private static var colors: [GlobalTokens.SharedColorSet] = [
+        static var colors: [GlobalTokens.SharedColorSet] = [
             .darkRed,
             .cranberry,
             .red,
@@ -553,6 +563,7 @@ class MSFAvatarStateImpl: ControlState, MSFAvatarState {
     @Published var hasRingInnerGap: Bool = true
     @Published var image: UIImage?
     @Published var imageBasedRingColor: UIImage?
+    @Published var defaultImage: UIImage?
     @Published var isAnimated: Bool = true
     @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false

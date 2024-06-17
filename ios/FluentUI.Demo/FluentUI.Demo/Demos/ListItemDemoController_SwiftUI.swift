@@ -21,7 +21,8 @@ class ListItemDemoControllerSwiftUI: UIHostingController<ListItemDemoView> {
 }
 
 struct ListItemDemoView: View {
-    @State var showingAlert: Bool = false
+    @State var showingPrimaryAlert: Bool = false
+    @State var showingSecondaryAlert: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
     let accessoryTypes: [ListItemAccessoryType] = [.none, .checkmark, .detailButton, .disclosureIndicator]
 
@@ -32,6 +33,7 @@ struct ListItemDemoView: View {
     @State var showFooter: Bool = false
     @State var showLeadingContent: Bool = true
     @State var showTrailingContent: Bool = true
+    @State var isTappable: Bool = true
     @State var isDisabled: Bool = false
     @State var accessoryType: ListItemAccessoryType = .none
     @State var leadingContentSize: ListItemLeadingContentSize = .default
@@ -41,6 +43,8 @@ struct ListItemDemoView: View {
     @State var footerLineLimit: Int = 1
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
+    @State var renderStandalone: Bool = false
+    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
 
@@ -73,7 +77,9 @@ struct ListItemDemoView: View {
                 .accessibilityIdentifier("leadingContentSwitch")
             FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
                 .accessibilityIdentifier("trailingContentSwitch")
+            FluentUIDemoToggle(titleKey: "Tappable", isOn: $isTappable)
             FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
+            FluentUIDemoToggle(titleKey: "Render standalone", isOn: $renderStandalone)
         }
 
         @ViewBuilder
@@ -97,6 +103,11 @@ struct ListItemDemoView: View {
                 Text(".grouped").tag(ListItemBackgroundStyleType.grouped)
                 Text(".clear").tag(ListItemBackgroundStyleType.clear)
                 Text(".custom").tag(ListItemBackgroundStyleType.custom)
+            }
+            Picker("List Style Type", selection: $listStyle) {
+                Text(".plain").tag(FluentListStyle.plain)
+                Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
+                Text(".inset").tag(FluentListStyle.inset)
             }
         }
 
@@ -136,63 +147,77 @@ struct ListItemDemoView: View {
         }
 
         @ViewBuilder
+        var listItem: some View {
+            ListItem(title: title,
+                     subtitle: showSubtitle ? subtitle : "",
+                     footer: showFooter ? footer : "",
+                     leadingContent: {
+                         if showLeadingContent {
+                             leadingContent
+                         }
+                     },
+                     trailingContent: {
+                        if showTrailingContent {
+                             switch trailingContentFocusableElementCount {
+                             case 0:
+                                 Text("Spreadsheet")
+                             case 1:
+                                 Toggle("", isOn: $trailingContentToggleEnabled)
+                             default:
+                                 HStack {
+                                     Button {
+                                         showingSecondaryAlert = true
+                                     } label: {
+                                         Text("Button 1")
+                                     }
+                                     Button {
+                                         showingSecondaryAlert = true
+                                     } label: {
+                                         Text("Button 2")
+                                     }
+                                 }
+                             }
+                         }
+                     },
+                     action: !isTappable ? nil : {
+                         showingPrimaryAlert = true
+                     }
+            )
+            .backgroundStyleType(backgroundStyle)
+            .accessoryType(accessoryType)
+            .leadingContentSize(leadingContentSize)
+            .titleLineLimit(titleLineLimit)
+            .subtitleLineLimit(subtitleLineLimit)
+            .footerLineLimit(footerLineLimit)
+            .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
+            .onAccessoryTapped {
+                showingSecondaryAlert = true
+            }
+            .disabled(isDisabled)
+            .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
+                Button("OK", role: .cancel) { }
+            }
+            .alert("Detail button tapped", isPresented: $showingSecondaryAlert) {
+                Button("OK", role: .cancel) { }
+            }
+        }
+
+        @ViewBuilder
         var content: some View {
             VStack {
-                List {
-                    Section {
-                        ListItem(title: title,
-                                 subtitle: showSubtitle ? subtitle : "",
-                                 footer: showFooter ? footer : "",
-                                 leadingContent: {
-                            if showLeadingContent {
-                                leadingContent
-                            }
-                        },
-                                 trailingContent: {
-                            if showTrailingContent {
-                                switch trailingContentFocusableElementCount {
-                                case 0:
-                                    Text("Spreadsheet")
-                                case 1:
-                                    Toggle("", isOn: $trailingContentToggleEnabled)
-                                default:
-                                    HStack {
-                                        Button {
-                                            showingAlert = true
-                                        } label: {
-                                            Text("Button 1")
-                                        }
-                                        Button {
-                                            showingAlert = true
-                                        } label: {
-                                            Text("Button 2")
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                        .backgroundStyleType(backgroundStyle)
-                        .accessoryType(accessoryType)
-                        .leadingContentSize(leadingContentSize)
-                        .titleLineLimit(titleLineLimit)
-                        .subtitleLineLimit(subtitleLineLimit)
-                        .footerLineLimit(footerLineLimit)
-                        .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-                        .onAccessoryTapped {
-                            showingAlert = true
+                if renderStandalone {
+                    listItem
+                }
+                FluentList {
+                    if !renderStandalone {
+                        FluentListSection("ListItem") {
+                            listItem
                         }
-                        .disabled(isDisabled)
-                        .alert("Detail button tapped", isPresented: $showingAlert) {
-                            Button("OK", role: .cancel) { }
-                        }
-                    } header: {
-                        Text("ListItem")
                     }
                     controls
                 }
-                .background(ListItem.listBackgroundColor(for: .grouped))
+                .fluentListStyle(listStyle)
                 .fluentTheme(fluentTheme)
-                .listStyle(.insetGrouped)
             }
         }
 

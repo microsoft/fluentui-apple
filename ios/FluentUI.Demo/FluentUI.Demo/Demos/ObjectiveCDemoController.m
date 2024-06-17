@@ -15,7 +15,7 @@
 @property (nonatomic) UIStackView *container;
 @property (nonatomic) UIScrollView *scrollingContainer;
 
-@property (nonatomic) UIViewController *appearanceController; // Type-erased to UIViewController because UIHostingController subclasses can't be represented directly in @objc
+@property (nonatomic) MSFDemoAppearanceControlView *appearanceControlView;
 
 @property (nonatomic) NSMutableSet<UILabel *> *addedLabels;
 
@@ -57,8 +57,8 @@
 
     [self setAddedLabels:[NSMutableSet set]];
 
-    [self setAppearanceController:[MSFDemoAppearanceControllerWrapper createDemoAppearanceControllerWithDelegate:nil]];
-    [self configureAppearancePopover];
+    [self setAppearanceControlView:[[MSFDemoAppearanceControlView alloc] initWithDelegate:nil]];
+    [self configureAppearanceBarButtonItem];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector: @selector(themeDidChange:)
@@ -157,23 +157,12 @@ isTitleImageLeadingForTitleAndSubtitle:false];
     [self.container addArrangedSubview:titleLabel];
 }
 
-#pragma mark Demo Appearance Controller
+#pragma mark Demo Appearance Control
 
-- (void)configureAppearancePopover {
-    // Display the DemoAppearancePopover button
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_fluent_settings_24_regular"]
-                                                             style:UIBarButtonItemStylePlain
-                                                            target:self
-                                                            action:@selector(showAppearancePopover:)];
+- (void)configureAppearanceBarButtonItem {
+    // Display the DemoAppearance button
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:[self appearanceControlView]];
     [[self navigationItem] setRightBarButtonItem:item];
-}
-
-- (void)showAppearancePopover:(UIBarButtonItem *)sender {
-    [[[self appearanceController] popoverPresentationController] setBarButtonItem:sender];
-    [[[self appearanceController] popoverPresentationController] setDelegate:self];
-    [self presentViewController:[self appearanceController]
-                       animated:YES
-                     completion:nil];
 }
 
 - (void)themeDidChange:(NSNotification *)n {

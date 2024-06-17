@@ -60,6 +60,7 @@ class DrawerDemoController: DemoController {
 
         // Screen edge gestures to interactively present side drawers
 
+#if os(iOS)
         let leadingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
         leadingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .left : .right
         view.addGestureRecognizer(leadingEdgeGesture)
@@ -68,6 +69,7 @@ class DrawerDemoController: DemoController {
         let trailingEdgeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleScreenEdgePan))
         trailingEdgeGesture.edges = view.effectiveUserInterfaceLayoutDirection == .leftToRight ? .right : .left
         view.addGestureRecognizer(trailingEdgeGesture)
+#endif
     }
 
     @discardableResult
@@ -136,7 +138,7 @@ class DrawerDemoController: DemoController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         ]
 
-        let backgroundColor = view.fluentTheme.color(.background3)
+        let backgroundColor: UIColor = view.fluentTheme.color(.background3)
 
         controller.view.addSubview(content)
         content.frame = controller.view.bounds
@@ -318,6 +320,7 @@ class DrawerDemoController: DemoController {
         textField.becomeFirstResponder()
     }
 
+#if os(iOS)
     @objc private func handleScreenEdgePan(gesture: UIScreenEdgePanGestureRecognizer) {
         guard gesture.state == .began else {
             return
@@ -327,6 +330,7 @@ class DrawerDemoController: DemoController {
 
         presentDrawer(sourceView: view, presentationDirection: gesture.edges == leadingEdge ? .fromLeading : .fromTrailing, presentingGesture: gesture, contentView: containerForActionViews(drawerHasFlexibleHeight: false), resizingBehavior: .dismiss)
     }
+#endif
 
     @objc private func changeContentHeightButtonTapped(sender: UIButton) {
         if let spacer = (sender.superview as? UIStackView)?.arrangedSubviews.last,

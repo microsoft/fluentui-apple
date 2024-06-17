@@ -141,7 +141,7 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarToken> {
                     }
                 })
             case .searchTextFieldCornerRadius:
-                return .float({ 10.0 })
+                return .float({ Compatibility.isDeviceIdiomVision() ? SearchBarTokenSet.searchTextFieldBackgroundHeight / 2 : 10.0 })
             case .font:
                 return .uiFont({ theme.typography(.body1) })
             }
@@ -154,7 +154,7 @@ public class SearchBarTokenSet: ControlTokenSet<SearchBarToken> {
 // MARK: Constants
 
 extension SearchBarTokenSet {
-    static let searchTextFieldBackgroundHeight: CGFloat = GlobalTokens.spacing(.size360)
+    static let searchTextFieldBackgroundHeight: CGFloat = Compatibility.isDeviceIdiomVision() ? 44 : GlobalTokens.spacing(.size360)
     static let searchIconImageViewDimension: CGFloat = GlobalTokens.spacing(.size200)
     static let searchIconInset: CGFloat = GlobalTokens.spacing(.size100)
     static let searchTextFieldLeadingInset: CGFloat = GlobalTokens.spacing(.size100)

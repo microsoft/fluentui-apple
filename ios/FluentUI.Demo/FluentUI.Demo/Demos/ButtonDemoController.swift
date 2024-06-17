@@ -13,6 +13,9 @@ class ButtonDemoController: DemoController {
 
         container.alignment = .leading
 
+        addTitle(text: "SwiftUI Button Demo")
+        container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
+
         for style in ButtonStyle.allCases {
             for size in ButtonSizeCategory.allCases {
                 if style.isFloating && size == .medium {
@@ -141,6 +144,8 @@ extension ButtonStyle {
             return "Outline neutral"
         case .subtle:
             return "Subtle"
+        case .transparentNeutral:
+            return "Transparent neutral"
         case .danger:
             return "Danger"
         case .dangerOutline:
@@ -244,5 +249,10 @@ extension ButtonDemoController: DemoAppearanceDelegate {
                                dark: GlobalTokens.sharedColor(.orchid, .shade30))
             }
         ]
+    }
+
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(ButtonDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 }

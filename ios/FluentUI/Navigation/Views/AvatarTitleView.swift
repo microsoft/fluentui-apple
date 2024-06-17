@@ -76,7 +76,13 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
         didSet {
             updateAppearance()
             twoLineTitleView.currentStyle = style == .primary ? .primary : .system
-            avatar?.state.style = style == .primary ? .default : .accent
+            let avatarStyle: MSFAvatarStyle
+            if let avatarOverrideStyle {
+                avatarStyle = avatarOverrideStyle
+            } else {
+                avatarStyle = (style == .primary) ? .default : .accent
+            }
+            avatar?.state.style = avatarStyle
         }
     }
 
@@ -232,6 +238,10 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
 
         titleButton.showsLargeContentViewer = true
 
+        if #available(iOS 17, *) {
+            titleButton.hoverStyle = nil
+        }
+
         updateAvatarViewPointerInteraction()
     }
 
@@ -305,7 +315,7 @@ class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegat
     // MARK: - Content Update Methods
 
     private func updateProfileButtonVisibility() {
-        showsProfileButton = titleStyle.usesLeadingAlignment && !hasLeftBarButtonItems && (personaData != nil || avatarOverrideStyle != nil)
+        showsProfileButton = titleStyle.usesLeadingAlignment && !hasLeftBarButtonItems && personaData != nil
     }
 
     private func updateTitleContainerView() {

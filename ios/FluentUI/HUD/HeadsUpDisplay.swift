@@ -79,6 +79,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                     Spacer()
                         .frame(height: verticalPadding)
                     Text(label)
+                        .minimumScaleFactor(HeadsUpDisplayTokenSet.labelMinimumScaleFactor)
                         .foregroundColor(Color(tokenSet[.labelColor].uiColor))
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
@@ -100,13 +101,13 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                 .cornerRadius(tokenSet[.cornerRadius].float)
         )
         .contentShape(Rectangle())
-        .onChange(of: isPresented, perform: { present in
+        .onChange_iOS17(of: isPresented) { present in
             if present {
                 presentAnimated()
             } else {
                 dismissAnimated()
             }
-        })
+        }
         .onAnimationComplete(for: presentationScaleFactor) {
             resetScaleFactor()
         }

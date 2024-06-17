@@ -50,8 +50,16 @@ public extension Avatar {
         return self
     }
 
+    /// An override for the template icon to use when there is no set image or name.
+    /// - Parameter defaultImage: Image to be used as the Avatar's default image.
+    /// - Returns: The modified Avatar with the property set.
+    func defaultImage(_ defaultImage: UIImage?) -> Avatar {
+        state.defaultImage = defaultImage
+        return self
+    }
+
     /// The image used to fill the ring as a custom color.
-    /// - Parameter imageBasedRingColor: Image to be used as a the ring fill pattern.
+    /// - Parameter imageBasedRingColor: Image to be used as the ring fill pattern.
     /// - Returns: The modified Avatar with the property set.
     func imageBasedRingColor(_ imageBasedRingColor: UIImage?) -> Avatar {
         state.imageBasedRingColor = imageBasedRingColor

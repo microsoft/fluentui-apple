@@ -5,8 +5,6 @@
 
 #include "FluentUI_common.xcconfig"
 
-MACOSX_DEPLOYMENT_TARGET = 10.16
-
 PRODUCT_NAME = FluentUISwiftUITestApp
 PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.${PRODUCT_NAME:rfc1034identifier}
 

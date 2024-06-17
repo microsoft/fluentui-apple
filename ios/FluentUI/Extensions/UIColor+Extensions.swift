@@ -80,47 +80,6 @@ extension UIColor {
                   darkElevatedHighContrast: nil)
     }
 
-    /// `DynamicColor` representation of the `UIColor` object.
-    /// Requires the `UIColor` to be able to resolve its color values for at least the `.light` user interface style.
-    @available(*, deprecated, message: "Please use UIColor directly.")
-    public var dynamicColor: DynamicColor? {
-        // Only the light color value is mandatory when making a DynamicColor.
-        if let lightColorValue = resolvedColorValue(userInterfaceStyle: .light).colorValue {
-            let colors = DynamicColor(
-                light: lightColorValue,
-                lightHighContrast: resolvedColorValue(userInterfaceStyle: .light,
-                                                      accessibilityContrast: .high).colorValue,
-                lightElevated: resolvedColorValue(userInterfaceStyle: .light,
-                                                  userInterfaceLevel: .elevated).colorValue,
-                lightElevatedHighContrast: resolvedColorValue(userInterfaceStyle: .light,
-                                                              accessibilityContrast: .high,
-                                                              userInterfaceLevel: .elevated).colorValue,
-                dark: resolvedColorValue(userInterfaceStyle: .dark).colorValue,
-                darkHighContrast: resolvedColorValue(userInterfaceStyle: .dark,
-                                                     accessibilityContrast: .high).colorValue,
-                darkElevated: resolvedColorValue(userInterfaceStyle: .dark,
-                                                 userInterfaceLevel: .elevated).colorValue,
-                darkElevatedHighContrast: resolvedColorValue(userInterfaceStyle: .dark,
-                                                             accessibilityContrast: .high,
-                                                             userInterfaceLevel: .elevated).colorValue)
-            return colors
-        } else {
-            return nil
-        }
-    }
-
-    /// Creates a UIColor from a `ColorValue` instance.
-    ///
-    /// - Parameter colorValue: Color value to use to initialize this color.
-    @available(*, deprecated, renamed: "init(hexValue:)")
-    @objc public convenience init(colorValue: ColorValue) {
-        self.init(
-            red: colorValue.r,
-            green: colorValue.g,
-            blue: colorValue.b,
-            alpha: colorValue.a)
-    }
-
     /// Creates a `UIColor` instance with the specified three-channel, 8-bit-per-channel color value, usually in hex.
     ///
     /// For example: `0xFF0000` represents red, `0x00FF00` green, and `0x0000FF` blue. There is no way to specify an
@@ -137,20 +96,6 @@ extension UIColor {
                   green: green,
                   blue: blue,
                   alpha: 1.0)
-    }
-
-    /// Creates a dynamic color object that returns the appropriate color value based on the current
-    /// rendering context.
-    ///
-    /// - Parameter dynamicColor: The set of color values that may be applied based on the current context.
-    @available(*, deprecated, message: "Please use UIColor directly.")
-    @objc public convenience init(dynamicColor: DynamicColor) {
-        self.init { traits -> UIColor in
-            let colorValue = dynamicColor.value(colorScheme: (traits.userInterfaceStyle == .dark ? .dark : .light),
-                                            contrast: traits.accessibilityContrast == .high ? .increased : .standard,
-                                            isElevated: traits.userInterfaceLevel == .elevated)
-            return UIColor(colorValue: colorValue)
-        }
     }
 
     @objc public var light: UIColor {
@@ -193,18 +138,11 @@ extension UIColor {
                                   userInterfaceLevel: .elevated)
     }
 
-    @available(*, deprecated, message: "Please use UIColor directly.")
-    private var colorValue: ColorValue? {
-        var redValue: CGFloat = 1.0
-        var greenValue: CGFloat = 1.0
-        var blueValue: CGFloat = 1.0
-        var alphaValue: CGFloat = 1.0
-        if self.getRed(&redValue, green: &greenValue, blue: &blueValue, alpha: &alphaValue) {
-            let colorValue = ColorValue(r: redValue, g: greenValue, b: blueValue, a: alphaValue)
-            return colorValue
-        } else {
-            return nil
-        }
+    convenience init(dynamicColor: DynamicColor) {
+        let colorResolver = { $0 != nil ? UIColor($0!) : nil }
+        self.init(light: UIColor(dynamicColor.light),
+                  dark: colorResolver(dynamicColor.dark),
+                  darkElevated: colorResolver(dynamicColor.darkElevated))
     }
 
     /// Returns the version of the current color that results from the specified traits as a `ColorValue`.

@@ -7,7 +7,7 @@ import UIKit
 
 // MARK: TextColorStyle
 
-@objc (MSFTextColorStyle)
+@objc(MSFTextColorStyle)
 public enum TextColorStyle: Int, CaseIterable {
     case regular
     case secondary
@@ -24,7 +24,7 @@ public enum TextColorStyle: Int, CaseIterable {
         case .white:
             return fluentTheme.color(.foregroundLightStatic)
         case .primary:
-            return fluentTheme.color(.brandForeground1)
+            return fluentTheme.color(Compatibility.isDeviceIdiomVision() ? .foreground1 : .brandForeground1)
         case .error:
             return fluentTheme.color(.dangerForeground2)
         }

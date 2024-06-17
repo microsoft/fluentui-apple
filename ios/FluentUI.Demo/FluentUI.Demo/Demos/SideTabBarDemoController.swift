@@ -81,7 +81,7 @@ class SideTabBarDemoController: DemoController {
         sideTabBar.topItems[2].isUnreadDotVisible = true
 
         var premiumImage = UIImage(named: "ic_fluent_premium_24_regular")!
-        let primaryColor = view.fluentTheme.color(.brandForegroundTint)
+        let primaryColor: UIColor = view.fluentTheme.color(.brandForegroundTint)
         premiumImage = premiumImage.withTintColor(primaryColor, renderingMode: .alwaysOriginal)
 
         sideTabBar.bottomItems = [
@@ -226,14 +226,6 @@ class SideTabBarDemoController: DemoController {
         modifyBadgeNumbers(increment: -1)
     }
 
-    /// Custom presentation logic to let `contentViewController` present the appearance popover.
-    @objc private func showAppearancePopoverLocal(_ sender: AnyObject) {
-        guard let contentViewController = contentViewController else {
-            return
-        }
-        super.showAppearancePopover(sender, presenter: contentViewController)
-    }
-
     private let optionsCellItems: [CellItem] = {
         return [CellItem(title: "Show Avatar View", type: .boolean, action: #selector(toggleAvatarView(_:)), isOn: true),
                 CellItem(title: "Show top item titles", type: .boolean, action: #selector(toggleShowTopItemTitles(_:))),
@@ -241,9 +233,9 @@ class SideTabBarDemoController: DemoController {
                 CellItem(title: "Show badge numbers", type: .boolean, action: #selector(toggleShowBadgeNumbers(_:))),
                 CellItem(title: "Use higher badge numbers", type: .boolean, action: #selector(toggleUseHigherBadgeNumbers(_:))),
                 CellItem(title: "Modify badge numbers", type: .stepper, action: nil),
+                CellItem(title: "Show Appearance Menu", type: .appearanceMenu, action: nil),
                 CellItem(title: "Show tooltip for Home button", type: .action, action: #selector(showTooltipForHomeButton)),
-                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar)),
-                CellItem(title: "Show Appearance Popover", type: .action, action: #selector(showAppearancePopoverLocal(_:)))
+                CellItem(title: "Dismiss", type: .action, action: #selector(dismissSideTabBar))
         ]
     }()
 }
@@ -278,7 +270,8 @@ extension SideTabBarDemoController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = optionsCellItems[indexPath.row]
 
-        if item.type == .boolean {
+        switch item.type {
+        case .boolean:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
             }
@@ -288,7 +281,7 @@ extension SideTabBarDemoController: UITableViewDataSource {
                 self?.perform(item.action, with: cell)
             }
             return cell
-        } else if item.type == .action {
+        case .action:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
                 return UITableViewCell()
             }
@@ -298,7 +291,7 @@ extension SideTabBarDemoController: UITableViewDataSource {
             }
             cell.bottomSeparatorType = .full
             return cell
-        } else if item.type == .stepper {
+        case .stepper:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
                 return UITableViewCell()
             }
@@ -313,9 +306,17 @@ extension SideTabBarDemoController: UITableViewDataSource {
             cell.setup(title: item.title, customAccessoryView: stackView)
             cell.titleNumberOfLines = 0
             return cell
-        }
+        case .appearanceMenu:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
 
-        return UITableViewCell()
+            appearanceControlView.tintColor = view.fluentTheme.color(.foreground1)
+
+            cell.setup(title: item.title, customAccessoryView: appearanceControlView)
+            cell.titleNumberOfLines = 0
+            return cell
+        }
     }
 }
 
@@ -359,6 +360,10 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideSideTabBarItemTokens: [SideTabBarTokenSet.Tokens: ControlTokenValue] {
         return [
+            .backgroundColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.grape, .tint10),
+                               dark: GlobalTokens.sharedColor(.grape, .tint40))
+            },
             .tabBarItemTitleLabelFontPortrait: .uiFont {
                 return UIFont(descriptor: .init(name: "Papyrus", size: 20.0), size: 20.0)
             },
@@ -376,6 +381,10 @@ extension SideTabBarDemoController: DemoAppearanceDelegate {
                                lightHighContrast: GlobalTokens.sharedColor(.teal, .tint40),
                                dark: GlobalTokens.sharedColor(.pumpkin, .tint40),
                                darkHighContrast: GlobalTokens.sharedColor(.burgundy, .tint40))
+            },
+            .separatorColor: .uiColor {
+                return UIColor(light: GlobalTokens.sharedColor(.hotPink, .tint10),
+                               dark: GlobalTokens.sharedColor(.hotPink, .tint40))
             }
         ]
     }
@@ -391,6 +400,7 @@ enum CellType {
     case action
     case boolean
     case stepper
+    case appearanceMenu
 }
 
 struct CellItem {

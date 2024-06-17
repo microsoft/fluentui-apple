@@ -32,7 +32,7 @@ class DemoListViewController: DemoTableViewController {
         if let provider = self.provider {
             window.setColorProvider(provider)
             let fluentTheme = self.view.fluentTheme
-            let primaryColor = fluentTheme.color(.brandBackground1)
+            let primaryColor: UIColor = fluentTheme.color(.brandBackground1)
             FluentUIFramework.initializeAppearance(with: primaryColor, whenContainedInInstancesOf: [type(of: window)])
         } else {
             window.resetFluentTheme()
@@ -113,6 +113,9 @@ class DemoListViewController: DemoTableViewController {
         }
         cell.titleNumberOfLinesForLargerDynamicType = 2
         cell.backgroundStyleType = .grouped
+#if os(visionOS)
+        cell.isEnabled = demo.supportsVisionOS
+#endif
 
         if indexPath.row == DemoControllerSection.allCases[indexPath.section].rows.count - 1 {
             cell.bottomSeparatorType = .none

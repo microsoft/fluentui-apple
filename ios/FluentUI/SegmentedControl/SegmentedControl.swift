@@ -9,9 +9,6 @@ import UIKit
 @objc(MSFSegmentedControl)
 open class SegmentedControl: UIView, TokenizedControlInternal {
     private struct Constants {
-        static let selectionBarHeight: CGFloat = 1.5
-        static let pillContainerHorizontalInset: CGFloat = 16
-        static let pillButtonCornerRadius: CGFloat = 16
         static let iPadMinimumWidth: CGFloat = 375
     }
 
@@ -56,7 +53,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
     }
 
     /// only used for pill style segment control. It is used to define the inset of the pillContainerView
-    @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: Constants.pillContainerHorizontalInset, bottom: 0, trailing: Constants.pillContainerHorizontalInset) {
+    @objc public var contentInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 0, leading: SegmentedControlTokenSet.pillContainerHorizontalInset, bottom: 0, trailing: SegmentedControlTokenSet.pillContainerHorizontalInset) {
         didSet {
             guard oldValue != contentInset else {
                 return
@@ -197,7 +194,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         super.init(frame: .zero)
         scrollView.delegate = self
 
-        stackView.layer.cornerRadius = Constants.pillButtonCornerRadius
+        stackView.layer.cornerRadius = SegmentedControlTokenSet.pillButtonCornerRadius
         pillContainerView.addSubview(stackView)
         selectionView.backgroundColor = .black
         pillContainerView.addSubview(selectionView)
@@ -585,7 +582,7 @@ open class SegmentedControl: UIView, TokenizedControlInternal {
         let button = buttons[selectedSegmentIndex]
 
         selectionView.frame = button.frame
-        selectionView.layer.cornerRadius = Constants.pillButtonCornerRadius
+        selectionView.layer.cornerRadius = SegmentedControlTokenSet.pillButtonCornerRadius
     }
 
     private func updateTokenizedValues() {

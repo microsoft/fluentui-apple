@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import SwiftUI
 
 public extension FluentTheme {
     @objc(MSFGradientToken)
@@ -148,10 +148,9 @@ public extension FluentTheme {
     /// Returns the color value for the given token.
     ///
     /// - Parameter token: The `ColorsTokens` value to be retrieved.
-    /// - Returns: A `UIColor` for the given token.
-    @objc(colorForToken:)
-    func color(_ token: ColorToken) -> UIColor {
-        return colorTokenSet[token]
+    /// - Returns: A `Color` for the given token.
+    func swiftUIColor(_ token: ColorToken) -> Color {
+        return Color(dynamicColor: colorTokenSet[token])
     }
 
     /// Returns the shadow value for the given token.
@@ -192,296 +191,295 @@ public extension FluentTheme {
     /// Returns an array of colors for the given token.
     ///
     /// - Parameter token: The `GradientTokens` value to be retrieved.
-    /// - Returns: An array of `UIColor` values for the given token.
-    @objc(gradientColorsForToken:)
-    func gradient(_ token: GradientToken) -> [UIColor] {
-        return gradientTokenSet[token]
+    /// - Returns: An array of `Color` values for the given token.
+    func gradient(_ token: GradientToken) -> [Color] {
+        return gradientTokenSet[token].map { Color(dynamicColor: $0) }
     }
 }
 
 extension FluentTheme {
-    static func defaultColors(_ token: FluentTheme.ColorToken) -> UIColor {
+    static func defaultColor(_ token: FluentTheme.ColorToken) -> DynamicColor {
         switch token {
         case .foreground1:
-            return UIColor(light: GlobalTokens.neutralColor(.grey14),
-                           dark: GlobalTokens.neutralColor(.white))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey14),
+                                dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .foreground2:
-            return UIColor(light: GlobalTokens.neutralColor(.grey38),
-                           dark: GlobalTokens.neutralColor(.grey84))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey38),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey84))
         case .foreground3:
-            return UIColor(light: GlobalTokens.neutralColor(.grey50),
-                           dark: GlobalTokens.neutralColor(.grey68))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey50),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey68))
         case .foregroundDisabled1:
-            return UIColor(light: GlobalTokens.neutralColor(.grey74),
-                           dark: GlobalTokens.neutralColor(.grey36))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey74),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey36))
         case .foregroundDisabled2:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.grey18))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey18))
         case .foregroundOnColor:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.black))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.black))
         case .brandForegroundTint:
-            return UIColor(light: GlobalTokens.brandColor(.comm60),
-                           dark: GlobalTokens.brandColor(.comm130))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm130))
         case .brandForeground1:
-            return UIColor(light: GlobalTokens.brandColor(.comm80),
-                           dark: GlobalTokens.brandColor(.comm100))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm80),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm100))
         case .brandForeground1Pressed:
-            return UIColor(light: GlobalTokens.brandColor(.comm50),
-                           dark: GlobalTokens.brandColor(.comm140))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm50),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm140))
         case .brandForeground1Selected:
-            return UIColor(light: GlobalTokens.brandColor(.comm60),
-                           dark: GlobalTokens.brandColor(.comm120))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .brandForegroundDisabled1:
-            return UIColor(light: GlobalTokens.brandColor(.comm90))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm90))
         case .brandForegroundDisabled2:
-            return UIColor(light: GlobalTokens.brandColor(.comm140),
-                           dark: GlobalTokens.brandColor(.comm40))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm140),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm40))
         case .brandGradient1:
-            return UIColor(light: GlobalTokens.brandColor(.gradientPrimaryLight),
-                           dark: GlobalTokens.brandColor(.gradientPrimaryDark))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.gradientPrimaryLight),
+                                dark: GlobalTokens.brandSwiftUIColor(.gradientPrimaryDark))
         case .brandGradient2:
-            return UIColor(light: GlobalTokens.brandColor(.gradientSecondaryLight),
-                           dark: GlobalTokens.brandColor(.gradientSecondaryDark))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.gradientSecondaryLight),
+                                dark: GlobalTokens.brandSwiftUIColor(.gradientSecondaryDark))
         case .brandGradient3:
-            return UIColor(light: GlobalTokens.brandColor(.gradientTertiaryLight),
-                           dark: GlobalTokens.brandColor(.gradientTertiaryDark))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.gradientTertiaryLight),
+                                dark: GlobalTokens.brandSwiftUIColor(.gradientTertiaryDark))
         case .foregroundDarkStatic:
-            return UIColor(light: GlobalTokens.neutralColor(.black),
-                           dark: GlobalTokens.neutralColor(.black))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.black),
+                                dark: GlobalTokens.neutralSwiftUIColor(.black))
         case .foregroundLightStatic:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.white))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .background1:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.black),
-                           darkElevated: GlobalTokens.neutralColor(.grey4))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.black),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey4))
         case .background1Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey18),
-                           darkElevated: GlobalTokens.neutralColor(.grey18))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey18),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey18))
         case .background1Selected:
-            return UIColor(light: GlobalTokens.neutralColor(.grey92),
-                           dark: GlobalTokens.neutralColor(.grey14),
-                           darkElevated: GlobalTokens.neutralColor(.grey14))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey14),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey14))
         case .background2:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.grey12),
-                           darkElevated: GlobalTokens.neutralColor(.grey16))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey12),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey16))
         case .background2Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey30),
-                           darkElevated: GlobalTokens.neutralColor(.grey30))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey30),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
         case .background2Selected:
-            return UIColor(light: GlobalTokens.neutralColor(.grey92),
-                           dark: GlobalTokens.neutralColor(.grey26),
-                           darkElevated: GlobalTokens.neutralColor(.grey26))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey26),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey26))
         case .background3:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.grey16),
-                           darkElevated: GlobalTokens.neutralColor(.grey20))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey16),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .background3Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey34),
-                           darkElevated: GlobalTokens.neutralColor(.grey34))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey34),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey34))
         case .background3Selected:
-            return UIColor(light: GlobalTokens.neutralColor(.grey92),
-                           dark: GlobalTokens.neutralColor(.grey30),
-                           darkElevated: GlobalTokens.neutralColor(.grey30))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey30),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
         case .background4:
-            return UIColor(light: GlobalTokens.neutralColor(.grey98),
-                           dark: GlobalTokens.neutralColor(.grey20),
-                           darkElevated: GlobalTokens.neutralColor(.grey24))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey98),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey20),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey24))
         case .background4Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey86),
-                           dark: GlobalTokens.neutralColor(.grey38),
-                           darkElevated: GlobalTokens.neutralColor(.grey38))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey86),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey38),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey38))
         case .background4Selected:
-            return UIColor(light: GlobalTokens.neutralColor(.grey90),
-                           dark: GlobalTokens.neutralColor(.grey34),
-                           darkElevated: GlobalTokens.neutralColor(.grey34))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey90),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey34),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey34))
         case .background5:
-            return UIColor(light: GlobalTokens.neutralColor(.grey94),
-                           dark: GlobalTokens.neutralColor(.grey24),
-                           darkElevated: GlobalTokens.neutralColor(.grey28))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey94),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey24),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey28))
         case .background5Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey82),
-                           dark: GlobalTokens.neutralColor(.grey42),
-                           darkElevated: GlobalTokens.neutralColor(.grey42))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey82),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey42),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey42))
         case .background5Selected:
-            return UIColor(light: GlobalTokens.neutralColor(.grey86),
-                           dark: GlobalTokens.neutralColor(.grey38),
-                           darkElevated: GlobalTokens.neutralColor(.grey38))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey86),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey38),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey38))
         case .background6:
-            return UIColor(light: GlobalTokens.neutralColor(.grey82),
-                           dark: GlobalTokens.neutralColor(.grey36),
-                           darkElevated: GlobalTokens.neutralColor(.grey40))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey82),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey36),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey40))
         case .backgroundDisabled:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey32),
-                           darkElevated: GlobalTokens.neutralColor(.grey32))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey32),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey32))
         case .brandBackgroundTint:
-            return UIColor(light: GlobalTokens.brandColor(.comm150),
-                           dark: GlobalTokens.brandColor(.comm40))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm150),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm40))
         case .brandBackground1:
-            return UIColor(light: GlobalTokens.brandColor(.comm80),
-                           dark: GlobalTokens.brandColor(.comm100))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm80),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm100))
         case .brandBackground1Pressed:
-            return UIColor(light: GlobalTokens.brandColor(.comm50),
-                           dark: GlobalTokens.brandColor(.comm140))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm50),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm140))
         case .brandBackground1Selected:
-            return UIColor(light: GlobalTokens.brandColor(.comm60),
-                           dark: GlobalTokens.brandColor(.comm120))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .brandBackground2:
-            return UIColor(light: GlobalTokens.brandColor(.comm70))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm70))
         case .brandBackground2Pressed:
-            return UIColor(light: GlobalTokens.brandColor(.comm40))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm40))
         case .brandBackground2Selected:
-            return UIColor(light: GlobalTokens.brandColor(.comm80))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm80))
         case .brandBackground3:
-            return UIColor(light: GlobalTokens.brandColor(.comm60),
-                           dark: GlobalTokens.brandColor(.comm120))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .brandBackgroundDisabled:
-            return UIColor(light: GlobalTokens.brandColor(.comm140),
-                           dark: GlobalTokens.brandColor(.comm40))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm140),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm40))
         case .stencil1:
-            return UIColor(light: GlobalTokens.neutralColor(.grey90),
-                           dark: GlobalTokens.neutralColor(.grey34))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey90),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey34))
         case .stencil2:
-            return UIColor(light: GlobalTokens.neutralColor(.grey98),
-                           dark: GlobalTokens.neutralColor(.grey20))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey98),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .backgroundCanvas:
-            return UIColor(light: GlobalTokens.neutralColor(.grey96),
-                           dark: GlobalTokens.neutralColor(.grey8),
-                           darkElevated: GlobalTokens.neutralColor(.grey14))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey96),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey8),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey14))
         case .backgroundDarkStatic:
-            return UIColor(light: GlobalTokens.neutralColor(.grey14),
-                           dark: GlobalTokens.neutralColor(.grey24),
-                           darkElevated: GlobalTokens.neutralColor(.grey30))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey14),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey24),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
         case .backgroundInverted:
-            return UIColor(light: GlobalTokens.neutralColor(.grey46),
-                           dark: GlobalTokens.neutralColor(.grey72),
-                           darkElevated: GlobalTokens.neutralColor(.grey78))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey46),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey72),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey78))
         case .backgroundLightStatic:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.white),
-                           darkElevated: GlobalTokens.neutralColor(.white))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.white),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.white))
         case .backgroundLightStaticDisabled:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.grey68),
-                           darkElevated: GlobalTokens.neutralColor(.grey42))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey68),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey42))
         case .stroke1:
-            return UIColor(light: GlobalTokens.neutralColor(.grey82),
-                           dark: GlobalTokens.neutralColor(.grey30),
-                           darkElevated: GlobalTokens.neutralColor(.grey36))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey82),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey30),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey36))
         case .stroke1Pressed:
-            return UIColor(light: GlobalTokens.neutralColor(.grey70),
-                           dark: GlobalTokens.neutralColor(.grey48))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey70),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey48))
         case .stroke2:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey24),
-                           darkElevated: GlobalTokens.neutralColor(.grey30))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey24),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
         case .strokeAccessible:
-            return UIColor(light: GlobalTokens.neutralColor(.grey38),
-                           dark: GlobalTokens.neutralColor(.grey62),
-                           darkElevated: GlobalTokens.neutralColor(.grey68))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey38),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey62),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey68))
         case .strokeFocus1:
-            return UIColor(light: GlobalTokens.neutralColor(.white),
-                           dark: GlobalTokens.neutralColor(.black))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                dark: GlobalTokens.neutralSwiftUIColor(.black))
         case .strokeFocus2:
-            return UIColor(light: GlobalTokens.neutralColor(.black),
-                           dark: GlobalTokens.neutralColor(.white))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.black),
+                                dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .strokeDisabled:
-            return UIColor(light: GlobalTokens.neutralColor(.grey88),
-                           dark: GlobalTokens.neutralColor(.grey26),
-                           darkElevated: GlobalTokens.neutralColor(.grey32))
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey26),
+                                darkElevated: GlobalTokens.neutralSwiftUIColor(.grey32))
         case .brandStroke1:
-            return UIColor(light: GlobalTokens.brandColor(.comm80),
-                           dark: GlobalTokens.brandColor(.comm100))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm80),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm100))
         case .brandStroke1Pressed:
-            return UIColor(light: GlobalTokens.brandColor(.comm50),
-                           dark: GlobalTokens.brandColor(.comm140))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm50),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm140))
         case .brandStroke1Selected:
-            return UIColor(light: GlobalTokens.brandColor(.comm60),
-                           dark: GlobalTokens.brandColor(.comm120))
+            return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                                dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .dangerBackground1:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .tint60),
-                           dark: GlobalTokens.sharedColor(.red, .shade40))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .tint60),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .shade40))
         case .dangerBackground2:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: GlobalTokens.sharedColor(.red, .shade10))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .shade10))
         case .dangerForeground1:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .shade10),
-                           dark: GlobalTokens.sharedColor(.red, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .shade10),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
         case .dangerForeground2:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: GlobalTokens.sharedColor(.red, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
         case .dangerStroke1:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .tint20),
-                           dark: GlobalTokens.sharedColor(.red, .tint20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .tint20),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .tint20))
         case .dangerStroke2:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: GlobalTokens.sharedColor(.red, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
         case .successBackground1:
-            return UIColor(light: GlobalTokens.sharedColor(.green, .tint60),
-                           dark: GlobalTokens.sharedColor(.green, .shade40))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.green, .tint60),
+                                dark: GlobalTokens.sharedSwiftUIColor(.green, .shade40))
         case .successBackground2:
-            return UIColor(light: GlobalTokens.sharedColor(.green, .primary),
-                           dark: GlobalTokens.sharedColor(.green, .shade10))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.green, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.green, .shade10))
         case .successForeground1:
-            return UIColor(light: GlobalTokens.sharedColor(.green, .shade10),
-                           dark: GlobalTokens.sharedColor(.green, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.green, .shade10),
+                                dark: GlobalTokens.sharedSwiftUIColor(.green, .tint30))
         case .successForeground2:
-            return UIColor(light: GlobalTokens.sharedColor(.green, .primary),
-                           dark: GlobalTokens.sharedColor(.green, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.green, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.green, .tint30))
         case .successStroke1:
-            return UIColor(light: GlobalTokens.sharedColor(.green, .tint20),
-                           dark: GlobalTokens.sharedColor(.green, .tint20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.green, .tint20),
+                                dark: GlobalTokens.sharedSwiftUIColor(.green, .tint20))
         case .severeBackground1:
-            return UIColor(light: GlobalTokens.sharedColor(.darkOrange, .tint60),
-                           dark: GlobalTokens.sharedColor(.darkOrange, .shade40))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint60),
+                                dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .shade40))
         case .severeBackground2:
-            return UIColor(light: GlobalTokens.sharedColor(.darkOrange, .primary),
-                           dark: GlobalTokens.sharedColor(.darkOrange, .shade10))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .shade10))
         case .severeForeground1:
-            return UIColor(light: GlobalTokens.sharedColor(.darkOrange, .shade10),
-                           dark: GlobalTokens.sharedColor(.darkOrange, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .shade10),
+                                dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint30))
         case .severeForeground2:
-            return UIColor(light: GlobalTokens.sharedColor(.darkOrange, .shade20),
-                           dark: GlobalTokens.sharedColor(.darkOrange, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .shade20),
+                                dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint30))
         case .severeStroke1:
-            return UIColor(light: GlobalTokens.sharedColor(.darkOrange, .tint10),
-                           dark: GlobalTokens.sharedColor(.darkOrange, .tint20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint10),
+                                dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint20))
         case .warningBackground1:
-            return UIColor(light: GlobalTokens.sharedColor(.yellow, .tint60),
-                           dark: GlobalTokens.sharedColor(.yellow, .shade40))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint60),
+                                dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade40))
         case .warningBackground2:
-            return UIColor(light: GlobalTokens.sharedColor(.yellow, .primary),
-                           dark: GlobalTokens.sharedColor(.yellow, .shade10))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.yellow, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade10))
         case .warningForeground1:
-            return UIColor(light: GlobalTokens.sharedColor(.yellow, .shade30),
-                           dark: GlobalTokens.sharedColor(.yellow, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
+                                dark: GlobalTokens.sharedSwiftUIColor(.yellow, .tint30))
         case .warningForeground2:
-            return UIColor(light: GlobalTokens.sharedColor(.yellow, .shade30),
-                           dark: GlobalTokens.sharedColor(.yellow, .tint30))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
+                                dark: GlobalTokens.sharedSwiftUIColor(.yellow, .tint30))
         case .warningStroke1:
-            return UIColor(light: GlobalTokens.sharedColor(.yellow, .shade30),
-                           dark: GlobalTokens.sharedColor(.yellow, .shade20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
+                                dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade20))
         case .presenceAway:
-            return UIColor(light: GlobalTokens.sharedColor(.marigold, .primary))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.marigold, .primary))
         case .presenceDnd:
-            return UIColor(light: GlobalTokens.sharedColor(.red, .primary),
-                           dark: GlobalTokens.sharedColor(.red, .tint10))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.red, .tint10))
         case .presenceAvailable:
-            return UIColor(light: GlobalTokens.sharedColor(.lightGreen, .primary),
-                           dark: GlobalTokens.sharedColor(.lightGreen, .tint20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.lightGreen, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.lightGreen, .tint20))
         case .presenceOof:
-            return UIColor(light: GlobalTokens.sharedColor(.berry, .primary),
-                           dark: GlobalTokens.sharedColor(.berry, .tint20))
+            return DynamicColor(light: GlobalTokens.sharedSwiftUIColor(.berry, .primary),
+                                dark: GlobalTokens.sharedSwiftUIColor(.berry, .tint20))
         }
     }
 
-    static func defaultShadows(_ token: ShadowToken) -> ShadowInfo {
+    static func defaultShadow(_ token: ShadowToken) -> ShadowInfo {
         switch token {
         case .clear:
             return ShadowInfo(keyColor: .clear,
@@ -603,7 +601,7 @@ extension FluentTheme {
     }
 
     /// Derives its default values from the theme's `colorTokenSet` values
-    static func defaultGradientColors(_ token: GradientToken, colorTokenSet: TokenSet<ColorToken, UIColor>) -> [UIColor] {
+    static func defaultGradientColor(_ token: GradientToken, colorTokenSet: TokenSet<ColorToken, DynamicColor>) -> [DynamicColor] {
         switch token {
         case .flair:
             return [colorTokenSet[.brandGradient1],

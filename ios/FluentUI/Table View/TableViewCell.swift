@@ -351,7 +351,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             subtitleHeight: labelSize(text: subtitle,
                                       attributedText: attributedSubtitle,
                                       isAttributedTextSet: isAttributedSubtitleSet,
-                                      font: subtitleFont ?? (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont),
+                                      font: subtitleFont ?? (layoutType == .threeLines ? tokenSet[.subtitleThreeLinesFont].uiFont : tokenSet[.subtitleTwoLinesFont].uiFont),
                                       numberOfLines: subtitleNumberOfLines,
                                       textAreaWidth: textAreaWidth,
                                       leadingAccessoryView: subtitleLeadingAccessoryView,
@@ -997,7 +997,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         }
     }
     /// Style describing whether or not the cell's bottom separator should be visible and how wide it should extend
-    @objc open var bottomSeparatorType: SeparatorType = .inset {
+    @objc open var bottomSeparatorType: SeparatorType = Compatibility.isDeviceIdiomVision() ? .full : .inset {
         didSet {
             if bottomSeparatorType != oldValue {
                 updateSeparator(bottomSeparator, with: bottomSeparatorType)
@@ -1232,7 +1232,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
             titleLabel.font = tokenSet[.titleFont].uiFont
         }
         if !isAttributedSubtitleSet {
-            subtitleLabel.font = (layoutType == .twoLines ? tokenSet[.subtitleTwoLinesFont].uiFont : tokenSet[.subtitleThreeLinesFont].uiFont)
+            subtitleLabel.font = (layoutType == .threeLines ? tokenSet[.subtitleThreeLinesFont].uiFont : tokenSet[.subtitleTwoLinesFont].uiFont)
         }
         if !isAttributedFooterSet {
             footerLabel.font = tokenSet[.footerFont].uiFont
@@ -1764,7 +1764,7 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         customAccessoryViewExtendsToEdge = false
 
         topSeparatorType = .none
-        bottomSeparatorType = .inset
+        bottomSeparatorType = Compatibility.isDeviceIdiomVision() ? .full : .inset
 
         isEnabled = true
         isInSelectionMode = false
@@ -1971,7 +1971,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
     private func setupBackgroundColors() {
         if backgroundStyleType != .custom {
             automaticallyUpdatesBackgroundConfiguration = false
-            var backgroundConfiguration = UIBackgroundConfiguration.clear()
+            var backgroundConfiguration: UIBackgroundConfiguration
+            if backgroundStyleType == .plain {
+                backgroundConfiguration = .listPlainCell()
+            } else if backgroundStyleType == .grouped {
+                backgroundConfiguration = .listGroupedCell()
+            } else {
+                backgroundConfiguration = .clear()
+            }
             backgroundConfiguration.backgroundColor = backgroundStyleType.defaultColor(tokenSet: tokenSet)
             self.backgroundConfiguration = backgroundConfiguration
         }

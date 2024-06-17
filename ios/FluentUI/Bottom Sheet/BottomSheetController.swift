@@ -39,6 +39,13 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case transitioning // Sheet is between states, only used during user interaction / animation
 }
 
+/// Defines where the sheet should be postionioned relative to the screen space
+@objc(MSFBottomSheetAnchorEdge) public enum BottomSheetAnchorEdge: Int {
+    case center // Sheet is centered on the screen
+    case leading // Sheet is constrained to the leading edge
+    case trailing // Sheet is constrained to the trailing edge
+}
+
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController, Shadowable, TokenizedControlInternal {
 
@@ -223,6 +230,28 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
+    /// Setting this property  will result in the sheet trying to be as close to this width as possible.
+    /// If the declared width is too large it will roll back to the maximum width
+    @objc open var preferredWidth: CGFloat = 0 {
+        didSet {
+            let shouldInvalidateLayout = (preferredWidth != oldValue) && isViewLoaded
+            if shouldInvalidateLayout {
+                view.setNeedsLayout()
+            }
+        }
+    }
+
+    /// Represents where the sheet should appear on the screen. 
+    /// Defaults to being centered
+    @objc open var anchoredEdge: BottomSheetAnchorEdge = .center {
+        didSet {
+            guard anchoredEdge != oldValue && isViewLoaded else {
+                return
+            }
+            view.setNeedsLayout()
+        }
+    }
+
     /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
     @objc open var allowsSwipeToHide: Bool = false
 
@@ -276,13 +305,54 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func setIsHidden(_ isHidden: Bool, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        let targetState: BottomSheetExpansionState = isHidden ? .hidden : .collapsed
+        if isHidden {
+            dismissSheet(animated: animated, completion: completion)
+        } else {
+            presentSheet(expandedState: .collapsed, animated: animated, completion: completion)
+        }
+
+    }
+
+    /// Presents the bottom sheet view
+    /// - Parameters:
+    ///   - expandedState: The state the bottom sheet should expand to when presented
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func presentSheet(expandedState: BottomSheetExpansionState, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        let finishedState: BottomSheetExpansionState
+
+        switch expandedState {
+        case .collapsed:
+            finishedState = expandedState
+        case .expanded:
+            finishedState = expandedState
+        // Collapsed and expanded are the only valid states so we will default to
+        // collapsed if the user tries anything else
+        default:
+            finishedState = .collapsed
+        }
+
         if isViewLoaded {
-            move(to: targetState, animated: animated, allowUnhiding: true) { finalPosition in
+            move(to: finishedState, animated: animated, allowUnhiding: true) { finalPosition in
                 completion?(finalPosition == .end)
             }
         } else {
-            currentExpansionState = targetState
+            currentExpansionState = expandedState
+            completion?(true)
+        }
+    }
+
+    /// Dismiss the bottom the bottom sheet view
+    /// - Parameters:
+    ///   - animated: Indicates if the change should be animated. The default value is `true`.
+    ///   - completion: Closure to be called when the state change completes.
+    @objc public func dismissSheet(animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
+        if isViewLoaded {
+            move(to: .hidden, animated: animated, allowUnhiding: true) { finalPosition in
+                completion?(finalPosition == .end)
+            }
+        } else {
+            currentExpansionState = .hidden
             completion?(true)
         }
     }
@@ -721,8 +791,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Source of truth for the sheet frame at a given offset from the top of the root view bounds.
     // The output is only meaningful once view.bounds is non-zero i.e. a layout pass has occured.
     private func sheetFrame(offset: CGFloat) -> CGRect {
-        let availableWidth: CGFloat = view.bounds.width
-        let sheetWidth = shouldAlwaysFillWidth ? availableWidth : min(Constants.maxSheetWidth, availableWidth)
+        let sheetWidth: CGFloat = determineSheetWidth()
+
         let sheetHeight: CGFloat
 
         if isFlexibleHeight {
@@ -732,8 +802,50 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sheetHeight = expandedSheetHeight
         }
 
-        return CGRect(origin: CGPoint(x: (view.bounds.width - sheetWidth) / 2, y: offset),
-                      size: CGSize(width: sheetWidth, height: sheetHeight))
+        // Calculates the location to put the left edge of the sheet relative to the view
+        // For right aligned we get the width of the view offset by the sheets width and the padding
+        // For left aligned we only need to add in the padding
+        // For center aligned we need the position of the center offset by half the sheets width
+        let xPosition: CGFloat
+        let isLeftToRight: Bool = UIView.userInterfaceLayoutDirection(for: view.semanticContentAttribute) == .leftToRight
+        switch anchoredEdge {
+        case .center:
+            xPosition = (view.bounds.width - sheetWidth) / 2
+        case .leading:
+            if isLeftToRight {
+                xPosition = Constants.horizontalSheetPadding
+            } else {
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
+            }
+        case .trailing:
+            if isLeftToRight {
+                xPosition = view.bounds.width - sheetWidth - Constants.horizontalSheetPadding
+            } else {
+                xPosition = Constants.horizontalSheetPadding
+            }
+        }
+
+        let frame = CGRect(origin: CGPoint(x: xPosition, y: offset),
+                             size: CGSize(width: sheetWidth, height: sheetHeight))
+        return frame
+    }
+
+    // Helper function to determine how wide the sheet should be
+    private func determineSheetWidth() -> CGFloat {
+        // Width will the fill the screen if should always fill width
+        // Otherwise we will try and set the size to the preferred width as long as its between the max and min width
+        // If its not between those we will make the maximum width size
+        let availableWidth: CGFloat = view.bounds.width
+        let maxWidth = min(Constants.maxSheetWidth, availableWidth)
+        let determinedWidth: CGFloat
+        if shouldAlwaysFillWidth {
+            determinedWidth = availableWidth
+        } else if Constants.minSheetWidth...maxWidth ~= preferredWidth {
+            determinedWidth = preferredWidth
+        } else {
+            determinedWidth = maxWidth
+        }
+        return determinedWidth
     }
 
     private func translationRubberBandFactor(for currentOffset: CGFloat) -> CGFloat {
@@ -1003,7 +1115,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let oldContext = lastCollapsedSheetHeightResolutionContext
         let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
 
-        if oldContext?.maximumHeight != newContext.maximumHeight || !(oldContext?.containerTraitCollection.containsTraits(in: newContext.containerTraitCollection) ?? false) {
+        if oldContext?.maximumHeight != newContext.maximumHeight
+            || oldContext?.containerTraitCollection.horizontalSizeClass != newContext.containerTraitCollection.horizontalSizeClass
+            || oldContext?.containerTraitCollection.verticalSizeClass != newContext.containerTraitCollection.verticalSizeClass {
             lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
             lastCollapsedSheetHeightResolutionContext = newContext
         }
@@ -1061,6 +1175,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         // Minimum padding from top when the sheet is fully expanded
         static let minimumTopExpandedPadding: CGFloat = 25.0
+
+        // The padding allocated to the space between the sheet and the edge when attached to the leading or trailing edge
+        static let horizontalSheetPadding: CGFloat = GlobalTokens.spacing(.size80)
 
         static let expandedContentAlphaTransitionLength: CGFloat = 30
 
