@@ -320,17 +320,12 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
                            accessoryButtonTitle: String = "",
                            accessoryView: UIView? = nil,
                            leadingView: UIView? = nil) {
-        attributedTitleFont = nil
-        attributedTitleColor = nil
-
-        if let attributedTitle = attributedTitle {
+        if let attributedTitle {
+            self.attributedTitle = attributedTitle
             titleView.attributedText = attributedTitle
             titleView.isSelectable = true
-
-            let attributes = attributedTitle.attributes(at: 0, effectiveRange: nil)
-            attributedTitleFont = attributes[NSAttributedString.Key.font] as? UIFont ?? tokenSet[.textFont].uiFont
-            attributedTitleColor = attributes[NSAttributedString.Key.foregroundColor] as? UIColor ?? tokenSet[.textColor].uiColor
         } else {
+            self.attributedTitle = nil
             titleView.attributedText = NSAttributedString(string: " ") // to clear attributes
             titleView.text = title
             titleView.isSelectable = false
@@ -458,8 +453,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 
     private func updateTitleViewFont() {
         if let window = window {
-            let titleFont = attributedTitleFont ?? tokenSet[.textFont].uiFont
-            titleView.font = titleFont
+            let titleFont = tokenSet[.textFont].uiFont
+            if !isUsingAttributedTitle {
+                titleView.font = titleFont
+            }
 
             // offset text container to center its content
 #if os(iOS)
@@ -474,8 +471,6 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private func updateTitleAndBackgroundColors() {
-        titleView.textColor = attributedTitleColor ?? tokenSet[.textColor].uiColor
-
         if tableViewCellStyle == .grouped {
             backgroundView?.backgroundColor = tokenSet[.backgroundColorGrouped].uiColor
         } else if tableViewCellStyle == .plain {
@@ -484,7 +479,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             backgroundView?.backgroundColor = .clear
         }
 
-        titleView.font = attributedTitleFont ?? tokenSet[.textFont].uiFont
+        if !isUsingAttributedTitle {
+            titleView.textColor = tokenSet[.textColor].uiColor
+            titleView.font = tokenSet[.textFont].uiFont
+        }
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
     }
 
@@ -524,8 +522,13 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         onHeaderViewTapped?()
     }
 
-    private var attributedTitleFont: UIFont?
-    private var attributedTitleColor: UIColor?
+    private var attributedTitle: NSAttributedString? {
+        didSet {
+            isUsingAttributedTitle = attributedTitle != nil
+        }
+    }
+
+    private var isUsingAttributedTitle: Bool = false
 }
 
 // MARK: - TableViewHeaderFooterView: UITextViewDelegate
