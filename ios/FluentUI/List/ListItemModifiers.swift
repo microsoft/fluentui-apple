@@ -66,24 +66,7 @@ public extension ListItem {
     /// - Returns: The modified `ListItem` with the property set.
     func leadingContentSize(_ size: ListItemLeadingContentSize) -> ListItem {
         let listItem = self
-        let customViewDimensions: CGFloat
-        let customViewTrailingMargin: CGFloat
-
-        switch size {
-        case .zero:
-            customViewDimensions = 0.0
-            customViewTrailingMargin = GlobalTokens.spacing(.sizeNone)
-        case .small:
-            customViewDimensions = GlobalTokens.icon(.size240)
-            customViewTrailingMargin = GlobalTokens.spacing(.size160)
-        case .medium, .default:
-            customViewDimensions = GlobalTokens.icon(.size400)
-            customViewTrailingMargin = GlobalTokens.spacing(.size120)
-        }
-
-        listItem.tokenSet[.customViewDimensions] = .float { customViewDimensions }
-        listItem.tokenSet[.customViewTrailingMargin] = .float { customViewTrailingMargin }
-
+        listItem.state.leadingContentSize = size
         return listItem
     }
 

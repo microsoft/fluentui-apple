@@ -10,6 +10,11 @@ public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
 public typealias ListItemLeadingContentSize = MSFTableViewCellCustomViewSize
 public typealias ListItemTokenSet = TableViewCellTokenSet
 
+public protocol ListItemState {
+    /// The size of the `LeadingContent`.
+    var leadingContentSize: ListItemLeadingContentSize { get set }
+}
+
 /// View that represents an item in a List.
 public struct ListItem<LeadingContent: View,
                        TrailingContent: View,
@@ -41,8 +46,12 @@ public struct ListItem<LeadingContent: View,
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
         self.action = action
+
         let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
-        self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
+        let leadingContentSize = layoutType.leadingContentSize
+        let state = ListItemStateImpl(leadingContentSize: leadingContentSize)
+        self.state = state
+        self.tokenSet = ListItemTokenSet(customViewSize: { state.leadingContentSize })
     }
 
     public var body: some View {
@@ -300,6 +309,7 @@ public struct ListItem<LeadingContent: View,
     @Environment(\.isEnabled) private var isEnabled: Bool
     /// The style of the parent `FluentList`.
     @Environment(\.listStyle) private var listStyle: FluentListStyle
+    @ObservedObject var state: ListItemStateImpl
 
     private var leadingContent: (() -> LeadingContent)?
     private var trailingContent: (() -> TrailingContent)?
@@ -308,6 +318,15 @@ public struct ListItem<LeadingContent: View,
     private let footer: Footer
     private let subtitle: Subtitle
     private let title: Title
+}
+
+class ListItemStateImpl: ControlState, ListItemState {
+    @Published var leadingContentSize: ListItemLeadingContentSize
+
+    init(leadingContentSize: ListItemLeadingContentSize) {
+        self.leadingContentSize = leadingContentSize
+        super.init()
+    }
 }
 
 // MARK: Internal structs
@@ -358,8 +377,12 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
         self.subtitle = subtitle
         self.footer = footer
         self.action = action
+
         let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
-        self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
+        let leadingContentSize = layoutType.leadingContentSize
+        let state = ListItemStateImpl(leadingContentSize: leadingContentSize)
+        self.state = state
+        self.tokenSet = ListItemTokenSet(customViewSize: { state.leadingContentSize })
     }
 }
 
@@ -374,8 +397,12 @@ public extension ListItem where TrailingContent == EmptyView {
         self.footer = footer
         self.leadingContent = leadingContent
         self.action = action
+
         let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
-        self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
+        let leadingContentSize = layoutType.leadingContentSize
+        let state = ListItemStateImpl(leadingContentSize: leadingContentSize)
+        self.state = state
+        self.tokenSet = ListItemTokenSet(customViewSize: { state.leadingContentSize })
     }
 }
 
@@ -390,8 +417,12 @@ public extension ListItem where LeadingContent == EmptyView {
         self.footer = footer
         self.trailingContent = trailingContent
         self.action = action
+
         let layoutType = ListItem.layoutType(subtitle: subtitle, footer: footer)
-        self.tokenSet = ListItemTokenSet(customViewSize: { layoutType.leadingContentSize })
+        let leadingContentSize = layoutType.leadingContentSize
+        let state = ListItemStateImpl(leadingContentSize: leadingContentSize)
+        self.state = state
+        self.tokenSet = ListItemTokenSet(customViewSize: { state.leadingContentSize })
     }
 }
 
