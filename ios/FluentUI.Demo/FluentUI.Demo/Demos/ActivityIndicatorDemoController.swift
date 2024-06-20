@@ -52,7 +52,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 return UITableViewCell()
             }
 
-            cell.setup(action1Title: row.title)
+            cell.setup(action1Title: isAnimating ? "Stop Activity" : "Start Activity")
             cell.action1Button.addTarget(self,
                                          action: #selector(startStopActivity),
                                          for: .touchUpInside)
@@ -191,7 +191,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
             case .hidesWhenStopped:
                 return "Hides when stopped"
             case .startStopActivity:
-                return "Start / Stop activity"
+                return ""
             case .demoOfSize:
                 return ""
             }
@@ -235,6 +235,13 @@ class ActivityIndicatorDemoController: DemoTableViewController {
 
     @objc private func startStopActivity() {
         isAnimating.toggle()
+
+        guard let section: Int = ActivityIndicatorDemoSection.allCases.firstIndex(of: .settings),
+              let row: Int = ActivityIndicatorDemoSection.settings.rows.firstIndex(of: .startStopActivity) else {
+            return
+        }
+        // Reloading row to update the button title
+        tableView.reloadRows(at: [.init(row: row, section: section)], with: .automatic)
     }
 }
 
