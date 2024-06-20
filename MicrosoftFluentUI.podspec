@@ -183,6 +183,14 @@ fi', :execution_position => :before_compile }
     label_ios.source_files = ["ios/FluentUI/Label/**/*.{swift,h}"]
   end
 
+  s.subspec 'ListItem_ios' do |listitem_ios|
+    listitem_ios.platform = :ios
+    listitem_ios.dependency 'MicrosoftFluentUI/OtherCells_ios'
+    listitem_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    listitem_ios.dependency 'MicrosoftFluentUI/TableViewListShared_ios'
+    listitem_ios.source_files = ["ios/FluentUI/List/**/*.swift"]
+  end
+
   s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
     multilinecommandbar_ios.platform = :ios
     multilinecommandbar_ios.dependency 'MicrosoftFluentUI/BottomSheet_ios'
@@ -302,8 +310,15 @@ fi', :execution_position => :before_compile }
     tableview_ios.platform = :ios
     tableview_ios.dependency 'MicrosoftFluentUI/Label_ios'
     tableview_ios.dependency 'MicrosoftFluentUI/Separator_ios'
+    tableview_ios.dependency 'MicrosoftFluentUI/TableViewListShared_ios'
     tableview_ios.preserve_paths = ["ios/FluentUI/Table View/TableView.resources.xcfilelist"]
     tableview_ios.source_files = ["ios/FluentUI/Table View/**/*.{swift,h}"]
+  end
+
+  s.subspec 'TableViewListShared_ios' do |tableviewlistshared_ios|
+    tableviewlistshared_ios.platform = :ios
+    tableviewlistshared_ios.preserve_paths = ["ios/FluentUI/TableViewListShared/TableViewListShared.resources.xcfilelist"]
+    tableviewlistshared_ios.source_files = ["ios/FluentUI/TableViewListShared/**/*.{swift,h}"]
   end
 
   s.subspec 'TextField_ios' do |textfield_ios|
