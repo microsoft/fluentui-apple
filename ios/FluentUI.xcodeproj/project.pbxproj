@@ -10,7 +10,6 @@
 		0A84A6F029EDC489005DBC3D /* SeparatorTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A84A6EF29EDC489005DBC3D /* SeparatorTokenSet.swift */; };
 		0A8E61FB291DC11F009E412D /* CommandBarTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8E61FA291DC11F009E412D /* CommandBarTokenSet.swift */; };
 		0AE3041D29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */; };
-		2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */; };
 		3A9FC0F52A6AFAD40060A6BE /* BadgeFieldTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9FC0F42A6AFAD40060A6BE /* BadgeFieldTokenSet.swift */; };
 		3A9FC0F72A705C090060A6BE /* PeoplePickerTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9FC0F62A705C090060A6BE /* PeoplePickerTokenSet.swift */; };
 		3AFB0FD629C1365600FEC1A9 /* MultilineCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */; };
@@ -242,6 +241,7 @@
 		F3DFD3612A7B210100014C6E /* ListActionItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DFD3602A7B210100014C6E /* ListActionItemModifiers.swift */; };
 		F3F113892A705AD500DA852A /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F113882A705AD500DA852A /* ListItem.swift */; };
 		F3F1138D2A705B6900DA852A /* ListItemModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */; };
+		F5854ED12C220AC100938291 /* TableViewCellTokenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5854ECF2C220AC100938291 /* TableViewCellTokenSet.swift */; };
 		FD053A352224CA33009B6378 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD053A342224CA33009B6378 /* DatePickerControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -277,7 +277,6 @@
 		1168630222E131CF0088B302 /* TabBarItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		1168630322E131CF0088B302 /* TabBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		118D9847230BBA2300BC0B72 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellTokenSet.swift; sourceTree = "<group>"; };
 		3A9FC0F42A6AFAD40060A6BE /* BadgeFieldTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeFieldTokenSet.swift; sourceTree = "<group>"; };
 		3A9FC0F62A705C090060A6BE /* PeoplePickerTokenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeoplePickerTokenSet.swift; sourceTree = "<group>"; };
 		3AFB0FD529C1365600FEC1A9 /* MultilineCommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineCommandBar.swift; sourceTree = "<group>"; };
@@ -465,6 +464,7 @@
 		F3F113882A705AD500DA852A /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemModifiers.swift; sourceTree = "<group>"; };
 		F5784DB9285D031800DBEAD6 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = docs; sourceTree = "<group>"; };
+		F5854ECF2C220AC100938291 /* TableViewCellTokenSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellTokenSet.swift; sourceTree = "<group>"; };
 		FC414E1E258876FB00069E73 /* CommandBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		FC414E242588798000069E73 /* CommandBarButtonGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButtonGroupView.swift; sourceTree = "<group>"; };
 		FC414E2A25887A4B00069E73 /* CommandBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandBarButton.swift; sourceTree = "<group>"; };
@@ -996,6 +996,7 @@
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
+				F5854ED02C220AC100938291 /* TableViewListShared */,
 				EC98E2AB2980C0C000B9DF91 /* TextField */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				5314DFF325F006060099271A /* TouchForwardingView */,
@@ -1088,7 +1089,6 @@
 			isa = PBXGroup;
 			children = (
 				B498141321E424920077B48D /* TableViewCell.swift */,
-				2A9745DD281733D700E1A1FD /* TableViewCellTokenSet.swift */,
 				B4EF66502294A664007FEAB0 /* TableViewHeaderFooterView.swift */,
 				0AE3041C29F721B2003CDDD9 /* TableViewHeaderFooterViewTokenSet.swift */,
 			);
@@ -1207,6 +1207,14 @@
 				F3F1138C2A705B6900DA852A /* ListItemModifiers.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		F5854ED02C220AC100938291 /* TableViewListShared */ = {
+			isa = PBXGroup;
+			children = (
+				F5854ECF2C220AC100938291 /* TableViewCellTokenSet.swift */,
+			);
+			path = TableViewListShared;
 			sourceTree = "<group>";
 		};
 		FC414E1D258876D400069E73 /* Command Bar */ = {
@@ -1571,6 +1579,7 @@
 				3A9FC0F52A6AFAD40060A6BE /* BadgeFieldTokenSet.swift in Sources */,
 				5314E30325F0260E0099271A /* AccessibleViewDelegate.swift in Sources */,
 				6EB4B25F270ED6B30005B808 /* BadgeLabel.swift in Sources */,
+				F5854ED12C220AC100938291 /* TableViewCellTokenSet.swift in Sources */,
 				EC98E2B2298D97EC00B9DF91 /* TextFieldTokenSet.swift in Sources */,
 				9231491528BF026A001B033E /* HUD.swift in Sources */,
 				5314E1A725F01A7C0099271A /* ActionsCell.swift in Sources */,
@@ -1660,7 +1669,6 @@
 				EC5982D827BF348700FD048D /* MSFAvatar.swift in Sources */,
 				5314E0AA25F010070099271A /* DrawerShadowView.swift in Sources */,
 				4BDBE18928EC9E6F00314696 /* ShimmerTokenSet.swift in Sources */,
-				2A9745DE281733D700E1A1FD /* TableViewCellTokenSet.swift in Sources */,
 				530D9C5127EE388200BDCBBF /* SwiftUI+ViewPresentation.swift in Sources */,
 				92ECB2DD2BE069D100404D79 /* Color+DynamicColor.swift in Sources */,
 				6F050B6D29D3D1A90070D3D5 /* TabBarTokenSet.swift in Sources */,
