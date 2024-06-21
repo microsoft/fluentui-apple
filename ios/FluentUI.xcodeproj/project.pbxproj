@@ -957,7 +957,6 @@
 		A5CEC15320D980B20016922A /* FluentUI */ = {
 			isa = PBXGroup;
 			children = (
-				F5854ED02C220AC100938291 /* TableViewListShared */,
 				5314DFEB25F002240099271A /* ActivityIndicator */,
 				C77A04F325F04CFB001B3EB6 /* Avatar */,
 				5306074E26A1E6A4002D49CF /* AvatarGroup */,
@@ -997,6 +996,7 @@
 				C0A0D75D233AEA9900F432FD /* Shimmer */,
 				1168630122E131A20088B302 /* Tab Bar */,
 				B444D6B421825B510002B4D4 /* Table View */,
+				F5854ED02C220AC100938291 /* TableViewListShared */,
 				EC98E2AB2980C0C000B9DF91 /* TextField */,
 				FD7DF05A21FA7F3200857267 /* Tooltip */,
 				5314DFF325F006060099271A /* TouchForwardingView */,
