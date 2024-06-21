@@ -317,6 +317,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'TableViewListShared_ios' do |tableviewlistshared_ios|
     tableviewlistshared_ios.platform = :ios
+    tableviewlistshared_ios.dependency 'MicrosoftFluentUI/Core_ios'
     tableviewlistshared_ios.preserve_paths = ["ios/FluentUI/TableViewListShared/TableViewListShared.resources.xcfilelist"]
     tableviewlistshared_ios.source_files = ["ios/FluentUI/TableViewListShared/**/*.{swift,h}"]
   end
