@@ -126,7 +126,7 @@ extension TableViewHeaderFooterViewDemoController {
             if section.footerLinkText.isEmpty {
                 footer?.setup(style: .footer, title: section.footerText)
             } else {
-                let title = NSMutableAttributedString(string: section.footerText)
+                let title = NSMutableAttributedString(string: section.footerText, attributes: [NSAttributedString.Key.foregroundColor: footer?.tokenSet[.textColor].uiColor ?? .white])
                 let range = (title.string as NSString).range(of: section.footerLinkText)
                 if range.location != -1 {
                     title.addAttribute(.link, value: "https://github.com/microsoft/fluentui-apple", range: range)

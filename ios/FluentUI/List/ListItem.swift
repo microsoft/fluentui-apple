@@ -47,42 +47,63 @@ public struct ListItem<LeadingContent: View,
         tokenSet.update(fluentTheme)
 
         @ViewBuilder
-        var labelStack: some View {
-            let titleView = Text(title)
-                                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
-                                .font(Font(tokenSet[.titleFont].uiFont))
-                                .frame(minHeight: ListItemTokenSet.titleHeight)
-                                .lineLimit(titleLineLimit)
-                                .truncationMode(titleTruncationMode)
-                                .accessibilityIdentifier(AccessibilityIdentifiers.title)
+        var titleView: some View {
+            Text(title)
+                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
+                .font(Font(tokenSet[.titleFont].uiFont))
+                .frame(minHeight: ListItemTokenSet.titleHeight)
+                .lineLimit(titleLineLimit)
+                .truncationMode(titleTruncationMode)
+                .accessibilityIdentifier(AccessibilityIdentifiers.title)
+        }
+
+        @ViewBuilder
+        var subtitleView: some View {
+            let subtitleView = Text(subtitle)
+                .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
+                .lineLimit(subtitleLineLimit)
+                .truncationMode(subtitleTruncationMode)
+                .accessibilityIdentifier(AccessibilityIdentifiers.subtitle)
 
             switch layoutType {
             case .oneLine:
-                titleView
-            case .twoLines, .threeLines:
-                let subtitleView = Text(subtitle)
-                    .foregroundColor(Color(uiColor: tokenSet[.subtitleColor].uiColor))
-                    .lineLimit(subtitleLineLimit)
-                    .truncationMode(subtitleTruncationMode)
-                    .accessibilityIdentifier(AccessibilityIdentifiers.subtitle)
-                VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
+                // Subtitle is not shown for oneLine
+                EmptyView()
+            case .twoLines:
+                subtitleView
+                    .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
+                    .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
+            case .threeLines:
+                subtitleView
+                    .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
+                    .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
+            }
+        }
+
+        @ViewBuilder
+        var footerView: some View {
+            Text(footer)
+                .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
+                .font(Font(tokenSet[.footerFont].uiFont))
+                .frame(minHeight: ListItemTokenSet.footerHeight)
+                .lineLimit(footerLineLimit)
+                .truncationMode(footerTruncationMode)
+                .accessibilityIdentifier(AccessibilityIdentifiers.footer)
+        }
+
+        @ViewBuilder
+        var labelStack: some View {
+            VStack(alignment: .leading, spacing: ListItemTokenSet.labelVerticalSpacing) {
+                switch layoutType {
+                case .oneLine:
                     titleView
-                    if layoutType == .twoLines {
-                        subtitleView
-                            .font(Font(tokenSet[.subtitleTwoLinesFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.subtitleTwoLineHeight)
-                    } else {
-                        subtitleView
-                            .font(Font(tokenSet[.subtitleThreeLinesFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.subtitleThreeLineHeight)
-                        Text(footer)
-                            .foregroundColor(Color(uiColor: tokenSet[.footerColor].uiColor))
-                            .font(Font(tokenSet[.footerFont].uiFont))
-                            .frame(minHeight: ListItemTokenSet.footerHeight)
-                            .lineLimit(footerLineLimit)
-                            .truncationMode(footerTruncationMode)
-                            .accessibilityIdentifier(AccessibilityIdentifiers.footer)
-                    }
+                case .twoLines:
+                    titleView
+                    subtitleView
+                case .threeLines:
+                    titleView
+                    subtitleView
+                    footerView
                 }
             }
         }
@@ -158,6 +179,7 @@ public struct ListItem<LeadingContent: View,
                 HStack(spacing: 0) {
                     leadingContentView
                     labelStack
+                        .animation(.default, value: layoutType)
                     Spacer(minLength: 0)
                     if combineTrailingContentAccessibilityElement {
                         trailingContentView

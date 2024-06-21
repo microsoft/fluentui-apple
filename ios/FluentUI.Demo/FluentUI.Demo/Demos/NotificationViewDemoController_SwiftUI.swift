@@ -49,6 +49,7 @@ struct NotificationDemoView: View {
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
+    @State var verticalOffset: CGFloat = 0.0
     @ObservedObject var fluentTheme: FluentTheme = .shared
     let customTheme: FluentTheme = {
         let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
@@ -175,7 +176,7 @@ struct NotificationDemoView: View {
                     Alert(title: Text("Button tapped"))
                 })
 
-            Button("Show") {
+            Button("Show Notification") {
                 if isPresented == false {
                     isPresented = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
@@ -183,104 +184,110 @@ struct NotificationDemoView: View {
                     }
                 }
             }
-                .fixedSize()
-                .padding()
+            .buttonStyle(FluentButtonStyle(style: .accent))
+            .fixedSize()
+            .padding()
 
-            ScrollView {
-                Group {
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Content")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-
-                        TextField("Title", text: $title)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                        TextField("Message", text: $message)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                        TextField("Action Button Title", text: $actionButtonTitle)
-                            .autocapitalization(.none)
-                            .disableAutocorrection(true)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                        FluentUIDemoToggle(titleKey: "Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
-                        FluentUIDemoToggle(titleKey: "Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
-                        FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
-                        FluentUIDemoToggle(titleKey: "Set trailing image", isOn: $showTrailingImage)
-                    }
-
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Action")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-                        FluentUIDemoToggle(titleKey: "Has Action Button Action", isOn: $hasActionButtonAction)
-                        FluentUIDemoToggle(titleKey: "Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
-                        FluentUIDemoToggle(titleKey: "Has Message Action", isOn: $hasMessageAction)
-                    }
-
-                    Group {
-                        VStack(spacing: 0) {
-                            Text("Style")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .font(.title)
-                            Divider()
-                        }
-
-                        Picker(selection: $style, label: EmptyView()) {
-                            Text(".primaryToast").tag(MSFNotificationStyle.primaryToast)
-                            Text(".neutralToast").tag(MSFNotificationStyle.neutralToast)
-                            Text(".primaryBar").tag(MSFNotificationStyle.primaryBar)
-                            Text(".primaryOutlineBar").tag(MSFNotificationStyle.primaryOutlineBar)
-                            Text(".neutralBar").tag(MSFNotificationStyle.neutralBar)
-                            Text(".dangerToast").tag(MSFNotificationStyle.dangerToast)
-                            Text(".warningToast").tag(MSFNotificationStyle.warningToast)
-                        }
-                        .labelsHidden()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                        FluentUIDemoToggle(titleKey: "Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
-                        FluentUIDemoToggle(titleKey: "Flexible Width Toast", isOn: $isFlexibleWidthToast)
-                        FluentUIDemoToggle(titleKey: "Present From Bottom", isOn: $showFromBottom)
-                        FluentUIDemoToggle(titleKey: "Background Gradient", isOn: $showBackgroundGradient)
-                        FluentUIDemoToggle(titleKey: "Custom theme", isOn: $useCustomTheme)
-                    }
-                }
-                .padding()
-            }
+            notificationSettings
         }
         .presentNotification(isPresented: $isPresented,
                              isBlocking: false) {
             FluentNotification(style: style,
-                             isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
-                             message: hasMessage ? message : nil,
-                             attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                             isPresented: $isPresented,
-                             title: hasTitle ? title : nil,
-                             attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                             image: image,
-                             trailingImage: trailingImage,
-                             trailingImageAccessibilityLabel: trailingImageLabel,
-                             actionButtonTitle: actionButtonTitle,
-                             actionButtonAction: actionButtonAction,
-                             showDefaultDismissActionButton: showDefaultDismissActionButton,
-                             messageButtonAction: messageButtonAction,
-                             showFromBottom: showFromBottom)
+                               isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                               message: hasMessage ? message : nil,
+                               attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                               isPresented: $isPresented,
+                               title: hasTitle ? title : nil,
+                               attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
+                               image: image,
+                               trailingImage: trailingImage,
+                               trailingImageAccessibilityLabel: trailingImageLabel,
+                               actionButtonTitle: actionButtonTitle,
+                               actionButtonAction: actionButtonAction,
+                               showDefaultDismissActionButton: showDefaultDismissActionButton,
+                               messageButtonAction: messageButtonAction,
+                               showFromBottom: showFromBottom,
+                               verticalOffset: verticalOffset)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
         .fluentTheme(theme)
         .tint(Color(theme.color(.brandForeground1)))
+    }
+
+    @ViewBuilder
+    var notificationSettings: some View {
+        FluentList {
+            FluentListSection("Content") {
+                LabeledContent {
+                    TextField("Title", text: $title)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .multilineTextAlignment(.trailing)
+                } label: {
+                    Text("Title")
+                }
+
+                LabeledContent {
+                    TextField("Message", text: $message)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .multilineTextAlignment(.trailing)
+                } label: {
+                    Text("Message")
+                }
+
+                LabeledContent {
+                    TextField("Action Button Title", text: $actionButtonTitle)
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
+                        .multilineTextAlignment(.trailing)
+                } label: {
+                    Text("Action Button Title")
+                }
+
+                LabeledContent {
+                    TextField("Offset", value: $verticalOffset, format: FloatingPointFormatStyle())
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
+                } label: {
+                    Text("Vertical Offset")
+                }
+
+                Toggle("Has Attributed Text: Strikethrough", isOn: $hasBlueStrikethroughAttribute)
+                Toggle("Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
+                Toggle("Set image", isOn: $showImage)
+                Toggle("Set trailing image", isOn: $showTrailingImage)
+            }
+
+            FluentListSection("Action") {
+                Toggle("Has Action Button Action", isOn: $hasActionButtonAction)
+                Toggle("Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
+                Toggle("Has Message Action", isOn: $hasMessageAction)
+            }
+
+            FluentListSection("Style") {
+
+                Picker(selection: $style, label: EmptyView()) {
+                    Text(".primaryToast").tag(MSFNotificationStyle.primaryToast)
+                    Text(".neutralToast").tag(MSFNotificationStyle.neutralToast)
+                    Text(".primaryBar").tag(MSFNotificationStyle.primaryBar)
+                    Text(".primaryOutlineBar").tag(MSFNotificationStyle.primaryOutlineBar)
+                    Text(".neutralBar").tag(MSFNotificationStyle.neutralBar)
+                    Text(".dangerToast").tag(MSFNotificationStyle.dangerToast)
+                    Text(".warningToast").tag(MSFNotificationStyle.warningToast)
+                }
+                .labelsHidden()
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+                Toggle("Override Tokens (Image Color and Horizontal Spacing)", isOn: $overrideTokens)
+                Toggle("Flexible Width Toast", isOn: $isFlexibleWidthToast)
+                Toggle("Present From Bottom", isOn: $showFromBottom)
+                Toggle("Background Gradient", isOn: $showBackgroundGradient)
+                Toggle("Custom theme", isOn: $useCustomTheme)
+            }
+        }
+        .fluentListStyle(.insetGrouped)
     }
 
     private var backgroundGradient: LinearGradientInfo {
