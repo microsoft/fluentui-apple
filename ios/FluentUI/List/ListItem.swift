@@ -127,7 +127,7 @@ public struct ListItem<LeadingContent: View,
                         }
 #if os(visionOS)
                         .buttonStyle(.bordered)
-                        .clipShape(Circle())
+                        .buttonBorderShape(.circle)
 #else
                         .buttonStyle(.plain)
 #endif
