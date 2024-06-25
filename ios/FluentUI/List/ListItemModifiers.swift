@@ -65,8 +65,8 @@ public extension ListItem {
     /// - Parameter size: The size the leading content should be.
     /// - Returns: The modified `ListItem` with the property set.
     func leadingContentSize(_ size: ListItemLeadingContentSize) -> ListItem {
-        let listItem = self
-        listItem.state.leadingContentSize = size
+        var listItem = self
+        listItem.leadingContentSize = size
         return listItem
     }
 

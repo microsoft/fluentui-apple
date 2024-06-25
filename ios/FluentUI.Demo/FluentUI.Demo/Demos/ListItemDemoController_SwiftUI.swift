@@ -148,61 +148,66 @@ struct ListItemDemoView: View {
                 .resizable()
         }
 
+        func overridenListItem() -> some View {
+            var listItem = ListItem(title: title,
+                                    subtitle: showSubtitle ? subtitle : "",
+                                    footer: showFooter ? footer : "",
+                                    leadingContent: {
+                                        if showLeadingContent {
+                                            leadingContent
+                                        }
+                                    },
+                                    trailingContent: {
+                                        if showTrailingContent {
+                                            switch trailingContentFocusableElementCount {
+                                            case 0:
+                                                Text("Spreadsheet")
+                                            case 1:
+                                                Toggle("", isOn: $trailingContentToggleEnabled)
+                                            default:
+                                                HStack {
+                                                    Button {
+                                                        showingSecondaryAlert = true
+                                                    } label: {
+                                                        Text("Button 1")
+                                                    }
+                                                    Button {
+                                                        showingSecondaryAlert = true
+                                                    } label: {
+                                                        Text("Button 2")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    action: !isTappable ? nil : {
+                                        showingPrimaryAlert = true
+                                    })
+                .backgroundStyleType(backgroundStyle)
+                .accessoryType(accessoryType)
+                .leadingContentSize(leadingContentSize)
+                .titleLineLimit(titleLineLimit)
+                .subtitleLineLimit(subtitleLineLimit)
+                .footerLineLimit(footerLineLimit)
+                .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
+                .onAccessoryTapped {
+                    showingSecondaryAlert = true
+                }
+            listItem
+                .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
+            return listItem
+        }
+
         @ViewBuilder
         var listItem: some View {
-            ListItem(title: title,
-                     subtitle: showSubtitle ? subtitle : "",
-                     footer: showFooter ? footer : "",
-                     leadingContent: {
-                         if showLeadingContent {
-                             leadingContent
-                         }
-                     },
-                     trailingContent: {
-                        if showTrailingContent {
-                             switch trailingContentFocusableElementCount {
-                             case 0:
-                                 Text("Spreadsheet")
-                             case 1:
-                                 Toggle("", isOn: $trailingContentToggleEnabled)
-                             default:
-                                 HStack {
-                                     Button {
-                                         showingSecondaryAlert = true
-                                     } label: {
-                                         Text("Button 1")
-                                     }
-                                     Button {
-                                         showingSecondaryAlert = true
-                                     } label: {
-                                         Text("Button 2")
-                                     }
-                                 }
-                             }
-                         }
-                     },
-                     action: !isTappable ? nil : {
-                         showingPrimaryAlert = true
-                     }
-            )
-            .backgroundStyleType(backgroundStyle)
-            .accessoryType(accessoryType)
-            .leadingContentSize(leadingContentSize)
-            .overrideTokens($overrideTokens.wrappedValue ? listItemOverrideTokens : nil)
-            .titleLineLimit(titleLineLimit)
-            .subtitleLineLimit(subtitleLineLimit)
-            .footerLineLimit(footerLineLimit)
-            .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-            .onAccessoryTapped {
-                showingSecondaryAlert = true
-            }
-            .disabled(isDisabled)
-            .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
-                Button("OK", role: .cancel) { }
-            }
-            .alert("Detail button tapped", isPresented: $showingSecondaryAlert) {
-                Button("OK", role: .cancel) { }
-            }
+            overridenListItem()
+                .disabled(isDisabled)
+                .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .alert("Detail button tapped", isPresented: $showingSecondaryAlert) {
+                    Button("OK", role: .cancel) { }
+                }
         }
 
         @ViewBuilder
@@ -227,18 +232,18 @@ struct ListItemDemoView: View {
         return content
     }
 
-    private var listItemOverrideTokens: [ListItem.TokenSetKeyType: ControlTokenValue] {
+    private var listItemTokenOverrides: [ListItemToken: ControlTokenValue] {
         return [
             .titleColor: .uiColor {
-                return GlobalTokens.sharedColor(.red, .primary)
+                GlobalTokens.sharedColor(.red, .primary)
             },
             .cellBackgroundGroupedColor: .uiColor {
-                return UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
-                               dark: GlobalTokens.sharedColor(.brass, .shade40))
+                UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
+                        dark: GlobalTokens.sharedColor(.brass, .shade40))
             },
             .accessoryDisclosureIndicatorColor: .uiColor {
-                return UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
-                               dark: GlobalTokens.sharedColor(.forest, .shade40))
+                UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
+                        dark: GlobalTokens.sharedColor(.forest, .shade40))
             }
         ]
     }
