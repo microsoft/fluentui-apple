@@ -320,7 +320,7 @@ public struct ListItem<LeadingContent: View,
         return styleType
     }
 
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
     /// The style of the parent `FluentList`.
     @Environment(\.listStyle) private var listStyle: FluentListStyle
