@@ -35,16 +35,17 @@ struct ListItemDemoView: View {
     @State var showTrailingContent: Bool = true
     @State var isTappable: Bool = true
     @State var isDisabled: Bool = false
+    @State var renderStandalone: Bool = false
+    @State var overrideTokens: Bool = false
     @State var accessoryType: ListItemAccessoryType = .none
     @State var leadingContentSize: ListItemLeadingContentSize = .default
     @State var backgroundStyle: ListItemBackgroundStyleType = .grouped
+    @State var listStyle: FluentListStyle = .plain
     @State var titleLineLimit: Int = 1
     @State var subtitleLineLimit: Int = 1
     @State var footerLineLimit: Int = 1
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
-    @State var renderStandalone: Bool = false
-    @State var listStyle: FluentListStyle = .plain
 
     public var body: some View {
 
@@ -80,6 +81,7 @@ struct ListItemDemoView: View {
             FluentUIDemoToggle(titleKey: "Tappable", isOn: $isTappable)
             FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
             FluentUIDemoToggle(titleKey: "Render standalone", isOn: $renderStandalone)
+            FluentUIDemoToggle(titleKey: "Override tokens", isOn: $overrideTokens)
         }
 
         @ViewBuilder
@@ -148,58 +150,59 @@ struct ListItemDemoView: View {
 
         @ViewBuilder
         var listItem: some View {
-            ListItem(title: title,
-                     subtitle: showSubtitle ? subtitle : "",
-                     footer: showFooter ? footer : "",
-                     leadingContent: {
-                         if showLeadingContent {
-                             leadingContent
-                         }
-                     },
-                     trailingContent: {
-                        if showTrailingContent {
-                             switch trailingContentFocusableElementCount {
-                             case 0:
-                                 Text("Spreadsheet")
-                             case 1:
-                                 Toggle("", isOn: $trailingContentToggleEnabled)
-                             default:
-                                 HStack {
-                                     Button {
-                                         showingSecondaryAlert = true
-                                     } label: {
-                                         Text("Button 1")
-                                     }
-                                     Button {
-                                         showingSecondaryAlert = true
-                                     } label: {
-                                         Text("Button 2")
-                                     }
-                                 }
-                             }
-                         }
-                     },
-                     action: !isTappable ? nil : {
-                         showingPrimaryAlert = true
-                     }
-            )
-            .backgroundStyleType(backgroundStyle)
-            .accessoryType(accessoryType)
-            .leadingContentSize(leadingContentSize)
-            .titleLineLimit(titleLineLimit)
-            .subtitleLineLimit(subtitleLineLimit)
-            .footerLineLimit(footerLineLimit)
-            .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-            .onAccessoryTapped {
-                showingSecondaryAlert = true
-            }
-            .disabled(isDisabled)
-            .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
-                Button("OK", role: .cancel) { }
-            }
-            .alert("Detail button tapped", isPresented: $showingSecondaryAlert) {
-                Button("OK", role: .cancel) { }
-            }
+            var listItem = ListItem(title: title,
+                                    subtitle: showSubtitle ? subtitle : "",
+                                    footer: showFooter ? footer : "",
+                                    leadingContent: {
+                                        if showLeadingContent {
+                                            leadingContent
+                                        }
+                                    },
+                                    trailingContent: {
+                                        if showTrailingContent {
+                                            switch trailingContentFocusableElementCount {
+                                            case 0:
+                                                Text("Spreadsheet")
+                                            case 1:
+                                                Toggle("", isOn: $trailingContentToggleEnabled)
+                                            default:
+                                                HStack {
+                                                    Button {
+                                                        showingSecondaryAlert = true
+                                                    } label: {
+                                                        Text("Button 1")
+                                                    }
+                                                    Button {
+                                                        showingSecondaryAlert = true
+                                                    } label: {
+                                                        Text("Button 2")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    action: !isTappable ? nil : {
+                                        showingPrimaryAlert = true
+                                    })
+                .backgroundStyleType(backgroundStyle)
+                .accessoryType(accessoryType)
+                .leadingContentSize(leadingContentSize)
+                .titleLineLimit(titleLineLimit)
+                .subtitleLineLimit(subtitleLineLimit)
+                .footerLineLimit(footerLineLimit)
+                .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
+                .onAccessoryTapped {
+                    showingSecondaryAlert = true
+                }
+            listItem
+                .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
+                .disabled(isDisabled)
+                .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+                .alert("Detail button tapped", isPresented: $showingSecondaryAlert) {
+                    Button("OK", role: .cancel) { }
+                }
         }
 
         @ViewBuilder
@@ -222,6 +225,22 @@ struct ListItemDemoView: View {
         }
 
         return content
+    }
+
+    private var listItemTokenOverrides: [ListItemToken: ControlTokenValue] {
+        return [
+            .titleColor: .uiColor {
+                GlobalTokens.sharedColor(.red, .primary)
+            },
+            .cellBackgroundGroupedColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.brass, .tint50),
+                        dark: GlobalTokens.sharedColor(.brass, .shade40))
+            },
+            .accessoryDisclosureIndicatorColor: .uiColor {
+                UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
+                        dark: GlobalTokens.sharedColor(.forest, .shade40))
+            }
+        ]
     }
 }
 

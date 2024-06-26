@@ -64,7 +64,7 @@ public extension ListItem {
     /// - Returns: The modified `ListItem` with the property set.
     func leadingContentSize(_ size: ListItemLeadingContentSize) -> ListItem {
         var listItem = self
-        listItem.tokenSet = ListItemTokenSet(customViewSize: { size })
+        listItem.leadingContentSize = size
         return listItem
     }
 
