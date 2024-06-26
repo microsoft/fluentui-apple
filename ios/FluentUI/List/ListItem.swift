@@ -436,7 +436,7 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
 
 public extension ListItem {
     /// Provide override values for various `ListItem` values.
-    mutating func overrideTokens(_ overrides: [ListItemToken: ControlTokenValue]) -> some View {
+    mutating func overrideTokens(_ overrides: [ListItemToken: ControlTokenValue]) -> Self {
         tokenOverrides = overrides
         return self
     }
