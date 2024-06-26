@@ -148,7 +148,7 @@ struct ListItemDemoView: View {
                 .resizable()
         }
 
-        func overridenListItem() -> some View {
+        func listItem() -> some View {
             var listItem = ListItem(title: title,
                                     subtitle: showSubtitle ? subtitle : "",
                                     footer: showFooter ? footer : "",
@@ -193,14 +193,8 @@ struct ListItemDemoView: View {
                 .onAccessoryTapped {
                     showingSecondaryAlert = true
                 }
-            listItem
-                .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
             return listItem
-        }
-
-        @ViewBuilder
-        var listItem: some View {
-            overridenListItem()
+                .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
                 .disabled(isDisabled)
                 .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
                     Button("OK", role: .cancel) { }
@@ -214,12 +208,12 @@ struct ListItemDemoView: View {
         var content: some View {
             VStack {
                 if renderStandalone {
-                    listItem
+                    listItem()
                 }
                 FluentList {
                     if !renderStandalone {
                         FluentListSection("ListItem") {
-                            listItem
+                            listItem()
                         }
                     }
                     controls
