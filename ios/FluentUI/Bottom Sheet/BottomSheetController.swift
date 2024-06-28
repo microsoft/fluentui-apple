@@ -24,7 +24,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     /// External changes to `isExpanded` or `isHidden` will not trigger this callback.
     /// - Parameters:
     ///   - bottomSheetController: The caller object.
-    ///   - expansionState: The expansion state that the sheet will moved to.
+    ///   - expansionState: The expansion state that the sheet will move to.
     ///   - interaction: The user interaction that caused the state change.
     @objc optional func bottomSheetController(_ bottomSheetController: BottomSheetController,
                                               willMoveTo expansionState: BottomSheetExpansionState,
@@ -917,7 +917,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         completeAnimationsIfNeeded()
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
-            self.delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
+            delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
 
             let animator = stateChangeAnimator(to: targetExpansionState,
                                                velocity: velocity,
