@@ -21,7 +21,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 
     /// Called before a transition to a new expansion state starts.
     ///
-    /// External changes to`isExpanded` or `isHidden` will not trigger this callback.
+    /// External changes to `isExpanded` or `isHidden` will not trigger this callback.
     /// - Parameters:
     ///   - bottomSheetController: The caller object.
     ///   - expansionState: The expansion state that the sheet will moved to.
