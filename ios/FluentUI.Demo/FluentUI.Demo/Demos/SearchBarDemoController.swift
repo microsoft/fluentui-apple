@@ -10,7 +10,6 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     private struct Constants {
         static let badgeViewCornerRadius: CGFloat = 10
         static let badgeViewSideLength: CGFloat = 20
-        static let badgeViewMaxFontSize: CGFloat = 40
         static let searchBarStackviewMargin: CGFloat = 16
     }
 
@@ -110,7 +109,7 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         badge.tokenSet[.backgroundDisabledColor] = .uiColor { .init(light: GlobalTokens.sharedColor(.purple, .primary)) }
         badge.tokenSet[.foregroundDisabledColor] = .uiColor { .init(light: GlobalTokens.neutralColor(.white)) }
         badge.isActive = false
-        badge.maxFontSize = Constants.badgeViewMaxFontSize
+        badge.showsLargeContentViewer = true
         return badge
     }
 

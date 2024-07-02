@@ -94,6 +94,8 @@ open class SearchBar: UIView, TokenizedControlInternal {
         textField.accessibilityTraits = .searchField
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
         textField.showsLargeContentViewer = true
+        textField.adjustsFontForContentSizeCategory = true
+
         if #available(iOS 17, *) {
             textField.hoverStyle = nil
         }
@@ -124,6 +126,11 @@ open class SearchBar: UIView, TokenizedControlInternal {
         clearButton.addTarget(self, action: #selector(SearchBar.clearButtonTapped(sender:)), for: .touchUpInside)
         clearButton.setImage(UIImage.staticImageNamed("search-clear"), for: .normal)
         clearButton.isHidden = true
+        clearButton.showsLargeContentViewer = true
+
+        let clearLabel = "Accessibility.TextField.ClearText".localized
+        clearButton.accessibilityLabel = clearLabel
+        clearButton.largeContentTitle = clearLabel
 
         clearButton.isPointerInteractionEnabled = true
         clearButton.pointerStyleProvider = { button, _, _ in
@@ -280,6 +287,10 @@ open class SearchBar: UIView, TokenizedControlInternal {
     private func setupLayout() {
         addInteraction(UILargeContentViewerInteraction())
 
+        // Search bar has fixed height, so this is the largest size category we can handle while still being usable.
+        // The larger edge cases are covered by large content viewer.
+        maximumContentSizeCategory = .accessibilityMedium
+
         // Autolayout is more efficent if all constraints are activated simultaneously
         var constraints = [NSLayoutConstraint]()
 
@@ -317,10 +328,24 @@ open class SearchBar: UIView, TokenizedControlInternal {
         searchTextFieldBackgroundView.addSubview(searchTextField)
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
 
-        constraints.append(searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor))
-        constraints.append(searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * SearchBarTokenSet.searchTextFieldVerticalInset))
-        constraints.append(searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: SearchBarTokenSet.searchTextFieldLeadingInset))
-        textFieldLeadingConstraint = constraints.last
+        // This lets leadingView squeeze the searchTextField when needed.
+        searchTextField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        // This imposes a limit on how much the leadingView can squeeze the input field
+        let searchTextFieldMinWidthConstraint = searchTextField.widthAnchor.constraint(greaterThanOrEqualToConstant: SearchBarTokenSet.searchTextFieldInteractionMinWidth)
+
+        // The min width is important, but we don't want to override other constraints the parent may impose on us.
+        searchTextFieldMinWidthConstraint.priority = .defaultHigh
+
+        let searchTextFieldLeadingConstraint = searchTextField.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: SearchBarTokenSet.searchTextFieldLeadingInset)
+        textFieldLeadingConstraint = searchTextFieldLeadingConstraint
+
+        constraints.append(contentsOf: [
+            searchTextField.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor),
+            searchTextField.heightAnchor.constraint(equalTo: searchTextFieldBackgroundView.heightAnchor, constant: -2 * SearchBarTokenSet.searchTextFieldVerticalInset),
+            searchTextFieldLeadingConstraint,
+            searchTextFieldMinWidthConstraint
+        ])
 
         // progressSpinner
         let progressSpinnerView = progressSpinner
@@ -363,18 +388,14 @@ open class SearchBar: UIView, TokenizedControlInternal {
         }
 
         searchTextFieldBackgroundView.addSubview(leadingView)
-
-        let leadingViewRenderWidth = searchTextFieldBackgroundView.frame.size.width - SearchBarTokenSet.searchIconInsettedWidth - SearchBarTokenSet.searchTextFieldLeadingInset - SearchBarTokenSet.searchTextFieldInteractionMinWidth - SearchBarTokenSet.clearButtonInsettedWidth
-        let leadingViewRenderSize = CGSize(width: leadingViewRenderWidth, height: searchTextFieldBackgroundView.frame.size.height)
-        let leadingViewSize = leadingView.sizeThatFits(leadingViewRenderSize)
+        leadingView.setContentHuggingPriority(.required, for: .horizontal)
         leadingView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
+            leadingView.heightAnchor.constraint(lessThanOrEqualToConstant: SearchBarTokenSet.searchTextFieldBackgroundHeight),
             leadingView.leadingAnchor.constraint(equalTo: searchIconImageViewContainerView.trailingAnchor, constant: SearchBarTokenSet.searchIconInset),
             leadingView.trailingAnchor.constraint(equalTo: searchTextField.leadingAnchor, constant: -SearchBarTokenSet.searchTextFieldLeadingInset),
-            leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor),
-            leadingView.widthAnchor.constraint(equalToConstant: leadingViewSize.width),
-            leadingView.heightAnchor.constraint(equalToConstant: leadingViewSize.height)
+            leadingView.centerYAnchor.constraint(equalTo: searchTextFieldBackgroundView.centerYAnchor)
         ])
     }
 
