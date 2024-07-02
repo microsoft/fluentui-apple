@@ -1228,8 +1228,6 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         setupBackgroundColors()
 
-        // hide system separator so we can draw our own. We prefer the container UITableView to set separatorStyle = .none
-        separatorInset = UIEdgeInsets(top: 0, left: CGFloat.greatestFiniteMagnitude, bottom: 0, right: 0)
         updateSeparator(topSeparator, with: topSeparatorType)
         updateSeparator(bottomSeparator, with: bottomSeparatorType)
 
@@ -1436,6 +1434,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
 
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
+
+        // A hacky way to hide the system separator by squeezing it just enough to have zero width.
+        // This is the only known way to hide the separator without making the UITableView do it for us.
+        let boundsWidth = bounds.width
+        if separatorInset.left != boundsWidth || separatorInset.right != 0 {
+            separatorInset.left = boundsWidth
+            separatorInset.right = 0
+        }
 
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
         layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
