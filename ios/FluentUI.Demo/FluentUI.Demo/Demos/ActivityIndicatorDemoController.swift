@@ -47,15 +47,16 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 self?.shouldHideWhenStopped = cell?.isOn ?? true
             }
             return cell
-        case .startStopActivity:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActionsCell.identifier) as? ActionsCell else {
+        case .isAnimating:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
             }
 
-            cell.setup(action1Title: row.title)
-            cell.action1Button.addTarget(self,
-                                         action: #selector(startStopActivity),
-                                         for: .touchUpInside)
+            cell.setup(title: row.title, isOn: self.isAnimating)
+            cell.titleNumberOfLines = 0
+            cell.onValueChanged = { [weak self, weak cell] in
+                self?.isAnimating = cell?.isOn ?? true
+            }
             cell.bottomSeparatorType = .full
             return cell
         case .swiftUIDemo:
@@ -181,7 +182,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
     private enum ActivityIndicatorDemoRow: CaseIterable {
         case swiftUIDemo
         case hidesWhenStopped
-        case startStopActivity
+        case isAnimating
         case demoOfSize
 
         var title: String {
@@ -190,8 +191,8 @@ class ActivityIndicatorDemoController: DemoTableViewController {
                 return "SwiftUI Demo"
             case .hidesWhenStopped:
                 return "Hides when stopped"
-            case .startStopActivity:
-                return "Start / Stop activity"
+            case .isAnimating:
+                return "Animating"
             case .demoOfSize:
                 return ""
             }
@@ -222,7 +223,7 @@ class ActivityIndicatorDemoController: DemoTableViewController {
             case .swiftUI:
                 return [.swiftUIDemo]
             case .settings:
-                return [.hidesWhenStopped, .startStopActivity]
+                return [.hidesWhenStopped, .isAnimating]
             case .defaultColor, .customColor:
                 return [ActivityIndicatorDemoRow](repeating: .demoOfSize,
                                                   count: MSFActivityIndicatorSize.allCases.count)
@@ -232,10 +233,6 @@ class ActivityIndicatorDemoController: DemoTableViewController {
     }
 
     private let xLargeSize: CGFloat = 36
-
-    @objc private func startStopActivity() {
-        isAnimating.toggle()
-    }
 }
 
 extension MSFActivityIndicatorSize {
