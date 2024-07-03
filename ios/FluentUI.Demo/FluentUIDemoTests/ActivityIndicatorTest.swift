@@ -22,17 +22,17 @@ class ActivityIndicatorTest: BaseTest {
 
     // tests start/stop functionality as well as hiding (activity indicator should disappear when stopped)
     func testStartStopHide() throws {
-        let startStopButton: XCUIElement = app.cells.containing(.staticText, identifier: "Animating").firstMatch
+        let activityButton: XCUIElement = app.cells.containing(.staticText, identifier: "Animating").firstMatch
         let hidesWhenStoppedButton: XCUIElement = app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch
 
         XCTAssert(activityIndicatorExists(status: inProgress))
-        startStopButton.tap()
+        activityButton.tap()
         XCTAssert(!activityIndicatorExists(status: inProgress))
 
         hidesWhenStoppedButton.tap()
         XCTAssert(activityIndicatorExists(status: progressHalted))
 
-        startStopButton.tap()
+        activityButton.tap()
         XCTAssert(activityIndicatorExists(status: inProgress))
     }
 
