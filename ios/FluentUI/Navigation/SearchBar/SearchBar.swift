@@ -151,6 +151,7 @@ open class SearchBar: UIView, TokenizedControlInternal {
         button.addTarget(self, action: #selector(SearchBar.cancelButtonTapped(sender:)), for: .touchUpInside)
         button.alpha = 0.0
         button.showsLargeContentViewer = true
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.isPointerInteractionEnabled = true
         if #available(iOS 17, *) {
             button.hoverStyle = UIHoverStyle(shape: .capsule)
