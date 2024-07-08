@@ -125,8 +125,6 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         addSubview(topSeparator)
         addSubview(bottomSeparator)
 
-        // hide system separator so we can draw our own. We prefer the container UITableView to set separatorStyle = .none
-        separatorInset = UIEdgeInsets(top: 0, left: CGFloat.greatestFiniteMagnitude, bottom: 0, right: 0)
         updateHorizontalSeparator(topSeparator, with: topSeparatorType)
         updateHorizontalSeparator(bottomSeparator, with: bottomSeparatorType)
         setupBackgroundColors()
@@ -184,6 +182,14 @@ open class ActionsCell: UITableViewCell, TokenizedControlInternal {
         if actionCount > 1 {
             action2Button.frame = CGRect(x: left, y: 0, width: frame.width - left, height: frame.height)
             verticalSeparator.frame = CGRect(x: left, y: 0, width: verticalSeparator.frame.width, height: frame.height)
+        }
+
+        // A hacky way to hide the system separator by squeezing it just enough to have zero width.
+        // This is the only known way to hide the separator without making the UITableView do it for us.
+        let boundsWidth = bounds.width
+        if separatorInset.left != boundsWidth || separatorInset.right != 0 {
+            separatorInset.left = boundsWidth
+            separatorInset.right = 0
         }
 
         layoutHorizontalSeparator(topSeparator, with: topSeparatorType, at: 0)
