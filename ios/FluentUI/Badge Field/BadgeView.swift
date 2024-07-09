@@ -254,7 +254,9 @@ open class BadgeView: UIView, TokenizedControlInternal {
     }
 
     func reload() {
-        label.text = dataSource?.text
+        let text = dataSource?.text
+        label.text = text
+        largeContentTitle = text
         style = dataSource?.style ?? .default
         sizeCategory = dataSource?.sizeCategory ?? .medium
 
