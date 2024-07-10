@@ -37,7 +37,8 @@ class MultilineCommandBarDemoController: DemoController {
                 return CommandBarItem(iconImage: nil, title: command.title, titleFont: command.titleFont)
             default:
                 return CommandBarItem(
-                    iconImage: command.iconImage
+                    iconImage: command.iconImage,
+                    accessibilityLabel: command.rawValue
                 )
             }
         }
@@ -66,7 +67,7 @@ class MultilineCommandBarDemoController: DemoController {
         return MultilineCommandBar(compactRows: compactRows, regularRows: regularRows)
     }()
 
-    enum Command: CaseIterable {
+    enum Command: String, CaseIterable {
         case heading1
         case heading2
         case heading3
