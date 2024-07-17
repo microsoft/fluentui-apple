@@ -46,8 +46,7 @@ class BottomCommandingDemoController: DemoController {
 
     private lazy var heroItems: [CommandingItem] = {
         return Array(1...25).map {
-            let title = ($0 == 4) ? "Two line item" : "Item"
-            let item = CommandingItem(title: title + String($0), image: homeImage, action: commandAction)
+            let item = CommandingItem(title: "Item " + String($0), image: homeImage, action: commandAction)
             item.selectedImage = homeSelectedImage
             item.isOn = ($0 % 3 == 1)
             item.isEnabled = ($0 % 2 == 1)
