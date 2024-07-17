@@ -920,7 +920,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         bottomSheetController.isExpandable = isExpandable
 
         let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
-        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.handleHeaderHeight + maxHeroItemHeight
+        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.headerTopMargin + maxHeroItemHeight
 
         // How much more whitespace is required at the bottom of the sheet header
         let requiredBottomWhitespace = max(0, Constants.BottomSheet.headerHeight - headerHeightWithoutBottomWhitespace)
@@ -933,7 +933,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let addedHeaderTopMargin = !isExpandable
             ? BottomSheetController.resizingHandleHeight
             : 0
-        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.handleHeaderHeight + addedHeaderTopMargin
+        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.headerTopMargin + addedHeaderTopMargin
 
         let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
         let newCollapsedContentHeight = headerHeightWithoutBottomWhitespace + reducedBottomWhitespace + addedHeaderTopMargin
