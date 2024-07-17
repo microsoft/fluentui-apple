@@ -1437,6 +1437,14 @@ open class TableViewCell: UITableViewCell, TokenizedControlInternal {
         layoutContentSubviews()
         contentView.flipSubviewsForRTL()
 
+        // A hacky way to hide the system separator by squeezing it just enough to have zero width.
+        // This is the only known way to hide the separator without making the UITableView do it for us.
+        let boundsWidth = bounds.width
+        let targetSystemSeparatorInset = UIEdgeInsets(top: 0, left: boundsWidth, bottom: 0, right: 0)
+        if separatorInset.left < boundsWidth {
+            separatorInset = targetSystemSeparatorInset
+        }
+
         layoutSeparator(topSeparator, with: topSeparatorType, at: 0)
         layoutSeparator(bottomSeparator, with: bottomSeparatorType, at: frame.height - bottomSeparator.frame.height)
     }
