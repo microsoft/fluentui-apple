@@ -454,7 +454,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     private func updateTitleViewFont() {
         if let window = window {
             let titleFont = tokenSet[.textFont].uiFont
-            if !isUsingAttributedTitle {
+            if !hasOverriddenAttributedFont {
                 titleView.font = titleFont
             }
 
@@ -479,8 +479,10 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             backgroundView?.backgroundColor = .clear
         }
 
-        if !isUsingAttributedTitle {
+        if !hasOverriddenAttributedForegroundColor {
             titleView.textColor = tokenSet[.textColor].uiColor
+        }
+        if !hasOverriddenAttributedFont {
             titleView.font = tokenSet[.textFont].uiFont
         }
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
@@ -522,13 +524,25 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         onHeaderViewTapped?()
     }
 
-    private var attributedTitle: NSAttributedString? {
-        didSet {
-            isUsingAttributedTitle = attributedTitle != nil
+    private var attributedTitle: NSAttributedString?
+
+    private var hasOverriddenAttributedForegroundColor: Bool {
+        if let attributes = attributedTitle?.attributes(at: 0, effectiveRange: nil) {
+            return attributes.contains(where: { attr in
+                attr.key == NSAttributedString.Key.foregroundColor
+            })
         }
+        return false
     }
 
-    private var isUsingAttributedTitle: Bool = false
+    private var hasOverriddenAttributedFont: Bool {
+        if let attributes = attributedTitle?.attributes(at: 0, effectiveRange: nil) {
+            return attributes.contains(where: { attr in
+                attr.key == NSAttributedString.Key.font
+            })
+        }
+        return false
+    }
 }
 
 // MARK: - TableViewHeaderFooterView: UITextViewDelegate
