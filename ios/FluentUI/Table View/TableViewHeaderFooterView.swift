@@ -456,6 +456,8 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
             let titleFont = tokenSet[.textFont].uiFont
             if !isUsingAttributedTitle {
                 titleView.font = titleFont
+            } else {
+                updateAttributedTitleWithDefaultFluentThemeAttributes()
             }
 
             // offset text container to center its content
@@ -482,8 +484,25 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         if !isUsingAttributedTitle {
             titleView.textColor = tokenSet[.textColor].uiColor
             titleView.font = tokenSet[.textFont].uiFont
+        } else {
+            updateAttributedTitleWithDefaultFluentThemeAttributes()
         }
         titleView.linkColor = tokenSet[.linkTextColor].uiColor
+    }
+
+    private func updateAttributedTitleWithDefaultFluentThemeAttributes() {
+        if let attributedTitle = self.attributedTitle {
+            /// Create an attributed string with the default fluent text color and font for the given style
+            let attributedTitleWithFluentTheme = NSMutableAttributedString(string: attributedTitle.string, attributes: [NSAttributedString.Key.foregroundColor: tokenSet[.textColor].uiColor, NSAttributedString.Key.font: tokenSet[.textFont].uiFont])
+
+            /// Iterate over the attributes set by the consumer and apply them to our attributed string
+            attributedTitle.enumerateAttributes(in: NSRange(location: 0, length: attributedTitle.length)) { attributes, range, _ in
+                attributedTitleWithFluentTheme.addAttributes(attributes, range: range)
+            }
+
+            /// Update the `titleView` attributed string
+            titleView.attributedText = attributedTitleWithFluentTheme
+        }
     }
 
     private func updateLeadingViewColor() {
