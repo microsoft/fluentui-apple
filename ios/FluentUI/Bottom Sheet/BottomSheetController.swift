@@ -32,6 +32,13 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 
     /// Called when `collapsedHeightInSafeArea` changes.
     @objc optional func bottomSheetControllerCollapsedHeightInSafeAreaDidChange(_ bottomSheetController: BottomSheetController)
+
+    /// Called when the user initiates the pan gesture
+    ///
+    ///    - Parameters:
+    ///    - bottomSheetController: The caller object.
+    ///    - expansionState: The expansion state that the sheet moved from
+    @objc optional func bottomSheetStartedPan(_ bottomSheetController: BottomSheetController, from expansionState: BottomSheetExpansionState)
 }
 
 /// Interactions that can trigger a state change.
@@ -765,6 +772,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         switch sender.state {
         case .began:
             completeAnimationsIfNeeded()
+            delegate?.bottomSheetStartedPan?(self, from: currentExpansionState)
             currentExpansionState = .transitioning
             fallthrough
         case .changed:
