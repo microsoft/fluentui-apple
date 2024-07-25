@@ -491,7 +491,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     }
 
     private func updateAttributedTitleWithDefaultFluentThemeAttributes() {
-        if let attributedTitle = self.attributedTitle as? NSMutableAttributedString {
+        if let attributedTitle = self.attributedTitle {
             /// Create an attributed string with the default fluent text color and font for the given style
             let attributedTitleWithFluentTheme = NSMutableAttributedString(string: attributedTitle.string, attributes: [NSAttributedString.Key.foregroundColor: tokenSet[.textColor].uiColor, NSAttributedString.Key.font: tokenSet[.textFont].uiFont])
 
