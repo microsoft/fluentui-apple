@@ -740,6 +740,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 targetAlpha = abs(currentOffset - lowestUndimmedOffset) / (lowestUndimmedOffset - highestDimmedOffset)
             }
         }
+
+        if currentExpansionState != .transitioning {
+            // In the case that there has been a floating point precision error and
+            // targetAlpha is a value very close to 0 or 1, set it explicitly
+            if targetAlpha != 0 || targetAlpha != 1 {
+                targetAlpha = currentExpansionState == .expanded ? 1 : 0
+            }
+        }
+
         dimmingView.alpha = targetAlpha
     }
 
@@ -1050,6 +1059,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
 
         bottomSheetView.isHidden = targetExpansionState == .hidden
+
+        updateDimmingViewAlpha()
+        updateDimmingViewAccessibility()
 
         // UIKit doesn't properly handle interrupted constraint animations, so we need to
         // detect and fix a possible desync here
