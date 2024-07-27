@@ -97,5 +97,5 @@ extension BottomCommandingTokenSet {
     static let tabVerticalPadding: CGFloat = GlobalTokens.spacing(.size80)
     static let tabHorizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
     static let strokeWidth: CGFloat = GlobalTokens.stroke(.width05)
-    static let handleHeaderHeight: CGFloat = GlobalTokens.spacing(.size120)
+    static let headerTopMargin: CGFloat = GlobalTokens.spacing(.size60)
 }

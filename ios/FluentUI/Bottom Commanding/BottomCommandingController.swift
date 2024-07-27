@@ -402,6 +402,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         headerView.addSubview(heroCommandStack)
 
         let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
+        sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
         sheetController.shouldAlwaysFillWidth = sheetShouldAlwaysFillWidth
@@ -533,7 +534,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         } else {
             tableView.tableHeaderView = nil
         }
-        calculateHeaderHeight()
     }
 
     private func reloadHeroCommandOverflowStack() {
@@ -561,13 +561,6 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         if isInSheetMode {
             view.setNeedsLayout()
         }
-    }
-
-    @discardableResult
-    private func calculateHeaderHeight() -> CGFloat {
-        let headerHeight = heroCommandStack.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height + BottomSheetController.resizingHandleHeight
-        bottomSheetController?.headerContentHeight = headerHeight
-        return headerHeight
     }
 
     private func updateAppearance() {
@@ -927,10 +920,10 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         bottomSheetController.isExpandable = isExpandable
 
         let maxHeroItemHeight = heroCommandStack.arrangedSubviews.map { $0.intrinsicContentSize.height }.max() ?? Constants.defaultHeroButtonHeight
-        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.handleHeaderHeight + maxHeroItemHeight
+        let headerHeightWithoutBottomWhitespace = BottomCommandingTokenSet.headerTopMargin + maxHeroItemHeight
 
         // How much more whitespace is required at the bottom of the sheet header
-        let requiredBottomWhitespace = max(0, calculateHeaderHeight() - headerHeightWithoutBottomWhitespace)
+        let requiredBottomWhitespace = max(0, Constants.BottomSheet.headerHeight - headerHeightWithoutBottomWhitespace)
 
         // The safe area inset can fulfill some or all of our bottom whitespace requirement.
         // This is how much more we need, taking the inset into account.
@@ -940,7 +933,7 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
         let addedHeaderTopMargin = !isExpandable
             ? BottomSheetController.resizingHandleHeight
             : 0
-        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.handleHeaderHeight + addedHeaderTopMargin
+        bottomSheetHeroStackTopConstraint?.constant = BottomCommandingTokenSet.headerTopMargin + addedHeaderTopMargin
 
         let oldCollapsedContentHeight = bottomSheetController.collapsedContentHeight
         let newCollapsedContentHeight = headerHeightWithoutBottomWhitespace + reducedBottomWhitespace + addedHeaderTopMargin
@@ -1124,6 +1117,10 @@ open class BottomCommandingController: UIViewController, TokenizedControlInterna
 
             static let moreButtonIcon: UIImage? = UIImage.staticImageNamed("more-24x24")
             static let moreButtonTitle: String = "CommandingBottomBar.More".localized
+        }
+
+        struct BottomSheet {
+            static let headerHeight: CGFloat = 66
         }
     }
 }
