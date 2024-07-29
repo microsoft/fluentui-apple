@@ -12,7 +12,7 @@
     self = [super init];
     if (self != nil)
     {
-        _selectedCityIndex = [[NSIndexPath alloc] initWithIndex:0];
+        _selectedCityIndex = [NSIndexPath indexPathForItem:2 inSection:1];
     }
     return self;
 }
@@ -21,7 +21,7 @@
     [super loadView];
     MSFButton *demoButton = [[MSFButton alloc] initWithStyle:MSFButtonStyleOutlineAccent];
     [demoButton setTitle:@"Show PopupMenu" forState:UIControlStateNormal];
-    [demoButton addTarget:self action:@selector(showPopupMenu) forControlEvents:UIControlEventTouchUpInside];
+    [demoButton addTarget:self action:@selector(showPopupMenu:) forControlEvents:UIControlEventTouchUpInside];
 
     UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[demoButton]];
     [stack setAlignment:UIStackViewAlignmentTop];
@@ -41,7 +41,7 @@
     ]];
 }
 
-- (void)showPopupMenu {
+- (void)showPopupMenu:(id)sender {
     MSFPopupMenuItem *montreal = [[MSFPopupMenuItem alloc] initWithImageName:@"Montreal"
                                                        generateSelectedImage:NO
                                                                        title:@"Montréal"
@@ -112,9 +112,8 @@
                                                                        items:@[montreal, toronto, vancouver]];
     MSFPopupMenuSection *unitedStates = [[MSFPopupMenuSection alloc] initWithTitle:@"United States"
                                                                              items:@[lasVegas, phoenix, sanFrancisco, seattle]];
-    UIView *source = [self view];
-    MSFPopupMenuController *popupMenu = [[MSFPopupMenuController alloc] initWithSourceView:source
-                                                                                sourceRect:[source bounds]
+    MSFPopupMenuController *popupMenu = [[MSFPopupMenuController alloc] initWithSourceView:sender
+                                                                                sourceRect:[sender bounds]
                                                                         presentationOrigin:-1
                                                                      presentationDirection:MSFDrawerPresentationDirectionDown
                                                                     preferredMaximumHeight:-1];
