@@ -19,8 +19,15 @@ class TabBarItemView: UIControl, TokenizedControlInternal {
 
     override var isEnabled: Bool {
         didSet {
-            isUserInteractionEnabled = isEnabled
-            updateColors()
+            if isEnabled != oldValue {
+                isUserInteractionEnabled = isEnabled
+                if isEnabled {
+                    accessibilityTraits.remove(.notEnabled)
+                } else {
+                    accessibilityTraits.insert(.notEnabled)
+                }
+                updateColors()
+            }
         }
     }
 
