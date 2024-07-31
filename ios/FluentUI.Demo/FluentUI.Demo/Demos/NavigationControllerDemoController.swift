@@ -15,7 +15,7 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Large Title with Primary style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and wide accessory view", action: #selector(showLargeTitleWithShyAccessoryAndWideAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and pill segmented control", action: #selector(showLargeTitleWithShyAccessoryAndWideAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
         container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
@@ -58,7 +58,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
 
         addTitle(text: "Top Accessory View with shy wide accessory view")
-        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a wide accessory view", action: #selector(showWithTopSearchBarWithShyWideAccessoryView)))
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a shy pill segment control", action: #selector(showWithTopSearchBarWithShyWideAccessoryView)))
 
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
