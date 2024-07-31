@@ -20,6 +20,8 @@ import UIKit
         static var customNavigationBarColor: UInt8 = 0
         static var customSubtitleTrailingImage: UInt8 = 0
         static var isTitleImageLeadingForTitleAndSubtitle: UInt8 = 0
+        static var wideAccessoryView: UInt8 = 0
+        static var wideAccessoryViewHeight: CGFloat = 0.0
     }
 
     var accessoryView: UIView? {
@@ -28,6 +30,28 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// An wide accessory view that can be shown as a subview of ShyHeaderView but doesn't have leading, trailing
+    /// and bottom insets. So it can appear as being part of the content view but still contract and expand as part of
+    /// the shy header.
+    var wideAccessoryView: UIView? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.wideAccessoryView) as? UIView
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.wideAccessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// The height of the wideAccessoryView.
+    var wideAccessoryViewHeight: CGFloat {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.wideAccessoryViewHeight) as? CGFloat ?? 0.0
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.wideAccessoryViewHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

@@ -15,6 +15,7 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Large Title with Primary style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and wide accessory view", action: #selector(showLargeTitleWithShyAccessoryAndWideAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
         container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
@@ -56,6 +57,9 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
 
+        addTitle(text: "Top Accessory View with shy wide accessory view")
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a wide accessory view", action: #selector(showWithTopSearchBarWithShyWideAccessoryView)))
+
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
@@ -85,6 +89,10 @@ class NavigationControllerDemoController: DemoController {
 
     @objc func showLargeTitleWithShyAccessory() {
         presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showLargeTitleWithShyAccessoryAndWideAccessory() {
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), wideAccessoryView: createWideAccessoryView(), wideAccessoryViewHeight: 50.0, contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
@@ -189,6 +197,10 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
+    @objc func showWithTopSearchBarWithShyWideAccessoryView() {
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), wideAccessoryView: createWideAccessoryView(), wideAccessoryViewHeight: 50.0, showsTopAccessory: true, contractNavigationBarOnScroll: true)
+    }
+
     @objc func showSearchChangingStyleEverySecond() {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false, updateStylePeriodically: true)
     }
@@ -207,6 +219,8 @@ class NavigationControllerDemoController: DemoController {
                                    subtitle: String? = nil,
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
+                                   wideAccessoryView: UIView? = nil,
+                                   wideAccessoryViewHeight: CGFloat = 0.0,
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
@@ -219,6 +233,8 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
+        content.navigationItem.wideAccessoryView = wideAccessoryView
+        content.navigationItem.wideAccessoryViewHeight = wideAccessoryViewHeight
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
@@ -293,6 +309,16 @@ class NavigationControllerDemoController: DemoController {
         searchBar.style = style
         searchBar.placeholderText = "Search"
         return searchBar
+    }
+
+    private func createWideAccessoryView() -> UIView {
+        let segmentControl = createSegmentedControl(compatibleWith: .system)
+        let stackView = UIStackView()
+        stackView.addArrangedSubview(segmentControl)
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.backgroundColor = .white
+        return stackView
     }
 
     private func createSegmentedControl(compatibleWith style: NavigationBar.Style) -> UIView {
@@ -835,6 +861,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
+        if navigationItem.wideAccessoryView != nil && !showsTopAccessoryView {
+            navigationItem.wideAccessoryViewHeight = 0.0
+        }
     }
 
     func searchBar(_ searchBar: SearchBar, didUpdateSearchText newSearchText: String?) {
@@ -842,6 +871,9 @@ extension RootViewController: SearchBarDelegate {
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
+        if navigationItem.wideAccessoryView != nil && !showsTopAccessoryView {
+            navigationItem.wideAccessoryViewHeight = 50.0
+        }
     }
 
     func searchBarDidRequestSearch(_ searchBar: SearchBar) {
