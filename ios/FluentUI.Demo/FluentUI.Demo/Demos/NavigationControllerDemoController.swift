@@ -315,9 +315,9 @@ class NavigationControllerDemoController: DemoController {
         let segmentControl = createSegmentedControl(compatibleWith: .system)
         let stackView = UIStackView()
         stackView.addArrangedSubview(segmentControl)
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = view.fluentTheme.color(.background1)
         return stackView
     }
 
