@@ -21,7 +21,6 @@ import UIKit
         static var customSubtitleTrailingImage: UInt8 = 0
         static var isTitleImageLeadingForTitleAndSubtitle: UInt8 = 0
         static var wideAccessoryView: UInt8 = 0
-        static var wideAccessoryViewHeight: CGFloat = 0.0
     }
 
     var accessoryView: UIView? {
@@ -42,16 +41,6 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.wideAccessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-
-    /// The height of the wideAccessoryView.
-    var wideAccessoryViewHeight: CGFloat {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKeys.wideAccessoryViewHeight) as? CGFloat ?? 0.0
-        }
-        set {
-            objc_setAssociatedObject(self, &AssociatedKeys.wideAccessoryViewHeight, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 

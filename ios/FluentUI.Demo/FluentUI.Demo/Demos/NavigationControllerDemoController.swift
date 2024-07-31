@@ -92,7 +92,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithShyAccessoryAndWideAccessory() {
-        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), wideAccessoryView: createWideAccessoryView(), wideAccessoryViewHeight: 50.0, contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), wideAccessoryView: createWideAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
@@ -198,7 +198,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showWithTopSearchBarWithShyWideAccessoryView() {
-        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), wideAccessoryView: createWideAccessoryView(), wideAccessoryViewHeight: 50.0, showsTopAccessory: true, contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), wideAccessoryView: createWideAccessoryView(), showsTopAccessory: true, contractNavigationBarOnScroll: true)
     }
 
     @objc func showSearchChangingStyleEverySecond() {
@@ -220,7 +220,6 @@ class NavigationControllerDemoController: DemoController {
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
                                    wideAccessoryView: UIView? = nil,
-                                   wideAccessoryViewHeight: CGFloat = 0.0,
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
@@ -234,7 +233,6 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
         content.navigationItem.wideAccessoryView = wideAccessoryView
-        content.navigationItem.wideAccessoryViewHeight = wideAccessoryViewHeight
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
@@ -315,7 +313,7 @@ class NavigationControllerDemoController: DemoController {
         let segmentControl = createSegmentedControl(compatibleWith: .system)
         let stackView = UIStackView()
         stackView.addArrangedSubview(segmentControl)
-        stackView.layoutMargins = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.backgroundColor = view.fluentTheme.color(.background1)
         return stackView
@@ -507,6 +505,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     var showsTopAccessoryView: Bool = false
+    var wideAccessoryView: UIView?
 
     var personaData: PersonaData = {
         let personaData = PersonaData(name: "Kat Larsson", image: UIImage(named: "avatar_kat_larsson"))
@@ -862,7 +861,8 @@ extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
         if navigationItem.wideAccessoryView != nil && !showsTopAccessoryView {
-            navigationItem.wideAccessoryViewHeight = 0.0
+            wideAccessoryView = navigationItem.wideAccessoryView
+            navigationItem.wideAccessoryView = nil
         }
     }
 
@@ -871,8 +871,8 @@ extension RootViewController: SearchBarDelegate {
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
-        if navigationItem.wideAccessoryView != nil && !showsTopAccessoryView {
-            navigationItem.wideAccessoryViewHeight = 50.0
+        if wideAccessoryView != nil && !showsTopAccessoryView {
+            navigationItem.wideAccessoryView = wideAccessoryView
         }
     }
 

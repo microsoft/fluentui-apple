@@ -126,6 +126,8 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         willSet {
             accessoryView?.removeFromSuperview()
             contentStackView.removeFromSuperview()
+            // When there is no accessoryView, the top anchor of the wideContentStackView should be equal to
+            // the top anchor of the parent view.
             if let wideContentStackViewTopAnchorConstraint {
                 NSLayoutConstraint.activate([
                     wideContentStackViewTopAnchorConstraint
@@ -149,6 +151,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
             if let newContentView = wideAccessoryView {
                 wideContentStackView.addArrangedSubview(newContentView)
             }
+            maxHeightChanged?()
         }
     }
 
@@ -160,10 +163,13 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
     }
 
-    var wideAccessoryViewHeight: CGFloat = 0.0 {
-        didSet {
-            maxHeightChanged?()
+    var wideAccessoryViewHeight: CGFloat {
+        guard let wideAccessoryView else {
+            return 0.0
         }
+
+        let wideAccessoryViewSize = wideAccessoryView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        return wideAccessoryViewSize.height
     }
 
     var maxHeight: CGFloat {
@@ -256,6 +262,8 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentStackView)
 
+        // When there is a accessoryView, the top anchor of the wideContentStackView should be equal to
+        // the bottom anchor of contentStackView.
         if let wideContentStackViewTopAnchorConstraint {
             NSLayoutConstraint.deactivate([
                 wideContentStackViewTopAnchorConstraint

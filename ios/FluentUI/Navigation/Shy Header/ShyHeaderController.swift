@@ -46,7 +46,6 @@ class ShyHeaderController: UIViewController {
 
     private var accessoryViewObservation: NSKeyValueObservation?
     private var wideAccessoryViewObservation: NSKeyValueObservation?
-    private var wideAccessoryViewHeightObservation: NSKeyValueObservation?
 
     private var navigationBarCenterObservation: NSKeyValueObservation?
     private var navigationBarStyleObservation: NSKeyValueObservation?
@@ -106,10 +105,6 @@ class ShyHeaderController: UIViewController {
 
         wideAccessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.wideAccessoryView) { [weak self] item, _ in
             self?.shyHeaderView.wideAccessoryView = item.wideAccessoryView
-        }
-
-        wideAccessoryViewHeightObservation = contentViewController.navigationItem.observe(\UINavigationItem.wideAccessoryViewHeight) { [weak self] item, _ in
-            self?.shyHeaderView.wideAccessoryViewHeight = item.wideAccessoryViewHeight
         }
     }
 
@@ -221,10 +216,10 @@ class ShyHeaderController: UIViewController {
     }
 
     private func setupShyHeaderView() {
-        shyHeaderView.accessoryView = contentViewController.navigationItem.accessoryView
-        shyHeaderView.wideAccessoryView = contentViewController.navigationItem.wideAccessoryView
-        shyHeaderView.wideAccessoryViewHeight = contentViewController.navigationItem.wideAccessoryViewHeight
-        shyHeaderView.navigationBarShadow = contentViewController.navigationItem.navigationBarShadow
+        let navigationItem = contentViewController.navigationItem
+        shyHeaderView.accessoryView = navigationItem.accessoryView
+        shyHeaderView.wideAccessoryView = navigationItem.wideAccessoryView
+        shyHeaderView.navigationBarShadow = navigationItem.navigationBarShadow
         shyHeaderView.paddingView = paddingView
         shyHeaderView.parentController = self
         shyHeaderView.maxHeightChanged = { [weak self] in
