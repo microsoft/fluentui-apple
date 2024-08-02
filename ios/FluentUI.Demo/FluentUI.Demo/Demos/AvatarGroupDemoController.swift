@@ -71,28 +71,15 @@ class AvatarGroupDemoController: DemoTableViewController {
 
             return cell
 
-        case .alternateBackground:
+        case .alternateBackground, .customRingColor, .hasBackgroundOutline:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
             }
 
-            cell.setup(title: row.title, isOn: self.isUsingAlternateBackgroundColor)
+            cell.setup(title: row.title, isOn: row.booleanValue(self))
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
-                self?.isUsingAlternateBackgroundColor = cell?.isOn ?? true
-            }
-
-            return cell
-
-        case .customRingColor:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
-                return UITableViewCell()
-            }
-
-            cell.setup(title: row.title, isOn: self.isUsingImageBasedCustomColor)
-            cell.titleNumberOfLines = 0
-            cell.onValueChanged = { [weak self, weak cell] in
-                self?.isUsingImageBasedCustomColor = cell?.isOn ?? true
+                row.setBooleanValue(self, cell?.isOn ?? true)
             }
 
             return cell
@@ -168,7 +155,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 cell.contentView.trailingAnchor.constraint(equalTo: avatarGroupView.trailingAnchor, constant: 20)
             ])
 
-            cell.backgroundConfiguration?.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelectedColor : TableViewCell.tableCellBackgroundColor
+            cell.backgroundColor = self.isUsingAlternateBackgroundColor ? TableViewCell.tableCellBackgroundSelectedColor : TableViewCell.tableCellBackgroundColor
 
             return cell
         }
@@ -272,6 +259,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return [.avatarCount,
                         .alternateBackground,
                         .customRingColor,
+                        .hasBackgroundOutline,
                         .maxDisplayedAvatars,
                         .overflow]
             case .avatarStackNoActivityRing,
@@ -303,6 +291,7 @@ class AvatarGroupDemoController: DemoTableViewController {
         case avatarCount
         case alternateBackground
         case customRingColor
+        case hasBackgroundOutline
         case maxDisplayedAvatars
         case overflow
         case titleSize72
@@ -340,6 +329,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarCount,
                  .alternateBackground,
                  .customRingColor,
+                 .hasBackgroundOutline,
                  .maxDisplayedAvatars,
                  .overflow,
                  .swiftUIDemo:
@@ -373,6 +363,7 @@ class AvatarGroupDemoController: DemoTableViewController {
                  .avatarCount,
                  .alternateBackground,
                  .customRingColor,
+                 .hasBackgroundOutline,
                  .maxDisplayedAvatars,
                  .overflow,
                  .swiftUIDemo:
@@ -390,7 +381,9 @@ class AvatarGroupDemoController: DemoTableViewController {
                 return "Use alternate background color"
             case .customRingColor:
                 return "Use image based custom ring color"
-            case.maxDisplayedAvatars:
+            case .hasBackgroundOutline:
+                return "Has background outline"
+            case .maxDisplayedAvatars:
                 return "Max displayed avatars"
             case .overflow:
                 return "Overflow count"
@@ -418,6 +411,38 @@ class AvatarGroupDemoController: DemoTableViewController {
                 preconditionFailure("Row should not have title")
             }
         }
+
+        func booleanValue(_ controller: AvatarGroupDemoController?) -> Bool {
+            guard let controller else {
+                return false
+            }
+            switch self {
+            case .alternateBackground:
+                return controller.isUsingAlternateBackgroundColor
+            case .customRingColor:
+                return controller.isUsingImageBasedCustomColor
+            case .hasBackgroundOutline:
+                return controller.isUsingBackgroundOutline
+            default:
+                assertionFailure("Cannot get boolean value for non-boolean row")
+                return false
+            }
+        }
+
+        func setBooleanValue(_ controller: AvatarGroupDemoController?, _ value: Bool) {
+            switch self {
+            case .alternateBackground:
+                controller?.isUsingAlternateBackgroundColor = value
+            case .customRingColor:
+                controller?.isUsingImageBasedCustomColor = value
+            case .hasBackgroundOutline:
+                controller?.isUsingBackgroundOutline = value
+            default:
+                assertionFailure("Cannot set boolean value for non-boolean row")
+                return
+            }
+        }
+
     }
 
     private var maxDisplayedAvatars: Int = 3 {
@@ -578,6 +603,14 @@ class AvatarGroupDemoController: DemoTableViewController {
     private var isUsingImageBasedCustomColor: Bool = false {
         didSet {
             updateAvatarsCustomRingColor(for: 0..<avatarCount)
+        }
+    }
+
+    private var isUsingBackgroundOutline: Bool = false {
+        didSet {
+            for group in allDemoAvatarGroupsCombined {
+                group.state.hasBackgroundOutline = isUsingBackgroundOutline
+            }
         }
     }
 

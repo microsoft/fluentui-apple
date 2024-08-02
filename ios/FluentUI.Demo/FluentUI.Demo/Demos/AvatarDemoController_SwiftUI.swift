@@ -36,7 +36,7 @@ struct AvatarDemoView: View {
     @State var isAnimated: Bool = true
     @State var isOutOfOffice: Bool = false
     @State var isRingVisible: Bool = true
-    @State var isTransparent: Bool = true
+    @State var hasBackgroundOutline: Bool = false
     @State var hasPointerInteraction: Bool = false
     @State var hasRingInnerGap: Bool = true
     @State var primaryText: String = "Kat Larsson"
@@ -66,11 +66,11 @@ struct AvatarDemoView: View {
                    image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
                    primaryText: primaryText,
                    secondaryText: secondaryText)
-                .isRingVisible(showImageBasedRingColor || isRingVisible)
+                .isRingVisible(isRingVisible)
                 .hasRingInnerGap(hasRingInnerGap)
                 .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
                 .defaultImage(defaultImage)
-                .isTransparent(isTransparent)
+                .hasBackgroundOutline(hasBackgroundOutline)
                 .presence(presence)
                 .activity(activityStyle, showActivityImage ? (activityStyle == .circle ? UIImage(named: "thumbs_up_3d_default") : UIImage(named: "excelIcon")) : nil)
                 .isOutOfOffice(isOutOfOffice)
@@ -101,7 +101,7 @@ struct AvatarDemoView: View {
 
                         FluentUIDemoToggle(titleKey: "Set image", isOn: $showImage)
                         FluentUIDemoToggle(titleKey: "Set alternate background", isOn: $useAlternateBackground)
-                        FluentUIDemoToggle(titleKey: "Transparency", isOn: $isTransparent)
+                        FluentUIDemoToggle(titleKey: "Has background border", isOn: $hasBackgroundOutline)
                         FluentUIDemoToggle(titleKey: "iPad Pointer interaction", isOn: $hasPointerInteraction)
                         FluentUIDemoToggle(titleKey: "Animate transitions", isOn: $isAnimated)
                         FluentUIDemoToggle(titleKey: "Use custom default image", isOn: $useCustomDefaultImage)

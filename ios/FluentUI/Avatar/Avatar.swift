@@ -49,7 +49,12 @@ import SwiftUI
 
     /// Sets the transparency of the avatar elements (inner and outer ring gaps, presence, and activity icon outline).
     /// Uses the solid default background color if set to false.
+    @available(iOS, deprecated, message: "Transparency is deprecated, and will default to `false`. This property will be removed in a future version of Fluent.")
     var isTransparent: Bool { get set }
+
+    /// Whether a background-colored outline should be drawn behind the avatar.
+    /// Uses the solid default background color if set to true.
+    var hasBackgroundOutline: Bool { get set }
 
     /// Defines the presence displayed by the Avatar.
     /// Image displayed depends on the value of the isOutOfOffice property.
@@ -134,6 +139,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         let cornerRadius = shouldDisplayActivity ? (activityStyle == .square ? AvatarTokenSet.activityIconRadius(size) : .infinity) : .infinity
         let isRingVisible = state.isRingVisible
         let hasRingInnerGap = state.hasRingInnerGap
+        let hasBackgroundOutline = state.hasBackgroundOutline
         let ringThicknessToken: CGFloat = tokenSet[.ringThickness].float
         let accessoryBorderThicknessToken: CGFloat = tokenSet[.borderThickness].float
         let accessoryBorderColorToken: UIColor = tokenSet[.borderColor].uiColor
@@ -143,7 +149,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
         // the ring and avatar when the ring is visible and there is no inner ring gap
         let ringInnerGapOffset = 0.5
-        let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokenSet[.ringInnerGap].float : -ringInnerGapOffset) : 0
+        let ringInnerGap: CGFloat = (isRingVisible || hasBackgroundOutline) ? ((hasRingInnerGap || hasBackgroundOutline) ? tokenSet[.ringInnerGap].float : -ringInnerGapOffset) : 0
         let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
         let ringOuterGap: CGFloat = isRingVisible ? tokenSet[.ringOuterGap].float : 0
         let totalRingGap: CGFloat = ringInnerGap + ringThickness + ringOuterGap
@@ -161,10 +167,14 @@ public struct Avatar: View, TokenizedControlView, Equatable {
             !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].uiColor :
                 CalculatedColors.backgroundColor(hashCode: colorHashCode))
         let ringGapColor = Color(tokenSet[.ringGapColor].uiColor).opacity(isTransparent ? 0 : 1)
-        let ringColor = !isRingVisible ? Color.clear :
-        Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
-                                       tokenSet[.ringDefaultColor].uiColor :
-                                       CalculatedColors.ringColor(hashCode: colorHashCode)))
+        let ringColor = ( !isRingVisible ?
+                          Color.clear :
+                            Color(state.ringColor ?? ( !shouldUseCalculatedColors ?
+                                                       tokenSet[.ringDefaultColor].uiColor :
+                                                        CalculatedColors.ringColor(hashCode: colorHashCode)
+                                                     )
+                            )
+        )
 
         let avatarImageInfo: (image: UIImage?, renderingMode: Image.TemplateRenderingMode) = {
             if shouldUseDefaultImage {
@@ -567,7 +577,8 @@ class MSFAvatarStateImpl: ControlState, MSFAvatarState {
     @Published var isAnimated: Bool = true
     @Published var isOutOfOffice: Bool = false
     @Published var isRingVisible: Bool = false
-    @Published var isTransparent: Bool = true
+    @Published var isTransparent: Bool = false
+    @Published var hasBackgroundOutline: Bool = false
     @Published var presence: MSFAvatarPresence = .none
     @Published var activityStyle: MSFAvatarActivityStyle = .none
     @Published var activityImage: UIImage?

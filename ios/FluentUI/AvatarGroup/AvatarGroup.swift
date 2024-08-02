@@ -16,6 +16,9 @@ import SwiftUI
     /// items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
     var overflowCount: Int { get set }
 
+    /// Whether a background-colored outline should be drawn behind all Avatars, including the overflow.
+    var hasBackgroundOutline: Bool { get set }
+
     /// Show a top-trailing aligned unread dot when set to true.
     var isUnread: Bool { get set }
 
@@ -103,6 +106,7 @@ public struct AvatarGroup: View, TokenizedControlView {
     ///   - maxDisplayedAvatars: Caps the number of displayed avatars and shows the remaining not displayed in the overflow avatar.
     ///   - overflowCount: Adds to the overflow count in case the calling code did not provide all the avatars, but still wants to convey more
     ///                    items than just the remainder of the avatars that could not be displayed due to the maxDisplayedAvatars property.
+    ///   - hasBackgroundOutline: Whether a background-colored outline should be drawn behind all Avatars, including the overflow.
     ///   - isUnread: Show a top-trailing aligned unread dot when set to true.
     ///   - avatarBuilder: A ViewBuilder that creates an `Avatar` for a given index.
     public init(style: MSFAvatarGroupStyle,
@@ -110,6 +114,7 @@ public struct AvatarGroup: View, TokenizedControlView {
                 avatarCount: Int = 0,
                 maxDisplayedAvatars: Int = Int.max,
                 overflowCount: Int = 0,
+                hasBackgroundOutline: Bool = false,
                 isUnread: Bool = false,
                 @ViewBuilder avatarBuilder: @escaping (_ index: Int) -> Avatar) {
         // Configure the avatars
@@ -117,7 +122,7 @@ public struct AvatarGroup: View, TokenizedControlView {
             let avatar = avatarBuilder(index)
             avatar.state.size = size
             avatar.state.style = .default
-            avatar.state.isTransparent = false
+            avatar.state.hasBackgroundOutline = hasBackgroundOutline
             return avatar
         }
 
@@ -126,6 +131,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         state.avatars = avatars
         state.maxDisplayedAvatars = maxDisplayedAvatars
         state.overflowCount = overflowCount
+        state.hasBackgroundOutline = hasBackgroundOutline
         state.isUnread = isUnread
 
         self.state = state
@@ -323,6 +329,7 @@ public struct AvatarGroup: View, TokenizedControlView {
         let state = MSFAvatarStateImpl(style: .overflow, size: state.size)
         state.primaryText = "\(count)"
         state.image = nil
+        state.hasBackgroundOutline = self.state.hasBackgroundOutline
         return Avatar(state)
     }
 }
@@ -359,6 +366,11 @@ class MSFAvatarGroupStateImpl: ControlState, MSFAvatarGroupState {
     @Published var avatars: [Avatar] = []
     @Published var maxDisplayedAvatars: Int = Int.max
     @Published var overflowCount: Int = 0
+    @Published var hasBackgroundOutline: Bool = false {
+        didSet {
+            avatars.forEach { $0.state.hasBackgroundOutline = hasBackgroundOutline }
+        }
+    }
     @Published var isUnread: Bool = false
 
     @Published var style: MSFAvatarGroupStyle

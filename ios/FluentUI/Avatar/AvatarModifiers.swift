@@ -50,6 +50,14 @@ public extension Avatar {
         return self
     }
 
+    /// Whether the avatar should draw an outline using a background color.
+    /// - Parameter hasBackgroundOutline: Boolean value to set the property.
+    /// - Returns: The modified Avatar with the property set.
+    func hasBackgroundOutline(_ hasBackgroundOutline: Bool) -> Avatar {
+        state.hasBackgroundOutline = hasBackgroundOutline
+        return self
+    }
+
     /// An override for the template icon to use when there is no set image or name.
     /// - Parameter defaultImage: Image to be used as the Avatar's default image.
     /// - Returns: The modified Avatar with the property set.
