@@ -149,9 +149,9 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         // Adding ringInnerGapOffset to ringInnerGap & ringThickness to accommodate for a small space between
         // the ring and avatar when the ring is visible and there is no inner ring gap
         let ringInnerGapOffset = 0.5
-        let ringInnerGap: CGFloat = (isRingVisible || hasBackgroundOutline) ? ((hasRingInnerGap || hasBackgroundOutline) ? tokenSet[.ringInnerGap].float : -ringInnerGapOffset) : 0
+        let ringInnerGap: CGFloat = isRingVisible ? (hasRingInnerGap ? tokenSet[.ringInnerGap].float : -ringInnerGapOffset) : 0
         let ringThickness: CGFloat = isRingVisible ? (hasRingInnerGap ? ringThicknessToken : ringThicknessToken + ringInnerGapOffset) : 0
-        let ringOuterGap: CGFloat = isRingVisible ? tokenSet[.ringOuterGap].float : 0
+        let ringOuterGap: CGFloat = (isRingVisible || hasBackgroundOutline) ? tokenSet[.ringOuterGap].float : 0
         let totalRingGap: CGFloat = ringInnerGap + ringThickness + ringOuterGap
         let avatarImageSize: CGFloat = contentSize
         let ringInnerGapSize: CGFloat = avatarImageSize + (ringInnerGap * 2)
