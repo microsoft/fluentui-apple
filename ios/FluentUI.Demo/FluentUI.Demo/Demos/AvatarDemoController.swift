@@ -54,7 +54,7 @@ class AvatarDemoController: DemoTableViewController {
              .presence,
              .activity,
              .ringInnerGap,
-             .transparency,
+             .backgroundOutline,
              .defaultImage:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier) as? BooleanCell else {
                 return UITableViewCell()
@@ -277,11 +277,11 @@ class AvatarDemoController: DemoTableViewController {
         }
     }
 
-    private var isTransparent: Bool = true {
+    private var hasBackgroundOutline: Bool = false {
         didSet {
-            if oldValue != isTransparent {
+            if oldValue != hasBackgroundOutline {
                 allDemoAvatarsCombined.forEach { avatar in
-                    avatar.state.isTransparent = isTransparent
+                    avatar.state.hasBackgroundOutline = hasBackgroundOutline
                 }
             }
         }
@@ -406,8 +406,8 @@ class AvatarDemoController: DemoTableViewController {
             return self.isShowingRings
         case .ringInnerGap:
             return self.isShowingRingInnerGap
-        case .transparency:
-            return self.isTransparent
+        case .backgroundOutline:
+            return self.hasBackgroundOutline
         case .defaultImage:
             return self.useCustomDefaultImage
         }
@@ -444,8 +444,8 @@ class AvatarDemoController: DemoTableViewController {
             self.isShowingRings = isOn
         case .ringInnerGap:
             self.isShowingRingInnerGap = isOn
-        case .transparency:
-            self.isTransparent = isOn
+        case .backgroundOutline:
+            self.hasBackgroundOutline = isOn
         case .defaultImage:
             self.useCustomDefaultImage = isOn
         }
@@ -518,7 +518,7 @@ class AvatarDemoController: DemoTableViewController {
                 return [.animating,
                         .alternateBackground,
                         .pointerInteraction,
-                        .transparency,
+                        .backgroundOutline,
                         .presence,
                         .activity,
                         .outOfOffice,
@@ -566,7 +566,7 @@ class AvatarDemoController: DemoTableViewController {
         case ring
         case ringInnerGap
         case swiftUIDemo
-        case transparency
+        case backgroundOutline
         case defaultImage
 
         var isDemoRow: Bool {
@@ -591,7 +591,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
-                 .transparency,
+                 .backgroundOutline,
                  .defaultImage:
                 return false
             }
@@ -620,7 +620,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
-                 .transparency,
+                 .backgroundOutline,
                  .defaultImage:
                 return nil
             }
@@ -651,7 +651,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
-                 .transparency,
+                 .backgroundOutline,
                  .defaultImage:
                 return nil
             }
@@ -684,7 +684,7 @@ class AvatarDemoController: DemoTableViewController {
                  .ring,
                  .ringInnerGap,
                  .swiftUIDemo,
-                 .transparency,
+                 .backgroundOutline,
                  .defaultImage:
                 preconditionFailure("Row does not have an associated avatar style")
             }
@@ -730,8 +730,8 @@ class AvatarDemoController: DemoTableViewController {
                 return "Set ring inner gap"
             case .swiftUIDemo:
                 return "SwiftUI Demo"
-            case .transparency:
-                return "Use transparency"
+            case .backgroundOutline:
+                return "Use background outline"
             case .defaultImage:
                 return "Use custom default image"
             }

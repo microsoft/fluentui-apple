@@ -29,16 +29,18 @@ struct AvatarGroupDemoView: View {
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
-    @State var useAlternateBackground: Bool = false
+    @State var useAlternateBackground: Bool = true
 
     // Avatar settings
     @State var isRingVisible: Bool = false
     @State var showImage: Bool = true
     @State var showImageBasedRingColor: Bool = false
+    @State var hasRingInnerGap: Bool = true
 
     // AvatarGroup settings
     @State var maxDisplayedAvatars: Int = startingMaxDisplayedAvatars
     @State var overflowCount: Int = 0
+    @State var hasBackgroundOutline: Bool = false
     @State var isUnread: Bool = false
     @State var size: MSFAvatarSize = AvatarGroupDemoView.defaultSize
     @State var style: MSFAvatarGroupStyle = .stack
@@ -53,6 +55,7 @@ struct AvatarGroupDemoView: View {
                primaryText: samplePersona.name,
                secondaryText: samplePersona.email)
         .isRingVisible(isRingVisible)
+        .hasRingInnerGap(hasRingInnerGap)
         .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
     }
 
@@ -65,6 +68,7 @@ struct AvatarGroupDemoView: View {
                             avatarCount: avatarCount,
                             maxDisplayedAvatars: maxDisplayedAvatars,
                             overflowCount: overflowCount,
+                            hasBackgroundOutline: hasBackgroundOutline,
                             isUnread: isUnread) { index in
                     avatarFromSamplePersona(index)
                 }.fixedSize()
@@ -76,6 +80,7 @@ struct AvatarGroupDemoView: View {
                     Stepper("Avatar Count: \(avatarCount)", value: $avatarCount, in: (0...Int.max))
                     Stepper("Max Displayed Avatars: \(maxDisplayedAvatars)", value: $maxDisplayedAvatars)
                     Stepper("Overflow Count: \(overflowCount)", value: $overflowCount)
+                    Toggle("Has Background Outline", isOn: $hasBackgroundOutline)
                     Toggle("Show Avatar Images", isOn: $showImage)
                     Toggle("Unread Dot", isOn: $isUnread)
                     Toggle("Alternate Background", isOn: $useAlternateBackground)
@@ -84,6 +89,7 @@ struct AvatarGroupDemoView: View {
                 FluentListSection("Ring") {
                     Toggle("Ring Visible", isOn: $isRingVisible)
                     Toggle("Image Based Ring Color", isOn: $showImageBasedRingColor)
+                    Toggle("Has Ring Inner Gap", isOn: $hasRingInnerGap)
                 }
 
                 FluentListSection("Style") {
