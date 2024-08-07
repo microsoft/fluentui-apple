@@ -1,25 +1,24 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "AppCenter",
-        "repositoryURL": "https://github.com/microsoft/appcenter-sdk-apple.git",
-        "state": {
-          "branch": null,
-          "revision": "25f64229373de97ff3920941cd52203193e5d8be",
-          "version": "4.3.0"
-        }
-      },
-      {
-        "package": "PLCrashReporter",
-        "repositoryURL": "https://github.com/microsoft/PLCrashReporter.git",
-        "state": {
-          "branch": null,
-          "revision": "59513acde6194d93617afcf7b2c81c88638a6af2",
-          "version": "1.10.0"
-        }
+  "originHash" : "9368007d7da5b3af9332e1d38cf6cc8e8eaa8ccb8923fbd5137a6b91bf39293b",
+  "pins" : [
+    {
+      "identity" : "appcenter-sdk-apple",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/microsoft/appcenter-sdk-apple.git",
+      "state" : {
+        "revision" : "ab54f758243f282d290b33027e8aac910d3d859a",
+        "version" : "5.0.5"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "plcrashreporter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/microsoft/PLCrashReporter.git",
+      "state" : {
+        "revision" : "6752f71de206f6a53fa6a758c3660fd9a7fe7527",
+        "version" : "1.11.2"
+      }
+    }
+  ],
+  "version" : 3
 }
