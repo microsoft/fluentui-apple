@@ -4,7 +4,6 @@
 //
 
 #import "ObjectiveCDemoColorProviding.h"
-#import <FluentUI/FluentUI-Swift.h>
 #import <FluentUI_Demo-Swift.h>
 
 @interface ObjectiveCDemoColorProviding () <MSFColorProviding>

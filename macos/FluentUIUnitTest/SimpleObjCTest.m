@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-@import FluentUI;
+#import <FluentUIUnitTests-Swift.h>
 #import "SimpleObjCTest.h"
 
 @implementation SimpleObjCTest
