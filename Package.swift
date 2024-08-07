@@ -46,7 +46,17 @@ let package = Package(
                 "TextField/TextField.resources.xcfilelist",
                 "Tooltip/Tooltip.resources.xcfilelist",
                 "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
+            ],
+            resources: [
+                .copy("Resources/Version.plist")
             ]
+        ),
+        .testTarget(
+            name: "FluentUI_iOS_Tests",
+            dependencies: [
+                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS, .visionOS, .macCatalyst])),
+            ],
+            path: "ios/FluentUI.Tests"
         ),
         .target(
             name: "FluentUI_macos",
