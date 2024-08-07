@@ -62,7 +62,7 @@ Included in this repository is a demo of currently implemented controls. A full 
 
 To build and deploy the demo follow these steps:
 - Download or clone the [FluentUI for iOS](https://github.com/microsoft/fluentui-apple) repository.
-- Open `ios/FluentUI.xcworkspace` in Xcode.
+- Open `ios/FluentUI.Demo/FluentUI.Demo.xcodeproj` in Xcode.
 - In the Xcode scheme menu choose `Demo.development` and choose a device to deploy to.
 - Once deployed you can choose a control to demo from the list of controls on the selected device.
 
