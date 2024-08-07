@@ -6,7 +6,7 @@ Included in this repository is a demo that showcases all the currently available
 
 To build and run the demo app follow these steps:
 - Clone the [FluentUI](https://github.com/microsoft/fluentui-apple) repository.
-- Open `ios/FluentUI.xcworkspace` in Xcode.
+- Open `ios/FluentUI.Demo/FluentUI.Demo.xcodeproj` in Xcode.
 - In the Xcode scheme menu choose `Demo.development` and choose an iOS Simulator(or Device if you have your own device provisioning profile) to deploy to.
 - Make sure Swift Package Manager has download 2 dependencies(appcenter-sdk-apple and PLCrashReporter) for demo app.
 - Build and Run the demo app
