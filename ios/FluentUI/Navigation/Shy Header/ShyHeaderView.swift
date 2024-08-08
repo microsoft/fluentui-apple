@@ -143,12 +143,12 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
     }
 
-    var wideAccessoryView: UIView? {
+    var secondaryAccessoryView: UIView? {
         willSet {
-            wideAccessoryView?.removeFromSuperview()
+            secondaryAccessoryView?.removeFromSuperview()
         }
         didSet {
-            if let newContentView = wideAccessoryView {
+            if let newContentView = secondaryAccessoryView {
                 wideContentStackView.addArrangedSubview(newContentView)
             }
             maxHeightChanged?()
@@ -163,17 +163,17 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
     }
 
-    var wideAccessoryViewHeight: CGFloat {
-        guard let wideAccessoryView else {
+    var secondaryAccessoryViewHeight: CGFloat {
+        guard let secondaryAccessoryView else {
             return 0.0
         }
 
-        let wideAccessoryViewSize = wideAccessoryView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        return wideAccessoryViewSize.height
+        let secondaryAccessoryViewSize = secondaryAccessoryView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        return secondaryAccessoryViewSize.height
     }
 
     var maxHeight: CGFloat {
-        return accessoryViewHeight + wideAccessoryViewHeight
+        return accessoryViewHeight + secondaryAccessoryViewHeight
     }
 
     private var maxHeightNoAccessory: CGFloat {

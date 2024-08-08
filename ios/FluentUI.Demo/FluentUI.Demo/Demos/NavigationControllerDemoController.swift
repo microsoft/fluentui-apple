@@ -58,7 +58,7 @@ class NavigationControllerDemoController: DemoController {
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
 
         addTitle(text: "Top Accessory View with shy wide accessory view")
-        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a shy pill segment control", action: #selector(showWithTopSearchBarWithShyWideAccessoryView)))
+        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a shy pill segment control", action: #selector(showWithTopSearchBarWithShySecondaryAccessoryView)))
 
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
@@ -92,7 +92,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showLargeTitleWithShyAccessoryAndWideAccessory() {
-        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), wideAccessoryView: createWideAccessoryView(), contractNavigationBarOnScroll: true)
+        presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), secondaryAccessoryView: createSecondaryAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showLargeTitleWithFixedAccessory() {
@@ -197,8 +197,8 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false)
     }
 
-    @objc func showWithTopSearchBarWithShyWideAccessoryView() {
-        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), wideAccessoryView: createWideAccessoryView(), showsTopAccessory: true, contractNavigationBarOnScroll: true)
+    @objc func showWithTopSearchBarWithShySecondaryAccessoryView() {
+        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), secondaryAccessoryView: createSecondaryAccessoryView(), showsTopAccessory: true, contractNavigationBarOnScroll: true)
     }
 
     @objc func showSearchChangingStyleEverySecond() {
@@ -219,7 +219,7 @@ class NavigationControllerDemoController: DemoController {
                                    subtitle: String? = nil,
                                    style: NavigationBar.Style = .primary,
                                    accessoryView: UIView? = nil,
-                                   wideAccessoryView: UIView? = nil,
+                                   secondaryAccessoryView: UIView? = nil,
                                    showsTopAccessory: Bool = false,
                                    contractNavigationBarOnScroll: Bool = true,
                                    showShadow: Bool = true,
@@ -232,7 +232,7 @@ class NavigationControllerDemoController: DemoController {
         content.navigationItem.navigationBarStyle = style
         content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
         content.navigationItem.accessoryView = accessoryView
-        content.navigationItem.wideAccessoryView = wideAccessoryView
+        content.navigationItem.secondaryAccessoryView = secondaryAccessoryView
         content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
         content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
@@ -309,7 +309,7 @@ class NavigationControllerDemoController: DemoController {
         return searchBar
     }
 
-    private func createWideAccessoryView() -> UIView {
+    private func createSecondaryAccessoryView() -> UIView {
         let segmentControl = createSegmentedControl(compatibleWith: .system)
         let stackView = UIStackView()
         stackView.addArrangedSubview(segmentControl)
@@ -505,7 +505,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     var showsTopAccessoryView: Bool = false
-    var wideAccessoryView: UIView?
+    var secondaryAccessoryView: UIView?
 
     var personaData: PersonaData = {
         let personaData = PersonaData(name: "Kat Larsson", image: UIImage(named: "avatar_kat_larsson"))
@@ -860,9 +860,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
-        if navigationItem.wideAccessoryView != nil && !showsTopAccessoryView {
-            wideAccessoryView = navigationItem.wideAccessoryView
-            navigationItem.wideAccessoryView = nil
+        if navigationItem.secondaryAccessoryView != nil && !showsTopAccessoryView {
+            secondaryAccessoryView = navigationItem.secondaryAccessoryView
+            navigationItem.secondaryAccessoryView = nil
         }
     }
 
@@ -871,8 +871,8 @@ extension RootViewController: SearchBarDelegate {
 
     func searchBarDidCancel(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
-        if wideAccessoryView != nil && !showsTopAccessoryView {
-            navigationItem.wideAccessoryView = wideAccessoryView
+        if secondaryAccessoryView != nil && !showsTopAccessoryView {
+            navigationItem.secondaryAccessoryView = secondaryAccessoryView
         }
     }
 
