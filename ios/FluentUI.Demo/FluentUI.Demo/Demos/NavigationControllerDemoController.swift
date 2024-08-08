@@ -15,7 +15,7 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Large Title with Primary style")
         container.addArrangedSubview(createButton(title: "Show without accessory", action: #selector(showLargeTitle)))
         container.addArrangedSubview(createButton(title: "Show with collapsible search bar", action: #selector(showLargeTitleWithShyAccessory)))
-        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and pill segmented control", action: #selector(showLargeTitleWithShyAccessoryAndWideAccessory)))
+        container.addArrangedSubview(createButton(title: "Show with collapsible search bar and pill segmented control", action: #selector(showLargeTitleWithShyAccessoryAndSecondaryAccessory)))
         container.addArrangedSubview(createButton(title: "Show with fixed search bar", action: #selector(showLargeTitleWithFixedAccessory)))
         container.addArrangedSubview(createButton(title: "Show without an avatar", action: #selector(showLargeTitleWithoutAvatar)))
         container.addArrangedSubview(createButton(title: "Show with a custom leading button", action: #selector(showLargeTitleWithCustomLeadingButton)))
@@ -91,7 +91,7 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
-    @objc func showLargeTitleWithShyAccessoryAndWideAccessory() {
+    @objc func showLargeTitleWithShyAccessoryAndSecondaryAccessory() {
         presentController(withTitleStyle: .largeLeading, accessoryView: createAccessoryView(), secondaryAccessoryView: createSecondaryAccessoryView(), contractNavigationBarOnScroll: true)
     }
 

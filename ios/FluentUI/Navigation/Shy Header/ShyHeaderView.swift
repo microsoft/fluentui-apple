@@ -72,7 +72,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateColors()
         }
-        self.initWideContentStackView()
+        self.initSecondaryContentStackView()
     }
 
     override func willMove(toWindow newWindow: UIWindow?) {
@@ -126,11 +126,11 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         willSet {
             accessoryView?.removeFromSuperview()
             contentStackView.removeFromSuperview()
-            // When there is no accessoryView, the top anchor of the wideContentStackView should be equal to
+            // When there is no accessoryView, the top anchor of the secondaryContentStackView should be equal to
             // the top anchor of the parent view.
-            if let wideContentStackViewTopAnchorConstraint {
+            if let secondaryContentStackViewTopAnchorConstraint {
                 NSLayoutConstraint.activate([
-                    wideContentStackViewTopAnchorConstraint
+                    secondaryContentStackViewTopAnchorConstraint
                 ])
             }
         }
@@ -149,7 +149,7 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         }
         didSet {
             if let newContentView = secondaryAccessoryView {
-                wideContentStackView.addArrangedSubview(newContentView)
+                secondaryContentStackView.addArrangedSubview(newContentView)
             }
             maxHeightChanged?()
         }
@@ -221,8 +221,8 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
 
     private let contentStackView = UIStackView()
     private var contentStackViewHeightConstraint: NSLayoutConstraint?
-    private let wideContentStackView = UIStackView()
-    private var wideContentStackViewTopAnchorConstraint: NSLayoutConstraint?
+    private let secondaryContentStackView = UIStackView()
+    private var secondaryContentStackViewTopAnchorConstraint: NSLayoutConstraint?
     private let shadow = Separator()
 
     private var needsShadow: Bool {
@@ -262,11 +262,11 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentStackView)
 
-        // When there is a accessoryView, the top anchor of the wideContentStackView should be equal to
+        // When there is a accessoryView, the top anchor of the secondaryContentStackView should be equal to
         // the bottom anchor of contentStackView.
-        if let wideContentStackViewTopAnchorConstraint {
+        if let secondaryContentStackViewTopAnchorConstraint {
             NSLayoutConstraint.deactivate([
-                wideContentStackViewTopAnchorConstraint
+                secondaryContentStackViewTopAnchorConstraint
             ])
         }
 
@@ -276,26 +276,26 @@ class ShyHeaderView: UIView, TokenizedControlInternal {
             contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentStackView.topAnchor.constraint(equalTo: topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: wideContentStackView.topAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: secondaryContentStackView.topAnchor),
             heightConstraint
         ])
         updateContentInsets()
         contentStackView.addInteraction(UILargeContentViewerInteraction())
     }
 
-    private func initWideContentStackView() {
-        wideContentStackView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(wideContentStackView)
-        let topAnchorConstraint = wideContentStackView.topAnchor.constraint(equalTo: topAnchor)
-        wideContentStackViewTopAnchorConstraint = topAnchorConstraint
+    private func initSecondaryContentStackView() {
+        secondaryContentStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(secondaryContentStackView)
+        let topAnchorConstraint = secondaryContentStackView.topAnchor.constraint(equalTo: topAnchor)
+        secondaryContentStackViewTopAnchorConstraint = topAnchorConstraint
         NSLayoutConstraint.activate([
-            wideContentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            wideContentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            secondaryContentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            secondaryContentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             topAnchorConstraint,
-            wideContentStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            secondaryContentStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
 
-        wideContentStackView.addInteraction(UILargeContentViewerInteraction())
+        secondaryContentStackView.addInteraction(UILargeContentViewerInteraction())
     }
 
     private func initShadow() {
