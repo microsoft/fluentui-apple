@@ -8,6 +8,7 @@ import UIKit
 @objc public extension UINavigationItem {
     private struct AssociatedKeys {
         static var accessoryView: UInt8 = 0
+        static var secondaryAccessoryView: UInt8 = 0
         static var titleAccessory: UInt8 = 0
         static var titleImage: UInt8 = 0
         static var topAccessoryView: UInt8 = 0
@@ -28,6 +29,18 @@ import UIKit
         }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.accessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+
+    /// An wide accessory view that can be shown as a subview of ShyHeaderView but doesn't have leading, trailing
+    /// and bottom insets. So it can appear as being part of the content view but still contract and expand as part of
+    /// the shy header.
+    var secondaryAccessoryView: UIView? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKeys.secondaryAccessoryView) as? UIView
+        }
+        set {
+            objc_setAssociatedObject(self, &AssociatedKeys.secondaryAccessoryView, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
 
