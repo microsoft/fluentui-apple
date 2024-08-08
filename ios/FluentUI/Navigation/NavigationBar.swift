@@ -126,6 +126,13 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
         }
     }
 
+    @objc public class BadgeLabelStyleWrapper: NSObject {
+        public var style: BadgeLabelStyle
+        @objc public init(style: BadgeLabelStyle) {
+            self.style = style
+        }
+    }
+
     @objc public static func navigationBarBackgroundColor(fluentTheme: FluentTheme?) -> UIColor {
         return backgroundColor(for: .system, theme: fluentTheme)
     }
@@ -305,6 +312,15 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
 
     // @objc dynamic - so we can do KVO on this
     @objc dynamic private(set) var style: Style = defaultStyle
+
+    // Override value for BadgeLabel Style. We can set to nil when we don't wanna override.
+    @objc public var overriddenBadgeLabelStyle: BadgeLabelStyleWrapper? {
+        didSet {
+            if let navigationItem = topItem {
+                updateBarButtonItems(with: navigationItem)
+            }
+        }
+    }
 
     private var systemWantsCompactNavigationBar: Bool {
         return traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .compact
@@ -729,7 +745,9 @@ open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitl
     private func createBarButtonItemButton(with item: UIBarButtonItem, isLeftItem: Bool) -> UIButton {
         let button = BadgeLabelButton(type: .system)
         button.item = item
-        if style == .system {
+        if let badgeLabelStyle = overriddenBadgeLabelStyle?.style {
+            button.badgeLabelStyle = badgeLabelStyle
+        } else if style == .system {
             button.badgeLabelStyle = .system
         } else if style == .gradient {
             button.badgeLabelStyle = .brand
