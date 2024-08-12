@@ -22,7 +22,7 @@ public class DynamicColor: NSObject {
 	@objc public let light: NSColor
 	@objc public let dark: NSColor
 
-	public init(light: NSColor, dark: NSColor) {
+	@objc public init(light: NSColor, dark: NSColor) {
 		self.light = light
 		self.dark = dark
 	}
