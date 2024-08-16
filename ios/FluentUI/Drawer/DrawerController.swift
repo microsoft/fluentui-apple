@@ -391,6 +391,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
+    private let sourceItem: (any UIPopoverPresentationControllerSourceItem)?
 
     private var isPreferredContentSizeBeingChangedInternally: Bool = false
     private var normalDrawerHeight: CGFloat = 0
@@ -426,6 +427,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
+        self.sourceItem = nil
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
@@ -446,6 +448,21 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.sourceView = nil
         self.sourceRect = nil
         self.barButtonItem = barButtonItem
+        self.sourceItem = nil
+        self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
+        self.presentationDirection = presentationDirection
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
+
+        super.init(nibName: nil, bundle: nil)
+
+        initialize()
+    }
+
+    @objc public init(sourceItem: any UIPopoverPresentationControllerSourceItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
+        self.sourceView = nil
+        self.sourceRect = nil
+        self.barButtonItem = nil
+        self.sourceItem = sourceItem
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
@@ -1016,6 +1033,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                 if let sourceRect = sourceRect {
                     presentationController.sourceRect = sourceRect
                 }
+            } else if let sourceItem = sourceItem {
+                presentationController.sourceItem = sourceItem
             } else if let barButtonItem = barButtonItem {
                 presentationController.barButtonItem = barButtonItem
             } else {
