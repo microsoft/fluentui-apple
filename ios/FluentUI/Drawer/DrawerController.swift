@@ -458,6 +458,13 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         initialize()
     }
 
+    /**
+    Initializes `DrawerController` to be presented as a popover from `sourceItem` on iPad and as a slideover on iPhone/iPad.
+
+    - Parameter sourceItem: The item(conforming to `UIPopoverPresentationControllerSourceItem`) on which to anchor the popover.
+    - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
+    - Parameter presentationDirection: The direction of slideover presentation.
+    */
     @objc public init(sourceItem: any UIPopoverPresentationControllerSourceItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
         self.sourceView = nil
         self.sourceRect = nil
