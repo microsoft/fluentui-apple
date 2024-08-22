@@ -391,6 +391,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
     private let sourceView: UIView?
     private let sourceRect: CGRect?
     private let barButtonItem: UIBarButtonItem?
+    private let sourceItem: (any UIPopoverPresentationControllerSourceItem)?
 
     private var isPreferredContentSizeBeingChangedInternally: Bool = false
     private var normalDrawerHeight: CGFloat = 0
@@ -426,6 +427,7 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.sourceView = sourceView
         self.sourceRect = sourceRect
         self.barButtonItem = nil
+        self.sourceItem = nil
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
@@ -446,6 +448,28 @@ open class DrawerController: UIViewController, TokenizedControlInternal {
         self.sourceView = nil
         self.sourceRect = nil
         self.barButtonItem = barButtonItem
+        self.sourceItem = nil
+        self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
+        self.presentationDirection = presentationDirection
+        self.preferredMaximumExpansionHeight = preferredMaximumHeight
+
+        super.init(nibName: nil, bundle: nil)
+
+        initialize()
+    }
+
+    /**
+    Initializes `DrawerController` to be presented as a popover from `sourceItem` on iPad and as a slideover on iPhone/iPad.
+
+    - Parameter sourceItem: The item(conforming to `UIPopoverPresentationControllerSourceItem`) on which to anchor the popover.
+    - Parameter presentationOrigin: The offset (in screen coordinates) from which to show a slideover. If not provided it will be calculated automatically: bottom of navigation bar for `.down` presentation and edge of the screen for other presentations.
+    - Parameter presentationDirection: The direction of slideover presentation.
+    */
+    @objc public init(sourceItem: any UIPopoverPresentationControllerSourceItem, presentationOrigin: CGFloat = -1, presentationDirection: DrawerPresentationDirection, preferredMaximumHeight: CGFloat = -1) {
+        self.sourceView = nil
+        self.sourceRect = nil
+        self.barButtonItem = nil
+        self.sourceItem = sourceItem
         self.presentationOrigin = presentationOrigin == -1 ? nil : presentationOrigin
         self.presentationDirection = presentationDirection
         self.preferredMaximumExpansionHeight = preferredMaximumHeight
@@ -1016,6 +1040,8 @@ extension DrawerController: UIViewControllerTransitioningDelegate {
                 if let sourceRect = sourceRect {
                     presentationController.sourceRect = sourceRect
                 }
+            } else if let sourceItem = sourceItem {
+                presentationController.sourceItem = sourceItem
             } else if let barButtonItem = barButtonItem {
                 presentationController.barButtonItem = barButtonItem
             } else {
