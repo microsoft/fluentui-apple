@@ -7,13 +7,32 @@ import UIKit
 
 // MARK: TableViewHeaderFooterViewDelegate
 
-#if os(iOS)
 @objc(MSFTableViewHeaderFooterViewDelegate)
 public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// Returns: true if the interaction with the header view should be allowed; false if the interaction should not be allowed.
+    @available(iOS, deprecated: 17, message: "Replaced by primaryActionForTextItem: and menuConfigurationForTextItem: for additional customization options.")
+    @available(visionOS, deprecated: 1, message: "Replaced by primaryActionForTextItem: and menuConfigurationForTextItem: for additional customization options.")
     @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool
+
+    /// Asks the delegate for the action to be performed when interacting with a text item. If a nil action is provided, the text view
+    /// will request a menu to be presented on primary action if possible.
+    ///
+    /// @param headerFooterView  The `TableViewHeaderFooterView` requesting the primary action.
+    /// @param textItem  The text item for performing said action.
+    /// @param defaultAction The default action for the text item. Return this to perform the default action.
+    ///
+    /// @return Return a UIAction to be performed when the text item is interacted with. Return @c nil to prevent the action from being performed.
+    @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction?
+
+    /// Asks the delegate for the menu configuration to be performed when interacting with a text item.
+    ///
+    /// @param headerFooterView  The `TableViewHeaderFooterView` requesting the menu.
+    /// @param textItem  The text item for performing said action.
+    /// @param defaultMenu  The default menu for the specified text item.
+    ///
+    /// @return Return a menu configuration to be presented when the text item is interacted with. Return @c nil to prevent the menu from being presented.
+    @objc optional  func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration?
 }
-#endif // os(iOS)
 
 // MARK: - TableViewHeaderFooterView
 
@@ -125,9 +144,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         }
     }
 
-#if os(iOS)
     @objc public weak var delegate: TableViewHeaderFooterViewDelegate?
-#endif // os(iOS)
 
     open override var intrinsicContentSize: CGSize {
         return CGSize(
@@ -407,9 +424,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
     open override func prepareForReuse() {
         super.prepareForReuse()
 
-#if os(iOS)
         delegate = nil
-#endif // os(iOS)
 
         accessoryButtonStyle = .regular
         titleNumberOfLines = 1
@@ -553,12 +568,20 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
 // MARK: - TableViewHeaderFooterView: UITextViewDelegate
 
 extension TableViewHeaderFooterView: UITextViewDelegate {
-#if os(iOS)
+    @available(iOS, deprecated: 17, message: "Replaced by primaryActionForTextItem: and menuConfigurationForTextItem: for additional customization options.")
+    @available(visionOS, deprecated: 1, message: "Replaced by primaryActionForTextItem: and menuConfigurationForTextItem: for additional customization options.")
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         // If the delegate function is not set, return `true` to let the default interaction handle this
         return delegate?.headerFooterView?(self, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true
     }
-#endif // os(iOS)
+
+    public func textView(_ textView: UITextView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
+        return delegate?.headerFooterView?(self, primaryActionFor: textItem, defaultAction: defaultAction) ?? defaultAction
+    }
+
+    public func textView(_ textView: UITextView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration? {
+        return delegate?.headerFooterView?(self, menuConfigurationFor: textItem, defaultMenu: defaultMenu) ?? .init(menu: defaultMenu)
+    }
 }
 
 // MARK: - TableViewHeaderFooterTitleView

@@ -133,11 +133,9 @@ extension TableViewHeaderFooterViewDemoController {
                 }
                 footer?.setup(style: .footer, attributedTitle: title)
 
-#if os(iOS)
                 if section.hasCustomLinkHandler {
                     footer?.delegate = self
                 }
-#endif
             }
             footer?.titleNumberOfLines = section.numberOfLines
             footer?.tokenSet.replaceAllOverrides(with: overrideTokens)
@@ -165,16 +163,15 @@ extension TableViewHeaderFooterViewDemoController {
 
 // MARK: - TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate
 
-#if os(iOS)
 extension TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate {
-    func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
-        return false
+    func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
+        return UIAction { [weak self] _ in
+            let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self?.present(alertController, animated: true, completion: nil)
+        }
     }
 }
-#endif
 
 extension TableViewHeaderFooterViewDemoController: DemoAppearanceDelegate {
     func themeWideOverrideDidChange(isOverrideEnabled: Bool) {
