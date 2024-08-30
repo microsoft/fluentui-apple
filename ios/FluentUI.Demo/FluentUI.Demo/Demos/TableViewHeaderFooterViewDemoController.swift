@@ -164,6 +164,15 @@ extension TableViewHeaderFooterViewDemoController {
 // MARK: - TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate
 
 extension TableViewHeaderFooterViewDemoController: TableViewHeaderFooterViewDelegate {
+    @available (visionOS, deprecated: 1.0)
+    func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+        return false
+    }
+
+    @available(iOS, introduced: 17)
     func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
         return UIAction { [weak self] _ in
             let alertController = UIAlertController(title: "Link tapped", message: nil, preferredStyle: .alert)

@@ -22,6 +22,7 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// @param defaultAction The default action for the text item. Return this to perform the default action.
     ///
     /// @return Return a UIAction to be performed when the text item is interacted with. Return @c nil to prevent the action from being performed.
+    @available(iOS, introduced: 17)
     @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction?
 
     /// Asks the delegate for the menu configuration to be performed when interacting with a text item.
@@ -31,7 +32,8 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
     /// @param defaultMenu  The default menu for the specified text item.
     ///
     /// @return Return a menu configuration to be presented when the text item is interacted with. Return @c nil to prevent the menu from being presented.
-    @objc optional  func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration?
+    @available(iOS, introduced: 17)
+    @objc optional func headerFooterView(_ headerFooterView: TableViewHeaderFooterView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration?
 }
 
 // MARK: - TableViewHeaderFooterView
@@ -575,10 +577,12 @@ extension TableViewHeaderFooterView: UITextViewDelegate {
         return delegate?.headerFooterView?(self, shouldInteractWith: URL, in: characterRange, interaction: interaction) ?? true
     }
 
+    @available(iOS, introduced: 17)
     public func textView(_ textView: UITextView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
         return delegate?.headerFooterView?(self, primaryActionFor: textItem, defaultAction: defaultAction) ?? defaultAction
     }
 
+    @available(iOS, introduced: 17)
     public func textView(_ textView: UITextView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration? {
         return delegate?.headerFooterView?(self, menuConfigurationFor: textItem, defaultMenu: defaultMenu) ?? .init(menu: defaultMenu)
     }
