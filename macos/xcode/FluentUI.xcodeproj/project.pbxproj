@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */; };
 		3A42751229677C3700F36FBE /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751129677C3700F36FBE /* BaseTest.swift */; };
 		3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751329677C3700F36FBE /* AvatarViewTest.swift */; };
 		3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751A29677CA100F36FBE /* BadgeViewTest.swift */; };
@@ -19,7 +18,6 @@
 		3A42752729677D3700F36FBE /* ColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752629677D3700F36FBE /* ColorTest.swift */; };
 		3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */; };
 		3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */; };
-		8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8005007622FB361200CA6343 /* DatePickerControllerTests.swift */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
@@ -29,7 +27,6 @@
 		9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
 		A257F826251D987E002CAA6E /* FluentUI-macos.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A257F825251D987E002CAA6E /* FluentUI-macos.xcassets */; };
-		E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96C02295E8D60006561F /* AvatarViewTests.swift */; };
 		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
 		E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */; };
 		E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */; };
@@ -82,8 +79,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleObjCTest.h; sourceTree = "<group>"; };
-		2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleObjCTest.m; sourceTree = "<group>"; };
 		3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A42751129677C3700F36FBE /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
 		3A42751329677C3700F36FBE /* AvatarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewTest.swift; sourceTree = "<group>"; };
@@ -96,7 +91,6 @@
 		3A42752629677D3700F36FBE /* ColorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTest.swift; sourceTree = "<group>"; };
 		3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBarViewTest.swift; sourceTree = "<group>"; };
 		3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationBarViewController.swift; sourceTree = "<group>"; };
-		8005007622FB361200CA6343 /* DatePickerControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerControllerTests.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F3572322361143B0076FBBE /* FluentUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluentUI.xctestplan; sourceTree = "<group>"; };
@@ -154,8 +148,6 @@
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
 		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
 		E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		E61C96C02295E8D60006561F /* AvatarViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewTests.swift; sourceTree = "<group>"; };
-		E61C96C22295E8D60006561F /* FluentUIUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUIUnitTest-Info.plist"; sourceTree = "<group>"; };
 		E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_framework.xcconfig; sourceTree = "<group>"; };
 		E61C96CF2295F6FE0006561F /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
 		E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
@@ -280,7 +272,6 @@
 				E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */,
 				8F5368032295F4BF0098AC8F /* FluentUITestApp */,
 				E6A92D3724BEA91F00562BCA /* FluentUISwiftUITestApp */,
-				E61C96BF2295E8D60006561F /* FluentUIUnitTest */,
 				E61C96CD2295ED530006561F /* xcode */,
 				E61C96B32295E8D60006561F /* Products */,
 				AC7235D72492E0D000D0DCA8 /* Frameworks */,
@@ -301,19 +292,6 @@
 				3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		E61C96BF2295E8D60006561F /* FluentUIUnitTest */ = {
-			isa = PBXGroup;
-			children = (
-				E61C96C02295E8D60006561F /* AvatarViewTests.swift */,
-				8005007622FB361200CA6343 /* DatePickerControllerTests.swift */,
-				E61C96C22295E8D60006561F /* FluentUIUnitTest-Info.plist */,
-				2F6759B6251E4C2600210B3C /* SimpleObjCTest.h */,
-				2F6759B7251E4C2600210B3C /* SimpleObjCTest.m */,
-			);
-			name = FluentUIUnitTest;
-			path = ../FluentUIUnitTest;
 			sourceTree = "<group>";
 		};
 		E61C96CD2295ED530006561F /* xcode */ = {
@@ -671,9 +649,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E61C96C12295E8D60006561F /* AvatarViewTests.swift in Sources */,
-				2F6759B8251E4C2600210B3C /* SimpleObjCTest.m in Sources */,
-				8005007722FB361200CA6343 /* DatePickerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

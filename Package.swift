@@ -64,6 +64,13 @@ let package = Package(
             exclude: [
                 "FluentUI-Info.plist"
             ]
+        ),
+        .testTarget(
+            name: "FluentUI_macOS_Tests",
+            dependencies: [
+                .target(name: "FluentUI_macos", condition: .when(platforms: [.macOS]))
+            ],
+            path: "macos/FluentUIUnitTest"
         )
     ]
 )
