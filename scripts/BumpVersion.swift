@@ -157,7 +157,7 @@ let majorBump = Int(values[0])!
 updatePlist(path: "\(currentDirectory)/ios/FluentUI.Demo/FluentUI.Demo/Info.plist",
             values: ["\(1 + majorBump)\(croppedNewValue)", "\(137 + majorBump)\(croppedNewValue)"])
 
-updatePlist(path: "\(currentDirectory)/ios/FluentUI.Resources/Info.plist",
+updatePlist(path: "\(currentDirectory)/ios/FluentUI.Resources/Version.plist",
             values: [newVersion, newVersion])
 
 updatePlist(path: "\(currentDirectory)/macos/FluentUI/FluentUI-Info.plist",

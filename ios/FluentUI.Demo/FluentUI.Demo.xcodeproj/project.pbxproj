@@ -87,9 +87,8 @@
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
 		9211BC612BD97B7900B95200 /* DemoHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9211BC602BD97B7900B95200 /* DemoHostingController.swift */; };
 		92279B352B97F5DA00994D88 /* ButtonDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92279B342B97F5D900994D88 /* ButtonDemoController_SwiftUI.swift */; };
-		923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 923DF2DA271158C900637646 /* libFluentUI.a */; };
-		923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */; };
 		9245E1F927BECDBB007616F3 /* GlobalColorTokensDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */; };
+		9246B7072C628CF6004A4440 /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9246B7062C628CF6004A4440 /* FluentUI */; };
 		92561E732718AD090072ED00 /* DemoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92561E722718AD090072ED00 /* DemoTableViewController.swift */; };
 		92B45E4E279A1A0B00E72517 /* DemoAppearanceControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */; };
 		92BF13322BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */; };
@@ -229,6 +228,7 @@
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		923DF2DC271158CD00637646 /* FluentUIResources-ios.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = "FluentUIResources-ios.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9245E1F827BECDBB007616F3 /* GlobalColorTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalColorTokensDemoController.swift; sourceTree = "<group>"; };
+		9246B7052C628CAE004A4440 /* fluentui-apple */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "fluentui-apple"; path = ../..; sourceTree = "<group>"; };
 		92561E722718AD090072ED00 /* DemoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewController.swift; sourceTree = "<group>"; };
 		92B45E4D279A1A0B00E72517 /* DemoAppearanceControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppearanceControlView.swift; sourceTree = "<group>"; };
 		92BF13312BE405710068422C /* AliasColorTokensDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -345,10 +345,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9246B7072C628CF6004A4440 /* FluentUI in Frameworks */,
 				8F0B81122670200300463726 /* AppCenterDistribute in Frameworks */,
 				8F0B8114267021A700463726 /* AppCenterAnalytics in Frameworks */,
 				8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */,
-				923DF2DB271158C900637646 /* libFluentUI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,6 +473,7 @@
 		A5CEC20320E436F10016922A = {
 			isa = PBXGroup;
 			children = (
+				9246B7052C628CAE004A4440 /* fluentui-apple */,
 				A5CEC20E20E436F10016922A /* FluentUI.Demo */,
 				3A83F7C0295110FF00EF6629 /* FluentUIDemoTests */,
 				A5CEC20D20E436F10016922A /* Products */,
@@ -645,6 +646,7 @@
 				8F0B81112670200300463726 /* AppCenterDistribute */,
 				8F0B8113267021A700463726 /* AppCenterAnalytics */,
 				8F0B8115267021A700463726 /* AppCenterCrashes */,
+				9246B7062C628CF6004A4440 /* FluentUI */,
 			);
 			productName = OfficeUIFabric.Demo;
 			productReference = A5CEC20C20E436F10016922A /* FluentUI.Demo.app */;
@@ -745,7 +747,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				923DF2DF27115B4700637646 /* FluentUIResources-ios.bundle in Resources */,
 				A5CEC21C20E436F20016922A /* LaunchScreen.storyboard in Resources */,
 				A5CEC21920E436F20016922A /* Assets.xcassets in Resources */,
 			);
@@ -1381,6 +1382,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8F0B81102670200300463726 /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
 			productName = AppCenterCrashes;
+		};
+		9246B7062C628CF6004A4440 /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

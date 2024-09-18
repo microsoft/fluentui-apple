@@ -48,9 +48,7 @@ class DemoListViewController: DemoTableViewController {
         guard let appName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String else {
             preconditionFailure("CFBundleName is nil")
         }
-        guard let libraryVersion = FluentUIFramework.resourceBundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
-            preconditionFailure("CFBundleShortVersionString is nil")
-        }
+        let libraryVersion = FluentUIFramework.fluentVersion
         navigationItem.title = appName
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.backButtonDisplayMode = .minimal

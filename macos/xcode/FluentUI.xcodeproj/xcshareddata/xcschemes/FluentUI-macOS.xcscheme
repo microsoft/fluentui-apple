@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E61C96B12295E8D60006561F"
-               BuildableName = "FluentUI.framework"
+               BlueprintIdentifier = "FluentUI"
+               BuildableName = "FluentUI"
                BlueprintName = "FluentUI"
-               ReferencedContainer = "container:FluentUI.xcodeproj">
+               ReferencedContainer = "container:../..">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -52,15 +52,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E61C96B12295E8D60006561F"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
-            ReferencedContainer = "container:FluentUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -68,15 +59,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E61C96B12295E8D60006561F"
-            BuildableName = "FluentUI.framework"
-            BlueprintName = "FluentUI"
-            ReferencedContainer = "container:FluentUI.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

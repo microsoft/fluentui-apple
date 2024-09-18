@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import FluentUI
+@testable import FluentUI_macos
 
 class DatePickerControllerTests: XCTestCase {
 
