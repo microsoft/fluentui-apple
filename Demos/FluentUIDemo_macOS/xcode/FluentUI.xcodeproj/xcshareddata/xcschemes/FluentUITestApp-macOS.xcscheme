@@ -28,10 +28,38 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FluentUI"
+               BuildableName = "FluentUI"
+               BlueprintName = "FluentUI"
+               ReferencedContainer = "container:../../..">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "E61C96BA2295E8D60006561F"
                BuildableName = "FluentUIUnitTests.xctest"
                BlueprintName = "FluentUITests"
                ReferencedContainer = "container:FluentUI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FluentUI_macOS_Tests"
+               BuildableName = "FluentUI_macOS_Tests"
+               BlueprintName = "FluentUI_macOS_Tests"
+               ReferencedContainer = "container:../../..">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

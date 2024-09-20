@@ -47,15 +47,15 @@
     {
       "target" : {
         "containerPath" : "container:FluentUI.xcodeproj",
-        "identifier" : "E61C96BA2295E8D60006561F",
-        "name" : "FluentUITests"
+        "identifier" : "3A42750E29677C3700F36FBE",
+        "name" : "FluentUIDemoTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:FluentUI.xcodeproj",
-        "identifier" : "3A42750E29677C3700F36FBE",
-        "name" : "FluentUIDemoTests"
+        "containerPath" : "container:..\/..\/..",
+        "identifier" : "FluentUI_macOS_Tests",
+        "name" : "FluentUI_macOS_Tests"
       }
     }
   ],
