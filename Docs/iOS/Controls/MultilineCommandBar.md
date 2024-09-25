@@ -24,10 +24,10 @@ let multilineCommandBar = MultilineCommandBar(compactRows: compactRows, regularR
 `MultilineCommandBar` in Swift, `MSFMultilineCommandBar` in Objective-C
 
 ### Source Code
-- [MultilineCommandBar.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/MultilineCommandBar/MultilineCommandBar.swift)
+- [MultilineCommandBar.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/MultilineCommandBar/MultilineCommandBar.swift)
 
 ### Sample Code
-- [MultilineCommandBarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/MultilineCommandBarDemoController.swift)
+- [MultilineCommandBarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/MultilineCommandBarDemoController.swift)
 
 ## Accessibility
 `MultilineCommandBar` contains accessibility identifiers for each `CommandBar`.

@@ -39,10 +39,10 @@ There is currently no SwiftUI implementation of the `Bottom Sheet`
 `BottomSheetController` in Swift, `MSFBottomSheetController` in Objective-C
 
 ### Source Code
- - [BottomSheetController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Bottom%20Sheet/BottomSheetController.swift)
- - [BottomSheetPassthroughView.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Bottom%20Sheet/BottomSheetPassthroughView.swift)
- - [ContentHeightResolutionContext.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Bottom%20Sheet/ContentHeightResolutionContext.swift)
- - [BottomSheetTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Bottom%20Sheet/BottomSheetTokenSet.swift)
+ - [BottomSheetController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Bottom%20Sheet/BottomSheetController.swift)
+ - [BottomSheetPassthroughView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Bottom%20Sheet/BottomSheetPassthroughView.swift)
+ - [ContentHeightResolutionContext.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Bottom%20Sheet/ContentHeightResolutionContext.swift)
+ - [BottomSheetTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Bottom%20Sheet/BottomSheetTokenSet.swift)
 
 ### Sample Code
- - [BottomSheetDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/BottomSheetDemoController.swift)
+ - [BottomSheetDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/BottomSheetDemoController.swift)

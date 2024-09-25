@@ -34,7 +34,7 @@ ListItem(title: "Title",
 `ListItem` in SwiftUI
 
 ### Source Code
-- [ListItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/List/ListItem.swift)
+- [ListItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/List/ListItem.swift)
 
 ### Sample Code
-- [ListItemDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/ListItemDemoController_SwiftUI.swift)
+- [ListItemDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/ListItemDemoController_SwiftUI.swift)

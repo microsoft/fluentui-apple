@@ -21,6 +21,6 @@ BadgeView(title: "Badge")
 ### Control Name
 `BadgeView` in Swift, `MSFBadgeView` in Objective-C
 ### Source Code
-[BadgeView.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/BadgeView/BadgeView.swift)
+[BadgeView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_macOS/Components/BadgeView/BadgeView.swift)
 ### Sample Code
-[TestBadgeViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestViewControllers/TestBadgeViewController.swift)
+[TestBadgeViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestBadgeViewController.swift)

@@ -15,14 +15,14 @@ There is currently no SwiftUI implementation of the PopupMenuController
 ## Implementation
 ### Source Code
 #### UIKit
- - [PopupMenuController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuController.swift)
- - [PopupMenuItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuItem.swift)
- - [PopupMenuItemCell.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuItemCell.swift)
- - [PopupMenuProtocols.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuProtocols.swift)
- - [PopupMenuSection.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuSection.swift)
- - [PopupMenuSectionHeaderView.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Popup%20Menu/PopupMenuSectionHeaderView.swift)
+ - [PopupMenuController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuController.swift)
+ - [PopupMenuItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuItem.swift)
+ - [PopupMenuItemCell.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuItemCell.swift)
+ - [PopupMenuProtocols.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuProtocols.swift)
+ - [PopupMenuSection.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuSection.swift)
+ - [PopupMenuSectionHeaderView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuSectionHeaderView.swift)
 ### Sample Code
 #### Objective-C
- - [PopupMenuObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuObjCDemoController.m)
+ - [PopupMenuObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuObjCDemoController.m)
 #### Swift
- - [PopupMenuDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuDemoController.swift)
+ - [PopupMenuDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuDemoController.swift)

@@ -75,6 +75,6 @@ let buttonWithImage = Button(image: NSImage(named: NSImage.addTemplateName)!)
 ### Control Name
 `Button` in Swift, `MSFButton` in Objective-C
 ### Source Code
-[Button.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/Button/Button.swift)
+[Button.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_macOS/Components/Button/Button.swift)
 ### Sample Code
-[TestButtonViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestViewControllers/TestButtonViewController.swift)
+[TestButtonViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestButtonViewController.swift)

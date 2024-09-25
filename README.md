@@ -37,18 +37,6 @@ To integrate FluentUI into your Xcode project using CocoaPods, specify it in you
 pod 'MicrosoftFluentUI', '~> X.X.X'
 ```
 
-#### Manual installation
-
-- Download the latest changes from the [FluentUI for Apple](https://github.com/microsoft/fluentui-apple) repository.
-- Move the `fluentui-apple` folder into your project folder.
-- For iOS platform
-    - Move `ios/FluentUI.xcodeproj` into your Xcode project.
-    - In Xcode select your project -> your target -> "General" -> "Frameworks, Libraries, and Embedded Content" -> add `libFluentUI.a`.
-    - In Xcode select your project -> your target -> "Build Phases" -> "Copy Bundle Resources" -> add `FluentUIResources-ios.bundle`.
-- For macOS platform
-    - Move `macos/xcode/FluentUI.xcodeproj` into your Xcode project.
-    - In Xcode select your project -> your target -> "General" -> "Frameworks, Libraries, and Embedded Content" -> add `FluentUI.framework`.
-
 ### Import and use FluentUI
 
 After the framework has been added you can import the module to use it:
@@ -63,7 +51,7 @@ For Objective-C
 ```
 
 ## List of Available Controls
-For more platform-specific information, please see [the iOS readme file](ios/README.md) and the [the macOS readme file](macos/README.md).
+For more platform-specific information, please see [the iOS readme file](Sources/FluentUI_iOS/README.md) and the [the macOS readme file](Sources/FluentUI_macOS/README.md).
 
 ## Changelog
 

@@ -28,6 +28,6 @@ There is currently no SwiftUI implementation of the Label
 ### Control Name
 `Label` in Swift, `MSFLabel` in Objective-C
 ### Source Code
-[Label.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Label/Label.swift)
+[Label.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Label/Label.swift)
 ### Sample Code
-[LabelDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI.Demo/FluentUI.Demo/Demos/LabelDemoController.swift)
+[LabelDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/LabelDemoController.swift)

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Use a `NavigationController` to enable users to navigate through hierarchical data. `NavigationController`, along with [extensions to `UINavigationItem`](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Navigation/UINavigationItem%2BNavigation.swift), allow you to render all relevant information with a Fluent look and feel.
+Use a `NavigationController` to enable users to navigate through hierarchical data. `NavigationController`, along with [extensions to `UINavigationItem`](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Navigation/UINavigationItem%2BNavigation.swift), allow you to render all relevant information with a Fluent look and feel.
 
 ### Appearance Examples
 
@@ -33,8 +33,8 @@ You can also specify an optional `titleImage` with the associated navigation ite
 
 ### Source Code
 
-[Navigation folder](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Navigation/)
+[Navigation folder](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Navigation/)
 
 ### Sample Code
 
-[NavigationControllerDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/NavigationControllerDemoController.swift)
+[NavigationControllerDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/NavigationControllerDemoController.swift)

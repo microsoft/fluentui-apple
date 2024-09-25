@@ -38,8 +38,8 @@ Tooltip.shared.show(with: "This is the message of the tooltip.",
 ### Control Name
 `Tooltip` in Swift, `MSFTooltip` in Objective-C/UIKit
 ### Source Code
-[Tooltip.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/Tooltip.swift)
-[TooltipView.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipView.swift)
-[TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI/Tooltip/TooltipViewController.swift)
+[Tooltip.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Tooltip/Tooltip.swift)
+[TooltipView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Tooltip/TooltipView.swift)
+[TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Tooltip/TooltipViewController.swift)
 ### Sample Code
-[TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/fluent2-tokens/ios/FluentUI.Demo/FluentUI.Demo/Demos/TooltipDemoController.swift)
+[TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TooltipDemoController.swift)

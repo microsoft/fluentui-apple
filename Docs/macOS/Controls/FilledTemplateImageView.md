@@ -37,6 +37,6 @@ tagImage.fillColor = .clear
 ### Control Name
 `FilledTemplateImageView` in Swift, `MSFFilledTemplateImageView` in Objective-C
 ### Source Code
-[FilledTemplateImageView.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/FilledTemplateImageView/FilledTemplateImageView.swift)
+[FilledTemplateImageView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_macOS/Components/FilledTemplateImageView/FilledTemplateImageView.swift)
 ### Sample Code
-[FilledTemplateImageViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestViewControllers/FilledTemplateImageViewController.swift)
+[FilledTemplateImageViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/FilledTemplateImageViewController.swift)

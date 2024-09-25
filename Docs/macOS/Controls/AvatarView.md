@@ -38,6 +38,6 @@ AvatarView(avatarSize: size,
 ### Control Name
 `AvatarView` in Swift, `MSFAvatarView` in Objective-C
 ### Source Code
-[AvatarView.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUI/AvatarView/AvatarView.swift)
+[AvatarView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_macOS/Components/AvatarView/AvatarView.swift)
 ### Sample Code
-[TestAvatarViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/macos/FluentUITestViewControllers/TestAvatarViewController.swift)
+[TestAvatarViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestAvatarViewController.swift)

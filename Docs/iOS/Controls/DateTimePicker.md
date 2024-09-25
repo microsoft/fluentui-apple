@@ -31,9 +31,9 @@ dateTimePicker.present(from: self,
 ### Control Name
 `DateTimePicker` in Swift, `MSFDateTimePicker` in Objective-C
 ### Source Code
-[DateTimePicker.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Date%20Time%20Pickers/DateTimePicker.swift)
+[DateTimePicker.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Date%20Time%20Pickers/DateTimePicker.swift)
 ### Sample Code
-[DateTimePickerDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/DateTimePickerDemoController.swift)
+[DateTimePickerDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/DateTimePickerDemoController.swift)
 
 ## Known Issues
 ### Custom Calendar Configuration

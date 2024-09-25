@@ -28,8 +28,8 @@ There is currently no SwiftUI implementation of the `Button`
 `Button` in Swift, `MSFButton` in Objective-C
 
 ### Source Code
- - [Button.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Button/Button.swift)
- - [ButtonTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Button/ButtonTokenSet.swift)
+ - [Button.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Button/Button.swift)
+ - [ButtonTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Button/ButtonTokenSet.swift)
 ### Sample Code
- - [ButtonDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/ButtonDemoController.swift)
+ - [ButtonDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/ButtonDemoController.swift)
 

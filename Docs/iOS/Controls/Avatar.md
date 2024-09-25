@@ -39,9 +39,9 @@ Avatar(style: style,
 `Avatar` in Swift, `MSFAvatar` in Objective-C
 
 ### Source Code
-- [Avatar.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Avatar/Avatar.swift)
-- [MSFAvatar.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/Avatar/MSFAvatar.swift)
+- [Avatar.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Avatar/Avatar.swift)
+- [MSFAvatar.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Avatar/MSFAvatar.swift)
 
 ### Sample Code
-- [AvatarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController.swift)
-- [AvatarDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController_SwiftUI.swift)
+- [AvatarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController.swift)
+- [AvatarDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController_SwiftUI.swift)

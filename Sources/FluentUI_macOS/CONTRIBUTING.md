@@ -6,7 +6,7 @@ Included in this repository is a demo that showcases all the currently available
 
 To build and deploy the demo follow these steps:
 - clone the [FluentUI](https://github.com/microsoft/fluentui-apple) repository.
-- Open `macos/xcode/FluentUI.xcodeproj` in Xcode.
+- Open `Demos/FluentUIDemo_macOS/xcode/FluentUI.xcodeproj` in Xcode.
 - In the Xcode scheme menu choose `FluentUITestApp-macOS` and choose "My Mac" as the deployment target.
 - Once deployed you can choose a control to test from the list of controls in the left pane.
 
@@ -18,7 +18,7 @@ To build and deploy the demo follow these steps:
 - Create and add a test ViewController under [FluentUITestViewControllers](FluentUITestViewControllers) (ex. TestFooViewController.swift)
 - Add TestFooViewController.swift to FluentUI xcode project (All the files are in alphabetical order)
 - Make sure it is part of FluentUITestViewControllers Target membership
-- Add TestFooViewController to the array in [TestViewContronllers.swift](https://github.com/microsoft/fluentui-apple/blob/02b1c3fe601b793cb6cfd24813e11d92420e0d77/macos/FluentUITestViewControllers/TestViewControllers.swift#L14)
+- Add TestFooViewController to the array in [TestViewContronllers.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestViewControllers.swift)
 - Add a new cocopod subspec in [MicrosoftFluentUI.podspec](https://github.com/microsoft/fluentui-apple/blob/main/MicrosoftFluentUI.podspec) with required dependencies. "s.subspec 'Foo_mac' do |foo_mac|"
 - Verify by "pod spec lint" For more info on [cocoapod](https://cocoapods.org)
 - Build and Run

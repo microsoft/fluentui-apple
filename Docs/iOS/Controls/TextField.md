@@ -20,7 +20,7 @@ Once the user is done and taps away, the Text Field will switch back to the unfo
 
 ![TextField-Filled.png](.attachments/TextField-Filled.png)
 
-The Text Field also exposes an optional [FluentTextInputError](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/TextField/FluentTextInputError.swift), which if set will replace the assistive text with the error's localized description and will recolor the title, separator, and assistive text to show that it is in the error state.
+The Text Field also exposes an optional [FluentTextInputError](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/TextField/FluentTextInputError.swift), which if set will replace the assistive text with the error's localized description and will recolor the title, separator, and assistive text to show that it is in the error state.
 
 ![TextField-Error.png](.attachments/TextField-Error.png)
 
@@ -40,7 +40,7 @@ The Text Field has four closure properties that allow clients to respond to spec
     @objc public var onReturn: ((FluentTextField) -> Bool)?
 ```
 
-The UITextField that the Text Field uses is actually a custom subclass of the UITextField, the [FluentTextFieldInternal](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/TextField/FluentTextFieldInternal.swift), so that the position of the trailing clear text button could be customized.
+The UITextField that the Text Field uses is actually a custom subclass of the UITextField, the [FluentTextFieldInternal](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/TextField/FluentTextFieldInternal.swift), so that the position of the trailing clear text button could be customized.
 
 ## Implementation
 ### Control Name
@@ -48,12 +48,12 @@ The UITextField that the Text Field uses is actually a custom subclass of the UI
 
 ### Source Code
 #### UIKit
- - [FluentTextField.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/TextField/FluentTextField.swift)
- - [TextFieldTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI/TextField/TextFieldTokenSet.swift)
+ - [FluentTextField.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/TextField/FluentTextField.swift)
+ - [TextFieldTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/TextField/TextFieldTokenSet.swift)
  
 ### Sample Code
 #### Objective-C
- - [TextFieldObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldObjCDemoController.m)
+ - [TextFieldObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldObjCDemoController.m)
  
 #### Swift
- - [TextFieldDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/ios/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldDemoController.swift)
+ - [TextFieldDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldDemoController.swift)
