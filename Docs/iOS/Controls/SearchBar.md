@@ -29,7 +29,7 @@ The `SearchBar` contains a search icon, a search text field, a placeholder text,
 - [SearchBar.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Navigation/SearchBar/SearchBar.swift)
 
 ### Sample Code
-- [SearchBarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/SearchBarDemoController.swift)
+- [SearchBarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/SearchBarDemoController.swift)
 
 ## Accessibility
 `SearchBar` publicly exposes accessibility hints, labels and identifiers for the `clearButton`, `cancelButton`, and `searchTextField`.

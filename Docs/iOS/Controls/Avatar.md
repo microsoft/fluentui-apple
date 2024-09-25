@@ -43,5 +43,5 @@ Avatar(style: style,
 - [MSFAvatar.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Avatar/MSFAvatar.swift)
 
 ### Sample Code
-- [AvatarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController.swift)
-- [AvatarDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/AvatarDemoController_SwiftUI.swift)
+- [AvatarDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/AvatarDemoController.swift)
+- [AvatarDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/AvatarDemoController_SwiftUI.swift)

@@ -42,4 +42,4 @@ Tooltip.shared.show(with: "This is the message of the tooltip.",
 [TooltipView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Tooltip/TooltipView.swift)
 [TooltipViewController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Tooltip/TooltipViewController.swift)
 ### Sample Code
-[TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TooltipDemoController.swift)
+[TooltipDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/TooltipDemoController.swift)

@@ -45,4 +45,4 @@ There is currently no SwiftUI implementation of the `Bottom Sheet`
  - [BottomSheetTokenSet.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Bottom%20Sheet/BottomSheetTokenSet.swift)
 
 ### Sample Code
- - [BottomSheetDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/BottomSheetDemoController.swift)
+ - [BottomSheetDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/BottomSheetDemoController.swift)

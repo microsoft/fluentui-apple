@@ -53,7 +53,7 @@ The UITextField that the Text Field uses is actually a custom subclass of the UI
  
 ### Sample Code
 #### Objective-C
- - [TextFieldObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldObjCDemoController.m)
+ - [TextFieldObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/TextFieldObjCDemoController.m)
  
 #### Swift
- - [TextFieldDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/TextFieldDemoController.swift)
+ - [TextFieldDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/TextFieldDemoController.swift)

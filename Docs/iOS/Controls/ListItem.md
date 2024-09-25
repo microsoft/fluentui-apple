@@ -37,4 +37,4 @@ ListItem(title: "Title",
 - [ListItem.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/List/ListItem.swift)
 
 ### Sample Code
-- [ListItemDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/ListItemDemoController_SwiftUI.swift)
+- [ListItemDemoController_SwiftUI.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/ListItemDemoController_SwiftUI.swift)

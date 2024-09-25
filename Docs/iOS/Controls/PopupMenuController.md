@@ -23,6 +23,6 @@ There is currently no SwiftUI implementation of the PopupMenuController
  - [PopupMenuSectionHeaderView.swift](https://github.com/microsoft/fluentui-apple/blob/main/Sources/FluentUI_iOS/Components/Popup%20Menu/PopupMenuSectionHeaderView.swift)
 ### Sample Code
 #### Objective-C
- - [PopupMenuObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuObjCDemoController.m)
+ - [PopupMenuObjCDemoController.m](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/PopupMenuObjCDemoController.m)
 #### Swift
- - [PopupMenuDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo/Demos/PopupMenuDemoController.swift)
+ - [PopupMenuDemoController.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos/PopupMenuDemoController.swift)
