@@ -6,17 +6,17 @@ Included in this repository is a demo that showcases all the currently available
 
 To build and run the demo app follow these steps:
 - Clone the [FluentUI](https://github.com/microsoft/fluentui-apple) repository.
-- Open `Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo.xcodeproj` in Xcode.
+- Open `Demos/FluentUIDemo_iOS/FluentUI.Demo.xcodeproj` in Xcode.
 - In the Xcode scheme menu choose `Demo.development` and choose an iOS Simulator(or Device if you have your own device provisioning profile) to deploy to.
 - Make sure Swift Package Manager has download 2 dependencies(appcenter-sdk-apple and PLCrashReporter) for demo app.
 - Build and Run the demo app
 
 ## Adding a new component
-- Create a new folder of the Control name (ex. Foo) under under [FluentUI](FluentUI)
+- Create a new folder of the Control name (ex. Foo) under [Components](Components)
 - Create a new swift file. (ex. Foo.swift)
 - Add Foo.swift in Fluent xcode project (All the files are in alphabetical order)
 - Make sure your file is under FluentUILib target
-- Create and add a demo controller in the Fluent demo app under [Demos](FluentUI.Demo/FluentUI.Demo/Demos) (ex. FooDemoController.swift)
+- Create and add a demo controller in the Fluent demo app under [Demos](/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos) (ex. FooDemoController.swift)
 - Add FooDemoController.swift to Fluent Demo xcode project (All the files are in alphabetical order)
 - Make sure it is part of FluentUI.Demo Target membership
 - Add your FooDemoController to the list of [DemoDescriptor](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos.swift)
