@@ -8,7 +8,7 @@ import UIKit
 // MARK: - DateTimePickerViewComponentCell
 
 /// TableViewCell representing the cell of component view (should be used only by DateTimePickerViewComponent and not instantiated on its own)
-class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControlInternal {
+class DateTimePickerViewComponentCell: UITableViewCell, TokenizedControl {
     private struct Constants {
         static let baseHeight: CGFloat = 45
         static let verticalPadding: CGFloat = 12

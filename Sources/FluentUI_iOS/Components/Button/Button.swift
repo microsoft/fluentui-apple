@@ -10,7 +10,7 @@ import UIKit
 /// By default, `titleLabel`'s `adjustsFontForContentSizeCategory` is set to true for non-floating buttons to automatically update its font when device's content size category changes
 @IBDesignable
 @objc(MSFButton)
-open class Button: UIButton, Shadowable, TokenizedControlInternal {
+open class Button: UIButton, Shadowable, TokenizedControl {
     @objc open var style: ButtonStyle = .outlineAccent {
         didSet {
             if style != oldValue {
