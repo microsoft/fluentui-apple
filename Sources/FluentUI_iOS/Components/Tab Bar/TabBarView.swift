@@ -149,7 +149,7 @@ open class TabBarView: UIView, TokenizedControlInternal {
     @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
 
     private struct Constants {
-        static let maxTabCount: Int = 5
+        static let maxTabCount: Int = 6
     }
 
     private let backgroundView: UIVisualEffectView = {
