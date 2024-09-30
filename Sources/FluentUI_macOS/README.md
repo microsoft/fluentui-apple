@@ -19,4 +19,4 @@ Some of the controls available include:
 - Separator
 
 
-A full list of currently supported controls can be found here: [FluentUI](FluentUI).
+A full list of currently supported controls can be found here: [Components](Components).

@@ -14,7 +14,7 @@ FluentUI for iOS is a native framework that provides the Microsoft UI experience
 
 ## Colors and Typography
 
-FluentUI for iOS provides [colors](FluentUI/Core/Colors.swift) and [typography](FluentUI/Core/Fonts.swift) core to experiences within the Fluent Design language.
+FluentUI for iOS provides [colors](Core/FluentTheme+Tokens.swift) and [typography](Core/FluentTheme+Tokens.swift) core to experiences within the Fluent Design language.
 
 ## Controls
 
@@ -54,15 +54,15 @@ Some of the controls available include:
 - TableViewCellShimmer
 - Tooltip
 
-A full list of currently supported controls can be found here: [FluentUI](FluentUI).
+A full list of currently supported controls can be found here: [Components](Components).
 
 ## Demo app
 
-Included in this repository is a demo of currently implemented controls. A full list of implemented controls available in the demo can be found here:  [Demos](FluentUI.Demo/FluentUI.Demo/Demos).
+Included in this repository is a demo of currently implemented controls. A full list of implemented controls available in the demo can be found here: [Demos](/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos).
 
 To build and deploy the demo follow these steps:
 - Download or clone the [FluentUI for iOS](https://github.com/microsoft/fluentui-apple) repository.
-- Open `Demos/FluentUIDemo_iOS/FluentUI.Demo/FluentUI.Demo.xcodeproj` in Xcode.
+- Open `Demos/FluentUIDemo_iOS/FluentUI.Demo.xcodeproj` in Xcode.
 - In the Xcode scheme menu choose `Demo.development` and choose a device to deploy to.
 - Once deployed you can choose a control to demo from the list of controls on the selected device.
 

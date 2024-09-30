@@ -11,11 +11,11 @@ To build and deploy the demo follow these steps:
 - Once deployed you can choose a control to test from the list of controls in the left pane.
 
 ### Adding a new component
-- Create a new folder of the Control name (ex. Foo) under [FluentUI](FluentUI)
+- Create a new folder of the Control name (ex. Foo) under [Components](Components)
 - Create a new swift file. (ex. Foo.swift)
 - Add Foo.swift and its folder in FluentUI xcode project (All the files are in alphabetical order)
 - Make sure your file is under FluentUI framework target
-- Create and add a test ViewController under [FluentUITestViewControllers](FluentUITestViewControllers) (ex. TestFooViewController.swift)
+- Create and add a test ViewController under [FluentUITestViewControllers](/Demos/FluentUIDemo_macOS/FluentUITestViewControllers) (ex. TestFooViewController.swift)
 - Add TestFooViewController.swift to FluentUI xcode project (All the files are in alphabetical order)
 - Make sure it is part of FluentUITestViewControllers Target membership
 - Add TestFooViewController to the array in [TestViewContronllers.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestViewControllers.swift)
