@@ -39,12 +39,4 @@ extension Color {
             self.init(uiColor: UIColor(dynamicColor: dynamicColor))
         }
     }
-
-    public init(dynamicColor: DynamicColor) {
-        if #available(iOS 17, *) {
-            self.init(dynamicColor)
-        } else {
-            self.init(uiColor: UIColor(dynamicColor: dynamicColor))
-        }
-    }
 }
