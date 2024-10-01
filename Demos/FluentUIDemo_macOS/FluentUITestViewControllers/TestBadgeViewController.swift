@@ -20,8 +20,8 @@ class TestBadgeViewController: NSViewController {
 		containerView.addView(BadgeView(title: "Primary", style: .primary), in: .center)
 
 		let customBadge = BadgeView(title: "Custom")
-		customBadge.backgroundColor = DynamicColor_DEPRECATED(light: Colors.Palette.blueMagenta20.color, dark: Colors.Palette.gray50.color)
-		customBadge.textColor = DynamicColor_DEPRECATED(light: Colors.Palette.gray50.color, dark: Colors.Palette.blueMagenta20.color)
+		customBadge.backgroundColor = DynamicColor(light: Colors.Palette.blueMagenta20.color, dark: Colors.Palette.gray50.color)
+		customBadge.textColor = DynamicColor(light: Colors.Palette.gray50.color, dark: Colors.Palette.blueMagenta20.color)
 		containerView.addView(customBadge, in: .center)
 
 		view = containerView

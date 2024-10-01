@@ -7,17 +7,17 @@ import AppKit
 
 @objc(MSFColorSet)
 public class ColorSet: NSObject {
-	@objc public let background: DynamicColor_DEPRECATED
-	@objc public let foreground: DynamicColor_DEPRECATED
+	@objc public let background: DynamicColor
+	@objc public let foreground: DynamicColor
 
-	public init(background: DynamicColor_DEPRECATED, foreground: DynamicColor_DEPRECATED) {
+	public init(background: DynamicColor, foreground: DynamicColor) {
 		self.background = background
 		self.foreground = foreground
 	}
 }
 
-@objc(MSFDynamicColor_DEPRECATED)
-public class DynamicColor_DEPRECATED: NSObject {
+@objc(MSFDynamicColor)
+public class DynamicColor: NSObject {
 
 	@objc public let light: NSColor
 	@objc public let dark: NSColor
@@ -36,7 +36,7 @@ public class DynamicColor_DEPRECATED: NSObject {
 	}
 
 	public override func isEqual(_ object: Any?) -> Bool {
-		guard let dynamicColor = object as? DynamicColor_DEPRECATED else {
+		guard let dynamicColor = object as? DynamicColor else {
 			return false
 		}
 		return dynamicColor.light.isEqual(self.light) && dynamicColor.dark.isEqual(self.dark)
