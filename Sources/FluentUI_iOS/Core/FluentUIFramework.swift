@@ -25,7 +25,9 @@ public class FluentUIFramework: NSObject {
 
     @objc public static var fluentVersion: String? = {
         struct VersionConfig: Decodable {
+            // swiftlint:disable identifier_name
             let FluentVersion: String
+            // swiftlint:enable identifier_name
         }
 
         guard let url = resourceBundle.url(forResource: "Version", withExtension: "plist"),
