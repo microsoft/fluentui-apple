@@ -44,7 +44,7 @@ public protocol TableViewHeaderFooterViewDelegate: AnyObject {
 /// The optional accessory button should only be used with `default` style headers with the `title` as a single line of text.
 /// Use `titleNumberOfLines` to configure the number of lines for the `title`. Headers generally use the default number of lines of 1 while footers may use a multiple number of lines.
 @objc(MSFTableViewHeaderFooterView)
-open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedControlInternal {
+open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedControl {
     @objc public static var identifier: String { return String(describing: self) }
 
     /// The height of the view based on the height of its content.

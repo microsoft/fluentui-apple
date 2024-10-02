@@ -5,7 +5,7 @@
 
 import UIKit
 
-class TabBarItemView: UIControl, TokenizedControlInternal {
+class TabBarItemView: UIControl, TokenizedControl {
     let item: TabBarItem
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens

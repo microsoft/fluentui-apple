@@ -65,7 +65,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 }
 
 @objc(MSFBottomSheetController)
-public class BottomSheetController: UIViewController, Shadowable, TokenizedControlInternal {
+public class BottomSheetController: UIViewController, Shadowable, TokenizedControl {
 
     /// Initializes the bottom sheet controller
     /// - Parameters:

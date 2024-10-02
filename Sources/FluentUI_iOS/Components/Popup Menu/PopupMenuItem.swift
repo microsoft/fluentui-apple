@@ -101,6 +101,10 @@ open class PopupMenuItem: NSObject, PopupMenuTemplateItem, FluentThemeable {
         self.init(image: image, selectedImage: selectedImage, title: title, subtitle: subtitle, isEnabled: isEnabled, isSelected: isSelected, executes: executionMode, onSelected: onSelected, isAccessoryCheckmarkVisible: isAccessoryCheckmarkVisible)
     }
 
+    public func isApplicableThemeChange(_ notification: Notification) -> Bool {
+        return true
+    }
+
     lazy var tokenSet: PopupMenuItemTokenSet = {
         PopupMenuItemTokenSet(customViewSize: { self.image != nil ? .small : .zero })
     }()

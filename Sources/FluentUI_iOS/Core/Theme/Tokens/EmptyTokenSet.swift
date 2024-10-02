@@ -13,7 +13,7 @@ public enum EmptyToken: Int, TokenSetKey {
 /// of being tokenized, but are not fully at that stage yet.
 public class EmptyTokenSet: ControlTokenSet<EmptyToken> {
 
-    init() {
+    public init() {
         super.init { _, _ in
             preconditionFailure("Should not fetch values")
         }

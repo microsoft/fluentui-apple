@@ -20,7 +20,7 @@ public protocol TabBarViewDelegate {
 /// Set up `items` array to determine the order of `TabBarItems` to show.
 /// Use `selectedItem` property to change the selected tab bar item.
 @objc(MSFTabBarView)
-open class TabBarView: UIView, TokenizedControlInternal {
+open class TabBarView: UIView, TokenizedControl {
     /// List of TabBarItems in the TabBarView. Order of the array is the order of the subviews.
     @objc open var items: [TabBarItem] = [] {
         willSet {
