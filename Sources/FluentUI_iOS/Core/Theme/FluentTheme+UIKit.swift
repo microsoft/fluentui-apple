@@ -142,6 +142,4 @@ public extension FluentTheme {
         // If the object is a UIView, we only update if `view` is a descendant thereof.
         return self.isDescendant(of: themeView)
     }
-
 }
-

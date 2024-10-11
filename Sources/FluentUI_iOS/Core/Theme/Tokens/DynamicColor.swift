@@ -14,8 +14,8 @@ struct DynamicColor: Hashable {
     /// - Parameter dark: The override `Color` for a dark context. Optional.
     /// - Parameter darkElevated: The override `Color` for a dark elevated context. Optional.
     init(light: Color,
-                dark: Color? = nil,
-                darkElevated: Color? = nil) {
+         dark: Color? = nil,
+         darkElevated: Color? = nil) {
         self.light = light
         self.dark = dark
         self.darkElevated = darkElevated
