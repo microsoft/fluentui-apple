@@ -26,7 +26,7 @@ public class FluentUIFramework: NSObject {
     @objc public static var fluentVersion: String? = {
         struct VersionConfig: Decodable {
             // swiftlint:disable identifier_name
-            let FluentVersion: String
+            let CFBundleVersion: String
             // swiftlint:enable identifier_name
         }
 
@@ -35,7 +35,7 @@ public class FluentUIFramework: NSObject {
               let versionConfig = try? PropertyListDecoder().decode(VersionConfig.self, from: data) else {
             return nil
         }
-        return versionConfig.FluentVersion
+        return versionConfig.CFBundleVersion
     }()
 
     @available(*, deprecated, message: "Non-fluent icons no longer supported. Setting this var no longer has any effect and it will be removed in a future update.")
