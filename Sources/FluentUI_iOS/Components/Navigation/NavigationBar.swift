@@ -100,7 +100,7 @@ protocol NavigationBarBackButtonDelegate {
 /// Contains the MSNavigationTitleView class and handles passing animatable progress through
 /// Custom UI can be hidden if desired
 @objc(MSFNavigationBar)
-open class NavigationBar: UINavigationBar, TokenizedControlInternal, TwoLineTitleViewDelegate {
+open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDelegate {
     /// If the style is `.custom`, UINavigationItem's `navigationBarColor` is used for all the subviews' backgroundColor
     @objc(MSFNavigationBarStyle)
     public enum Style: Int {

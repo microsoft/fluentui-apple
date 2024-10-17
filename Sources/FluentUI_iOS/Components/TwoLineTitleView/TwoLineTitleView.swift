@@ -17,7 +17,7 @@ public protocol TwoLineTitleViewDelegate: AnyObject {
 // MARK: - TwoLineTitleView
 
 @objc(MSFTwoLineTitleView)
-open class TwoLineTitleView: UIView, TokenizedControlInternal {
+open class TwoLineTitleView: UIView, TokenizedControl {
     @objc(MSFTwoLineTitleViewStyle)
     public enum Style: Int {
         case primary

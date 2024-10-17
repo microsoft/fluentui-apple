@@ -6,7 +6,7 @@
 import UIKit
 
 @objc(MSFTextField)
-public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControlInternal {
+public final class FluentTextField: UIView, UITextFieldDelegate, TokenizedControl {
     public override func willMove(toWindow newWindow: UIWindow?) {
         super.willMove(toWindow: newWindow)
         guard let newWindow else {
