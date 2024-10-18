@@ -57,9 +57,6 @@ class NavigationControllerDemoController: DemoController {
         addTitle(text: "Top Accessory View")
         container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width", action: #selector(showWithTopSearchBar)))
 
-        addTitle(text: "Top Accessory View with shy wide accessory view")
-        container.addArrangedSubview(createButton(title: "Show with top search bar for large screen width with a shy pill segment control", action: #selector(showWithTopSearchBarWithShySecondaryAccessoryView)))
-
         addTitle(text: "Change Style Periodically")
         container.addArrangedSubview(createButton(title: "Change the style every second", action: #selector(showSearchChangingStyleEverySecond)))
     }
@@ -131,24 +128,24 @@ class NavigationControllerDemoController: DemoController {
         presentController(withTitleStyle: .leading, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
     }
 
-    @objc func showSystemTitleWithShyAccessory() {
-        presentController(withTitleStyle: .system, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
-    }
-
     @objc func showRegularTitleWithShyAccessoryAndSubtitle() {
         presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(), contractNavigationBarOnScroll: true)
     }
 
     @objc func showRegularTitleWithFixedAccessory() {
-        presentController(withTitleStyle: .system, accessoryView: createAccessoryView())
-    }
-
-    @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
-        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
+        presentController(withTitleStyle: .system, accessoryView: createAccessoryView(), contractNavigationBarOnScroll: false)
     }
 
     @objc func showSystemTitle() {
         presentController(withTitleStyle: .system, style: .system)
+    }
+
+    @objc func showSystemTitleWithShyAccessory() {
+        presentController(withTitleStyle: .system, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true)
+    }
+
+    @objc func showSystemTitleWithFixedAccessoryAndSubtitle() {
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: false)
     }
 
     @objc func showRegularTitleWithSubtitle() {
@@ -156,7 +153,7 @@ class NavigationControllerDemoController: DemoController {
     }
 
     @objc func showRegularTitleWithSubtitleAndCustomLeadingButton() {
-        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
+        presentController(withTitleStyle: .system, subtitle: "Subtitle goes here", accessoryView: createAccessoryView(with: .onSystemNavigationBar), contractNavigationBarOnScroll: true, leadingItem: .customButton)
     }
 
     @objc func showLargeTitleWithGradientStyle() {
@@ -195,10 +192,6 @@ class NavigationControllerDemoController: DemoController {
 
     @objc func showWithTopSearchBar() {
         presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), showsTopAccessory: true, contractNavigationBarOnScroll: false)
-    }
-
-    @objc func showWithTopSearchBarWithShySecondaryAccessoryView() {
-        presentController(withTitleStyle: .largeLeading, style: .system, accessoryView: createAccessoryView(with: .onSystemNavigationBar), secondaryAccessoryView: createSecondaryAccessoryView(), showsTopAccessory: true, contractNavigationBarOnScroll: true)
     }
 
     @objc func showSearchChangingStyleEverySecond() {

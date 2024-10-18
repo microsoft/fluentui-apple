@@ -329,7 +329,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
                 return
             }
             updateAccessibilityElements()
-            updateViewsForLargeTitlePresentation(for: topItem)
+            updateViewsForNavigationItem(topItem)
         }
     }
 
@@ -425,7 +425,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         systemShadowColor = standardAppearance.shadowColor
 
         updateColors(for: topItem)
-        updateViewsForLargeTitlePresentation(for: topItem)
+        updateViewsForNavigationItem(topItem)
         updateAccessibilityElements()
 
         tokenSet.registerOnUpdate(for: self) { [weak self] in
@@ -574,7 +574,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         if traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass {
             updateElementSizes()
             updateContentStackViewMargins(forExpandedContent: contentIsExpanded)
-            updateViewsForLargeTitlePresentation(for: topItem)
+            updateViewsForNavigationItem(topItem)
             updateTitleViewConstraints()
 
             // change bar button image size and title inset depending on device rotation
@@ -844,7 +844,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     /// Cache for the system shadow color, since the default value is private.
     private var systemShadowColor: UIColor?
 
-    private func updateViewsForLargeTitlePresentation(for navigationItem: UINavigationItem?) {
+    private func updateViewsForNavigationItem(_ navigationItem: UINavigationItem?) {
         // UIView.isHidden has a bug where a series of repeated calls with the same parameter can "glitch" the view into a permanent shown/hidden state
         // i.e. repeatedly trying to hide a UIView that is already in the hidden state
         // by adding a check to the isHidden property prior to setting, we avoid such problematic scenarios
@@ -856,7 +856,8 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
         // We also want to hide the backgroundView and the contentStackView for gradient style regular title to
         // avoid displaying duplicated navigation bar items.
-        if usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar && navigationItem?.titleView == nil) {
+        let shouldHideSystemNavigationItems =  usesLeadingTitle || (style != .gradient && systemWantsCompactNavigationBar && navigationItem?.titleView == nil)
+        if shouldHideSystemNavigationItems {
             if backgroundView.isHidden {
                 backgroundView.isHidden = false
             }
