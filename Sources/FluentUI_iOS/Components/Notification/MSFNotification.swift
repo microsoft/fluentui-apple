@@ -25,7 +25,7 @@ import UIKit
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
         notification = FluentNotification(style: style,
                                           shouldSelfPresent: false)
-        super.init(AnyView(notification))
+        super.init(AnyView(notification), safeAreaRegions: [])
         let defaultDismissAction = { [weak self] in
             guard let strongSelf = self else {
                 return
