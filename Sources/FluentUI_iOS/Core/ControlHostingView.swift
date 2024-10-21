@@ -35,9 +35,16 @@ open class ControlHostingView: UIView {
     /// the control view in an `AnyView.`
     ///
     /// - Parameter controlView: An `AnyView`-wrapped component to host.
-    public init(_ controlView: AnyView) {
+    /// - Parameter safeAreaRegions: Passthrough to the respective property on UIHostingController.
+    /// Indicates which safe area regions the underlying hosting controller should add to its view.
+    public init(_ controlView: AnyView, safeAreaRegions: SafeAreaRegions = .all) {
         hostingController = FluentThemedHostingController.init(rootView: controlView)
         hostingController.sizingOptions = [.intrinsicContentSize]
+
+        if #available(iOS 16.4, *) {
+            hostingController.safeAreaRegions = safeAreaRegions
+        }
+
         super.init(frame: .zero)
 
         self.configureHostedView()
