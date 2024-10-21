@@ -14,9 +14,3 @@ public protocol TokenizedControl {
     /// The set of tokens associated with this `TokenizedControl`.
     var tokenSet: TokenSetType { get }
 }
-
-/// Internal extension to `TokenizedControl` that adds the ability to modify the active tokens.
-protocol TokenizedControlInternal: TokenizedControl {
-    /// The current `FluentTheme` applied to this control. Usually acquired via the environment.
-    var fluentTheme: FluentTheme { get }
-}

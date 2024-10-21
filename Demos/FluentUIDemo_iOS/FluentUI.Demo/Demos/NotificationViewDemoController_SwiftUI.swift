@@ -307,11 +307,11 @@ struct NotificationDemoView: View {
                 return GlobalTokens.sharedColor(.orange, .primary)
             },
             .shadow: .shadowInfo {
-                return ShadowInfo(keyColor: GlobalTokens.sharedColor(.hotPink, .primary),
+                return ShadowInfo(keyColor: GlobalTokens.sharedSwiftUIColor(.hotPink, .primary),
                                   keyBlur: 10.0,
                                   xKey: 10.0,
                                   yKey: 10.0,
-                                  ambientColor: GlobalTokens.sharedColor(.teal, .primary),
+                                  ambientColor: GlobalTokens.sharedSwiftUIColor(.teal, .primary),
                                   ambientBlur: 100.0,
                                   xAmbient: -10.0,
                                   yAmbient: -10.0)

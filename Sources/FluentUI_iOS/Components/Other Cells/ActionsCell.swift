@@ -15,7 +15,7 @@ import UIKit
  `topSeparatorType` and `bottomSeparatorType` can be used to show custom horizontal separators. Make sure to remove the `UITableViewCell` built-in separator by setting `separatorStyle = .none` on your table view.
  */
 @objc(MSFActionsCell)
-open class ActionsCell: UITableViewCell, TokenizedControlInternal {
+open class ActionsCell: UITableViewCell, TokenizedControl {
     @objc(MSFActionsCellActionType)
     public enum ActionType: Int {
         case regular

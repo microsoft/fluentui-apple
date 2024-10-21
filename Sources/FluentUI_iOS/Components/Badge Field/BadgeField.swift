@@ -57,7 +57,7 @@ public protocol BadgeFieldDelegate: AnyObject {
  * voiceover and dynamic text sizing
  */
 @objc(MSFBadgeField)
-open class BadgeField: UIView, TokenizedControlInternal {
+open class BadgeField: UIView, TokenizedControl {
     private struct Constants {
         static let emptyTextFieldString: String = ""
         static let dragAndDropMinimumPressDuration: TimeInterval = 0.2

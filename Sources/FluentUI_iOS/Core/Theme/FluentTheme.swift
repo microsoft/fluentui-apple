@@ -16,7 +16,10 @@ public class FluentTheme: NSObject, ObservableObject {
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
     @objc public convenience override init() {
-        self.init(colorOverrides: nil, shadowOverrides: nil, typographyOverrides: nil, gradientOverrides: nil)
+        self.init(colorOverrides: nil as [ColorToken: Color]?, 
+                  shadowOverrides: nil as [ShadowToken: ShadowInfo]?,
+                  typographyOverrides: nil as [TypographyToken: FontInfo]?,
+                  gradientOverrides: nil as [GradientToken: [Color]]?)
     }
 
     /// Initializes and returns a new `FluentTheme`.
@@ -32,34 +35,24 @@ public class FluentTheme: NSObject, ObservableObject {
     ///   - gradientOverrides: A `Dictionary` of override values mapped to `GradientTokens`.
     ///
     /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
-    public init(colorOverrides: [ColorToken: UIColor]? = nil,
+    public init(colorOverrides: [ColorToken: Color]? = nil,
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
-                typographyOverrides: [TypographyToken: UIFont]? = nil,
-                gradientOverrides: [GradientToken: [UIColor]]? = nil) {
-
-        // Need to massage UIFonts into FontInfo objects
-        let mappedTypographyOverrides = typographyOverrides?.compactMapValues({ font in
-            return FontInfo(name: font.fontName, size: font.pointSize)
-        })
-
-        let mappedColorOverrides = colorOverrides?.compactMapValues({ color in
-            return DynamicColor(uiColor: color)
-        })
-
+                typographyOverrides: [TypographyToken: FontInfo]? = nil,
+                gradientOverrides: [GradientToken: [Color]]? = nil) {
 #if os(visionOS)
         // We have custom overrides for `defaultColors` in visionOS.
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor_visionOS(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> Color) = FluentTheme.defaultColor_visionOS(_:)
 #else
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> Color) = FluentTheme.defaultColor(_:)
 #endif
 
-        let colorTokenSet = TokenSet<ColorToken, DynamicColor>(defaultColorFunction, mappedColorOverrides)
+        let colorTokenSet = TokenSet<ColorToken, Color>(defaultColorFunction, colorOverrides)
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
-        let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), mappedTypographyOverrides)
-        let gradientTokenSet = TokenSet<GradientToken, [DynamicColor]>({ [colorTokenSet] token in
+        let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), typographyOverrides)
+        let gradientTokenSet = TokenSet<GradientToken, [Color]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
             return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)
-        })
+        }, gradientOverrides)
 
         self.colorTokenSet = colorTokenSet
         self.shadowTokenSet = shadowTokenSet
@@ -101,34 +94,23 @@ public class FluentTheme: NSObject, ObservableObject {
         }
     }
 
-    /// Determines if a given `Notification` should cause an update for the given `UIView`.
+    /// Determines if a given `Notification` should cause an update for the given `FluentThemeable`.
     ///
     /// - Parameter notification: A `Notification` object that may be requesting a view update based on a theme change.
-    /// - Parameter view: The `UIView` instance that wants to determine whether to update.
+    /// - Parameter view: The `FluentThemeable` instance that wants to determine whether to update.
     ///
-    /// - Returns: `True` if the view should update, `false` otherwise.
+    /// - Returns: `true` if the view should update, `false` otherwise.
     @objc(isApplicableThemeChangeNotification:forView:)
     public static func isApplicableThemeChange(_ notification: Notification,
-                                               for view: UIView) -> Bool {
-        // Do not update unless the notification's name is `.didChangeTheme`.
-        guard notification.name == .didChangeTheme else {
-            return false
-        }
-
-        // If there is no object, or it is not a UIView, we must assume that we need to update.
-        guard let themeView = notification.object as? UIView else {
-            return true
-        }
-
-        // If the object is a UIView, we only update if `view` is a descendant thereof.
-        return view.isDescendant(of: themeView)
+                                               for view: FluentThemeable) -> Bool {
+        return view.isApplicableThemeChange(notification)
     }
 
     // Token storage
-    let colorTokenSet: TokenSet<ColorToken, DynamicColor>
+    let colorTokenSet: TokenSet<ColorToken, Color>
     let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
     let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
-    let gradientTokenSet: TokenSet<GradientToken, [DynamicColor]>
+    let gradientTokenSet: TokenSet<GradientToken, [Color]>
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"
@@ -142,6 +124,7 @@ public class FluentTheme: NSObject, ObservableObject {
 /// Public protocol that, when implemented, allows any container to store and yield a `FluentTheme`.
 @objc public protocol FluentThemeable {
     var fluentTheme: FluentTheme { get set }
+    func isApplicableThemeChange(_ notification: Notification) -> Bool
 }
 
 public extension Notification.Name {
@@ -150,42 +133,6 @@ public extension Notification.Name {
     /// The `object` for the fired `Notification` will be the `UIView` whose `fluentTheme` has changed.
     /// Listeners will likely only want to redraw if they are a descendent of this view.
     static let didChangeTheme = Notification.Name("FluentUI.stylesheet.theme")
-}
-
-@objc extension UIView: FluentThemeable {
-    private struct Keys {
-        static var fluentTheme: UInt8 = 0
-        static var cachedFluentTheme: UInt8 = 0
-    }
-
-    /// The custom `FluentTheme` to apply to this view.
-    @objc public var fluentTheme: FluentTheme {
-        get {
-            var optionalView: UIView? = self
-            while let view = optionalView {
-                // If we successfully find a theme, return it.
-                if let theme = objc_getAssociatedObject(view, &Keys.fluentTheme) as? FluentTheme {
-                    return theme
-                } else {
-                    optionalView = view.superview
-                }
-            }
-
-            // No custom themes anywhere, so return the default theme
-            return FluentTheme.shared
-        }
-        set {
-            objc_setAssociatedObject(self, &Keys.fluentTheme, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            NotificationCenter.default.post(name: .didChangeTheme, object: self)
-        }
-    }
-
-    /// Removes any associated `ColorProvider` from the given `UIView`.
-    @objc(resetFluentTheme)
-    public func resetFluentTheme() {
-        objc_setAssociatedObject(self, &Keys.fluentTheme, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        NotificationCenter.default.post(name: .didChangeTheme, object: self)
-    }
 }
 
 // MARK: - Environment

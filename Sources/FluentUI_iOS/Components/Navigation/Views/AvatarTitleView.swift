@@ -8,7 +8,7 @@ import UIKit
 // MARK: AvatarTitleView
 
 /// A helper view used by `NavigationBar` capable of displaying a large title and an avatar.
-class AvatarTitleView: UIView, TokenizedControlInternal, TwoLineTitleViewDelegate {
+class AvatarTitleView: UIView, TokenizedControl, TwoLineTitleViewDelegate {
     enum Style: Int {
         case primary
         case system

@@ -6,7 +6,7 @@
 import SwiftUI
 
 /// SwiftUI-specific extension to `TokenizedControl`.
-public protocol TokenizedControlOverridable: TokenizedControl {
+public protocol TokenizedControlView: TokenizedControl {
     /// Modifier function that updates the design tokens for a given control.
     ///
     /// - Parameter tokens: The tokens to apply to this control.
@@ -15,11 +15,8 @@ public protocol TokenizedControlOverridable: TokenizedControl {
     func overrideTokens(_ overrideTokens: [TokenSetKeyType: ControlTokenValue]?) -> Self
 }
 
-/// Internal union of `TokenizedControlOverridable` and `TokenizedControlInternal` protocols.
-internal protocol TokenizedControlView: TokenizedControlOverridable, TokenizedControlInternal {}
-
 /// Common base type alias for all `state` objects.
-typealias ControlState = NSObject & ObservableObject & Identifiable
+public typealias ControlState = NSObject & ObservableObject & Identifiable
 
 // MARK: - Extensions
 
