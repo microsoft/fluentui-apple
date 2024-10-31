@@ -677,6 +677,20 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
+    private func updateResizingHandleViewAccessibilityValue(for state: BottomSheetExpansionState) {
+        switch state {
+        case .collapsed:
+            resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
+            break
+        case .expanded:
+            resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
+            break
+        default:
+            resizingHandleView.accessibilityValue = nil
+            break
+        }
+    }
+
     private func updateExpandedContentAlpha() {
         let currentOffset = currentSheetVerticalOffset
         let collapsedOffset = offset(for: .collapsed)
@@ -932,6 +946,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
 
         completeAnimationsIfNeeded()
+
+        updateResizingHandleViewAccessibilityValue(for: targetExpansionState)
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
