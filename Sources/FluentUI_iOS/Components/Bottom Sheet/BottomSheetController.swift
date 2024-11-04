@@ -174,7 +174,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// The message should convey the "Expand" action and will be used when the bottom sheet is collapsed.
     @objc public var handleExpandCustomAccessibilityLabel: String? {
         didSet {
-            updateResizingHandleViewAccessibility()
+            updateResizingHandleViewAccessibility(for: currentExpansionState)
         }
     }
 
@@ -182,7 +182,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// The message should convey the "Collapse" action and will be used when the bottom sheet is expanded.
     @objc public var handleCollapseCustomAccessibilityLabel: String? {
         didSet {
-            updateResizingHandleViewAccessibility()
+            updateResizingHandleViewAccessibility(for: currentExpansionState)
         }
     }
 
@@ -496,6 +496,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         super.viewDidAppear(animated)
 
         tokenSet.update(fluentTheme)
+
+        updateResizingHandleViewAccessibility(for: currentExpansionState)
     }
 
     public override func viewDidLayoutSubviews() {
@@ -523,6 +525,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
 
         updateAppearance()
+
         super.viewDidLayoutSubviews()
     }
 
@@ -667,27 +670,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         move(to: isExpanded ? .collapsed : .expanded, interaction: .resizingHandleTap)
     }
 
-    private func updateResizingHandleViewAccessibility() {
-        if currentExpansionState == .expanded {
+    private func updateResizingHandleViewAccessibility(for state: BottomSheetExpansionState) {
+        if state == .expanded {
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.Drawer.ResizingHandle.Label.Collapse".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
-        } else {
+            resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
+        } else if state == .collapsed {
             resizingHandleView.accessibilityLabel = handleExpandCustomAccessibilityLabel ?? "Accessibility.Drawer.ResizingHandle.Label.Expand".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
-        }
-    }
-
-    private func updateResizingHandleViewAccessibilityValue(for state: BottomSheetExpansionState) {
-        switch state {
-        case .collapsed:
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
-            break
-        case .expanded:
-            resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
-            break
-        default:
-            resizingHandleView.accessibilityValue = nil
-            break
         }
     }
 
@@ -947,7 +938,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         completeAnimationsIfNeeded()
 
-        updateResizingHandleViewAccessibilityValue(for: targetExpansionState)
+        updateResizingHandleViewAccessibility(for: targetExpansionState)
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
@@ -1189,11 +1180,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
-    private var currentExpansionState: BottomSheetExpansionState = .collapsed {
-        didSet {
-            updateResizingHandleViewAccessibility()
-        }
-    }
+    private var currentExpansionState: BottomSheetExpansionState = .collapsed
 
     private var targetExpansionState: BottomSheetExpansionState?
 
