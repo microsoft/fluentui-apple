@@ -543,7 +543,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
         if let navigationItem = topItem {
             let (_, actualItem) = actualStyleAndItem(for: navigationItem)
-            update(with: actualItem)
+            updateColors(for: actualItem)
         } else {
             updateColors(for: topItem)
         }
