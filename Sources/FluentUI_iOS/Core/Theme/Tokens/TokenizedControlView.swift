@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import Combine
 import SwiftUI
 
 /// SwiftUI-specific extension to `TokenizedControl`.

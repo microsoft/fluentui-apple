@@ -540,7 +540,13 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         tokenSet.update(newWindow.fluentTheme)
 
         updateTitleViewTokenSets()
-        updateColors(for: topItem)
+
+        if let navigationItem = topItem {
+            let (_, actualItem) = actualStyleAndItem(for: navigationItem)
+            updateColors(for: actualItem)
+        } else {
+            updateColors(for: topItem)
+        }
     }
 
     private func updateTitleViewTokenSets() {
@@ -756,7 +762,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     }
 
     /// Updates the bar button items.
-    /// 
+    ///
     /// In general, this should be called as late as possible when receiving a new navigation item
     /// because it will replace a client-provided left bar button item with a back button if needed.
     private func updateBarButtonItems(with navigationItem: UINavigationItem) {
