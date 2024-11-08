@@ -41,18 +41,21 @@ public class FluentTheme: NSObject, ObservableObject {
                 gradientOverrides: [GradientToken: [Color]]? = nil) {
 #if os(visionOS)
         // We have custom overrides for `defaultColors` in visionOS.
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> Color) = FluentTheme.defaultColor_visionOS(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor_visionOS(_:)
 #else
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> Color) = FluentTheme.defaultColor(_:)
+        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor(_:)
 #endif
 
-        let colorTokenSet = TokenSet<ColorToken, Color>(defaultColorFunction, colorOverrides)
+        let colorTokenSet = TokenSet<ColorToken, DynamicColor>(
+            defaultColorFunction,
+            colorOverrides?.mapValues { $0.dynamicColor }
+        )
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
         let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), typographyOverrides)
-        let gradientTokenSet = TokenSet<GradientToken, [Color]>({ [colorTokenSet] token in
+        let gradientTokenSet = TokenSet<GradientToken, [DynamicColor]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
             return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)
-        }, gradientOverrides)
+        }, gradientOverrides?.mapValues { $0.map { $0.dynamicColor} })
 
         self.colorTokenSet = colorTokenSet
         self.shadowTokenSet = shadowTokenSet
@@ -107,10 +110,10 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     // Token storage
-    let colorTokenSet: TokenSet<ColorToken, Color>
+    let colorTokenSet: TokenSet<ColorToken, DynamicColor>
     let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>
     let typographyTokenSet: TokenSet<TypographyToken, FontInfo>
-    let gradientTokenSet: TokenSet<GradientToken, [Color]>
+    let gradientTokenSet: TokenSet<GradientToken, [DynamicColor]>
 
     private func tokenKey<T: TokenSetKey>(_ tokenSetType: ControlTokenSet<T>.Type) -> String {
         return "\(tokenSetType)"

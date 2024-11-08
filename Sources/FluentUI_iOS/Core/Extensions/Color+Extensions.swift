@@ -33,10 +33,34 @@ extension Color {
          darkElevated: Color? = nil) {
 
         let dynamicColor = DynamicColor(light: light, dark: dark, darkElevated: darkElevated)
+        self.init(dynamicColor: dynamicColor)
+    }
+    
+    /// Creates a custom `Color` from a prebuilt `DynamicColor` structure.
+    ///
+    /// - Parameter dynamicColor: A dynmic color structure that describes the `Color` to be created.
+    init(dynamicColor: DynamicColor) {
         if #available(iOS 17, *) {
             self.init(dynamicColor)
         } else {
             self.init(uiColor: UIColor(dynamicColor: dynamicColor))
+        }
+    }
+
+    var dynamicColor: DynamicColor {
+        if #available(iOS 17, *) {
+            var lightEnvironment = EnvironmentValues.init()
+            lightEnvironment.colorScheme = .light
+
+            var darkEnvironment = EnvironmentValues.init()
+            darkEnvironment.colorScheme = .dark
+
+            return DynamicColor(light: Color(self.resolve(in: lightEnvironment)),
+                                dark: Color(self.resolve(in: darkEnvironment)))
+        } else {
+            let uiColor = UIColor(self)
+            return DynamicColor(light: Color(uiColor.light),
+                                dark: Color(uiColor.dark))
         }
     }
 }
