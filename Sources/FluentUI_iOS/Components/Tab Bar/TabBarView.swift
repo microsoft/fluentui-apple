@@ -64,6 +64,13 @@ open class TabBarView: UIView, TokenizedControl {
             }
         }
     }
+    
+    /// An optional gradient to display for the selected item.
+    @objc public var selectedItemGradient: CAGradientLayer? {
+        didSet {
+            updateAppearance()
+        }
+    }
 
     @objc public weak var delegate: TabBarViewDelegate?
 
@@ -210,6 +217,10 @@ open class TabBarView: UIView, TokenizedControl {
                                                     forToken: .titleLabelFontPortrait)
                 tabBarItemTokenSet.setOverrideValue(tokenSet.overrideValue(forToken: .tabBarItemTitleLabelFontLandscape),
                                                     forToken: .titleLabelFontLandscape)
+
+                if let selectedItemGradient {
+                    tabBarItemView.gradient = selectedItemGradient
+                }
             }
         }
         topBorderLine.tokenSet[.color] = tokenSet[.separatorColor]

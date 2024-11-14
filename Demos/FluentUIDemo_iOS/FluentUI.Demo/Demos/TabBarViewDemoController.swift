@@ -19,10 +19,12 @@ class TabBarViewDemoController: DemoController {
     private var showsItemTitles: Bool { return itemTitleVisibilitySwitch.isOn }
     private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
     private var useHigherBadgeNumbers: Bool { return useHigherBadgeNumbersSwitch.isOn }
+    private var useGradientSelection: Bool { return useGradientSelectionSwitch.isOn }
 
     private let itemTitleVisibilitySwitch = BrandedSwitch()
     private let showBadgeNumbersSwitch = BrandedSwitch()
     private let useHigherBadgeNumbersSwitch = BrandedSwitch()
+    private let useGradientSelectionSwitch = BrandedSwitch()
 
     private lazy var incrementBadgeButton: Button = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
@@ -36,6 +38,19 @@ class TabBarViewDemoController: DemoController {
 
     private var badgeNumbers: [UInt] = Constants.initialBadgeNumbers
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
+
+    private lazy var gradient: CAGradientLayer = {
+        let gradientColors = [
+            UIColor.red.cgColor,
+            UIColor.green.cgColor
+        ]
+        let colorfulGradient = CAGradientLayer()
+        colorfulGradient.colors = gradientColors
+        colorfulGradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        colorfulGradient.endPoint = CGPoint(x: 1.0, y: 1.0)
+        colorfulGradient.type = .axial
+        return colorfulGradient
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +69,9 @@ class TabBarViewDemoController: DemoController {
 
         addRow(text: "Use higher badge numbers", items: [useHigherBadgeNumbersSwitch], textWidth: Constants.switchSettingTextWidth)
         useHigherBadgeNumbersSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+
+        addRow(text: "Use gradient selection", items: [useGradientSelectionSwitch], textWidth: Constants.switchSettingTextWidth)
+        useGradientSelectionSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
         addRow(text: "Modify badge numbers", items: [incrementBadgeButton, decrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
 
@@ -93,6 +111,10 @@ class TabBarViewDemoController: DemoController {
 
         // If the open file item has been clicked, maintain that state through to the new item
         updatedTabBarView.items[2].isUnreadDotVisible = isOpenFileUnread
+
+        if useGradientSelection {
+            updatedTabBarView.selectedItemGradient = gradient
+        }
 
         updatedTabBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(updatedTabBarView)
