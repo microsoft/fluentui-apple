@@ -85,6 +85,15 @@ class TabBarItemView: UIControl, TokenizedControl {
         }
     }
 
+    /// The main gradient layer to be applied to the TabBarItemView with the gradient style.
+    var gradient: CAGradientLayer? {
+        didSet {
+            if oldValue != gradient {
+                updateColors()
+            }
+        }
+    }
+
     init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
         self.canResizeImage = canResizeImage
         self.item = item
@@ -180,8 +189,10 @@ class TabBarItemView: UIControl, TokenizedControl {
     override func didMoveToWindow() {
         super.didMoveToWindow()
 
-        tokenSet.update(fluentTheme)
-        updateAppearance()
+        if window != nil {
+            tokenSet.update(fluentTheme)
+            updateAppearance()
+        }
     }
 
     private var badgeValue: String? {
@@ -266,12 +277,35 @@ class TabBarItemView: UIControl, TokenizedControl {
         return alwaysShowTitleBelowImage || (traitCollection.horizontalSizeClass == .compact && traitCollection.verticalSizeClass == .regular)
     }
 
-    private func updateColors() {
-        let selectedColor = tokenSet[.selectedColor].uiColor
-        let disabledColor = tokenSet[.disabledColor].uiColor
+    private var selectedImage: UIImage? {
+        let selectedImage = item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
+        guard let gradient else {
+            return selectedImage
+        }
 
-        titleLabel.textColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedTextColor].uiColor) : disabledColor
-        imageView.tintColor = isEnabled ? (isSelected ? selectedColor : tokenSet[.unselectedImageColor].uiColor) : disabledColor
+        let mask = CALayer()
+        mask.contents = selectedImage?.cgImage
+        mask.frame = imageView.bounds
+        gradient.frame = imageView.bounds
+        gradient.mask = mask
+        let renderer = UIGraphicsImageRenderer(bounds: imageView.bounds)
+        let gradientImage = renderer.image { rendererContext in
+            gradient.render(in: rendererContext.cgContext)
+        }
+        return gradientImage
+    }
+
+    private func updateColors() {
+        if isEnabled {
+            let shouldTint = isSelected && gradient == nil
+            let tintColor = tokenSet[.selectedColor].uiColor
+            titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
+            imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
+        } else {
+            let disabledColor = tokenSet[.disabledColor].uiColor
+            titleLabel.textColor = disabledColor
+            imageView.tintColor = disabledColor
+        }
     }
 
     private func updateImage() {
@@ -279,7 +313,7 @@ class TabBarItemView: UIControl, TokenizedControl {
         // UIImageView in iOS 16 where highlighted images lose their tint color in certain scenarios. While we wait for a fix,
         // this is a straightforward workaround that gets us the same effect without triggering the bug.
         imageView.image = isSelected ?
-                            item.selectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden) :
+                            selectedImage :
                             item.unselectedImage(isInPortraitMode: isInPortraitMode, labelIsHidden: titleLabel.isHidden)
     }
 
