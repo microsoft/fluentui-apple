@@ -283,6 +283,7 @@ class TabBarItemView: UIControl, TokenizedControl {
             return selectedImage
         }
 
+        // This is necessary because imageView.tintColor does not work with UIColor(patternImage:).
         let mask = CALayer()
         mask.contents = selectedImage?.cgImage
         mask.frame = imageView.bounds
@@ -297,6 +298,8 @@ class TabBarItemView: UIControl, TokenizedControl {
 
     private func updateColors() {
         if isEnabled {
+            // We cannot use UIColor(patternImage:) for the tintColor of a UIView. Instead, we have to
+            // fully replace the image, so we should not re-tint it here when we have a gradient.
             let shouldTint = isSelected && gradient == nil
             let tintColor = tokenSet[.selectedColor].uiColor
             titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
