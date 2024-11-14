@@ -40,22 +40,6 @@ class TabBarViewDemoController: DemoController {
     private var higherBadgeNumbers: [UInt] = Constants.initialHigherBadgeNumbers
 
     private lazy var gradient: CAGradientLayer = {
-//        let gradientColors = [
-//            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor,
-//            UIColor(red: 0.18, green: 0.45, blue: 0.96, alpha: 1).cgColor,
-//            UIColor(red: 0.36, green: 0.80, blue: 0.98, alpha: 1).cgColor,
-//            UIColor(red: 0.45, green: 0.72, blue: 0.22, alpha: 1).cgColor,
-//            UIColor(red: 0.97, green: 0.78, blue: 0.27, alpha: 1).cgColor,
-//            UIColor(red: 0.94, green: 0.52, blue: 0.20, alpha: 1).cgColor,
-//            UIColor(red: 0.92, green: 0.26, blue: 0.16, alpha: 1).cgColor,
-//            UIColor(red: 0.45, green: 0.29, blue: 0.79, alpha: 1).cgColor]
-//
-//        let colorfulGradient = CAGradientLayer()
-//        colorfulGradient.colors = gradientColors
-//        colorfulGradient.startPoint = CGPoint(x: 0.5, y: 0.5)
-//        colorfulGradient.endPoint = CGPoint(x: 0.5, y: 0)
-//        colorfulGradient.type = .conic
-//        return colorfulGradient
         let gradientColors = [
             UIColor.red.cgColor,
             UIColor.green.cgColor
