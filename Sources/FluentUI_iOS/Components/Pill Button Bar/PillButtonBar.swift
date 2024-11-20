@@ -81,20 +81,6 @@ open class PillButtonBar: UIScrollView {
         }
     }
 
-    public override var bounds: CGRect {
-        didSet {
-            if bounds.width > 0, lastKnownScrollFrameWidth > 0, bounds.width != lastKnownScrollFrameWidth {
-                // Frame changes can happen because of rotation, split view or adding the view for the first
-                // time into a superview. First time layout already has buttons in default sizes, recreate
-                // them so that the next time we layout subviews we'll recalculate their optimal sizes.
-                recreateButtons()
-                stackView.spacing = Constants.minButtonsSpacing
-            }
-
-            lastKnownScrollFrameWidth = bounds.width
-        }
-    }
-
     /// Initializes the PillButtonBar using the provided style.
     ///
     /// - Parameters:
@@ -206,8 +192,6 @@ open class PillButtonBar: UIScrollView {
     private var buttonExtraSidePadding: CGFloat = 0.0
 
     private var buttons = [PillButton]()
-
-    private var lastKnownScrollFrameWidth: CGFloat = 0.0
 
     private var needsButtonSizeReconfiguration: Bool = false
 
@@ -392,19 +376,6 @@ open class PillButtonBar: UIScrollView {
         }
 
         return nil
-    }
-
-    private func recreateButtons() {
-        let selectedItem = selectedButton?.pillBarItem
-        selectedButton = nil
-
-        let currentItems = items
-        items = nil
-        items = currentItems
-
-        if let selectedItem = selectedItem {
-            selectItem(selectedItem)
-        }
     }
 
     private func setupScrollView() {
