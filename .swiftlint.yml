@@ -168,8 +168,9 @@ only_rules:
 
 included: # paths to include during linting. `--path` is ignored if present.
   - ${LINTPATH}
-  - ios
-  - macos
+  - Demos
+  - Sources
+  - Tests
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Pods

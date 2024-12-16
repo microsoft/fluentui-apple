@@ -2,11 +2,53 @@
 
 import PackageDescription
 
+let iOSPlatforms: [Platform] = [.iOS, .visionOS, .macCatalyst]
+let macOSPlatforms: [Platform] = [.macOS]
+
+let targets: [Target] = [
+    .target(
+        name: "FluentUI",
+        dependencies: [
+            .targetItem(name: "FluentUI_ios", condition: .when(platforms: iOSPlatforms)),
+            .targetItem(name: "FluentUI_macos", condition: .when(platforms: macOSPlatforms))
+        ],
+        path: "Sources/FluentUI"
+    ),
+    .target(
+        name: "FluentUI_ios",
+        path: "Sources/FluentUI_iOS",
+        resources: [
+            .copy("Resources/Version.plist")
+        ]
+    ),
+    .target(
+        name: "FluentUI_macos",
+        path: "Sources/FluentUI_macOS"
+    )
+]
+
+let testTargets: [Target] = [
+    .testTarget(
+        name: "FluentUI_iOS_Tests",
+        dependencies: [
+            .target(name: "FluentUI_ios", condition: .when(platforms: iOSPlatforms)),
+        ],
+        path: "Tests/FluentUI_iOS_Tests"
+    ),
+    .testTarget(
+        name: "FluentUI_macOS_Tests",
+        dependencies: [
+            .target(name: "FluentUI_macos", condition: .when(platforms: macOSPlatforms))
+        ],
+        path: "Tests/FluentUI_macOS_Tests"
+    )
+]
+
 let package = Package(
     name: "FluentUI",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v16),
         .macOS(.v12),
         .visionOS(.v1),
     ],
@@ -19,40 +61,5 @@ let package = Package(
             ]
         )
     ],
-    targets: [
-        .target(
-            name: "FluentUI",
-            dependencies: [
-                .target(name: "FluentUI_ios", condition: .when(platforms: [.iOS, .visionOS])),
-                .target(name: "FluentUI_macos", condition: .when(platforms: [.macOS]))
-            ],
-            path: "public"
-        ),
-        .target(
-            name: "FluentUI_ios",
-            path: "ios/FluentUI",
-            exclude: [
-                "Avatar/Avatar.resources.xcfilelist",
-                "BarButtonItems/BarButtonItems.resources.xcfilelist",
-                "Bottom Commanding/BottomCommanding.resources.xcfilelist",
-                "Core/Core.resources.xcfilelist",
-                "HUD/HUD.resources.xcfilelist",
-                "Navigation/Navigation.resources.xcfilelist",
-                "Notification/Notification.resources.xcfilelist",
-                "Other Cells/OtherCells.resources.xcfilelist",
-                "Resources/Localization/CultureMapping.json",
-                "Table View/TableView.resources.xcfilelist",
-                "TextField/TextField.resources.xcfilelist",
-                "Tooltip/Tooltip.resources.xcfilelist",
-                "TwoLineTitleView/TwoLineTitleView.resources.xcfilelist",
-            ]
-        ),
-        .target(
-            name: "FluentUI_macos",
-            path: "macos/FluentUI",
-            exclude: [
-                "FluentUI-Info.plist"
-            ]
-        )
-    ]
+    targets: targets + testTargets
 )
