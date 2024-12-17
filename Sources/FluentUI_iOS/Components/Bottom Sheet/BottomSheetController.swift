@@ -871,13 +871,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let availableWidth: CGFloat = view.bounds.width
         let maxWidth = min(Constants.maxSheetWidth, availableWidth)
         let determinedWidth: CGFloat
+
         if shouldAlwaysFillWidth {
             determinedWidth = availableWidth
-        } else if Constants.minSheetWidth...maxWidth ~= preferredWidth {
-            determinedWidth = preferredWidth
+        } else if maxWidth > Constants.minSheetWidth {
+            determinedWidth = Constants.minSheetWidth...maxWidth ~= preferredWidth ? preferredWidth : maxWidth
         } else {
             determinedWidth = maxWidth
         }
+
         return determinedWidth
     }
 
