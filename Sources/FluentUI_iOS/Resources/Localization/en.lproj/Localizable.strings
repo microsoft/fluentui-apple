@@ -15,9 +15,9 @@
 "Accessibility.AvatarGroup.AvatarListLast" = "and %@";
 /* Accessibility label format string for avatar view. Format: "<Name>, <Presence>". Example: "Kat, Available" */
 "Accessibility.AvatarView.LabelFormat" = "%@, %@";
-/* Accessibility label for drawer's resizing handle when it has collapse action */
+/* Accessibility label for bottom sheet's resizing handle when it has collapse action */
 "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet" = "Collapse Sheet";
-/* Accessibility label for drawer's resizing handle when it has expand action */
+/* Accessibility label for bottom sheet's resizing handle when it has expand action */
 "Accessibility.BottomSheet.ResizingHandle.Label.ExpandSheet" = "Expand Sheet";
 /* Accessibility hint for the upper calendar date picker view */
 "Accessibility.Calendar.Hint" = "Select a date";
