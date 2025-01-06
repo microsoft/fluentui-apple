@@ -97,12 +97,11 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     private var edgeInsets: EdgeInsets {
         let size = size
         let horizontalPadding = ButtonTokenSet.horizontalPadding(style: style, size: size)
-        let fabAlternativePadding = ButtonTokenSet.fabAlternativePadding(size)
         return EdgeInsets(
             top: .zero,
             leading: horizontalPadding,
             bottom: .zero,
-            trailing: style.isFloating ? fabAlternativePadding : horizontalPadding
+            trailing: horizontalPadding
         )
     }
 
