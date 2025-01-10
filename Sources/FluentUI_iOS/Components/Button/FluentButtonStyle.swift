@@ -8,8 +8,9 @@ import UIKit
 
 /// `ButtonStyle` which configures the `Button` according to its state and design tokens.
 public struct FluentButtonStyle: SwiftUI.ButtonStyle {
-    public init(style: ButtonStyle) {
+    public init(style: ButtonStyle, isIconOnly: Bool = false) {
         self.style = style
+        self.isIconOnly = isIconOnly
     }
 
     public func makeBody(configuration: Configuration) -> some View {
@@ -79,6 +80,7 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     @Environment(\.isFocused) private var isFocused: Bool
 
     private let style: ButtonStyle
+  private let isIconOnly: Bool
 
     private var size: ButtonSizeCategory {
         switch controlSize {
@@ -97,11 +99,16 @@ public struct FluentButtonStyle: SwiftUI.ButtonStyle {
     private var edgeInsets: EdgeInsets {
         let size = size
         let horizontalPadding = ButtonTokenSet.horizontalPadding(style: style, size: size)
+      let fabAlternativePadding = ButtonTokenSet.fabAlternativePadding(size)
+
+      // If the button is floating and includes text, use fabAlternativePadding; otherwise, use horizontalPadding.
+      let trailingPadding = style.isFloating && !isIconOnly ? fabAlternativePadding : horizontalPadding
+
         return EdgeInsets(
             top: .zero,
             leading: horizontalPadding,
             bottom: .zero,
-            trailing: horizontalPadding
+            trailing: trailingPadding
         )
     }
 
