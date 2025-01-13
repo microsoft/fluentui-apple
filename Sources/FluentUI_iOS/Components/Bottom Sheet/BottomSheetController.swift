@@ -1038,16 +1038,16 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         switch expansionState {
         case .collapsed:
             if !isHeightRestricted || !isExpandable {
-                offset = view.frame.maxY - collapsedSheetHeight
+                offset = view.bounds.maxY - collapsedSheetHeight
             } else {
                 // When we're height restricted a distinct collapsed offset doesn't make sense,
                 // so we go straight to expanded.
                 fallthrough
             }
         case .expanded:
-            offset = view.frame.maxY - expandedSheetHeight
+            offset = view.bounds.maxY - expandedSheetHeight
         case .hidden:
-            offset = view.frame.maxY
+            offset = view.bounds.maxY
         case .transitioning:
             offset = bottomSheetView.frame.minY
         }
