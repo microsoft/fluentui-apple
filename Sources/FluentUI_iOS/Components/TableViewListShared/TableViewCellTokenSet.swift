@@ -113,6 +113,8 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
                         return GlobalTokens.icon(.size240)
                     case .medium, .default:
                         return GlobalTokens.icon(.size400)
+                    case .large:
+                        return GlobalTokens.icon(.size480)
                     }
                 }
 
@@ -125,6 +127,8 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
                         return GlobalTokens.spacing(.size160)
                     case .medium, .default:
                         return GlobalTokens.spacing(.size120)
+                    case .large:
+                        return GlobalTokens.spacing(.size80)
                     }
                 }
 
@@ -283,6 +287,7 @@ extension TableViewCellTokenSet {
     case zero
     case small
     case medium
+    case large
 }
 
 // MARK: TableViewCellAccessoryType
