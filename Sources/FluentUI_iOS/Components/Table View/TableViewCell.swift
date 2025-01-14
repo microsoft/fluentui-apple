@@ -233,7 +233,7 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
                                          footerLeadingAccessoryView: footerLeadingAccessoryView,
                                          footerTrailingAccessoryView: footerTrailingAccessoryView)
         // Layout type should accommodate for the customViewSize, even if it is only one line.
-        if customViewSize == .medium && layoutType == .oneLine {
+        if (customViewSize == .medium || customViewSize == .large) && layoutType == .oneLine {
             layoutType = .twoLines
         }
         let customViewSize = Self.customViewSize(from: customViewSize, layoutType: layoutType)
