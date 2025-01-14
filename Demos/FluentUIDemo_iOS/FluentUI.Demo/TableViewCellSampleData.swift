@@ -52,6 +52,17 @@ class TableViewCellSampleData: TableViewSampleData {
             hasFullLengthLabelAccessoryView: true
         ),
         Section(
+            title: "Cell with large custom view",
+            items: [
+                Item(text1: "Contoso Survey",
+                     text2: "Research Notes",
+                     image: "excelIcon",
+                     text2LeadingAccessoryView: { createIconsAccessoryView(images: ["ic_fluent_share_20_regular", "ic_fluent_lock_closed_20_regular"]) })
+            ],
+            isUnreadDotVisible: true,
+            customViewSize: .large
+        ),
+        Section(
             title: "Cell without custom view",
             items: [
                 Item(text1: "Contoso Survey",

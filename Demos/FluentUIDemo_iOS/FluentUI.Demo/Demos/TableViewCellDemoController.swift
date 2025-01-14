@@ -226,6 +226,10 @@ extension TableViewCellDemoController {
             cell.bottomSeparatorType = .inset
         }
 
+        if let customViewSize = section.customViewSize {
+            cell.customViewSize = customViewSize
+        }
+
         cell.isInSelectionMode = section.allowsMultipleSelection ? isInSelectionMode : false
 
         cell.tokenSet.replaceAllOverrides(with: overrideTokens)
