@@ -24,8 +24,8 @@ class TableViewSampleData {
         let hasCustomLinkHandler: Bool
         let hasCustomAccessoryView: Bool
         let hasCustomLeadingView: Bool
+        let customViewSize: MSFTableViewCellCustomViewSize
         let hasHandler: Bool
-        let customViewSize: MSFTableViewCellCustomViewSize?
 
         init(title: String,
              items: [Item] = [],
@@ -42,8 +42,8 @@ class TableViewSampleData {
              hasCustomLinkHandler: Bool = false,
              hasCustomAccessoryView: Bool = false,
              hasCustomLeadingView: Bool = false,
-             hasHandler: Bool = false,
-             customViewSize: MSFTableViewCellCustomViewSize? = nil) {
+             customViewSize: MSFTableViewCellCustomViewSize = .default,
+             hasHandler: Bool = false) {
             self.title = title
             self.items = items
             self.isUnreadDotVisible = isUnreadDotVisible
@@ -59,8 +59,8 @@ class TableViewSampleData {
             self.hasCustomLinkHandler = hasCustomLinkHandler
             self.hasCustomAccessoryView = hasCustomAccessoryView
             self.hasCustomLeadingView = hasCustomLeadingView
-            self.hasHandler = hasHandler
             self.customViewSize = customViewSize
+            self.hasHandler = hasHandler
         }
     }
 
