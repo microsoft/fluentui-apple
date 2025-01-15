@@ -118,16 +118,16 @@ class BottomSheetDemoController: DemoController {
         secondarySheetController.isFlexibleHeight = true
         secondarySheetController.allowsSwipeToHide = true
 
-        let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { _ in
-            secondarySheetController.setIsHidden(true, animated: true)
+        let dismissButton = Button(primaryAction: UIAction(title: "Dismiss", handler: { [weak secondarySheetController] _ in
+            secondarySheetController?.setIsHidden(true, animated: true)
         }))
 
         dismissButton.style = .accent
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(dismissButton)
 
-        let anotherOneButton = Button(primaryAction: UIAction(title: "Show another sheet", handler: { _ in
-            self.showTransientSheet()
+        let anotherOneButton = Button(primaryAction: UIAction(title: "Show another sheet", handler: { [weak self] _ in
+            self?.showTransientSheet()
         }))
         anotherOneButton.translatesAutoresizingMaskIntoConstraints = false
         sheetContentView.addSubview(anotherOneButton)
