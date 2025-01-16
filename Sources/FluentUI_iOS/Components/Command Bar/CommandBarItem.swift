@@ -88,7 +88,7 @@ open class CommandBarItem: NSObject {
         }
     }
 
-    /// Title for the item. Only valid when `iconImage` is `nil`.
+    /// Title for the item.
     @objc public var title: String? {
         didSet {
             if title != oldValue {
