@@ -48,7 +48,9 @@ class CommandBarButton: UIButton {
             isAccessibilityElement = false
         } else {
             var buttonConfiguration = UIButton.Configuration.plain()
+            buttonConfiguration.title = item.title
             buttonConfiguration.image = item.iconImage
+            buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
             buttonConfiguration.background.cornerRadius = 0
             configuration = buttonConfiguration
@@ -87,14 +89,6 @@ class CommandBarButton: UIButton {
             return
         }
 
-        // always update icon and title as we only display one; we may alterenate between them, and the icon may also change
-        let iconImage = item.iconImage
-        let title = item.title
-        let accessibilityDescription = item.accessibilityLabel
-
-        configuration?.image = iconImage
-        configuration?.title = iconImage != nil ? nil : title
-
         if let font = item.titleFont {
             let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
             configuration?.attributedTitle?.setAttributes(attributeContainer)
@@ -105,7 +99,8 @@ class CommandBarButton: UIButton {
 
         titleLabel?.isEnabled = isEnabled
 
-        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : title
+        let accessibilityDescription = item.accessibilityLabel
+        accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
         accessibilityHint = item.accessibilityHint
         accessibilityValue = item.accessibilityValue
         accessibilityIdentifier = item.accessibilityIdentifier
