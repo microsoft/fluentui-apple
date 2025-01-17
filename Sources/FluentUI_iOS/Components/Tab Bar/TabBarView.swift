@@ -95,8 +95,15 @@ open class TabBarView: UIView, TokenizedControl {
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
-    @objc public init(showsItemTitles: Bool = false) {
+    @objc public init(showsItemTitles: Bool = false, hideSeparator: Bool = true, disableBlur: Bool = false) {
         self.showsItemTitles = showsItemTitles
+
+        if disableBlur {
+            self.backgroundView = UIVisualEffectView()
+        } else {
+          self.backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial))
+        }
+
         super.init(frame: .zero)
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,6 +114,7 @@ open class TabBarView: UIView, TokenizedControl {
         let stackViewInsets = Compatibility.isDeviceIdiomVision() ? UIEdgeInsets(top: 12.0, left: 0.0, bottom: 12.0, right: 0.0) : .zero
         contain(view: stackView, withInsets: stackViewInsets, respectingSafeAreaInsets: true)
 
+        topBorderLine.isHidden = hideSeparator
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
@@ -159,12 +167,7 @@ open class TabBarView: UIView, TokenizedControl {
         static let maxTabCount: Int = 6
     }
 
-    private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        style = .systemChromeMaterial
-
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
+    private let backgroundView: UIVisualEffectView
 
     private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
