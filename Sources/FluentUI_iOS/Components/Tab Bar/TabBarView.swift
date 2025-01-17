@@ -100,8 +100,8 @@ open class TabBarView: UIView, TokenizedControl {
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
-    /// - Parameter hideSeparator: Removes the top divider displayed with the Tab Bar
-    /// - Parameter disableBlur: Disables the blur effect applied to the Tab Bar
+    /// - Parameter hideSeparator: Removes the top divider displayed above the tab bar.
+    /// - Parameter disableBlur: Disables the blur effect applied to the tab bar.
     @objc public init(showsItemTitles: Bool = false, hideSeparator: Bool = false, disableBlur: Bool = false) {
         self.showsItemTitles = showsItemTitles
 
