@@ -92,9 +92,16 @@ open class TabBarView: UIView, TokenizedControl {
             stackView.setCustomSpacing(spacing, after: view)
         }
     }
+    /// Initializes MSTabBarView
+    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
+    @objc public convenience init(showsItemTitles: Bool = false) {
+        self.init(showsItemTitles: showsItemTitles, hideSeparator: false, disableBlur: false)
+    }
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
+    /// - Parameter hideSeparator: Removes the top divider displayed with the Tab Bar
+    /// - Parameter disableBlur: Disables the blur effect applied to the Tab Bar
     @objc public init(showsItemTitles: Bool = false, hideSeparator: Bool = true, disableBlur: Bool = false) {
         self.showsItemTitles = showsItemTitles
 
