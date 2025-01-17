@@ -73,7 +73,7 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use gradient selection", items: [useGradientSelectionSwitch], textWidth: Constants.switchSettingTextWidth)
         useGradientSelectionSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
-        addRow(text: "Modify badge numbers", items: [incrementBadgeButton, decrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
+        addRow(text: "Modify badge numbers", items: [decrementBadgeButton, incrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
 
         setupTabBarView()
         updateBadgeButtons()
