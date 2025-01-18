@@ -20,11 +20,15 @@ class TabBarViewDemoController: DemoController {
     private var showBadgeNumbers: Bool { return showBadgeNumbersSwitch.isOn }
     private var useHigherBadgeNumbers: Bool { return useHigherBadgeNumbersSwitch.isOn }
     private var useGradientSelection: Bool { return useGradientSelectionSwitch.isOn }
+    private var blurBlackground: Bool { return blurBlackgroundSwitch.isOn }
+    private var hideSeparatorSelection: Bool { return hideSeparatorSelectionSwitch.isOn }
 
     private let itemTitleVisibilitySwitch = BrandedSwitch()
     private let showBadgeNumbersSwitch = BrandedSwitch()
     private let useHigherBadgeNumbersSwitch = BrandedSwitch()
     private let useGradientSelectionSwitch = BrandedSwitch()
+    private let blurBlackgroundSwitch = BrandedSwitch()
+    private let hideSeparatorSelectionSwitch = BrandedSwitch()
 
     private lazy var incrementBadgeButton: Button = {
         return createButton(title: "+", action: #selector(incrementBadgeNumbers))
@@ -73,6 +77,13 @@ class TabBarViewDemoController: DemoController {
         addRow(text: "Use gradient selection", items: [useGradientSelectionSwitch], textWidth: Constants.switchSettingTextWidth)
         useGradientSelectionSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
 
+        addRow(text: "Blur background", items: [blurBlackgroundSwitch], textWidth: Constants.switchSettingTextWidth)
+        blurBlackgroundSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+        blurBlackgroundSwitch.isOn = true
+
+        addRow(text: "Hide Separator", items: [hideSeparatorSelectionSwitch], textWidth: Constants.switchSettingTextWidth)
+        hideSeparatorSelectionSwitch.addTarget(self, action: #selector(handleOnSwitchValueChanged), for: .valueChanged)
+
         addRow(text: "Modify badge numbers", items: [decrementBadgeButton, incrementBadgeButton], textWidth: Constants.buttonSettingTextWidth)
 
         setupTabBarView()
@@ -115,6 +126,9 @@ class TabBarViewDemoController: DemoController {
         if useGradientSelection {
             updatedTabBarView.selectedItemGradient = gradient
         }
+
+        updatedTabBarView.backgroundIsBlurred = blurBlackground
+        updatedTabBarView.separatorIsHidden = hideSeparatorSelection
 
         updatedTabBarView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(updatedTabBarView)

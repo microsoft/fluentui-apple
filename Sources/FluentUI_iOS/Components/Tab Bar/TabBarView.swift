@@ -92,24 +92,11 @@ open class TabBarView: UIView, TokenizedControl {
             stackView.setCustomSpacing(spacing, after: view)
         }
     }
-    /// Initializes MSTabBarView
-    /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
-    @objc public convenience init(showsItemTitles: Bool = false) {
-        self.init(showsItemTitles: showsItemTitles, hideSeparator: false, disableBlur: false)
-    }
 
     /// Initializes MSTabBarView
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
-    /// - Parameter hideSeparator: Removes the top divider displayed above the tab bar.
-    /// - Parameter disableBlur: Disables the blur effect applied to the tab bar.
-    @objc public init(showsItemTitles: Bool = false, hideSeparator: Bool = false, disableBlur: Bool = false) {
+    @objc public init(showsItemTitles: Bool = false) {
         self.showsItemTitles = showsItemTitles
-
-        if disableBlur {
-            self.backgroundView = UIVisualEffectView()
-        } else {
-          self.backgroundView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial))
-        }
 
         super.init(frame: .zero)
 
@@ -121,7 +108,6 @@ open class TabBarView: UIView, TokenizedControl {
         let stackViewInsets = Compatibility.isDeviceIdiomVision() ? UIEdgeInsets(top: 12.0, left: 0.0, bottom: 12.0, right: 0.0) : .zero
         contain(view: stackView, withInsets: stackViewInsets, respectingSafeAreaInsets: true)
 
-        topBorderLine.isHidden = hideSeparator
         topBorderLine.translatesAutoresizingMaskIntoConstraints = false
         addSubview(topBorderLine)
 
@@ -170,11 +156,27 @@ open class TabBarView: UIView, TokenizedControl {
 
     @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
 
+    @objc public var backgroundIsBlurred: Bool = true {
+        didSet {
+            if backgroundIsBlurred != oldValue {
+                backgroundView.effect = backgroundIsBlurred ? UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial) : nil
+            }
+        }
+    }
+
+    @objc public var separatorIsHidden: Bool = false {
+        didSet {
+            if separatorIsHidden != oldValue {
+                topBorderLine.isHidden = separatorIsHidden
+            }
+        }
+    }
+
     private struct Constants {
         static let maxTabCount: Int = 6
     }
 
-    private let backgroundView: UIVisualEffectView
+    private let backgroundView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial))
 
     private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
