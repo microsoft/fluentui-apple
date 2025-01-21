@@ -22,6 +22,8 @@
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
 		9252C6222C62A8B3009C9272 /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9252C6212C62A8B3009C9272 /* FluentUI */; };
+		92AD71232D4062050089499E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
+		92AD71252D4062080089499E /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 92AD71242D4062080089499E /* FluentUI */; };
 		9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */; };
 		9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
@@ -138,12 +140,12 @@
 		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
 		9252C61E2C62A881009C9272 /* fluentui-apple */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "fluentui-apple"; path = ../../..; sourceTree = "<group>"; };
+		92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFilledTemplateImageViewController.swift; sourceTree = "<group>"; };
 		9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestColorProvider.swift; sourceTree = "<group>"; };
 		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
 		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
 		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
-		E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_framework.xcconfig; sourceTree = "<group>"; };
 		E61C96CF2295F6FE0006561F /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
 		E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92AD71252D4062080089499E /* FluentUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +269,7 @@
 				E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */,
 				E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */,
 				3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */,
+				92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -404,20 +408,16 @@
 			buildConfigurationList = E61C96C92295E8D60006561F /* Build configuration list for PBXNativeTarget "FluentUITests" */;
 			buildPhases = (
 				E61C96B72295E8D60006561F /* Sources */,
-				E61C96B82295E8D60006561F /* Frameworks */,
-				E61C96B92295E8D60006561F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9252C6262C62A8F6009C9272 /* PBXTargetDependency */,
 			);
 			name = FluentUITests;
 			packageProductDependencies = (
-				9252C6272C62A9F1009C9272 /* FluentUI */,
 			);
 			productName = FluentUITests;
-			productReference = E61C96BB2295E8D60006561F /* FluentUIUnitTests.xctest */;
+			productReference = 92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */ = {
@@ -449,6 +449,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				92AD71222D4061F20089499E /* PBXTargetDependency */,
 				E6A92D4924BEA9AF00562BCA /* PBXTargetDependency */,
 			);
 			name = FluentUISwiftUITestApp;
@@ -573,6 +574,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92AD71232D4062050089499E /* Assets.xcassets in Resources */,
 				E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -663,6 +665,10 @@
 		9252C6242C62A8DC009C9272 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 9252C6232C62A8DC009C9272 /* FluentUI */;
+		};
+		92AD71222D4061F20089499E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 92AD71212D4061F20089499E /* FluentUI */;
 		};
 		E6A92D4724BEA9A600562BCA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1029,6 +1035,14 @@
 			productName = FluentUI;
 		};
 		9252C6232C62A8DC009C9272 /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		92AD71212D4061F20089499E /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		92AD71242D4062080089499E /* FluentUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FluentUI;
 		};
