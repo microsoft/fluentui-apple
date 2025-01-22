@@ -97,6 +97,7 @@ open class TabBarView: UIView, TokenizedControl {
     /// - Parameter showsItemTitles: Determines whether or not to show the titles of the tab bar items.
     @objc public init(showsItemTitles: Bool = false) {
         self.showsItemTitles = showsItemTitles
+
         super.init(frame: .zero)
 
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -155,16 +156,27 @@ open class TabBarView: UIView, TokenizedControl {
 
     @objc public static let tabBarPadHeight: CGFloat = TabBarTokenSet.padHeight
 
+    @objc public var backgroundIsBlurred: Bool = true {
+        didSet {
+            if backgroundIsBlurred != oldValue {
+                backgroundView.effect = backgroundIsBlurred ? UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial) : nil
+            }
+        }
+    }
+
+    @objc public var separatorIsHidden: Bool = false {
+        didSet {
+            if separatorIsHidden != oldValue {
+                topBorderLine.isHidden = separatorIsHidden
+            }
+        }
+    }
+
     private struct Constants {
         static let maxTabCount: Int = 6
     }
 
-    private let backgroundView: UIVisualEffectView = {
-        var style = UIBlurEffect.Style.regular
-        style = .systemChromeMaterial
-
-        return UIVisualEffectView(effect: UIBlurEffect(style: style))
-    }()
+    private let backgroundView: UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.systemChromeMaterial))
 
     private lazy var heightConstraint: NSLayoutConstraint = stackView.heightAnchor.constraint(equalToConstant: traitCollection.userInterfaceIdiom == .phone ? TabBarTokenSet.phonePortraitHeight : TabBarTokenSet.padHeight)
 
