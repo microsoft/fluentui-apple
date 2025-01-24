@@ -24,6 +24,7 @@
 		9252C6222C62A8B3009C9272 /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9252C6212C62A8B3009C9272 /* FluentUI */; };
 		92AD71232D4062050089499E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		92AD71252D4062080089499E /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 92AD71242D4062080089499E /* FluentUI */; };
+		92AD71272D4064B50089499E /* TestMultilinePillPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */; };
 		9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */; };
 		9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */; };
 		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
@@ -141,6 +142,7 @@
 		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
 		9252C61E2C62A881009C9272 /* fluentui-apple */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "fluentui-apple"; path = ../../..; sourceTree = "<group>"; };
 		92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMultilinePillPickerViewController.swift; sourceTree = "<group>"; };
 		9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFilledTemplateImageViewController.swift; sourceTree = "<group>"; };
 		9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestColorProvider.swift; sourceTree = "<group>"; };
 		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
 				9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */,
 				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
+				92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */,
 				3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
@@ -636,6 +639,7 @@
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
 				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
 				9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */,
+				92AD71272D4064B50089499E /* TestMultilinePillPickerViewController.swift in Sources */,
 				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
