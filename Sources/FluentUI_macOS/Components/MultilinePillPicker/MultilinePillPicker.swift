@@ -12,7 +12,7 @@ public struct MultilinePillPicker: View {
 	/// - Parameters:
 	///   - labels: An array of labels to show in the picker.
 	///   - action: An action to invoke when a pill is selected in the picker. Includes the index of the item being selected.
-	public init(labels: [String], action: (@MainActor (Int) -> Void)? = nil) {
+	public init(labels: [String], action: ((Int) -> Void)? = nil) {
 		self.labels = labels
 		self.action = action
 	}
@@ -54,7 +54,7 @@ public struct MultilinePillPicker: View {
 	}
 
 	private let labels: [String]
-	private let action: (@MainActor (Int) -> Void)?
+	private let action: ((Int) -> Void)?
 
 	// Constants
 	private let cornerRadius: CGFloat = 6.0
