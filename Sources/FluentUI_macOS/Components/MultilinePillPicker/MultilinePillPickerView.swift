@@ -16,6 +16,8 @@ public final class MultilinePillPickerView: ControlHostingView {
 	///   - action: An action to invoke when a pill is selected in the picker. Includes the index of the item being selected.
 	@objc(initWithLabels:action:)
 	@MainActor public init(labels: [String], action: (@MainActor (Int) -> Void)? = nil) {
+		self.labels = labels
+		self.action = action
 		let picker = MultilinePillPicker(labels: labels, action: action)
 		super.init(AnyView(picker))
 	}
@@ -26,5 +28,27 @@ public final class MultilinePillPickerView: ControlHostingView {
 
 	@MainActor required init(rootView: AnyView) {
 		fatalError("init(rootView:) has not been implemented")
+	}
+
+	@MainActor public var isEnabled: Bool = true {
+		didSet {
+			updatePicker()
+		}
+	}
+	@MainActor public var labels: [String] {
+		didSet {
+			updatePicker()
+		}
+	}
+	@MainActor public var action: (@MainActor (Int) -> Void)? {
+		didSet {
+			updatePicker()
+		}
+	}
+
+	private func updatePicker() {
+		let picker = MultilinePillPicker(labels: labels, action: action)
+			.disabled(!isEnabled)
+		rootView = AnyView(picker)
 	}
 }

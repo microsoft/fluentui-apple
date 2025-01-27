@@ -8,18 +8,6 @@ import FluentUI
 import SwiftUI
 
 class TestMultilinePillPickerViewController: NSViewController {
-	var labels: [String] = [
-		"One",
-		"Two",
-		"Three",
-		"Four",
-		"Five",
-		"Six",
-		"Seven",
-		"Eight",
-		"Nine",
-	]
-
 	override func loadView() {
 		let containerView = NSStackView(frame: .zero)
 		containerView.orientation = .vertical
@@ -28,10 +16,18 @@ class TestMultilinePillPickerViewController: NSViewController {
 			self?.pillButtonPressed(index)
 		}
 		containerView.addView(pillPickerView, in: .center)
+		self.pillPickerView = pillPickerView
 
-		// TODO: Add controls to add, remove, or disable pills.
+		// TODO: Add controls to add and remove pills
+		let checkbox = NSButton(checkboxWithTitle: "Enabled", target: self, action: #selector(toggleEnabled(_:)))
+		checkbox.state = .on
+		containerView.addView(checkbox, in: .center)
 
 		view = containerView
+	}
+
+	@objc func toggleEnabled(_ sender: NSButton?) {
+		pillPickerView?.isEnabled = sender?.state == .on
 	}
 
 	func pillButtonPressed(_ index: Int) {
@@ -45,4 +41,18 @@ class TestMultilinePillPickerViewController: NSViewController {
 		alert.addButton(withTitle: "OK")
 		alert.beginSheetModal(for: window)
 	}
+
+	private let labels: [String] = [
+		"One",
+		"Two",
+		"Three",
+		"Four",
+		"Five",
+		"Six",
+		"Seven",
+		"Eight",
+		"Nine",
+	]
+
+	private var pillPickerView: MultilinePillPickerView?
 }
