@@ -25,7 +25,7 @@ public struct MultilinePillPicker: View {
 			row(midIndex..<labels.count)
 		}
 		.frame(alignment: .center)
-		.padding(1.0)
+		.padding(lineWidth)
 	}
 
 	@ViewBuilder
