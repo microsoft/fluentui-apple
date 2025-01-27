@@ -5,8 +5,8 @@
 
 import SwiftUI
 
-/// This is a work-in-progress control for hosting multiple rows of pill buttons. At present, this control
-/// only supports a hard-coded two rows of elements.
+/// This is a simple control for hosting multiple rows of pill buttons. At present, this control only
+/// supports a hard-coded two rows of elements, but more flexibility may be added in the future.
 public struct MultilinePillPicker: View {
 	/// Creates a multiline pill picker.
 	/// - Parameters:

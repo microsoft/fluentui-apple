@@ -18,7 +18,6 @@ class TestMultilinePillPickerViewController: NSViewController {
 		containerView.addView(pillPickerView, in: .center)
 		self.pillPickerView = pillPickerView
 
-		// TODO: Add controls to add and remove pills
 		let checkbox = NSButton(checkboxWithTitle: "Enabled", target: self, action: #selector(toggleEnabled(_:)))
 		checkbox.state = .on
 		containerView.addView(checkbox, in: .center)
