@@ -531,7 +531,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     public override func viewSafeAreaInsetsDidChange() {
         super.viewSafeAreaInsetsDidChange()
-        completeAnimationsIfNeeded(skipToEnd: true)
+        completeAnimationsIfNeeded()
     }
 
     public override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
