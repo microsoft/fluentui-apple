@@ -406,6 +406,12 @@ fi', :execution_position => :before_compile }
     link_mac.source_files = ["#{macos_root}/#{components_dir}/Link/**/*.{swift,h}"]
   end
 
+  s.subspec 'MultilinePillPicker_mac' do |multilinepillpicker_mac|
+    multilinepillpicker_mac.platform = :osx
+    multilinepillpicker_mac.dependency "#{s.name}/Core_mac"
+    multilinepillpicker_mac.source_files = ["#{macos_root}/#{components_dir}/MultilinePillPicker/**/*.{swift,h}"]
+  end
+
   s.subspec 'Separator_mac' do |separator_mac|
     separator_mac.platform = :osx
     separator_mac.dependency "#{s.name}/Core_mac"
