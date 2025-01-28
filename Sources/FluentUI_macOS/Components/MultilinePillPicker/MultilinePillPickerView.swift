@@ -49,6 +49,6 @@ public final class MultilinePillPickerView: ControlHostingView {
 	private func updatePicker() {
 		let picker = MultilinePillPicker(labels: labels, action: action)
 			.disabled(!isEnabled)
-		rootView = AnyView(picker)
+		hostingView.rootView = AnyView(picker)
 	}
 }
