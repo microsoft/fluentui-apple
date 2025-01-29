@@ -56,8 +56,10 @@ fileprivate struct MultilinePillPickerWrapper: View {
 	@ObservedObject var viewModel: MultilinePillPickerViewModel
 
 	var body: some View {
-		MultilinePillPicker(labels: viewModel.labels,
-							action: viewModel.action)
+		MultilinePillPicker(
+			labels: viewModel.labels,
+			action: viewModel.action
+		)
 		.disabled(!viewModel.isEnabled)
 	}
 }
