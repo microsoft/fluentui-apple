@@ -4,6 +4,7 @@
 //
 
 import AppKit
+import Combine
 import SwiftUI
 
 /// This is a work-in-progress control for hosting multiple rows of pill buttons. At present, this control
