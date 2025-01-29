@@ -21,8 +21,18 @@ public final class MultilinePillPickerView: ControlHostingView, ObservableObject
 		self.action = action
 		super.init(AnyView(EmptyView()))
 
-		let wrapper = MultilinePillPickerWrapper(viewModel: self)
+		let wrapper = MultilinePillPickerWrapper(viewModel: viewModel)
 		self.hostingView.rootView = AnyView(wrapper)
+
+		// Set up observation to keep the view model in sync.
+		viewModel.loadProperties(from: self)
+		cancellable = self.objectWillChange.sink { [weak self] in
+			DispatchQueue.main.async {
+				if let self {
+					self.viewModel.loadProperties(from: self)
+				}
+			}
+		}
 	}
 
 	@MainActor required dynamic init?(coder aDecoder: NSCoder) {
@@ -36,11 +46,27 @@ public final class MultilinePillPickerView: ControlHostingView, ObservableObject
 	@MainActor @Published public var isEnabled: Bool = true
 	@MainActor @Published public var labels: [String]
 	@MainActor @Published public var action: (@MainActor (Int) -> Void)?
+
+	@MainActor private var viewModel: MultilinePillPickerViewModel = .init()
+	private var cancellable: AnyCancellable?
+}
+
+/// Maps properties from `MultilinePillPickerView` to `MultilinePillPickerViewWrapper`.
+fileprivate class MultilinePillPickerViewModel: ObservableObject {
+	@Published var isEnabled: Bool = true
+	@Published var labels: [String] = []
+	@Published var action: ((Int) -> Void)?
+
+	@MainActor func loadProperties(from host: MultilinePillPickerView) {
+		isEnabled = host.isEnabled
+		labels = host.labels
+		action = host.action
+	}
 }
 
 /// Private wrapper `View` to map from view model to `MultilinePillPicker`.
 fileprivate struct MultilinePillPickerWrapper: View {
-	@ObservedObject var viewModel: MultilinePillPickerView
+	@ObservedObject var viewModel: MultilinePillPickerViewModel
 
 	var body: some View {
 		MultilinePillPicker(labels: viewModel.labels,
