@@ -22,7 +22,7 @@ open class ControlHostingView: NSView {
 	/// the control view in an `AnyView.`
 	///
 	/// - Parameter controlView: An `AnyView`-wrapped component to host.
-	/// - Parameter safeAreaRegions: Passthrough to the respective property on UIHostingController.
+	/// - Parameter safeAreaRegions: Passthrough to the respective property on NSHostingView.
 	/// Indicates which safe area regions the underlying hosting controller should add to its view.
 	public init(_ controlView: AnyView, safeAreaRegions: SafeAreaRegions = .all) {
 		hostingView = NSHostingView.init(rootView: controlView)

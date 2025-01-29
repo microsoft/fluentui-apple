@@ -42,7 +42,7 @@ public final class MultilinePillPickerView: ControlHostingView, ObservableObject
 	@MainActor @Published public var labels: [String]
 	@MainActor @Published public var action: (@MainActor (Int) -> Void)?
 
-	@MainActor private var viewModel: MultilinePillPickerViewModel = .init()
+	@MainActor private let viewModel: MultilinePillPickerViewModel = .init()
 }
 
 /// Maps properties from `MultilinePillPickerView` to `MultilinePillPickerViewWrapper`.
