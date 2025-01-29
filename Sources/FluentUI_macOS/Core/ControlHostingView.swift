@@ -4,6 +4,7 @@
 //
 
 import AppKit
+import Combine
 import SwiftUI
 
 /// Common wrapper for hosting and exposing SwiftUI components to UIKit-based clients.
@@ -40,6 +41,20 @@ open class ControlHostingView: NSView {
 	}
 
 	let hostingView: NSHostingView<AnyView>
+	var cancellables: Set<AnyCancellable> = []
+
+	// Helper function to facilitate binding ourselves to a ViewModel.
+	func bindProperty<Root: AnyObject, Value>(
+		from source: Published<Value>.Publisher,
+		to viewModelKeyPath: ReferenceWritableKeyPath<Root, Value>,
+		on viewModel: Root
+	) {
+		source
+			.sink { [weak viewModel] newValue in
+				viewModel?[keyPath: viewModelKeyPath] = newValue
+			}
+			.store(in: &cancellables)
+	}
 
 	/// Adds `hostingController.view` to ourselves as a subview, and enables necessary constraints.
 	private func configureHostedView() {

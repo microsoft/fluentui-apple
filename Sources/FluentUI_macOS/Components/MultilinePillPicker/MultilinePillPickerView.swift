@@ -4,7 +4,6 @@
 //
 
 import AppKit
-import Combine
 import SwiftUI
 
 /// This is a work-in-progress control for hosting multiple rows of pill buttons. At present, this control
@@ -25,22 +24,17 @@ public final class MultilinePillPickerView: ControlHostingView, ObservableObject
 		self.hostingView.rootView = AnyView(wrapper)
 
 		// Set up observation to keep the view model in sync.
-		viewModel.loadProperties(from: self)
-		cancellable = self.objectWillChange.sink { [weak self] in
-			DispatchQueue.main.async {
-				if let self {
-					self.viewModel.loadProperties(from: self)
-				}
-			}
-		}
+		bindProperty(from: self.$isEnabled, to: \.isEnabled, on: viewModel)
+		bindProperty(from: self.$labels, to: \.labels, on: viewModel)
+		bindProperty(from: self.$action, to: \.action, on: viewModel)
 	}
 
 	@MainActor required dynamic init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+		preconditionFailure("init(coder:) has not been implemented")
 	}
 
 	@MainActor required init(rootView: AnyView) {
-		fatalError("init(rootView:) has not been implemented")
+		preconditionFailure("init(rootView:) has not been implemented")
 	}
 
 	@MainActor @Published public var isEnabled: Bool = true
@@ -48,20 +42,13 @@ public final class MultilinePillPickerView: ControlHostingView, ObservableObject
 	@MainActor @Published public var action: (@MainActor (Int) -> Void)?
 
 	@MainActor private var viewModel: MultilinePillPickerViewModel = .init()
-	private var cancellable: AnyCancellable?
 }
 
 /// Maps properties from `MultilinePillPickerView` to `MultilinePillPickerViewWrapper`.
 fileprivate class MultilinePillPickerViewModel: ObservableObject {
 	@Published var isEnabled: Bool = true
 	@Published var labels: [String] = []
-	@Published var action: ((Int) -> Void)?
-
-	@MainActor func loadProperties(from host: MultilinePillPickerView) {
-		isEnabled = host.isEnabled
-		labels = host.labels
-		action = host.action
-	}
+	@Published var action: (@MainActor (Int) -> Void)?
 }
 
 /// Private wrapper `View` to map from view model to `MultilinePillPicker`.
