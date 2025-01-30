@@ -96,7 +96,8 @@ class DemoController: UIViewController {
         present(alert, animated: true)
 
         if autoDismiss {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            let delay: TimeInterval = UIAccessibility.isVoiceOverRunning ? 3 : 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
                 self.dismiss(animated: true)
             }
         } else {
