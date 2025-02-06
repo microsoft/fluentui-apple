@@ -121,7 +121,7 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
                 }
 
             case .font:
-                return .uiFont { theme.typography(.body2) }
+                return .uiFont { theme.typography(.body2, adjustsForContentSizeCategory: false) }
 
             case .titleColor:
                 return .uiColor {
