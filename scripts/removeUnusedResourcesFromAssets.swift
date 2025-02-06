@@ -39,7 +39,7 @@ func findUsedResources(in rootPath: String) -> Set<String> {
 #endif
 
                     do {
-                        let resourceFileListContents = try String(contentsOf: fileURL)
+                        let resourceFileListContents = try String(contentsOf: fileURL, encoding: .utf8)
 
                         for entry in resourceFileListContents.split(separator: "\n") {
                             let resourceFileEntry = entry.trimmingCharacters(in: .whitespacesAndNewlines)

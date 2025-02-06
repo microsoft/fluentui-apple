@@ -128,7 +128,7 @@ do {
 func updatePlist(path: String, values: [String]) {
     guard let plistData = FileManager.default.contents(atPath: path),
           var plistDictionary = try? PropertyListSerialization.propertyList(from: plistData, options: [], format: nil) as? [String: Any] else {
-        print("\(redColor)Error: Failed to read plist file.\(resetColor)")
+        print("\(redColor)Error: Failed to read plist file at \(path).\(resetColor)")
         exit(1)
     }
 
@@ -139,14 +139,14 @@ func updatePlist(path: String, values: [String]) {
     }
 
     guard let modifiedPlistData = try? PropertyListSerialization.data(fromPropertyList: plistDictionary, format: .xml, options: 0) else {
-        print("\(redColor)Failed to serialize plist data.\(resetColor)")
+        print("\(redColor)Failed to serialize plist data at \(path).\(resetColor)")
         exit(1)
     }
 
     do {
         try modifiedPlistData.write(to: URL(fileURLWithPath: path))
     } catch {
-        print("\(redColor)Failed to write modified plist data. \(error.localizedDescription)\(resetColor)")
+        print("\(redColor)Failed to write modified plist data at \(path). \(error.localizedDescription)\(resetColor)")
         exit(1)
     }
 }
@@ -154,16 +154,16 @@ func updatePlist(path: String, values: [String]) {
 let values = newVersion.components(separatedBy: ".")
 let majorBump = Int(values[0])!
 
-updatePlist(path: "\(currentDirectory)/ios/FluentUI.Demo/FluentUI.Demo/Info.plist",
+updatePlist(path: "\(currentDirectory)/Demos/FluentUIDemo_iOS/FluentUI.Demo/Info.plist",
             values: ["\(1 + majorBump)\(croppedNewValue)", "\(137 + majorBump)\(croppedNewValue)"])
 
-updatePlist(path: "\(currentDirectory)/ios/FluentUI.Resources/Info.plist",
+updatePlist(path: "\(currentDirectory)/Sources/FluentUI_iOS/Resources/Version.plist",
             values: [newVersion, newVersion])
 
-updatePlist(path: "\(currentDirectory)/macos/FluentUI/FluentUI-Info.plist",
+updatePlist(path: "\(currentDirectory)/Sources/FluentUI_macOS/FluentUI-Info.plist",
             values: [newVersion, newVersion])
 
-updatePlist(path: "\(currentDirectory)/macos/FluentUITestApp/FluentUITestApp-Info.plist",
+updatePlist(path: "\(currentDirectory)/Demos/FluentUIDemo_macOS/FluentUITestApp/FluentUITestApp-Info.plist",
             values: [newVersion,  "\(62 + majorBump)\(croppedNewValue)"])
 
 print("\(greenColor)Successfully updated fluent version to \(newVersion)!\nFeel free to verify all strings have been bumped properly. For reference, see https://github.com/microsoft/fluentui-apple/pull/1812/files.\(resetColor)")

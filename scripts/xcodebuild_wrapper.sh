@@ -30,7 +30,7 @@ function invoke_xcodebuild()
 # \param $3+ build commands
 function ios_simulator_build()
 {
-    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" iphonesimulator "${@:3}"
+    invoke_xcodebuild project "Demos/FluentUIDemo_iOS/FluentUI.Demo.xcodeproj" "$1" "$2" iphonesimulator "${@:3}"
     return $?
 }
 
@@ -41,7 +41,7 @@ function ios_simulator_build()
 # \param $3+ build commands
 function ios_device_build()
 {
-    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" iphoneos "${@:3}"
+    invoke_xcodebuild project "Demos/FluentUIDemo_iOS/FluentUI.Demo.xcodeproj" "$1" "$2" iphoneos "${@:3}"
     return $?
 }
 
@@ -52,7 +52,7 @@ function ios_device_build()
 # \param $3+ build commands
 function macos_build()
 {
-    invoke_xcodebuild project "macos/xcode/FluentUI.xcodeproj" "$1" "$2" macosx "${@:3}"
+    invoke_xcodebuild project "Demos/FluentUIDemo_macOS/xcode/FluentUI.xcodeproj" "$1" "$2" macosx "${@:3}"
     return $?
 }
 
@@ -63,7 +63,7 @@ function macos_build()
 # \param $3+ build commands
 function visionos_simulator_build()
 {
-    invoke_xcodebuild workspace "ios/FluentUI.xcworkspace" "$1" "$2" xrsimulator "${@:3}"
+    invoke_xcodebuild project "Demos/FluentUIDemo_iOS/FluentUI.Demo.xcodeproj" "$1" "$2" xrsimulator "${@:3}"
     return $?
 }
 

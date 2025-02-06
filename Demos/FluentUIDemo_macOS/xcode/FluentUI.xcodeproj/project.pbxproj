@@ -1,0 +1,1056 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A42751229677C3700F36FBE /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751129677C3700F36FBE /* BaseTest.swift */; };
+		3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751329677C3700F36FBE /* AvatarViewTest.swift */; };
+		3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751A29677CA100F36FBE /* BadgeViewTest.swift */; };
+		3A42751D29677CB900F36FBE /* ButtonTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751C29677CB900F36FBE /* ButtonTest.swift */; };
+		3A42751F29677CCB00F36FBE /* DatePickerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42751E29677CCB00F36FBE /* DatePickerTest.swift */; };
+		3A42752129677CE800F36FBE /* FilledTemplateImageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752029677CE800F36FBE /* FilledTemplateImageTest.swift */; };
+		3A42752329677CF800F36FBE /* LinkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752229677CF800F36FBE /* LinkTest.swift */; };
+		3A42752529677D0800F36FBE /* SeparatorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752429677D0800F36FBE /* SeparatorTest.swift */; };
+		3A42752729677D3700F36FBE /* ColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752629677D3700F36FBE /* ColorTest.swift */; };
+		3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */; };
+		3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */; };
+		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
+		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
+		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
+		9252C6222C62A8B3009C9272 /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9252C6212C62A8B3009C9272 /* FluentUI */; };
+		92AD71232D4062050089499E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
+		92AD71252D4062080089499E /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 92AD71242D4062080089499E /* FluentUI */; };
+		92AD71272D4064B50089499E /* TestMultilinePillPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */; };
+		9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */; };
+		9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */; };
+		A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */; };
+		E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D222962BC20006561F /* TestControlsViewController.swift */; };
+		E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */; };
+		E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */; };
+		E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */; };
+		E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */; };
+		E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61C96D622987B3C0006561F /* TestLinkViewController.swift */; };
+		E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061BF8222EF957200F2D245 /* TestDatePickerController.swift */; };
+		E6A92D3924BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */; };
+		E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3A24BEA91F00562BCA /* ContentView.swift */; };
+		E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */; };
+		E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */; };
+		EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3A42751529677C3700F36FBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F5368012295F4BF0098AC8F;
+			remoteInfo = FluentUITestApp;
+		};
+		E6A92D4624BEA9A600562BCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6A92D2324BEA85900562BCA;
+			remoteInfo = FluentUITestViewControllers;
+		};
+		E6A92D4824BEA9AF00562BCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E61C96A92295E8D60006561F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E6A92D2324BEA85900562BCA;
+			remoteInfo = FluentUITestViewControllers;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AC7235DC2492E0D000D0DCA8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A42751129677C3700F36FBE /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
+		3A42751329677C3700F36FBE /* AvatarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarViewTest.swift; sourceTree = "<group>"; };
+		3A42751A29677CA100F36FBE /* BadgeViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeViewTest.swift; sourceTree = "<group>"; };
+		3A42751C29677CB900F36FBE /* ButtonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonTest.swift; sourceTree = "<group>"; };
+		3A42751E29677CCB00F36FBE /* DatePickerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTest.swift; sourceTree = "<group>"; };
+		3A42752029677CE800F36FBE /* FilledTemplateImageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilledTemplateImageTest.swift; sourceTree = "<group>"; };
+		3A42752229677CF800F36FBE /* LinkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTest.swift; sourceTree = "<group>"; };
+		3A42752429677D0800F36FBE /* SeparatorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorTest.swift; sourceTree = "<group>"; };
+		3A42752629677D3700F36FBE /* ColorTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTest.swift; sourceTree = "<group>"; };
+		3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBarViewTest.swift; sourceTree = "<group>"; };
+		3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationBarViewController.swift; sourceTree = "<group>"; };
+		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
+		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
+		8F3572322361143B0076FBBE /* FluentUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluentUI.xctestplan; sourceTree = "<group>"; };
+		8F38AE402303537800F5D7B0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE412303538800F5D7B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE42230353BA00F5D7B0 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE432303541100F5D7B0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE442303541600F5D7B0 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE452303542500F5D7B0 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE462303542C00F5D7B0 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE472303543300F5D7B0 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE482303543A00F5D7B0 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE492303544000F5D7B0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE4B2303544D00F5D7B0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE4C2303545200F5D7B0 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE4D2303545900F5D7B0 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE4E2303546000F5D7B0 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE4F2303546B00F5D7B0 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE502303547100F5D7B0 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE512303547700F5D7B0 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE522303547C00F5D7B0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE542303548F00F5D7B0 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE552303549500F5D7B0 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE562303549B00F5D7B0 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE57230354A100F5D7B0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE58230354A500F5D7B0 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE59230354AC00F5D7B0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE5A230354CA00F5D7B0 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F38AE5B230354D200F5D7B0 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE5C230354D700F5D7B0 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F38AE5D230354DA00F5D7B0 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FluentUIResources-macos.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_resources.xcconfig; sourceTree = "<group>"; };
+		8F5368022295F4BF0098AC8F /* FluentUITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F5368042295F4BF0098AC8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8F5368062295F4C10098AC8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8F5368092295F4C10098AC8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		8F53680B2295F4C10098AC8F /* FluentUITestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUITestApp-Info.plist"; sourceTree = "<group>"; };
+		8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_testapp.xcconfig; sourceTree = "<group>"; };
+		8F7918F424589B2C00C84086 /* nb-NO */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nb-NO"; path = "nb-NO.lproj/MainMenu.strings"; sourceTree = "<group>"; };
+		8F79191D24589B6600C84086 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79191F24589B6700C84086 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79192124589B6900C84086 /* hi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hi; path = hi.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79192324589B6A00C84086 /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79192524589B6C00C84086 /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79192724589B6D00C84086 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F79192924589B6E00C84086 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_unittest.xcconfig; sourceTree = "<group>"; };
+		9252C61E2C62A881009C9272 /* fluentui-apple */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "fluentui-apple"; path = ../../..; sourceTree = "<group>"; };
+		92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluentUIUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMultilinePillPickerViewController.swift; sourceTree = "<group>"; };
+		9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFilledTemplateImageViewController.swift; sourceTree = "<group>"; };
+		9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestColorProvider.swift; sourceTree = "<group>"; };
+		A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestColorViewController.swift; sourceTree = "<group>"; };
+		AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestButtonViewController.swift; sourceTree = "<group>"; };
+		AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSeparatorViewController.swift; sourceTree = "<group>"; };
+		E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_framework.xcconfig; sourceTree = "<group>"; };
+		E61C96CF2295F6FE0006561F /* FluentUI_common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_common.xcconfig; sourceTree = "<group>"; };
+		E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_debug.xcconfig; sourceTree = "<group>"; };
+		E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_release.xcconfig; sourceTree = "<group>"; };
+		E61C96D222962BC20006561F /* TestControlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestControlsViewController.swift; sourceTree = "<group>"; };
+		E61C96D622987B3C0006561F /* TestLinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLinkViewController.swift; sourceTree = "<group>"; };
+		E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewControllerWrappingView.swift; sourceTree = "<group>"; };
+		E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFluentUITestViewControllers.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUISwiftUITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUISwiftUITestAppApp.swift; sourceTree = "<group>"; };
+		E6A92D3A24BEA91F00562BCA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		E6A92D4124BEA92000562BCA /* FluentUISwiftUITestApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FluentUISwiftUITestApp-Info.plist"; sourceTree = "<group>"; };
+		E6A92D4224BEA92000562BCA /* FluentUISwiftUITestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluentUISwiftUITestApp.entitlements; sourceTree = "<group>"; };
+		E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_swiftui_testapp.xcconfig; sourceTree = "<group>"; };
+		E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_testviewcontrollers.xcconfig; sourceTree = "<group>"; };
+		E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewControllers.swift; sourceTree = "<group>"; };
+		EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBadgeViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A42750C29677C3700F36FBE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F41CC6A2447B60F0040B851 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F5367FF2295F4BF0098AC8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9252C6222C62A8B3009C9272 /* FluentUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D2224BEA85900562BCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3324BEA91F00562BCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92AD71252D4062080089499E /* FluentUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A42751029677C3700F36FBE /* FluentUIDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A42751129677C3700F36FBE /* BaseTest.swift */,
+				3A42751329677C3700F36FBE /* AvatarViewTest.swift */,
+				3A42751A29677CA100F36FBE /* BadgeViewTest.swift */,
+				3A42751C29677CB900F36FBE /* ButtonTest.swift */,
+				3A42752629677D3700F36FBE /* ColorTest.swift */,
+				3A42751E29677CCB00F36FBE /* DatePickerTest.swift */,
+				3A42752029677CE800F36FBE /* FilledTemplateImageTest.swift */,
+				3A42752229677CF800F36FBE /* LinkTest.swift */,
+				3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */,
+				3A42752429677D0800F36FBE /* SeparatorTest.swift */,
+			);
+			path = FluentUIDemoTests;
+			sourceTree = "<group>";
+		};
+		8F5368032295F4BF0098AC8F /* FluentUITestApp */ = {
+			isa = PBXGroup;
+			children = (
+				8F5368042295F4BF0098AC8F /* AppDelegate.swift */,
+				E61C96D222962BC20006561F /* TestControlsViewController.swift */,
+				8F5368062295F4C10098AC8F /* Assets.xcassets */,
+				8F5368082295F4C10098AC8F /* MainMenu.xib */,
+				8F53680B2295F4C10098AC8F /* FluentUITestApp-Info.plist */,
+			);
+			name = FluentUITestApp;
+			path = ../FluentUITestApp;
+			sourceTree = "<group>";
+		};
+		AC7235D72492E0D000D0DCA8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E61C96A82295E8D60006561F = {
+			isa = PBXGroup;
+			children = (
+				9252C61E2C62A881009C9272 /* fluentui-apple */,
+				3A42751029677C3700F36FBE /* FluentUIDemoTests */,
+				E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */,
+				8F5368032295F4BF0098AC8F /* FluentUITestApp */,
+				E6A92D3724BEA91F00562BCA /* FluentUISwiftUITestApp */,
+				E61C96CD2295ED530006561F /* xcode */,
+				E61C96B32295E8D60006561F /* Products */,
+				AC7235D72492E0D000D0DCA8 /* Frameworks */,
+			);
+			indentWidth = 4;
+			sourceTree = "<group>";
+			tabWidth = 4;
+			usesTabs = 1;
+		};
+		E61C96B32295E8D60006561F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8F5368022295F4BF0098AC8F /* FluentUITestApp.app */,
+				8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */,
+				E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */,
+				E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */,
+				3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */,
+				92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E61C96CD2295ED530006561F /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				E61C96CF2295F6FE0006561F /* FluentUI_common.xcconfig */,
+				E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */,
+				E61C96CE2295ED8A0006561F /* FluentUI_framework.xcconfig */,
+				E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */,
+				8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */,
+				E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */,
+				8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */,
+				E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */,
+				8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */,
+				8F3572322361143B0076FBBE /* FluentUI.xctestplan */,
+			);
+			name = xcode;
+			sourceTree = "<group>";
+		};
+		E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
+				EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */,
+				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
+				9B8661752A4F5C4800FA4F78 /* TestColorProvider.swift */,
+				A257F81C2512DDF7002CAA6E /* TestColorViewController.swift */,
+				8061BF8222EF957200F2D245 /* TestDatePickerController.swift */,
+				9B4AEBAA2705206300B68020 /* TestFilledTemplateImageViewController.swift */,
+				E61C96D622987B3C0006561F /* TestLinkViewController.swift */,
+				92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */,
+				3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */,
+				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
+				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
+			);
+			name = FluentUITestViewControllers;
+			path = ../FluentUITestViewControllers;
+			sourceTree = "<group>";
+		};
+		E6A92D3724BEA91F00562BCA /* FluentUISwiftUITestApp */ = {
+			isa = PBXGroup;
+			children = (
+				E6A92D3A24BEA91F00562BCA /* ContentView.swift */,
+				E6A92D3824BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift */,
+				E6A92D4124BEA92000562BCA /* FluentUISwiftUITestApp-Info.plist */,
+				E6A92D4224BEA92000562BCA /* FluentUISwiftUITestApp.entitlements */,
+				E660317124BEB46F00A132DB /* TestViewControllerWrappingView.swift */,
+				E6A92D3E24BEA92000562BCA /* Preview Content */,
+			);
+			name = FluentUISwiftUITestApp;
+			path = ../FluentUISwiftUITestApp;
+			sourceTree = "<group>";
+		};
+		E6A92D3E24BEA92000562BCA /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E6A92D2024BEA85900562BCA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3A42750E29677C3700F36FBE /* FluentUIDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A42751929677C3700F36FBE /* Build configuration list for PBXNativeTarget "FluentUIDemoTests" */;
+			buildPhases = (
+				3A42750B29677C3700F36FBE /* Sources */,
+				3A42750C29677C3700F36FBE /* Frameworks */,
+				3A42750D29677C3700F36FBE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A42751629677C3700F36FBE /* PBXTargetDependency */,
+			);
+			name = FluentUIDemoTests;
+			productName = FluentUIDemoTests;
+			productReference = 3A42750F29677C3700F36FBE /* FluentUIDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */;
+			buildPhases = (
+				8F41CC692447B60F0040B851 /* Sources */,
+				8F41CC6A2447B60F0040B851 /* Frameworks */,
+				8F41CC6B2447B60F0040B851 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FluentUIResources-macos";
+			productName = "FluentUIResources-macos";
+			productReference = 8F41CC6D2447B60F0040B851 /* FluentUIResources-macos.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		8F5368012295F4BF0098AC8F /* FluentUITestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */;
+			buildPhases = (
+				8F5367FE2295F4BF0098AC8F /* Sources */,
+				8F5367FF2295F4BF0098AC8F /* Frameworks */,
+				8F5368002295F4BF0098AC8F /* Resources */,
+				AC7235DC2492E0D000D0DCA8 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9252C6202C62A8AB009C9272 /* PBXTargetDependency */,
+				E6A92D4724BEA9A600562BCA /* PBXTargetDependency */,
+			);
+			name = FluentUITestApp;
+			packageProductDependencies = (
+				9252C6212C62A8B3009C9272 /* FluentUI */,
+			);
+			productName = FluentUITestApp;
+			productReference = 8F5368022295F4BF0098AC8F /* FluentUITestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E61C96BA2295E8D60006561F /* FluentUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E61C96C92295E8D60006561F /* Build configuration list for PBXNativeTarget "FluentUITests" */;
+			buildPhases = (
+				E61C96B72295E8D60006561F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FluentUITests;
+			packageProductDependencies = (
+			);
+			productName = FluentUITests;
+			productReference = 92AD711E2D4061340089499E /* FluentUIUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6A92D2C24BEA85900562BCA /* Build configuration list for PBXNativeTarget "FluentUITestViewControllers" */;
+			buildPhases = (
+				E6A92D2024BEA85900562BCA /* Headers */,
+				E6A92D2124BEA85900562BCA /* Sources */,
+				E6A92D2224BEA85900562BCA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9252C6242C62A8DC009C9272 /* PBXTargetDependency */,
+			);
+			name = FluentUITestViewControllers;
+			productName = FluentUITestViewControllers;
+			productReference = E6A92D2424BEA85900562BCA /* libFluentUITestViewControllers.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		E6A92D3524BEA91F00562BCA /* FluentUISwiftUITestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E6A92D4324BEA92000562BCA /* Build configuration list for PBXNativeTarget "FluentUISwiftUITestApp" */;
+			buildPhases = (
+				E6A92D3224BEA91F00562BCA /* Sources */,
+				E6A92D3324BEA91F00562BCA /* Frameworks */,
+				E6A92D3424BEA91F00562BCA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				92AD71222D4061F20089499E /* PBXTargetDependency */,
+				E6A92D4924BEA9AF00562BCA /* PBXTargetDependency */,
+			);
+			name = FluentUISwiftUITestApp;
+			productName = FluentUISwiftUITestApp;
+			productReference = E6A92D3624BEA91F00562BCA /* FluentUISwiftUITestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E61C96A92295E8D60006561F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1340;
+				ORGANIZATIONNAME = "Microsoft Corporation";
+				TargetAttributes = {
+					3A42750E29677C3700F36FBE = {
+						CreatedOnToolsVersion = 14.1;
+						TestTargetID = 8F5368012295F4BF0098AC8F;
+					};
+					8F41CC6C2447B60F0040B851 = {
+						CreatedOnToolsVersion = 11.4;
+					};
+					8F5368012295F4BF0098AC8F = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E61C96BA2295E8D60006561F = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					E6A92D2324BEA85900562BCA = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					E6A92D3524BEA91F00562BCA = {
+						CreatedOnToolsVersion = 12.0;
+					};
+				};
+			};
+			buildConfigurationList = E61C96AC2295E8D60006561F /* Build configuration list for PBXProject "FluentUI" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ar,
+				"en-GB",
+				"zh-Hans",
+				"zh-Hant",
+				cs,
+				da,
+				nl,
+				fi,
+				fr,
+				de,
+				el,
+				he,
+				hu,
+				id,
+				it,
+				ja,
+				ko,
+				pl,
+				"pt-BR",
+				"pt-PT",
+				ru,
+				sk,
+				es,
+				"es-MX",
+				sv,
+				th,
+				tr,
+				"nb-NO",
+				uk,
+				ms,
+				vi,
+				ro,
+				hr,
+				hi,
+				ca,
+			);
+			mainGroup = E61C96A82295E8D60006561F;
+			productRefGroup = E61C96B32295E8D60006561F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E61C96BA2295E8D60006561F /* FluentUITests */,
+				3A42750E29677C3700F36FBE /* FluentUIDemoTests */,
+				8F5368012295F4BF0098AC8F /* FluentUITestApp */,
+				8F41CC6C2447B60F0040B851 /* FluentUIResources-macos */,
+				E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */,
+				E6A92D3524BEA91F00562BCA /* FluentUISwiftUITestApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A42750D29677C3700F36FBE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F41CC6B2447B60F0040B851 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F5368002295F4BF0098AC8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */,
+				8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3424BEA91F00562BCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92AD71232D4062050089499E /* Assets.xcassets in Resources */,
+				E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A42750B29677C3700F36FBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A42751229677C3700F36FBE /* BaseTest.swift in Sources */,
+				3A42751F29677CCB00F36FBE /* DatePickerTest.swift in Sources */,
+				3A42751429677C3700F36FBE /* AvatarViewTest.swift in Sources */,
+				3A42751B29677CA100F36FBE /* BadgeViewTest.swift in Sources */,
+				3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */,
+				3A42751D29677CB900F36FBE /* ButtonTest.swift in Sources */,
+				3A42752129677CE800F36FBE /* FilledTemplateImageTest.swift in Sources */,
+				3A42752329677CF800F36FBE /* LinkTest.swift in Sources */,
+				3A42752729677D3700F36FBE /* ColorTest.swift in Sources */,
+				3A42752529677D0800F36FBE /* SeparatorTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F41CC692447B60F0040B851 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F5367FE2295F4BF0098AC8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E61C96D322962BC20006561F /* TestControlsViewController.swift in Sources */,
+				8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E61C96B72295E8D60006561F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D2124BEA85900562BCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */,
+				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
+				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
+				EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */,
+				A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */,
+				9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */,
+				E6A92D3024BEA8AC00562BCA /* TestLinkViewController.swift in Sources */,
+				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
+				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
+				9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */,
+				92AD71272D4064B50089499E /* TestMultilinePillPickerViewController.swift in Sources */,
+				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E6A92D3224BEA91F00562BCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E660317224BEB46F00A132DB /* TestViewControllerWrappingView.swift in Sources */,
+				E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */,
+				E6A92D3924BEA91F00562BCA /* FluentUISwiftUITestAppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3A42751629677C3700F36FBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F5368012295F4BF0098AC8F /* FluentUITestApp */;
+			targetProxy = 3A42751529677C3700F36FBE /* PBXContainerItemProxy */;
+		};
+		9252C6202C62A8AB009C9272 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9252C61F2C62A8AB009C9272 /* FluentUI */;
+		};
+		9252C6242C62A8DC009C9272 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 9252C6232C62A8DC009C9272 /* FluentUI */;
+		};
+		92AD71222D4061F20089499E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 92AD71212D4061F20089499E /* FluentUI */;
+		};
+		E6A92D4724BEA9A600562BCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */;
+			targetProxy = E6A92D4624BEA9A600562BCA /* PBXContainerItemProxy */;
+		};
+		E6A92D4924BEA9AF00562BCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E6A92D2324BEA85900562BCA /* FluentUITestViewControllers */;
+			targetProxy = E6A92D4824BEA9AF00562BCA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8F5368082295F4C10098AC8F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F5368092295F4C10098AC8F /* Base */,
+				8F38AE402303537800F5D7B0 /* ar */,
+				8F38AE412303538800F5D7B0 /* en */,
+				8F38AE42230353BA00F5D7B0 /* en-GB */,
+				8F38AE432303541100F5D7B0 /* zh-Hans */,
+				8F38AE442303541600F5D7B0 /* zh-Hant */,
+				8F38AE452303542500F5D7B0 /* cs */,
+				8F38AE462303542C00F5D7B0 /* da */,
+				8F38AE472303543300F5D7B0 /* nl */,
+				8F38AE482303543A00F5D7B0 /* fi */,
+				8F38AE492303544000F5D7B0 /* fr */,
+				8F38AE4B2303544D00F5D7B0 /* de */,
+				8F38AE4C2303545200F5D7B0 /* el */,
+				8F38AE4D2303545900F5D7B0 /* he */,
+				8F38AE4E2303546000F5D7B0 /* hu */,
+				8F38AE4F2303546B00F5D7B0 /* id */,
+				8F38AE502303547100F5D7B0 /* it */,
+				8F38AE512303547700F5D7B0 /* ja */,
+				8F38AE522303547C00F5D7B0 /* ko */,
+				8F38AE542303548F00F5D7B0 /* pl */,
+				8F38AE552303549500F5D7B0 /* pt-BR */,
+				8F38AE562303549B00F5D7B0 /* pt-PT */,
+				8F38AE57230354A100F5D7B0 /* ru */,
+				8F38AE58230354A500F5D7B0 /* sk */,
+				8F38AE59230354AC00F5D7B0 /* es */,
+				8F38AE5A230354CA00F5D7B0 /* es-MX */,
+				8F38AE5B230354D200F5D7B0 /* sv */,
+				8F38AE5C230354D700F5D7B0 /* th */,
+				8F38AE5D230354DA00F5D7B0 /* tr */,
+				8F7918F424589B2C00C84086 /* nb-NO */,
+				8F79191D24589B6600C84086 /* ca */,
+				8F79191F24589B6700C84086 /* hr */,
+				8F79192124589B6900C84086 /* hi */,
+				8F79192324589B6A00C84086 /* ms */,
+				8F79192524589B6C00C84086 /* ro */,
+				8F79192724589B6D00C84086 /* uk */,
+				8F79192924589B6E00C84086 /* vi */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3A42751729677C3700F36FBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = FluentUITestApp;
+			};
+			name = Debug;
+		};
+		3A42751829677C3700F36FBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = UBF8T346G9;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = FluentUITestApp;
+			};
+			name = Release;
+		};
+		8F41CC712447B60F0040B851 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8F41CC722447B60F0040B851 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F41CC732447B66A0040B851 /* FluentUI_resources.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		8F53680D2295F4C10098AC8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+			};
+			name = Debug;
+		};
+		8F53680E2295F4C10098AC8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F69C7B22295FABD009F69C0 /* FluentUI_testapp.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+			};
+			name = Release;
+		};
+		E61C96C42295E8D60006561F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96D02295FA360006561F /* FluentUI_debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Debug;
+		};
+		E61C96C52295E8D60006561F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E61C96D12295FA4E0006561F /* FluentUI_release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Release;
+		};
+		E61C96CA2295E8D60006561F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E61C96CB2295E8D60006561F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F931A6C22BD593300311764 /* FluentUI_unittest.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E6A92D2A24BEA85900562BCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		E6A92D2B24BEA85900562BCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		E6A92D4424BEA92000562BCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+			};
+			name = Debug;
+		};
+		E6A92D4524BEA92000562BCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A42751929677C3700F36FBE /* Build configuration list for PBXNativeTarget "FluentUIDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A42751729677C3700F36FBE /* Debug */,
+				3A42751829677C3700F36FBE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F41CC702447B60F0040B851 /* Build configuration list for PBXNativeTarget "FluentUIResources-macos" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F41CC712447B60F0040B851 /* Debug */,
+				8F41CC722447B60F0040B851 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F53680F2295F4C10098AC8F /* Build configuration list for PBXNativeTarget "FluentUITestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F53680D2295F4C10098AC8F /* Debug */,
+				8F53680E2295F4C10098AC8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E61C96AC2295E8D60006561F /* Build configuration list for PBXProject "FluentUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E61C96C42295E8D60006561F /* Debug */,
+				E61C96C52295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E61C96C92295E8D60006561F /* Build configuration list for PBXNativeTarget "FluentUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E61C96CA2295E8D60006561F /* Debug */,
+				E61C96CB2295E8D60006561F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6A92D2C24BEA85900562BCA /* Build configuration list for PBXNativeTarget "FluentUITestViewControllers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6A92D2A24BEA85900562BCA /* Debug */,
+				E6A92D2B24BEA85900562BCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E6A92D4324BEA92000562BCA /* Build configuration list for PBXNativeTarget "FluentUISwiftUITestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6A92D4424BEA92000562BCA /* Debug */,
+				E6A92D4524BEA92000562BCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9252C61F2C62A8AB009C9272 /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		9252C6212C62A8B3009C9272 /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		9252C6232C62A8DC009C9272 /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		92AD71212D4061F20089499E /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+		92AD71242D4062080089499E /* FluentUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FluentUI;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E61C96A92295E8D60006561F /* Project object */;
+}
