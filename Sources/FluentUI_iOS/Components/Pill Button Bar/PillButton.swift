@@ -134,6 +134,7 @@ open class PillButton: UIButton, TokenizedControl {
         layer.cornerCurve = .continuous
         largeContentTitle = titleLabel?.text
         showsLargeContentViewer = true
+        addInteraction(UILargeContentViewerInteraction())
     }
 
     private func updateAccessibilityTraits() {
