@@ -326,15 +326,6 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                 let activityBackgroundFrameSideRelativeToOuterRing: CGFloat = layoutDirection == .rightToLeft ? activityBackgroundFrameRTL : activityBackgroundFrameLTR
 
                 avatarBody
-                // Creates the cutout shape
-                    .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
-                        thisView
-                            .clipShape(ShapeCutout(xOrigin: accessoryCutoutCoordinates.x,
-                                                   yOrigin: accessoryCutoutCoordinates.y,
-                                                   cornerRadius: cornerRadius,
-                                                   cutoutSize: accessoryBorderSize),
-                                       style: FillStyle(eoFill: true))
-                    })
                 // Creates the activity outer border overlay
                     .modifyIf(shouldDisplayActivity, { thisView in
                         thisView
