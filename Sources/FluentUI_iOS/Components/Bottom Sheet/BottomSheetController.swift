@@ -622,8 +622,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
-		
-//		bottomSheetContentView.accessibilityViewIsModal = true;
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
