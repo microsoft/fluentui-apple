@@ -622,6 +622,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
+		
+//		bottomSheetContentView.accessibilityViewIsModal = true;
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
@@ -941,6 +943,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         completeAnimationsIfNeeded()
 
         updateResizingHandleViewAccessibility(for: targetExpansionState)
+		UIAccessibility.post(notification: .layoutChanged, argument: resizingHandleView) // Works!
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
