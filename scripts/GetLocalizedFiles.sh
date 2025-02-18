@@ -103,6 +103,7 @@ mv "$fileName.zip" "$fileName.txt"
 cat "$fileName.txt"
 mv "$fileName.txt" "$fileName.zip"
 
+
 unzip -o $fileName.zip -d $outputDirectory
 rm $fileName.zip
 fi
