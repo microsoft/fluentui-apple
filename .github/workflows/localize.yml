@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
+      - anandrajeswaran/try_fix_loc
     paths:
+      - 'scripts/*'
+      - '.github/workflows/localize.yml'
       - '**.strings'
       - '**.stringsdict'
   # Also run every day at midnight to pick up new localizations
