@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - anandrajeswaran/try_fix_loc
     paths:
       - '**.strings'
       - '**.stringsdict'
