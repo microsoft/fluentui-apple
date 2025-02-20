@@ -14,14 +14,12 @@ class TestDatePickerController: NSViewController {
 		let calendar = Calendar.current
 		let date = calendar.date(from: DateComponents(year: 2019, month: 12, day: 9))
 
-		datePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
-		menuDatePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
-
-		datePickerController?.delegate = self
-		menuDatePickerController?.delegate = self
-
-		datePickerController?.hasEdgePadding = true
-		menuDatePickerController?.hasEdgePadding = true
+		DatePickerLocation.allCases.forEach { location in
+			let datePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
+			datePickerController.delegate = self
+			datePickerController.hasEdgePadding = true
+			datePickerControllers[location] = datePickerController
+		}
 	}
 
 	@available(*, unavailable)
@@ -50,7 +48,7 @@ class TestDatePickerController: NSViewController {
 		vfxView.layer?.cornerRadius = 5
 
 		horizontalStack.addView(vfxView, in: .center)
-		if let controller = datePickerController {
+		if let controller = datePickerControllers[.inline] {
 			vfxView.addSubview(controller.view)
 
 			NSLayoutConstraint.activate([
@@ -70,7 +68,7 @@ class TestDatePickerController: NSViewController {
 		let menu = NSMenu()
 		datePickerMenuItem = NSMenuItem(title: "NSMenu", action: nil, keyEquivalent: "")
 
-		if let controller = menuDatePickerController, let menuItem = datePickerMenuItem {
+		if let controller = datePickerControllers[.menu], let menuItem = datePickerMenuItem {
 			menuItem.view = NSView(frame: NSRect(origin: .zero, size: controller.view.fittingSize))
 			menuItem.view?.addSubview(controller.view)
 			menu.addItem(menuItem)
@@ -145,8 +143,7 @@ class TestDatePickerController: NSViewController {
 	}
 
 	@objc func clearCustomColor() {
-		datePickerController?.customSelectionColor = nil
-		menuDatePickerController?.customSelectionColor = nil
+		datePickerControllers.values.forEach { $0.customSelectionColor = nil }
 	}
 
 	@objc func launchColorPicker() {
@@ -157,54 +154,41 @@ class TestDatePickerController: NSViewController {
 	}
 
 	@objc func toggleSecondaryCalendar() {
-		if datePickerController?.secondaryCalendar == nil {
-			datePickerController?.secondaryCalendar = chineseLunarCalendar
-		} else {
-			datePickerController?.secondaryCalendar = nil
-		}
-
-		if menuDatePickerController?.secondaryCalendar == nil {
-			menuDatePickerController?.secondaryCalendar = chineseLunarCalendar
-		} else {
-			menuDatePickerController?.secondaryCalendar = nil
+		datePickerControllers.values.forEach { datePickerController in
+			if datePickerController.secondaryCalendar == nil {
+				datePickerController.secondaryCalendar = chineseLunarCalendar
+			} else {
+				datePickerController.secondaryCalendar = nil
+			}
 		}
 	}
 
 	@objc func toggleAutoSelection(_ sender: NSButton) {
 		let enabled = sender.state == .on
-		datePickerController?.autoSelectWhenPaging = enabled
-		menuDatePickerController?.autoSelectWhenPaging = enabled
+		datePickerControllers.values.forEach { $0.autoSelectWhenPaging = enabled }
 	}
 
 	@objc func toggleEdgePadding(_ sender: NSButton) {
 		let enabled = sender.state == .on
-		datePickerController?.hasEdgePadding = enabled
-		menuDatePickerController?.hasEdgePadding = enabled
-		datePickerMenuItem?.view?.frame.size = menuDatePickerController?.view.fittingSize ?? .zero
+		datePickerControllers.values.forEach { $0.hasEdgePadding = enabled }
+		datePickerMenuItem?.view?.frame.size = datePickerControllers[.menu]?.view.fittingSize ?? .zero
 	}
 
 	@objc func toggleTextDatePicker(_ sender: NSButton) {
 		let enabled = sender.state == .on
-		datePickerController?.hasTextField = enabled
-		menuDatePickerController?.hasTextField = enabled
-		datePickerMenuItem?.view?.frame.size = menuDatePickerController?.view.fittingSize ?? .zero
+		datePickerControllers.values.forEach { $0.hasTextField = enabled }
+		datePickerMenuItem?.view?.frame.size = datePickerControllers[.menu]?.view.fittingSize ?? .zero
 	}
 
 	@objc func showPopover(_ sender: NSButton) {
 		let popover = NSPopover()
 		popover.behavior = .transient
-
-		let controller = DatePickerController(date: nil, calendar: nil, style: .dateTime)
-		controller.hasTextField = false
-		controller.hasEdgePadding = true
-
-		popover.contentViewController = controller
+		popover.contentViewController = datePickerControllers[.popover]
 		popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .maxY)
 	}
 
 	@objc func changeColor(_ sender: NSColorPanel?) {
-		datePickerController?.customSelectionColor = sender?.color
-		menuDatePickerController?.customSelectionColor = sender?.color
+		datePickerControllers.values.forEach { $0.customSelectionColor = sender?.color }
 	}
 
 	private let chineseLunarCalendar: Calendar = {
@@ -214,8 +198,12 @@ class TestDatePickerController: NSViewController {
 		return calendar
 	}()
 
-	private var datePickerController: DatePickerController?
-	private var menuDatePickerController: DatePickerController?
+	private enum DatePickerLocation: CaseIterable {
+		case inline
+		case menu
+		case popover
+	}
+	private var datePickerControllers: [DatePickerLocation: DatePickerController] = [:]
 	private var datePickerMenuItem: NSMenuItem?
 
 	private let delegateMessagesTextView: NSTextView = {
