@@ -355,7 +355,7 @@ open class PeoplePicker: BadgeField {
         personaSuggestionsView.removeFromSuperview()
         containingViewBoundsObservation = nil
 		
-		personaSuggestionsView.accessibilityViewIsModal = true
+		personaSuggestionsView.accessibilityViewIsModal = false
 		
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
 				
