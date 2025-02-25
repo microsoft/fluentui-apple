@@ -165,6 +165,9 @@ open class PeoplePicker: BadgeField {
     func initialize() {
         personaSuggestionsView.addSubview(personaListView)
         personaSuggestionsView.addSubview(separator)
+		
+		// DEBUG: doesn't work
+//		personaSuggestionsView.accessibilityElements = [personaListView]
 
         personaListView.onPersonaSelected = { [unowned self] persona in
             self.pickPersona(persona: persona)
@@ -179,6 +182,8 @@ open class PeoplePicker: BadgeField {
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateAppearance()
         }
+		
+//		self.accessibilityElements = [];
     }
 
     /// Returns the badge for the associated persona
@@ -224,7 +229,14 @@ open class PeoplePicker: BadgeField {
     /// layouts personaSuggestionsView in available window frame
     @objc open func showPersonaSuggestions() {
         personaListView.contentOffset = .zero
+		
+		// DEBUG: making this false to get it not added to window's accessibilityElements
+//		personaSuggestionsView.isAccessibilityElement = false
+
+		// DEBUG: The subView is added to `window` and not the PeoplePickerView, which might cause the weird FocusOrder
         window?.addSubview(personaSuggestionsView)
+//		self.addSubview(personaSuggestionsView) // Can't do this. There's probably some benefits to adding it to the window. ie. Layouting wrt. the entire window's contents like keyboard.
+
         containingViewBoundsObservation = window?.observe(\.bounds) { [unowned self] (_, _) in
             self.layoutPersonaSuggestions()
         }
@@ -233,13 +245,123 @@ open class PeoplePicker: BadgeField {
         setNeedsLayout()
         layoutIfNeeded()
         delegate?.peoplePickerDidShowPersonaSuggestions?(self)
+		
+//		DEBUG: this makes it so that the elements of the entire peoplePicker view behind are not VO accessible.
+		personaSuggestionsView.accessibilityViewIsModal = true
+		
+		// layoutChanged - because if the focus is on the personaBadge text field, it doesn't automaticaly move to window
+//		UIAccessibility.post(notification: .layoutChanged, argument: nil)
+		UIAccessibility.post(notification: .layoutChanged, argument: personaSuggestionsView)
+		
+		// DEBUG: I can't do the below with totally hiding the containingViewController's ccessibilityElements
+		// because it's similar to doing `personaSuggestionsView.accessibilityViewIsModal=true` which don't let me
+		// swipe into the parent view's elements
+//		let containingViewController = findContainingViewController()
+//		containingViewController?.view.accessibilityElementsHidden = true
+//		UIAccessibility.post(notification: .layoutChanged, argument: nil)
+		
+		//self.isAccessibilityElement = true
+
+		// DEBUG: below, doesn't work because self.accessibilityElements is nil
+//		self.accessibilityElements?.append(personaSuggestionsView)
+		
+		
+		//DEBUG: At this point, `containingViewController?.view.accessibilityElements` = nil
+		// perhaps it's not yet called. I may need to lean into the `override var accessibilityElements`
+//		let containingViewController = findContainingViewController()
+//		var elements = containingViewController?.view.accessibilityElements
+//		
+//		if let index = elements?.firstIndex(where: { $0 as? UIView == self }) {
+//			// Insert the personaSuggestionsView immediately after the PeoplePicker view
+//			elements?.insert(personaSuggestionsView, at: index + 1)
+//		}
+		
+		//  This works partially - It doesn't accommodate the current elements of the PeoplePicker view.
+		// current elements - Label and BadgeView,
+//		self.accessibilityElements = [personaSuggestionsView]
+
+//		self.accessibilityElements?.append(personaSuggestionsView)
     }
+	
+//	open override var accessibilityElements: [Any]? {
+//		get {
+//			
+//			// Test 1
+////			let containingViewController = findContainingViewController()
+////			var elements = containingViewController?.view.accessibilityElements
+////			
+////			var elements = super.accessibilityElements ?? []
+////
+////			// Find the index of the PeoplePicker view in the accessibility elements
+////			if let index = elements?.firstIndex(where: { $0 as? UIView == self }) {
+////				// Insert the personaSuggestionsView immediately after the PeoplePicker view
+////				elements?.insert(personaSuggestionsView, at: index + 2)
+////			} else {
+////				// If PeoplePicker view is not found, append personaSuggestionsView at the end
+////				elements.append(personaSuggestionsView)
+////			}
+////			
+////			return elements
+//			
+//			// Test 2
+
+			// super.accessibilityElements is returning 0.
+//			var elements = super.accessibilityElements ?? []
+//			elements.append(label)
+//			elements.append(badges)
+//			elements.append(personaSuggestionsView)
+//			
+//			return elements
+//		}
+//		set {
+//			super.accessibilityElements = newValue
+//		}
+//	}
+	
+//	open override var accessibilityElements: [Any]? {
+//		get {
+//			var elements: [Any] = []
+//			
+//			let count = accessibilityElementCount()
+//			for index in 0..<count {
+//				if let element = accessibilityElement(at: index) {
+//					elements.append(element)
+//				}
+//			}
+//			
+//			if let window = window, personaSuggestionsView.isDescendant(of: window) {
+//				
+////				var margins: UIEdgeInsets = .zero
+////				margins.bottom = personaSuggestionsView.frame.height
+////			
+////				if let containingViewController = findContainingViewController() {
+////					containingViewController.view.accessibilityFrame = containingViewController.view.frame.inset(by: margins)
+////				}
+//				
+////				personaSuggestionsView.isAccessibilityElement = true
+//				elements.append(personaSuggestionsView)
+//			}
+//
+//			return elements
+//		}
+//		set {
+//			// Ensure any manually set elements are respected
+////			super.accessibilityElements = newValue
+//		}
+//	}
 
     /// Hides personaSuggestionsView
     @objc open func hidePersonaSuggestions() {
         personaSuggestionsView.removeFromSuperview()
         containingViewBoundsObservation = nil
+		
+		personaSuggestionsView.accessibilityViewIsModal = true
+		
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
+				
+//		let containingViewController = findContainingViewController()
+//		containingViewController?.view.accessibilityElementsHidden = false
+//		UIAccessibility.post(notification: .layoutChanged, argument: nil)
     }
 
     open override func updateAppearance() {
@@ -358,6 +480,8 @@ open class PeoplePicker: BadgeField {
         if fromUserAction {
             pickPersona(persona: personaBadgeDataSource.persona)
         }
+		
+//		self.accessibilityElements?.append(badge)
     }
 
     override func addBadge(_ badge: BadgeView) {
@@ -369,6 +493,7 @@ open class PeoplePicker: BadgeField {
         personaBadgeDataSource.style = isValid ? .default : .danger
         badge.reload()
         super.addBadge(badge)
+//		self.accessibilityElements?.append(badge)
     }
 
     override func deleteBadge(_ badge: BadgeView, fromUserAction: Bool, updateConstrainedBadges: Bool) {
