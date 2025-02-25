@@ -247,11 +247,11 @@ open class PeoplePicker: BadgeField {
         delegate?.peoplePickerDidShowPersonaSuggestions?(self)
 		
 //		DEBUG: this makes it so that the elements of the entire peoplePicker view behind are not VO accessible.
-		personaSuggestionsView.accessibilityViewIsModal = true
+//		personaSuggestionsView.accessibilityViewIsModal = true
 		
 		// layoutChanged - because if the focus is on the personaBadge text field, it doesn't automaticaly move to window
 //		UIAccessibility.post(notification: .layoutChanged, argument: nil)
-		UIAccessibility.post(notification: .layoutChanged, argument: personaSuggestionsView)
+//		UIAccessibility.post(notification: .layoutChanged, argument: personaSuggestionsView)
 		
 		// DEBUG: I can't do the below with totally hiding the containingViewController's ccessibilityElements
 		// because it's similar to doing `personaSuggestionsView.accessibilityViewIsModal=true` which don't let me
@@ -355,7 +355,7 @@ open class PeoplePicker: BadgeField {
         personaSuggestionsView.removeFromSuperview()
         containingViewBoundsObservation = nil
 		
-		personaSuggestionsView.accessibilityViewIsModal = false
+//		personaSuggestionsView.accessibilityViewIsModal = false
 		
         delegate?.peoplePickerDidHidePersonaSuggestions?(self)
 				
