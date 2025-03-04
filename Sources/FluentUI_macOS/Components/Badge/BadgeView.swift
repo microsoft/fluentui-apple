@@ -70,8 +70,8 @@ open class BadgeView: NSView {
 		updateColors()
 	}
 
-	private var _backgroundColor: DynamicColor
-	@objc open var backgroundColor: DynamicColor {
+	private var _backgroundColor: LegacyDynamicColor
+	@objc open var backgroundColor: LegacyDynamicColor {
 		get {
 			return _backgroundColor
 		}
@@ -83,8 +83,8 @@ open class BadgeView: NSView {
 		}
 	}
 
-	private var _textColor: DynamicColor
-	@objc open var textColor: DynamicColor {
+	private var _textColor: LegacyDynamicColor
+	@objc open var textColor: LegacyDynamicColor {
 		get {
 			return _textColor
 		}
@@ -144,9 +144,9 @@ open class BadgeView: NSView {
 	}
 
 	private struct Constants {
-		static let defaultBackgroundColor: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
-		static let defaultTextColor: DynamicColor = DynamicColor(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
-		static let primaryBackgroundColor: DynamicColor = DynamicColor(light: Colors.primaryTint40, dark: Colors.primaryTint30)
-		static let primaryTextColor: DynamicColor = DynamicColor(light: Colors.primary, dark: Colors.primaryShade20)
+		static let defaultBackgroundColor: LegacyDynamicColor = .init(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
+		static let defaultTextColor: LegacyDynamicColor = .init(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
+		static let primaryBackgroundColor: LegacyDynamicColor = .init(light: Colors.primaryTint40, dark: Colors.primaryTint30)
+		static let primaryTextColor: LegacyDynamicColor = .init(light: Colors.primary, dark: Colors.primaryShade20)
 	}
 }
