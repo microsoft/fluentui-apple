@@ -14,7 +14,7 @@ extension Color {
     /// - Parameter hexValue: The color value to store, in 24-bit (three-channel, 8-bit) RGB.
     ///
     /// - Returns: A color object that stores the provided color information.
-    init(hexValue: UInt32) {
+	public init(hexValue: UInt32) {
         let red: CGFloat = CGFloat((hexValue & 0x00FF0000) >> 16) / 255.0
         let green: CGFloat = CGFloat((hexValue & 0x0000FF00) >> 8) / 255.0
         let blue: CGFloat = CGFloat(hexValue & 0x000000FF) / 255.0
@@ -28,7 +28,7 @@ extension Color {
     /// - Parameter light: The default `Color` for a light context. Required.
     /// - Parameter dark: The override `Color` for a dark context. Optional.
     /// - Parameter darkElevated: The override `Color` for a dark elevated context. Optional.
-    init(light: Color,
+    public init(light: Color,
          dark: Color? = nil,
          darkElevated: Color? = nil) {
 
