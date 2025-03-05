@@ -292,10 +292,10 @@ struct NotificationDemoView: View {
 
     private var backgroundGradient: LinearGradientInfo {
         // It's a lovely blue-to-pink gradient
-        let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
-                                         dark: GlobalTokens.sharedColor(.pink, .shade40)),
-                                 UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
-                                         dark: GlobalTokens.sharedColor(.cyan, .shade40))]
+        let colors: [Color] = [Color(light: GlobalTokens.sharedSwiftUIColor(.pink, .tint50),
+                                     dark: GlobalTokens.sharedSwiftUIColor(.pink, .shade40)),
+                               Color(light: GlobalTokens.sharedSwiftUIColor(.cyan, .tint50),
+                                     dark: GlobalTokens.sharedSwiftUIColor(.cyan, .shade40))]
         return LinearGradientInfo(colors: colors,
                                   startPoint: .init(x: 0.0, y: 1.0),
                                   endPoint: .init(x: 1.0, y: 0.0))
