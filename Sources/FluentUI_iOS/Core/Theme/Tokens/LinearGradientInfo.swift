@@ -7,7 +7,7 @@ import Foundation
 import SwiftUI
 
 /// Represents a linear gradient as used by FluentUI.
-@objc public class LinearGradientInfo: NSObject {
+public class LinearGradientInfo: NSObject {
     /// Initializes a linear gradient to be used in Fluent.
     ///
     /// - Parameters:
