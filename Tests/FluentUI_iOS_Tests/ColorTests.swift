@@ -5,6 +5,7 @@
 
 import XCTest
 import SwiftUI
+@testable import FluentUI_common
 @testable import FluentUI_ios
 
 class ColorTests: XCTestCase {
