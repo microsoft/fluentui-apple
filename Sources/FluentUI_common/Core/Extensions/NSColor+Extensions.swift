@@ -51,6 +51,12 @@ extension NSColor {
         return resolvedColorValue(appearance: NSAppearance(named: .darkAqua))
     }
 
+    convenience init(dynamicColor: DynamicColor) {
+        let colorResolver = { $0 != nil ? NSColor($0!) : nil }
+        self.init(light: NSColor(dynamicColor.light),
+                  dark: colorResolver(dynamicColor.dark))
+    }
+
     /// Returns the version of the current color that results from the specified traits as an `NSColor`.
     ///
     /// - Parameter appearance: The user interface appearance to use when resolving the color information.
