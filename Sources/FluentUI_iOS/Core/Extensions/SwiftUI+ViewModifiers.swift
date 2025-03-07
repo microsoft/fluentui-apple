@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
+import UIKit
 
 extension View {
     /// Applies modifiers defined in a closure if a condition is met.

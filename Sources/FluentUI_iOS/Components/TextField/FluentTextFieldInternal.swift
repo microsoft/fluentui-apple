@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import UIKit
 
 /// Internal subclass of UITextField that allows us to adjust the position of the `rightView`.

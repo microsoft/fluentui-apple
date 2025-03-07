@@ -3,7 +3,8 @@
 //  Licensed under the MIT License.
 //
 
-import CoreFoundation
+import FluentUI_common
+import SwiftUI
 
 /// The predefined states of the `FluentTextField`.
 public enum FluentTextFieldState: Int, CaseIterable {

@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// This component is a work in progress. Expect changes to be made to it on a somewhat regular basis.

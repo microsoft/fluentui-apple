@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// This a wrapper around `SwiftUI.Section` that has fluent style applied. It is intended to be used in conjunction with `FluentUI.FluentList` and `FluentUI.ListItem`
