@@ -16,6 +16,9 @@ let targets: [Target] = [
     ),
     .target(
         name: "FluentUI_ios",
+        dependencies: [
+            .target(name: "FluentUI_common")
+        ],
         path: "Sources/FluentUI_iOS",
         resources: [
             .copy("Resources/Version.plist")
@@ -23,7 +26,14 @@ let targets: [Target] = [
     ),
     .target(
         name: "FluentUI_macos",
+        dependencies: [
+            .target(name: "FluentUI_common")
+        ],
         path: "Sources/FluentUI_macOS"
+    ),
+    .target(
+        name: "FluentUI_common",
+        path: "Sources/FluentUI_common"
     )
 ]
 
