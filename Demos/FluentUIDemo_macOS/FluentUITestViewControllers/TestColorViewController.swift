@@ -21,7 +21,7 @@ class TestColorViewController: NSViewController {
 
 		let colorsStackView = NSStackView()
 
-		[colorsStackView, dynamicColorsStackView, primaryColorsStackView].forEach { stackView in
+		for stackView in [colorsStackView, dynamicColorsStackView, primaryColorsStackView] {
 			stackView.translatesAutoresizingMaskIntoConstraints = false
 			stackView.orientation = .vertical
 			stackView.alignment = .leading
