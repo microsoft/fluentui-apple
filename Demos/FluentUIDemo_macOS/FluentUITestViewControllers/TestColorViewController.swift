@@ -8,6 +8,7 @@ import FluentUI
 
 class TestColorViewController: NSViewController {
 	var primaryColorsStackView = NSStackView()
+	var dynamicColorsStackView = NSStackView()
 	var subviewConstraints = [NSLayoutConstraint]()
 	var toggleTextView = NSTextView(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
 
@@ -19,25 +20,26 @@ class TestColorViewController: NSViewController {
 		containerView.addSubview(scrollView)
 
 		let colorsStackView = NSStackView()
-		colorsStackView.translatesAutoresizingMaskIntoConstraints = false
-		colorsStackView.orientation = .vertical
-		colorsStackView.alignment = .leading
 
-		primaryColorsStackView.translatesAutoresizingMaskIntoConstraints = false
-		primaryColorsStackView.orientation = .vertical
-		primaryColorsStackView.alignment = .leading
+		for stackView in [colorsStackView, dynamicColorsStackView, primaryColorsStackView] {
+			stackView.translatesAutoresizingMaskIntoConstraints = false
+			stackView.orientation = .vertical
+			stackView.alignment = .leading
+		}
 
 		for color in Colors.Palette.allCases {
 			colorsStackView.addArrangedSubview(createColorRowStackView(name: color.name, color: color.color))
 		}
 
 		loadPrimaryColors()
+		loadDynamicColors()
 
 		let documentView = NSView()
 		documentView.translatesAutoresizingMaskIntoConstraints = false
 		scrollView.documentView = documentView
 		documentView.addSubview(colorsStackView)
 		documentView.addSubview(primaryColorsStackView)
+		documentView.addSubview(dynamicColorsStackView)
 
 		subviewConstraints = [
 			containerView.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
@@ -47,7 +49,10 @@ class TestColorViewController: NSViewController {
 			colorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
 			primaryColorsStackView.topAnchor.constraint(equalTo: colorsStackView.bottomAnchor, constant: colorRowSpacing),
 			primaryColorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
-			primaryColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor)
+			primaryColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
+			dynamicColorsStackView.topAnchor.constraint(equalTo: colorsStackView.bottomAnchor, constant: colorRowSpacing),
+			dynamicColorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
+			dynamicColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor)
 		]
 
 		let switchButton = NSSwitch(frame: CGRect(x: 1, y: 1, width: 100, height: 50))
@@ -117,6 +122,13 @@ class TestColorViewController: NSViewController {
 		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint30", color: Colors.primaryTint30))
 		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "primaryTint40", color: Colors.primaryTint40))
 		NSLayoutConstraint.activate(subviewConstraints)
+	}
+
+	private func loadDynamicColors() {
+		let dynamicColor = NSColor(light: NSColor.red, dark: NSColor.blue)
+		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic", color: dynamicColor))
+		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (light)", color: dynamicColor.light))
+		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (dark)", color: dynamicColor.dark))
 	}
 }
 
