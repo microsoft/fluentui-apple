@@ -3,8 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import FluentUI_common
 import SwiftUI
+import UIKit
 
 /// This is a generic UIView wrapper that allows SwiftUI to use UIKit views in its hierarchy.
 struct UIViewAdapter: UIViewRepresentable {

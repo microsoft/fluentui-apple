@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import UIKit
 
 /// Defines the timing for the call of the onSelected closure/block

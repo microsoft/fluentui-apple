@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// `ToggleStyle` which configures the `Toggle` according to its state and design tokens.

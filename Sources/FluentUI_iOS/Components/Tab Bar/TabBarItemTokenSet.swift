@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import UIKit
 
 /// Internal design token set for the `TabBarItem`.

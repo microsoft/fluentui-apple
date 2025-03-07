@@ -3,8 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import FluentUI_common
 import SwiftUI
+import UIKit
 
 public enum AvatarToken: Int, TokenSetKey {
     /// The radius of the corners of the `Avatar`.

@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import UIKit
 
 /// This is a container that forwards the calls to the tableview to create an adjustable picker.

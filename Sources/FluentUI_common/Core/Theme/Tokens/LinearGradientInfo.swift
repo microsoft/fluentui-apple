@@ -43,8 +43,8 @@ public class LinearGradientInfo: NSObject {
 // MARK: - Extensions
 
 extension LinearGradient {
-    /// Internal property to generate a SwiftUI `LinearGradient` from a gradient info.
-    init(gradientInfo: LinearGradientInfo) {
+    /// Generate a SwiftUI `LinearGradient` from a gradient info.
+    public init(gradientInfo: LinearGradientInfo) {
         if let locations = gradientInfo.locations {
             // Map the colors and locations together.
             let stops: [Gradient.Stop] = zip(gradientInfo.colors, locations).map({ (color, location) in

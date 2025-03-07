@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// Properties that define the appearance of a `PersonaButton`.

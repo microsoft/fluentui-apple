@@ -3,8 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import FluentUI_common
 import SwiftUI
+import UIKit
 
 /// Properties that can be used to customize the appearance of the AvatarGroup.
 @objc public protocol MSFAvatarGroupState {

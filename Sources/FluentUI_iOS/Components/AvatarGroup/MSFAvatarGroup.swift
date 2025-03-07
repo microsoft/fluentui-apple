@@ -3,8 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import FluentUI_common
 import SwiftUI
+import UIKit
 
 /// UIKit wrapper that exposes the SwiftUI AvatarGroup implementation.
 @objc open class MSFAvatarGroup: ControlHostingView {

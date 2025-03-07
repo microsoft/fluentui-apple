@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// Style to draw the `CardNudge` control.

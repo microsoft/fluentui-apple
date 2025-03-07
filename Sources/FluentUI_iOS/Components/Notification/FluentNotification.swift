@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.

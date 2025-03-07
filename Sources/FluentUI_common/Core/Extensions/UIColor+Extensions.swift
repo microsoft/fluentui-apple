@@ -3,8 +3,9 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+#if canImport(UIKit)
 import SwiftUI
+import UIKit
 
 extension UIColor {
 
@@ -172,3 +173,4 @@ extension UIColor {
         return resolvedColor
     }
 }
+#endif // canImport(UIKit)

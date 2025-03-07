@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+import FluentUI_common
 import SwiftUI
 
 /// Type of callback for both action and dismiss buttons.
