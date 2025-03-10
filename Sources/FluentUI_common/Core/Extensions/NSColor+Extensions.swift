@@ -5,7 +5,6 @@
 
 #if canImport(AppKit)
 import AppKit
-import SwiftUI
 
 extension NSColor {
 
@@ -52,6 +51,8 @@ extension NSColor {
     }
 
     convenience init(dynamicColor: DynamicColor) {
+        // Simple closure to return a nil NSColor if the passed-in Color is
+        // also nil, since the argument to `NSColor.init(_:)` is not optional.
         let colorResolver = { $0 != nil ? NSColor($0!) : nil }
         self.init(light: NSColor(dynamicColor.light),
                   dark: colorResolver(dynamicColor.dark))
