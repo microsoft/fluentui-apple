@@ -14,10 +14,10 @@ public final class DynamicColor: NSObject {
     /// - Parameter light: The default `Color` for a light context. Required.
     /// - Parameter dark: The override `Color` for a dark context. Optional.
     /// - Parameter darkElevated: The override `Color` for a dark elevated context. Optional.
-	public init(light: Color,
-				dark: Color? = nil,
-				darkElevated: Color? = nil) {
-		self.light = light
+    public init(light: Color,
+                dark: Color? = nil,
+                darkElevated: Color? = nil) {
+        self.light = light
         self.dark = dark
         self.darkElevated = darkElevated
     }
@@ -30,7 +30,7 @@ public final class DynamicColor: NSObject {
 @available(iOS 17, macOS 14, *)
 extension DynamicColor: ShapeStyle {
     /// Evaluate to a resolved `Color` (in the form of a `ShapeStyle`) given the current `environment`.
-	public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
+    public func resolve(in environment: EnvironmentValues) -> Color.Resolved {
         if environment.colorScheme == .dark {
             if environment.isPresented, let darkElevated = darkElevated {
                 return darkElevated.resolve(in: environment)
