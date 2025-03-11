@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import SwiftUI
 
 /// Properties that define the appearance of a `PersonaButtonCarousel`.

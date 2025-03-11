@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import SwiftUI
 
 /// This component is a work in progress. Expect changes to be made to it on a somewhat regular basis.

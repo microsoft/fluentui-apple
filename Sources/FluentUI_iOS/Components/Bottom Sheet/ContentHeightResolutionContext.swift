@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import UIKit
 
 /// Contains all information necessary to determine desired height of content inside of a container.

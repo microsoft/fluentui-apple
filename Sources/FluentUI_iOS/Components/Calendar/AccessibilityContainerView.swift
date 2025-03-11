@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import UIKit
 
 /// This is a container that forwards the calls to the tableview to create an adjustable picker.

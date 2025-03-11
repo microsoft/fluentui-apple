@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import UIKit
 
 /// Design token set for the `AvatarTitleView` control.

@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import UIKit
 
 /// Representation of design tokens to controls at runtime which interfaces with the Design Token System auto-generated code.

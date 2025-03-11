@@ -5,7 +5,9 @@
 
 import XCTest
 import SwiftUI
+#if !COCOAPODS
 @testable import FluentUI_common
+#endif
 @testable import FluentUI_ios
 
 class ColorTests: XCTestCase {

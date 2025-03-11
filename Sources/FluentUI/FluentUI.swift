@@ -3,7 +3,10 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 @_exported import FluentUI_common
+#endif
+
 #if os(iOS) || os(visionOS) || targetEnvironment(macCatalyst)
 @_exported import FluentUI_ios
 #elseif os(macOS)

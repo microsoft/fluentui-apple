@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import SwiftUI
 
 /// The predefined states of the `FluentTextField`.

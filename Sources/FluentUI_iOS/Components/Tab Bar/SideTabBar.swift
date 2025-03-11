@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import UIKit
 
 /// Delegate protocol to handle user events inside the side tab bar.

@@ -3,7 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if !COCOAPODS
 import FluentUI_common
+#endif
 import SwiftUI
 
 /// This a wrapper around `SwiftUI.Section` that has fluent style applied. It is intended to be used in conjunction with `FluentUI.FluentList` and `FluentUI.ListItem`
