@@ -52,7 +52,7 @@ extension NSColor {
 
     convenience init(dynamicColor: DynamicColor) {
         self.init(light: NSColor(dynamicColor.light),
-                  dark: dynamicColor.dark.map { NSColor(dynamicColor: $0) })
+                  dark: dynamicColor.dark.map { NSColor($0) })
     }
 
     /// Returns the version of the current color that results from the specified traits as an `NSColor`.
