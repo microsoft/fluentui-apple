@@ -4,6 +4,7 @@
 //
 
 import FluentUI
+import SwiftUI
 import UIKit
 
 class NotificationViewDemoController: DemoController {
@@ -214,10 +215,10 @@ class NotificationViewDemoController: DemoController {
             notification.state.message = "The background of this notification has been customized with a gradient."
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             // It's a lovely blue-to-pink gradient
-            let colors: [UIColor] = [UIColor(light: GlobalTokens.sharedColor(.pink, .tint50),
-                                             dark: GlobalTokens.sharedColor(.pink, .shade40)),
-                                     UIColor(light: GlobalTokens.sharedColor(.cyan, .tint50),
-                                             dark: GlobalTokens.sharedColor(.cyan, .shade40))]
+            let colors: [Color] = [Color(light: GlobalTokens.sharedSwiftUIColor(.pink, .tint50),
+                                         dark: GlobalTokens.sharedSwiftUIColor(.pink, .shade40)),
+                                   Color(light: GlobalTokens.sharedSwiftUIColor(.cyan, .tint50),
+                                         dark: GlobalTokens.sharedSwiftUIColor(.cyan, .shade40))]
             notification.state.backgroundGradient = LinearGradientInfo(colors: colors,
                                                                        startPoint: .init(x: 0.0, y: 1.0),
                                                                        endPoint: .init(x: 1.0, y: 0.0))

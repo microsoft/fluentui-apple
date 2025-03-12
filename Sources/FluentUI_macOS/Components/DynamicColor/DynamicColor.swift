@@ -5,19 +5,21 @@
 
 import AppKit
 
-@objc(MSFColorSet)
-public class ColorSet: NSObject {
-	@objc public let background: DynamicColor
-	@objc public let foreground: DynamicColor
+/// Note: this class will be removed once the core iOS color system has been migrated cross-platform.
+@objc(MSFLegacyColorSet)
+public class LegacyColorSet: NSObject {
+	@objc public let background: LegacyDynamicColor
+	@objc public let foreground: LegacyDynamicColor
 
-	public init(background: DynamicColor, foreground: DynamicColor) {
+	public init(background: LegacyDynamicColor, foreground: LegacyDynamicColor) {
 		self.background = background
 		self.foreground = foreground
 	}
 }
 
-@objc(MSFDynamicColor)
-public class DynamicColor: NSObject {
+/// Note: this class will be removed once the core iOS color system has been migrated cross-platform.
+@objc(MSFLegacyDynamicColor)
+public class LegacyDynamicColor: NSObject {
 
 	@objc public let light: NSColor
 	@objc public let dark: NSColor
@@ -36,7 +38,7 @@ public class DynamicColor: NSObject {
 	}
 
 	public override func isEqual(_ object: Any?) -> Bool {
-		guard let dynamicColor = object as? DynamicColor else {
+		guard let dynamicColor = object as? LegacyDynamicColor else {
 			return false
 		}
 		return dynamicColor.light.isEqual(self.light) && dynamicColor.dark.isEqual(self.dark)
