@@ -139,12 +139,9 @@ extension UIColor {
     }
 
     convenience init(dynamicColor: DynamicColor) {
-        // Simple closure to return a nil UIColor if the passed-in Color is
-        // also nil, since the argument to `UIColor.init(_:)` is not optional.
-        let colorResolver = { $0 != nil ? UIColor($0!) : nil }
         self.init(light: UIColor(dynamicColor.light),
-                  dark: colorResolver(dynamicColor.dark),
-                  darkElevated: colorResolver(dynamicColor.darkElevated))
+                  dark: dynamicColor.dark.map { UIColor($0) },
+                  darkElevated: dynamicColor.darkElevated.map { UIColor($0) })
     }
 
     /// Returns the version of the current color that results from the specified traits as a `ColorValue`.
