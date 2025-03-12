@@ -18,9 +18,9 @@ jobs:
     environment: localization
     permissions:
       actions: read
-      contents: read
-      deployments: read
-      packages: read
+      contents: write
+      deployments: write
+      packages: write
       pull-requests: write
 
     steps:
