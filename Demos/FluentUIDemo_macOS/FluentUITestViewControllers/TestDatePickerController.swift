@@ -14,7 +14,7 @@ class TestDatePickerController: NSViewController {
 		let calendar = Calendar.current
 		let date = calendar.date(from: DateComponents(year: 2019, month: 12, day: 9))
 
-		DatePickerLocation.allCases.forEach { location in
+		for location in DatePickerLocation.allCases {
 			let datePickerController = DatePickerController(date: date, calendar: calendar, style: .dateTime)
 			datePickerController.delegate = self
 			datePickerController.hasEdgePadding = true
@@ -126,8 +126,8 @@ class TestDatePickerController: NSViewController {
 		let delegateMessagesScrollView = NSScrollView()
 		delegateMessagesScrollView.documentView = delegateMessagesTextView
 
-		[delegateMessagesLabel, delegateMessagesScrollView].forEach {
-			containerView.addView($0, in: .bottom)
+		for view in [delegateMessagesLabel, delegateMessagesScrollView] {
+			containerView.addView(view, in: .bottom)
 		}
 
 		NSLayoutConstraint.activate([
@@ -154,7 +154,7 @@ class TestDatePickerController: NSViewController {
 	}
 
 	@objc func toggleSecondaryCalendar() {
-		datePickerControllers.values.forEach { datePickerController in
+		for datePickerController in datePickerControllers.values {
 			if datePickerController.secondaryCalendar == nil {
 				datePickerController.secondaryCalendar = chineseLunarCalendar
 			} else {
