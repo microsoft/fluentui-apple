@@ -79,6 +79,12 @@ extension TableViewHeaderFooterViewDemoController {
         let section = groupedSections[section]
         if let header = header, section.hasHandler {
             header.onHeaderViewTapped = { [weak self] in self?.forHeaderTapped(header: header, section: index) }
+//            let state = collapsedSections[index] ? "Expand" : "Collapse"
+            
+            // header.accessibilityLabel isn't assigned here yet. Currently I suspect it's being read out from the private
+//            `titleView` property which is a `TableViewHeaderFooterTitleView`. The trait on that is set as
+            // `titleView.accessibilityTraits.insert(.header)`
+            header.accessibilityLabel = "\(header.accessibilityLabel ?? ""), \(collapsedSections[index] ? "Collapse" : "Expand")"
         }
 
         if section.hasCustomAccessoryView {

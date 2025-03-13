@@ -234,7 +234,7 @@ open class PeoplePicker: BadgeField {
 //		personaSuggestionsView.isAccessibilityElement = false
 
 		// DEBUG: The subView is added to `window` and not the PeoplePickerView, which might cause the weird FocusOrder
-        window?.addSubview(personaSuggestionsView)
+        self.addSubview(personaSuggestionsView)
 //		self.addSubview(personaSuggestionsView) // Can't do this. There's probably some benefits to adding it to the window. ie. Layouting wrt. the entire window's contents like keyboard.
 
         containingViewBoundsObservation = window?.observe(\.bounds) { [unowned self] (_, _) in
