@@ -95,7 +95,7 @@ public extension FluentTheme {
     }
 }
 
-@objc extension UIView: @retroactive FluentThemeable {
+@objc extension UIView: FluentThemeable {
     private struct Keys {
         static var fluentTheme: UInt8 = 0
         static var cachedFluentTheme: UInt8 = 0
