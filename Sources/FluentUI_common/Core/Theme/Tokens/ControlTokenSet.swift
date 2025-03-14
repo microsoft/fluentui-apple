@@ -316,7 +316,7 @@ public enum ControlTokenValue {
         // Use our global "Hot Pink" in debug builds, to help identify unintentional conversions.
         return UIColor(GlobalTokens.sharedSwiftUIColor(.hotPink, .primary))
 #else
-        return GlobalTokens.neutralColor(.black)
+        return UIColor(GlobalTokens.neutralSwiftUIColor(.black))
 #endif
     }
 #endif // os(iOS) || os(visionOS)

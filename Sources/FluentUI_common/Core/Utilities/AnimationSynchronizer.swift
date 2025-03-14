@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+import QuartzCore
 
 /// An animation synchronizer syncs homogeneous layer animations by calculating the appropriate timeOffset
 /// of a referenceLayer so that newly added animations can stay in sync with existing animations.
