@@ -252,18 +252,8 @@ class DatePickerView: NSView {
 			return
 		}
 
-		let newMonthYearValue = dateFormatter.string(from: dataSource.visibleRange.first)
-		let previousValue = headerView.monthYearLabel.stringValue
-
 		headerView.weekdayStrings = Array(zip(dataSource.shortWeekdays, dataSource.longWeekdays))
-		headerView.monthYearLabel.stringValue = newMonthYearValue
-
-		if newMonthYearValue != previousValue && !previousValue.isEmpty {
-			NSAccessibility.post(element: NSApp.mainWindow as Any, notification: .announcementRequested, userInfo: [
-				NSAccessibility.NotificationUserInfoKey.announcement: newMonthYearValue,
-				NSAccessibility.NotificationUserInfoKey.priority: NSAccessibilityPriorityLevel.medium.rawValue
-			])
-		}
+		headerView.monthYearLabel.stringValue = dateFormatter.string(from: dataSource.visibleRange.first)
 	}
 
 	/// Uses the data source to retrieve all the dates for the calendar view and displays them
