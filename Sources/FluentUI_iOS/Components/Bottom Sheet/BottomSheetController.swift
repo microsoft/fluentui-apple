@@ -941,6 +941,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         completeAnimationsIfNeeded()
 
         updateResizingHandleViewAccessibility(for: targetExpansionState)
+		UIAccessibility.post(notification: .layoutChanged, argument: resizingHandleView) // Works!
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
