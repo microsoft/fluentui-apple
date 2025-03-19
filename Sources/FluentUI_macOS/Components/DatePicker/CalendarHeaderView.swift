@@ -28,6 +28,66 @@ private struct Constants {
 	private init() {}
 }
 
+/// Allows the top row of the `CalendarHeaderView` to function as an accessible
+/// stepper for moving between months. Increment to move forwards, decrement to
+/// move backwards.
+class AccessibleCalendarHeaderStackView: NSStackView, NSAccessibilityStepper {
+	init(monthYearLabel: NSTextField, leadingButton: NSButton, trailingButton: NSButton) {
+		self.monthYearLabel = monthYearLabel
+		self.leadingButton = leadingButton
+		self.trailingButton = trailingButton
+
+		super.init(frame: .zero)
+
+		self.setAccessibilityElement(true)
+		self.setAccessibilityRole(.incrementor)
+
+		self.addView(monthYearLabel, in: .center)
+		self.addView(leadingButton, in: .leading)
+		self.addView(trailingButton, in: .trailing)
+	}
+
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	// MARK: NSAccessibilityStepper methods
+
+	override func accessibilityPerformIncrement() -> Bool {
+		return performStep(trailingButton)
+	}
+
+	override func accessibilityPerformDecrement() -> Bool {
+		return performStep(leadingButton)
+	}
+
+	override func accessibilityLabel() -> String? {
+		return monthYearLabel.accessibilityLabel()
+	}
+
+	override func accessibilityValue() -> Any? {
+		return monthYearLabel.accessibilityValue()
+	}
+
+	// MARK: Private
+
+	private func performStep(_ button: NSButton) -> Bool {
+		let isEnabled = button.isEnabled
+		if (isEnabled) {
+			button.performClick(button)
+			NSAccessibility.post(element: self, notification: .announcementRequested, userInfo: [
+				NSAccessibility.NotificationUserInfoKey.announcement: self.accessibilityValue() ?? "",
+				NSAccessibility.NotificationUserInfoKey.priority: NSAccessibilityPriorityLevel.medium.rawValue
+			])
+		}
+		return isEnabled
+	}
+
+	private let monthYearLabel: NSTextField
+	private let leadingButton: NSButton
+	private let trailingButton: NSButton
+}
+
 /// Two-row calendar header that includes arrow buttons and the month-year label in the first row,
 /// and weekday column labels in the second row
 class CalendarHeaderView: NSView {
@@ -44,37 +104,19 @@ class CalendarHeaderView: NSView {
 
 		addSubview(containerStackView)
 
-		let headerStackView = NSStackView()
-		headerStackView.translatesAutoresizingMaskIntoConstraints = false
-		headerStackView.orientation = .horizontal
-		headerStackView.distribution = .gravityAreas
-		headerStackView.wantsLayer = true
-
-		containerStackView.addView(headerStackView, in: .top)
-
 		let leadingButton = NSButton(image: NSImage(named: NSImage.goBackTemplateName)!, target: self, action: #selector(leadingButtonPressed))
 		let trailingButton = NSButton(image: NSImage(named: NSImage.goForwardTemplateName)!, target: self, action: #selector(trailingButtonPressed))
 
 		leadingButton.isBordered = false
 		trailingButton.isBordered = false
 
-		leadingButton.setAccessibilityLabel(NSLocalizedString(
-			"DATEPICKER_ACCESSIBILITY_PREVIOUS_MONTH_LABEL",
-			tableName: "FluentUI",
-			bundle: FluentUIResources.resourceBundle,
-			comment: ""
-		))
+		let headerStackView = AccessibleCalendarHeaderStackView(monthYearLabel: monthYearLabel, leadingButton: leadingButton, trailingButton: trailingButton)
+		headerStackView.translatesAutoresizingMaskIntoConstraints = false
+		headerStackView.orientation = .horizontal
+		headerStackView.distribution = .gravityAreas
+		headerStackView.wantsLayer = true
 
-		trailingButton.setAccessibilityLabel(NSLocalizedString(
-			"DATEPICKER_ACCESSIBILITY_NEXT_MONTH_LABEL",
-			tableName: "FluentUI",
-			bundle: FluentUIResources.resourceBundle,
-			comment: ""
-		))
-
-		headerStackView.addView(monthYearLabel, in: .center)
-		headerStackView.addView(leadingButton, in: .leading)
-		headerStackView.addView(trailingButton, in: .trailing)
+		containerStackView.addView(headerStackView, in: .top)
 
 		let weekdayLabelStackView = NSStackView()
 		weekdayLabelStackView.translatesAutoresizingMaskIntoConstraints = false
