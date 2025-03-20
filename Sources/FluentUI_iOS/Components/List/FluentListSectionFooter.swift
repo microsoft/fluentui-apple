@@ -36,6 +36,6 @@ public struct FluentListSectionFooter<Description: StringProtocol>: View {
     // MARK: Private variables
 
     private let description: Description
-    private let tokenSet: TableViewHeaderFooterViewTokenSet
+    private let tokenSet: ListSectionHeaderFooterTokenSet
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 }

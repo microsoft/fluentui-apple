@@ -5,6 +5,8 @@
 
 import SwiftUI
 
+public typealias ListSectionHeaderFooterTokenSet = TableViewHeaderFooterViewTokenSet
+
 /// Defines the visual style of the FluentListSectionHeader
 public enum ListSectionHeaderStyle {
     case regular
@@ -72,7 +74,7 @@ public struct FluentListSectionHeader<Title: StringProtocol, TrailingContent: Vi
 
     private var trailingContent: (() -> TrailingContent)?
     private let title: Title
-    private let tokenSet: TableViewHeaderFooterViewTokenSet
+    private let tokenSet: ListSectionHeaderFooterTokenSet
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 }
 
