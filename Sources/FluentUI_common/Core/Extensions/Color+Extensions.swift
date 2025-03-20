@@ -38,17 +38,21 @@ extension Color {
 
     /// Creates a custom `Color` from a prebuilt `DynamicColor` structure.
     ///
-    /// - Parameter dynamicColor: A dynmic color structure that describes the `Color` to be created.
+    /// - Parameter dynamicColor: A dynamic color structure that describes the `Color` to be created.
     init(dynamicColor: DynamicColor) {
-        if #available(iOS 17, *) {
+        if #available(iOS 17, macOS 14, *) {
             self.init(dynamicColor)
         } else {
+#if os(macOS)
+            self.init(nsColor: NSColor(dynamicColor: dynamicColor))
+#else
             self.init(uiColor: UIColor(dynamicColor: dynamicColor))
+#endif // os(macOS)
         }
     }
 
     var dynamicColor: DynamicColor {
-        if #available(iOS 17, *) {
+        if #available(iOS 17, macOS 14, *) {
             var lightEnvironment = EnvironmentValues.init()
             lightEnvironment.colorScheme = .light
 
@@ -58,9 +62,15 @@ extension Color {
             return DynamicColor(light: Color(self.resolve(in: lightEnvironment)),
                                 dark: Color(self.resolve(in: darkEnvironment)))
         } else {
+#if os(macOS)
+            let nsColor = NSColor(self)
+            return DynamicColor(light: Color(nsColor.light),
+                                dark: Color(nsColor.dark))
+#else
             let uiColor = UIColor(self)
             return DynamicColor(light: Color(uiColor.light),
                                 dark: Color(uiColor.dark))
+#endif // os(macOS)
         }
     }
 }

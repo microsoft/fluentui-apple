@@ -3,8 +3,11 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+#if !COCOAPODS
+import FluentUI_common
+#endif
 import SwiftUI
+import UIKit
 
 @objc public enum MSFAvatarPresence: Int, CaseIterable {
     case none
