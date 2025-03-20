@@ -24,7 +24,7 @@ public struct FluentListSectionFooter<Description: StringProtocol>: View {
         tokenSet.update(fluentTheme)
 
         @ViewBuilder var descriptionView: some View {
-		    Text(description)
+            Text(description)
                 .textCase(nil)
                 .font(Font(tokenSet[.textFont].uiFont))
                 .foregroundStyle(tokenSet[.textColor].color)
