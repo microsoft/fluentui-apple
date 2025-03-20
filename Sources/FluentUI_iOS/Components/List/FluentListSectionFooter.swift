@@ -17,14 +17,25 @@ public struct FluentListSectionFooter<Description: StringProtocol>: View {
     ///   - description: description of the section to be shown in the footer.
     public init(description: Description) {
         self.description = description
+		self.tokenSet = .init(style: { .footer }, accessoryButtonStyle: { .regular })
     }
 
     public var body: some View {
-        Text(description)
-            .textCase(nil)
+		tokenSet.update(fluentTheme)
+
+		@ViewBuilder var descriptionView: some View {
+			Text(description)
+				.textCase(nil)
+				.font(Font(tokenSet[.textFont].uiFont))
+				.foregroundStyle(tokenSet[.textColor].color)
+		}
+
+		return descriptionView
     }
 
     // MARK: Private variables
 
     private let description: Description
+	private let tokenSet: TableViewHeaderFooterViewTokenSet
+	@Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 }
