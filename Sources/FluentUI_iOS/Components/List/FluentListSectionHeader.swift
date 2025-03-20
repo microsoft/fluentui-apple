@@ -35,7 +35,7 @@ public struct FluentListSectionHeader<Title: StringProtocol, TrailingContent: Vi
         tokenSet.update(fluentTheme)
 
         @ViewBuilder var titleView: some View {
-			Text(title)
+            Text(title)
                 // By default uppercasing is applied, setting nil to not enforce casing
                 .textCase(nil)
                 .font(Font(tokenSet[.textFont].uiFont))
@@ -57,9 +57,9 @@ public struct FluentListSectionHeader<Title: StringProtocol, TrailingContent: Vi
         return contentView
     }
 
-	// MARK: private methods
+    // MARK: private methods
 
-	static func tokenSetStyle(_ style: ListSectionHeaderStyle) -> TableViewHeaderFooterView.Style {
+    static func tokenSetStyle(_ style: ListSectionHeaderStyle) -> TableViewHeaderFooterView.Style {
         switch style {
         case .regular:
             return .header
