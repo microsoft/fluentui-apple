@@ -7,6 +7,8 @@ import SwiftUI
 import FluentUI
 
 struct ContentView: View {
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+
 #if os(macOS)
     // Until we have a SwiftUI button on macOS, this will have to do.
     private struct ButtonRepresentable: NSViewRepresentable {
@@ -38,5 +40,7 @@ struct ContentView: View {
 #endif
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(fluentTheme.swiftUIColor(.background1))
     }
 }

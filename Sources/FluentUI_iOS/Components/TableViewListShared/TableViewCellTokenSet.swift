@@ -2,6 +2,10 @@
 //  Copyright (c) Microsoft Corporation. All rights reserved.
 //  Licensed under the MIT License.
 //
+
+#if !COCOAPODS
+import FluentUI_common
+#endif
 import UIKit
 
 public enum TableViewCellToken: Int, TokenSetKey {
