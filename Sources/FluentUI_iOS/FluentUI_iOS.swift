@@ -3,6 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-#if !COCOAPODS
+#if canImport(FluentUI_common)
 @_exported import FluentUI_common
 #endif

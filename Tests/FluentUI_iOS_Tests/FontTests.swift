@@ -5,7 +5,7 @@
 
 import XCTest
 import SwiftUI
-#if !COCOAPODS
+#if canImport(FluentUI_common)
 @testable import FluentUI_common
 #endif
 @testable import FluentUI_ios
