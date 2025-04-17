@@ -3,8 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(UIKit)
 import UIKit
-import SwiftUI
 
 extension UIColor {
 
@@ -139,10 +139,9 @@ extension UIColor {
     }
 
     convenience init(dynamicColor: DynamicColor) {
-        let colorResolver = { $0 != nil ? UIColor($0!) : nil }
         self.init(light: UIColor(dynamicColor.light),
-                  dark: colorResolver(dynamicColor.dark),
-                  darkElevated: colorResolver(dynamicColor.darkElevated))
+                  dark: dynamicColor.dark.map { UIColor($0) },
+                  darkElevated: dynamicColor.darkElevated.map { UIColor($0) })
     }
 
     /// Returns the version of the current color that results from the specified traits as a `ColorValue`.
@@ -172,3 +171,4 @@ extension UIColor {
         return resolvedColor
     }
 }
+#endif // canImport(UIKit)

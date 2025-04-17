@@ -5,7 +5,6 @@
 
 #if canImport(AppKit)
 import AppKit
-import SwiftUI
 
 extension NSColor {
 
@@ -49,6 +48,11 @@ extension NSColor {
 
     @objc public var dark: NSColor {
         return resolvedColorValue(appearance: NSAppearance(named: .darkAqua))
+    }
+
+    convenience init(dynamicColor: DynamicColor) {
+        self.init(light: NSColor(dynamicColor.light),
+                  dark: dynamicColor.dark.map { NSColor($0) })
     }
 
     /// Returns the version of the current color that results from the specified traits as an `NSColor`.

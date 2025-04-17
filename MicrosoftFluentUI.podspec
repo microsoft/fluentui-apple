@@ -1,4 +1,5 @@
 # Constants
+common_root = 'Sources/FluentUI_common'
 ios_root = 'Sources/FluentUI_iOS'
 macos_root = 'Sources/FluentUI_macOS'
 
@@ -13,14 +14,22 @@ Pod::Spec.new do |s|
   s.homepage         = "https://www.microsoft.com/design/fluent/#/"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Microsoft" => "fluentuinativeowners@microsoft.com"}
-  s.source       = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
-  s.swift_version = "5.9"
-  s.module_name = 'FluentUI'
+  s.source           = { :git => "https://github.com/microsoft/fluentui-apple.git", :tag => "#{s.version}" }
+  s.swift_version    = "5.9"
+  s.module_name      = 'FluentUI'
+
+  s.ios.deployment_target = "16.0"
+  s.osx.deployment_target = "12.0"
+
+
+# Common
+
+  s.subspec 'Core_common' do |core_common|
+    core_common.source_files = ["#{common_root}/#{core_dir}/**/*.{swift,h}"]
+  end
 
 
 # iOS
-
-  s.ios.deployment_target = "16.0"
 
   s.subspec 'Avatar_ios' do |avatar_ios|
     avatar_ios.platform = :ios
@@ -112,6 +121,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core_ios' do |core_ios|
     core_ios.platform = :ios
+    core_ios.dependency "#{s.name}/Core_common"
     core_ios.resource_bundle = { 'FluentUIResources-ios' => ["#{ios_root}/#{resources_dir}/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_ios.script_phase = { :name => 'Optimize resource bundle',
                               :script => 'REMOVE_UNUSED_RESOURCES_SCRIPT_PATH=${PODS_TARGET_SRCROOT}/scripts/removeUnusedResourcesFromAssets.swift
@@ -355,24 +365,15 @@ fi', :execution_position => :before_compile }
 
 # Mac
 
-  s.osx.deployment_target = "12"
-
-  s.subspec 'Appearance_mac' do |appearance_mac|
-    appearance_mac.platform = :osx
-    appearance_mac.source_files = ["#{macos_root}/#{components_dir}/Appearance/**/*.{swift,h}"]
-  end
-
   s.subspec 'AvatarView_mac' do |avatarview_mac|
     avatarview_mac.platform = :osx
     avatarview_mac.dependency "#{s.name}/Core_mac"
-    avatarview_mac.dependency "#{s.name}/DynamicColor_mac"
     avatarview_mac.source_files = ["#{macos_root}/#{components_dir}/AvatarView/**/*.{swift,h}"]
   end
 
   s.subspec 'BadgeView_mac' do |badgeview_mac|
     badgeview_mac.platform = :osx
     badgeview_mac.dependency "#{s.name}/Core_mac"
-    badgeview_mac.dependency "#{s.name}/DynamicColor_mac"
     badgeview_mac.source_files = ["#{macos_root}/#{components_dir}/Badge/**/*.{swift,h}"]
   end
 
@@ -384,6 +385,7 @@ fi', :execution_position => :before_compile }
 
   s.subspec 'Core_mac' do |core_mac|
     core_mac.platform = :osx
+    core_mac.dependency "#{s.name}/Core_common"
     core_mac.resource_bundle = { 'FluentUIResources-macos' => ["#{macos_root}/#{resources_dir}/**/*.{storyboard,xib,xcassets,strings,stringsdict}"] }
     core_mac.source_files = ["#{macos_root}/#{core_dir}/**/*.{swift,h}"]
   end
@@ -391,14 +393,7 @@ fi', :execution_position => :before_compile }
   s.subspec 'DatePicker_mac' do |datepicker_mac|
     datepicker_mac.platform = :osx
     datepicker_mac.dependency "#{s.name}/Core_mac"
-    datepicker_mac.dependency "#{s.name}/Appearance_mac"
     datepicker_mac.source_files = ["#{macos_root}/#{components_dir}/DatePicker/**/*.{swift,h}"]
-  end
-
-  s.subspec 'DynamicColor_mac' do |dynamiccolor_mac|
-    dynamiccolor_mac.platform = :osx
-    dynamiccolor_mac.dependency "#{s.name}/Appearance_mac"
-    dynamiccolor_mac.source_files = ["#{macos_root}/#{components_dir}/DynamicColor/**/*.{swift,h}"]
   end
 
   s.subspec 'Link_mac' do |link_mac|

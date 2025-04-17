@@ -3,8 +3,11 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import SwiftUI
+import UIKit
 
 public extension FluentTheme {
 
@@ -52,7 +55,7 @@ public extension FluentTheme {
     /// - Returns: A `UIColor` for the given token.
     @objc(colorForToken:)
     func color(_ token: ColorToken) -> UIColor {
-        return UIColor(dynamicColor: colorTokenSet[token])
+		return UIColor(swiftUIColor(token))
     }
 
     /// Returns the font value for the given token.

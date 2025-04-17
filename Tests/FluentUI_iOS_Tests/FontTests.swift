@@ -5,6 +5,9 @@
 
 import XCTest
 import SwiftUI
+#if canImport(FluentUI_common)
+@testable import FluentUI_common
+#endif
 @testable import FluentUI_ios
 
 class FontTests: XCTestCase {
