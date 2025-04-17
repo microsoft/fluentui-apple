@@ -42,26 +42,22 @@ class MultilineCommandBarDemoController: DemoController {
                 )
             }
         }
+        let fontsGroup = CommandBarItemGroup(commandBarItems[0...3])
+        let textStylesGroup = CommandBarItemGroup(commandBarItems[4...7])
+        let listsGroup = CommandBarItemGroup(commandBarItems[8...11])
+        let editGroup = CommandBarItemGroup(commandBarItems[12...13])
+        let addGroup = CommandBarItemGroup([commandBarItems[14]])
+
         let compactRows: [MultilineCommandBarRow] = [
-            MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
-                                                [commandBarItems[1]],
-                                                [commandBarItems[2]],
-                                                [commandBarItems[3]]], isScrollable: true),
-            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[4...7])]),
-            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[8...11])]),
-            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[12...13]),
-                                                [commandBarItems[14]]])
+            MultilineCommandBarRow(itemGroups: [fontsGroup], isScrollable: true),
+            MultilineCommandBarRow(itemGroups: [textStylesGroup]),
+            MultilineCommandBarRow(itemGroups: [listsGroup]),
+            MultilineCommandBarRow(itemGroups: [editGroup, addGroup])
         ]
 
         let regularRows: [MultilineCommandBarRow] = [
-            MultilineCommandBarRow(itemGroups: [[commandBarItems[0]],
-                                                [commandBarItems[1]],
-                                                [commandBarItems[2]],
-                                                [commandBarItems[3]]], isScrollable: true),
-            MultilineCommandBarRow(itemGroups: [Array(commandBarItems[4...7]),
-                                                Array(commandBarItems[8...11]),
-                                                Array(commandBarItems[12...13]),
-                                                [commandBarItems[14]]])
+            MultilineCommandBarRow(itemGroups: [fontsGroup], isScrollable: true),
+            MultilineCommandBarRow(itemGroups: [textStylesGroup, listsGroup, editGroup, addGroup])
         ]
 
         return MultilineCommandBar(compactRows: compactRows, regularRows: regularRows)
