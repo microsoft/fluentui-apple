@@ -3,6 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import UIKit
 
 /// View that converts the subviews of a container view into a loading state with the "shimmering" effect.

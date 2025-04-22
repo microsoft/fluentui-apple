@@ -3,6 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import UIKit
 
 /// A static class used to calculate layout and sizing information for DateTimePickerView.

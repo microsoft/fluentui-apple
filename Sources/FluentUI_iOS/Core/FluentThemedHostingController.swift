@@ -3,8 +3,11 @@
 //  Licensed under the MIT License.
 //
 
-import UIKit
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import SwiftUI
+import UIKit
 
 /// FluentUI specific implementation of the UIHostingController. This is primarily useful for adding `FluentTheme` observation
 /// to any wrapped Fluent controls.

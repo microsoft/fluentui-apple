@@ -3,6 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import UIKit
 
 /// Obscurable represents any UIView containing class that obscures views behind it. It is used to generically use different styles of background obscuring for modals, as well as provide an interface to turn their effect on or off.
