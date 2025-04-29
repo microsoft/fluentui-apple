@@ -51,6 +51,9 @@ import SwiftUI
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
+    /// The callback to execute when the notification is dismissed.
+    var onDismiss: (() -> Void)? { get set }
+
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
@@ -118,6 +121,7 @@ public struct FluentNotification: View, TokenizedControlView {
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
+        self.onDismiss = nil
 
         self.tokenSet = NotificationTokenSet(style: { state.style })
 
@@ -335,7 +339,21 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
-        return presentableNotification
+        @ViewBuilder
+        var notificationWithOnDisappear: some View {
+            if (state.onDismiss != nil) {
+                presentableNotification
+                    .onDisappear {
+                        if let onDismissAction = state.onDismiss {
+                            onDismissAction()
+                        }
+                    }
+            } else {
+                presentableNotification
+            }
+        }
+
+        return notificationWithOnDisappear
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -393,6 +411,9 @@ public struct FluentNotification: View, TokenizedControlView {
     // When true, the notification will fit the size of its contents.
     // When false, the notification will be fixed based on the size of the screen.
     private let isFlexibleWidthToast: Bool
+
+    // The callback to execute when the notification is dismissed.
+    private let onDismiss: (() -> Void)?
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
@@ -407,6 +428,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
+    @Published var onDismiss: (() -> Void)?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
