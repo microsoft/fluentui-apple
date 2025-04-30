@@ -121,7 +121,6 @@ public struct FluentNotification: View, TokenizedControlView {
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
-        self.onDismiss = nil
 
         self.tokenSet = NotificationTokenSet(style: { state.style })
 
@@ -339,21 +338,10 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
-        @ViewBuilder
-        var notificationWithOnDisappear: some View {
-            if (state.onDismiss != nil) {
-                presentableNotification
-                    .onDisappear {
-                        if let onDismissAction = state.onDismiss {
-                            onDismissAction()
-                        }
-                    }
-            } else {
-                presentableNotification
+        return presentableNotification
+            .onDisappear {
+                state.onDismiss?()
             }
-        }
-
-        return notificationWithOnDisappear
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -413,7 +401,7 @@ public struct FluentNotification: View, TokenizedControlView {
     private let isFlexibleWidthToast: Bool
 
     // The callback to execute when the notification is dismissed.
-    private let onDismiss: (() -> Void)?
+    private let onDismiss: (() -> Void)? = nil
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
