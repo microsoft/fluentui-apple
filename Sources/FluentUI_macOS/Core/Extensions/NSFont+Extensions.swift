@@ -6,12 +6,12 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
-import SwiftUI
 import AppKit
+import SwiftUI
 
 public extension Font {
 	static func fluent(_ fontInfo: FluentUI_common.FontInfo, shouldScale: Bool = true) -> Font {
-		// SwiftUI Font is missing some of the ease of construction available in UIFont.
+		// SwiftUI Font is missing some of the ease of construction available in NSFont.
 		// So just leverage the logic there to create the equivalent SwiftUI font.
 		let nsFont = NSFont.fluent(fontInfo, shouldScale: shouldScale)
 		return Font(nsFont)
