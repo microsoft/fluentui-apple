@@ -401,7 +401,7 @@ public struct FluentNotification: View, TokenizedControlView {
     private let isFlexibleWidthToast: Bool
 
     // The callback to execute when the notification is dismissed.
-    private let onDismiss: (() -> Void)? = nil
+    private var onDismiss: (() -> Void)? = nil
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
