@@ -673,21 +673,21 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             blurEffectView.contentView.addSubview(contentView)
 
             bottomSheetView = blurEffectView
-		} else {
-			bottomSheetView = UIView()
-			
-			// We need to set the background color of the embedding view otherwise the shadows will not display
-			bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
-			bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
-			bottomSheetView.addSubview(contentView)
-		}
+        } else {
+            bottomSheetView = UIView()
 
-		NSLayoutConstraint.activate([
-			contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
-			contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-			contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
-			contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
-		])
+            // We need to set the background color of the embedding view otherwise the shadows will not display
+            bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            bottomSheetView.addSubview(contentView)
+        }
+
+        NSLayoutConstraint.activate([
+            contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
+        ])
 
 #if DEBUG
         bottomSheetView.accessibilityIdentifier = "Bottom Sheet View"
