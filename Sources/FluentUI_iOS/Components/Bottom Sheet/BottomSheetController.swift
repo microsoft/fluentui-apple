@@ -69,6 +69,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController, Shadowable, TokenizedControl {
+
     /// Initializes the bottom sheet controller
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
