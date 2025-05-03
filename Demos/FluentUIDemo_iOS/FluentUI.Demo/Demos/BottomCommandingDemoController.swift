@@ -24,7 +24,6 @@ class BottomCommandingDemoController: DemoController {
         optionTableView.separatorStyle = .none
 
         let bottomCommandingVC = BottomCommandingController(with: optionTableViewController)
-
         bottomCommandingVC.heroItems = Array(heroItems.prefix(9))
         bottomCommandingVC.expandedListSections = shortCommandSectionList
         bottomCommandingVC.delegate = self
