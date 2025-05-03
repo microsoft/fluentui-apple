@@ -129,6 +129,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     /// When in sheet layout, `BottomSheetController` holds it's own `isHidden` state which is the main
     /// source of truth and the public getter will return that instead of this backing variable.
     private var _isHidden: Bool = false
+    
+    /// Uses a BlurEffect for the BottomSheet background
+    private let usesBlurEffectBackgroundForBottomSheet: Bool
 
     /// Indicates whether a more button is visible in the sheet style when `expandedListSections` is non-empty.
     /// Tapping the button will expand or collapse the sheet.
@@ -237,9 +240,15 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
 
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameter contentViewController: View controller that will be displayed below the bottom commanding UI.
-    @objc public init(with contentViewController: UIViewController?) {
+    /// - Parameter usesBlurEffectBackgroundForBottomSheet: Bool value indicating if a BlurEffect should be applied to the BottomSheet background.
+    @objc public init(with contentViewController: UIViewController?, usesBlurEffectBackgroundForBottomSheet: Bool) {
         self.contentViewController = contentViewController
+        self.usesBlurEffectBackgroundForBottomSheet = usesBlurEffectBackgroundForBottomSheet
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    @objc public convenience init(with contentViewController: UIViewController?) {
+        self.init(with: contentViewController, usesBlurEffectBackgroundForBottomSheet: false)
     }
 
     @available(*, unavailable)
@@ -404,7 +413,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         let headerView = UIView()
         headerView.addSubview(heroCommandStack)
 
-        let sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: makeSheetExpandedContent(with: tableView))
+        let sheetController = BottomSheetController(headerContentView: headerView,
+                                                    expandedContentView: makeSheetExpandedContent(with: tableView),
+                                                    usesBlurEffectBackground: usesBlurEffectBackgroundForBottomSheet)
         sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden

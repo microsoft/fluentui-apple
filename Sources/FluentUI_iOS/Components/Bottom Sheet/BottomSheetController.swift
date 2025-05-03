@@ -69,17 +69,26 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 
 @objc(MSFBottomSheetController)
 public class BottomSheetController: UIViewController, Shadowable, TokenizedControl {
-
+    
     /// Initializes the bottom sheet controller
     /// - Parameters:
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
     ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
+    ///   - usesBlurEffectBackground: Bool value indicating if a UIVisualEffect BlurEffect should be applied to the backgound.
+    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true, usesBlurEffectBackground:Bool) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
+        self.usesBlurEffectBackground = usesBlurEffectBackground
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    @objc public convenience init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
+        self.init(headerContentView: headerContentView,
+                  expandedContentView: expandedContentView,
+                  shouldShowDimmingView: shouldShowDimmingView,
+                  usesBlurEffectBackground: false)
     }
 
     @available(*, unavailable)
@@ -555,9 +564,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateBackgroundColor() {
-        let backgroundColor = tokenSet[.backgroundColor].uiColor
-        bottomSheetView.subviews[0].backgroundColor = backgroundColor
-        overflowView.backgroundColor = backgroundColor
+        // Of course we have no active background color applied when we're using a BlurEffect
+        if (!usesBlurEffectBackground) {
+            let backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomSheetView.subviews[0].backgroundColor = backgroundColor
+            overflowView.backgroundColor = backgroundColor
+        }
     }
 
     private func updateResizingHandleColor() {
@@ -565,10 +577,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateShadow() {
-        let shadowInfo = tokenSet[.shadow].shadowInfo
-        // We need to have the shadow on a parent of the view that does the corner masking.
-        // Otherwise the view will mask its own shadow.
-        shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
+        // The current Fluent Shadow implementation in `applyShadow(to:)` relies on having an active background color applied
+        // to the UIView for which we want a shadow. This of course doesn't work for the case when the UIView is directly
+        // behind a UIVisualEffectView using a UIBlurEffect, because adding a backgroundColor to this view would interfere
+        // with the BlurEffect sampling. So, in such a case, lets directly add a shadow to the UIView using logic that doesn't
+        // rely on configuring a backgroundColor.
+        if (usesBlurEffectBackground) {
+            bottomSheetView.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
+            bottomSheetView.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
+            bottomSheetView.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
+            bottomSheetView.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
+        } else {
+            let shadowInfo = tokenSet[.shadow].shadowInfo
+            // We need to have the shadow on a parent of the view that does the corner masking.
+            // Otherwise the view will mask its own shadow.
+            shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
+        }
     }
 
     private func updateCornerRadius() {
@@ -637,28 +661,43 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }()
 
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
-        let bottomSheetView = UIView()
-
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
 
-        // We need to set the background color of the embedding view otherwise the shadows will not display
-        bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
-        bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
-        bottomSheetView.addSubview(contentView)
+        let bottomSheetView: UIView
 
-        NSLayoutConstraint.activate([
-            contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
-            contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
-        ])
+        if (usesBlurEffectBackground) {
+            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+            blurEffectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            blurEffectView.contentView.addSubview(contentView)
 
-#if DEBUG
+            NSLayoutConstraint.activate([
+                contentView.leadingAnchor.constraint(equalTo: blurEffectView.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: blurEffectView.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: blurEffectView.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
+            ])
+            bottomSheetView = blurEffectView
+        } else {
+            // We need to set the background color of the embedding view otherwise the shadows will not display
+            bottomSheetView = UIView()
+            bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            bottomSheetView.addSubview(contentView)
+
+            NSLayoutConstraint.activate([
+                contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: bottomSheetView.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: bottomSheetView.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: bottomSheetView.bottomAnchor)
+            ])
+        }
+
+    #if DEBUG
         bottomSheetView.accessibilityIdentifier = "Bottom Sheet View"
-#endif
+    #endif
 
         return bottomSheetView
     }
@@ -1204,6 +1243,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private var currentRootViewHeight: CGFloat = 0
 
     private let shouldShowDimmingView: Bool
+    
+    /// Adds a UIBlurEffect to the background instead of a solid backgroundColor
+    private let usesBlurEffectBackground: Bool
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
