@@ -399,9 +399,6 @@ public struct FluentNotification: View, TokenizedControlView {
     // When true, the notification will fit the size of its contents.
     // When false, the notification will be fixed based on the size of the screen.
     private let isFlexibleWidthToast: Bool
-
-    // The callback to execute when the notification is dismissed.
-    private var onDismiss: (() -> Void)? = nil
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
