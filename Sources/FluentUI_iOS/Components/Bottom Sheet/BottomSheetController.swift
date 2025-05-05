@@ -58,6 +58,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
     case collapsed // Sheet is collapsed
     case hidden // Sheet is hidden (fully off-screen)
     case transitioning // Sheet is between states, only used during user interaction / animation
+    case custom // Sheet is at a custom height
 }
 
 /// Defines where the sheet should be postionioned relative to the screen space
@@ -86,6 +87,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     required init?(coder: NSCoder) {
         preconditionFailure("init(coder:) has not been implemented")
     }
+
+    /// Custom expansion states for the bottom sheet. Defaults to `nil`.
+    /// Ensure this is sorted in ascending order.
+    /// This includes expanded and hidden states by default.
+    @objc public var customExpansionState: [CGFloat] = []
+
+    /// Custom velocity threshold for snapping to states. 
+    /// Defaults to `0` and pans to nearest expansion state
+    @objc public var customVelocity: CGFloat = 0
 
     /// Top part of the sheet content that is visible in both collapsed and expanded state.
     @objc public let headerContentView: UIView?
@@ -157,6 +167,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             }
             completeAnimationsIfNeeded(skipToEnd: true)
             headerContentViewHeightConstraint?.constant = headerContentHeight
+        }
+    }
+
+    /// Custom height for the bottom sheet. Defaults to `nil`, which means no custom height is set.
+    @objc open var customHeight: CGFloat = 0 {
+        didSet {
+            guard customHeight != oldValue && isViewLoaded else {
+            	return
+            }
+            completeAnimationsIfNeeded(skipToEnd: true)
+            view.setNeedsLayout()
         }
     }
 
@@ -329,9 +350,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if isHidden {
             dismissSheet(animated: animated, completion: completion)
         } else {
-            presentSheet(expandedState: .collapsed, animated: animated, completion: completion)
+            if !customExpansionState.isEmpty {
+                presentSheet(expandedState: .custom, animated: animated, completion: completion)
+            } else {
+                presentSheet(expandedState: .collapsed, animated: animated, completion: completion)
+            }
         }
-
     }
 
     /// Presents the bottom sheet view
@@ -342,13 +366,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     @objc public func presentSheet(expandedState: BottomSheetExpansionState, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
         let finishedState: BottomSheetExpansionState
 
-        switch expandedState {
-        case .collapsed:
+       switch expandedState {
+        case .collapsed, .expanded, .custom:
             finishedState = expandedState
-        case .expanded:
-            finishedState = expandedState
-        // Collapsed and expanded are the only valid states so we will default to
-        // collapsed if the user tries anything else
         default:
             finishedState = .collapsed
         }
@@ -796,7 +816,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             translateSheet(by: sender.translation(in: view))
             sender.setTranslation(.zero, in: view)
         case .ended, .cancelled, .failed:
-            completePan(with: sender.velocity(in: view).y)
+            if !customExpansionState.isEmpty {
+                completeCustomPan(with: sender.velocity(in: view).y)
+            } else {
+                completePan(with: sender.velocity(in: view).y)
+            }
         default:
             break
         }
@@ -930,6 +954,76 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         move(to: targetState, velocity: velocity, interaction: .swipe)
     }
 
+    private func completeCustomPan(with velocity: CGFloat) {
+        if customExpansionState.isEmpty {
+            completePan(with: velocity)
+            return
+        }
+
+        var targetState: BottomSheetExpansionState
+        if abs(velocity) < customVelocity || customVelocity == 0 {
+            // Velocity too low, snap to the closest expansion state
+            var closestState: CGFloat = customExpansionState[0]
+            var minDistance: CGFloat = offset(for: .hidden)
+    
+            for state in customExpansionState {
+                let stateOffset = view.bounds.maxY - CGFloat(state)
+                let distance = abs(stateOffset - currentSheetVerticalOffset)
+                if distance < minDistance {
+                    minDistance = distance
+                    closestState = CGFloat(state)
+                }
+            }
+
+            targetState = .custom
+            customHeight = closestState // Set the custom height to the closest value
+        } else {
+            // Velocity high enough, animate to the state we're swiping towards
+            let (lowerBound, upperBound) = getCustomBounds(for: currentSheetVerticalOffset)
+            if let lowerBound = lowerBound, let upperBound = upperBound {
+                // If both bounds are available, determine the target state based on the velocity
+                targetState = .custom
+                customHeight = velocity > 0 ? lowerBound : upperBound
+            } else if let lowerBound = lowerBound { // sheet in highest state of height
+                // We are at the heighest state of the sheet, swip up snap to expanded state else snap to lower bound
+                targetState = velocity > 0 ? .custom : .expanded
+                customHeight = lowerBound
+            } else if let upperBound = upperBound { //  sheet in lowest state of height
+                // We are at the lowest state of the sheet, swip down snap to hidden state else snap to upper bound
+                if allowsSwipeToHide {
+                    targetState = velocity > 0 ? .hidden : .custom
+                } else {
+                    targetState = .custom
+                }
+                customHeight = upperBound
+            } else {
+                // No bounds available, complete with default pan behavior
+                completePan(with: velocity)
+                return
+            }
+        }
+
+        move(to: targetState, velocity: velocity, interaction: .swipe)
+    }
+
+    private func getCustomBounds(for currentOffset: CGFloat) -> (lowerBound: CGFloat?, upperBound: CGFloat?) {
+
+        var lowerBound: CGFloat? = nil
+        var upperBound: CGFloat? = nil
+
+        // Using offset values hence traverse in reverse order
+        for state in customExpansionState.reversed() {
+            let stateOffset = view.bounds.maxY - CGFloat(state)
+            if stateOffset <= currentOffset {
+                upperBound = state
+            } else if stateOffset > currentOffset {
+                lowerBound = state
+                break // Stop iterating once the upperBound is found
+            }
+        }
+        return (lowerBound, upperBound)
+    }
+
     private func move(to targetExpansionState: BottomSheetExpansionState,
                       animated: Bool = true,
                       velocity: CGFloat = 0.0,
@@ -1053,6 +1147,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             offset = view.bounds.maxY
         case .transitioning:
             offset = bottomSheetView.frame.minY
+        case .custom:
+            offset = view.bounds.maxY - customHeight
         }
 
         return offset
