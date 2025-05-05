@@ -42,6 +42,9 @@ open class TabBarItem: NSObject {
         }
     }
 
+    /// Unique tabID for tab Bar item.
+    @objc public var tabId: String? = ""
+
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
     @objc public func setBadgeNumber(_ number: UInt) {
@@ -99,7 +102,8 @@ open class TabBarItem: NSObject {
                       landscapeImage: UIImage? = nil,
                       landscapeSelectedImage: UIImage? = nil,
                       largeContentImage: UIImage? = nil,
-                      accessibilityLabelBadgeFormatString: String? = nil) {
+                      accessibilityLabelBadgeFormatString: String? = nil,
+                      tabId: String? = "") {
         self.image = image
         self.selectedImage = selectedImage
         self.title = title
@@ -107,6 +111,7 @@ open class TabBarItem: NSObject {
         self.landscapeImage = landscapeImage
         self.landscapeSelectedImage = landscapeSelectedImage
         self.accessibilityLabelBadgeFormatString = accessibilityLabelBadgeFormatString
+        self.tabId = tabId
         super.init()
     }
 
