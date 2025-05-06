@@ -96,6 +96,7 @@ open class TabBarItem: NSObject {
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
     /// - Parameter accessibilityLabelBadgeFormatString: Format string to use for the tabbar item's accessibility label when the badge number is greater than zero. When the badge number is zero, the accessibility label is set to the item's title. By default, when the badge number is greater than zero, the following format is used to builds the accessibility label: "%@, %ld items" where the item's title and the badge number are used to populate the format specifiers. If a format string is provided through this parameter, it must contain "%@" and "%ld" in the same order and will be populated with the title and badge number.
+    /// - Parameter tabId: Unique tabID for tab Bar item.
     @objc public init(title: String,
                       image: UIImage,
                       selectedImage: UIImage? = nil,
