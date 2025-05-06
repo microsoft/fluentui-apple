@@ -43,8 +43,8 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
 
 // MARK: Constants
 extension BottomSheetTokenSet {
-	static let blurEffectShadowColor: CGColor = UIColor.black.cgColor
-	static let blurEffectShadowOpacity: Float = 0.25
-	static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
-	static let blurEffectShadowRadius: CGFloat = 8
+    static let blurEffectShadowColor: CGColor = UIColor.black.cgColor
+    static let blurEffectShadowOpacity: Float = 0.25
+    static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
+    static let blurEffectShadowRadius: CGFloat = 8
 }
