@@ -48,3 +48,14 @@ extension BottomSheetTokenSet {
     static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
     static let blurEffectShadowRadius: CGFloat = 8
 }
+
+// MARK: - BottomSheetControllerStyle
+
+@objc(MSFBottomSheetControllerStyle)
+public enum BottomSheetControllerStyle: Int {
+    /// The default style, this applies a solid background color to the BottomSheet view
+    case primary
+
+    /// uses a UIVisualEffect BlurEffect Background for the BottomSheet view
+    case glass
+}
