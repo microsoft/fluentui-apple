@@ -83,7 +83,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.usesBlurEffectBackground = usesBlurEffectBackground
         super.init(nibName: nil, bundle: nil)
     }
-    
+
+    /// Initializes the bottom sheet controller
+    /// - Parameters:
+    ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
+    ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
+    ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
     @objc public convenience init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
         self.init(headerContentView: headerContentView,
                   expandedContentView: expandedContentView,
