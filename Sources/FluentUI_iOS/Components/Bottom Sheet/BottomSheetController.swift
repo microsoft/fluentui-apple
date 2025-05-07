@@ -1081,7 +1081,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 // Same here, in height restricted scenarios we want to utilize the space.
                 offset = minOffset
             } else {
-                offset = view.bounds.maxY - mediumSheetHeight
+                offset = view.bounds.maxY - (resolvedDynamicSheetHeights?.partialHeight ?? collapsedSheetHeight)
             }
         case .expanded:
             offset = minOffset
@@ -1161,15 +1161,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         // One case when the lower bound is required is when view.frame is .zero (like before the initial layout pass)
         // This gives the sheet some space to layout in so the layout engine doesn't complain.
         return max(collapsedSheetHeight, height)
-    }
-
-    private var mediumSheetHeight: CGFloat {
-        guard isExpandable, let mediumHeightResolver = partialHeightResolver else {
-            return collapsedSheetHeight
-        }
-
-        let context = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
-        return mediumHeightResolver(context)
     }
 
     // Height of the sheet in collapsed state
