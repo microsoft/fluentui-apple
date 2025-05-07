@@ -10,7 +10,7 @@ import AppKit
 import SwiftUI
 
 public extension Font {
-	static func fluent(_ fontInfo: FluentUI_common.FontInfo, shouldScale: Bool = true) -> Font {
+	static func fluent(_ fontInfo: FluentFontInfo, shouldScale: Bool = true) -> Font {
 		// SwiftUI Font is missing some of the ease of construction available in NSFont.
 		// So just leverage the logic there to create the equivalent SwiftUI font.
 		let nsFont = NSFont.fluent(fontInfo, shouldScale: shouldScale)
@@ -19,7 +19,7 @@ public extension Font {
 }
 
 extension NSFont {
-	@objc public static func fluent(_ fontInfo: FluentUI_common.FontInfo, shouldScale: Bool = true) -> NSFont {
+	@objc public static func fluent(_ fontInfo: FluentFontInfo, shouldScale: Bool = true) -> NSFont {
 		let weight = nsWeight(fontInfo.weight)
 
 		if let name = fontInfo.name,
