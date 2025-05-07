@@ -31,6 +31,9 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController.collapsedHeightResolver = { context in
             return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
         }
+        bottomSheetViewController.partialHeightResolver = { context in
+            return context.maximumHeight * 0.5
+        }
 
         self.bottomSheetViewController = bottomSheetViewController
 
