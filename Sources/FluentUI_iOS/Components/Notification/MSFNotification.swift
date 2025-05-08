@@ -201,6 +201,13 @@ import UIKit
     @objc public static var allowsMultipleToasts: Bool = false
     var isFlexibleWidthToast: Bool
 
+    /// The closure that will be executed once the view disapears. This will be called in seperately from the completion handler of the hide method and will execute after that one is complete.
+   @objc public var onDismissHandler: (() -> Void)? {
+        didSet {
+            notification.state.onDismiss = onDismissHandler
+        }
+    }
+
     // MARK: - Private variables
     private static var currentToast: MSFNotification? {
         didSet {

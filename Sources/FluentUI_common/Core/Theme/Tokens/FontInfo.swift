@@ -5,6 +5,8 @@
 
 import SwiftUI
 
+public typealias FluentFontInfo = FontInfo
+
 /// Represents the description of a font used by FluentUI components.
 @objc(MSFFontInfo)
 public class FontInfo: NSObject {
