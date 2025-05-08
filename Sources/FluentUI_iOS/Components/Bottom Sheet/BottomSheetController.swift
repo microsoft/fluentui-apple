@@ -1165,7 +1165,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
         let safeAreaSheetHeight: CGFloat
-        if let dynamicHeight = resolvedDynamicSheetHeights?.collapsedHeight, dynamicHeight > 0  {
+        if let dynamicHeight = resolvedDynamicSheetHeights?.collapsedHeight, dynamicHeight > 0 {
             safeAreaSheetHeight = dynamicHeight
         } else if collapsedContentHeight > 0 {
             safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
