@@ -935,7 +935,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                     result[state] = abs(offset(for: state) - currentSheetVerticalOffset)
                 }
 
-            // Choose the closest one
             targetState = distances.min(by: { $0.value < $1.value })?.key ?? .collapsed
         } else {
             // Velocity high enough, animate to the state we're swiping towards
