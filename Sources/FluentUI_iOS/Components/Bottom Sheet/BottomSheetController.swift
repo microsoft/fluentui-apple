@@ -195,7 +195,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Changes to this property are animated. A new value is reflected in the getter only after the animation completes.
     @objc open var isExpanded: Bool {
         get {
-            return currentExpansionState == .expanded || currentExpansionState == .partial
+            return currentExpansionState == .expanded
         }
         set {
             setIsExpanded(newValue)
@@ -272,7 +272,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
-    /// Represents where the sheet should appear on the screen. 
+    /// Represents where the sheet should appear on the screen.
     /// Defaults to being centered
     @objc open var anchoredEdge: BottomSheetAnchorEdge = .center {
         didSet {
@@ -687,11 +687,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateResizingHandleViewAccessibility(for state: BottomSheetExpansionState) {
-        if state == .expanded || state == .partial {
+        if state == .expanded {
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
-        } else if state == .collapsed {
+        } else if state == .collapsed || state == .partial {
             resizingHandleView.accessibilityLabel = handleExpandCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.ExpandSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
@@ -1307,10 +1307,11 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
               let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
+        // By default, the sheet pan gesture takes precedence.
         var shouldBegin = true
-        let fullyExpanded = currentSheetVerticalOffset <= offset(for: supportsPartialExpansion ? .partial : .expanded)
 
-        if fullyExpanded {
+        // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
+        if currentSheetVerticalOffset <= offset(for: supportsPartialExpansion ? .partial : .expanded) {
             let scrolledToTop = scrollView.contentOffset.y <= 0
             let panningDown = panGesture.velocity(in: view).y > 0
             let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
