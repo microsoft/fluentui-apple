@@ -43,7 +43,7 @@ open class TabBarItem: NSObject {
     }
 
     /// Unique tabID for tab Bar item.
-    @objc public var tabId: String? = ""
+    @objc public let tabId: String?
 
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
