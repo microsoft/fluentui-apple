@@ -40,3 +40,22 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
         }
     }
 }
+
+// MARK: Constants
+extension BottomSheetTokenSet {
+    static let blurEffectShadowColor: CGColor = UIColor.black.cgColor
+    static let blurEffectShadowOpacity: Float = 0.25
+    static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
+    static let blurEffectShadowRadius: CGFloat = 8
+}
+
+// MARK: - BottomSheetControllerStyle
+
+@objc(MSFBottomSheetControllerStyle)
+public enum BottomSheetControllerStyle: Int {
+    /// The default style, this applies a solid background color to the BottomSheet view
+    case primary
+
+    /// uses a UIVisualEffect BlurEffect Background for the BottomSheet view
+    case glass
+}
