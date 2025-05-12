@@ -432,7 +432,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
-	@Published var defaultDimissButtonAction: (() -> Void)?
+    @Published var defaultDimissButtonAction: (() -> Void)?
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
