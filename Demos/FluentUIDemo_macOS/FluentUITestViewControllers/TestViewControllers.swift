@@ -30,4 +30,6 @@ public let testViewControllers = [TestViewController(title: "Avatar View",
 								  TestViewController(title: "Notification Bar View",
 													 type: TestNotificationBarViewController.self),
 								  TestViewController(title: "Separator",
-													 type: TestSeparatorViewController.self)]
+													 type: TestSeparatorViewController.self),
+								  TestViewController(title: "Typography",
+													 type: TestTypographyViewController.self)]

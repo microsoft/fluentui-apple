@@ -55,6 +55,7 @@ public protocol BottomSheetControllerDelegate: AnyObject {
 /// Defines the position the sheet is currently in
 @objc public enum BottomSheetExpansionState: Int {
     case expanded // Sheet is fully expanded
+    case partial // Sheet is partially expanded
     case collapsed // Sheet is collapsed
     case hidden // Sheet is hidden (fully off-screen)
     case transitioning // Sheet is between states, only used during user interaction / animation
@@ -75,11 +76,28 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
     ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
-    @objc public init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
+    ///   - bottomSheetControllerStyle: The style override for the BottomSheet's background material.
+    @objc public init(headerContentView: UIView? = nil,
+                      expandedContentView: UIView,
+                      shouldShowDimmingView: Bool = true,
+                      bottomSheetControllerStyle: BottomSheetControllerStyle) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
+        self.bottomSheetControllerStyle = bottomSheetControllerStyle
         super.init(nibName: nil, bundle: nil)
+    }
+
+    /// Initializes the bottom sheet controller
+    /// - Parameters:
+    ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
+    ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
+    ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
+    @objc public convenience init(headerContentView: UIView? = nil, expandedContentView: UIView, shouldShowDimmingView: Bool = true) {
+        self.init(headerContentView: headerContentView,
+                  expandedContentView: expandedContentView,
+                  shouldShowDimmingView: shouldShowDimmingView,
+                  bottomSheetControllerStyle: .primary)
     }
 
     @available(*, unavailable)
@@ -210,6 +228,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
+    /// A closure for resolving the desired partially expanded sheet height given a resolution context.
+    @objc open var partialHeightResolver: ((ContentHeightResolutionContext) -> CGFloat)? {
+        didSet {
+            if isViewLoaded {
+                invalidateSheetSize()
+            }
+        }
+    }
+
     /// Height of the top portion of the content view that should be visible when the bottom sheet is collapsed.
     ///
     /// When set to 0, `headerContentHeight` will be used.
@@ -262,7 +289,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
-    /// Represents where the sheet should appear on the screen. 
+    /// Represents where the sheet should appear on the screen.
     /// Defaults to being centered
     @objc open var anchoredEdge: BottomSheetAnchorEdge = .center {
         didSet {
@@ -344,11 +371,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         switch expandedState {
         case .collapsed:
-            finishedState = expandedState
+            finishedState = .collapsed
         case .expanded:
-            finishedState = expandedState
-        // Collapsed and expanded are the only valid states so we will default to
-        // collapsed if the user tries anything else
+            finishedState = isExpandable ? .expanded : .collapsed
+        case .partial:
+            finishedState = isExpandable && supportsPartialExpansion ? .partial : .collapsed
+        // Safe fallback for any invalid target states
         default:
             finishedState = .collapsed
         }
@@ -421,11 +449,13 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             return
         }
 
-        lastCollapsedSheetHeightResolutionContext = nil
+        cachedResolvedDynamicSheetHeights = nil
 
-        // If we are animating to .collapsed or already collapsed, we need to move to refresh the animation target.
+        // If we are animating to one of the affected states, we need to retarget the animation.
         if targetExpansionState == .collapsed || (currentExpansionState == .collapsed && targetExpansionState == nil) {
             move(to: .collapsed)
+        } else if supportsPartialExpansion && (targetExpansionState == .partial || (currentExpansionState == .partial && targetExpansionState == nil)) {
+            move(to: .partial)
         }
     }
 
@@ -555,9 +585,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateBackgroundColor() {
-        let backgroundColor = tokenSet[.backgroundColor].uiColor
-        bottomSheetView.subviews[0].backgroundColor = backgroundColor
-        overflowView.backgroundColor = backgroundColor
+        // Of course we have no active background color applied when we're using a BlurEffect
+        if (bottomSheetControllerStyle != .glass) {
+            let backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomSheetView.subviews[0].backgroundColor = backgroundColor
+            overflowView.backgroundColor = backgroundColor
+        }
     }
 
     private func updateResizingHandleColor() {
@@ -565,10 +598,24 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateShadow() {
-        let shadowInfo = tokenSet[.shadow].shadowInfo
-        // We need to have the shadow on a parent of the view that does the corner masking.
-        // Otherwise the view will mask its own shadow.
-        shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
+
+        switch bottomSheetControllerStyle {
+        case .primary:
+            let shadowInfo = tokenSet[.shadow].shadowInfo
+            // We need to have the shadow on a parent of the view that does the corner masking.
+            // Otherwise the view will mask its own shadow.
+            shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
+        case .glass:
+            // The current Fluent Shadow implementation in `applyShadow(to:)` adds extra CALayers with shadow properties
+            // and relies on the target UIView having an opaque backgroundColor — the shadow visibility depends on its opacity.
+            // This breaks down when using a UIVisualEffectView with a UIBlurEffect, since setting a backgroundColor would interfere
+            // with blur sampling and defeat its purpose. In such cases, we bypass `applyShadow(to:)` and apply the shadow tokens
+            // directly to the UIVisualEffectView’s primary layer, ensuring shadows render correctly without disrupting the blur effect.
+            bottomSheetView.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
+            bottomSheetView.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
+            bottomSheetView.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
+            bottomSheetView.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
+        }
     }
 
     private func updateCornerRadius() {
@@ -637,17 +684,28 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }()
 
     private func makeBottomSheetByEmbedding(contentView: UIView) -> UIView {
-        let bottomSheetView = UIView()
-
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.layer.cornerCurve = .continuous
         contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         contentView.clipsToBounds = true
 
-        // We need to set the background color of the embedding view otherwise the shadows will not display
-        bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
-        bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
-        bottomSheetView.addSubview(contentView)
+        let bottomSheetView: UIView
+
+        switch bottomSheetControllerStyle {
+        case .primary:
+            bottomSheetView = UIView()
+
+            // We need to set the background color of the embedding view otherwise the shadows will not display
+            bottomSheetView.backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            bottomSheetView.addSubview(contentView)
+        case .glass:
+            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+            blurEffectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            blurEffectView.contentView.addSubview(contentView)
+
+            bottomSheetView = blurEffectView
+        }
 
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: bottomSheetView.leadingAnchor),
@@ -678,7 +736,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
-        } else if state == .collapsed {
+        } else if state == .collapsed || state == .partial {
             resizingHandleView.accessibilityLabel = handleExpandCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.ExpandSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
@@ -688,7 +746,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private func updateExpandedContentAlpha() {
         let currentOffset = currentSheetVerticalOffset
         let collapsedOffset = offset(for: .collapsed)
-        let expandedOffset = offset(for: .expanded)
+        let expandedOffset = supportsPartialExpansion ? offset(for: .partial) : offset(for: .expanded)
 
         var targetAlpha: CGFloat = 1.0
         if shouldHideCollapsedContent && !isHeightRestricted {
@@ -738,7 +796,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
             let currentOffset = currentSheetVerticalOffset
             let highestDimmedOffset = offset(for: .expanded)
-            let lowestUndimmedOffset = isHeightRestricted ? offset(for: .hidden) : offset(for: .collapsed)
+            let lowestUndimmedOffset = offset(for: isHeightRestricted ? .hidden : supportsPartialExpansion ? .partial : .collapsed)
 
             if currentOffset <= highestDimmedOffset {
                 targetAlpha = 1.0
@@ -908,15 +966,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         var targetState: BottomSheetExpansionState
 
         if abs(velocity) < Constants.directionOverrideVelocityThreshold {
-            // Velocity too low, snap to the closest expansion state
-            var distances: [BottomSheetExpansionState: CGFloat] = [
-                .expanded: abs(offset(for: .expanded) - currentSheetVerticalOffset),
-                .collapsed: abs(offset(for: .collapsed) - currentSheetVerticalOffset)
+            // With a low velocity, we should snap to the closest state.
+            let eligibleStates: [BottomSheetExpansionState?] = [
+                .expanded,
+                .collapsed,
+                supportsPartialExpansion ? .partial : nil,
+                allowsSwipeToHide ? .hidden : nil
             ]
 
-            if allowsSwipeToHide {
-                distances[.hidden] = abs(offset(for: .hidden) - currentSheetVerticalOffset)
-            }
+            let distances = eligibleStates
+                .compactMap { $0 }
+                .reduce(into: [BottomSheetExpansionState: CGFloat]()) { result, state in
+                    result[state] = abs(offset(for: state) - currentSheetVerticalOffset)
+                }
 
             targetState = distances.min(by: { $0.value < $1.value })?.key ?? .collapsed
         } else {
@@ -924,7 +986,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             if currentSheetVerticalOffset > offset(for: .collapsed) && allowsSwipeToHide {
                 targetState = velocity > 0 ? .hidden : .collapsed
             } else {
-                targetState = velocity > 0 ? .collapsed : .expanded
+                if supportsPartialExpansion {
+                    if velocity > 0 {
+                        // Swiping down
+                        targetState = currentSheetVerticalOffset > offset(for: .partial) ? .collapsed : .partial
+                    } else {
+                        // Swiping up
+                        targetState = currentSheetVerticalOffset > offset(for: .partial) ? .partial : .expanded
+                    }
+                } else {
+                    targetState = velocity > 0 ? .collapsed : .expanded
+                }
             }
         }
         move(to: targetState, velocity: velocity, interaction: .swipe)
@@ -1038,17 +1110,25 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private func offset(for expansionState: BottomSheetExpansionState) -> CGFloat {
         let offset: CGFloat
 
+        let minOffset = view.bounds.maxY - expandedSheetHeight
         switch expansionState {
         case .collapsed:
-            if !isHeightRestricted || !isExpandable {
-                offset = view.bounds.maxY - collapsedSheetHeight
-            } else {
+            if isHeightRestricted && isExpandable {
                 // When we're height restricted a distinct collapsed offset doesn't make sense,
                 // so we go straight to expanded.
-                fallthrough
+                offset = minOffset
+            } else {
+                offset = view.bounds.maxY - collapsedSheetHeight
+            }
+        case .partial:
+            if isHeightRestricted && isExpandable {
+                // Same here, in height restricted scenarios we want to utilize the space.
+                offset = minOffset
+            } else {
+                offset = view.bounds.maxY - (resolvedDynamicSheetHeights?.partialHeight ?? collapsedSheetHeight)
             }
         case .expanded:
-            offset = view.bounds.maxY - expandedSheetHeight
+            offset = minOffset
         case .hidden:
             offset = view.bounds.maxY
         case .transitioning:
@@ -1130,8 +1210,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Height of the sheet in collapsed state
     private var collapsedSheetHeight: CGFloat {
         let safeAreaSheetHeight: CGFloat
-        if resolvedCollapsedSheetHeight > 0 {
-            safeAreaSheetHeight = resolvedCollapsedSheetHeight
+        if let dynamicHeight = resolvedDynamicSheetHeights?.collapsedHeight, dynamicHeight > 0 {
+            safeAreaSheetHeight = dynamicHeight
         } else if collapsedContentHeight > 0 {
             safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
         } else {
@@ -1155,25 +1235,23 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return maxHeight
     }
 
-    // Output of `collapsedHeightResolver` wrapped in a cache.
-    private var resolvedCollapsedSheetHeight: CGFloat {
-        let oldContext = lastCollapsedSheetHeightResolutionContext
-        let newContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
+    private var resolvedDynamicSheetHeights: DynamicHeightResolutionResult? {
+        let currentContext = ContentHeightResolutionContext(maximumHeight: maxSheetHeight - view.safeAreaInsets.bottom, containerTraitCollection: view.traitCollection)
+        let cachedContext = cachedResolvedDynamicSheetHeights?.context
 
-        if oldContext?.maximumHeight != newContext.maximumHeight
-            || oldContext?.containerTraitCollection.horizontalSizeClass != newContext.containerTraitCollection.horizontalSizeClass
-            || oldContext?.containerTraitCollection.verticalSizeClass != newContext.containerTraitCollection.verticalSizeClass {
-            lastResolvedCollapsedSheetHeight = collapsedHeightResolver?(newContext) ?? 0
-            lastCollapsedSheetHeightResolutionContext = newContext
+        if cachedContext?.maximumHeight != currentContext.maximumHeight
+            || cachedContext?.containerTraitCollection.horizontalSizeClass != currentContext.containerTraitCollection.horizontalSizeClass
+            || cachedContext?.containerTraitCollection.verticalSizeClass != currentContext.containerTraitCollection.verticalSizeClass {
+            cachedResolvedDynamicSheetHeights = (context: currentContext,
+                                            collapsedHeight: collapsedHeightResolver?(currentContext),
+                                            partialHeight: partialHeightResolver?(currentContext))
         }
-        return lastResolvedCollapsedSheetHeight
+
+        return cachedResolvedDynamicSheetHeights
     }
 
-    // Last output of `collapsedHeightResolver`.
-    private var lastResolvedCollapsedSheetHeight: CGFloat = 0
-
-    // Context we last used for height resolving.
-    private var lastCollapsedSheetHeightResolutionContext: ContentHeightResolutionContext?
+    // Do not access directly. Use `resolvedDynamicSheetHeights` instead which wraps this cache.
+    private var cachedResolvedDynamicSheetHeights: DynamicHeightResolutionResult?
 
     private var currentResizingHandleHeight: CGFloat {
         (isExpandable ? ResizingHandleView.height : 0.0)
@@ -1195,6 +1273,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         maxSheetHeight - collapsedSheetHeight < Constants.heightRestrictedThreshold
     }
 
+    private var supportsPartialExpansion: Bool {
+        partialHeightResolver != nil
+    }
+
     private var currentSheetVerticalOffset: CGFloat {
         bottomSheetView.frame.minY
     }
@@ -1204,6 +1286,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private var currentRootViewHeight: CGFloat = 0
 
     private let shouldShowDimmingView: Bool
+
+    private let bottomSheetControllerStyle: BottomSheetControllerStyle
+
+    // Dynamic heights, resolved with the corresponding context.
+    private typealias DynamicHeightResolutionResult = (context: ContentHeightResolutionContext, collapsedHeight: CGFloat?, partialHeight: CGFloat?)
 
     private struct Constants {
         // Maximum offset beyond the normal bounds with additional resistance
@@ -1266,10 +1353,11 @@ extension BottomSheetController: UIGestureRecognizerDelegate {
               let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
+        // By default, the sheet pan gesture takes precedence.
         var shouldBegin = true
-        let fullyExpanded = currentSheetVerticalOffset <= offset(for: .expanded)
 
-        if fullyExpanded {
+        // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
+        if currentSheetVerticalOffset <= offset(for: supportsPartialExpansion ? .partial : .expanded) {
             let scrolledToTop = scrollView.contentOffset.y <= 0
             let panningDown = panGesture.velocity(in: view).y > 0
             let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))

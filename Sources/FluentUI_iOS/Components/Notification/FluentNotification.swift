@@ -51,6 +51,9 @@ import SwiftUI
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
+    /// The callback to execute when the notification is dismissed.
+    var onDismiss: (() -> Void)? { get set }
+
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
@@ -336,6 +339,9 @@ public struct FluentNotification: View, TokenizedControlView {
         }
 
         return presentableNotification
+            .onDisappear {
+                state.onDismiss?()
+            }
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -407,6 +413,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
+    @Published var onDismiss: (() -> Void)?
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
