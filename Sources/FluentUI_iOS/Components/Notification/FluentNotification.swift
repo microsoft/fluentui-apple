@@ -48,7 +48,8 @@ import SwiftUI
     /// Bool to control if the Notification has a dismiss action by default.
     var showDefaultDismissActionButton: Bool { get set }
 
-	var defaultDimissButtonAction: (() -> Void)? { get set }
+    /// Action to be dispatched by the dismiss button on the trailing edge of the control.
+    var defaultDimissButtonAction: (() -> Void)? { get set }
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
@@ -191,7 +192,7 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var button: some View {
             let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
-            if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
+            if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? (state.defaultDimissButtonAction ?? dismissAnimated) : nil) {
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
@@ -218,20 +219,19 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
-		@ViewBuilder
-		var dismissButton: some View {
-			let shouldHaveDefaultAction = state.showDefaultDismissActionButton && state.actionButtonAction != nil
-			if shouldHaveDefaultAction, let dismissAction = state.defaultDimissButtonAction {
-					SwiftUI.Button(action: {
-						isPresented = false
-						dismissAction()
-					}, label: {
-						Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-							.accessibilityLabel("Accessibility.Dismiss.Label".localized)
-					})
-					.hoverEffect()
-			}
-		}
+        @ViewBuilder
+        var dismissButton: some View {
+            if state.showDefaultDismissActionButton, state.actionButtonAction != nil, let actionButtonTitle = state.actionButtonTitle, !actionButtonTitle.isEmpty, let dismissAction = state.defaultDimissButtonAction {
+                SwiftUI.Button(action: {
+                    isPresented = false
+                    dismissAction()
+                }, label: {
+                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                        .accessibilityLabel("Accessibility.Dismiss.Label".localized)
+                })
+                .hoverEffect()
+            }
+        }
 
         let messageButtonAction = state.messageButtonAction
         @ViewBuilder
@@ -263,13 +263,11 @@ public struct FluentNotification: View, TokenizedControlView {
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
                         .layoutPriority(1)
-					if state.showDefaultDismissActionButton {
-						dismissButton
-	#if os(visionOS)
-							.buttonStyle(.borderless)
-	#endif // os(visionOS)
-							.layoutPriority(1)
-					}
+                    dismissButton
+#if os(visionOS)
+                        .buttonStyle(.borderless)
+#endif // os(visionOS)
+                        .layoutPriority(1)
                 }
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
