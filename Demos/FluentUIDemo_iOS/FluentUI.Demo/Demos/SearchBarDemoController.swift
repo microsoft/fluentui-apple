@@ -13,13 +13,10 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         static let searchBarStackviewMargin: CGFloat = 16
     }
 
-    private lazy var searchBarWithBadgeView: SearchBar = buildSearchBar(autocorrectionType: .yes,
-                                                                        keyboardReturnKeyType: .default,
-                                                                        placeholderText: "Type \"badge\" to add a leading badge")
-
-    private lazy var searchBarWithAvatarBadgeView: SearchBar = buildSearchBar(autocorrectionType: .yes,
-                                                                              keyboardReturnKeyType: .default,
-                                                                              placeholderText: "Type \"badge\" to add a leading badge with avatar")
+    private lazy var searchBarWithBadgeView: SearchBar =
+        buildSearchBar(autocorrectionType: .yes, placeholderText: "Type \"badge\" to add a leading badge")
+    private lazy var searchBarWithAvatarBadgeView: SearchBar =
+        buildSearchBar(autocorrectionType: .yes, placeholderText: "Type \"badge\" to add a leading badge with avatar")
 
     private lazy var badgeView: UIView = buildBadgeView(text: "Kat Larsson")
 
@@ -78,13 +75,14 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, keyboardReturnKeyType: .default, placeholderText: "No autocorrect")
-        let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, keyboardReturnKeyType: .default, placeholderText: "Autocorrect")
-        let searchBarWithDoneReturnKey = buildSearchBar(autocorrectionType: .yes, keyboardReturnKeyType: .done, placeholderText: "Done return key")
-        let numberSearchBar = buildSearchBar(autocorrectionType: .no, keyboardReturnKeyType: .default, placeholderText: "Numberpad search")
+        let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "No autocorrect")
+        let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "Autocorrect")
+        let searchBarWithDoneReturnKey = buildSearchBar(autocorrectionType: .yes, placeholderText: "Autocorrect")
+        searchBarWithDoneReturnKey.keyboardReturnKeyType = .done
+        let numberSearchBar = buildSearchBar(autocorrectionType: .no, placeholderText: "Numberpad search")
         numberSearchBar.keyboardType = .numberPad
 
-        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, numberSearchBar, searchBarWithDoneReturnKey, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
+        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, numberSearchBar, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
 
         container.addArrangedSubview(segmentedControl)
         container.addArrangedSubview(UIView())
@@ -117,14 +115,13 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
         return badge
     }
 
-    func buildSearchBar(autocorrectionType: UITextAutocorrectionType, keyboardReturnKeyType: UIReturnKeyType, placeholderText: String) -> SearchBar {
+    func buildSearchBar(autocorrectionType: UITextAutocorrectionType, placeholderText: String) -> SearchBar {
         let searchBar = SearchBar(frame: .zero)
         searchBar.delegate = self
         searchBar.style = .onCanvas
         searchBar.placeholderText = placeholderText
         searchBar.hidesNavigationBarDuringSearch = false
         searchBar.autocorrectionType = autocorrectionType
-        searchBar.keyboardReturnKeyType = keyboardReturnKeyType
         return searchBar
     }
 
