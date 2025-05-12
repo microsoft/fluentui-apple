@@ -77,12 +77,12 @@ class SearchBarDemoController: DemoController, SearchBarDelegate {
 
         let searchBarNoAutocorrect = buildSearchBar(autocorrectionType: .no, placeholderText: "No autocorrect")
         let searchBarAutocorrect = buildSearchBar(autocorrectionType: .yes, placeholderText: "Autocorrect")
-        let searchBarWithDoneReturnKey = buildSearchBar(autocorrectionType: .yes, placeholderText: "Autocorrect")
+        let searchBarWithDoneReturnKey = buildSearchBar(autocorrectionType: .yes, placeholderText: "Done return key")
         searchBarWithDoneReturnKey.keyboardReturnKeyType = .done
         let numberSearchBar = buildSearchBar(autocorrectionType: .no, placeholderText: "Numberpad search")
         numberSearchBar.keyboardType = .numberPad
 
-        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, numberSearchBar, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
+        searchBars = [searchBarNoAutocorrect, searchBarAutocorrect, searchBarWithDoneReturnKey, numberSearchBar, searchBarWithBadgeView, searchBarWithAvatarBadgeView]
 
         container.addArrangedSubview(segmentedControl)
         container.addArrangedSubview(UIView())
