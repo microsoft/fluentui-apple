@@ -42,6 +42,9 @@ open class TabBarItem: NSObject {
         }
     }
 
+    /// Unique tabID for tab Bar item.
+    @objc public let tabId: String?
+
     /// Convenience method to set the badge value to a number.
     /// If the number is zero, the badge value will be hidden.
     @objc public func setBadgeNumber(_ number: UInt) {
@@ -93,13 +96,15 @@ open class TabBarItem: NSObject {
     /// - Parameter landscapeSelectedImage: Used for imageView when tabbar item view is selected in landscape. If it is nil, it will use `selectedImage`. The image will be used in portrait mode if the tab bar item shows a label.
     /// - Parameter largeContentImage: Used for tabbar item view's accessibility largeContentImage.
     /// - Parameter accessibilityLabelBadgeFormatString: Format string to use for the tabbar item's accessibility label when the badge number is greater than zero. When the badge number is zero, the accessibility label is set to the item's title. By default, when the badge number is greater than zero, the following format is used to builds the accessibility label: "%@, %ld items" where the item's title and the badge number are used to populate the format specifiers. If a format string is provided through this parameter, it must contain "%@" and "%ld" in the same order and will be populated with the title and badge number.
+    /// - Parameter tabId: Unique tab Id for tab Bar item.
     @objc public init(title: String,
                       image: UIImage,
                       selectedImage: UIImage? = nil,
                       landscapeImage: UIImage? = nil,
                       landscapeSelectedImage: UIImage? = nil,
                       largeContentImage: UIImage? = nil,
-                      accessibilityLabelBadgeFormatString: String? = nil) {
+                      accessibilityLabelBadgeFormatString: String? = nil,
+                      tabId: String? = "") {
         self.image = image
         self.selectedImage = selectedImage
         self.title = title
@@ -107,6 +112,7 @@ open class TabBarItem: NSObject {
         self.landscapeImage = landscapeImage
         self.landscapeSelectedImage = landscapeSelectedImage
         self.accessibilityLabelBadgeFormatString = accessibilityLabelBadgeFormatString
+        self.tabId = tabId
         super.init()
     }
 

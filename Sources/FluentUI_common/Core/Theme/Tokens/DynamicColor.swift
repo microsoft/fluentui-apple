@@ -6,8 +6,7 @@
 import SwiftUI
 
 /// A container that stores a dynamic set of `Color` values.
-@objc(MSFDynamicColor)
-public final class DynamicColor: NSObject {
+public struct DynamicColor: Hashable {
 
     /// Creates a custom `ShapeStyle` that stores a dynamic set of `Color` values.
     ///

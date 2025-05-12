@@ -18,6 +18,7 @@
 		3A42752729677D3700F36FBE /* ColorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A42752629677D3700F36FBE /* ColorTest.swift */; };
 		3A80A049299EE88900A4A3D2 /* NotificationBarViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */; };
 		3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */; };
+		89668E792DC2C055002D0F68 /* TestTypographyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89668E782DC2BFC8002D0F68 /* TestTypographyViewController.swift */; };
 		8F5368052295F4BF0098AC8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5368042295F4BF0098AC8F /* AppDelegate.swift */; };
 		8F5368072295F4C10098AC8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368062295F4C10098AC8F /* Assets.xcassets */; };
 		8F53680A2295F4C10098AC8F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F5368082295F4C10098AC8F /* MainMenu.xib */; };
@@ -93,6 +94,7 @@
 		3A80A048299EE88900A4A3D2 /* NotificationBarViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBarViewTest.swift; sourceTree = "<group>"; };
 		3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestNotificationBarViewController.swift; sourceTree = "<group>"; };
 		8061BF8222EF957200F2D245 /* TestDatePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestDatePickerController.swift; sourceTree = "<group>"; };
+		89668E782DC2BFC8002D0F68 /* TestTypographyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTypographyViewController.swift; sourceTree = "<group>"; };
 		8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAvatarViewController.swift; sourceTree = "<group>"; };
 		8F3572322361143B0076FBBE /* FluentUI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FluentUI.xctestplan; sourceTree = "<group>"; };
 		8F38AE402303537800F5D7B0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				92AD71262D4064B00089499E /* TestMultilinePillPickerViewController.swift */,
 				3A8CB0E12996CD6400B68FCF /* TestNotificationBarViewController.swift */,
 				AC97EFE8247FAB1D00DADC99 /* TestSeparatorViewController.swift */,
+				89668E782DC2BFC8002D0F68 /* TestTypographyViewController.swift */,
 				E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */,
 			);
 			name = FluentUITestViewControllers;
@@ -632,6 +635,7 @@
 				3A8CB0E32996CDA200B68FCF /* TestNotificationBarViewController.swift in Sources */,
 				E6A92D2F24BEA8AC00562BCA /* TestButtonViewController.swift in Sources */,
 				E6A92D2D24BEA8AC00562BCA /* TestSeparatorViewController.swift in Sources */,
+				89668E792DC2C055002D0F68 /* TestTypographyViewController.swift in Sources */,
 				EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */,
 				A257F81E2512DE45002CAA6E /* TestColorViewController.swift in Sources */,
 				9B4AEBAB2705206300B68020 /* TestFilledTemplateImageViewController.swift in Sources */,
