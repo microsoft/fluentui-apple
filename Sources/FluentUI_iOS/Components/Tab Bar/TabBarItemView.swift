@@ -97,8 +97,9 @@ class TabBarItemView: UIControl, TokenizedControl {
         }
     }
 
-    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
+    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true, usesGlassEffectColors: Bool = false) {
         self.canResizeImage = canResizeImage
+        self.usesGlassEffectColors = usesGlassEffectColors
         self.item = item
         super.init(frame: .zero)
 
@@ -268,6 +269,9 @@ class TabBarItemView: UIControl, TokenizedControl {
 
     private let canResizeImage: Bool
 
+    /// Indicates if Text and Image should use colors appropriate for being presented on a Glass material
+    private let usesGlassEffectColors: Bool
+
     private var imageViewFrame: CGRect = .zero {
         didSet {
             if !oldValue.equalTo(imageViewFrame) {
@@ -305,12 +309,19 @@ class TabBarItemView: UIControl, TokenizedControl {
             // fully replace the image, so we should not re-tint it here when we have a gradient.
             let shouldTint = isSelected && gradient == nil
             let tintColor = tokenSet[.selectedColor].uiColor
-            titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
-            imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
+            if usesGlassEffectColors {
+                titleLabel.textColor = shouldTint ? tintColor : tokenSet[.glassUnselectedColor].uiColor
+                imageView.tintColor = shouldTint ? tintColor : tokenSet[.glassUnselectedColor].uiColor
+                imageView.alpha = 1.0
+            } else {
+                titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
+                imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
+            }
         } else {
             let disabledColor = tokenSet[.disabledColor].uiColor
             titleLabel.textColor = disabledColor
             imageView.tintColor = disabledColor
+            imageView.alpha = usesGlassEffectColors ? 0.5 : 1.0
         }
     }
 

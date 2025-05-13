@@ -46,6 +46,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
         /// Defines the text color of the `TabBarItem` when not selected.
         case unselectedTextColor
+
+        /// The color for text and image when view is presented on a glass material
+        case glassUnselectedColor
     }
 
     init() {
@@ -86,6 +89,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
             case .unselectedTextColor:
                 return .uiColor { return theme.color(.foreground2) }
+
+            case .glassUnselectedColor:
+                return .uiColor { return theme.color(.glassForeground1) }
             }
         }
     }

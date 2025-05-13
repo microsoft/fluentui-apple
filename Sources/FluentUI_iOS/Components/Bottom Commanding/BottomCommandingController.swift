@@ -837,7 +837,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         let itemImage = item.image ?? UIImage()
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
-        let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
+        let itemView = TabBarItemView(item: tabItem,
+                                      showsTitle: itemTitle != "",
+                                      usesGlassEffectColors: bottomSheetControllerStyle == .glass)
 
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines
