@@ -224,6 +224,8 @@ extension FluentTheme.ColorToken {
             return "Foreground Disabled 2"
         case .foregroundOnColor:
             return "Foreground On Color"
+        case .glassForeground1:
+            return "Glass Foreground 1"
         case .brandForeground1:
             return "Brand Foreground 1"
         case .brandForeground1Pressed:
@@ -426,6 +428,7 @@ extension FluentTheme.ColorToken {
         case .foreground1,
              .foreground2,
              .foreground3,
+             .glassForeground1,
              .strokeFocus2,
              .strokeAccessible,
              .brandBackground1Pressed,
