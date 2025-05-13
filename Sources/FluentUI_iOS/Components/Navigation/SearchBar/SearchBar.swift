@@ -111,6 +111,11 @@ open class SearchBar: UIView, TokenizedControl {
         set { searchTextField.autocorrectionType = newValue }
     }
 
+    @objc open var keyboardReturnKeyType: UIReturnKeyType {
+        get { return searchTextField.returnKeyType }
+        set { searchTextField.returnKeyType = newValue }
+    }
+
     // a "searchTextField" in native iOS is comprised of an inset Magnifying Glass image followed by an inset textfield.
     // backgroundview is used to achive an inset textfield
     private lazy var searchTextFieldBackgroundView: UIView = {
