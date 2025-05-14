@@ -167,7 +167,7 @@ struct NotificationDemoView: View {
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
                                        showDefaultDismissActionButton: showDefaultDismissActionButton,
-                                       defaultDimissButtonAction: dismissButtonAction,
+                                       defaultDismissButtonAction: dismissButtonAction,
                                        messageButtonAction: messageButtonAction,
                                        showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
