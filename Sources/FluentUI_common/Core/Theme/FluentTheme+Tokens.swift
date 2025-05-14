@@ -52,6 +52,7 @@ public extension FluentTheme {
 
         // Neutral colors - Glass Foreground
         case glassForeground1
+        case glassForegroundDisabled1
 
         // Neutral colors - Stroke
         case stroke1
@@ -224,6 +225,9 @@ extension FluentTheme {
         case .glassForeground1:
             return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey30),
                                 dark: GlobalTokens.neutralSwiftUIColor(.grey92))
+        case .glassForegroundDisabled1:
+            return DynamicColor(light: GlobalTokens.neutralSwiftUIColor(.grey60),
+                                dark: GlobalTokens.neutralSwiftUIColor(.grey50))
         case .brandGradient1:
             return DynamicColor(light: GlobalTokens.brandSwiftUIColor(.gradientPrimaryLight),
                                 dark: GlobalTokens.brandSwiftUIColor(.gradientPrimaryDark))

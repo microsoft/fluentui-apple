@@ -49,6 +49,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
         /// The color for text and image when view is presented on a glass material
         case glassUnselectedColor
+
+        /// The disabled for text and image when view is presented on a glass material
+        case glassDisabledColor
     }
 
     init() {
@@ -92,6 +95,9 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
             case .glassUnselectedColor:
                 return .uiColor { return theme.color(.glassForeground1) }
+
+            case .glassDisabledColor:
+                return .uiColor { return theme.color(.glassForegroundDisabled1) }
             }
         }
     }

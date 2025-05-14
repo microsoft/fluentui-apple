@@ -318,10 +318,10 @@ class TabBarItemView: UIControl, TokenizedControl {
                 imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
             }
         } else {
-            let disabledColor = tokenSet[.disabledColor].uiColor
+            let disabledColor = usesGlassEffectColors ? tokenSet[.glassDisabledColor].uiColor : tokenSet[.disabledColor].uiColor
             titleLabel.textColor = disabledColor
             imageView.tintColor = disabledColor
-            imageView.alpha = usesGlassEffectColors ? 0.5 : 1.0
+            imageView.alpha = usesGlassEffectColors ? 0.6 : 1.0
         }
     }
 
