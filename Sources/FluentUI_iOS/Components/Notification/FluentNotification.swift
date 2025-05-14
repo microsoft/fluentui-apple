@@ -87,6 +87,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
+    ///   - defaultDimissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     ///   - verticalOffset: How much to vertically offset the notification from its default position.
@@ -104,6 +105,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
+                defaultDimissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 showFromBottom: Bool = true,
                 verticalOffset: CGFloat = 0.0) {
@@ -118,6 +120,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                             defaultDimissButtonAction: defaultDimissButtonAction,
                                              messageButtonAction: messageButtonAction,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
@@ -216,44 +219,19 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
-        /// The `dismissButton` will be shown for the following cases:
-        /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
-        /// will be attached to the button.
-        /// - The`showDefaultDismissActionButton` is `true` and the `state.defaultDismissButtonAction` is set
-        /// - The`showDefaultDismissActionButton`is `true` and `shouldSelfPresent` is `true`
-        /// The button will always render with the same icon.
         @ViewBuilder
         var dismissButton: some View {
-            // Determine if we should use the custom action button’s action.
-            let shouldUseActionButtonAction =
-                state.actionButtonAction != nil
-                && (state.actionButtonTitle == nil || (state.actionButtonTitle?.isEmpty ?? true))
-                && state.trailingImage == nil
-
-            // Get the dimiss button action, if any.
-            let dismissAction: (() -> Void)? = {
-                if shouldUseActionButtonAction {
-                    return state.actionButtonAction
-                } else if state.showDefaultDismissActionButton {
-                    // Case 2: Show the default dismiss action if available
-                    if let defaultAction = state.defaultDimissButtonAction {
-                        return defaultAction
-                    } else if shouldSelfPresent {
-                        return dismissAnimated
-                    }
+            if let dismissAction = dismissButtonAction {
+                HStack {
+                    SwiftUI.Button(action: {
+                        isPresented = false
+                        dismissAction()
+                    }, label: {
+                        Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                            .accessibilityLabel("Accessibility.Dismiss.Label".localized)
+                    })
+                    .hoverEffect()
                 }
-                return nil
-            }()
-
-            if let dismissAction {
-                SwiftUI.Button(action: {
-                    isPresented = false
-                    dismissAction()
-                }, label: {
-                    Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-                        .accessibilityLabel("Accessibility.Dismiss.Label".localized)
-                })
-                .hoverEffect()
             }
         }
 
@@ -287,11 +265,15 @@ public struct FluentNotification: View, TokenizedControlView {
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
                         .layoutPriority(1)
-                    dismissButton
+
+                    if dismissButtonAction != nil {
+                        Spacer()
+                        dismissButton
 #if os(visionOS)
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
                         .layoutPriority(1)
+                    }
                 }
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
@@ -392,6 +374,32 @@ public struct FluentNotification: View, TokenizedControlView {
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
+
+    /// The `dismissButtonAction` will be non-nil for the following cases:
+    /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
+    /// will be attached to the button.
+    /// - The`showDefaultDismissActionButton` is `true` and the `state.defaultDismissButtonAction` is set
+    /// - The`showDefaultDismissActionButton`is `true` and `shouldSelfPresent` is `true`
+    private var dismissButtonAction: (() -> Void)? {
+        // Determine if we should use the custom action button’s action.
+        let shouldUseActionButtonAction =
+            state.actionButtonAction != nil
+            && (state.actionButtonTitle == nil || (state.actionButtonTitle?.isEmpty ?? true))
+            && state.trailingImage == nil
+
+        var dismissAction: (() -> Void)?
+
+        if shouldUseActionButtonAction {
+            dismissAction = state.actionButtonAction
+        } else if state.showDefaultDismissActionButton {
+            if let defaultAction = state.defaultDimissButtonAction {
+                dismissAction = defaultAction
+            } else if shouldSelfPresent {
+                dismissAction = dismissAnimated
+            }
+        }
+        return dismissAction
+    }
 
     private var hasImage: Bool {
         state.style.isToast && state.image != nil
@@ -506,6 +514,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
+         defaultDimissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
          showFromBottom: Bool = true,
          verticalOffset: CGFloat) {
@@ -522,6 +531,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+        self.defaultDimissButtonAction = defaultDimissButtonAction
         self.verticalOffset = verticalOffset
 
         super.init()
