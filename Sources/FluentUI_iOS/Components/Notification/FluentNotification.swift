@@ -521,7 +521,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
-        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? false//style.isToast
+        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
         self.verticalOffset = verticalOffset
 
         super.init()
