@@ -90,6 +90,7 @@ struct NotificationDemoView: View {
         let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
         let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
+        let dismissButtonAction = { showAlert = true }
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
@@ -166,6 +167,7 @@ struct NotificationDemoView: View {
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
                                        showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                       defaultDimissButtonAction: dismissButtonAction,
                                        messageButtonAction: messageButtonAction,
                                        showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
