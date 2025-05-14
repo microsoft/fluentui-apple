@@ -189,10 +189,12 @@ public struct FluentNotification: View, TokenizedControlView {
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
 
+        /// The `actionButton` will be shown iff a `state.actionButtonAction` is set and there is a custom title or trailing image.
+        /// If the `state.actionButtonAction` is set but there is no custom title or trailing image, the action will be attached to
+        /// the `dismissButton`.
         @ViewBuilder
-        var button: some View {
-            let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
-            if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? (state.defaultDimissButtonAction ?? dismissAnimated) : nil) {
+        var actionButton: some View {
+            if let buttonAction = state.actionButtonAction {
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
@@ -201,27 +203,49 @@ public struct FluentNotification: View, TokenizedControlView {
                     .lineLimit(1)
                     .font(.init(tokenSet[.boldTextFont].uiFont))
                     .hoverEffect()
-                } else {
+                } else if let trailingImage = state.trailingImage {
                     SwiftUI.Button(action: {
                         isPresented = false
                         buttonAction()
                     }, label: {
-                        if let trailingImage = state.trailingImage {
-                            Image(uiImage: trailingImage)
-                                .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
-                        } else {
-                            Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-                                .accessibilityLabel("Accessibility.Dismiss.Label".localized)
-                        }
+                        Image(uiImage: trailingImage)
+                            .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
                     })
                     .hoverEffect()
                 }
             }
         }
 
+        /// The `dismissButton` will be shown for the following cases:
+        /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
+        /// will be attached to the button.
+        /// - The`showDefaultDismissActionButton` is `true` and the `state.defaultDismissButtonAction` is set
+        /// - The`showDefaultDismissActionButton`is `true` and `shouldSelfPresent` is `true`
+        /// The button will always render with the same icon.
         @ViewBuilder
         var dismissButton: some View {
-            if state.showDefaultDismissActionButton, state.actionButtonAction != nil, let actionButtonTitle = state.actionButtonTitle, !actionButtonTitle.isEmpty, let dismissAction = state.defaultDimissButtonAction {
+            // Determine if we should use the custom action button’s action.
+            let shouldUseActionButtonAction =
+                state.actionButtonAction != nil
+                && (state.actionButtonTitle == nil || (state.actionButtonTitle?.isEmpty ?? true))
+                && state.trailingImage == nil
+
+            // Get the dimiss button action, if any.
+            let dismissAction: (() -> Void)? = {
+                if shouldUseActionButtonAction {
+                    return state.actionButtonAction
+                } else if state.showDefaultDismissActionButton {
+                    // Case 2: Show the default dismiss action if available
+                    if let defaultAction = state.defaultDimissButtonAction {
+                        return defaultAction
+                    } else if shouldSelfPresent {
+                        return dismissAnimated
+                    }
+                }
+                return nil
+            }()
+
+            if let dismissAction {
                 SwiftUI.Button(action: {
                     isPresented = false
                     dismissAction()
@@ -258,7 +282,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         messageButton.accessibilityAddTraits(.isButton)
                             .hoverEffect()
                     })
-                    button
+                    actionButton
 #if os(visionOS)
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
@@ -497,7 +521,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.actionButtonAction = actionButtonAction
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
-        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+        self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? false//style.isToast
         self.verticalOffset = verticalOffset
 
         super.init()
