@@ -36,8 +36,8 @@ import UIKit
             strongSelf.hide()
         }
 
-        if notification.state.defaultDimissButtonAction == nil {
-            notification.state.defaultDimissButtonAction = defaultDismissAction
+        if notification.state.defaultDismissButtonAction == nil {
+            notification.state.defaultDismissButtonAction = defaultDismissAction
         }
     }
 

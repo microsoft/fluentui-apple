@@ -49,7 +49,7 @@ import SwiftUI
     var showDefaultDismissActionButton: Bool { get set }
 
     /// Action to be dispatched by the dismiss button on the trailing edge of the control.
-    var defaultDimissButtonAction: (() -> Void)? { get set }
+    var defaultDismissButtonAction: (() -> Void)? { get set }
 
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
@@ -87,7 +87,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
-    ///   - defaultDimissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
+    ///   - defaultDismissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     ///   - verticalOffset: How much to vertically offset the notification from its default position.
@@ -105,7 +105,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
-                defaultDimissButtonAction: (() -> Void)? = nil,
+                defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 showFromBottom: Bool = true,
                 verticalOffset: CGFloat = 0.0) {
@@ -120,7 +120,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
-                                             defaultDimissButtonAction: defaultDimissButtonAction,
+                                             defaultDismissButtonAction: defaultDismissButtonAction,
                                              messageButtonAction: messageButtonAction,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
@@ -392,7 +392,7 @@ public struct FluentNotification: View, TokenizedControlView {
         if shouldUseActionButtonAction {
             dismissAction = state.actionButtonAction
         } else if state.showDefaultDismissActionButton {
-            if let defaultAction = state.defaultDimissButtonAction {
+            if let defaultAction = state.defaultDismissButtonAction {
                 dismissAction = defaultAction
             } else if shouldSelfPresent {
                 dismissAction = dismissAnimated
@@ -464,7 +464,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
-    @Published var defaultDimissButtonAction: (() -> Void)?
+    @Published var defaultDismissButtonAction: (() -> Void)?
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
@@ -514,7 +514,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
-         defaultDimissButtonAction: (() -> Void)? = nil,
+         defaultDismissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
          showFromBottom: Bool = true,
          verticalOffset: CGFloat) {
@@ -531,7 +531,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
-        self.defaultDimissButtonAction = defaultDimissButtonAction
+        self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
 
         super.init()
