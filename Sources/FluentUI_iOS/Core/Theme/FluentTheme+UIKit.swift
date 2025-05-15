@@ -55,7 +55,7 @@ public extension FluentTheme {
     /// - Returns: A `UIColor` for the given token.
     @objc(colorForToken:)
     func color(_ token: ColorToken) -> UIColor {
-		return UIColor(swiftUIColor(token))
+        return UIColor(dynamicColor: dynamicColor(token))
     }
 
     /// Returns the font value for the given token.

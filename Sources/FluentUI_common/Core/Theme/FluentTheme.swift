@@ -109,6 +109,13 @@ public class FluentTheme: NSObject, ObservableObject {
         return view.isApplicableThemeChange(notification)
     }
 
+    /// Workaround for a SwiftUI bug on iOS 17. We need to expose the `DynamicColor` for a given
+    /// `ColorToken` to initialize our platform-specific colors (`UIColor` and `NSColor`).
+    /// Creating directly from SwiftUI color is broken on these platforms.
+    public func dynamicColor(_ colorToken: ColorToken) -> DynamicColor {
+        return colorTokenSet[colorToken]
+    }
+
     // Token storage
     let colorTokenSet: TokenSet<ColorToken, DynamicColor>
     let shadowTokenSet: TokenSet<ShadowToken, ShadowInfo>

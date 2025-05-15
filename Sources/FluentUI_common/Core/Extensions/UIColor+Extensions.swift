@@ -138,7 +138,7 @@ extension UIColor {
                                   userInterfaceLevel: .elevated)
     }
 
-    convenience init(dynamicColor: DynamicColor) {
+    public convenience init(dynamicColor: DynamicColor) {
         self.init(light: UIColor(dynamicColor.light),
                   dark: dynamicColor.dark.map { UIColor($0) },
                   darkElevated: dynamicColor.darkElevated.map { UIColor($0) })
