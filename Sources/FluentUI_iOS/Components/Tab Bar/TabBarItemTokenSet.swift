@@ -48,8 +48,8 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
         case unselectedTextColor
     }
 
-    init() {
-        super.init { token, theme in
+    init(style: @escaping () -> TabBarItemStyle) {
+        super.init { [style] token, theme in
             switch token {
             case .badgeBorderWidth:
                 return .float { GlobalTokens.stroke(.width20) }
@@ -58,7 +58,14 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { 10.0 }
 
             case .disabledColor:
-                return .uiColor { theme.color(.foregroundDisabled1) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundDisabled1)
+                    case .glass:
+                        return theme.color(.glassForegroundDisabled1)
+                    }
+                }
 
             case .landscapeImageSize:
                 return .float { GlobalTokens.icon(.size240) }
@@ -82,10 +89,24 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { 8.0 }
 
             case .unselectedImageColor:
-                return .uiColor { return theme.color(.foreground3) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground3)
+                    case .glass:
+                        return theme.color(.glassForeground1)
+                    }
+                }
 
             case .unselectedTextColor:
-                return .uiColor { return theme.color(.foreground2) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground2)
+                    case .glass:
+                        return theme.color(.glassForeground1)
+                    }
+                }
             }
         }
     }
@@ -130,4 +151,13 @@ extension TabBarItemTokenSet {
 
     /// The vertical spacing of the `TabBarItem` within the TabBar.
     static let spacingVertical: CGFloat = 3.0
+}
+
+// MARK: - TabBarItemStyle
+public enum TabBarItemStyle: Int {
+    /// The default style referring to a TabBarItem being presented on an opaque background
+    case primary
+
+    /// The style referring to a TabBarItem being presented on a UIVisualEffect BlurEffect background
+    case glass
 }

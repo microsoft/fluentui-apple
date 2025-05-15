@@ -76,15 +76,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - headerContentView: Top part of the sheet content that is visible in both collapsed and expanded state.
     ///   - expandedContentView: Sheet content below the header which is only visible when the sheet is expanded.
     ///   - shouldShowDimmingView: Indicates if the main content is dimmed when the sheet is expanded.
-    ///   - bottomSheetControllerStyle: The style override for the BottomSheet's background material.
+    ///   - style: The style override for the BottomSheet's background material.
     @objc public init(headerContentView: UIView? = nil,
                       expandedContentView: UIView,
                       shouldShowDimmingView: Bool = true,
-                      bottomSheetControllerStyle: BottomSheetControllerStyle) {
+                      style: BottomSheetControllerStyle) {
         self.headerContentView = headerContentView
         self.expandedContentView = expandedContentView
         self.shouldShowDimmingView = shouldShowDimmingView
-        self.bottomSheetControllerStyle = bottomSheetControllerStyle
+        self.style = style
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -97,7 +97,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.init(headerContentView: headerContentView,
                   expandedContentView: expandedContentView,
                   shouldShowDimmingView: shouldShowDimmingView,
-                  bottomSheetControllerStyle: .primary)
+                  style: .primary)
     }
 
     @available(*, unavailable)
@@ -586,7 +586,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private func updateBackgroundColor() {
         // Of course we have no active background color applied when we're using a BlurEffect
-        if (bottomSheetControllerStyle != .glass) {
+        if (style != .glass) {
             let backgroundColor = tokenSet[.backgroundColor].uiColor
             bottomSheetView.subviews[0].backgroundColor = backgroundColor
             overflowView.backgroundColor = backgroundColor
@@ -599,7 +599,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private func updateShadow() {
 
-        switch bottomSheetControllerStyle {
+        switch style {
         case .primary:
             let shadowInfo = tokenSet[.shadow].shadowInfo
             // We need to have the shadow on a parent of the view that does the corner masking.
@@ -691,7 +691,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
         let bottomSheetView: UIView
 
-        switch bottomSheetControllerStyle {
+        switch style {
         case .primary:
             bottomSheetView = UIView()
 
@@ -1287,7 +1287,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private let shouldShowDimmingView: Bool
 
-    private let bottomSheetControllerStyle: BottomSheetControllerStyle
+    private let style: BottomSheetControllerStyle
 
     // Dynamic heights, resolved with the corresponding context.
     private typealias DynamicHeightResolutionResult = (context: ContentHeightResolutionContext, collapsedHeight: CGFloat?, partialHeight: CGFloat?)

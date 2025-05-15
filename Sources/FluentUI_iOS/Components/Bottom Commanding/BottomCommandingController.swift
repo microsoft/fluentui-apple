@@ -418,7 +418,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
 
         let sheetController = BottomSheetController(headerContentView: headerView,
                                                     expandedContentView: makeSheetExpandedContent(with: tableView),
-                                                    bottomSheetControllerStyle: bottomSheetControllerStyle)
+                                                    style: bottomSheetControllerStyle)
         sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
@@ -837,7 +837,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         let itemImage = item.image ?? UIImage()
         let itemTitle = item.title ?? ""
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
-        let itemView = TabBarItemView(item: tabItem, showsTitle: itemTitle != "")
+        let itemView = TabBarItemView(item: tabItem,
+                                      showsTitle: itemTitle != "",
+                                      style: bottomSheetControllerStyle == .glass ? .glass : .primary)
 
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines

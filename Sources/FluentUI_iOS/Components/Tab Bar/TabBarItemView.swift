@@ -12,7 +12,10 @@ class TabBarItemView: UIControl, TokenizedControl {
     let item: TabBarItem
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
-    var tokenSet: TabBarItemTokenSet = .init()
+
+    lazy var tokenSet: TabBarItemTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primary
+    })
 
     func updateAppearance() {
         updateColors()
@@ -97,8 +100,9 @@ class TabBarItemView: UIControl, TokenizedControl {
         }
     }
 
-    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true) {
+    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true, style: TabBarItemStyle = .primary) {
         self.canResizeImage = canResizeImage
+        self.style = style
         self.item = item
         super.init(frame: .zero)
 
@@ -268,6 +272,9 @@ class TabBarItemView: UIControl, TokenizedControl {
 
     private let canResizeImage: Bool
 
+    /// The style indicates the material background which in turn dictates the colors that will be used for Text and Image
+    private let style: TabBarItemStyle
+
     private var imageViewFrame: CGRect = .zero {
         didSet {
             if !oldValue.equalTo(imageViewFrame) {
@@ -307,10 +314,12 @@ class TabBarItemView: UIControl, TokenizedControl {
             let tintColor = tokenSet[.selectedColor].uiColor
             titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
             imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
+            imageView.alpha = 1.0
         } else {
             let disabledColor = tokenSet[.disabledColor].uiColor
             titleLabel.textColor = disabledColor
             imageView.tintColor = disabledColor
+            imageView.alpha = style == .glass ? 0.6 : 1.0
         }
     }
 
