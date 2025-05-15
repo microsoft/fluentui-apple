@@ -138,10 +138,11 @@ extension UIColor {
                                   userInterfaceLevel: .elevated)
     }
 
-    convenience init(dynamicColor: DynamicColor) {
+    public convenience init(dynamicColor: DynamicColor) {
+        let colorResolver = { $0 != nil ? UIColor($0!) : nil }
         self.init(light: UIColor(dynamicColor.light),
-                  dark: dynamicColor.dark.map { UIColor($0) },
-                  darkElevated: dynamicColor.darkElevated.map { UIColor($0) })
+                  dark: colorResolver(dynamicColor.dark),
+                  darkElevated: colorResolver(dynamicColor.darkElevated))
     }
 
     /// Returns the version of the current color that results from the specified traits as a `ColorValue`.
