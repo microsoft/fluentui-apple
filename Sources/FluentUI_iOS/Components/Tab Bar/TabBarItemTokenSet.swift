@@ -46,16 +46,10 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
 
         /// Defines the text color of the `TabBarItem` when not selected.
         case unselectedTextColor
-
-        /// The color for text and image when view is presented on a glass material
-        case glassUnselectedColor
-
-        /// The disabled for text and image when view is presented on a glass material
-        case glassDisabledColor
     }
 
-    init() {
-        super.init { token, theme in
+    init(style: @escaping () -> TabBarItemStyle) {
+        super.init { [style] token, theme in
             switch token {
             case .badgeBorderWidth:
                 return .float { GlobalTokens.stroke(.width20) }
@@ -64,7 +58,14 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { 10.0 }
 
             case .disabledColor:
-                return .uiColor { theme.color(.foregroundDisabled1) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundDisabled1)
+                    case .glass:
+                        return theme.color(.glassForegroundDisabled1)
+                    }
+                }
 
             case .landscapeImageSize:
                 return .float { GlobalTokens.icon(.size240) }
@@ -88,16 +89,24 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .float { 8.0 }
 
             case .unselectedImageColor:
-                return .uiColor { return theme.color(.foreground3) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground3)
+                    case .glass:
+                        return theme.color(.glassForeground1)
+                    }
+                }
 
             case .unselectedTextColor:
-                return .uiColor { return theme.color(.foreground2) }
-
-            case .glassUnselectedColor:
-                return .uiColor { return theme.color(.glassForeground1) }
-
-            case .glassDisabledColor:
-                return .uiColor { return theme.color(.glassForegroundDisabled1) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground2)
+                    case .glass:
+                        return theme.color(.glassForeground1)
+                    }
+                }
             }
         }
     }

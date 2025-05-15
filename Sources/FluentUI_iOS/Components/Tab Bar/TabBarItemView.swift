@@ -12,7 +12,10 @@ class TabBarItemView: UIControl, TokenizedControl {
     let item: TabBarItem
 
     typealias TokenSetKeyType = TabBarItemTokenSet.Tokens
-    var tokenSet: TabBarItemTokenSet = .init()
+
+    lazy var tokenSet: TabBarItemTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primary
+    })
 
     func updateAppearance() {
         updateColors()
@@ -304,25 +307,19 @@ class TabBarItemView: UIControl, TokenizedControl {
     }
 
     private func updateColors() {
-        let usesGlassEffectColors = style == .glass
         if isEnabled {
             // We cannot use UIColor(patternImage:) for the tintColor of a UIView. Instead, we have to
             // fully replace the image, so we should not re-tint it here when we have a gradient.
             let shouldTint = isSelected && gradient == nil
             let tintColor = tokenSet[.selectedColor].uiColor
-            if usesGlassEffectColors {
-                titleLabel.textColor = shouldTint ? tintColor : tokenSet[.glassUnselectedColor].uiColor
-                imageView.tintColor = shouldTint ? tintColor : tokenSet[.glassUnselectedColor].uiColor
-                imageView.alpha = 1.0
-            } else {
-                titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
-                imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
-            }
+            titleLabel.textColor = shouldTint ? tintColor : tokenSet[.unselectedTextColor].uiColor
+            imageView.tintColor = shouldTint ? tintColor : tokenSet[.unselectedImageColor].uiColor
+            imageView.alpha = 1.0
         } else {
-            let disabledColor = usesGlassEffectColors ? tokenSet[.glassDisabledColor].uiColor : tokenSet[.disabledColor].uiColor
+            let disabledColor = tokenSet[.disabledColor].uiColor
             titleLabel.textColor = disabledColor
             imageView.tintColor = disabledColor
-            imageView.alpha = usesGlassEffectColors ? 0.6 : 1.0
+            imageView.alpha = style == .glass ? 0.6 : 1.0
         }
     }
 
