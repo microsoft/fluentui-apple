@@ -143,3 +143,12 @@ extension TabBarItemTokenSet {
     /// The vertical spacing of the `TabBarItem` within the TabBar.
     static let spacingVertical: CGFloat = 3.0
 }
+
+// MARK: - TabBarItemStyle
+public enum TabBarItemStyle: Int {
+    /// The default style referring to a solid background color
+    case primary
+
+    /// The style referring to a UIVisualEffect BlurEffect background
+    case glass
+}

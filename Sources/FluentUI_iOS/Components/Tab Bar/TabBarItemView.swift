@@ -97,9 +97,9 @@ class TabBarItemView: UIControl, TokenizedControl {
         }
     }
 
-    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true, usesGlassEffectColors: Bool = false) {
+    init(item: TabBarItem, showsTitle: Bool, canResizeImage: Bool = true, style: TabBarItemStyle = .primary) {
         self.canResizeImage = canResizeImage
-        self.usesGlassEffectColors = usesGlassEffectColors
+        self.style = style
         self.item = item
         super.init(frame: .zero)
 
@@ -269,8 +269,8 @@ class TabBarItemView: UIControl, TokenizedControl {
 
     private let canResizeImage: Bool
 
-    /// Indicates if Text and Image should use colors appropriate for being presented on a Glass material
-    private let usesGlassEffectColors: Bool
+    /// The style indicates the material background which in turn dictates the colors that will be used for Text and Image
+    private let style: TabBarItemStyle
 
     private var imageViewFrame: CGRect = .zero {
         didSet {
@@ -304,6 +304,7 @@ class TabBarItemView: UIControl, TokenizedControl {
     }
 
     private func updateColors() {
+        let usesGlassEffectColors = style == .glass
         if isEnabled {
             // We cannot use UIColor(patternImage:) for the tintColor of a UIView. Instead, we have to
             // fully replace the image, so we should not re-tint it here when we have a gradient.
