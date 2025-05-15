@@ -418,7 +418,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
 
         let sheetController = BottomSheetController(headerContentView: headerView,
                                                     expandedContentView: makeSheetExpandedContent(with: tableView),
-                                                    bottomSheetControllerStyle: bottomSheetControllerStyle)
+                                                    style: bottomSheetControllerStyle)
         sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
