@@ -155,9 +155,9 @@ extension TabBarItemTokenSet {
 
 // MARK: - TabBarItemStyle
 public enum TabBarItemStyle: Int {
-    /// The default style referring to a solid background color
+    /// The default style referring to a TabBarItem being presented on an opaque background
     case primary
 
-    /// The style referring to a UIVisualEffect BlurEffect background
+    /// The style referring to a  a TabBarItem being presented on a UIVisualEffect BlurEffect background
     case glass
 }
