@@ -48,6 +48,12 @@ import SwiftUI
     /// Bool to control if the Notification has a dismiss action by default.
     var showDefaultDismissActionButton: Bool { get set }
 
+    /// Bool to control if an action button and a dismiss button can show at the same time
+    var showActionButtonAndDismissButton: Bool { get set }
+
+    /// Action to be dispatched by the dismiss button on the trailing edge of the control.
+    var defaultDismissButtonAction: (() -> Void)? { get set }
+
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
@@ -84,6 +90,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - actionButtonTitle:Title to display in the action button on the trailing edge of the control.
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
+    ///   - defaultDismissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     ///   - verticalOffset: How much to vertically offset the notification from its default position.
@@ -101,6 +108,8 @@ public struct FluentNotification: View, TokenizedControlView {
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
+                showActionButtonAndDismissButton: Bool = false,
+                defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 showFromBottom: Bool = true,
                 verticalOffset: CGFloat = 0.0) {
@@ -115,6 +124,8 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                             showActionButtonAndDismissButton: showActionButtonAndDismissButton,
+                                             defaultDismissButtonAction: defaultDismissButtonAction,
                                              messageButtonAction: messageButtonAction,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
@@ -186,10 +197,12 @@ public struct FluentNotification: View, TokenizedControlView {
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
 
+        /// The `actionButton` will be shown iff a `state.actionButtonAction` is set and there is a custom title or trailing image.
+        /// If the `state.actionButtonAction` is set but there is no custom title or trailing image, the action will be attached to
+        /// the `dismissButton`.
         @ViewBuilder
-        var button: some View {
-            let shouldHaveDefaultAction = state.showDefaultDismissActionButton && shouldSelfPresent
-            if let buttonAction = state.actionButtonAction ?? (shouldHaveDefaultAction ? dismissAnimated : nil) {
+        var actionButton: some View {
+            if let buttonAction = state.actionButtonAction {
                 if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
                     SwiftUI.Button(actionTitle) {
                         isPresented = false
@@ -198,18 +211,29 @@ public struct FluentNotification: View, TokenizedControlView {
                     .lineLimit(1)
                     .font(.init(tokenSet[.boldTextFont].uiFont))
                     .hoverEffect()
-                } else {
+                } else if let trailingImage = state.trailingImage {
                     SwiftUI.Button(action: {
                         isPresented = false
                         buttonAction()
                     }, label: {
-                        if let trailingImage = state.trailingImage {
-                            Image(uiImage: trailingImage)
-                                .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
-                        } else {
-                            Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-                                .accessibilityLabel("Accessibility.Dismiss.Label".localized)
-                        }
+                        Image(uiImage: trailingImage)
+                            .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
+                    })
+                    .hoverEffect()
+                }
+            }
+        }
+
+        @ViewBuilder
+        var dismissButton: some View {
+            if let dismissAction = dismissButtonAction {
+                HStack {
+                    SwiftUI.Button(action: {
+                        isPresented = false
+                        dismissAction()
+                    }, label: {
+                        Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                            .accessibilityLabel("Accessibility.Dismiss.Label".localized)
                     })
                     .hoverEffect()
                 }
@@ -241,11 +265,20 @@ public struct FluentNotification: View, TokenizedControlView {
                         messageButton.accessibilityAddTraits(.isButton)
                             .hoverEffect()
                     })
-                    button
+                    actionButton
 #if os(visionOS)
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
                         .layoutPriority(1)
+
+                    if dismissButtonAction != nil {
+                        Spacer()
+                        dismissButton
+#if os(visionOS)
+                        .buttonStyle(.borderless)
+#endif // os(visionOS)
+                        .layoutPriority(1)
+                    }
                 }
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
@@ -347,6 +380,36 @@ public struct FluentNotification: View, TokenizedControlView {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
 
+    /// The `dismissButtonAction` will be non-nil for the following cases:
+    /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
+    /// will be attached to the button.
+    /// - The `showDefaultDismissActionButton` is `true` and the dismiss and action buttons can both show at the same time
+    /// - The `showDefaultDismissActionButton` is `true`and the action button is not showing
+    private var dismissButtonAction: (() -> Void)? {
+        // Use the actionButtonAction if there's no custom title & no trailing image
+        if let action = state.actionButtonAction,
+           (state.actionButtonTitle?.isEmpty ?? true),
+           state.trailingImage == nil {
+            return action
+        }
+
+        if state.showDefaultDismissActionButton {
+            // Determine if action button is already being shown.
+            let isShowingActionButton = state.actionButtonAction != nil
+                && (!(state.actionButtonTitle?.isEmpty ?? true) || state.trailingImage != nil)
+
+            // Use the default dismiss action if the button should shown with the action button or by itself
+            let showDismissAndActionButton = isShowingActionButton && state.showActionButtonAndDismissButton
+            let showOnlyDefaultDismissButton = !isShowingActionButton
+            if showDismissAndActionButton || showOnlyDefaultDismissButton {
+                return state.defaultDismissButtonAction
+                    ?? (shouldSelfPresent ? dismissAnimated : nil)
+            }
+        }
+
+        return nil
+    }
+
     private var hasImage: Bool {
         state.style.isToast && state.image != nil
     }
@@ -410,6 +473,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
+    @Published var showActionButtonAndDismissButton: Bool
+    @Published var defaultDismissButtonAction: (() -> Void)?
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
@@ -443,6 +508,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonTitle: nil,
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
+                  showActionButtonAndDismissButton: false,
                   messageButtonAction: nil,
                   showFromBottom: true,
                   verticalOffset: 0.0)
@@ -459,6 +525,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
+         showActionButtonAndDismissButton: Bool = false,
+         defaultDismissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
          showFromBottom: Bool = true,
          verticalOffset: CGFloat) {
@@ -475,6 +543,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+        self.showActionButtonAndDismissButton = showActionButtonAndDismissButton
+        self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
 
         super.init()

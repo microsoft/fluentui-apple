@@ -46,6 +46,7 @@ struct NotificationDemoView: View {
     @State var overrideTokens: Bool = false
     @State var isFlexibleWidthToast: Bool = false
     @State var showDefaultDismissActionButton: Bool = true
+    @State var showActionButtonAndDismissButton: Bool = false
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
@@ -90,6 +91,7 @@ struct NotificationDemoView: View {
         let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
         let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
+        let dismissButtonAction = { showAlert = true }
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
@@ -166,6 +168,8 @@ struct NotificationDemoView: View {
                                        actionButtonTitle: actionButtonTitle,
                                        actionButtonAction: actionButtonAction,
                                        showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                       showActionButtonAndDismissButton: showActionButtonAndDismissButton,
+                                       defaultDismissButtonAction: dismissButtonAction,
                                        messageButtonAction: messageButtonAction,
                                        showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
@@ -205,6 +209,7 @@ struct NotificationDemoView: View {
                                actionButtonTitle: actionButtonTitle,
                                actionButtonAction: actionButtonAction,
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
+                               showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                messageButtonAction: messageButtonAction,
                                showFromBottom: showFromBottom,
                                verticalOffset: verticalOffset)
@@ -263,6 +268,7 @@ struct NotificationDemoView: View {
             FluentListSection("Action") {
                 Toggle("Has Action Button Action", isOn: $hasActionButtonAction)
                 Toggle("Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
+                Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
                 Toggle("Has Message Action", isOn: $hasMessageAction)
             }
 
