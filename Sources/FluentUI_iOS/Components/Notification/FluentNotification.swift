@@ -48,6 +48,9 @@ import SwiftUI
     /// Bool to control if the Notification has a dismiss action by default.
     var showDefaultDismissActionButton: Bool { get set }
 
+    /// Bool to control if an action button and a dismiss button can show at the same time
+    var showActionButtonAndDismissButton: Bool { get set }
+
     /// Action to be dispatched by the dismiss button on the trailing edge of the control.
     var defaultDismissButtonAction: (() -> Void)? { get set }
 
@@ -105,6 +108,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 actionButtonTitle: String? = nil,
                 actionButtonAction: (() -> Void)? = nil,
                 showDefaultDismissActionButton: Bool? = nil,
+                showActionButtonAndDismissButton: Bool = false,
                 defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 showFromBottom: Bool = true,
@@ -120,6 +124,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              actionButtonTitle: actionButtonTitle,
                                              actionButtonAction: actionButtonAction,
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                             showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                              defaultDismissButtonAction: defaultDismissButtonAction,
                                              messageButtonAction: messageButtonAction,
                                              showFromBottom: showFromBottom,
@@ -378,27 +383,31 @@ public struct FluentNotification: View, TokenizedControlView {
     /// The `dismissButtonAction` will be non-nil for the following cases:
     /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
     /// will be attached to the button.
-    /// - The`showDefaultDismissActionButton` is `true` and the `state.defaultDismissButtonAction` is set
-    /// - The`showDefaultDismissActionButton`is `true` and `shouldSelfPresent` is `true`
+    /// - The `showDefaultDismissActionButton` is `true` and the dismiss and action buttons can both show at the same time
+    /// - The `showDefaultDismissActionButton` is `true`and the action button is not showing
     private var dismissButtonAction: (() -> Void)? {
-        // Determine if we should use the custom action button’s action.
-        let shouldUseActionButtonAction =
-            state.actionButtonAction != nil
-            && (state.actionButtonTitle == nil || (state.actionButtonTitle?.isEmpty ?? true))
-            && state.trailingImage == nil
+        // Use the actionButtonAction if there's no custom title & no trailing image
+        if let action = state.actionButtonAction,
+           (state.actionButtonTitle?.isEmpty ?? true),
+           state.trailingImage == nil {
+            return action
+        }
 
-        var dismissAction: (() -> Void)?
+        if state.showDefaultDismissActionButton {
+            // Determine if action button is already being shown.
+            let isShowingActionButton = state.actionButtonAction != nil
+                && (!(state.actionButtonTitle?.isEmpty ?? true) || state.trailingImage != nil)
 
-        if shouldUseActionButtonAction {
-            dismissAction = state.actionButtonAction
-        } else if state.showDefaultDismissActionButton {
-            if let defaultAction = state.defaultDismissButtonAction {
-                dismissAction = defaultAction
-            } else if shouldSelfPresent {
-                dismissAction = dismissAnimated
+            // Use the default dismiss action if the button should shown with the action button or by itself
+            let showDismissAndActionButton = isShowingActionButton && state.showActionButtonAndDismissButton
+            let showOnlyDefaultDismissButton = !isShowingActionButton
+            if showDismissAndActionButton || showOnlyDefaultDismissButton {
+                return state.defaultDismissButtonAction
+                    ?? (shouldSelfPresent ? dismissAnimated : nil)
             }
         }
-        return dismissAction
+
+        return nil
     }
 
     private var hasImage: Bool {
@@ -464,6 +473,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var trailingImage: UIImage?
     @Published var trailingImageAccessibilityLabel: String?
     @Published var showDefaultDismissActionButton: Bool
+    @Published var showActionButtonAndDismissButton: Bool
     @Published var defaultDismissButtonAction: (() -> Void)?
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
@@ -498,6 +508,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonTitle: nil,
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
+                  showActionButtonAndDismissButton: false,
                   messageButtonAction: nil,
                   showFromBottom: true,
                   verticalOffset: 0.0)
@@ -514,6 +525,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          actionButtonTitle: String? = nil,
          actionButtonAction: (() -> Void)? = nil,
          showDefaultDismissActionButton: Bool? = nil,
+         showActionButtonAndDismissButton: Bool = false,
          defaultDismissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
          showFromBottom: Bool = true,
@@ -531,6 +543,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.messageButtonAction = messageButtonAction
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
+        self.showActionButtonAndDismissButton = showActionButtonAndDismissButton
         self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
 
