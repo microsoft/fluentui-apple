@@ -59,7 +59,7 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [
         .iOS(.v16),
-        .macOS(.v12),
+        .macOS(.v13),
         .visionOS(.v1),
     ],
     products: [
