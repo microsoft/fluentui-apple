@@ -147,6 +147,8 @@ public extension FluentTheme {
         case caption1Strong
         case caption1
         case caption2
+        case subtitle2
+        case subtitle2Strong
     }
 
     /// Returns the color value for the given token.
@@ -590,6 +592,12 @@ extension FluentTheme {
         case .caption2:
             return .init(size: GlobalTokens.fontSize(.size100),
                          weight: GlobalTokens.fontWeight(.regular))
+        case .subtitle2:
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .subtitle2Strong:
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.bold))
         }
     }
 
