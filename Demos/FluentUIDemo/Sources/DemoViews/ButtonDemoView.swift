@@ -21,7 +21,7 @@ struct ButtonDemoView: View {
 #if os(iOS) || os(tvOS) || targetEnvironment(macCatalyst)
             .buttonStyle(FluentButtonStyle(style: .accent))
 #endif
-            .controlSize(.extraLarge)
+            .controlSize(.large)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(fluentTheme.swiftUIColor(.background1))
