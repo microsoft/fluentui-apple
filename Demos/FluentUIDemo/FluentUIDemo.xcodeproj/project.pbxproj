@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92660C302C486AA500A209ED /* FluentUIDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92660C2F2C486AA500A209ED /* FluentUIDemoApp.swift */; };
-		92660C322C486AA500A209ED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92660C312C486AA500A209ED /* ContentView.swift */; };
 		92660C342C486AA800A209ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92660C332C486AA800A209ED /* Assets.xcassets */; };
 		92660C382C486AA800A209ED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92660C372C486AA800A209ED /* Preview Assets.xcassets */; };
 		92660C4A2C48787F00A209ED /* FluentUI in Frameworks */ = {isa = PBXBuildFile; productRef = 92660C492C48787F00A209ED /* FluentUI */; };
@@ -16,13 +14,15 @@
 
 /* Begin PBXFileReference section */
 		92660C2C2C486AA500A209ED /* FluentUIDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FluentUIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		92660C2F2C486AA500A209ED /* FluentUIDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluentUIDemoApp.swift; sourceTree = "<group>"; };
-		92660C312C486AA500A209ED /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		92660C332C486AA800A209ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		92660C352C486AA800A209ED /* FluentUIDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluentUIDemo.entitlements; sourceTree = "<group>"; };
 		92660C372C486AA800A209ED /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		92660C472C48786600A209ED /* fluentui-apple */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "fluentui-apple"; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		920708C42DDC0F1600E30190 /* Sources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Sources; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		92660C292C486AA500A209ED /* Frameworks */ = {
@@ -58,8 +58,7 @@
 		92660C2E2C486AA500A209ED /* FluentUIDemo */ = {
 			isa = PBXGroup;
 			children = (
-				92660C2F2C486AA500A209ED /* FluentUIDemoApp.swift */,
-				92660C312C486AA500A209ED /* ContentView.swift */,
+				920708C42DDC0F1600E30190 /* Sources */,
 				92660C332C486AA800A209ED /* Assets.xcassets */,
 				92660C352C486AA800A209ED /* FluentUIDemo.entitlements */,
 				92660C362C486AA800A209ED /* Preview Content */,
@@ -104,6 +103,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				920708C42DDC0F1600E30190 /* Sources */,
 			);
 			name = FluentUIDemo;
 			packageProductDependencies = (
@@ -165,8 +167,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92660C322C486AA500A209ED /* ContentView.swift in Sources */,
-				92660C302C486AA500A209ED /* FluentUIDemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,10 +308,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 13;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -345,10 +345,10 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 13;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.microsoft.FluentUIDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
