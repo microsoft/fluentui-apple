@@ -46,7 +46,6 @@ jobs:
       run: |
         set -o pipefail
         scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
-      continue-on-error: true
     - name: Zip if TestResultsMac.xcresult bundle exists
       run: |
         if [ -d "TestResultsMac.xcresult" ]; then
