@@ -175,7 +175,7 @@ struct NotificationDemoView: View {
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
                     .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 150, alignment: .center)
+                .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
                 .alert(isPresented: $showAlert, content: {
                     Alert(title: Text("Button tapped"))
                 })
