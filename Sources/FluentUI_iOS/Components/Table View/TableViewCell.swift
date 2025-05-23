@@ -1909,9 +1909,17 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
             automaticallyUpdatesBackgroundConfiguration = false
             var backgroundConfiguration: UIBackgroundConfiguration
             if backgroundStyleType == .plain {
-                backgroundConfiguration = .listPlainCell()
+                if #available(iOS 18.0, visionOS 2.0, *) {
+                    backgroundConfiguration = .listCell()
+                } else {
+                    backgroundConfiguration = .listPlainCell()
+                }
             } else if backgroundStyleType == .grouped {
-                backgroundConfiguration = .listGroupedCell()
+                if #available(iOS 18.0, visionOS 2.0, *) {
+                    backgroundConfiguration = .listCell()
+                } else {
+                    backgroundConfiguration = .listGroupedCell()
+                }
             } else {
                 backgroundConfiguration = .clear()
             }
