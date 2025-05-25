@@ -27,7 +27,7 @@ class CommandBarTest: BaseTest {
     }
 
     // ensures that tapping on text style button rotates through text styles
-    // TODO: fix this scenario!
+    // TODO: GH#2163 - figure out if this scenario is a product bug or a test issue, and restore it.
 //    func testChangeTextStyleButton() throws {
 //        let textStyleButtonNumber: Int = 15
 //        let textStyleButton: XCUIElement = app.buttons.element(boundBy: textStyleButtonNumber)
