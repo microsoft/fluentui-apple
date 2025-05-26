@@ -44,7 +44,7 @@ jobs:
       run: brew install xcbeautify
     - name: scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
       run: |
-        set -o pipefail
+        set -eox pipefail
         scripts/xcodebuild_wrapper.sh ${{ matrix.build_command }} | xcbeautify
     - name: Zip if TestResultsMac.xcresult bundle exists
       run: |
