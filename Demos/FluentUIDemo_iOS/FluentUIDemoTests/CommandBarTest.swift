@@ -27,19 +27,18 @@ class CommandBarTest: BaseTest {
     }
 
     // ensures that tapping on text style button rotates through text styles
-    // TODO: GH#2163 - figure out if this scenario is a product bug or a test issue, and restore it.
-//    func testChangeTextStyleButton() throws {
-//        let textStyleButtonNumber: Int = 15
-//        let textStyleButton: XCUIElement = app.buttons.element(boundBy: textStyleButtonNumber)
-//
-//        XCTAssert(app.buttons["Body"].exists)
-//        textStyleButton.tap()
-//        XCTAssert(app.buttons["Title"].exists)
-//        textStyleButton.tap()
-//        XCTAssert(app.buttons["Subhead"].exists)
-//        textStyleButton.tap()
-//        XCTAssert(app.buttons["Body"].exists)
-//    }
+    func testChangeTextStyleButton() throws {
+        let textStyleButtonNumber: Int = 16
+        let textStyleButton: XCUIElement = app.buttons.element(boundBy: textStyleButtonNumber)
+
+        XCTAssert(app.buttons["Body"].exists)
+        textStyleButton.tap()
+        XCTAssert(app.buttons["Title"].exists)
+        textStyleButton.tap()
+        XCTAssert(app.buttons["Subhead"].exists)
+        textStyleButton.tap()
+        XCTAssert(app.buttons["Body"].exists)
+    }
 
     func testSelectBoldButton() throws {
         let boldButtonNumber: Int = 18
