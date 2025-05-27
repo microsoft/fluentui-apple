@@ -15,7 +15,7 @@ class NotificationViewTestSwiftUI: BaseTest {
 
     // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
-        XCTAssert(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Notification View")).exists)
+        XCTAssert(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "NotificationView (SwiftUI)")).exists)
     }
 
     func testText() throws {
@@ -67,6 +67,9 @@ class NotificationViewTestSwiftUI: BaseTest {
         let notificationView: XCUIElement = app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*")).element(boundBy: 7)
         let actionButton: XCUIElement = app.buttons["Undo"].firstMatch
 
+        // Switches may be offscreen, so scroll first
+        app.swipeUp()
+
         let hasActionButtonActionSwitch: XCUIElement = app.switches["Has Action Button Action"].switches.firstMatch
         let hasMessageActionSwitch: XCUIElement = app.switches["Has Message Action"].switches.firstMatch
 
@@ -76,6 +79,7 @@ class NotificationViewTestSwiftUI: BaseTest {
         notificationView.tap()
         XCTAssert(!alert.exists)
 
+        XCTAssert(hasMessageActionSwitch.exists)
         hasMessageActionSwitch.tap()
         notificationView.tap()
         // tapping on the notification should trigger an action
@@ -86,12 +90,13 @@ class NotificationViewTestSwiftUI: BaseTest {
         XCTAssert(alert.exists)
         okButton.tap()
 
+        XCTAssert(hasActionButtonActionSwitch.exists)
         hasActionButtonActionSwitch.tap()
-        actionButton.tap()
-        XCTAssert(!alert.exists)
+        XCTAssert(!actionButton.exists)
     }
 
     func testStyles() throws {
+        app.swipeUp()
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*style 0.*")).element.exists)
         app.buttons[".primaryToast"].tap()
         app.buttons[".neutralToast"].tap()
@@ -114,6 +119,7 @@ class NotificationViewTestSwiftUI: BaseTest {
     }
 
     func testWidth() throws {
+        app.swipeUp()
         let flexibleWidthSwitch: XCUIElement = app.switches["Flexible Width Toast"].switches.firstMatch
         let notFlexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is not flexible in width.*")
         let flexible: NSPredicate = NSPredicate(format: "identifier MATCHES %@", "Notification View.*that is flexible in width.*")

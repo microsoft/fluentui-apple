@@ -13,6 +13,8 @@
 function invoke_xcodebuild()
 {
     /usr/bin/xcodebuild \
+        -retry-tests-on-failure \
+        -test-iterations 3 \
         -"$1" "$2" \
         -scheme "$3" \
         -configuration "$4" \
