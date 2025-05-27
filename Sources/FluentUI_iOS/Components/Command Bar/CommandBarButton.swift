@@ -88,13 +88,13 @@ class CommandBarButton: UIButton {
         isSelected = isPersistSelection && item.isSelected
         isHidden = item.isHidden
 
-        configuration?.title = item.title
-        configuration?.image = item.iconImage
-
         /// Additional state update is not needed if the `customControlView` is being shown
         guard item.customControlView == nil else {
             return
         }
+
+        configuration?.title = item.title
+        configuration?.image = item.iconImage
 
         if let font = item.titleFont {
             let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
