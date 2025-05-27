@@ -3,12 +3,16 @@
 //  Licensed under the MIT License.
 //
 
+#if os(visionOS)
+
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import SwiftUI
 
-#if os(visionOS)
-extension FluentTheme {
-    static func defaultColor_visionOS(_ token: FluentTheme.ColorToken) -> DynamicColor {
-        let visionColorDark: Color
+extension FluentTheme: PlatformThemeProviding {
+    public static func platformColorValue(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
+        let visionColorDark: Color?
 
         // Apply overrides as needed. Note that visionOS only supports one mode, so there's no
         // need to provide multiple values (e.g. light + dark, elevated, etc).
@@ -49,12 +53,18 @@ extension FluentTheme {
             visionColorDark = GlobalTokens.sharedSwiftUIColor(.red, .primary)
 
         default:
-            // Return the standard iOS color by default.
-            return defaultColor(token)
+            // No need to override.
+            visionColorDark = nil
+        }
+
+        // If there is no override value, return `nil`.
+        guard let visionColorDark else {
+            return nil
         }
 
         // Otherwise, use the override for `dark` and fall back to the default for `light`.
-        return DynamicColor(light: defaultColor(token).light, dark: visionColorDark)
+        return DynamicColor(light: defaultColor.light, dark: visionColorDark)
     }
 }
-#endif
+
+#endif // os(visionOS)
