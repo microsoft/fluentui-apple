@@ -473,7 +473,7 @@ extension FluentTheme {
         }
 
         // Allow overriding if there is a `PlatformThemeProviding` implementation.
-        if let platformThemeType = type(of: self) as? PlatformThemeProviding.Type,
+        if let platformThemeType = self as? PlatformThemeProviding.Type,
            let platformColor = platformThemeType.platformColorValue(token, defaultColor: color) {
             color = platformColor
         }
