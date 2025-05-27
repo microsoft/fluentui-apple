@@ -51,8 +51,6 @@ class CommandBarButton: UIButton {
             isAccessibilityElement = false
         } else {
             var buttonConfiguration = UIButton.Configuration.plain()
-            buttonConfiguration.title = item.title
-            buttonConfiguration.image = item.iconImage
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
             buttonConfiguration.background.cornerRadius = 0
@@ -89,6 +87,9 @@ class CommandBarButton: UIButton {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
         isHidden = item.isHidden
+
+        configuration?.title = item.title
+        configuration?.image = item.iconImage
 
         /// Additional state update is not needed if the `customControlView` is being shown
         guard item.customControlView == nil else {
