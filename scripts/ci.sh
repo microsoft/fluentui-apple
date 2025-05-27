@@ -62,7 +62,7 @@ $XCODEBUILD_WRAPPER_LOCATION ios_simulator_build Demo.Development Release build
 handle_exit_code
 
 echo "Building and Testing iOS Testapp Debug Simulator"
-$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 14 Pro" -test-iterations "2" -retry-tests-on-failure
+$XCODEBUILD_WRAPPER_LOCATION ios_simulator_build Demo.Development Debug build test -destination "platform=iOS Simulator,name=iPhone 16 Pro" -test-iterations "2" -retry-tests-on-failure
 handle_exit_code
 
 echo "Building iOS Testapp Debug Device"

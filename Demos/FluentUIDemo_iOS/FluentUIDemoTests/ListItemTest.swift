@@ -111,12 +111,12 @@ class ListItemTest: BaseTest {
         accessoryTypeButton.tap()
         disclosureIndicatorTypeButton.tap()
         XCTAssert(accessoryImageElement.exists, "Accessory should appear for .disclosureIndicator type")
-        XCTAssertFalse(accessoryImageElement.isHittable, "Accessory should not not have a tap target for .disclosureIndicator type")
+        XCTAssertFalse(accessoryImageElement.isAccessibilityElement, "Accessory should not not have a tap target for .disclosureIndicator type")
 
         accessoryTypeButton.tap()
         checkmarkTypeButton.tap()
         XCTAssert(accessoryImageElement.exists, "Accessory should appear for .checkmark type")
-        XCTAssertFalse(accessoryImageElement.isHittable, "Accessory should not not have a tap target for .checkmark type")
+        XCTAssertFalse(accessoryImageElement.isAccessibilityElement, "Accessory should not not have a tap target for .checkmark type")
 
         accessoryTypeButton.tap()
         detailButtonTypeButton.tap()
