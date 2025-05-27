@@ -41,7 +41,7 @@ enum Demo: CaseIterable, Hashable {
     var supportsVisionOS: Bool {
         switch self {
         case .button,
-                .aliasColorTokens:
+             .aliasColorTokens:
             return true
         case .shimmer:
             return false
