@@ -5,12 +5,12 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
     /// Applies a key and an ambient shadow on a `View`.
     /// - Parameters:
     ///   - shadowInfo: The values of the two shadows to be applied.
     /// - Returns: The modified view.
-    public func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
+    func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
         modifier(ShadowModifier(shadowInfo: shadowInfo))
     }
 
@@ -21,7 +21,7 @@ extension View {
     ///   - value: The value to check against when determining whether to run the closure.
     ///   - action: A closure to run when the value changes.
     /// - Returns: A view that fires an action when the specified value changes.
-    public func onChange_iOS17<V>(of value: V, _ action: @escaping (V) -> Void) -> some View where V: Equatable {
+    func onChange_iOS17<V>(of value: V, _ action: @escaping (V) -> Void) -> some View where V: Equatable {
 #if os(visionOS)
         // Known bug when using #available and self.onChange together in visionOS: it'll crash!
         // So for this OS, just use the new .onChange unconditionally.
@@ -41,7 +41,7 @@ extension View {
 }
 
 /// ViewModifier that applies both shadows from a ShadowInfo
-struct ShadowModifier: ViewModifier {
+private struct ShadowModifier: ViewModifier {
     var shadowInfo: ShadowInfo
 
     init(shadowInfo: ShadowInfo) {

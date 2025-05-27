@@ -57,13 +57,13 @@ extension View {
 }
 
 /// PreferenceKey that will store the measured size of the view
-struct SizePreferenceKey: PreferenceKey {
+private struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {}
 }
 
 /// ViewModifier that uses GeometryReader to get the size of the content view and sets it in the SizePreferenceKey
-struct OnSizeChangeViewModifier: ViewModifier {
+private struct OnSizeChangeViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.background(GeometryReader { geometryReader in
             Color.clear.preference(key: SizePreferenceKey.self,
@@ -74,7 +74,7 @@ struct OnSizeChangeViewModifier: ViewModifier {
 
 /// ViewModifier for showing the large content viewer with optional text and optional image.
 /// If both the text and image are nil, the default large content viewer will be used.
-struct LargeContentViewerModifier: ViewModifier {
+private struct LargeContentViewerModifier: ViewModifier {
     init(text: String?, image: UIImage?) {
         self.text = text
         self.image = image
