@@ -28,7 +28,7 @@ class CommandBarTest: BaseTest {
 
     // ensures that tapping on text style button rotates through text styles
     func testChangeTextStyleButton() throws {
-        let textStyleButtonNumber: Int = 15
+        let textStyleButtonNumber: Int = 16
         let textStyleButton: XCUIElement = app.buttons.element(boundBy: textStyleButtonNumber)
 
         XCTAssert(app.buttons["Body"].exists)

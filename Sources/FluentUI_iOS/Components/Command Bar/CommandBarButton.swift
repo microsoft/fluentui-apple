@@ -48,8 +48,6 @@ class CommandBarButton: UIButton {
             isAccessibilityElement = false
         } else {
             var buttonConfiguration = UIButton.Configuration.plain()
-            buttonConfiguration.title = item.title
-            buttonConfiguration.image = item.iconImage
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
             buttonConfiguration.background.cornerRadius = 0
@@ -88,6 +86,9 @@ class CommandBarButton: UIButton {
         guard item.customControlView == nil else {
             return
         }
+
+        configuration?.title = item.title
+        configuration?.image = item.iconImage
 
         if let font = item.titleFont {
             let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])
