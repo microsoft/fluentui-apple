@@ -39,15 +39,9 @@ public class FluentTheme: NSObject, ObservableObject {
                 shadowOverrides: [ShadowToken: ShadowInfo]? = nil,
                 typographyOverrides: [TypographyToken: FontInfo]? = nil,
                 gradientOverrides: [GradientToken: [Color]]? = nil) {
-#if os(visionOS)
-        // We have custom overrides for `defaultColors` in visionOS.
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor_visionOS(_:)
-#else
-        let defaultColorFunction: ((FluentTheme.ColorToken) -> DynamicColor) = FluentTheme.defaultColor(_:)
-#endif
 
         let colorTokenSet = TokenSet<ColorToken, DynamicColor>(
-            defaultColorFunction,
+            FluentTheme.defaultColor(_:),
             colorOverrides?.mapValues { $0.dynamicColor }
         )
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)

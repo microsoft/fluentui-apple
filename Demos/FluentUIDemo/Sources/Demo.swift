@@ -7,8 +7,12 @@ import SwiftUI
 
 /// An iterable enumeration of all available demos.
 enum Demo: CaseIterable, Hashable {
+    // Components
     case button
     case shimmer
+
+    // Tokens
+    case aliasColorTokens
 
     var title: String {
         switch self {
@@ -16,6 +20,8 @@ enum Demo: CaseIterable, Hashable {
             return "Button"
         case .shimmer:
             return "Shimmer"
+        case .aliasColorTokens:
+            return "Alias Color Tokens"
         }
     }
 
@@ -26,13 +32,16 @@ enum Demo: CaseIterable, Hashable {
             return ButtonDemoView()
         case .shimmer:
             return ShimmerDemoView()
+        case .aliasColorTokens:
+            return AliasColorTokensDemoView()
         }
     }
 
     /// Only some demos are supported on visionOS.
     var supportsVisionOS: Bool {
         switch self {
-        case .button:
+        case .button,
+             .aliasColorTokens:
             return true
         case .shimmer:
             return false
@@ -86,6 +95,7 @@ private struct Demos {
     ]
 
     static let fluent2DesignTokens: [Demo] = [
+        .aliasColorTokens
     ]
 
     static let controls: [Demo] = [
