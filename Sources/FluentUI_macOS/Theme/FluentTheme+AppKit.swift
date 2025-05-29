@@ -29,19 +29,23 @@ extension FluentTheme: PlatformThemeProviding {
         let overrideColor: DynamicColor?
         switch token {
         case .background2:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white), dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.grey16))
         case .background4:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96), dark: GlobalTokens.neutralSwiftUIColor(.grey8))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.grey8))
         case .background4Hover:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92), dark: GlobalTokens.neutralSwiftUIColor(.grey12))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.grey12))
         case .background6:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88), dark: GlobalTokens.neutralSwiftUIColor(.black))
-        case .brandStroke1:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white), dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.black))
         case .foreground4:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey44), dark: GlobalTokens.neutralSwiftUIColor(.grey60))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey44),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.grey60))
         case .strokeAccessible:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey38), dark: GlobalTokens.neutralSwiftUIColor(.grey68))
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey38),
+                                  dark: GlobalTokens.neutralSwiftUIColor(.grey68))
         default:
             overrideColor = nil
         }
