@@ -15,7 +15,6 @@ public extension FluentTheme {
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
-    /// - Parameter contentSizeCategory: An overridden `UIContentSizeCategory` to conform to.
     /// - Returns: A `UIFont` for the given token.
     @objc(typographyForToken:adjustsForContentSizeCategory:)
     func typography(_ token: TypographyToken,
@@ -27,7 +26,25 @@ public extension FluentTheme {
 
 extension FluentTheme: PlatformThemeProviding {
     public static func platformColorValue(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
-        // Overrides to follow
-        return nil
+        let overrideColor: DynamicColor?
+        switch token {
+        case .background2:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white), dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+        case .background4:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96), dark: GlobalTokens.neutralSwiftUIColor(.grey8))
+        case .background4Hover:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92), dark: GlobalTokens.neutralSwiftUIColor(.grey12))
+        case .background6:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88), dark: GlobalTokens.neutralSwiftUIColor(.black))
+        case .brandStroke1:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white), dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+        case .foreground4:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey44), dark: GlobalTokens.neutralSwiftUIColor(.grey60))
+        case .strokeAccessible:
+            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey38), dark: GlobalTokens.neutralSwiftUIColor(.grey68))
+        default:
+            overrideColor = nil
+        }
+        return overrideColor
     }
 }
