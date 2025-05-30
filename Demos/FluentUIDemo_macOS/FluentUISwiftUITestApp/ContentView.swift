@@ -15,6 +15,9 @@ struct ContentView: View {
 						Text(testViewController.title)
 					}
 				}
+				NavigationLink(destination: TestAliasColorTokensViewController()) {
+					Text("Alias Color Tokens")
+				}
 			}
 			.listStyle(SidebarListStyle())
 		}

@@ -23,32 +23,3 @@ public extension FluentTheme {
                              shouldScale: adjustsForContentSizeCategory)
     }
 }
-
-extension FluentTheme: PlatformThemeProviding {
-    public static func platformColorValue(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
-        let overrideColor: DynamicColor?
-        switch token {
-        case .background2:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.grey16))
-        case .background4:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.grey8))
-        case .background4Hover:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.grey12))
-        case .background6:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.black))
-        case .foreground4:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey44),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.grey60))
-        case .strokeAccessible:
-            overrideColor = .init(light: GlobalTokens.neutralSwiftUIColor(.grey38),
-                                  dark: GlobalTokens.neutralSwiftUIColor(.grey68))
-        default:
-            overrideColor = nil
-        }
-        return overrideColor
-    }
-}
