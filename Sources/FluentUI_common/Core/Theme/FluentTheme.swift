@@ -9,18 +9,6 @@ import SwiftUI
 /// Base class that allows for customization of global, alias, and control tokens.
 @objc(MSFFluentTheme)
 public class FluentTheme: NSObject, ObservableObject {
-    /// Initializes and returns a new `FluentTheme`.
-    ///
-    /// Control tokens can be customized via `register(controlType:tokens:) `;
-    /// see that method's description for additional information.
-    ///
-    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
-    @objc public convenience override init() {
-        self.init(colorOverrides: nil as [ColorToken: Color]?, 
-                  shadowOverrides: nil as [ShadowToken: ShadowInfo]?,
-                  typographyOverrides: nil as [TypographyToken: FontInfo]?,
-                  gradientOverrides: nil as [GradientToken: [Color]]?)
-    }
 
     /// Initializes and returns a new `FluentTheme`.
     ///
@@ -40,8 +28,13 @@ public class FluentTheme: NSObject, ObservableObject {
                 typographyOverrides: [TypographyToken: FontInfo]? = nil,
                 gradientOverrides: [GradientToken: [Color]]? = nil) {
 
+        // Ensure we always have an implementation of `PlatformThemeProviding`
+        guard let platformThemeProvider = type(of: self) as? PlatformThemeProviding.Type else {
+            preconditionFailure("Unable to initialize FluentTheme: does not conform to PlatformThemeProviding")
+        }
+
         let colorTokenSet = TokenSet<ColorToken, DynamicColor>(
-            FluentTheme.defaultColor(_:),
+            platformThemeProvider.platformColorValue(_:),
             colorOverrides?.mapValues { $0.dynamicColor }
         )
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)

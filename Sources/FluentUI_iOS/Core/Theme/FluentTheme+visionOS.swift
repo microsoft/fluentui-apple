@@ -10,8 +10,8 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-extension FluentTheme: PlatformThemeProviding {
-    public static func platformColorValue(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
+extension FluentTheme {
+    static func visionColorOverride(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
         let visionColorDark: Color?
 
         // Apply overrides as needed. Note that visionOS only supports one mode, so there's no

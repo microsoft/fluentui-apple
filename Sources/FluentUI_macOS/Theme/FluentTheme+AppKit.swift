@@ -24,10 +24,3 @@ public extension FluentTheme {
                              shouldScale: adjustsForContentSizeCategory)
     }
 }
-
-extension FluentTheme: PlatformThemeProviding {
-    public static func platformColorValue(_ token: ColorToken, defaultColor: DynamicColor) -> DynamicColor? {
-        // Overrides to follow
-        return nil
-    }
-}
