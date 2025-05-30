@@ -6,16 +6,15 @@
 import FluentUI
 import SwiftUI
 
-struct AliasColorTokensDemoView: View {
+public struct TestAliasColorTokensViewController: View {
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         List {
             ForEach(AliasColorTokensDemoSection.allCases, id: \.self) { demoSection in
-                // No need for SwiftUI section in SwiftUI demo!
-                if demoSection != .swiftUI {
-                    colorSection(demoSection)
-                }
+                colorSection(demoSection)
             }
         }
         .listStyle(.inset)
@@ -35,7 +34,6 @@ struct AliasColorTokensDemoView: View {
 }
 
 enum AliasColorTokensDemoSection: CaseIterable {
-    case swiftUI
     case neutralBackgrounds
     case brandBackgrounds
     case neutralForegrounds
@@ -48,8 +46,6 @@ enum AliasColorTokensDemoSection: CaseIterable {
 
     var title: String {
         switch self {
-        case .swiftUI:
-            return "SwiftUI Demo"
         case .neutralBackgrounds:
             return "Neutral Backgrounds"
         case .brandBackgrounds:
@@ -73,8 +69,6 @@ enum AliasColorTokensDemoSection: CaseIterable {
 
     var rows: [FluentTheme.ColorToken] {
         switch self {
-        case .swiftUI:
-            preconditionFailure("Should not fetch colors for SwiftUI section!")
         case .neutralBackgrounds:
             return [.background1,
                     .background1Pressed,
@@ -86,6 +80,7 @@ enum AliasColorTokensDemoSection: CaseIterable {
                     .background3Pressed,
                     .background3Selected,
                     .background4,
+                    .background4Hover,
                     .background4Pressed,
                     .background4Selected,
                     .background5,
@@ -114,6 +109,7 @@ enum AliasColorTokensDemoSection: CaseIterable {
             return [.foreground1,
                     .foreground2,
                     .foreground3,
+                    .foreground4,
                     .foregroundDisabled1,
                     .foregroundDisabled2,
                     .foregroundOnColor,
@@ -454,5 +450,4 @@ extension FluentTheme.ColorToken {
             return fluentTheme.swiftUIColor(.foregroundLightStatic)
         }
     }
-
 }
