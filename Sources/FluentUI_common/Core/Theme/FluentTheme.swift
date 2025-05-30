@@ -9,6 +9,18 @@ import SwiftUI
 /// Base class that allows for customization of global, alias, and control tokens.
 @objc(MSFFluentTheme)
 public class FluentTheme: NSObject, ObservableObject {
+    /// Initializes and returns a new `FluentTheme`.
+    ///
+    /// Control tokens can be customized via `register(controlType:tokens:) `;
+    /// see that method's description for additional information.
+    ///
+    /// - Returns: An initialized `FluentTheme` instance, with optional overrides.
+    @objc public convenience override init() {
+        self.init(colorOverrides: nil as [ColorToken: Color]?,
+                  shadowOverrides: nil as [ShadowToken: ShadowInfo]?,
+                  typographyOverrides: nil as [TypographyToken: FontInfo]?,
+                  gradientOverrides: nil as [GradientToken: [Color]]?)
+    }
 
     /// Initializes and returns a new `FluentTheme`.
     ///
