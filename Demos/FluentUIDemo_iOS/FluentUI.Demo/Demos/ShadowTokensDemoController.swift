@@ -89,7 +89,17 @@ private class ShadowView: UIView, Shadowable {
     private let label = Label()
 }
 
-private extension FluentTheme.ShadowToken {
+extension FluentTheme.ShadowToken: @retroactive CaseIterable {
+    public static var allCases: [FluentTheme.ShadowToken] = [
+        .clear,
+        .shadow02,
+        .shadow04,
+        .shadow08,
+        .shadow16,
+        .shadow28,
+        .shadow64
+    ]
+
     var title: String {
         switch self {
         case .clear:
