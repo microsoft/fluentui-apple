@@ -306,12 +306,6 @@ extension FluentTheme: PlatformThemeProviding {
                           dark: GlobalTokens.sharedSwiftUIColor(.berry, .tint20))
         }
 
-#if os(visionOS)
-        // visionOS has special overrides above and beyond what iOS does
-        if let visionColor = visionColorOverride(token, defaultColor: color) {
-            color = visionColor
-        }
-#endif
         return color
     }
 }
