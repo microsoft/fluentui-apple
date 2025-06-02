@@ -47,13 +47,7 @@ open class ControlTokenSet<T: TokenSetKey>: ObservableObject {
     ///
     /// - Parameter overrideTokens: The set of tokens to set as custom, or `nil` to remove all overrides.
     public func replaceAllOverrides(with overrideTokens: [T: ControlTokenValue]?) {
-        T.allCases.forEach { token in
-            if let value = overrideTokens?[token] {
-                self[token] = value
-            } else {
-                self.removeOverride(token)
-            }
-        }
+        valueOverrides = overrideTokens
     }
 
     /// Convenience method to override multiple tokens from another token set.
