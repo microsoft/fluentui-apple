@@ -25,10 +25,6 @@ public extension FluentTheme {
         case background3Pressed
         case background3Selected
         case background4
-		
-		@available(iOS, unavailable)
-        case background4Hover
-
         case background4Pressed
         case background4Selected
         case background5
@@ -48,9 +44,6 @@ public extension FluentTheme {
         case foreground1
         case foreground2
         case foreground3
-
-		@available(iOS, unavailable)
-        case foreground4
 
         case foregroundDisabled1
         case foregroundDisabled2
@@ -128,6 +121,12 @@ public extension FluentTheme {
         case presenceDnd
         case presenceAvailable
         case presenceOof
+
+        // MacOS Only Tokens
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background4Hover, foreground4
     }
 
     @objc(MSFShadowToken)
@@ -189,6 +188,14 @@ public extension FluentTheme {
     /// - Returns: An array of `Color` values for the given token.
     func gradient(_ token: GradientToken) -> [Color] {
         return gradientTokenSet[token].map { Color(dynamicColor: $0) }
+    }
+
+    @available(iOS, unavailable)
+    @available(visionOS, unavailable)
+    @available(macCatalyst, unavailable)
+    private enum MacOSOnlyColorToken: Int, TokenSetKey {
+        case background4Hover
+        case foreground4
     }
 }
 
