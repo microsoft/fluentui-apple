@@ -24,7 +24,22 @@ class TestTypographyViewController: NSViewController {
 // MARK: - Private extensions
 private let fluentTheme = FluentTheme()
 
-private extension FluentTheme.TypographyToken {
+extension FluentTheme.TypographyToken: @retroactive CaseIterable {
+    public static var allCases: [FluentTheme.TypographyToken] = [
+        .display,
+        .largeTitle,
+        .title1,
+        .title2,
+        .title3,
+        .body1Strong,
+        .body1,
+        .body2Strong,
+        .body2,
+        .caption1Strong,
+        .caption1,
+        .caption2
+    ]
+
 	var text: String {
 		switch self {
 		case .display:
