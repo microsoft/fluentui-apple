@@ -44,7 +44,6 @@ public extension FluentTheme {
         case foreground1
         case foreground2
         case foreground3
-
         case foregroundDisabled1
         case foregroundDisabled2
         case foregroundOnColor
