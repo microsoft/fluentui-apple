@@ -9,6 +9,6 @@ public protocol PlatformThemeProviding {
     /// Returns the platform-appropriate value for a given `ColorToken`.
     /// - Parameters:
     ///   - token: The `ColorToken` whose color should be provided.
-    /// - Returns: The color value for this token. If the token is not supported on the platform, a fallback value will be returned.
+    /// - Returns: The color value for this token.
     static func platformColorValue(_ token: FluentTheme.ColorToken) -> DynamicColor
 }
