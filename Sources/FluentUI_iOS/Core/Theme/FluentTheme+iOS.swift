@@ -300,11 +300,6 @@ extension FluentTheme: PlatformThemeProviding {
         case .presenceOof:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.berry, .primary),
                           dark: GlobalTokens.sharedSwiftUIColor(.berry, .tint20))
-        // These tokens are not supported in iOS, so we return a default color.
-        case .background4Hover,
-                .foreground4:
-            assert(false, "Unsupported token: \(token)")
-            color = .init(light: .clear, dark: .clear)
         }
 
 #if os(visionOS)
