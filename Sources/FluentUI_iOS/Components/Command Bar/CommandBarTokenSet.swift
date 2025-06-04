@@ -44,6 +44,9 @@ public enum CommandBarToken: Int, TokenSetKey {
 
     /// The icon color of a Command Bar Item when disabled.
     case itemIconColorDisabled
+
+    /// The font of a Command Bar Item Group label.
+    case itemGroupLabelFont
 }
 
 /// Design token set for the `CommandBar` control.
@@ -89,6 +92,9 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
 
             case .itemIconColorDisabled:
                 return .uiColor { theme.color(.foregroundDisabled1) }
+
+            case .itemGroupLabelFont:
+                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
             }
         }
     }
