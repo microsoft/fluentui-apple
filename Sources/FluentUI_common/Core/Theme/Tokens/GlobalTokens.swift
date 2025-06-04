@@ -1667,26 +1667,10 @@ public class GlobalTokens: NSObject {
         case size900
     }
     public static func fontSize(_ token: FontSizeToken) -> CGFloat {
-        switch token {
-        case .size100:
-            return 12.0
-        case .size200:
-            return 13.0
-        case .size300:
-            return 15.0
-        case .size400:
-            return 17.0
-        case .size500:
-            return 20.0
-        case .size600:
-            return 22.0
-        case .size700:
-            return 28.0
-        case .size800:
-            return 34.0
-        case .size900:
-            return 60.0
+        guard let platformGlobalTokenProviding = self as? PlatformGlobalTokenProviding.Type else {
+            fatalError("GlobalTokens should conform to PlatformGlobalTokenProviding")
         }
+        return platformGlobalTokenProviding.fontSize(for: token)
     }
 
     // MARK: - FontWeight

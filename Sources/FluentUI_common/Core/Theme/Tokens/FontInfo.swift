@@ -26,6 +26,13 @@ public class FontInfo: NSObject {
         self.name = name
         self.size = size
         self.weight = weight
+
+        // Ensure we always have an implementation of `PlatformThemeProviding`
+        guard let platformFontInfoProviding = type(of: self) as? PlatformFontInfoProviding.Type else {
+            preconditionFailure("Unable to initialize FontInfo: does not conform to PlatformFontInfoProviding")
+        }
+
+        self.platformFontInfoProviding = platformFontInfoProviding
     }
 
     /// An optional name for the font. If none is provided, defaults to the standard system font.
@@ -40,7 +47,7 @@ public class FontInfo: NSObject {
     public var textStyle: Font.TextStyle {
         // Defaults to smallest supported text style for mapping, before checking if we're bigger.
         var textStyle = Font.TextStyle.caption2
-        for tuple in Self.sizeTuples {
+        for tuple in platformFontInfoProviding.sizeTuples {
             if self.size >= tuple.size {
                 textStyle = tuple.textStyle
                 break
@@ -50,21 +57,8 @@ public class FontInfo: NSObject {
     }
 
     public var matchesSystemSize: Bool {
-        return FontInfo.sizeTuples.contains(where: { $0.size == size })
+        return platformFontInfoProviding.sizeTuples.contains(where: { $0.size == size })
     }
 
-    private static var sizeTuples: [(size: CGFloat, textStyle: Font.TextStyle)] = [
-        (34.0, .largeTitle),
-        (28.0, .title),
-        (22.0, .title2),
-        (20.0, .title3),
-        // Note: `17.0: .headline` is removed to avoid needing duplicate size key values.
-        // But it's okay because Apple's scaling curve is identical between it and `.body`.
-        (17.0, .body),
-        (16.0, .callout),
-        (15.0, .subheadline),
-        (13.0, .footnote),
-        (12.0, .caption),
-        (11.0, .caption2)
-    ]
+    private let platformFontInfoProviding: PlatformFontInfoProviding.Type;
 }
