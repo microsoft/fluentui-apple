@@ -50,7 +50,7 @@ public class FluentTheme: NSObject, ObservableObject {
             colorOverrides?.mapValues { $0.dynamicColor }
         )
         let shadowTokenSet = TokenSet<ShadowToken, ShadowInfo>(FluentTheme.defaultShadow(_:), shadowOverrides)
-        let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(FluentTheme.defaultTypography(_:), typographyOverrides)
+        let typographyTokenSet = TokenSet<TypographyToken, FontInfo>(platformThemeProvider.platformTypographyValue(_:), typographyOverrides)
         let gradientTokenSet = TokenSet<GradientToken, [DynamicColor]>({ [colorTokenSet] token in
             // Reference the colorTokenSet as part of the gradient lookup
             return FluentTheme.defaultGradientColor(token, colorTokenSet: colorTokenSet)

@@ -311,5 +311,50 @@ extension FluentTheme: PlatformThemeProviding {
 #endif
         return color
     }
+
+    /// Returns the platform-appropriate value for a given `TypographyToken`.
+    /// - Parameters:
+    ///   - token: The `TypographyToken` whose font should be provided.
+    /// - Returns: The font value for this token.
+    public static func platformTypographyValue(_ token: FluentTheme.TypographyToken) -> FontInfo {
+        switch token {
+        case .display:
+            return .init(size: GlobalTokens.fontSize(.size900),
+                         weight: GlobalTokens.fontWeight(.bold))
+        case .largeTitle:
+            return .init(size: GlobalTokens.fontSize(.size800),
+                         weight: GlobalTokens.fontWeight(.bold))
+        case .title1:
+            return .init(size: GlobalTokens.fontSize(.size700),
+                         weight: GlobalTokens.fontWeight(.bold))
+        case .title2:
+            return .init(size: GlobalTokens.fontSize(.size600),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .title3:
+            return .init(size: GlobalTokens.fontSize(.size500),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .body1Strong:
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .body1:
+            return .init(size: GlobalTokens.fontSize(.size400),
+                         weight: GlobalTokens.fontWeight(.regular))
+        case .body2Strong:
+            return .init(size: GlobalTokens.fontSize(.size300),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .body2:
+            return .init(size: GlobalTokens.fontSize(.size300),
+                         weight: GlobalTokens.fontWeight(.regular))
+        case .caption1Strong:
+            return .init(size: GlobalTokens.fontSize(.size200),
+                         weight: GlobalTokens.fontWeight(.semibold))
+        case .caption1:
+            return .init(size: GlobalTokens.fontSize(.size200),
+                         weight: GlobalTokens.fontWeight(.regular))
+        case .caption2:
+            return .init(size: GlobalTokens.fontSize(.size100),
+                         weight: GlobalTokens.fontWeight(.regular))
+        }
+    }
 }
 
