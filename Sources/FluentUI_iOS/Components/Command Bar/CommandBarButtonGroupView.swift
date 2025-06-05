@@ -62,11 +62,18 @@ class CommandBarButtonGroupView: UIView {
     }()
 
     private lazy var groupLabel: Label = {
-        let label = Label(textStyle: .caption2, colorStyle: .regular)
+        let label = Label()
         label.text = title
+        label.font = tokenSet[.itemGroupLabelFont].uiFont
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.required, for: .vertical)
         label.lineBreakMode = .byClipping
+
+        label.accessibilityTraits.insert(.header)
+        label.isUserInteractionEnabled = true
+        label.addInteraction(UILargeContentViewerInteraction())
+        label.showsLargeContentViewer = true
+        label.largeContentTitle = title
         return label
     }()
 
