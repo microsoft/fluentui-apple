@@ -25,6 +25,12 @@ public extension FluentTheme {
         case background3Pressed
         case background3Selected
         case background4
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background4Hover
+
         case background4Pressed
         case background4Selected
         case background5
@@ -44,6 +50,12 @@ public extension FluentTheme {
         case foreground1
         case foreground2
         case foreground3
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case foreground4
+
         case foregroundDisabled1
         case foregroundDisabled2
         case foregroundOnColor

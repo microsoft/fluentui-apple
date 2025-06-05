@@ -15,7 +15,6 @@ public extension FluentTheme {
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
     /// - Parameter adjustsForContentSizeCategory: If true, the resulting font will change size according to Dynamic Type specifications.
-    /// - Parameter contentSizeCategory: An overridden `UIContentSizeCategory` to conform to.
     /// - Returns: A `UIFont` for the given token.
     @objc(typographyForToken:adjustsForContentSizeCategory:)
     func typography(_ token: TypographyToken,

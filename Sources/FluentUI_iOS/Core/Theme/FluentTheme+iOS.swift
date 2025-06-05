@@ -11,10 +11,9 @@ import SwiftUI
 /// Extending `FluentTheme` to implement this protocol allows for platform-specific implementation of token values.
 extension FluentTheme: PlatformThemeProviding {
 
-    /// Returns the platform-appropriate override for a given `ColorToken`.
+    /// Returns the platform-appropriate value for a given `ColorToken`.
     /// - Parameters:
     ///   - token: The `ColorToken` whose color should be provided.
-    ///   - defaultColor: The default value for the given `ColorToken`.
     /// - Returns: The value for this token.
     public static func platformColorValue(_ token: FluentTheme.ColorToken) -> DynamicColor {
         var color: DynamicColor
@@ -357,4 +356,3 @@ extension FluentTheme: PlatformThemeProviding {
         }
     }
 }
-

@@ -40,6 +40,7 @@
 		E6A92D3B24BEA91F00562BCA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D3A24BEA91F00562BCA /* ContentView.swift */; };
 		E6A92D4024BEA92000562BCA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E6A92D3F24BEA92000562BCA /* Preview Assets.xcassets */; };
 		E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */; };
+		E72EFA492DEA4E87003B1457 /* TestAliasColorTokensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72EFA482DEA4E7B003B1457 /* TestAliasColorTokensViewController.swift */; };
 		EC3AF6A726BDDD30009118F4 /* TestBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -167,6 +168,7 @@
 		E6A92D4C24BEAA0200562BCA /* FluentUI_swiftui_testapp.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_swiftui_testapp.xcconfig; sourceTree = "<group>"; };
 		E6A92D4D24BEAA0200562BCA /* FluentUI_testviewcontrollers.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = FluentUI_testviewcontrollers.xcconfig; sourceTree = "<group>"; };
 		E6A92D4E24BEAEEA00562BCA /* TestViewControllers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewControllers.swift; sourceTree = "<group>"; };
+		E72EFA482DEA4E7B003B1457 /* TestAliasColorTokensViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAliasColorTokensViewController.swift; sourceTree = "<group>"; };
 		EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBadgeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -298,6 +300,7 @@
 		E6A92D2524BEA85900562BCA /* FluentUITestViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				E72EFA482DEA4E7B003B1457 /* TestAliasColorTokensViewController.swift */,
 				8F250B8C22B3062A00142B0E /* TestAvatarViewController.swift */,
 				EC3AF6A526BDDD2A009118F4 /* TestBadgeViewController.swift */,
 				AC97EFE3247541E100DADC99 /* TestButtonViewController.swift */,
@@ -643,6 +646,7 @@
 				E6A92D2E24BEA8AC00562BCA /* TestAvatarViewController.swift in Sources */,
 				E6A92D4F24BEAEEA00562BCA /* TestViewControllers.swift in Sources */,
 				9B8661772A4F5DAE00FA4F78 /* TestColorProvider.swift in Sources */,
+				E72EFA492DEA4E87003B1457 /* TestAliasColorTokensViewController.swift in Sources */,
 				92AD71272D4064B50089499E /* TestMultilinePillPickerViewController.swift in Sources */,
 				E6A92D3124BEA8AC00562BCA /* TestDatePickerController.swift in Sources */,
 			);
