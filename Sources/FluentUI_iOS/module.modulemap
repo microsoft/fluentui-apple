@@ -1,0 +1,4 @@
+module FluentUI {
+    header "FluentUI-Swift.h"
+    export *
+}
