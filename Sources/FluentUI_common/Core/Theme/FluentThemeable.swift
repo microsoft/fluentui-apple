@@ -3,9 +3,15 @@
 //  Licensed under the MIT License.
 //
 
+#if os(macOS)
 import AppKit
+private typealias FluentThemeableView = NSView
+#else
+import UIKit
+private typealias FluentThemeableView = UIView
+#endif
 
-@objc extension NSView: FluentThemeable {
+@objc extension FluentThemeableView: FluentThemeable {
     private struct Keys {
         static var fluentTheme: UInt8 = 0
         static var cachedFluentTheme: UInt8 = 0
@@ -14,7 +20,7 @@ import AppKit
     /// The custom `FluentTheme` to apply to this view.
     @objc public var fluentTheme: FluentTheme {
         get {
-            var optionalView: NSView? = self
+            var optionalView: FluentThemeableView? = self
             while let view = optionalView {
                 // If we successfully find a theme, return it.
                 if let theme = objc_getAssociatedObject(view, &Keys.fluentTheme) as? FluentTheme {
@@ -33,7 +39,7 @@ import AppKit
         }
     }
 
-    /// Removes any associated `ColorProvider` from the given `UIView`.
+    /// Removes any associated `ColorProvider` from the given `FluentThemeableView`.
     @objc(resetFluentTheme)
     public func resetFluentTheme() {
         objc_setAssociatedObject(self, &Keys.fluentTheme, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -47,12 +53,12 @@ import AppKit
             return false
         }
 
-        // If there is no object, or it is not a UIView, we must assume that we need to update.
-        guard let themeView = notification.object as? NSView else {
+        // If there is no object, or it is not a FluentThemeableView, we must assume that we need to update.
+        guard let themeView = notification.object as? FluentThemeableView else {
             return true
         }
 
-        // If the object is a UIView, we only update if `view` is a descendant thereof.
+        // If the object is a FluentThemeableView, we only update if `view` is a descendant thereof.
         return self.isDescendant(of: themeView)
     }
 }
