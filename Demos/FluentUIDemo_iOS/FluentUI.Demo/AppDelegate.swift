@@ -10,6 +10,7 @@ import AppCenterCrashes
 import AppCenterDistribute
 #endif
 import FluentUI
+import SwiftUI
 import UIKit
 
 #if DOGFOOD
@@ -25,6 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+        for _ in 0..<100000 {
+            print("queueing")
+            DispatchQueue.global(qos: .background).async {
+                let color = FluentTheme.shared.color(.background1)
+
+//                let colorHex = Color(hexValue: 0xFF0000)
+//                let color = UIColor(colorHex)
+                print(color)
+            }
+        }
 
         #if DOGFOOD
         AppCenter.start(withAppSecret: appCenterSecret, services: [
