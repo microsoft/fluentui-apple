@@ -1,9 +1,15 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.10
 
 import PackageDescription
 
 let iOSPlatforms: [Platform] = [.iOS, .visionOS, .macCatalyst]
 let macOSPlatforms: [Platform] = [.macOS]
+
+let swiftSettings: [SwiftSetting] = [
+    .unsafeFlags([
+        "-warnings-as-errors"
+    ])
+]
 
 let targets: [Target] = [
     .target(
@@ -12,7 +18,8 @@ let targets: [Target] = [
             .targetItem(name: "FluentUI_ios", condition: .when(platforms: iOSPlatforms)),
             .targetItem(name: "FluentUI_macos", condition: .when(platforms: macOSPlatforms))
         ],
-        path: "Sources/FluentUI"
+        path: "Sources/FluentUI",
+        swiftSettings: swiftSettings
     ),
     .target(
         name: "FluentUI_ios",
@@ -22,35 +29,39 @@ let targets: [Target] = [
         path: "Sources/FluentUI_iOS",
         resources: [
             .copy("Resources/Version.plist")
-        ]
+        ],
+        swiftSettings: swiftSettings
     ),
     .target(
         name: "FluentUI_macos",
         dependencies: [
             .target(name: "FluentUI_common")
         ],
-        path: "Sources/FluentUI_macOS"
+        path: "Sources/FluentUI_macOS",
+        swiftSettings: swiftSettings
     ),
     .target(
         name: "FluentUI_common",
-        path: "Sources/FluentUI_common"
+        path: "Sources/FluentUI_common",
+        swiftSettings: swiftSettings
     )
 ]
-
 let testTargets: [Target] = [
     .testTarget(
         name: "FluentUI_iOS_Tests",
         dependencies: [
             .target(name: "FluentUI_ios", condition: .when(platforms: iOSPlatforms)),
         ],
-        path: "Tests/FluentUI_iOS_Tests"
+        path: "Tests/FluentUI_iOS_Tests",
+        swiftSettings: swiftSettings
     ),
     .testTarget(
         name: "FluentUI_macOS_Tests",
         dependencies: [
             .target(name: "FluentUI_macos", condition: .when(platforms: macOSPlatforms))
         ],
-        path: "Tests/FluentUI_macOS_Tests"
+        path: "Tests/FluentUI_macOS_Tests",
+        swiftSettings: swiftSettings
     )
 ]
 
