@@ -1667,10 +1667,7 @@ public class GlobalTokens: NSObject {
         case size900
     }
     public static func fontSize(_ token: FontSizeToken) -> CGFloat {
-        guard let platformGlobalTokenProviding = self as? PlatformGlobalTokenProviding.Type else {
-            fatalError("GlobalTokens should conform to PlatformGlobalTokenProviding")
-        }
-        return platformGlobalTokenProviding.fontSize(for: token)
+        return platformGlobalTokenProvider.fontSize(for: token)
     }
 
     // MARK: - FontWeight
@@ -1853,10 +1850,27 @@ public class GlobalTokens: NSObject {
         }
     }
 
-    // MARK: Initialization
+    // MARK: - Initialization
 
     @available(*, unavailable)
     private override init() {
         preconditionFailure("GlobalTokens should never be initialized!")
+    }
+
+    // MARK: - PlatformGlobalTokenProviding
+
+    private static var platformGlobalTokenProvider: any PlatformGlobalTokenProviding.Type {
+        // We need slightly different implementations depending on how our package is loaded.
+#if SWIFT_PACKAGE || COCOAPODS
+        // In this case, the protocol conformance happens in a different module, so we need to
+        // convert the type conditionally and fail if something goes wrong.
+        guard let platformGlobalTokenProvider = self as? PlatformGlobalTokenProviding.Type else {
+            preconditionFailure("GlobalTokens should conform to PlatformGlobalTokenProviding")
+        }
+#else
+        // Otherwise, we're all in one module and thus the type conversion is guaranteed.
+        let platformGlobalTokenProvider = self as PlatformGlobalTokenProviding.Type
+#endif
+        return platformGlobalTokenProvider
     }
 }

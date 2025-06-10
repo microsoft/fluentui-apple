@@ -40,11 +40,7 @@ public class FluentTheme: NSObject, ObservableObject {
                 typographyOverrides: [TypographyToken: FontInfo]? = nil,
                 gradientOverrides: [GradientToken: [Color]]? = nil) {
 
-        // Ensure we always have an implementation of `PlatformThemeProviding`
-        guard let platformThemeProvider = type(of: self) as? PlatformThemeProviding.Type else {
-            preconditionFailure("Unable to initialize FluentTheme: does not conform to PlatformThemeProviding")
-        }
-
+        let platformThemeProvider = Self.platformThemeProvider
         let colorTokenSet = TokenSet<ColorToken, DynamicColor>(
             platformThemeProvider.platformColorValue(_:),
             colorOverrides?.mapValues { $0.dynamicColor }
@@ -126,6 +122,21 @@ public class FluentTheme: NSObject, ObservableObject {
     }
 
     private var controlTokenSets: [String: Any] = [:]
+
+    private static var platformThemeProvider: any PlatformThemeProviding.Type {
+        // We need slightly different implementations depending on how our package is loaded.
+#if SWIFT_PACKAGE || COCOAPODS
+        // In this case, the protocol conformance happens in a different module, so we need to
+        // convert the type conditionally and fail if something goes wrong.
+        guard let platformThemeProvider = self as? PlatformThemeProviding.Type else {
+            preconditionFailure("Unable to initialize FluentTheme: does not conform to PlatformThemeProviding")
+        }
+#else
+        // Otherwise, we're all in one module and thus the type conversion is guaranteed.
+        let platformThemeProvider = self as PlatformThemeProviding.Type
+#endif
+        return platformThemeProvider
+    }
 }
 
 // MARK: - FluentThemeable
