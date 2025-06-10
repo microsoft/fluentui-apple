@@ -6,6 +6,7 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
+import SwiftUI
 import UIKit
 
 public enum PillButtonToken: Int, TokenSetKey {
@@ -184,6 +185,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 extension PillButtonTokenSet {
     /// The distance of the content from the bottom of the `PillButton`.
     static let bottomInset: CGFloat = GlobalTokens.spacing(.size60)
+
+    /// The corner radius of the `PillButton`.
+    static let cornerRadius: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The distance of the content from the sides of the `PillButton`.
     static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)

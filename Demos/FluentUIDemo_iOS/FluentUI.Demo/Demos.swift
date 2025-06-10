@@ -45,6 +45,7 @@ struct Demos {
         DemoDescriptor("PersonaButtonCarousel", PersonaButtonCarouselDemoController.self, supportsVisionOS: false),
         DemoDescriptor("PillButton", PillButtonDemoController.self, supportsVisionOS: true),
         DemoDescriptor("PillButtonBar", PillButtonBarDemoController.self, supportsVisionOS: true),
+        DemoDescriptor("PillButtonSwiftUI", PillButtonDemoControllerSwiftUI.self, supportsVisionOS: true),
         DemoDescriptor("PopupMenuController", PopupMenuDemoController.self, supportsVisionOS: false),
         DemoDescriptor("SearchBar", SearchBarDemoController.self, supportsVisionOS: true),
         DemoDescriptor("SegmentedControl", SegmentedControlDemoController.self, supportsVisionOS: false),
