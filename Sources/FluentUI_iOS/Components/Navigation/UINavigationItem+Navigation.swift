@@ -124,6 +124,7 @@ import UIKit
     }
 
     /// The navigation item's subtitle that displays in the navigation bar.
+    @available(iOS, obsoleted: 26.0)
     var subtitle: String? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKeys.subtitle) as? String
