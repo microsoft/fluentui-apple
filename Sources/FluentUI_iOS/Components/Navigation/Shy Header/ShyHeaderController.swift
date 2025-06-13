@@ -87,7 +87,7 @@ class ShyHeaderController: UIViewController {
         contentViewController.didMove(toParent: self)
         contentViewController.view.fitIntoSuperview(usingConstraints: true)
 
-        contentScrollViewObservation = contentViewController.navigationItem.observe(\.contentScrollView, options: [.new]) { [weak self] (_, change) in
+        contentScrollViewObservation = contentViewController.navigationItem.observe(\.fluentConfiguration.contentScrollView, options: [.new]) { [weak self] (_, change) in
             guard let strongSelf = self else {
                 return
             }
@@ -99,15 +99,15 @@ class ShyHeaderController: UIViewController {
             }
         }
         defer {
-            contentScrollView = contentViewController.navigationItem.contentScrollView
+            contentScrollView = contentViewController.navigationItem.fluentConfiguration.contentScrollView
         }
 
-        accessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.accessoryView) { [weak self] item, _ in
-            self?.shyHeaderView.accessoryView = item.accessoryView
+        accessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.fluentConfiguration.accessoryView) { [weak self] item, _ in
+            self?.shyHeaderView.accessoryView = item.fluentConfiguration.accessoryView
         }
 
-        secondaryAccessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.secondaryAccessoryView) { [weak self] item, _ in
-            self?.shyHeaderView.secondaryAccessoryView = item.secondaryAccessoryView
+        secondaryAccessoryViewObservation = contentViewController.navigationItem.observe(\UINavigationItem.fluentConfiguration.secondaryAccessoryView) { [weak self] item, _ in
+            self?.shyHeaderView.secondaryAccessoryView = item.fluentConfiguration.secondaryAccessoryView
         }
     }
 
@@ -220,9 +220,9 @@ class ShyHeaderController: UIViewController {
 
     private func setupShyHeaderView() {
         let navigationItem = contentViewController.navigationItem
-        shyHeaderView.accessoryView = navigationItem.accessoryView
-        shyHeaderView.secondaryAccessoryView = navigationItem.secondaryAccessoryView
-        shyHeaderView.navigationBarShadow = navigationItem.navigationBarShadow
+        shyHeaderView.accessoryView = navigationItem.fluentConfiguration.accessoryView
+        shyHeaderView.secondaryAccessoryView = navigationItem.fluentConfiguration.secondaryAccessoryView
+        shyHeaderView.navigationBarShadow = navigationItem.fluentConfiguration.navigationBarShadow
         shyHeaderView.paddingView = paddingView
         shyHeaderView.parentController = self
         shyHeaderView.maxHeightChanged = { [weak self] in
@@ -281,12 +281,12 @@ class ShyHeaderController: UIViewController {
     }
 
     private func updateBackgroundColor(with item: UINavigationItem) {
-        let color = item.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
+        let color = item.fluentConfiguration.navigationBarColor(fluentTheme: containingView?.fluentTheme ?? view.fluentTheme)
         shyHeaderView.backgroundColor = color
         view.backgroundColor = color
         paddingView.backgroundColor = color
 
-        navigationBarColorObservation = item.observe(\.customNavigationBarColor) { [weak self] item, _ in
+        navigationBarColorObservation = item.observe(\.fluentConfiguration.customNavigationBarColor) { [weak self] item, _ in
             self?.updateBackgroundColor(with: item)
         }
     }

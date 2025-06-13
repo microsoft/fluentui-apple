@@ -339,6 +339,9 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
+#if compiler(>=6.2)
+    private var subtitle26Observer: NSKeyValueObservation?
+#endif // compiler(>=6.2)
     private var subtitleObserver: NSKeyValueObservation?
     private var titleAccessoryObserver: NSKeyValueObservation?
     private var titleImageObserver: NSKeyValueObservation?
@@ -462,7 +465,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
             topAccessoryView.removeFromSuperview()
         }
 
-        self.topAccessoryView = navigationItem?.topAccessoryView
+        self.topAccessoryView = navigationItem?.fluentConfiguration.topAccessoryView
 
         if let topAccessoryView = self.topAccessoryView {
             topAccessoryView.translatesAutoresizingMaskIntoConstraints = false
@@ -478,7 +481,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
                 topAccessoryView.centerYAnchor.constraint(equalTo: centerYAnchor)
             ])
 
-            if let attributes = navigationItem?.topAccessoryViewAttributes {
+            if let attributes = navigationItem?.fluentConfiguration.topAccessoryViewAttributes {
                 let widthConstraint = topAccessoryView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: attributes.widthMultiplier)
                 widthConstraint.priority = .defaultHigh
 
@@ -638,7 +641,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     // MARK: UINavigationItem & UIBarButtonItem handling
 
     func updateColors(for navigationItem: UINavigationItem?) {
-        let backgroundColor = navigationItem?.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let backgroundColor = navigationItem?.fluentConfiguration.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         let shouldHideSystemTitle: Bool = (style == .gradient || (backgroundColor?.resolvedColor(with: traitCollection).cgColor.alpha ?? 1.0) < 1.0) && usesLeadingTitle
         let systemTitleColor = shouldHideSystemTitle ? UIColor.clear : tokenSet[.titleColor].uiColor
 
@@ -658,7 +661,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         // Update the scroll edge appearance to match the new standard appearance
         scrollEdgeAppearance = standardAppearance
 
-        navigationBarColorObserver = navigationItem?.observe(\.customNavigationBarColor) { [unowned self] navigationItem, _ in
+        navigationBarColorObserver = navigationItem?.observe(\.fluentConfiguration.customNavigationBarColor) { [unowned self] navigationItem, _ in
             // Unlike title or barButtonItems that depends on the topItem, navigation bar color can be set from the parentViewController's navigationItem
             self.updateColors(for: navigationItem)
         }
@@ -669,7 +672,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         style = actualStyle
         updateColors(for: actualItem)
         updateGradient()
-        usesLeadingTitle = navigationItem.titleStyle.usesLeadingAlignment
+        usesLeadingTitle = navigationItem.fluentConfiguration.titleStyle.usesLeadingAlignment
         updateShadow(for: navigationItem)
         updateTopAccessoryView(for: navigationItem)
         updateSubtitleView(for: navigationItem)
@@ -695,42 +698,49 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+        subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        titleAccessoryObserver = navigationItem.observe(\UINavigationItem.titleAccessory) { [unowned self] item, _ in
+#if compiler(>=6.2)
+        if #available(iOS 26, visionOS 26, macCatalyst 26, *) {
+            subtitle26Observer = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+                self.navigationItemDidUpdate(item)
+            }
+        }
+#endif // compiler(>=6.2)
+        titleAccessoryObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.titleAccessory) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        titleImageObserver = navigationItem.observe(\UINavigationItem.titleImage) { [unowned self] item, _ in
+        titleImageObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.titleImage) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        accessoryViewObserver = navigationItem.observe(\UINavigationItem.accessoryView) { [unowned self] item, _ in
+        accessoryViewObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.accessoryView) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        topAccessoryViewObserver = navigationItem.observe(\UINavigationItem.topAccessoryView) { [unowned self] item, _ in
+        topAccessoryViewObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.topAccessoryView) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        topAccessoryViewAttributesObserver = navigationItem.observe(\UINavigationItem.topAccessoryViewAttributes) { [unowned self] item, _ in
+        topAccessoryViewAttributesObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.topAccessoryViewAttributes) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        navigationBarStyleObserver = navigationItem.observe(\UINavigationItem.navigationBarStyle) { [unowned self] item, _ in
+        navigationBarStyleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.navigationBarStyle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.navigationBarShadow) { [unowned self] item, _ in
+        navigationBarShadowObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.navigationBarShadow) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        titleStyleObserver = navigationItem.observe(\UINavigationItem.titleStyle) { [unowned self] item, _ in
+        titleStyleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.titleStyle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
     }
 
     func actualStyleAndItem(for navigationItem: UINavigationItem) -> (style: Style, item: UINavigationItem) {
-        if navigationItem.navigationBarStyle != .default {
-            return (navigationItem.navigationBarStyle, navigationItem)
+        if navigationItem.fluentConfiguration.navigationBarStyle != .default {
+            return (navigationItem.fluentConfiguration.navigationBarStyle, navigationItem)
         }
         if let items = items?.prefix(while: { $0 != navigationItem }),
-            let item = items.last(where: { $0.navigationBarStyle != .default }) {
-            return (item.navigationBarStyle, item)
+           let item = items.last(where: { $0.fluentConfiguration.navigationBarStyle != .default }) {
+            return (item.fluentConfiguration.navigationBarStyle, item)
         }
         return (NavigationBar.defaultStyle, navigationItem)
     }
@@ -787,7 +797,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
                 backButtonItem.title = topItem?.backButtonTitle
             }
 
-            if navigationItem.titleStyle == .system {
+            if navigationItem.fluentConfiguration.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
                 // The OS already gives us the leading margin we want, so no need for additional insets
                 button.configuration?.contentInsets.leading = 0
@@ -914,9 +924,9 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     }
 
     private func needsShadow(for navigationItem: UINavigationItem?) -> Bool {
-        switch navigationItem?.navigationBarShadow ?? .automatic {
+        switch navigationItem?.fluentConfiguration.navigationBarShadow ?? .automatic {
         case .automatic:
-            return !usesLeadingTitle && style == .system && !systemWantsCompactNavigationBar && navigationItem?.accessoryView == nil
+            return !usesLeadingTitle && style == .system && !systemWantsCompactNavigationBar && navigationItem?.fluentConfiguration.accessoryView == nil
         case .alwaysHidden:
             return false
         }
@@ -935,7 +945,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
             .subtitleFont: .subtitleFont
         ])
         customTitleView.setup(navigationItem: navigationItem)
-        if navigationItem.titleAccessory == nil {
+        if navigationItem.fluentConfiguration.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion
             customTitleView.delegate = self
         }
