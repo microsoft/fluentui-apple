@@ -219,18 +219,18 @@ class NavigationControllerDemoController: DemoController {
                                    leadingItem: LeadingItem = .avatar,
                                    updateStylePeriodically: Bool = false) -> NavigationController {
         let content = RootViewController()
-        content.navigationItem.titleStyle = titleStyle
-        content.navigationItem.subtitle = subtitle
+        content.navigationItem.fluentConfiguration.titleStyle = titleStyle
+        content.navigationItem.fluentConfiguration.subtitle = subtitle
         content.navigationItem.backButtonTitle = "99+"
-        content.navigationItem.navigationBarStyle = style
-        content.navigationItem.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
-        content.navigationItem.accessoryView = accessoryView
-        content.navigationItem.secondaryAccessoryView = secondaryAccessoryView
-        content.navigationItem.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
-        content.navigationItem.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
+        content.navigationItem.fluentConfiguration.navigationBarStyle = style
+        content.navigationItem.fluentConfiguration.navigationBarShadow = showShadow ? .automatic : .alwaysHidden
+        content.navigationItem.fluentConfiguration.accessoryView = accessoryView
+        content.navigationItem.fluentConfiguration.secondaryAccessoryView = secondaryAccessoryView
+        content.navigationItem.fluentConfiguration.topAccessoryViewAttributes = NavigationBarTopSearchBarAttributes()
+        content.navigationItem.fluentConfiguration.contentScrollView = contractNavigationBarOnScroll ? content.tableView : nil
         content.showsTopAccessoryView = showsTopAccessory
 
-        content.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
+        content.navigationItem.fluentConfiguration.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: view.frame.width)
 
         if updateStylePeriodically {
             changeStyleContinuously(in: content.navigationItem)
@@ -276,7 +276,7 @@ class NavigationControllerDemoController: DemoController {
     private func changeStyleContinuously(in navigationItem: UINavigationItem) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let newStyle: NavigationBar.Style
-            switch navigationItem.navigationBarStyle {
+            switch navigationItem.fluentConfiguration.navigationBarStyle {
             case .custom:
                 newStyle = .default
             case .default:
@@ -287,7 +287,7 @@ class NavigationControllerDemoController: DemoController {
                 newStyle = .custom
             }
 
-            navigationItem.navigationBarStyle = newStyle
+            navigationItem.fluentConfiguration.navigationBarStyle = newStyle
 #if os(iOS)
             self.setNeedsStatusBarAppearanceUpdate()
 #endif
@@ -382,81 +382,81 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     lazy var titleViewFeaturesByRow: [Int: TitleViewFeature] = [
         4: TitleViewFeature(name: "Large title") {
-            $0.navigationItem.titleStyle = .largeLeading
+            $0.navigationItem.fluentConfiguration.titleStyle = .largeLeading
         },
         5: TitleViewFeature(name: "Leading-aligned, two titles, collapsible") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.contentScrollView = $0.tableView
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.contentScrollView = $0.tableView
         },
         6: TitleViewFeature(name: "Two titles with subtitle disclosure") {
-            $0.navigationItem.subtitle = "Press me!"
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
+            $0.navigationItem.fluentConfiguration.subtitle = "Press me!"
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .disclosure, delegate: self)
         },
         7: TitleViewFeature(name: "Leading-aligned, image, subtitle") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
         },
         8: TitleViewFeature(name: "Centered, image, subtitle") {
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
         },
         9: TitleViewFeature(name: "Leading-aligned, image, down arrow, subtitle") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         10: TitleViewFeature(name: "Centered, image, down arrow, subtitle") {
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         11: TitleViewFeature(name: "Leading, down arrow") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         12: TitleViewFeature(name: "Centered, down arrow") {
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .downArrow, delegate: self)
         },
         13: TitleViewFeature(name: "Leading, image, disclosure") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         },
         14: TitleViewFeature(name: "Centered, image, disclosure") {
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
         },
         15: TitleViewFeature(name: "Centered, collapsible search bar") {
             let searchBar = SearchBar()
-            searchBar.style = ($0.navigationItem.navigationBarStyle == .system || $0.navigationItem.navigationBarStyle == .gradient) ? .onSystemNavigationBar : .onBrandNavigationBar
+            searchBar.style = ($0.navigationItem.fluentConfiguration.navigationBarStyle == .system || $0.navigationItem.fluentConfiguration.navigationBarStyle == .gradient) ? .onSystemNavigationBar : .onBrandNavigationBar
             searchBar.placeholderText = "Search"
-            $0.navigationItem.accessoryView = searchBar
-            $0.navigationItem.contentScrollView = $0.tableView
+            $0.navigationItem.fluentConfiguration.accessoryView = searchBar
+            $0.navigationItem.fluentConfiguration.contentScrollView = $0.tableView
         },
         16: TitleViewFeature(name: "Leading-aligned, subtitle with custom trailing image") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
         },
         17: TitleViewFeature(name: "Leading title with leading image for both title and subtitle") {
-            $0.navigationItem.titleStyle = .leading
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
-            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
-            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
+            $0.navigationItem.fluentConfiguration.titleStyle = .leading
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .subtitle, style: .custom, delegate: self)
+            $0.navigationItem.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle = true
         },
         18: TitleViewFeature(name: "Centered title with leading image for both title and subtitle") {
-            $0.navigationItem.titleStyle = .system
-            $0.navigationItem.subtitle = "Subtitle"
-            $0.navigationItem.titleImage = UIImage(named: "ic_fluent_star_24_regular")
-            $0.navigationItem.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.navigationItem.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
-            $0.navigationItem.isTitleImageLeadingForTitleAndSubtitle = true
+            $0.navigationItem.fluentConfiguration.titleStyle = .system
+            $0.navigationItem.fluentConfiguration.subtitle = "Subtitle"
+            $0.navigationItem.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.navigationItem.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.navigationItem.fluentConfiguration.titleAccessory = NavigationBarTitleAccessory(location: .title, style: .disclosure, delegate: self)
+            $0.navigationItem.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle = true
         }
     ]
 
@@ -570,8 +570,8 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.contentInset.bottom = size.height
 
         navigationBarFrameObservation = navigationController?.navigationBar.observe(\.frame, options: [.old, .new]) { [unowned self] navigationBar, change in
-            if change.newValue?.width != change.oldValue?.width && self.navigationItem.navigationBarStyle == .custom {
-                self.navigationItem.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
+            if change.newValue?.width != change.oldValue?.width && self.navigationItem.fluentConfiguration.navigationBarStyle == .custom {
+                self.navigationItem.fluentConfiguration.customNavigationBarColor = CustomGradient.getCustomBackgroundColor(width: navigationBar.frame.width)
             }
         }
     }
@@ -582,15 +582,15 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if showsTopAccessoryView {
             let showTopAccessoryView = view.frame.size.width >= Constants.topAccessoryViewWidthThreshold
 
-            if let accessoryView = navigationItem.accessoryView as? SearchBar, showTopAccessoryView {
+            if let accessoryView = navigationItem.fluentConfiguration.accessoryView as? SearchBar, showTopAccessoryView {
                 accessoryView.hidesNavigationBarDuringSearch = false
-                navigationItem.accessoryView = nil
-                navigationItem.topAccessoryView = accessoryView
-            } else if let accessoryView = navigationItem.topAccessoryView as? SearchBar, !showTopAccessoryView {
+                navigationItem.fluentConfiguration.accessoryView = nil
+                navigationItem.fluentConfiguration.topAccessoryView = accessoryView
+            } else if let accessoryView = navigationItem.fluentConfiguration.topAccessoryView as? SearchBar, !showTopAccessoryView {
                 accessoryView.hidesNavigationBarDuringSearch = true
 
-                navigationItem.topAccessoryView = nil
-                navigationItem.accessoryView = accessoryView
+                navigationItem.fluentConfiguration.topAccessoryView = nil
+                navigationItem.fluentConfiguration.accessoryView = accessoryView
             }
         }
     }
@@ -616,7 +616,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             guard let cell = tableView.dequeueReusableCell(withIdentifier: BooleanCell.identifier, for: indexPath) as? BooleanCell else {
                 return UITableViewCell()
             }
-            let isSwitchEnabled = navigationItem.titleStyle == .largeLeading && msfNavigationController?.msfNavigationBar.personaData != nil
+            let isSwitchEnabled = navigationItem.fluentConfiguration.titleStyle == .largeLeading && msfNavigationController?.msfNavigationBar.personaData != nil
             cell.setup(title: "Show rainbow ring on avatar",
                        isOn: showRainbowRingForAvatar,
                        isSwitchEnabled: isSwitchEnabled)
@@ -633,7 +633,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             cell.setup(title: "Show badge on right bar button items",
                        isOn: showBadgeOnBarButtonItem,
-                       isSwitchEnabled: navigationItem.titleStyle == .largeLeading)
+                       isSwitchEnabled: navigationItem.fluentConfiguration.titleStyle == .largeLeading)
             cell.titleNumberOfLines = 0
             cell.onValueChanged = { [weak self, weak cell] in
                 self?.shouldShowBadge(isOn: cell?.isOn ?? false)
@@ -667,11 +667,11 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else {
             let row = indexPath.row
             let controller = ChildViewController(parentIndex: row)
-            if navigationItem.accessoryView == nil {
-                if navigationItem.navigationBarStyle == .gradient {
-                    controller.navigationItem.navigationBarStyle = .gradient
+            if navigationItem.fluentConfiguration.accessoryView == nil {
+                if navigationItem.fluentConfiguration.navigationBarStyle == .gradient {
+                    controller.navigationItem.fluentConfiguration.navigationBarStyle = .gradient
                 } else {
-                    controller.navigationItem.navigationBarStyle = .system
+                    controller.navigationItem.fluentConfiguration.navigationBarStyle = .system
                 }
             }
             if let feature = titleViewFeaturesByRow[row] {
@@ -696,7 +696,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let selectedCount = tableView.indexPathsForSelectedRows?.count ?? 0
             navigationItem.title = selectedCount == 1 ? "1 item selected" : "\(selectedCount) items selected"
         } else {
-            navigationItem.title = navigationItem.titleStyle == .largeLeading ? "Large Title" : "Regular Title"
+            navigationItem.title = navigationItem.fluentConfiguration.titleStyle == .largeLeading ? "Large Title" : "Regular Title"
         }
     }
 
@@ -840,7 +840,7 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     func navigationBarDidTapOnTitle(_ sender: NavigationBar) {
         if let topItem = sender.topItem {
-            topItem.navigationBarStyle = topItem.navigationBarStyle == .primary ? .system : .primary
+            topItem.fluentConfiguration.navigationBarStyle = topItem.fluentConfiguration.navigationBarStyle == .primary ? .system : .primary
 #if os(iOS)
             setNeedsStatusBarAppearanceUpdate()
 #endif
@@ -853,9 +853,9 @@ class RootViewController: UIViewController, UITableViewDataSource, UITableViewDe
 extension RootViewController: SearchBarDelegate {
     func searchBarDidBeginEditing(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
-        if navigationItem.secondaryAccessoryView != nil && !showsTopAccessoryView {
-            secondaryAccessoryView = navigationItem.secondaryAccessoryView
-            navigationItem.secondaryAccessoryView = nil
+        if navigationItem.fluentConfiguration.secondaryAccessoryView != nil && !showsTopAccessoryView {
+            secondaryAccessoryView = navigationItem.fluentConfiguration.secondaryAccessoryView
+            navigationItem.fluentConfiguration.secondaryAccessoryView = nil
         }
     }
 
@@ -865,7 +865,7 @@ extension RootViewController: SearchBarDelegate {
     func searchBarDidCancel(_ searchBar: SearchBar) {
         searchBar.progressSpinner.state.isAnimating = false
         if secondaryAccessoryView != nil && !showsTopAccessoryView {
-            navigationItem.secondaryAccessoryView = secondaryAccessoryView
+            navigationItem.fluentConfiguration.secondaryAccessoryView = secondaryAccessoryView
         }
     }
 
@@ -912,11 +912,11 @@ class ChildViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let controller = GrandchildViewController(grandparentIndex: parentIndex, parentIndex: 1 + indexPath.row)
-        if navigationItem.accessoryView == nil {
-            if navigationItem.navigationBarStyle == .gradient {
-                controller.navigationItem.navigationBarStyle = .gradient
+        if navigationItem.fluentConfiguration.accessoryView == nil {
+            if navigationItem.fluentConfiguration.navigationBarStyle == .gradient {
+                controller.navigationItem.fluentConfiguration.navigationBarStyle = .gradient
             } else {
-                controller.navigationItem.navigationBarStyle = .system
+                controller.navigationItem.fluentConfiguration.navigationBarStyle = .system
             }
         }
         navigationController?.pushViewController(controller, animated: true)
