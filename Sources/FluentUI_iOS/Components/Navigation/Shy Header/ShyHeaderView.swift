@@ -217,7 +217,7 @@ class ShyHeaderView: UIView, TokenizedControl {
         guard let parentController = parentController, let (_, actualItem) = parentController.msfNavigationController?.msfNavigationBar.actualStyleAndItem(for: parentController.navigationItem) else {
             return
         }
-        let color = actualItem.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
+        let color = actualItem.fluentConfiguration.navigationBarColor(fluentTheme: tokenSet.fluentTheme)
         backgroundColor = color
         paddingView?.backgroundColor = color
     }

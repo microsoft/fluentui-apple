@@ -136,7 +136,7 @@ open class NavigationController: UINavigationController {
         if viewController is ShyHeaderController {
             return false
         }
-        if viewController.navigationItem.titleStyle == .largeLeading || viewController.navigationItem.accessoryView != nil {
+        if viewController.navigationItem.fluentConfiguration.titleStyle == .largeLeading || viewController.navigationItem.fluentConfiguration.accessoryView != nil {
             return true
         }
         return false

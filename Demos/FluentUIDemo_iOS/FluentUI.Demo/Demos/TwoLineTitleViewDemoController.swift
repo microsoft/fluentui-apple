@@ -71,56 +71,56 @@ class TwoLineTitleViewDemoController: DemoController {
         },
         makeExampleNavigationItem {
             $0.title = "Another title"
-            $0.subtitle = "With a subtitle"
+            $0.fluentConfiguration.subtitle = "With a subtitle"
         },
         makeExampleNavigationItem {
             $0.title = "This one"
-            $0.subtitle = "has an image"
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.subtitle = "has an image"
+            $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
         },
         makeExampleNavigationItem {
             $0.title = "This one"
-            $0.subtitle = "has a disclosure chevron"
-            $0.titleAccessory = .init(location: .title, style: .disclosure)
+            $0.fluentConfiguration.subtitle = "has a disclosure chevron"
+            $0.fluentConfiguration.titleAccessory = .init(location: .title, style: .disclosure)
         },
         makeExampleNavigationItem {
             $0.title = "They can also be"
-            $0.subtitle = "leading-aligned"
-            $0.titleStyle = .leading
+            $0.fluentConfiguration.subtitle = "leading-aligned"
+            $0.fluentConfiguration.titleStyle = .leading
         },
         makeExampleNavigationItem {
             $0.title = "Leading Title"
-            $0.titleStyle = .leading
-            $0.subtitle = "Custom icon"
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = .init(location: .subtitle, style: .custom)
+            $0.fluentConfiguration.titleStyle = .leading
+            $0.fluentConfiguration.subtitle = "Custom icon"
+            $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.titleAccessory = .init(location: .subtitle, style: .custom)
         },
         makeExampleNavigationItem {
             $0.title = "Centered Title"
-            $0.titleStyle = .system
-            $0.subtitle = "Custom icon"
-            $0.titleImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = .init(location: .subtitle, style: .custom)
+            $0.fluentConfiguration.titleStyle = .system
+            $0.fluentConfiguration.subtitle = "Custom icon"
+            $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.titleAccessory = .init(location: .subtitle, style: .custom)
         },
         makeExampleNavigationItem {
             $0.title = "Centered Title"
-            $0.titleStyle = .system
-            $0.subtitle = "Custom icon"
-            $0.titleImage = UIImage(named: "ic_fluent_star_24_regular")
-            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = .init(location: .subtitle, style: .custom)
-            $0.isTitleImageLeadingForTitleAndSubtitle = true
+            $0.fluentConfiguration.titleStyle = .system
+            $0.fluentConfiguration.subtitle = "Custom icon"
+            $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.titleAccessory = .init(location: .subtitle, style: .custom)
+            $0.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle = true
         },
         makeExampleNavigationItem {
             $0.title = "Leading Title"
-            $0.titleStyle = .leading
-            $0.subtitle = "Subtitle"
-            $0.titleImage = UIImage(named: "ic_fluent_star_24_regular")
-            $0.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
-            $0.titleAccessory = .init(location: .title, style: .downArrow)
-            $0.isTitleImageLeadingForTitleAndSubtitle = true
+            $0.fluentConfiguration.titleStyle = .leading
+            $0.fluentConfiguration.subtitle = "Subtitle"
+            $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
+            $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
+            $0.fluentConfiguration.titleAccessory = .init(location: .title, style: .downArrow)
+            $0.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle = true
         }
     ]
 

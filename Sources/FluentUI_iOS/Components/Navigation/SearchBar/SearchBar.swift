@@ -607,7 +607,7 @@ extension SearchBar: UITextFieldDelegate {
 // MARK: - UINavigationItem extension
 
 extension UINavigationItem {
-    var accessorySearchBar: SearchBar? { return accessoryView as? SearchBar }
+    var accessorySearchBar: SearchBar? { return fluentConfiguration.accessoryView as? SearchBar }
 }
 
 // MARK: - SearchBarTextField

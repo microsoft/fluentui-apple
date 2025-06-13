@@ -47,12 +47,12 @@ fileprivate extension NavigationBarTitleAccessory.Style {
 extension TwoLineTitleView {
     @objc open func setup(navigationItem: UINavigationItem) {
         let title = navigationItem.title ?? ""
-        let alignment: Alignment = navigationItem.titleStyle == .system ? .center : .leading
+        let alignment: Alignment = navigationItem.fluentConfiguration.titleStyle == .system ? .center : .leading
 
         let interactivePart: InteractivePart
         let accessoryType: AccessoryType
         let animatesWhenPressed: Bool
-        if let titleAccessory = navigationItem.titleAccessory {
+        if let titleAccessory = navigationItem.fluentConfiguration.titleAccessory {
             // Use the custom action provided by the title accessory specification
             interactivePart = titleAccessory.location.twoLineTitleViewInteractivePart
             accessoryType = titleAccessory.style.twoLineTitleViewAccessoryType
@@ -65,6 +65,25 @@ extension TwoLineTitleView {
             animatesWhenPressed = false
         }
 
-        setup(title: title, titleImage: navigationItem.titleImage, subtitle: navigationItem.subtitle, alignment: alignment, interactivePart: interactivePart, animatesWhenPressed: animatesWhenPressed, accessoryType: accessoryType, customSubtitleTrailingImage: navigationItem.customSubtitleTrailingImage, isTitleImageLeadingForTitleAndSubtitle: navigationItem.isTitleImageLeadingForTitleAndSubtitle)
+        var subtitle: String?
+#if compiler(>=6.2)
+        // Prefer the UINavigationItem `.subtitle` property over the one on fluentConfiguration.
+        if #available(iOS 26, visionOS 26, macCatalyst 26, *) {
+            subtitle = navigationItem.subtitle
+        }
+#endif // compiler(>=6.2)
+        if subtitle == nil {
+            subtitle = navigationItem.fluentConfiguration.subtitle
+        }
+
+        setup(title: title,
+              titleImage: navigationItem.fluentConfiguration.titleImage,
+              subtitle: navigationItem.fluentConfiguration.subtitle,
+              alignment: alignment,
+              interactivePart: interactivePart,
+              animatesWhenPressed: animatesWhenPressed,
+              accessoryType: accessoryType,
+              customSubtitleTrailingImage: navigationItem.fluentConfiguration.customSubtitleTrailingImage,
+              isTitleImageLeadingForTitleAndSubtitle: navigationItem.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle)
     }
 }

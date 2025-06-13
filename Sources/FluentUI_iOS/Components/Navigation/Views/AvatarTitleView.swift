@@ -332,17 +332,17 @@ class AvatarTitleView: UIView, TokenizedControl, TwoLineTitleViewDelegate {
     func update(with navigationItem: UINavigationItem) {
         hasLeftBarButtonItems = !(navigationItem.leftBarButtonItems?.isEmpty ?? true)
         titleButton.setTitle(navigationItem.title, for: .normal)
-        titleStyle = navigationItem.titleStyle
+        titleStyle = navigationItem.fluentConfiguration.titleStyle
         twoLineTitleView.setup(navigationItem: navigationItem)
 
         // Hide the avatar if TwoLineTitleView has a leading image for both title and subtitle.
-        if navigationItem.isTitleImageLeadingForTitleAndSubtitle {
+        if navigationItem.fluentConfiguration.isTitleImageLeadingForTitleAndSubtitle {
             showsProfileButton = false
         } else {
             updateProfileButtonVisibility()
         }
 
-        if navigationItem.titleAccessory == nil {
+        if navigationItem.fluentConfiguration.titleAccessory == nil {
             // Use default behavior of requesting an accessory expansion
             twoLineTitleView.delegate = self
         }
