@@ -31,6 +31,18 @@ public enum PillButtonToken: Int, TokenSetKey {
     /// The font used for the title of the `PillButton`.
     case font
 
+    /// The color of the icon of the `PillButton`.
+    case iconColor
+
+    /// The color of the icon of the `PillButton` when disabled.
+    case iconColorDisabled
+
+    /// The color of the icon of the `PillButton` when selected.
+    case iconColorSelected
+
+    /// The color of the icon of the `PillButton` when selected and disabled.
+    case iconColorSelectedDisabled
+
     /// The color of the title of the `PillButton`.
     case titleColor
 
@@ -108,7 +120,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
                     case .primary:
                         return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return theme.color(.brandForegroundDisabled1)
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark,
+                                       darkElevated: theme.color(.foregroundDisabled1).darkElevated)
                     }
                 }
 
@@ -126,6 +140,54 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 
             case .font:
                 return .uiFont { theme.typography(.body2, adjustsForContentSizeCategory: false) }
+
+            case .iconColor:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground3)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground3).dark,
+                                       darkElevated: theme.color(.foreground3).darkElevated)
+                    }
+                }
+
+            case .iconColorDisabled:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundDisabled1)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark,
+                                       darkElevated: theme.color(.foregroundDisabled1).darkElevated)
+                    }
+                }
+
+            case .iconColorSelected:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundOnColor)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark,
+                                       darkElevated: theme.color(.foreground1).darkElevated)
+                    }
+                }
+
+            case .iconColorSelectedDisabled:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.brandForegroundDisabled1)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark,
+                                       darkElevated: theme.color(.foregroundDisabled2).darkElevated)
+                    }
+                }
 
             case .titleColor:
                 return .uiColor {

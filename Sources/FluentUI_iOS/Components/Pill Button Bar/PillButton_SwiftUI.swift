@@ -54,10 +54,12 @@ public struct PillButtonView: View, TokenizedControlView {
                 HStack(spacing: 4.0) {
                     if let leadingImage {
                         leadingImage
+                            .foregroundStyle(iconColor)
                             .frame(width: 16, height: 16)
                     }
 
                     Text(title)
+                        .foregroundStyle(titleColor)
                 }
             }
             .buttonStyle(PillButtonStateStyle(isSelected: isSelected,
@@ -83,6 +85,38 @@ public struct PillButtonView: View, TokenizedControlView {
     private let style: PillButtonStyle
     private let title: String
     private let action: (() -> Void)?
+
+    private var titleColor: Color {
+        if isSelected {
+            if isDisabled {
+                return tokenSet[.titleColorSelectedDisabled].color
+            } else {
+                return tokenSet[.titleColorSelected].color
+            }
+        } else {
+            if isDisabled {
+                return tokenSet[.titleColorDisabled].color
+            } else {
+                return tokenSet[.titleColor].color
+            }
+        }
+    }
+
+    private var iconColor: Color {
+        if isSelected {
+            if isDisabled {
+                return tokenSet[.iconColorSelectedDisabled].color
+            } else {
+                return tokenSet[.iconColorSelected].color
+            }
+        } else {
+            if isDisabled {
+                return tokenSet[.iconColorDisabled].color
+            } else {
+                return tokenSet[.iconColor].color
+            }
+        }
+    }
 }
 
 private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
@@ -102,7 +136,6 @@ private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
 
         return configuration.label
             .font(Font(tokenSet[.font].uiFont))
-            .foregroundStyle(foregroundColor)
             .padding(.horizontal, PillButtonTokenSet.horizontalInset)
             .padding(.top, PillButtonTokenSet.topInset)
             .padding(.bottom, PillButtonTokenSet.bottomInset)
@@ -133,22 +166,6 @@ private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
                 return tokenSet[.backgroundColorDisabled].color
             } else {
                 return tokenSet[.backgroundColor].color
-            }
-        }
-    }
-
-    var foregroundColor: Color {
-        if isSelected {
-            if isDisabled {
-                return tokenSet[.titleColorSelectedDisabled].color
-            } else {
-                return tokenSet[.titleColorSelected].color
-            }
-        } else {
-            if isDisabled {
-                return tokenSet[.titleColorDisabled].color
-            } else {
-                return tokenSet[.titleColor].color
             }
         }
     }
