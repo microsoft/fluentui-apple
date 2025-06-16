@@ -7,7 +7,10 @@ let macOSPlatforms: [Platform] = [.macOS]
 
 let swiftSettings: [SwiftSetting] = [
     .unsafeFlags([
-        "-warnings-as-errors"
+        // Per https://forums.swift.org/t/warnings-as-errors-in-sub-packages/70810
+        // Having this flag enabled in a sub-package causes conflicts with the
+        // automatic "-suppress-warnings" flag added by Xcode.
+        //"-warnings-as-errors"
     ])
 ]
 
