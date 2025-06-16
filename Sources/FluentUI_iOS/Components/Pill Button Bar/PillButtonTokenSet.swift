@@ -245,26 +245,35 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 }
 
 extension PillButtonTokenSet {
-    /// The distance of the content from the bottom of the `PillButton`.
-    static let bottomInset: CGFloat = GlobalTokens.spacing(.size60)
-
     /// The corner radius of the `PillButton`.
     static let cornerRadius: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The distance of the content from the sides of the `PillButton`.
     static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)
 
+    /// The size of the icon of the `PillButton`.
+    static let iconSize: CGFloat = GlobalTokens.spacing(.size160)
+
+    /// The distance between the icon and the label of the `PillButton`.
+    static let iconAndLabelSpacing: CGFloat = GlobalTokens.spacing(.size40)
+
     /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
-    static let unreadDotOffsetX: CGFloat = GlobalTokens.spacing(.size60)
+    static let unreadDotContentOffsetX: CGFloat = GlobalTokens.spacing(.size60)
 
     /// The distance of the unread dot from the top of the content of the `PillButton`.
-    static let unreadDotOffsetY: CGFloat = 3.0
+    static let unreadDotContentOffsetY: CGFloat = 3.0
+
+    /// The distance of the unread dot from the trailing edge of the `PillButton`.
+    static let unreadDotEdgeOffsetX: CGFloat = 9.0
+
+    /// The distance of the unread dot from the top edge of the `PillButton`.
+    static let unreadDotEdgeOffsetY: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The size of the unread dot of the `PillButton`.
     static let unreadDotSize: CGFloat = GlobalTokens.spacing(.size60)
 
-    /// The distance of the content from the top of the `PillButton`.
-    static let topInset: CGFloat = GlobalTokens.spacing(.size60)
+    /// The distance of the content from the top and bottom edges of the `PillButton`.
+    static let verticalInset: CGFloat = GlobalTokens.spacing(.size60)
 }
 
 // MARK: - PillButtonStyle

@@ -43,8 +43,10 @@ struct PillButtonDemoView: View {
                 PillButtonView(style: .primary, title: "Primary", isUnread: true, action: nil)
                 PillButtonView(style: .onBrand, title: "Leading image onBrand", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
                 PillButtonView(style: .primary, title: "Leading image primary", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
-                PillButtonView(style: .onBrand, title: "Leading image onBrand disabled", leadingImage: Image(systemName: "circle.fill"), isDisabled: true, isUnread: true, action: nil)
-                PillButtonView(style: .primary, title: "Leading image primary disabled", leadingImage: Image(systemName: "circle.fill"), isDisabled: true, isUnread: true, action: nil)
+                PillButtonView(style: .onBrand, title: "Leading image onBrand disabled", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
+                    .disabled(true)
+                PillButtonView(style: .primary, title: "Leading image primary disabled", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
+                    .disabled(true)
             }
             .fluentTheme(theme)
 
