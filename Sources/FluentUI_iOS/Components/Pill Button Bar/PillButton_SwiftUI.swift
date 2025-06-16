@@ -21,7 +21,7 @@ public struct PillButtonView: View, TokenizedControlView {
     public init(style: PillButtonStyle,
                 title: String,
                 leadingImage: Image? = nil,
-                isSelected: Bool = true,
+                isSelected: Bool = false,
                 isDisabled: Bool = false,
                 isUnread: Bool = false,
                 action: (() -> Void)?) {
@@ -49,18 +49,16 @@ public struct PillButtonView: View, TokenizedControlView {
                 if isUnread {
                     isUnread = false
                 }
+                print("Configuration label tapped")
             } label: {
                 HStack(spacing: 4.0) {
                     if let leadingImage {
                         leadingImage
                             .frame(width: 16, height: 16)
                     }
+
                     Text(title)
                 }
-                .font(Font(tokenSet[.font].uiFont))
-                .padding(.horizontal, PillButtonTokenSet.horizontalInset)
-                .padding(.top, PillButtonTokenSet.topInset)
-                .padding(.bottom, PillButtonTokenSet.bottomInset)
             }
             .buttonStyle(PillButtonStateStyle(isSelected: isSelected,
                                               isDisabled: isDisabled,
@@ -78,10 +76,6 @@ public struct PillButtonView: View, TokenizedControlView {
             .accessibilityLabel(isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
         }
 
-        if #available(iOS 17, *) {
-            _ = button.focusable(true)
-        }
-
         return button
     }
 
@@ -96,12 +90,23 @@ private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
     let isDisabled: Bool
     let isUnread: Bool
     let tokenSet: PillButtonTokenSet
-    
+
     fileprivate func makeBody(configuration: Configuration) -> some View {
-        configuration.label
+        @ViewBuilder var contentShape: some Shape {
+            RoundedRectangle(cornerRadius: PillButtonTokenSet.cornerRadius)
+        }
+
+        @ViewBuilder var backgroundView: some View {
+            backgroundColor.clipShape(contentShape)
+        }
+
+        return configuration.label
+            .font(Font(tokenSet[.font].uiFont))
             .foregroundStyle(foregroundColor)
-            .background(backgroundColor)
-            .cornerRadius(PillButtonTokenSet.cornerRadius)
+            .padding(.horizontal, PillButtonTokenSet.horizontalInset)
+            .padding(.top, PillButtonTokenSet.topInset)
+            .padding(.bottom, PillButtonTokenSet.bottomInset)
+            .background(backgroundView)
             .overlay(alignment: .topTrailing) {
                 if isUnread {
                     Circle()
@@ -112,6 +117,8 @@ private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
                         .transition(.identity)
                 }
             }
+            .clipShape(contentShape)
+            .contentShape(contentShape)
     }
 
     var backgroundColor: Color {
@@ -145,6 +152,8 @@ private struct PillButtonStateStyle: SwiftUI.ButtonStyle {
             }
         }
     }
+
+    @Environment(\.isFocused) var isFocused: Bool
 
     var unreadDotBackgroundColor: Color {
         return isDisabled ? tokenSet[.disabledUnreadDotColor].color : tokenSet[.enabledUnreadDotColor].color
