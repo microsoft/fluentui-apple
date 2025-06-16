@@ -38,11 +38,13 @@ struct PillButtonDemoView: View {
         let theme = useCustomTheme ? customTheme : fluentTheme
 
         return VStack(spacing: 30) {
-            VStack(spacing: 10) {
+            VStack(spacing: 20) {
                 PillButtonView(style: .onBrand, title: "onBrand", isUnread: true, action: nil)
                 PillButtonView(style: .primary, title: "Primary", isUnread: true, action: nil)
-                PillButtonView(style: .onBrand, title: "Leading image onBrand", leadingImage: Image("ic_fluent_star_16_regular"), isUnread: true, action: nil)
-                PillButtonView(style: .primary, title: "Leading image primary", leadingImage: Image("ic_fluent_star_16_regular"), isDisabled: true, isUnread: true, action: nil)
+                PillButtonView(style: .onBrand, title: "Leading image onBrand", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
+                PillButtonView(style: .primary, title: "Leading image primary", leadingImage: Image(systemName: "circle.fill"), isUnread: true, action: nil)
+                PillButtonView(style: .onBrand, title: "Leading image onBrand disabled", leadingImage: Image(systemName: "circle.fill"), isDisabled: true, isUnread: true, action: nil)
+                PillButtonView(style: .primary, title: "Leading image primary disabled", leadingImage: Image(systemName: "circle.fill"), isDisabled: true, isUnread: true, action: nil)
             }
             .fluentTheme(theme)
 
@@ -51,7 +53,7 @@ struct PillButtonDemoView: View {
             }
             .fluentListStyle(.insetGrouped)
         }
-        .background(FluentTheme.shared.swiftUIColor(.background1Selected))
+        .background(FluentTheme.shared.swiftUIColor(.background1))
     }
 
     let customTheme: FluentTheme = {
