@@ -8,37 +8,37 @@ import FluentUI_common
 #endif
 import SwiftUI
 
+/// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
 public struct PillButtonView: View, TokenizedControlView {
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     @ObservedObject public var tokenSet: PillButtonTokenSet
 
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @Environment(\.isFocused) var isFocused: Bool
-    @Environment(\.isEnabled) private var isEnabled: Bool
-
-    @State var isUnread: Bool
-    @State var isSelected: Bool
-
+    /// Initializes a `PillButtonView`.
+    ///
+    /// - Parameters:
+    ///   - style: The style of the pill button.
+    ///   - model: The model of the pill button.
+    ///   - leadingImage: The leading icon image of the pill button.
+    ///   - action: The action perform when the pill button is tapped.
     public init(style: PillButtonStyle,
-                title: String,
+                model: PillButtonViewModel,
                 leadingImage: Image? = nil,
-                isSelected: Bool = false,
-                isUnread: Bool = false,
                 action: (() -> Void)?) {
         self.tokenSet = PillButtonTokenSet(style: { style })
         self.style = style
-        self.title = title
-        self.isSelected = isSelected
-        self.isUnread = isUnread
+        self.title = model.title
+        self.isSelected = false
         self.action = action
         self.leadingImage = leadingImage
+        self.model = model
     }
  
     public var body: some View {
         tokenSet.update(fluentTheme)
 
         let accessibilityLabel = title
-        let accessibilityLabelWithUnreadDot = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title)
+        let accessibilityLabelWithUnreadDot = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized,
+                                                     title)
         let iconColor: Color
         if isSelected {
             if isEnabled {
@@ -56,9 +56,9 @@ public struct PillButtonView: View, TokenizedControlView {
 
         return SwiftUI.Button {
             action?()
-            
-            if isUnread {
-                isUnread = false
+
+            if model.isUnread {
+                model.isUnread = false
             }
         } label: {
             HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
@@ -73,8 +73,8 @@ public struct PillButtonView: View, TokenizedControlView {
             }
         }
         .buttonStyle(PillButtonViewStyle(isSelected: isSelected,
-                                          isUnread: isUnread,
-                                          tokenSet: tokenSet))
+                                         isUnread: model.isUnread,
+                                         tokenSet: tokenSet))
         .modifyIf(isSelected, { pillButton in
             pillButton
                 .accessibilityAddTraits(.isSelected)
@@ -83,11 +83,16 @@ public struct PillButtonView: View, TokenizedControlView {
             pillButton
                 .accessibilityRemoveTraits(.isSelected)
         })
-        .accessibilityLabel(isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
+        .accessibilityLabel(model.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
     }
+
+    @ObservedObject private var model: PillButtonViewModel
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
+    @Environment(\.isEnabled) private var isEnabled: Bool
 
     private let leadingImage: Image?
     private let style: PillButtonStyle
     private let title: String
     private let action: (() -> Void)?
+    private let isSelected: Bool
 }
