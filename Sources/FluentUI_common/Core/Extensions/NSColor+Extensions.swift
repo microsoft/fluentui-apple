@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 
 extension NSColor {

@@ -315,7 +315,7 @@ extension FluentTheme: PlatformThemeProviding {
     /// - Parameters:
     ///   - token: The `TypographyToken` whose font should be provided.
     /// - Returns: The font value for this token.
-    public static func platformTypographyValue(_ token: FluentTheme.TypographyToken) -> FontInfo {
+    public static func platformTypographyValue(_ token: FluentTheme.TypographyToken) -> FluentFontInfo {
         switch token {
         case .display:
             return .init(size: GlobalTokens.fontSize(.size900),
