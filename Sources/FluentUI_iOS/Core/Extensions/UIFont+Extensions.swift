@@ -10,7 +10,7 @@ import SwiftUI
 import UIKit
 
 public extension Font {
-    static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> Font {
+    static func fluent(_ fontInfo: FluentFontInfo, shouldScale: Bool = true) -> Font {
         // SwiftUI Font is missing some of the ease of construction available in UIFont.
         // So just leverage the logic there to create the equivalent SwiftUI font.
         let uiFont = UIFont.fluent(fontInfo, shouldScale: shouldScale)
@@ -19,11 +19,11 @@ public extension Font {
 }
 
 extension UIFont {
-    @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true) -> UIFont {
+    @objc public static func fluent(_ fontInfo: FluentFontInfo, shouldScale: Bool = true) -> UIFont {
         return fluent(fontInfo, shouldScale: shouldScale, contentSizeCategory: nil)
     }
 
-    @objc public static func fluent(_ fontInfo: FontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
+    @objc public static func fluent(_ fontInfo: FluentFontInfo, shouldScale: Bool = true, contentSizeCategory: UIContentSizeCategory?) -> UIFont {
         let traitCollection: UITraitCollection?
         if let contentSizeCategory = contentSizeCategory {
             traitCollection = .init(preferredContentSizeCategory: contentSizeCategory)
