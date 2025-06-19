@@ -8,7 +8,7 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-/// A `PillButton` is a button in the shape of a pill that can have two states: on (Selected) and off (not selected)
+/// A `PillButton` is a button in the shape of a pill.
 public struct PillButtonView: View, TokenizedControlView {
     public typealias TokenSetKeyType = PillButtonTokenSet.Tokens
     @ObservedObject public var tokenSet: PillButtonTokenSet

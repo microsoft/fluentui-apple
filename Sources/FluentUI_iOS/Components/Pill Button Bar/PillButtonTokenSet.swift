@@ -6,7 +6,6 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
-import SwiftUI
 import UIKit
 
 public enum PillButtonToken: Int, TokenSetKey {

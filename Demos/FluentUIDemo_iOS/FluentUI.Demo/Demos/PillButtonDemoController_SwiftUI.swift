@@ -46,8 +46,8 @@ private struct PillButtonDemoView: View {
         }
         .background(FluentTheme.shared.swiftUIColor(.background1))
         .onChange_iOS17(of: isUnread) { _ in
-            for model in viewModels {
-                model.isUnread = isUnread
+            for viewModel in viewModels {
+                viewModel.isUnread = isUnread
             }
         }
     }
