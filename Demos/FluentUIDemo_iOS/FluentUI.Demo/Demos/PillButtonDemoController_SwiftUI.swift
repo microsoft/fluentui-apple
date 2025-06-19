@@ -5,30 +5,6 @@
 
 import FluentUI
 import SwiftUI
-import UIKit
-
-//class PillButtonDemoControllerSwiftUI: UIHostingController<PillButtonDemoView> {
-//    init() {
-//        super.init(rootView: PillButtonDemoView())
-//    }
-//
-//    @objc required dynamic init?(coder aDecoder: NSCoder) {
-//        preconditionFailure("init(coder:) has not been implemented")
-//    }
-//
-//    @MainActor required dynamic init(rootView: AnyView) {
-//        preconditionFailure("init(rootView:) has not been implemented")
-//    }
-//
-//    override func willMove(toParent parent: UIViewController?) {
-//        guard let parent,
-//              let window = parent.view.window else {
-//            return
-//        }
-//
-//        rootView.fluentTheme = window.fluentTheme
-//    }
-//}
 
 class PillButtonDemoControllerSwiftUI: DemoHostingController {
     init() {
@@ -44,36 +20,21 @@ class PillButtonDemoControllerSwiftUI: DemoHostingController {
     }
 }
 
-struct PillButtonDemoView: View {
-    public var body: some View {
+private struct PillButtonDemoView: View {
+    fileprivate var body: some View {
         let theme = useCustomTheme ? customTheme : fluentTheme
 
         return VStack(spacing: 30) {
+            Spacer()
+                .frame(height: 10)
+
             VStack(spacing: 20) {
-                PillButtonView(style: .onBrand,
-                               model: models[0],
-                               action: nil)
-                PillButtonView(style: .primary,
-                               model: models[1],
-                               action: nil)
-                PillButtonView(style: .onBrand,
-                               model: models[2],
-                               leadingImage: leadingImage,
-                               action: nil)
-                PillButtonView(style: .primary,
-                               model: models[3],
-                               leadingImage: leadingImage,
-                               action: nil)
-                PillButtonView(style: .onBrand,
-                               model: models[4],
-                               leadingImage: leadingImage,
-                               action: nil)
-                    .disabled(true)
-                PillButtonView(style: .primary,
-                               model: models[5],
-                               leadingImage: leadingImage,
-                               action: nil)
-                    .disabled(true)
+                demoPillButton(style: .onBrand, viewModel: viewModels[0])
+                demoPillButton(style: .primary, viewModel: viewModels[1])
+                demoPillButton(style: .onBrand, viewModel: viewModels[2], hasLeadingImage: true)
+                demoPillButton(style: .primary, viewModel: viewModels[3], hasLeadingImage: true)
+                demoPillButton(style: .onBrand, viewModel: viewModels[4], hasLeadingImage: true, isDisabled: true)
+                demoPillButton(style: .primary, viewModel: viewModels[5], hasLeadingImage: true, isDisabled: true)
             }
             .fluentTheme(theme)
 
@@ -85,15 +46,32 @@ struct PillButtonDemoView: View {
         }
         .background(FluentTheme.shared.swiftUIColor(.background1))
         .onChange_iOS17(of: isUnread) { _ in
-            for model in models {
+            for model in viewModels {
                 model.isUnread = isUnread
             }
         }
     }
 
+    @ViewBuilder
+    private func demoPillButton(style: PillButtonStyle,
+                                viewModel: PillButtonViewModel,
+                                hasLeadingImage: Bool = false,
+                                isDisabled: Bool = false) -> some View {
+        PillButtonView(style: style,
+                       model: viewModel,
+                       leadingImage: hasLeadingImage ? leadingImage : nil) {
+                           showAlert = true
+                       }
+                       .disabled(isDisabled)
+                       .alert(isPresented: $showAlert, content: {
+                           Alert(title: Text("Pill button tapped"))
+                       })
+    }
+
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
+    @State private var showAlert = false
     @State var useCustomTheme: Bool = false
     @State var isUnread: Bool = false
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
     private let leadingImage = Image(systemName: "circle.fill")
 
@@ -102,13 +80,16 @@ struct PillButtonDemoView: View {
             FluentTheme.ColorToken.brandBackground2: GlobalTokens.sharedSwiftUIColor(.lavender, .shade20),
             FluentTheme.ColorToken.background5: GlobalTokens.sharedSwiftUIColor(.green, .shade10),
             FluentTheme.ColorToken.foreground2: GlobalTokens.sharedSwiftUIColor(.green, .tint40),
-            FluentTheme.ColorToken.brandForeground1: GlobalTokens.sharedSwiftUIColor(.hotPink, .shade10),
-            FluentTheme.ColorToken.foregroundOnColor: GlobalTokens.sharedSwiftUIColor(.hotPink, .shade10),
+            FluentTheme.ColorToken.foreground3: GlobalTokens.sharedSwiftUIColor(.green, .tint40),
+            FluentTheme.ColorToken.brandForeground1: GlobalTokens.sharedSwiftUIColor(.hotPink, .tint40),
+            FluentTheme.ColorToken.foregroundOnColor: GlobalTokens.sharedSwiftUIColor(.hotPink, .tint40),
+            FluentTheme.ColorToken.foregroundDisabled1: GlobalTokens.sharedSwiftUIColor(.hotPink, .tint40),
+            FluentTheme.ColorToken.brandForegroundDisabled1: GlobalTokens.sharedSwiftUIColor(.hotPink, .tint40),
         ]
         return FluentTheme(colorOverrides: colorOverrides)
     }()
 
-    private let models: [PillButtonViewModel] = [
+    private let viewModels: [PillButtonViewModel] = [
         PillButtonViewModel(isUnread: false, title: "onBrand"),
         PillButtonViewModel(isUnread: false, title: "Primary"),
         PillButtonViewModel(isUnread: false, title: "Leading image onBrand"),

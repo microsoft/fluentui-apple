@@ -27,10 +27,10 @@ public struct PillButtonView: View, TokenizedControlView {
         self.tokenSet = PillButtonTokenSet(style: { style })
         self.style = style
         self.title = model.title
-        self.isSelected = false
         self.action = action
         self.leadingImage = leadingImage
         self.model = model
+        self.isSelected = false
     }
  
     public var body: some View {
@@ -86,6 +86,7 @@ public struct PillButtonView: View, TokenizedControlView {
                     .accessibilityRemoveTraits(.isSelected)
             })
             .accessibilityLabel(model.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
+            .showsLargeContentViewer(text: title)
         }
 
         return button
