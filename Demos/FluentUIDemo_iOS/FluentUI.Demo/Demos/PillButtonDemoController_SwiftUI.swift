@@ -93,7 +93,7 @@ struct PillButtonDemoView: View {
 
     @State var useCustomTheme: Bool = false
     @State var isUnread: Bool = false
-    @ObservedObject var fluentTheme: FluentTheme = .shared
+    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
 
     private let leadingImage = Image(systemName: "circle.fill")
 
