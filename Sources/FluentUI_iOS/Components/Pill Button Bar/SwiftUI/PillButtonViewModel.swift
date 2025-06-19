@@ -5,6 +5,7 @@
 
 import SwiftUI
 
+/// View model object used to create a `PillButtonView`.
 public class PillButtonViewModel: ObservableObject {
     @Published public var isUnread: Bool
     public let title: String
