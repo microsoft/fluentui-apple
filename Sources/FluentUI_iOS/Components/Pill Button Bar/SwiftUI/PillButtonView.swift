@@ -17,25 +17,22 @@ public struct PillButtonView: View, TokenizedControlView {
     ///
     /// - Parameters:
     ///   - style: The style of the pill button.
-    ///   - model: The model of the pill button.
-    ///   - leadingImage: The leading icon image of the pill button.
+    ///   - viewModel: The view model of the pill button.
     ///   - action: The action perform when the pill button is tapped.
     public init(style: PillButtonStyle,
-                model: PillButtonViewModel,
-                leadingImage: Image? = nil,
+                viewModel: PillButtonViewModel,
                 action: (() -> Void)?) {
         self.tokenSet = PillButtonTokenSet(style: { style })
         self.style = style
-        self.title = model.title
         self.action = action
-        self.leadingImage = leadingImage
-        self.model = model
+        self.viewModel = viewModel
         self.isSelected = false
     }
  
     public var body: some View {
         tokenSet.update(fluentTheme)
 
+        let title = viewModel.title
         let accessibilityLabel = title
         let accessibilityLabelWithUnreadDot = String(format: "Accessibility.TabBarItemView.UnreadFormat".localized,
                                                      title)
@@ -59,12 +56,12 @@ public struct PillButtonView: View, TokenizedControlView {
             SwiftUI.Button {
                 action?()
                 
-                if model.isUnread {
-                    model.isUnread = false
+                if viewModel.isUnread {
+                    viewModel.isUnread = false
                 }
             } label: {
                 HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
-                    if let leadingImage {
+                    if let leadingImage = viewModel.leadingImage {
                         leadingImage
                             .foregroundStyle(iconColor)
                             .frame(width: PillButtonTokenSet.iconSize,
@@ -75,7 +72,7 @@ public struct PillButtonView: View, TokenizedControlView {
                 }
             }
             .buttonStyle(PillButtonViewStyle(isSelected: isSelected,
-                                             isUnread: model.isUnread,
+                                             isUnread: viewModel.isUnread,
                                              tokenSet: tokenSet))
             .modifyIf(isSelected, { pillButton in
                 pillButton
@@ -85,20 +82,18 @@ public struct PillButtonView: View, TokenizedControlView {
                 pillButton
                     .accessibilityRemoveTraits(.isSelected)
             })
-            .accessibilityLabel(model.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
+            .accessibilityLabel(viewModel.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
             .showsLargeContentViewer(text: title)
         }
 
         return button
     }
 
-    @ObservedObject private var model: PillButtonViewModel
+    @ObservedObject private var viewModel: PillButtonViewModel
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
     @Environment(\.isEnabled) private var isEnabled: Bool
 
-    private let leadingImage: Image?
     private let style: PillButtonStyle
-    private let title: String
     private let action: (() -> Void)?
     private let isSelected: Bool
 }

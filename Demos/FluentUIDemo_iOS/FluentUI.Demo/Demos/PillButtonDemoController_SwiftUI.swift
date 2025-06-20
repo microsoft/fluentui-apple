@@ -41,6 +41,7 @@ private struct PillButtonDemoView: View {
             FluentList {
                 Toggle("Custom theme", isOn: $useCustomTheme)
                 Toggle("Toggle unread dots", isOn: $isUnread)
+                Toggle("Toggle leading images", isOn: $hasLeadingImage)
             }
             .fluentListStyle(.insetGrouped)
         }
@@ -48,6 +49,11 @@ private struct PillButtonDemoView: View {
         .onChange_iOS17(of: isUnread) { _ in
             for viewModel in viewModels {
                 viewModel.isUnread = isUnread
+            }
+        }
+        .onChange_iOS17(of: hasLeadingImage) { value in
+            for viewModel in viewModels {
+                viewModel.leadingImage = value ? leadingImage : nil
             }
         }
     }
@@ -58,8 +64,7 @@ private struct PillButtonDemoView: View {
                                 hasLeadingImage: Bool = false,
                                 isDisabled: Bool = false) -> some View {
         PillButtonView(style: style,
-                       model: viewModel,
-                       leadingImage: hasLeadingImage ? leadingImage : nil) {
+                       viewModel: viewModel) {
                            showAlert = true
                        }
                        .disabled(isDisabled)
@@ -72,6 +77,7 @@ private struct PillButtonDemoView: View {
     @State private var showAlert = false
     @State var useCustomTheme: Bool = false
     @State var isUnread: Bool = false
+    @State var hasLeadingImage: Bool = false
 
     private let leadingImage = Image(systemName: "circle.fill")
 
@@ -90,11 +96,11 @@ private struct PillButtonDemoView: View {
     }()
 
     private let viewModels: [PillButtonViewModel] = [
-        PillButtonViewModel(isUnread: false, title: "onBrand"),
-        PillButtonViewModel(isUnread: false, title: "Primary"),
-        PillButtonViewModel(isUnread: false, title: "Leading image onBrand"),
-        PillButtonViewModel(isUnread: false, title: "Leading image primary"),
-        PillButtonViewModel(isUnread: false, title: "Leading image onBrand disabled"),
-        PillButtonViewModel(isUnread: false, title: "Leading image primary disabled")
+        PillButtonViewModel(title: "onBrand", isUnread: false),
+        PillButtonViewModel(title: "Primary", isUnread: false),
+        PillButtonViewModel(title: "onBrand", isUnread: false),
+        PillButtonViewModel(title: "Primary", isUnread: false),
+        PillButtonViewModel(title: "onBrand disabled", isUnread: false),
+        PillButtonViewModel(title: "Primary disabled", isUnread: false)
     ]
 }
