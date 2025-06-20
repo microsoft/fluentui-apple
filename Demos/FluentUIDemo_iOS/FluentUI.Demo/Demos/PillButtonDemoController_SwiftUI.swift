@@ -31,10 +31,8 @@ private struct PillButtonDemoView: View {
             VStack(spacing: 20) {
                 demoPillButton(style: .onBrand, viewModel: viewModels[0])
                 demoPillButton(style: .primary, viewModel: viewModels[1])
-                demoPillButton(style: .onBrand, viewModel: viewModels[2], hasLeadingImage: true)
-                demoPillButton(style: .primary, viewModel: viewModels[3], hasLeadingImage: true)
-                demoPillButton(style: .onBrand, viewModel: viewModels[4], hasLeadingImage: true, isDisabled: true)
-                demoPillButton(style: .primary, viewModel: viewModels[5], hasLeadingImage: true, isDisabled: true)
+                demoPillButton(style: .onBrand, viewModel: viewModels[2], isDisabled: true)
+                demoPillButton(style: .primary, viewModel: viewModels[3], isDisabled: true)
             }
             .fluentTheme(theme)
 
@@ -61,7 +59,6 @@ private struct PillButtonDemoView: View {
     @ViewBuilder
     private func demoPillButton(style: PillButtonStyle,
                                 viewModel: PillButtonViewModel,
-                                hasLeadingImage: Bool = false,
                                 isDisabled: Bool = false) -> some View {
         PillButtonView(style: style,
                        viewModel: viewModel) {
@@ -96,11 +93,9 @@ private struct PillButtonDemoView: View {
     }()
 
     private let viewModels: [PillButtonViewModel] = [
-        PillButtonViewModel(title: "onBrand", isUnread: false),
-        PillButtonViewModel(title: "Primary", isUnread: false),
-        PillButtonViewModel(title: "onBrand", isUnread: false),
-        PillButtonViewModel(title: "Primary", isUnread: false),
-        PillButtonViewModel(title: "onBrand disabled", isUnread: false),
-        PillButtonViewModel(title: "Primary disabled", isUnread: false)
+        PillButtonViewModel(title: "onBrand"),
+        PillButtonViewModel(title: "Primary"),
+        PillButtonViewModel(title: "onBrand disabled"),
+        PillButtonViewModel(title: "Primary disabled")
     ]
 }

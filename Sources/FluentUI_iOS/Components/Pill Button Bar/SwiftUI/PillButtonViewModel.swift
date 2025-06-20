@@ -22,7 +22,7 @@ public class PillButtonViewModel: ObservableObject {
     ///   - isUnread: Determines whether the pill button should show the unread dot.
     public init(title: String,
                 leadingImage: Image? = nil,
-                isUnread: Bool) {
+                isUnread: Bool = false) {
         self.title = title
         self.leadingImage = leadingImage
         self.isUnread = isUnread
