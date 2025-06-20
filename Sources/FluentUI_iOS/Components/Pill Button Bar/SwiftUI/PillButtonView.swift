@@ -51,42 +51,37 @@ public struct PillButtonView: View, TokenizedControlView {
             }
         }
 
-        @ViewBuilder
-        var button: some View {
-            SwiftUI.Button {
-                action?()
-                
-                if viewModel.isUnread {
-                    viewModel.isUnread = false
-                }
-            } label: {
-                HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
-                    if let leadingImage = viewModel.leadingImage {
-                        leadingImage
-                            .foregroundStyle(iconColor)
-                            .frame(width: PillButtonTokenSet.iconSize,
-                                   height: PillButtonTokenSet.iconSize)
-                    }
-                    
-                    Text(title)
-                }
+        return SwiftUI.Button {
+            action?()
+            
+            if viewModel.isUnread {
+                viewModel.isUnread = false
             }
-            .buttonStyle(PillButtonViewStyle(isSelected: isSelected,
-                                             isUnread: viewModel.isUnread,
-                                             tokenSet: tokenSet))
-            .modifyIf(isSelected, { pillButton in
-                pillButton
-                    .accessibilityAddTraits(.isSelected)
-            })
-            .modifyIf(!isSelected, { pillButton in
-                pillButton
-                    .accessibilityRemoveTraits(.isSelected)
-            })
-            .accessibilityLabel(viewModel.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
-            .showsLargeContentViewer(text: title)
+        } label: {
+            HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
+                if let leadingImage = viewModel.leadingImage {
+                    leadingImage
+                        .foregroundStyle(iconColor)
+                        .frame(width: PillButtonTokenSet.iconSize,
+                               height: PillButtonTokenSet.iconSize)
+                }
+                
+                Text(title)
+            }
         }
-
-        return button
+        .buttonStyle(PillButtonViewStyle(isSelected: isSelected,
+                                         isUnread: viewModel.isUnread,
+                                         tokenSet: tokenSet))
+        .modifyIf(isSelected, { pillButton in
+            pillButton
+                .accessibilityAddTraits(.isSelected)
+        })
+        .modifyIf(!isSelected, { pillButton in
+            pillButton
+                .accessibilityRemoveTraits(.isSelected)
+        })
+        .accessibilityLabel(viewModel.isUnread ? accessibilityLabelWithUnreadDot : accessibilityLabel)
+        .showsLargeContentViewer(text: title)
     }
 
     @ObservedObject private var viewModel: PillButtonViewModel
