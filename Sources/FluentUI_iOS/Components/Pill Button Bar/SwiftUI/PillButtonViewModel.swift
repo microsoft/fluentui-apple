@@ -9,16 +9,16 @@ import SwiftUI
 public class PillButtonViewModel: ObservableObject {
     /// Determines whether the pill button should show the unread dot.
     @Published public var isUnread: Bool
-    /// The leading image icon for the pill button.
+    /// The leading image icon of the pill button.
     @Published public var leadingImage: Image?
-    /// The title of the pill button view.
+    /// The title of the pill button.
     public let title: String
 
-    /// Initializes a `PillButtonViewModel`.
+    /// Initializes a new `PillButtonViewModel`.
     ///
     /// - Parameters:
-    ///   - title: The title of the pill button view.
-    ///   - leadingImage: The leading image icon for the pill button.
+    ///   - title: The title of the pill button.
+    ///   - leadingImage: The leading image icon of the pill button.
     ///   - isUnread: Determines whether the pill button should show the unread dot.
     public init(title: String,
                 leadingImage: Image? = nil,

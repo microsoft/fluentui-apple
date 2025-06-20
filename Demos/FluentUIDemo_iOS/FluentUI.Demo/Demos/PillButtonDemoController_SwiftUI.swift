@@ -71,7 +71,7 @@ private struct PillButtonDemoView: View {
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @State private var showAlert = false
+    @State var showAlert = false
     @State var useCustomTheme: Bool = false
     @State var isUnread: Bool = false
     @State var hasLeadingImage: Bool = false

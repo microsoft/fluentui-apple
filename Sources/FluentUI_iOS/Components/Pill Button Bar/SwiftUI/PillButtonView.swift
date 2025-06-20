@@ -17,8 +17,8 @@ public struct PillButtonView: View, TokenizedControlView {
     ///
     /// - Parameters:
     ///   - style: The style of the pill button.
-    ///   - viewModel: The view model of the pill button.
-    ///   - action: The action perform when the pill button is tapped.
+    ///   - viewModel: The view model used to create the pill button.
+    ///   - action: The action performed when the pill button is tapped.
     public init(style: PillButtonStyle,
                 viewModel: PillButtonViewModel,
                 action: (() -> Void)?) {

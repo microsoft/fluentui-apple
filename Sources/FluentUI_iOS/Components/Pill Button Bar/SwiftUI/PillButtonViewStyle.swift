@@ -8,7 +8,7 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-/// `PillButtonViewStyle` which configures the `PillButtonView` according to its state and design tokens.
+/// Configures a `PillButtonView` according to its style and design tokens.
 struct PillButtonViewStyle: SwiftUI.ButtonStyle {
     let isSelected: Bool
     let isUnread: Bool
