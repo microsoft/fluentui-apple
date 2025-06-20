@@ -113,9 +113,9 @@ open class PillButton: UIButton, TokenizedControl {
     private func setupView() {
         var configuration = UIButton.Configuration.plain()
 
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.verticalInset,
                                                               leading: PillButtonTokenSet.horizontalInset,
-                                                              bottom: PillButtonTokenSet.bottomInset,
+                                                              bottom: PillButtonTokenSet.verticalInset,
                                                               trailing: PillButtonTokenSet.horizontalInset)
         self.configuration = configuration
 
@@ -206,11 +206,11 @@ open class PillButton: UIButton, TokenizedControl {
             let anchor = self.titleLabel?.frame ?? .zero
             let xPos: CGFloat
             if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotOffsetX)
+                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotContentOffsetX)
             } else {
-                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - PillButtonTokenSet.unreadDotSize)
+                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotContentOffsetX - PillButtonTokenSet.unreadDotSize)
             }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotOffsetY)
+            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotContentOffsetY)
             unreadDotLayer.backgroundColor = unreadDotColor.cgColor
         }
     }
