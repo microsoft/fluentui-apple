@@ -72,7 +72,7 @@
                                                                      executes:MSFPopupMenuItemExecutionModeOnSelection
                                                                    onSelected:nil
                                                   isAccessoryCheckmarkVisible:YES];
-    MSFPopupMenuItem *lasVegas = [[MSFPopupMenuItem alloc] initWithImageName:@"Las Vegas"
+    MSFPopupMenuItem *lasVegas = [[MSFPopupMenuItem alloc] initWithImageName:@"LasVegas"
                                                        generateSelectedImage:NO
                                                                        title:@"Las Vegas"
                                                                     subtitle:@"Nevada"
@@ -90,7 +90,7 @@
                                                                     executes:MSFPopupMenuItemExecutionModeOnSelection
                                                                   onSelected:nil
                                                  isAccessoryCheckmarkVisible:YES];
-    MSFPopupMenuItem *sanFrancisco  = [[MSFPopupMenuItem alloc] initWithImageName:@"San Francisco"
+    MSFPopupMenuItem *sanFrancisco  = [[MSFPopupMenuItem alloc] initWithImageName:@"SanFrancisco"
                                                             generateSelectedImage:NO
                                                                             title:@"San Francisco"
                                                                          subtitle:@"California"

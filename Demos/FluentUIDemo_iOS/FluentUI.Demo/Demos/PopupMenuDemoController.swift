@@ -135,9 +135,9 @@ class PopupMenuDemoController: DemoController {
                 PopupMenuItem(imageName: "Vancouver", generateSelectedImage: false, title: "Vancouver", subtitle: "British Columbia")
             ]),
             PopupMenuSection(title: "United States", items: [
-                PopupMenuItem(imageName: "Las Vegas", generateSelectedImage: false, title: "Las Vegas", subtitle: "Nevada"),
+                PopupMenuItem(imageName: "LasVegas", generateSelectedImage: false, title: "Las Vegas", subtitle: "Nevada"),
                 PopupMenuItem(imageName: "Phoenix", generateSelectedImage: false, title: "Phoenix", subtitle: "Arizona"),
-                PopupMenuItem(imageName: "San Francisco", generateSelectedImage: false, title: "San Francisco", subtitle: "California"),
+                PopupMenuItem(imageName: "SanFrancisco", generateSelectedImage: false, title: "San Francisco", subtitle: "California"),
                 PopupMenuItem(imageName: "Seattle", generateSelectedImage: false, title: "Seattle", subtitle: "Washington")
             ])
         ])
