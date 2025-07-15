@@ -728,18 +728,38 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     @objc private func handleResizingHandleViewTap(_ sender: UITapGestureRecognizer) {
-        move(to: isExpanded ? .collapsed : .expanded, interaction: .resizingHandleTap)
+        guard let nextState = nextExpansionStateForResizingHandleTap(with: currentExpansionState) else {
+            return
+        }
+        move(to: nextState, interaction: .resizingHandleTap)
     }
 
     private func updateResizingHandleViewAccessibility(for state: BottomSheetExpansionState) {
-        if state == .expanded {
+        guard let nextState = nextExpansionStateForResizingHandleTap(with: state) else {
+            return
+        }
+
+        if nextState == .collapsed {
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
-        } else if state == .collapsed || state == .partial {
+        } else {
             resizingHandleView.accessibilityLabel = handleExpandCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.ExpandSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
+        }
+    }
+
+    private func nextExpansionStateForResizingHandleTap(with currentExpansionState: BottomSheetExpansionState) -> BottomSheetExpansionState? {
+        return switch currentExpansionState {
+        case .collapsed:
+            supportsPartialExpansion ? .partial : .expanded
+        case .partial:
+            .expanded
+        case .expanded:
+            .collapsed
+        default:
+            nil
         }
     }
 
