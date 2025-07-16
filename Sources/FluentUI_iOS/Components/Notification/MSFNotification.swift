@@ -49,6 +49,16 @@ import UIKit
         return notification.state
     }
 
+    // Add this method to expose the bump functionality
+    /// Performs a gentle rotation animation on the notification with 6 keyframes.
+    /// - Parameters:
+    ///   - intensity: Controls the maximum rotation angle. 1.0 corresponds to 10 degrees, scaling linearly.
+    ///   - duration: Total duration of the bump animation in seconds.
+    ///   - useDecreasingCurve: If true, uses a decreasing intensity curve. If false, uses even distribution.
+    @objc public func bumpWithIntensity(_ intensity: CGFloat, duration: TimeInterval, useDecreasingCurve: Bool) {
+        state.bumpWithIntensity(intensity, duration: duration, useDecreasingCurve: useDecreasingCurve)
+    }
+
     public var tokenSet: NotificationTokenSet {
         return notification.tokenSet
     }

@@ -25,6 +25,7 @@ class NotificationViewDemoController: DemoController {
         case neutralToastWithOverriddenTokens
         case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
+        case bumpDemo // Add this new case
 
         var displayText: String {
             switch self {
@@ -60,6 +61,8 @@ class NotificationViewDemoController: DemoController {
                 return "Neutral Toast With Gradient Background"
             case .warningToastWithFlexibleWidth:
                 return "Warning Toast With Flexible Width"
+            case .bumpDemo:
+                return "Bump Animation Demo"
             }
         }
     }
@@ -235,6 +238,21 @@ class NotificationViewDemoController: DemoController {
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Dismiss` tapped")
                 notification.hide()
+            }
+            return notification
+        case .bumpDemo:
+            let notification = MSFNotification(style: .primaryToast)
+            notification.state.message = "Tap the buttons below to test bump animations"
+            notification.state.title = "Bump Demo"
+            notification.state.image = UIImage(named: "play-in-circle-24x24")
+            notification.state.actionButtonTitle = "Gentle"
+            notification.state.actionButtonAction = { [weak notification] in
+                // Gentle bump: low intensity, longer duration
+                notification?.bumpWithIntensity(0.3, duration: 1.0, useDecreasingCurve: true)
+            }
+            notification.state.messageButtonAction = { [weak notification] in
+                // Strong bump: high intensity, shorter duration
+                notification?.bumpWithIntensity(1.0, duration: 0.8, useDecreasingCurve: false)
             }
             return notification
         }
