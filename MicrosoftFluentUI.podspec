@@ -53,7 +53,7 @@ Pod::Spec.new do |s|
   s.subspec 'BadgeField_ios' do |badgefield_ios|
     badgefield_ios.platform = :ios
     badgefield_ios.dependency "#{s.name}/Label_ios"
-    badgefield_ios.source_files = ["#{ios_root}/#{components_dir}/Badge Field/**/*.{swift,h}"]
+    badgefield_ios.source_files = ["#{ios_root}/#{components_dir}/BadgeField/**/*.{swift,h}"]
   end
 
   s.subspec 'BarButtonItems_ios' do |barbuttonitems_ios|
@@ -70,15 +70,15 @@ Pod::Spec.new do |s|
     bottomcommanding_ios.dependency "#{s.name}/Separator_ios"
     bottomcommanding_ios.dependency "#{s.name}/TabBar_ios"
     bottomcommanding_ios.dependency "#{s.name}/TableView_ios"
-    bottomcommanding_ios.preserve_paths = ["#{ios_root}/#{components_dir}/Bottom Commanding/BottomCommanding.resources.xcfilelist"]
-    bottomcommanding_ios.source_files = ["#{ios_root}/#{components_dir}/Bottom Commanding/**/*.{swift,h}"]
+    bottomcommanding_ios.preserve_paths = ["#{ios_root}/#{components_dir}/BottomCommanding/BottomCommanding.resources.xcfilelist"]
+    bottomcommanding_ios.source_files = ["#{ios_root}/#{components_dir}/BottomCommanding/**/*.{swift,h}"]
   end
 
   s.subspec 'BottomSheet_ios' do |bottomsheet_ios|
     bottomsheet_ios.platform = :ios
     bottomsheet_ios.dependency "#{s.name}/Obscurable_ios"
     bottomsheet_ios.dependency "#{s.name}/ResizingHandleView_ios"
-    bottomsheet_ios.source_files = ["#{ios_root}/#{components_dir}/Bottom Sheet/**/*.{swift,h}"]
+    bottomsheet_ios.source_files = ["#{ios_root}/#{components_dir}/BottomSheet/**/*.{swift,h}"]
   end
 
   s.subspec 'Button_ios' do |button_ios|
@@ -97,7 +97,7 @@ Pod::Spec.new do |s|
     calendar_ios.dependency "#{s.name}/Separator_ios"
     calendar_ios.dependency "#{s.name}/TwoLineTitleView_ios"
     calendar_ios.source_files = ["#{ios_root}/#{components_dir}/Calendar/**/*.{swift,h}",
-                                 "#{ios_root}/#{components_dir}/Date Time Pickers/**/*.{swift,h}"]
+                                 "#{ios_root}/#{components_dir}/DateTimePickers/**/*.{swift,h}"]
   end
 
   s.subspec 'Card_ios' do |card_ios|
@@ -109,14 +109,14 @@ Pod::Spec.new do |s|
   s.subspec 'CardNudge_ios' do |cardnudge_ios|
     cardnudge_ios.platform = :ios
     cardnudge_ios.dependency "#{s.name}/Core_ios"
-    cardnudge_ios.source_files = ["#{ios_root}/#{components_dir}/Card Nudge/**/*.{swift,h}"]
+    cardnudge_ios.source_files = ["#{ios_root}/#{components_dir}/CardNudge/**/*.{swift,h}"]
   end
 
   s.subspec 'CommandBar_ios' do |commandbar_ios|
     commandbar_ios.platform = :ios
     commandbar_ios.dependency "#{s.name}/Core_ios"
     commandbar_ios.dependency "#{s.name}/Label_ios"
-    commandbar_ios.source_files = ["#{ios_root}/#{components_dir}/Command Bar/**/*.{swift,h}"]
+    commandbar_ios.source_files = ["#{ios_root}/#{components_dir}/CommandBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Core_ios' do |core_ios|
@@ -237,8 +237,8 @@ fi', :execution_position => :before_compile }
     othercells_ios.platform = :ios
     othercells_ios.dependency "#{s.name}/ActivityIndicator_ios"
     othercells_ios.dependency "#{s.name}/TableView_ios"
-    othercells_ios.preserve_paths = ["#{ios_root}/#{components_dir}/Other Cells/OtherCells.resources.xcfilelist"]
-    othercells_ios.source_files = ["#{ios_root}/#{components_dir}/Other Cells/**/*.{swift,h}"]
+    othercells_ios.preserve_paths = ["#{ios_root}/#{components_dir}/OtherCells/OtherCells.resources.xcfilelist"]
+    othercells_ios.source_files = ["#{ios_root}/#{components_dir}/OtherCells/**/*.{swift,h}"]
   end
 
   s.subspec 'PeoplePicker_ios' do |peoplepicker_ios|
@@ -247,7 +247,7 @@ fi', :execution_position => :before_compile }
     peoplepicker_ios.dependency "#{s.name}/BadgeField_ios"
     peoplepicker_ios.dependency "#{s.name}/Separator_ios"
     peoplepicker_ios.dependency "#{s.name}/OtherCells_ios"
-    peoplepicker_ios.source_files = ["#{ios_root}/#{components_dir}/People Picker/**/*.{swift,h}"]
+    peoplepicker_ios.source_files = ["#{ios_root}/#{components_dir}/PeoplePicker/**/*.{swift,h}"]
   end
 
   s.subspec 'PersonaButton_ios' do |personaButton_ios|
@@ -265,7 +265,7 @@ fi', :execution_position => :before_compile }
   s.subspec 'PillButtonBar_ios' do |pillbuttonbar_ios|
     pillbuttonbar_ios.platform = :ios
     pillbuttonbar_ios.dependency "#{s.name}/Core_ios"
-    pillbuttonbar_ios.source_files = ["#{ios_root}/#{components_dir}/Pill Button Bar/**/*.{swift,h}"]
+    pillbuttonbar_ios.source_files = ["#{ios_root}/#{components_dir}/PillButtonBar/**/*.{swift,h}"]
   end
 
   s.subspec 'PopupMenu_ios' do |popupmenu_ios|
@@ -274,7 +274,7 @@ fi', :execution_position => :before_compile }
     popupmenu_ios.dependency "#{s.name}/Label_ios"
     popupmenu_ios.dependency "#{s.name}/Separator_ios"
     popupmenu_ios.dependency "#{s.name}/TableView_ios"
-    popupmenu_ios.source_files = ["#{ios_root}/#{components_dir}/Popup Menu/**/*.{swift,h}"]
+    popupmenu_ios.source_files = ["#{ios_root}/#{components_dir}/PopupMenu/**/*.{swift,h}"]
   end
 
   s.subspec 'Presenters_ios' do |presenters_ios|
@@ -312,7 +312,7 @@ fi', :execution_position => :before_compile }
     tabbar_ios.dependency "#{s.name}/Avatar_ios"
     tabbar_ios.dependency "#{s.name}/Label_ios"
     tabbar_ios.dependency "#{s.name}/Separator_ios"
-    tabbar_ios.source_files = ["#{ios_root}/#{components_dir}/Tab Bar/**/*.{swift,h}"]
+    tabbar_ios.source_files = ["#{ios_root}/#{components_dir}/TabBar/**/*.{swift,h}"]
   end
 
   s.subspec 'TableView_ios' do |tableview_ios|
@@ -320,8 +320,8 @@ fi', :execution_position => :before_compile }
     tableview_ios.dependency "#{s.name}/Label_ios"
     tableview_ios.dependency "#{s.name}/Separator_ios"
     tableview_ios.dependency "#{s.name}/TableViewListShared_ios"
-    tableview_ios.preserve_paths = ["#{ios_root}/#{components_dir}/Table View/TableView.resources.xcfilelist"]
-    tableview_ios.source_files = ["#{ios_root}/#{components_dir}/Table View/**/*.{swift,h}"]
+    tableview_ios.preserve_paths = ["#{ios_root}/#{components_dir}/TableView/TableView.resources.xcfilelist"]
+    tableview_ios.source_files = ["#{ios_root}/#{components_dir}/TableView/**/*.{swift,h}"]
   end
 
   s.subspec 'TableViewListShared_ios' do |tableviewlistshared_ios|
