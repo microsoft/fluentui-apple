@@ -492,7 +492,7 @@ public extension ListItem where DetailedContent == EmptyView {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
-		self.leadingContent = leadingContent
+        self.leadingContent = leadingContent
         self.trailingContent = trailingContent
         self.action = action
     }
