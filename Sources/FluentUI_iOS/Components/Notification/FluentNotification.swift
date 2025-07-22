@@ -69,12 +69,8 @@ import SwiftUI
     var backgroundGradient: LinearGradientInfo? { get set }
 
     /// Performs an animation emphasizing the notification.
-    /// The animation alternates between positive and negative rotations with decreasing intensity.
-    /// - Parameters:
-    ///   - intensity: Controls the maximum rotation angle. 1.0 corresponds to 10 degrees, scaling linearly.
-    ///   - duration: Total duration of the bump animation in seconds.
-    ///   - useDecreasingCurve: If true, uses a decreasing intensity curve. If false, uses even distribution.
-    @objc func bumpWithIntensity(_ intensity: CGFloat, duration: TimeInterval, useDecreasingCurve: Bool)
+    /// The animation alternates between upward and downward movements with spring physics.
+    @objc func bump()
 }
 
 /// View that represents the Notification.
@@ -331,10 +327,11 @@ public struct FluentNotification: View, TokenizedControlView {
 #if os(visionOS)
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
 #endif // os(visionOS)
-                .rotationEffect(.degrees(rotationAngle))
+                .offset(y: -bumpVerticalOffset)
                 .onChange_iOS17(of: state.shouldPerformBump) { shouldBump in
                     if shouldBump {
-                        performBumpAnimation()
+                        state.shouldPerformBump = false
+                        preformBumpAnimated()
                     }
                 }
                 .onTapGesture {
@@ -456,57 +453,15 @@ public struct FluentNotification: View, TokenizedControlView {
         }
     }
 
-    private func performBumpAnimation() {
-        let maxRotation = state.bumpIntensity * 10.0 // 1.0 intensity = 10 degrees
-        let duration = state.bumpDuration
-        let useDecreasingCurve = state.bumpUseDecreasingCurve
-        
-        // Calculate the 6 keyframe rotations (alternating positive/negative)
-        let rotations: [CGFloat] = {
-            if useDecreasingCurve {
-                // Decreasing intensity: 100%, 80%, 60%, 40%, 20%, 0%
-                return [
-                    maxRotation,           // +10° (or scaled)
-                    -maxRotation * 0.8,    // -8°
-                    maxRotation * 0.6,     // +6°
-                    -maxRotation * 0.4,    // -4°
-                    maxRotation * 0.2,     // +2°
-                    0                      // 0°
-                ]
-            } else {
-                // Even distribution
-                let step = maxRotation / 3.0
-                return [
-                    maxRotation,     // +max
-                    -maxRotation,    // -max
-                    step * 2,        // +2/3 max
-                    -step * 2,       // -2/3 max
-                    step,            // +1/3 max
-                    0                // 0
-                ]
-            }
-        }()
-        
-        // Perform the keyframe animation
-        state.bumpAnimationTask = Task {
-            let keyframeDuration = duration / 6.0
-            
-            for rotation in rotations {
-                guard !Task.isCancelled else { break }
-                
-                await MainActor.run {
-                    withAnimation(.easeOut(duration: keyframeDuration)) {
-                        rotationAngle = rotation
-                    }
-                }
-                
-                // Use nanoseconds for broader iOS compatibility
-                try? await Task.sleep(nanoseconds: UInt64(keyframeDuration * 1_000_000_000))
-            }
-            
-            // Reset the bump state
-            await MainActor.run {
-                state.shouldPerformBump = false
+    private func preformBumpAnimated() {
+        // Use the dedicated bump offset instead of bottomOffset
+        withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
+            bumpVerticalOffset = state.style.offsetDistanceForBumpAnimation
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + state.style.bumpAnimationDelay) {
+            withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
+                bumpVerticalOffset = 0
             }
         }
     }
@@ -519,7 +474,7 @@ public struct FluentNotification: View, TokenizedControlView {
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
     @State private var opacity: CGFloat = 0
-    @State private var rotationAngle: CGFloat = 0
+    @State private var bumpVerticalOffset: CGFloat = 0
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -567,9 +522,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var style: MSFNotificationStyle
 
     @Published var shouldPerformBump: Bool = false
-    @Published var bumpIntensity: CGFloat = 0.0
-    @Published var bumpDuration: TimeInterval = 0.0
-    @Published var bumpUseDecreasingCurve: Bool = true
     var bumpAnimationTask: Task<Void, Never>?
 
     @objc convenience init(style: MSFNotificationStyle) {
@@ -626,18 +578,9 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         super.init()
     }
 
-	@objc func bumpWithIntensity(_ intensity: CGFloat, duration: TimeInterval, useDecreasingCurve: Bool) {
-		// Cancel any existing bump animation
-		bumpAnimationTask?.cancel()
-
-		// Guard against overlapping animations
-		guard !shouldPerformBump else { return }
-
-		bumpIntensity = max(0.0, min(1.0, intensity)) // Clamp between 0 and 1
-		bumpDuration = max(0.1, duration) // Minimum duration of 0.1 seconds
-		bumpUseDecreasingCurve = useDecreasingCurve
-
-		// Start the bump animation
-		shouldPerformBump = true
-	}
+    @objc func bump() {
+        if !shouldPerformBump {
+            shouldPerformBump = true
+        }
+    }
 }
