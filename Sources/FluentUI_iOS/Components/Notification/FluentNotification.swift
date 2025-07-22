@@ -67,6 +67,10 @@ import SwiftUI
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
     var backgroundGradient: LinearGradientInfo? { get set }
+
+    /// Performs an animation emphasizing the notification.
+    /// The animation alternates between upward and downward movements with spring physics.
+    @objc func bump()
 }
 
 /// View that represents the Notification.
@@ -323,6 +327,13 @@ public struct FluentNotification: View, TokenizedControlView {
 #if os(visionOS)
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
 #endif // os(visionOS)
+                .offset(y: -bumpVerticalOffset)
+                .onChange_iOS17(of: state.shouldPerformBump) { shouldBump in
+                    if shouldBump {
+                        state.shouldPerformBump = false
+                        preformBumpAnimated()
+                    }
+                }
                 .onTapGesture {
                     if let messageAction = messageButtonAction {
                         isPresented = false
@@ -442,6 +453,19 @@ public struct FluentNotification: View, TokenizedControlView {
         }
     }
 
+    private func preformBumpAnimated() {
+        // Use the dedicated bump offset instead of bottomOffset
+        withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
+            bumpVerticalOffset = state.style.offsetDistanceForBumpAnimation
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + state.style.bumpAnimationDelay) {
+            withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
+                bumpVerticalOffset = 0
+            }
+        }
+    }
+
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass: UserInterfaceSizeClass?
     @Binding private var isPresented: Bool
     @State private var bottomOffsetForDismissedState: CGFloat = 0
@@ -450,6 +474,7 @@ public struct FluentNotification: View, TokenizedControlView {
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
     @State private var opacity: CGFloat = 0
+    @State private var bumpVerticalOffset: CGFloat = 0
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -495,6 +520,9 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
 
     /// Style to draw the control.
     @Published var style: MSFNotificationStyle
+
+    /// Controls whether the bump animation should start
+    @Published var shouldPerformBump: Bool = false
 
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
@@ -548,5 +576,11 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.verticalOffset = verticalOffset
 
         super.init()
+    }
+
+    @objc func bump() {
+        if !shouldPerformBump {
+            shouldPerformBump = true
+        }
     }
 }

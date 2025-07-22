@@ -49,6 +49,10 @@ import UIKit
         return notification.state
     }
 
+    @objc public func bump() {
+        state.bump()
+    }
+
     public var tokenSet: NotificationTokenSet {
         return notification.tokenSet
     }
