@@ -49,7 +49,6 @@ import UIKit
         return notification.state
     }
 
-    // 
     @objc public func bump() {
         state.bump()
     }

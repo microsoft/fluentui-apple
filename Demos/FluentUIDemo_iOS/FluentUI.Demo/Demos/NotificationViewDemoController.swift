@@ -25,7 +25,7 @@ class NotificationViewDemoController: DemoController {
         case neutralToastWithOverriddenTokens
         case neutralToastWithGradientBackground
         case warningToastWithFlexibleWidth
-        case bumpDemo // Add this new case
+        case bumpDemo
 
         var displayText: String {
             switch self {

@@ -521,8 +521,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     /// Style to draw the control.
     @Published var style: MSFNotificationStyle
 
+    /// Controls whether the bump animation should start
     @Published var shouldPerformBump: Bool = false
-    var bumpAnimationTask: Task<Void, Never>?
 
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
