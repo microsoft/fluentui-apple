@@ -34,7 +34,7 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
                 if #available(iOS 19, *) {
                     return .float { GlobalTokens.corner(.radius400) }
                 } else {
-                    return .float{ GlobalTokens.corner(.radius120) }
+                    return .float { GlobalTokens.corner(.radius120) }
                 }
             case .resizingHandleMarkColor:
                 return .uiColor { theme.color(.strokeAccessible) }
