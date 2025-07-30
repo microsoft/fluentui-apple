@@ -32,7 +32,7 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
                 }
             case .cornerRadius:
                 if #available(iOS 19, *) {
-                    return .float { BottomSheetTokenSet.cornerRadius400 }
+                    return .float { BottomSheetTokenSet.cornerRadius }
                 } else {
                     return .float { GlobalTokens.corner(.radius120) }
                 }
@@ -51,7 +51,7 @@ extension BottomSheetTokenSet {
     static let blurEffectShadowOpacity: Float = 0.25
     static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
     static let blurEffectShadowRadius: CGFloat = 8
-    static let cornerRadius400: CGFloat = 40
+    static let cornerRadius: CGFloat = 40
 }
 
 // MARK: - BottomSheetControllerStyle
