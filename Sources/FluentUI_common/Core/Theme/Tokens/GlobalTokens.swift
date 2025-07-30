@@ -1796,6 +1796,7 @@ public class GlobalTokens: NSObject {
         case radius60
         case radius80
         case radius120
+        case radius400
         case radiusCircular
     }
     public static func corner(_ token: CornerRadiusToken) -> CGFloat {
@@ -1812,6 +1813,8 @@ public class GlobalTokens: NSObject {
             return 8
         case .radius120:
             return 12
+        case .radius400:
+            return 40
         case .radiusCircular:
             return 9999
         }

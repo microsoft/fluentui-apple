@@ -31,7 +31,11 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
                                           dark: theme.color(.background2).dark)
                 }
             case .cornerRadius:
-                return .float { GlobalTokens.corner(.radius120) }
+                if #available(iOS 19, *) {
+                    return .float { GlobalTokens.corner(.radius400) }
+                } else {
+                    return .float{ GlobalTokens.corner(.radius120) }
+                }
             case .resizingHandleMarkColor:
                 return .uiColor { theme.color(.strokeAccessible) }
             case .shadow:
