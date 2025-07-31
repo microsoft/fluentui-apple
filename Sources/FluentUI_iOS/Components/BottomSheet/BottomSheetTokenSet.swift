@@ -31,7 +31,11 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
                                           dark: theme.color(.background2).dark)
                 }
             case .cornerRadius:
-                return .float { GlobalTokens.corner(.radius120) }
+                if #available(iOS 19, *) {
+                    return .float { BottomSheetTokenSet.cornerRadius }
+                } else {
+                    return .float { GlobalTokens.corner(.radius120) }
+                }
             case .resizingHandleMarkColor:
                 return .uiColor { theme.color(.strokeAccessible) }
             case .shadow:
@@ -47,6 +51,7 @@ extension BottomSheetTokenSet {
     static let blurEffectShadowOpacity: Float = 0.25
     static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
     static let blurEffectShadowRadius: CGFloat = 8
+    static let cornerRadius: CGFloat = 40
 }
 
 // MARK: - BottomSheetControllerStyle
