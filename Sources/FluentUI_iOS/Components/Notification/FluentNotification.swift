@@ -70,7 +70,7 @@ import SwiftUI
 
     /// Performs an animation emphasizing the notification.
     /// The animation alternates between upward and downward movements with spring physics.
-	func bump()
+    func bump()
 }
 
 /// View that represents the Notification.
