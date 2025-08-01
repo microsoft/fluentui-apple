@@ -331,7 +331,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 .onChange_iOS17(of: state.shouldPerformBump) { shouldBump in
                     if shouldBump {
                         state.shouldPerformBump = false
-                        preformBumpAnimated()
+                        performBumpAnimated()
                     }
                 }
                 .onTapGesture {
@@ -453,7 +453,7 @@ public struct FluentNotification: View, TokenizedControlView {
         }
     }
 
-    private func preformBumpAnimated() {
+    private func performBumpAnimated() {
         let style = state.style
 
         withAnimation(.interpolatingSpring(stiffness: style.animationSpringStiffness, damping: style.animationDampingForBump)) {
