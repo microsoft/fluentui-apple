@@ -70,7 +70,7 @@ import SwiftUI
 
     /// Performs an animation emphasizing the notification.
     /// The animation alternates between upward and downward movements with spring physics.
-    @objc func bump()
+	func bump()
 }
 
 /// View that represents the Notification.
@@ -523,7 +523,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var style: MSFNotificationStyle
 
     /// Controls whether the bump animation should start
-    @Published var shouldPerformBump: Bool = false
+    @Published internal var shouldPerformBump: Bool = false
 
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
