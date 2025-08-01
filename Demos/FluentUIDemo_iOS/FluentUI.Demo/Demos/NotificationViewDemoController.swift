@@ -242,13 +242,13 @@ class NotificationViewDemoController: DemoController {
             return notification
         case .bumpDemo:
             let notification = MSFNotification(style: .primaryToast)
-            notification.state.message = "Tap the buttons below to test bump animations"
+            notification.state.message = "Tap the button to test bump animations"
             notification.state.title = "Bump Demo"
             notification.state.image = UIImage(named: "play-in-circle-24x24")
             notification.state.actionButtonTitle = "Bump"
 
             notification.state.actionButtonAction = { [weak notification] in
-                notification?.bump()
+                notification?.state.bump()
             }
 
             return notification

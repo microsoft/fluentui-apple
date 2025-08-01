@@ -454,13 +454,14 @@ public struct FluentNotification: View, TokenizedControlView {
     }
 
     private func preformBumpAnimated() {
-        // Use the dedicated bump offset instead of bottomOffset
-        withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
-            bumpVerticalOffset = state.style.offsetDistanceForBumpAnimation
+        let style = state.style
+
+        withAnimation(.interpolatingSpring(stiffness: style.animationSpringStiffness, damping: style.animationDampingForBump)) {
+            bumpVerticalOffset = style.offsetDistanceForBumpAnimation
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + state.style.bumpAnimationDelay) {
-            withAnimation(.interpolatingSpring(stiffness: state.style.animationSpringStiffness, damping: state.style.animationDampingForBump)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + style.bumpAnimationDelay) {
+            withAnimation(.interpolatingSpring(stiffness: style.animationSpringStiffness, damping: style.animationDampingForBump)) {
                 bumpVerticalOffset = 0
             }
         }
