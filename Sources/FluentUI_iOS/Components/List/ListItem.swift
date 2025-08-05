@@ -19,7 +19,8 @@ public struct ListItem<LeadingContent: View,
                        TrailingContent: View,
                        Title: StringProtocol,
                        Subtitle: StringProtocol,
-                       Footer: StringProtocol>: View {
+                       Footer: StringProtocol,
+                       DetailedContent: View>: View {
 
     // MARK: Initializer
 
@@ -30,18 +31,21 @@ public struct ListItem<LeadingContent: View,
     ///   - footer: Text that appears as the third line of text
     ///   - leadingContent: The content that appears on the leading edge of the view
     ///   - trailingContent: The content that appears on the trailing edge of the view, next to the accessory type if provided
+    ///   - detailedContent: The content that appears in a sheet when the accessory detail button is tapped
     ///   - action: The action to be dispatched by tapping on the `ListItem`
     public init(title: Title,
                 subtitle: Subtitle = String(),
                 footer: Footer = String(),
                 @ViewBuilder leadingContent: @escaping () -> LeadingContent,
                 @ViewBuilder trailingContent: @escaping () -> TrailingContent,
+                @ViewBuilder detailedContent: @escaping () -> DetailedContent,
                 action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
+        self.detailedContent = detailedContent
         self.action = action
     }
 
@@ -126,6 +130,10 @@ public struct ListItem<LeadingContent: View,
                             if let onAccessoryTapped = onAccessoryTapped {
                                 onAccessoryTapped()
                             }
+
+                            if detailedContent != nil {
+                                showingDetailedContent = true
+                            }
                         } label: {
                             image
                         }
@@ -138,6 +146,11 @@ public struct ListItem<LeadingContent: View,
                         .accessibilityIdentifier(AccessibilityIdentifiers.accessoryDetailButton)
                         .accessibility(label: Text("Accessibility.TableViewCell.MoreActions.Label".localized))
                         .accessibility(hint: Text("Accessibility.TableViewCell.MoreActions.Hint".localized))
+                        .popover(isPresented: $showingDetailedContent, content: {
+                            if let detailedContent {
+                                detailedContent()
+                            }
+                        })
                     } else {
                         image
                             .accessibilityHidden(true)
@@ -212,6 +225,7 @@ public struct ListItem<LeadingContent: View,
                 if let action = action {
                     SwiftUI.Button(action: action, label: {
                         innerContent
+                            .accessibilityElement(children: .combine)
                     })
                     .buttonStyle(ListItemButtonStyle(backgroundStyleType: backgroundStyleType, tokenSet: tokenSet))
                 } else {
@@ -328,8 +342,12 @@ public struct ListItem<LeadingContent: View,
     /// The style of the parent `FluentList`.
     @Environment(\.listStyle) private var listStyle: FluentListStyle
 
+    /// If a popover with the content for the detail button is currently being displayed
+    @State private var showingDetailedContent: Bool = false
+
     private var leadingContent: (() -> LeadingContent)?
     private var trailingContent: (() -> TrailingContent)?
+    private var detailedContent: (() -> DetailedContent)?
     private var action: (() -> Void)?
 
     private let footer: Footer
@@ -378,33 +396,33 @@ private struct AccessibilityIdentifiers {
 
 // MARK: Additional Initializers
 
+public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView, DetailedContent == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         action: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.action = action
+    }
+}
+
 public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.detailedContent = detailedContent
         self.action = action
     }
 }
 
-public extension ListItem where TrailingContent == EmptyView {
-    init(title: Title,
-         subtitle: Subtitle = String(),
-         footer: Footer = String(),
-         @ViewBuilder leadingContent: @escaping () -> LeadingContent,
-         action: (() -> Void)? = nil) {
-        self.title = title
-        self.subtitle = subtitle
-        self.footer = footer
-        self.leadingContent = leadingContent
-        self.action = action
-    }
-}
-
-public extension ListItem where LeadingContent == EmptyView {
+public extension ListItem where LeadingContent == EmptyView, DetailedContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
@@ -418,8 +436,70 @@ public extension ListItem where LeadingContent == EmptyView {
     }
 }
 
+public extension ListItem where TrailingContent == EmptyView, DetailedContent == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder leadingContent: @escaping () -> LeadingContent,
+         action: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.leadingContent = leadingContent
+        self.action = action
+    }
+}
+
+public extension ListItem where TrailingContent == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder leadingContent: @escaping () -> LeadingContent,
+         @ViewBuilder detailedContent: @escaping () -> DetailedContent,
+         action: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.leadingContent = leadingContent
+        self.detailedContent = detailedContent
+        self.action = action
+    }
+}
+
+public extension ListItem where LeadingContent == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder trailingContent: @escaping () -> TrailingContent,
+         @ViewBuilder detailedContent: @escaping () -> DetailedContent,
+         action: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.trailingContent = trailingContent
+        self.detailedContent = detailedContent
+        self.action = action
+    }
+}
+
+public extension ListItem where DetailedContent == EmptyView {
+    init(title: Title,
+         subtitle: Subtitle = String(),
+         footer: Footer = String(),
+         @ViewBuilder leadingContent: @escaping () -> LeadingContent,
+         @ViewBuilder trailingContent: @escaping () -> TrailingContent,
+         action: (() -> Void)? = nil) {
+        self.title = title
+        self.subtitle = subtitle
+        self.footer = footer
+        self.leadingContent = leadingContent
+        self.trailingContent = trailingContent
+        self.action = action
+    }
+}
+
 /// Provide defaults for generic types so static methods can be called without needing to specify them.
-public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView, Title == String, Subtitle == String, Footer == String {
+public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView, DetailedContent == EmptyView, Title == String, Subtitle == String, Footer == String {
 
     /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
