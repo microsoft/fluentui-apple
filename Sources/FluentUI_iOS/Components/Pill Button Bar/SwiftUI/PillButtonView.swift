@@ -46,7 +46,6 @@ public struct PillButtonView: View, TokenizedControlView {
                                          isUnread: viewModel.isUnread,
                                          tokenSet: tokenSet))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
-        .accessibilityRemoveTraits(isSelected ? [] : .isSelected)
         .accessibilityLabel(viewModel.isUnread ? accessibilityLabelWithUnreadDot : title)
         .showsLargeContentViewer(text: title)
     }
