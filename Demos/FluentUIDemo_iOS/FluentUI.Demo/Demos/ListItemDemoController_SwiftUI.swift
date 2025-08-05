@@ -180,8 +180,10 @@ struct ListItemDemoView: View {
                                                 }
                                             }
                                         }
-                                    },
-                                    action: !isTappable ? nil : {
+                                    }, detailedContent: {
+                                        Text("More Actions")
+                                            .frame(width: 200, height: 200)
+                                    }, action: !isTappable ? nil : {
                                         showingPrimaryAlert = true
                                     })
                 .backgroundStyleType(backgroundStyle)
@@ -191,9 +193,6 @@ struct ListItemDemoView: View {
                 .subtitleLineLimit(subtitleLineLimit)
                 .footerLineLimit(footerLineLimit)
                 .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-                .onAccessoryTapped {
-                    showingSecondaryAlert = true
-                }
             listItem
                 .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
                 .disabled(isDisabled)
