@@ -522,7 +522,6 @@
 		A5CEC23220E452B80016922A /* Demos */ = {
 			isa = PBXGroup;
 			children = (
-				6F4A92EE2DD268A600B4B136 /* PillButtonDemoController_SwiftUI.swift */,
 				532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */,
 				532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */,
 				5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */,
@@ -564,6 +563,7 @@
 				B4EF53C4215C45C400573E8F /* PersonaListViewDemoController.swift */,
 				497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */,
 				807E8B4428F9F8B8002B8F84 /* PillButtonDemoController.swift */,
+				6F4A92EE2DD268A600B4B136 /* PillButtonDemoController_SwiftUI.swift */,
 				A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */,
 				EC24DBC428B97E950026EF92 /* PopupMenuObjCDemoController.h */,
 				EC24DBC528B97EB70026EF92 /* PopupMenuObjCDemoController.m */,

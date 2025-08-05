@@ -245,7 +245,7 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 
 extension PillButtonTokenSet {
     /// The corner radius of the `PillButton`.
-    static let cornerRadius: CGFloat = GlobalTokens.spacing(.size160)
+    static let cornerRadius: CGFloat = GlobalTokens.corner(.radiusCircular)
 
     /// The distance of the content from the sides of the `PillButton`.
     static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)
