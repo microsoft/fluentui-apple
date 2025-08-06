@@ -40,49 +40,19 @@ public struct PillButtonView: View, TokenizedControlView {
                 viewModel.isUnread = false
             }
         } label: {
-            label()
+            Text(title)
         }
         .buttonStyle(PillButtonViewStyle(isSelected: isSelected,
                                          isUnread: viewModel.isUnread,
+                                         leadingImage: viewModel.leadingImage,
                                          tokenSet: tokenSet))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityLabel(viewModel.isUnread ? accessibilityLabelWithUnreadDot : title)
         .showsLargeContentViewer(text: title)
     }
 
-    @ViewBuilder
-    private func label() -> some View {
-        HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
-            if let leadingImage = viewModel.leadingImage {
-                leadingImage
-                    .foregroundStyle(iconColor)
-                    .frame(width: PillButtonTokenSet.iconSize,
-                           height: PillButtonTokenSet.iconSize)
-            }
-
-            Text(title)
-        }
-    }
-
     @ObservedObject private var viewModel: PillButtonViewModel
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
-    @Environment(\.isEnabled) private var isEnabled: Bool
-
-    private var iconColor: Color {
-        if isSelected {
-            if isEnabled {
-                return tokenSet[.iconColorSelected].color
-            } else {
-                return tokenSet[.iconColorSelectedDisabled].color
-            }
-        } else {
-            if isEnabled {
-                return tokenSet[.iconColor].color
-            } else {
-                return tokenSet[.iconColorDisabled].color
-            }
-        }
-    }
 
     private let action: (() -> Void)?
     private let isSelected: Bool

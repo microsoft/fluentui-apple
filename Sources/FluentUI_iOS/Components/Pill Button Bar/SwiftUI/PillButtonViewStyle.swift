@@ -12,35 +12,10 @@ import SwiftUI
 struct PillButtonViewStyle: SwiftUI.ButtonStyle {
     let isSelected: Bool
     let isUnread: Bool
+    let leadingImage: Image?
     let tokenSet: PillButtonTokenSet
 
     func makeBody(configuration: Configuration) -> some View {
-        let backgroundColor: Color
-        let titleColor: Color
-        let unreadDotBackgroundColor: Color
-
-        if isEnabled {
-            unreadDotBackgroundColor = tokenSet[.enabledUnreadDotColor].color
-
-            if isSelected {
-                backgroundColor = tokenSet[.backgroundColorSelected].color
-                titleColor = tokenSet[.titleColorSelected].color
-            } else {
-                backgroundColor = tokenSet[.backgroundColor].color
-                titleColor = tokenSet[.titleColor].color
-            }
-        } else {
-            unreadDotBackgroundColor = tokenSet[.disabledUnreadDotColor].color
-
-            if isSelected {
-                backgroundColor = tokenSet[.backgroundColorSelectedDisabled].color
-                titleColor = tokenSet[.titleColorSelectedDisabled].color
-            } else {
-                backgroundColor = tokenSet[.backgroundColorDisabled].color
-                titleColor = tokenSet[.titleColorDisabled].color
-            }
-        }
-
         @ViewBuilder var contentShape: some Shape {
             RoundedRectangle(cornerRadius: PillButtonTokenSet.cornerRadius)
         }
@@ -49,7 +24,20 @@ struct PillButtonViewStyle: SwiftUI.ButtonStyle {
             backgroundColor.clipShape(contentShape)
         }
 
-        return configuration.label
+        @ViewBuilder var labelView: some View {
+            HStack(spacing: PillButtonTokenSet.iconAndLabelSpacing) {
+                if let leadingImage {
+                    leadingImage
+                        .foregroundStyle(iconColor)
+                        .frame(width: PillButtonTokenSet.iconSize,
+                               height: PillButtonTokenSet.iconSize)
+                }
+
+                configuration.label
+            }
+        }
+
+        return labelView
             .font(Font(tokenSet[.font].uiFont))
             .foregroundStyle(titleColor)
             .padding(.horizontal, PillButtonTokenSet.horizontalInset)
@@ -67,6 +55,62 @@ struct PillButtonViewStyle: SwiftUI.ButtonStyle {
                 }
             }
             .contentShape(contentShape)
+    }
+
+    private var unreadDotBackgroundColor: Color {
+        if isEnabled {
+            return tokenSet[.enabledUnreadDotColor].color
+        } else {
+            return tokenSet[.disabledUnreadDotColor].color
+        }
+    }
+
+    private var titleColor: Color {
+        if isSelected {
+            if isEnabled {
+                return tokenSet[.titleColorSelected].color
+            } else {
+                return tokenSet[.titleColorSelectedDisabled].color
+            }
+        } else {
+            if isEnabled {
+                return tokenSet[.titleColor].color
+            } else {
+                return tokenSet[.titleColorDisabled].color
+            }
+        }
+    }
+
+    private var backgroundColor: Color {
+        if isSelected {
+            if isEnabled {
+                return tokenSet[.backgroundColorSelected].color
+            } else {
+                return tokenSet[.backgroundColorSelectedDisabled].color
+            }
+        } else {
+            if isEnabled {
+                return tokenSet[.backgroundColor].color
+            } else {
+                return tokenSet[.backgroundColorDisabled].color
+            }
+        }
+    }
+
+    private var iconColor: Color {
+        if isSelected {
+            if isEnabled {
+                return tokenSet[.iconColorSelected].color
+            } else {
+                return tokenSet[.iconColorSelectedDisabled].color
+            }
+        } else {
+            if isEnabled {
+                return tokenSet[.iconColor].color
+            } else {
+                return tokenSet[.iconColorDisabled].color
+            }
+        }
     }
 
     @Environment(\.isEnabled) private var isEnabled: Bool
