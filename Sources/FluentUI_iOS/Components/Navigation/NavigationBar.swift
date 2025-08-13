@@ -354,7 +354,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     private var titleStyleObserver: NSKeyValueObservation?
 
     private let backButtonItem: UIBarButtonItem = {
-        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("ic_fluent_chevron_left_24_filled"),
+        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("ic_fluent_chevron_left_24_regular"),
                                              style: .plain,
                                              target: nil,
                                              action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
