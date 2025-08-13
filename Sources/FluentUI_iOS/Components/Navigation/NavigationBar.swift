@@ -799,7 +799,6 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
             if navigationItem.fluentConfiguration.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
-                button.contentHorizontalAlignment = .center
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
             }
 
