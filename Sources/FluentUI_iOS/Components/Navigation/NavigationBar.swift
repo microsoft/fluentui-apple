@@ -354,7 +354,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     private var titleStyleObserver: NSKeyValueObservation?
 
     private let backButtonItem: UIBarButtonItem = {
-        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("back-24x24"),
+        let backButtonItem = UIBarButtonItem(image: UIImage.staticImageNamed("ic_fluent_chevron_left_24_filled"),
                                              style: .plain,
                                              target: nil,
                                              action: #selector(NavigationBarBackButtonDelegate.backButtonWasPressed))
@@ -799,8 +799,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
             if navigationItem.fluentConfiguration.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
-                // The OS already gives us the leading margin we want, so no need for additional insets
-                button.configuration?.contentInsets.leading = 0
+                button.contentHorizontalAlignment = .center
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
             }
 
