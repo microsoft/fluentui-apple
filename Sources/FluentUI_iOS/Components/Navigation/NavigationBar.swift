@@ -355,7 +355,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
     private let backButtonItem: UIBarButtonItem = {
         let backButtonImage: UIImage?
-        if #available(iOS 19.0, *) {
+        if #available(iOS 26, *) {
             backButtonImage = UIImage(systemName: "chevron.backward")
         } else {
             backButtonImage = UIImage.staticImageNamed("back-24x24")
@@ -806,6 +806,9 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 
             if navigationItem.fluentConfiguration.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
+                if #unavailable(iOS 26) {
+                    button.configuration?.contentInsets.leading = 0
+                }
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
             }
 
