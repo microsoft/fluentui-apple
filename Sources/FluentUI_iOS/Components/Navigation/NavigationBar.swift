@@ -807,6 +807,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
             if navigationItem.fluentConfiguration.titleStyle == .system {
                 let button = createBarButtonItemButton(with: backButtonItem, isLeftItem: true)
                 if #unavailable(iOS 26) {
+                    // The OS already gives us the leading margin we want, so no need for additional insets
                     button.configuration?.contentInsets.leading = 0
                 }
                 navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
