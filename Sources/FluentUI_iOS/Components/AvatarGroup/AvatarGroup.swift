@@ -197,7 +197,7 @@ public struct AvatarGroup: View, TokenizedControlView {
 
             avatar
                 .transition(.identity)
-                .onChange_iOS17(of: state.size) { size in
+                .onChange_Compatibility(of: state.size) { size in
                     avatar.state.size = size
                 }
             .padding(.trailing, (isLastDisplayed && !hasOverflow) ? 0 : isStackStyle ? stackPadding : interspace)
