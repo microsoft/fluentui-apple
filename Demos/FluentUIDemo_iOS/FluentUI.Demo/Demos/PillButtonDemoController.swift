@@ -10,6 +10,9 @@ class PillButtonDemoController: DemoController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        addTitle(text: "SwiftUI demo")
+        container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
+
         for style in buttonStyles {
             addTitle(text: "\(style.0) style")
 
@@ -26,6 +29,11 @@ class PillButtonDemoController: DemoController {
         addRow(items: [createButton(title: "Change titles", action: #selector(changeItemTitles))], stretchItems: true)
         addRow(items: [createButton(title: "Change unread dots", action: #selector(changeUnreadDots))], stretchItems: true)
 
+    }
+
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(PillButtonDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 
     @objc private func changeItemTitles() {
