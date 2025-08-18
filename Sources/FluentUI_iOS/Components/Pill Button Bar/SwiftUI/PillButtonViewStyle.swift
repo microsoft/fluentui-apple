@@ -8,7 +8,7 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-/// Configures a `PillButtonView` according to its style and design tokens.
+/// Configures a button as a pill shaped button according to its style and design tokens.
 public struct PillButtonViewStyle: SwiftUI.ButtonStyle {
     /// Initializes a new `PillButtonViewStyle`.
     ///
