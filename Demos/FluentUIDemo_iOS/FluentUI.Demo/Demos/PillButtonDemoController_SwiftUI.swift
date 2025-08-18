@@ -29,45 +29,51 @@ private struct PillButtonDemoView: View {
                 .frame(height: 10)
 
             VStack(spacing: 20) {
-                demoPillButton(style: .onBrand, viewModel: viewModels[0])
-                demoPillButton(style: .primary, viewModel: viewModels[1])
-                demoPillButton(style: .onBrand, viewModel: viewModels[2], isDisabled: true)
-                demoPillButton(style: .primary, viewModel: viewModels[3], isDisabled: true)
+                demoPillButton(style: .onBrand, title: "onBrand")
+                demoPillButton(style: .primary, title: "Primary")
+                demoPillButton(style: .onBrand, title: "onBrand disabled", isDisabled: true)
+                demoPillButton(style: .primary, title: "Primary disabled", isDisabled: true)
             }
             .fluentTheme(theme)
 
             FluentList {
-                Toggle("Custom theme", isOn: $useCustomTheme)
+                Toggle("Toggle Custom theme", isOn: $useCustomTheme)
                 Toggle("Toggle unread dots", isOn: $isUnread)
                 Toggle("Toggle leading images", isOn: $hasLeadingImage)
+                Toggle("Toggle token overrides", isOn: $showTokenOverrides)
             }
             .fluentListStyle(.insetGrouped)
         }
         .background(FluentTheme.shared.swiftUIColor(.background1))
-        .onChange_iOS17(of: isUnread) { _ in
-            for viewModel in viewModels {
-                viewModel.isUnread = isUnread
-            }
-        }
-        .onChange_iOS17(of: hasLeadingImage) { value in
-            for viewModel in viewModels {
-                viewModel.leadingImage = value ? leadingImage : nil
-            }
-        }
     }
 
     @ViewBuilder
     private func demoPillButton(style: PillButtonStyle,
-                                viewModel: PillButtonViewModel,
+                                title: String,
                                 isDisabled: Bool = false) -> some View {
-        PillButtonView(style: style,
-                       viewModel: viewModel) {
-                           showAlert = true
-                       }
-                       .disabled(isDisabled)
-                       .alert(isPresented: $showAlert, content: {
-                           Alert(title: Text("Pill button tapped"))
-                       })
+        Button(action: {
+            showAlert = true
+        }, label: {
+            Text(title)
+        })
+        .buttonStyle(pillButtonStyle(style: style))
+        .disabled(isDisabled)
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text("Pill button tapped"))
+        })
+    }
+
+    private func pillButtonStyle(style: PillButtonStyle) -> PillButtonViewStyle {
+        var pillButtonStyle = PillButtonViewStyle(style: style,
+                                                  isSelected: false,
+                                                  isUnread: isUnread,
+                                                  leadingImage: hasLeadingImage ? leadingImage : nil)
+
+        if showTokenOverrides {
+            pillButtonStyle.overrideTokens(tokenOverrides)
+        }
+
+        return pillButtonStyle
     }
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -75,6 +81,7 @@ private struct PillButtonDemoView: View {
     @State var useCustomTheme: Bool = false
     @State var isUnread: Bool = false
     @State var hasLeadingImage: Bool = false
+    @State var showTokenOverrides: Bool = false
 
     private let leadingImage = Image(systemName: "circle.fill")
 
@@ -92,10 +99,8 @@ private struct PillButtonDemoView: View {
         return FluentTheme(colorOverrides: colorOverrides)
     }()
 
-    private let viewModels: [PillButtonViewModel] = [
-        PillButtonViewModel(title: "onBrand"),
-        PillButtonViewModel(title: "Primary"),
-        PillButtonViewModel(title: "onBrand disabled"),
-        PillButtonViewModel(title: "Primary disabled")
+    private let tokenOverrides: [PillButtonToken: ControlTokenValue] = [
+        .backgroundColor: .uiColor { GlobalTokens.sharedColor(.lime, .shade10) },
+        .backgroundColorDisabled: .uiColor { GlobalTokens.sharedColor(.hotPink, .primary) }
     ]
 }

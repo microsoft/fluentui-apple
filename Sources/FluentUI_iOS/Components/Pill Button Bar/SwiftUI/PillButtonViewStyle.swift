@@ -9,13 +9,29 @@ import FluentUI_common
 import SwiftUI
 
 /// Configures a `PillButtonView` according to its style and design tokens.
-struct PillButtonViewStyle: SwiftUI.ButtonStyle {
-    let isSelected: Bool
-    let isUnread: Bool
-    let leadingImage: Image?
-    let tokenSet: PillButtonTokenSet
+public struct PillButtonViewStyle: SwiftUI.ButtonStyle {
+    /// Initializes a new `PillButtonViewStyle`.
+    ///
+    /// - Parameters:
+    ///   - style: The style of the pill button.
+    ///   - isSelected: Determines if the pill button is selected.
+    ///   - isUnread: Determines whether the pill button should show the unread dot.
+    ///   - leadingImage: The leading image icon of the pill button.
+    public init(style: PillButtonStyle,
+                isSelected: Bool,
+                isUnread: Bool,
+                leadingImage: Image?) {
+        self.style = style
+        self.isSelected = isSelected
+        self.isUnread = isUnread
+        self.leadingImage = leadingImage
+        self.tokenSet = PillButtonTokenSet(style: { style })
+    }
 
-    func makeBody(configuration: Configuration) -> some View {
+    public func makeBody(configuration: Configuration) -> some View {
+        tokenSet.replaceAllOverrides(with: tokenOverrides)
+        tokenSet.update(fluentTheme)
+
         @ViewBuilder var contentShape: some Shape {
             RoundedRectangle(cornerRadius: PillButtonTokenSet.cornerRadius)
         }
@@ -114,4 +130,19 @@ struct PillButtonViewStyle: SwiftUI.ButtonStyle {
     }
 
     @Environment(\.isEnabled) private var isEnabled: Bool
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
+
+    private let style: PillButtonStyle
+    private let isSelected: Bool
+    private let isUnread: Bool
+    private let leadingImage: Image?
+    private let tokenSet: PillButtonTokenSet
+    private var tokenOverrides: [PillButtonToken: ControlTokenValue]?
+}
+
+public extension PillButtonViewStyle {
+    /// Provide override values for various `ButtonToken` values.
+    mutating func overrideTokens(_ overrides: [PillButtonToken: ControlTokenValue]) {
+        tokenOverrides = overrides
+    }
 }
