@@ -9,8 +9,8 @@ import FluentUI_common
 import SwiftUI
 
 /// Configures a button as a pill shaped button according to its style and design tokens.
-public struct PillButtonViewStyle: SwiftUI.ButtonStyle {
-    /// Initializes a new `PillButtonViewStyle`.
+public struct FluentPillButtonStyle: SwiftUI.ButtonStyle {
+    /// Initializes a new `FluentPillButtonStyle`.
     ///
     /// - Parameters:
     ///   - style: The style of the pill button.
@@ -140,7 +140,7 @@ public struct PillButtonViewStyle: SwiftUI.ButtonStyle {
     private var tokenOverrides: [PillButtonToken: ControlTokenValue]?
 }
 
-public extension PillButtonViewStyle {
+public extension FluentPillButtonStyle {
     /// Provide override values for various `PillButtonToken` values.
     mutating func overrideTokens(_ overrides: [PillButtonToken: ControlTokenValue]) {
         tokenOverrides = overrides

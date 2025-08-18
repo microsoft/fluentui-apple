@@ -63,11 +63,11 @@ private struct PillButtonDemoView: View {
         })
     }
 
-    private func pillButtonStyle(style: PillButtonStyle) -> PillButtonViewStyle {
-        var pillButtonStyle = PillButtonViewStyle(style: style,
-                                                  isSelected: false,
-                                                  isUnread: isUnread,
-                                                  leadingImage: hasLeadingImage ? leadingImage : nil)
+    private func pillButtonStyle(style: PillButtonStyle) -> FluentPillButtonStyle {
+        var pillButtonStyle = FluentPillButtonStyle(style: style,
+                                                    isSelected: false,
+                                                    isUnread: isUnread,
+                                                    leadingImage: hasLeadingImage ? leadingImage : nil)
 
         if showTokenOverrides {
             pillButtonStyle.overrideTokens(tokenOverrides)
