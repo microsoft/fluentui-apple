@@ -33,6 +33,7 @@ private struct PillButtonDemoView: View {
                 demoPillButton(style: .primary, title: "Primary")
                 demoPillButton(style: .onBrand, title: "onBrand disabled", isDisabled: true)
                 demoPillButton(style: .primary, title: "Primary disabled", isDisabled: true)
+                PillButtonBarView(datas: pillButtonBarDatas, selectedIndex: $selectedIndex)
             }
             .fluentTheme(theme)
 
@@ -82,8 +83,18 @@ private struct PillButtonDemoView: View {
     @State var isUnread: Bool = false
     @State var hasLeadingImage: Bool = false
     @State var showTokenOverrides: Bool = false
+    @State var selectedIndex: Int = 3
 
     private let leadingImage = Image(systemName: "circle.fill")
+
+    private let pillButtonBarDatas: [PillButtonViewModel] = [PillButtonViewModel(title: "Recommended"),
+                                                             PillButtonViewModel(title: "Some shit", isUnread: true),
+                                                             PillButtonViewModel(title: "Some other shit"),
+                                                             PillButtonViewModel(title: "Invoices", isUnread: true),
+                                                             PillButtonViewModel(title: "Mariama"),
+                                                             PillButtonViewModel(title: "Some other shit", isUnread: true),
+                                                             PillButtonViewModel(title: "Invoices"),
+                                                             PillButtonViewModel(title: "Mariama")]
 
     private let customTheme: FluentTheme = {
         let colorOverrides = [
