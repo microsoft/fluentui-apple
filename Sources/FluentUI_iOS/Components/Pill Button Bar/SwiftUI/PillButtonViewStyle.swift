@@ -141,7 +141,7 @@ public struct PillButtonViewStyle: SwiftUI.ButtonStyle {
 }
 
 public extension PillButtonViewStyle {
-    /// Provide override values for various `ButtonToken` values.
+    /// Provide override values for various `PillButtonToken` values.
     mutating func overrideTokens(_ overrides: [PillButtonToken: ControlTokenValue]) {
         tokenOverrides = overrides
     }
