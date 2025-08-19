@@ -6,9 +6,9 @@
 import FluentUI
 import SwiftUI
 
-class PillButtonDemoControllerSwiftUI: DemoHostingController {
+class PillButtonBarDemoControllerSwiftUI: DemoHostingController {
     init() {
-        super.init(rootView: AnyView(PillButtonDemoView()), title: "Pill Button (SwiftUI)")
+        super.init(rootView: AnyView(PillButtonBarDemoView()), title: "Pill Button Bar (SwiftUI)")
     }
 
     @objc required dynamic init?(coder aDecoder: NSCoder) {
@@ -20,7 +20,7 @@ class PillButtonDemoControllerSwiftUI: DemoHostingController {
     }
 }
 
-private struct PillButtonDemoView: View {
+private struct PillButtonBarDemoView: View {
     fileprivate var body: some View {
         let theme = useCustomTheme ? customTheme : fluentTheme
 
@@ -29,10 +29,8 @@ private struct PillButtonDemoView: View {
                 .frame(height: 10)
 
             VStack(spacing: 20) {
-                demoPillButton(style: .onBrand, title: "onBrand")
-                demoPillButton(style: .primary, title: "Primary")
-                demoPillButton(style: .onBrand, title: "onBrand disabled", isDisabled: true)
-                demoPillButton(style: .primary, title: "Primary disabled", isDisabled: true)
+                PillButtonBarView(style: .primary, datas: pillButtonBarSmallDatas, selected: $selectedTitle, shouldCenterAlign: true)
+                PillButtonBarView(style: .primary, datas: pillButtonBarLargeDatas, selected: $selectedIndex)
             }
             .fluentTheme(theme)
 
@@ -47,35 +45,6 @@ private struct PillButtonDemoView: View {
         .background(FluentTheme.shared.swiftUIColor(.background1))
     }
 
-    @ViewBuilder
-    private func demoPillButton(style: PillButtonStyle,
-                                title: String,
-                                isDisabled: Bool = false) -> some View {
-        Button(action: {
-            showAlert = true
-        }, label: {
-            Text(title)
-        })
-        .buttonStyle(pillButtonStyle(style: style))
-        .disabled(isDisabled)
-        .alert(isPresented: $showAlert, content: {
-            Alert(title: Text("Pill button tapped"))
-        })
-    }
-
-    private func pillButtonStyle(style: PillButtonStyle) -> PillButtonViewStyle {
-        var pillButtonStyle = PillButtonViewStyle(style: style,
-                                                  isSelected: false,
-                                                  isUnread: isUnread,
-                                                  leadingImage: hasLeadingImage ? leadingImage : nil)
-
-        if showTokenOverrides {
-            pillButtonStyle.overrideTokens(tokenOverrides)
-        }
-
-        return pillButtonStyle
-    }
-
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @State var showAlert = false
     @State var useCustomTheme: Bool = false
@@ -83,8 +52,21 @@ private struct PillButtonDemoView: View {
     @State var hasLeadingImage: Bool = false
     @State var showTokenOverrides: Bool = false
     @State var selectedIndex: Int = 3
+    @State var selectedTitle: String = ""
 
     private let leadingImage = Image(systemName: "circle.fill")
+
+    private let pillButtonBarLargeDatas = [PillButtonViewModel(title: "Recommended", selectionValue: 0),
+                                           PillButtonViewModel(title: "Some shit", selectionValue: 1, isUnread: true),
+                                           PillButtonViewModel(title: "Some other shit", selectionValue: 2),
+                                           PillButtonViewModel(title: "Invoices", selectionValue: 3, isUnread: true),
+                                           PillButtonViewModel(title: "Mariama", selectionValue: 4),
+                                           PillButtonViewModel(title: "Some other shit", selectionValue: 5, isUnread: true),
+                                           PillButtonViewModel(title: "Invoices", selectionValue: 6),
+                                           PillButtonViewModel(title: "Mariama", selectionValue: 7)]
+
+    private let pillButtonBarSmallDatas = [PillButtonViewModel(title: "Recommended", selectionValue: "Recommended"),
+                                           PillButtonViewModel(title: "Some shit", selectionValue: "Some shit", isUnread: true)]
 
     private let customTheme: FluentTheme = {
         let colorOverrides = [
