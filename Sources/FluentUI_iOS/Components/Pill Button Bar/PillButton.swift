@@ -113,9 +113,9 @@ open class PillButton: UIButton, TokenizedControl {
     private func setupView() {
         var configuration = UIButton.Configuration.plain()
 
-        configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.topInset,
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: PillButtonTokenSet.verticalInset,
                                                               leading: PillButtonTokenSet.horizontalInset,
-                                                              bottom: PillButtonTokenSet.bottomInset,
+                                                              bottom: PillButtonTokenSet.verticalInset,
                                                               trailing: PillButtonTokenSet.horizontalInset)
         self.configuration = configuration
 
@@ -202,17 +202,23 @@ open class PillButton: UIButton, TokenizedControl {
 
     private func updateUnreadDot() {
         isUnreadDotVisible = pillBarItem.isUnread
-        if isUnreadDotVisible {
-            let anchor = self.titleLabel?.frame ?? .zero
-            let xPos: CGFloat
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotOffsetX)
-            } else {
-                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotOffsetX - PillButtonTokenSet.unreadDotSize)
-            }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotOffsetY)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+
+        guard isUnreadDotVisible else {
+            return
         }
+
+        let anchor = self.frame
+        let xPos: CGFloat
+        let yPos = round(anchor.minY + PillButtonTokenSet.unreadDotEdgeOffsetY)
+
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            xPos = round(anchor.maxX - PillButtonTokenSet.unreadDotSize - PillButtonTokenSet.unreadDotEdgeOffsetX)
+        } else {
+            xPos = round(anchor.minX + PillButtonTokenSet.unreadDotEdgeOffsetX)
+        }
+
+        unreadDotLayer.frame.origin = CGPoint(x: xPos, y: yPos)
+        unreadDotLayer.backgroundColor = unreadDotColor.cgColor
     }
 
     private var isUnreadDotVisible: Bool = false {
