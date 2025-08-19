@@ -33,49 +33,66 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                         pillButton(for: item)
                     }
                 }
+                .background(
+                    GeometryReader { p in
+                        Color.clear.preference(key: ContentWidthKey.self, value: p.size.width)
+                    }
+                )
                 .padding(.vertical, Constants.verticalPadding)
-                .padding(.horizontal, Constants.horizontalPadding)
+                .padding(.horizontal, inset)
+                .frame(
+                    minWidth: disableScroll ? max(0, viewportWidth - inset * 2) : 0,
+                    alignment: centerNow ? .center : .leading
+                )
             }
-            .scrollDisabled(shouldCenterAlign)
+            .scrollDisabled(disableScroll)
+            .background(
+                GeometryReader { g in
+                    Color.clear
+                        .preference(key: ViewportWidthKey.self, value: g.size.width)
+                        .onAppear { scrollViewFrame = g.frame(in: .global) }
+                        .onChange(of: g.size) { _ in
+                            scrollViewFrame = g.frame(in: .global)
+                        }
+                }
+            )
+            .onPreferenceChange(ContentWidthKey.self) { contentWidth = $0 }
+            .onPreferenceChange(ViewportWidthKey.self) { viewportWidth = $0 }
+            .onPreferenceChange(PillFramePreferenceKey<Selection>.self) { value in
+                pillFrames = value
+            }
             .onAppear {
                 assignSelectionIfNeeded()
-
                 DispatchQueue.main.async {
                     scrollToSelectedOnAppear(scrollProxy)
                 }
             }
-            .background(
-                GeometryReader { geometry in
-                    Color.clear
-                        .onAppear {
-                            scrollViewFrame = geometry.frame(in: .global)
-                        }
-                }
-            )
-            .onPreferenceChange(PillFramePreferenceKey<Selection>.self) { value in
-                pillFrames = value
-            }
             .onChange(of: selected) { newSelection in
-                guard let pillFrame = pillFrames[newSelection] else { return }
+                guard !disableScroll, let pillFrame = pillFrames[newSelection] else {
+                    return
+                }
 
                 let scrollMinX = scrollViewFrame.minX
                 let scrollMaxX = scrollViewFrame.maxX
-
                 if pillFrame.maxX > scrollMaxX {
                     withAnimation {
-                        scrollProxy.scrollTo(newSelection,
-                                             anchor: UnitPoint(
-                                                x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, 1)),
-                                                y: Constants.scrollAnchorY
-                                             ))
+                        scrollProxy.scrollTo(
+                            newSelection,
+                            anchor: UnitPoint(
+                                x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, 1)),
+                                y: Constants.scrollAnchorY
+                            )
+                        )
                     }
                 } else if pillFrame.minX < scrollMinX {
                     withAnimation {
-                        scrollProxy.scrollTo(newSelection,
-                                             anchor: UnitPoint(
-                                                x: Constants.scrollPadding / max(scrollViewFrame.width, 1),
-                                                y: Constants.scrollAnchorY
-                                             ))
+                        scrollProxy.scrollTo(
+                            newSelection,
+                            anchor: UnitPoint(
+                                x: Constants.scrollPadding / max(scrollViewFrame.width, 1),
+                                y: Constants.scrollAnchorY
+                            )
+                        )
                     }
                 }
             }
@@ -134,10 +151,27 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     @Binding private var selected: Selection
     @State private var pillFrames: [Selection: CGRect] = [:]
     @State private var scrollViewFrame: CGRect = .zero
+    @State private var contentWidth: CGFloat = 0
+    @State private var viewportWidth: CGFloat = 0
 
+    private let inset: CGFloat = 10
     private let style: PillButtonStyle
     private let shouldCenterAlign: Bool
+
+    private var fitsScreen: Bool { contentWidth + inset * 2 <= viewportWidth + 0.5 }
+    private var centerNow: Bool { shouldCenterAlign && fitsScreen }
+    private var disableScroll: Bool { fitsScreen }
     private var datas: [PillButtonViewModel<Selection>]
+}
+
+private struct ContentWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+}
+
+private struct ViewportWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
 }
 
 private struct Constants {
