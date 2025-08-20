@@ -8,7 +8,19 @@ import FluentUI_common
 #endif
 import SwiftUI
 
+/// `PillButtonBarView` is a horizontal scrollable list of pill shape text buttons.
+/// The bar can either have 1 selected pill at all times or allow no selected pills.
 public struct PillButtonBarView<Selection: Hashable>: View {
+    /// Initializes a new `PillButtonBarView` that allows a the bar to have no selected pill buttons.
+    ///
+    /// Use this initializer only if you want to allow the pill button bar to have no selected pills. In other words
+    /// selecting an already selected pill will deselect it.
+    /// - Parameters:
+    ///   - style: The style of the pill buttons.
+    ///   - viewModels: The view model objects representing the pill buttons data.
+    ///   - selected: Optional generic selection binding for the pill bar.
+    ///   - centerAlignIfContentFits: If true, centrally aligns the bar if it fits the container.
+    ///   - tokenOverrides: The token overrides for the pill buttons.
     public init(style: PillButtonStyle = .primary,
                 viewModels: [PillButtonViewModel<Selection>],
                 selected: Binding<Selection?>,
@@ -22,6 +34,16 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         self.tokenOverrides = tokenOverrides
     }
 
+    /// Initializes a new `PillButtonBarView` that restricts the bar to 1 selected pill button at all times.
+    ///
+    /// Use this initializer only if you want to allow the pill button bar to have no selected pills. In other words
+    /// selecting an already selected pill will deselect it.
+    /// - Parameters:
+    ///   - style: The style of the pill buttons.
+    ///   - viewModels: The view model objects representing the pill buttons data.
+    ///   - selected: The generic selection binding for the pill bar.
+    ///   - centerAlignIfContentFits: If true, centrally aligns the bar if it fits the container.
+    ///   - tokenOverrides: The token overrides for the pill buttons.
     public init(style: PillButtonStyle = .primary,
                 viewModels: [PillButtonViewModel<Selection>],
                 selected: Binding<Selection>,
@@ -53,7 +75,7 @@ public struct PillButtonBarView<Selection: Hashable>: View {
             .background {
                 GeometryReader { geometry in
                     Color.clear
-                        .preference(key: ScreenWidthKey.self, value: geometry.size.width)
+                        .preference(key: ContainerWidthKey.self, value: geometry.size.width)
                         .onAppear {
                             scrollViewFrame = geometry.frame(in: .global)
                         }
@@ -65,8 +87,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
             .onPreferenceChange(ContentWidthKey.self) {
                 contentWidth = $0
             }
-            .onPreferenceChange(ScreenWidthKey.self) {
-                screenWidth = $0
+            .onPreferenceChange(ContainerWidthKey.self) {
+                containerWidth = $0
             }
             .onPreferenceChange(PillFrameKey<Selection>.self) { value in
                 pillFrames = value
@@ -89,13 +111,13 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                 if pillFrame.maxX > scrollMaxX {
                     withAnimation {
                         scrollProxy.scrollTo(selected,
-                                             anchor: UnitPoint(x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, 1)),
+                                             anchor: UnitPoint(x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX)),
                                                                y: Constants.scrollAnchorY))
                     }
                 } else if pillFrame.minX < scrollMinX {
                     withAnimation {
                         scrollProxy.scrollTo(selected,
-                                             anchor: UnitPoint(x: Constants.scrollPadding / max(scrollViewFrame.width, 1),
+                                             anchor: UnitPoint(x: Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX),
                                                                y: Constants.scrollAnchorY))
                     }
                 }
@@ -116,8 +138,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
             }
         }
         .padding(.vertical, Constants.verticalPadding)
-        .padding(.horizontal, inset)
-        .frame(minWidth: disableScroll ? max(0, screenWidth - inset * 2) : 0,
+        .padding(.horizontal, Constants.horizontalPadding)
+        .frame(minWidth: disableScroll ? max(0, containerWidth - Constants.horizontalPadding * 2) : 0,
                alignment: shouldCenterAlign ? .center : .leading)
     }
 
@@ -187,8 +209,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     private var currentSelection: Binding<Selection?> {
         Binding<Selection?>(
             get: {
-                if let s = selected, viewModels.contains(where: { $0.selectionValue == s }) {
-                    return s
+                if let selected, viewModels.contains(where: { $0.selectionValue == selected }) {
+                    return selected
                 }
                 return supportsPillDeselection ? nil : viewModels.first?.selectionValue
             },
@@ -207,16 +229,15 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     @State private var pillFrames: [Selection: CGRect] = [:]
     @State private var scrollViewFrame: CGRect = .zero
     @State private var contentWidth: CGFloat = 0
-    @State private var screenWidth: CGFloat = 0
+    @State private var containerWidth: CGFloat = 0
 
-    private let inset: CGFloat = 10
     private let style: PillButtonStyle
     private let centerAlignIfContentFits: Bool
     private let supportsPillDeselection: Bool
     private let tokenOverrides: [PillButtonToken: ControlTokenValue]?
     private let viewModels: [PillButtonViewModel<Selection>]
 
-    private var fitsScreen: Bool { contentWidth + inset * 2 <= screenWidth + 0.5 }
+    private var fitsScreen: Bool { contentWidth + Constants.horizontalPadding * 2 <= containerWidth}
     private var shouldCenterAlign: Bool { centerAlignIfContentFits && fitsScreen }
     private var disableScroll: Bool { fitsScreen }
 }
@@ -228,7 +249,7 @@ private struct ContentWidthKey: PreferenceKey {
     }
 }
 
-private struct ScreenWidthKey: PreferenceKey {
+private struct ContainerWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())
