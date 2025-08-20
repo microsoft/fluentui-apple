@@ -31,6 +31,7 @@ private struct PillButtonBarDemoView: View {
                     VStack(spacing: 20) {
                         Text("onBrand bar")
                             .multilineTextAlignment(.center)
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                         PillButtonBarView(style: .onBrand,
                                           viewModels: indexSelectionViewModels,
                                           selected: $onBrandSelectedIndex,
@@ -42,6 +43,7 @@ private struct PillButtonBarDemoView: View {
                         }
                         
                         Text("Primary par")
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                             .multilineTextAlignment(.center)
                         PillButtonBarView(style: .primary,
                                           viewModels: titleSelectionViewModels,
@@ -52,7 +54,9 @@ private struct PillButtonBarDemoView: View {
 
                         Text("Bar with deselection")
                             .multilineTextAlignment(.center)
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                         Text("This pill button bar supports having no selected pill button. If the currently selected pill button is tapped, it will be deselected.")
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -65,6 +69,7 @@ private struct PillButtonBarDemoView: View {
                         .disabled(disablePills)
 
                         Text("Leading aligned")
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                         PillButtonBarView(style: .primary,
                                           viewModels: titleSelectionLeadingViewModels,
                                           selected: $leadingAlignedBarSelectedTitle,
@@ -72,6 +77,7 @@ private struct PillButtonBarDemoView: View {
                         .disabled(disablePills)
 
                         Text("Center aligned")
+                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                         PillButtonBarView(style: .primary,
                                           viewModels: titleSelectionCenterViewModels,
                                           selected: $centerAlignedBarSelectedTitle,
