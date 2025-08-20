@@ -3,9 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
+#if canImport(UIKit)
 import SwiftUI
 
 /// Extending `FluentTheme` to implement this protocol allows for platform-specific implementation of token values.
@@ -356,3 +354,4 @@ extension FluentTheme: PlatformThemeProviding {
         }
     }
 }
+#endif // canImport(UIKit)
