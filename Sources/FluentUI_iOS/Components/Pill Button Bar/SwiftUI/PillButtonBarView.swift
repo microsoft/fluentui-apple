@@ -183,11 +183,11 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         .showsLargeContentViewer(text: title)
     }
 
-    private func pillButtonStyle(isSelected: Bool, isUnread: Bool, leadingImage: Image?) -> PillButtonViewStyle {
-        var pillButtonStyle = PillButtonViewStyle(style: style,
-                                                  isSelected: isSelected,
-                                                  isUnread: isUnread,
-                                                  leadingImage: leadingImage)
+    private func pillButtonStyle(isSelected: Bool, isUnread: Bool, leadingImage: Image?) -> FluentPillButtonStyle {
+        var pillButtonStyle = FluentPillButtonStyle(style: style,
+                                                    isSelected: isSelected,
+                                                    isUnread: isUnread,
+                                                    leadingImage: leadingImage)
 
         if let tokenOverrides {
             pillButtonStyle.overrideTokens(tokenOverrides)
