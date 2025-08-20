@@ -59,7 +59,7 @@ private struct PillButtonBarDemoView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .font(.caption)
                         PillButtonBarView(style: .primary,
-                                          viewModels: titleSelectionViewModels,
+                                          viewModels: titleDeselectionViewModels,
                                           selected: $deselectionBarTitle,
                                           tokenOverrides:  tokenOverrides)
                         .disabled(disablePills)
