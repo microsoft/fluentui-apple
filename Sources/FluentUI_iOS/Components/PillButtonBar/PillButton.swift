@@ -202,17 +202,23 @@ open class PillButton: UIButton, TokenizedControl {
 
     private func updateUnreadDot() {
         isUnreadDotVisible = pillBarItem.isUnread
-        if isUnreadDotVisible {
-            let anchor = self.titleLabel?.frame ?? .zero
-            let xPos: CGFloat
-            if effectiveUserInterfaceLayoutDirection == .leftToRight {
-                xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotContentOffsetX)
-            } else {
-                xPos = round(anchor.minX - PillButtonTokenSet.unreadDotContentOffsetX - PillButtonTokenSet.unreadDotSize)
-            }
-            unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotContentOffsetY)
-            unreadDotLayer.backgroundColor = unreadDotColor.cgColor
+
+        guard isUnreadDotVisible else {
+            return
         }
+
+        let anchor = self.frame
+        let xPos: CGFloat
+        let yPos = round(anchor.minY + PillButtonTokenSet.unreadDotEdgeOffsetY)
+
+        if effectiveUserInterfaceLayoutDirection == .leftToRight {
+            xPos = round(anchor.maxX - PillButtonTokenSet.unreadDotSize - PillButtonTokenSet.unreadDotEdgeOffsetX)
+        } else {
+            xPos = round(anchor.minX + PillButtonTokenSet.unreadDotEdgeOffsetX)
+        }
+
+        unreadDotLayer.frame.origin = CGPoint(x: xPos, y: yPos)
+        unreadDotLayer.backgroundColor = unreadDotColor.cgColor
     }
 
     private var isUnreadDotVisible: Bool = false {

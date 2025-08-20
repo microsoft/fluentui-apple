@@ -256,12 +256,6 @@ extension PillButtonTokenSet {
     /// The distance between the icon and the label of the `PillButton`.
     static let iconAndLabelSpacing: CGFloat = GlobalTokens.spacing(.size40)
 
-    /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
-    static let unreadDotContentOffsetX: CGFloat = GlobalTokens.spacing(.size60)
-
-    /// The distance of the unread dot from the top of the content of the `PillButton`.
-    static let unreadDotContentOffsetY: CGFloat = 3.0
-
     /// The distance of the unread dot from the trailing edge of the `PillButton`.
     static let unreadDotEdgeOffsetX: CGFloat = GlobalTokens.spacing(.size80)
 
