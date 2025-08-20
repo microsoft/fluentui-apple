@@ -48,6 +48,10 @@ import UIKit
     var animationDurationForShow: TimeInterval { return isToast ? Constants.animationDurationForShowToast : Constants.animationDurationForShowBar }
     var animationDurationForHide: TimeInterval { return Constants.animationDurationForHide }
     var animationDampingRatio: CGFloat { return isToast ? Constants.animationDampingRatioForToast : 1 }
+    var animationDampingForBump: CGFloat { return Constants.animationDampingForBump }
+    var offsetDistanceForBumpAnimation: CGFloat { return Constants.offsetDistanceForBump }
+    var animationSpringStiffness: CGFloat { return Constants.animationSpringStiffness }
+    var bumpAnimationDelay: CGFloat { return CGFloat(Constants.bumpAnimationDelay) }
 
     var needsFullWidth: Bool { return !isToast }
     var needsSeparator: Bool { return  self == .primaryOutlineBar }
@@ -60,6 +64,10 @@ import UIKit
         static let animationDurationForShowBar: TimeInterval = 0.3
         static let animationDurationForHide: TimeInterval = 0.25
         static let animationDampingRatioForToast: CGFloat = 0.5
+        static let animationDampingForBump: CGFloat = 8
+        static let offsetDistanceForBump: CGFloat = 25
+        static let animationSpringStiffness: CGFloat = 300
+        static let bumpAnimationDelay: TimeInterval = 0.15
     }
 }
 
