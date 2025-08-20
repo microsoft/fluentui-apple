@@ -52,7 +52,7 @@ private struct PillButtonBarDemoView: View {
 
                         Text("Bar with deselection")
                             .multilineTextAlignment(.center)
-                        Text("This pill button bar supports having no selected pill button. In other words, if the currently selected pill button is tapped, it will be deselected.")
+                        Text("This pill button bar supports having no selected pill button. If the currently selected pill button is tapped, it will be deselected.")
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .center)
