@@ -3,9 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
+#if canImport(UIKit)
 import SwiftUI
 
 extension FluentFontInfo : PlatformFontInfoProviding {
@@ -24,3 +22,4 @@ extension FluentFontInfo : PlatformFontInfoProviding {
         (11.0, .caption2)
     ]
 }
+#endif // canImport(UIKit)
