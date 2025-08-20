@@ -1,8 +1,6 @@
 //
-//  PillButtonBar.swift
-//  FluentUI
-//
-//  Created by Lamine Male on 2025-08-18.
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
 //
 
 #if canImport(FluentUI_common)
@@ -11,136 +9,174 @@ import FluentUI_common
 import SwiftUI
 
 public struct PillButtonBarView<Selection: Hashable>: View {
-    /// - Parameters:
-    ///   - datas: The pill data models
-    ///   - selected: Binding to the selected value (any Hashable)
-    ///   - shouldCenterAlign: Optional. If true, center-aligns the HStack
     public init(style: PillButtonStyle = .primary,
-                datas: [PillButtonViewModel<Selection>],
-                selected: Binding<Selection>,
-                shouldCenterAlign: Bool = false) {
+                viewModels: [PillButtonViewModel<Selection>],
+                selected: Binding<Selection?>,
+                centerAlignIfContentFits: Bool = false,
+                tokenOverrides: [PillButtonToken: ControlTokenValue]? = nil) {
         self.style = style
-        self.datas = datas
+        self.viewModels = viewModels
         self._selected = selected
-        self.shouldCenterAlign = shouldCenterAlign
+        self.centerAlignIfContentFits = centerAlignIfContentFits
+        self.supportsPillDeselection = true
+        self.tokenOverrides = tokenOverrides
+    }
+
+    public init(style: PillButtonStyle = .primary,
+                viewModels: [PillButtonViewModel<Selection>],
+                selected: Binding<Selection>,
+                centerAlignIfContentFits: Bool = false,
+                tokenOverrides: [PillButtonToken: ControlTokenValue]? = nil) {
+        self.style = style
+        self.viewModels = viewModels
+        self.centerAlignIfContentFits = centerAlignIfContentFits
+        self.supportsPillDeselection = false
+        self.tokenOverrides = tokenOverrides
+        self._selected = Binding<Selection?>(
+            get: { selected.wrappedValue },
+            set: { newValue in
+                if let value = newValue {
+                    selected.wrappedValue = value
+                }
+            }
+        )
     }
 
     public var body: some View {
         ScrollViewReader { scrollProxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Constants.pillSpacing) {
-                    ForEach(datas, id: \.id) { item in
-                        pillButton(for: item)
-                    }
-                }
-                .background(
-                    GeometryReader { p in
-                        Color.clear.preference(key: ContentWidthKey.self, value: p.size.width)
-                    }
-                )
-                .padding(.vertical, Constants.verticalPadding)
-                .padding(.horizontal, inset)
-                .frame(
-                    minWidth: disableScroll ? max(0, viewportWidth - inset * 2) : 0,
-                    alignment: centerNow ? .center : .leading
-                )
+                pillButtonStack()
+                    .environment(\.isEnabled, isEnabled)
             }
+            .environment(\.isEnabled, true)
             .scrollDisabled(disableScroll)
-            .background(
-                GeometryReader { g in
+            .background {
+                GeometryReader { geometry in
                     Color.clear
-                        .preference(key: ViewportWidthKey.self, value: g.size.width)
-                        .onAppear { scrollViewFrame = g.frame(in: .global) }
-                        .onChange(of: g.size) { _ in
-                            scrollViewFrame = g.frame(in: .global)
+                        .preference(key: ScreenWidthKey.self, value: geometry.size.width)
+                        .onAppear {
+                            scrollViewFrame = geometry.frame(in: .global)
+                        }
+                        .onChange_iOS17(of: geometry.size) { _ in
+                            scrollViewFrame = geometry.frame(in: .global)
                         }
                 }
-            )
-            .onPreferenceChange(ContentWidthKey.self) { contentWidth = $0 }
-            .onPreferenceChange(ViewportWidthKey.self) { viewportWidth = $0 }
-            .onPreferenceChange(PillFramePreferenceKey<Selection>.self) { value in
+            }
+            .onPreferenceChange(ContentWidthKey.self) {
+                contentWidth = $0
+            }
+            .onPreferenceChange(ScreenWidthKey.self) {
+                screenWidth = $0
+            }
+            .onPreferenceChange(PillFrameKey<Selection>.self) { value in
                 pillFrames = value
             }
             .onAppear {
-                assignSelectionIfNeeded()
                 DispatchQueue.main.async {
-                    scrollToSelectedOnAppear(scrollProxy)
+                    scrollToSelectedPill(scrollProxy)
                 }
             }
-            .onChange(of: selected) { newSelection in
-                guard !disableScroll, let pillFrame = pillFrames[newSelection] else {
+            .onChange_iOS17(of: selected) { _ in
+                guard !disableScroll,
+                      let selected = currentSelection.wrappedValue,
+                      let pillFrame = pillFrames[selected] else {
                     return
                 }
 
                 let scrollMinX = scrollViewFrame.minX
                 let scrollMaxX = scrollViewFrame.maxX
+
                 if pillFrame.maxX > scrollMaxX {
                     withAnimation {
-                        scrollProxy.scrollTo(
-                            newSelection,
-                            anchor: UnitPoint(
-                                x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, 1)),
-                                y: Constants.scrollAnchorY
-                            )
-                        )
+                        scrollProxy.scrollTo(selected,
+                                             anchor: UnitPoint(x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, 1)),
+                                                               y: Constants.scrollAnchorY))
                     }
                 } else if pillFrame.minX < scrollMinX {
                     withAnimation {
-                        scrollProxy.scrollTo(
-                            newSelection,
-                            anchor: UnitPoint(
-                                x: Constants.scrollPadding / max(scrollViewFrame.width, 1),
-                                y: Constants.scrollAnchorY
-                            )
-                        )
+                        scrollProxy.scrollTo(selected,
+                                             anchor: UnitPoint(x: Constants.scrollPadding / max(scrollViewFrame.width, 1),
+                                                               y: Constants.scrollAnchorY))
                     }
                 }
             }
         }
     }
 
-    private func assignSelectionIfNeeded() {
-        guard !datas.isEmpty else {
-            return
-        }
-
-        for data in datas {
-            if selected == data.selectionValue {
-                return
+    @ViewBuilder
+    private func pillButtonStack() -> some View {
+        HStack(spacing: Constants.pillSpacing) {
+            ForEach(viewModels, id: \.id) { item in
+                pillButton(for: item)
             }
         }
-
-        selected = datas[0].selectionValue
+        .background {
+            GeometryReader { geometry in
+                Color.clear.preference(key: ContentWidthKey.self, value: geometry.size.width)
+            }
+        }
+        .padding(.vertical, Constants.verticalPadding)
+        .padding(.horizontal, inset)
+        .frame(minWidth: disableScroll ? max(0, screenWidth - inset * 2) : 0,
+               alignment: shouldCenterAlign ? .center : .leading)
     }
 
     private func pillButton(for item: PillButtonViewModel<Selection>) -> some View {
         let value = item.selectionValue
+        let title = item.title
+        let isSelected = currentSelection.wrappedValue == value
+        let ignoreTap = !supportsPillDeselection && isSelected
 
-        if item.isUnread, selected == value {
+        if item.isUnread, isSelected {
             item.isUnread = false
         }
 
         return SwiftUI.Button {
-            selected = value
+            if supportsPillDeselection {
+                if isSelected {
+                    currentSelection.wrappedValue = nil
+                } else {
+                    currentSelection.wrappedValue = value
+                }
+            } else if !isSelected {
+                currentSelection.wrappedValue = value
+            }
         } label: {
             Text(item.title)
         }
-        .buttonStyle(PillButtonViewStyle(style: style,
-                                         isSelected: selected == value,
-                                         isUnread: item.isUnread,
-                                         leadingImage: item.leadingImage))
-        .background(
+        .buttonStyle(pillButtonStyle(isSelected: isSelected,
+                                     isUnread: item.isUnread,
+                                     leadingImage: item.leadingImage))
+        .background {
             GeometryReader { geometry in
                 Color.clear
-                    .preference(key: PillFramePreferenceKey<Selection>.self,
+                    .preference(key: PillFrameKey<Selection>.self,
                                 value: [value: geometry.frame(in: .global)])
             }
-        )
+        }
+        .allowsHitTesting(!ignoreTap && isEnabled)
         .id(value)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .accessibilityLabel(item.isUnread ? String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title) : title)
+        .showsLargeContentViewer(text: title)
     }
 
-    private func scrollToSelectedOnAppear(_ scrollProxy: ScrollViewProxy) {
-        guard scrollViewFrame.width > 0 else {
+    private func pillButtonStyle(isSelected: Bool, isUnread: Bool, leadingImage: Image?) -> PillButtonViewStyle {
+        var pillButtonStyle = PillButtonViewStyle(style: style,
+                                                  isSelected: isSelected,
+                                                  isUnread: isUnread,
+                                                  leadingImage: leadingImage)
+
+        if let tokenOverrides {
+            pillButtonStyle.overrideTokens(tokenOverrides)
+        }
+
+        return pillButtonStyle
+    }
+
+    private func scrollToSelectedPill(_ scrollProxy: ScrollViewProxy) {
+        guard scrollViewFrame.width > 0,
+              let selected = currentSelection.wrappedValue else {
             return
         }
 
@@ -148,30 +184,62 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         scrollProxy.scrollTo(selected, anchor: UnitPoint(x: anchorX, y: Constants.scrollAnchorY))
     }
 
-    @Binding private var selected: Selection
+    private var currentSelection: Binding<Selection?> {
+        Binding<Selection?>(
+            get: {
+                if let s = selected, viewModels.contains(where: { $0.selectionValue == s }) {
+                    return s
+                }
+                return supportsPillDeselection ? nil : viewModels.first?.selectionValue
+            },
+            set: { newValue in
+                if supportsPillDeselection {
+                    selected = newValue
+                } else {
+                    selected = newValue ?? viewModels.first?.selectionValue
+                }
+            }
+        )
+    }
+
+    @Environment(\.isEnabled) private var isEnabled
+    @Binding private var selected: Selection?
     @State private var pillFrames: [Selection: CGRect] = [:]
     @State private var scrollViewFrame: CGRect = .zero
     @State private var contentWidth: CGFloat = 0
-    @State private var viewportWidth: CGFloat = 0
+    @State private var screenWidth: CGFloat = 0
 
     private let inset: CGFloat = 10
     private let style: PillButtonStyle
-    private let shouldCenterAlign: Bool
+    private let centerAlignIfContentFits: Bool
+    private let supportsPillDeselection: Bool
+    private let tokenOverrides: [PillButtonToken: ControlTokenValue]?
+    private let viewModels: [PillButtonViewModel<Selection>]
 
-    private var fitsScreen: Bool { contentWidth + inset * 2 <= viewportWidth + 0.5 }
-    private var centerNow: Bool { shouldCenterAlign && fitsScreen }
+    private var fitsScreen: Bool { contentWidth + inset * 2 <= screenWidth + 0.5 }
+    private var shouldCenterAlign: Bool { centerAlignIfContentFits && fitsScreen }
     private var disableScroll: Bool { fitsScreen }
-    private var datas: [PillButtonViewModel<Selection>]
 }
 
 private struct ContentWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
 }
 
-private struct ViewportWidthKey: PreferenceKey {
+private struct ScreenWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+private struct PillFrameKey<T: Hashable>: PreferenceKey {
+    static var defaultValue: [T: CGRect] { [:] }
+    static func reduce(value: inout [T: CGRect], nextValue: () -> [T: CGRect]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
+    }
 }
 
 private struct Constants {
@@ -181,30 +249,4 @@ private struct Constants {
     static let scrollPadding: CGFloat = 40.0
     static let scrollAnchorY: CGFloat = 0.5
     static let scrollAnchorTrailingX: CGFloat = 1.0
-}
-
-private struct PillFramePreferenceKey<T: Hashable>: PreferenceKey {
-    static var defaultValue: [T: CGRect] { [:] }
-
-    static func reduce(value: inout [T: CGRect], nextValue: () -> [T: CGRect]) {
-        value.merge(nextValue(), uniquingKeysWith: { $1 })
-    }
-}
-
-public final class PillButtonViewModel<Selection: Hashable>: ObservableObject, Identifiable {
-    @Published public var isUnread: Bool
-    public let leadingImage: Image?
-    public let title: String
-    public let id = UUID()
-    public let selectionValue: Selection
-
-    public init(title: String,
-                selectionValue: Selection,
-                leadingImage: Image? = nil,
-                isUnread: Bool = false) {
-        self.title = title
-        self.selectionValue = selectionValue
-        self.leadingImage = leadingImage
-        self.isUnread = isUnread
-    }
 }

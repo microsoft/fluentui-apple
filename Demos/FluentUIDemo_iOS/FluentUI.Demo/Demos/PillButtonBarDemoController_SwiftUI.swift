@@ -23,50 +23,153 @@ class PillButtonBarDemoControllerSwiftUI: DemoHostingController {
 private struct PillButtonBarDemoView: View {
     fileprivate var body: some View {
         let theme = useCustomTheme ? customTheme : fluentTheme
+        let tokenOverrides = showTokenOverrides ? tokenOverrides : nil
 
-        return VStack(spacing: 30) {
-            Spacer()
-                .frame(height: 10)
+        return VStack {
+            ScrollView(.vertical) {
+                VStack(spacing: 30) {
+                    VStack(spacing: 20) {
+                        Text("onBrand bar")
+                            .multilineTextAlignment(.center)
+                        PillButtonBarView(style: .onBrand,
+                                          viewModels: indexSelectionViewModels,
+                                          selected: $onBrandSelectedIndex,
+                                          centerAlignIfContentFits: true,
+                                          tokenOverrides:  tokenOverrides)
+                        .disabled(disablePills)
+                        .background {
+                            fluentTheme.swiftUIColor(.brandBackground1)
+                        }
+                        
+                        Text("Primary par")
+                            .multilineTextAlignment(.center)
+                        PillButtonBarView(style: .primary,
+                                          viewModels: titleSelectionViewModels,
+                                          selected: $primarySelectedTitle,
+                                          centerAlignIfContentFits: true,
+                                          tokenOverrides:  tokenOverrides)
+                        .disabled(disablePills)
 
-            VStack(spacing: 20) {
-                PillButtonBarView(style: .primary, datas: pillButtonBarSmallDatas, selected: $selectedTitle, shouldCenterAlign: true)
-                PillButtonBarView(style: .primary, datas: pillButtonBarLargeDatas, selected: $selectedIndex)
+                        Text("Bar with deselection")
+                            .multilineTextAlignment(.center)
+                        Text("This pill button bar supports having no selected pill button. In other words, if the currently selected pill button is tapped, it will be deselected.")
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .font(.caption)
+                        PillButtonBarView(style: .primary,
+                                          viewModels: titleSelectionViewModels,
+                                          selected: $deselectionBarTitle,
+                                          tokenOverrides:  tokenOverrides)
+                        .disabled(disablePills)
+
+                        Text("Leading aligned")
+                        PillButtonBarView(style: .primary,
+                                          viewModels: titleSelectionLeadingViewModels,
+                                          selected: $leadingAlignedBarSelectedTitle,
+                                          tokenOverrides:  tokenOverrides)
+                        .disabled(disablePills)
+
+                        Text("Center aligned")
+                        PillButtonBarView(style: .primary,
+                                          viewModels: titleSelectionCenterViewModels,
+                                          selected: $centerAlignedBarSelectedTitle,
+                                          centerAlignIfContentFits: true,
+                                          tokenOverrides:  tokenOverrides)
+                        .disabled(disablePills)
+                    }
+                    .fluentTheme(theme)
+                }
+                .background(FluentTheme.shared.swiftUIColor(.background1))
+                .onChange_iOS17(of: primarySelectedTitle) { newValue in
+                    showAlert = true
+                    alertTitle = "Title \(newValue) selected"
+                }
+                .onChange_iOS17(of: onBrandSelectedIndex) { newValue in
+                    showAlert = true
+                    alertTitle = "Index \(newValue) selected"
+                }
+                .onChange_iOS17(of: deselectionBarTitle) { newValue in
+                    showAlert = true
+                    alertTitle = newValue != nil ? "Title \"\(newValue!)\" selected" : "No pill selected"
+                }
+                .onChange_iOS17(of: leadingAlignedBarSelectedTitle) { newValue in
+                    showAlert = true
+                    alertTitle = "Title \(newValue) selected"
+                }
+                .onChange_iOS17(of: centerAlignedBarSelectedTitle) { newValue in
+                    showAlert = true
+                    alertTitle = "Title \(newValue) selected"
+                }
+                .alert(isPresented: $showAlert, content: {
+                    Alert(title: Text(alertTitle))
+                })
             }
-            .fluentTheme(theme)
 
             FluentList {
-                Toggle("Toggle Custom theme", isOn: $useCustomTheme)
-                Toggle("Toggle unread dots", isOn: $isUnread)
-                Toggle("Toggle leading images", isOn: $hasLeadingImage)
+                Toggle("Toggle custom theme", isOn: $useCustomTheme)
                 Toggle("Toggle token overrides", isOn: $showTokenOverrides)
+                Toggle("Disable pills", isOn: $disablePills)
             }
             .fluentListStyle(.insetGrouped)
+            .frame(maxHeight: 200)
         }
-        .background(FluentTheme.shared.swiftUIColor(.background1))
     }
 
-    @Environment(\.fluentTheme) var fluentTheme: FluentTheme
-    @State var showAlert = false
-    @State var useCustomTheme: Bool = false
-    @State var isUnread: Bool = false
-    @State var hasLeadingImage: Bool = false
-    @State var showTokenOverrides: Bool = false
-    @State var selectedIndex: Int = 3
-    @State var selectedTitle: String = ""
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
+    @State private var selectedDelectedTitle: Int? = nil
+    @State private var onBrandSelectedIndex: Int = 0
+    @State private var primarySelectedTitle: String = "People"
+    @State private var deselectionBarTitle: String? = nil
+    @State private var leadingAlignedBarSelectedTitle: String = ""
+    @State private var centerAlignedBarSelectedTitle: String = ""
 
-    private let leadingImage = Image(systemName: "circle.fill")
+    @State private var alertTitle: String = ""
+    @State private var showAlert = false
+    @State private var useCustomTheme: Bool = false
+    @State private var showTokenOverrides: Bool = false
+    @State private var disablePills: Bool = false
 
-    private let pillButtonBarLargeDatas = [PillButtonViewModel(title: "Recommended", selectionValue: 0),
-                                           PillButtonViewModel(title: "Some shit", selectionValue: 1, isUnread: true),
-                                           PillButtonViewModel(title: "Some other shit", selectionValue: 2),
-                                           PillButtonViewModel(title: "Invoices", selectionValue: 3, isUnread: true),
-                                           PillButtonViewModel(title: "Mariama", selectionValue: 4),
-                                           PillButtonViewModel(title: "Some other shit", selectionValue: 5, isUnread: true),
-                                           PillButtonViewModel(title: "Invoices", selectionValue: 6),
-                                           PillButtonViewModel(title: "Mariama", selectionValue: 7)]
+    private let indexSelectionViewModels = indexSelectionViewModels(titles: Constants.longTitles)
+    private let titleSelectionViewModels = titleSelectionViewModels(titles: Constants.longTitles)
+    private let titleDeselectionViewModels = titleSelectionViewModels(titles: Constants.longTitles)
+    private let titleSelectionLeadingViewModels = titleSelectionViewModels(titles: Constants.shortTitles)
+    private let titleSelectionCenterViewModels = titleSelectionViewModels(titles: Constants.shortTitles)
 
-    private let pillButtonBarSmallDatas = [PillButtonViewModel(title: "Recommended", selectionValue: "Recommended"),
-                                           PillButtonViewModel(title: "Some shit", selectionValue: "Some shit", isUnread: true)]
+    private static func indexSelectionViewModels(titles: [String]) -> [PillButtonViewModel<Int>] {
+        var viewModels: [PillButtonViewModel<Int>] = []
+
+        for index in 0..<titles.count {
+            let leadingImage = Bool.random() ? Constants.leadingImage : nil
+            let hasUnreadDot = Bool.random()
+
+            let viewModel = PillButtonViewModel(title: titles[index],
+                                                selectionValue: index,
+                                                leadingImage: leadingImage,
+                                                isUnread: hasUnreadDot)
+            viewModels.append(viewModel)
+        }
+
+        return viewModels
+    }
+
+    private static func titleSelectionViewModels(titles: [String]) -> [PillButtonViewModel<String>] {
+        var viewModels: [PillButtonViewModel<String>] = []
+
+        for title in titles {
+            let leadingImage = Bool.random() ? Constants.leadingImage : nil
+            let hasUnreadDot = Bool.random()
+
+            let viewModel = PillButtonViewModel(title: title,
+                                                selectionValue: title,
+                                                leadingImage: leadingImage,
+                                                isUnread: hasUnreadDot)
+            viewModels.append(viewModel)
+        }
+
+        return viewModels
+    }
 
     private let customTheme: FluentTheme = {
         let colorOverrides = [
@@ -86,4 +189,10 @@ private struct PillButtonBarDemoView: View {
         .backgroundColor: .uiColor { GlobalTokens.sharedColor(.lime, .shade10) },
         .backgroundColorDisabled: .uiColor { GlobalTokens.sharedColor(.hotPink, .primary) }
     ]
+
+    private struct Constants {
+        static let longTitles = ["All", "Documents", "People", "Other", "Templates", "Actions", "More", "Miscellaneous"]
+        static let shortTitles = ["All", "Documents"]
+        static let leadingImage = Image(systemName: "circle.fill")
+    }
 }
