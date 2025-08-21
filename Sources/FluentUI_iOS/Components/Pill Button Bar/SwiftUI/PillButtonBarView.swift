@@ -35,9 +35,6 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     }
 
     /// Initializes a new `PillButtonBarView` that restricts the bar to 1 selected pill button at all times.
-    ///
-    /// Use this initializer only if you want to allow the pill button bar to have no selected pills. In other words
-    /// selecting an already selected pill will deselect it.
     /// - Parameters:
     ///   - style: The style of the pill buttons.
     ///   - viewModels: The view model objects representing the pill buttons data.
