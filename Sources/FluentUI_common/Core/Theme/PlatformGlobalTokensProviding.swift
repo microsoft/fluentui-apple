@@ -6,6 +6,6 @@
 import SwiftUI
 
 /// Extending `GlobalTokens` to implement this protocol allows for platform-specific implementation.
-public protocol PlatformGlobalTokenProviding {
+protocol PlatformGlobalTokenProviding {
     static func fontSize(for token: GlobalTokens.FontSizeToken) -> CGFloat
 }

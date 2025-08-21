@@ -1860,17 +1860,9 @@ public class GlobalTokens: NSObject {
     // MARK: - PlatformGlobalTokenProviding
 
     private static var platformGlobalTokenProvider: any PlatformGlobalTokenProviding.Type {
-        // We need slightly different implementations depending on how our package is loaded.
-#if SWIFT_PACKAGE || COCOAPODS
-        // In this case, the protocol conformance happens in a different module, so we need to
-        // convert the type conditionally and fail if something goes wrong.
-        guard let platformGlobalTokenProvider = self as? PlatformGlobalTokenProviding.Type else {
-            preconditionFailure("GlobalTokens should conform to PlatformGlobalTokenProviding")
-        }
-#else
-        // Otherwise, we're all in one module and thus the type conversion is guaranteed.
+        // Because this conformance is conditional on OS, let's keep an explicit type check
+        // here, which will cause a build break if a new OS is added.
         let platformGlobalTokenProvider = self as PlatformGlobalTokenProviding.Type
-#endif
         return platformGlobalTokenProvider
     }
 }

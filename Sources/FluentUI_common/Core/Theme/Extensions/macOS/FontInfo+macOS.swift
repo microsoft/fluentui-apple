@@ -3,9 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
+#if canImport(AppKit)
 import SwiftUI
 
 extension FluentFontInfo : PlatformFontInfoProviding {
@@ -24,3 +22,4 @@ extension FluentFontInfo : PlatformFontInfoProviding {
         // But it's okay because Apple's scaling curve is identical between it and `.footnote`.
     ]
 }
+#endif // canImport(AppKit)

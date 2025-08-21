@@ -5,9 +5,6 @@
 
 #if os(visionOS)
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
 import SwiftUI
 
 extension FluentTheme {
