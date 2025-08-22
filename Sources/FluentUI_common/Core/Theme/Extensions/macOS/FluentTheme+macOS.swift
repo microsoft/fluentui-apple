@@ -3,9 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
+#if canImport(AppKit)
 import SwiftUI
 
 extension FluentTheme: PlatformThemeProviding {
@@ -355,3 +353,4 @@ extension FluentTheme: PlatformThemeProviding {
         }
     }
 }
+#endif // canImport(AppKit)
