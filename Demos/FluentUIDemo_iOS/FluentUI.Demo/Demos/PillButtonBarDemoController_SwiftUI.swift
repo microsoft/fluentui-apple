@@ -42,7 +42,7 @@ private struct PillButtonBarDemoView: View {
                             fluentTheme.swiftUIColor(.brandBackground1)
                         }
                         
-                        Text("Primary par")
+                        Text("Primary bar")
                             .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
                             .multilineTextAlignment(.center)
                         PillButtonBarView(style: .primary,

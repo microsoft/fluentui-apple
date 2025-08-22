@@ -76,6 +76,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                 containerWidth = newFrame.width
             }
             .onAppear {
+                // Defer scroll until next loop so layout/frames are ready.
+                // TODO: Use scrollPosition API once iOS 16 support is dropped: https://developer.apple.com/documentation/swiftui/scrollposition
                 DispatchQueue.main.async {
                     scrollToSelectedPill(scrollProxy)
                 }
@@ -110,8 +112,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     @ViewBuilder
     private func pillButtonStack() -> some View {
         HStack(spacing: Constants.pillSpacing) {
-            ForEach(viewModels, id: \.id) { item in
-                pillButton(for: item)
+            ForEach(viewModels, id: \.id) { viewModel in
+                pillButton(for: viewModel)
             }
         }
         .onGeometryChange(for: CGFloat.self) { proxy in
@@ -125,14 +127,14 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                alignment: shouldCenterAlign ? .center : .leading)
     }
 
-    private func pillButton(for item: PillButtonViewModel<Selection>) -> some View {
-        let value = item.selectionValue
-        let title = item.title
+    private func pillButton(for viewModel: PillButtonViewModel<Selection>) -> some View {
+        let value = viewModel.selectionValue
+        let title = viewModel.title
         let isSelected = currentSelection.wrappedValue == value
         let ignoreTap = !supportsPillDeselection && isSelected
 
-        if item.isUnread, isSelected {
-            item.isUnread = false
+        if viewModel.isUnread, isSelected {
+            viewModel.isUnread = false
         }
 
         return SwiftUI.Button {
@@ -146,11 +148,11 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                 currentSelection.wrappedValue = value
             }
         } label: {
-            Text(item.title)
+            Text(viewModel.title)
         }
         .buttonStyle(pillButtonStyle(isSelected: isSelected,
-                                     isUnread: item.isUnread,
-                                     leadingImage: item.leadingImage))
+                                     isUnread: viewModel.isUnread,
+                                     leadingImage: viewModel.leadingImage))
         .onGeometryChange(for: CGRect.self) { proxy in
             proxy.frame(in: .global)
         } action: { rect in
@@ -162,7 +164,7 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         .allowsHitTesting(!ignoreTap && isEnabled)
         .id(value)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
-        .accessibilityLabel(item.isUnread ? String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title) : title)
+        .accessibilityLabel(viewModel.isUnread ? String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title) : title)
         .showsLargeContentViewer(text: title)
     }
 
