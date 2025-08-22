@@ -69,26 +69,11 @@ public struct PillButtonBarView<Selection: Hashable>: View {
             }
             .environment(\.isEnabled, true)
             .scrollDisabled(disableScroll)
-            .background {
-                GeometryReader { geometry in
-                    Color.clear
-                        .preference(key: ContainerWidthKey.self, value: geometry.size.width)
-                        .onAppear {
-                            scrollViewFrame = geometry.frame(in: .global)
-                        }
-                        .onChange_iOS17(of: geometry.size) { _ in
-                            scrollViewFrame = geometry.frame(in: .global)
-                        }
-                }
-            }
-            .onPreferenceChange(ContentWidthKey.self) {
-                contentWidth = $0
-            }
-            .onPreferenceChange(ContainerWidthKey.self) {
-                containerWidth = $0
-            }
-            .onPreferenceChange(PillFrameKey<Selection>.self) { value in
-                pillFrames = value
+            .onGeometryChange(for: CGRect.self) { proxy in
+                proxy.frame(in: .global)
+            } action: { newFrame in
+                scrollViewFrame = newFrame
+                containerWidth = newFrame.width
             }
             .onAppear {
                 DispatchQueue.main.async {
@@ -129,10 +114,10 @@ public struct PillButtonBarView<Selection: Hashable>: View {
                 pillButton(for: item)
             }
         }
-        .background {
-            GeometryReader { geometry in
-                Color.clear.preference(key: ContentWidthKey.self, value: geometry.size.width)
-            }
+        .onGeometryChange(for: CGFloat.self) { proxy in
+            proxy.size.width
+        } action: { newWidth in
+            contentWidth = newWidth
         }
         .padding(.vertical, Constants.verticalPadding)
         .padding(.horizontal, Constants.horizontalPadding)
@@ -166,12 +151,13 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         .buttonStyle(pillButtonStyle(isSelected: isSelected,
                                      isUnread: item.isUnread,
                                      leadingImage: item.leadingImage))
-        .background {
-            GeometryReader { geometry in
-                Color.clear
-                    .preference(key: PillFrameKey<Selection>.self,
-                                value: [value: geometry.frame(in: .global)])
-            }
+        .onGeometryChange(for: CGRect.self) { proxy in
+            proxy.frame(in: .global)
+        } action: { rect in
+            pillFrames[value] = rect
+        }
+        .onDisappear {
+            pillFrames.removeValue(forKey: value)
         }
         .allowsHitTesting(!ignoreTap && isEnabled)
         .id(value)
@@ -234,30 +220,9 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     private let tokenOverrides: [PillButtonToken: ControlTokenValue]?
     private let viewModels: [PillButtonViewModel<Selection>]
 
-    private var fitsScreen: Bool { contentWidth + Constants.horizontalPadding * 2 <= containerWidth}
-    private var shouldCenterAlign: Bool { centerAlignIfContentFits && fitsScreen }
-    private var disableScroll: Bool { fitsScreen }
-}
-
-private struct ContentWidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
-private struct ContainerWidthKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = max(value, nextValue())
-    }
-}
-
-private struct PillFrameKey<T: Hashable>: PreferenceKey {
-    static var defaultValue: [T: CGRect] { [:] }
-    static func reduce(value: inout [T: CGRect], nextValue: () -> [T: CGRect]) {
-        value.merge(nextValue(), uniquingKeysWith: { $1 })
-    }
+    private var fitsContainer: Bool { contentWidth + Constants.horizontalPadding * 2 <= containerWidth }
+    private var shouldCenterAlign: Bool { centerAlignIfContentFits && fitsContainer }
+    private var disableScroll: Bool { fitsContainer }
 }
 
 private struct Constants {
