@@ -1654,8 +1654,8 @@ public class GlobalTokens: NSObject {
     }
 
     // MARK: - FontSize
-
-    public enum FontSizeToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensFontSize)
+    public enum FontSizeToken: Int, CaseIterable, Hashable {
         case size100
         case size200
         case size300
@@ -1666,13 +1666,15 @@ public class GlobalTokens: NSObject {
         case size800
         case size900
     }
+    @objc(fontSizeForToken:)
     public static func fontSize(_ token: FontSizeToken) -> CGFloat {
         return platformGlobalTokenProvider.fontSize(for: token)
     }
 
     // MARK: - FontWeight
 
-    public enum FontWeightToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensFontWeight)
+    public enum FontWeightToken: Int, CaseIterable, Hashable {
         case regular
         case medium
         case semibold
@@ -1693,7 +1695,8 @@ public class GlobalTokens: NSObject {
 
     // MARK: - IconSize
 
-    public enum IconSizeToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensIconSize)
+    public enum IconSizeToken: Int, CaseIterable, Hashable {
         case size100
         case size120
         case size160
@@ -1704,6 +1707,7 @@ public class GlobalTokens: NSObject {
         case size400
         case size480
     }
+    @objc(iconSizeForToken:)
     public static func icon(_ token: IconSizeToken) -> CGFloat {
         switch token {
         case .size100:
@@ -1729,7 +1733,8 @@ public class GlobalTokens: NSObject {
 
     // MARK: - Spacing
 
-    public enum SpacingToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensSpacing)
+    public enum SpacingToken: Int, CaseIterable, Hashable {
         case sizeNone
         case size20
         case size40
@@ -1748,6 +1753,7 @@ public class GlobalTokens: NSObject {
         case size520
         case size560
     }
+    @objc(spacingForToken:)
     public static func spacing(_ token: SpacingToken) -> CGFloat {
         switch token {
         case .sizeNone:
@@ -1789,15 +1795,18 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BorderRadius
 
-    public enum CornerRadiusToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensCornerRadius)
+    public enum CornerRadiusToken: Int, CaseIterable, Hashable {
         case radiusNone
         case radius20
         case radius40
         case radius60
         case radius80
         case radius120
+        case radius160
         case radiusCircular
     }
+    @objc(cornerRadiusForToken:)
     public static func corner(_ token: CornerRadiusToken) -> CGFloat {
         switch token {
         case .radiusNone:
@@ -1812,6 +1821,8 @@ public class GlobalTokens: NSObject {
             return 8
         case .radius120:
             return 12
+        case .radius160:
+            return 16
         case .radiusCircular:
             return 9999
         }
@@ -1819,7 +1830,8 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BorderSize
 
-    public enum StrokeWidthToken: CaseIterable, Hashable {
+    @objc(MSFGlobalTokensStrokeWidthToken)
+    public enum StrokeWidthToken: Int, CaseIterable, Hashable {
         case widthNone
         case width05
         case width10
@@ -1829,6 +1841,7 @@ public class GlobalTokens: NSObject {
         case width40
         case width60
     }
+    @objc(strokeWidthForToken:)
     public static func stroke(_ token: StrokeWidthToken) -> CGFloat {
         switch token {
         case .widthNone:
