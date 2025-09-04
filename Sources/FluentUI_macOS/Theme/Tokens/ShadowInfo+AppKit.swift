@@ -19,4 +19,14 @@ public extension ShadowInfo {
         dropShadow.shadowBlurRadius = keyBlur
         return dropShadow
     }
+
+    /// Creates an NSShadow from the `ambient` elements of this instance.
+    @objc var ambientShadow: NSShadow {
+        let dropShadow = NSShadow()
+        dropShadow.shadowColor = NSColor(ambientColor)
+        // NSShadow offsets are inverted from our global values
+        dropShadow.shadowOffset = CGSizeMake(-xAmbient, -yAmbient)
+        dropShadow.shadowBlurRadius = ambientBlur
+        return dropShadow
+    }
 }
