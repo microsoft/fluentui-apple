@@ -176,13 +176,6 @@ class CommandBarButton: UIButton {
             view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-
-    private struct LayoutConstants {
-        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
-                                                    left: 10.0,
-                                                    bottom: 8.0,
-                                                    right: 10.0)
-    }
 }
 
 // MARK: CommandBarButton UIPointerInteractionDelegate
