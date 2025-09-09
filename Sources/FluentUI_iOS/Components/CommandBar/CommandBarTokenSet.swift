@@ -55,10 +55,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
         super.init { token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor {
-                    UIColor(light: GlobalTokens.neutralColor(.grey98),
-                            dark: GlobalTokens.neutralColor(.grey8))
-                }
+                return .uiColor { theme.color(.background2) }
 
             case .groupBorderRadius:
                 return .float { GlobalTokens.corner(.radius120) }

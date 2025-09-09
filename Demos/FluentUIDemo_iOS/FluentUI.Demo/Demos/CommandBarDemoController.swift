@@ -183,7 +183,6 @@ class CommandBarDemoController: DemoController {
         let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
         commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
-        commandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(commandBar)
         defaultCommandBar = commandBar
 
@@ -278,7 +277,6 @@ class CommandBarDemoController: DemoController {
 
         let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
         fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
-        fixedButtonCommandBar.backgroundColor = view.fluentTheme.color(.background3)
         container.addArrangedSubview(fixedButtonCommandBar)
 
         container.addArrangedSubview(createLabelWithText("In Input Accessory View"))
@@ -525,6 +523,7 @@ extension CommandBarDemoController: DemoAppearanceDelegate {
 
     private var perControlOverrideCommandBarTokens: [CommandBarTokenSet.Tokens: ControlTokenValue] {
         return [
+            .backgroundColor: .uiColor { GlobalTokens.sharedColor(.purple, .tint40) },
             .itemBackgroundColorRest: .uiColor { GlobalTokens.sharedColor(.grape, .primary) }
         ]
     }
