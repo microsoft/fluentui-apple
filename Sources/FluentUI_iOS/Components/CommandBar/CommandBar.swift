@@ -101,9 +101,11 @@ public class CommandBar: UIView, TokenizedControl {
         super.init(frame: .zero)
 
         configureHierarchy()
+        updateBackgroundColor()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateBackgroundColor()
             self?.updateButtonTokens()
         }
     }
@@ -381,6 +383,10 @@ public class CommandBar: UIView, TokenizedControl {
         }
 
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
+    }
+
+    private func updateBackgroundColor() {
+        backgroundColor = tokenSet[.backgroundColor].uiColor
     }
 
     private func updateButtonTokens() {
