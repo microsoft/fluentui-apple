@@ -11,6 +11,17 @@ import SwiftUI
 
 public extension FluentTheme {
 
+    /// Returns the color value for the given token.
+    ///
+    /// - Parameter token: The `ColorsTokens` value to be retrieved.
+    /// - Returns: A `UIColor` for the given token.
+    @objc(colorForToken:)
+    func nsColor(_ token: ColorToken) -> NSColor {
+        let dynamicColor = dynamicColor(token)
+        return NSColor(light: NSColor(dynamicColor.light),
+                       dark: dynamicColor.dark.map { NSColor($0) })
+    }
+
     /// Returns the font value for the given token.
     ///
     /// - Parameter token: The `TypographyTokens` value to be retrieved.
