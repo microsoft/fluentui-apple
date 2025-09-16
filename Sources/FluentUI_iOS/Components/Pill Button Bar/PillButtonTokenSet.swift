@@ -30,6 +30,18 @@ public enum PillButtonToken: Int, TokenSetKey {
     /// The font used for the title of the `PillButton`.
     case font
 
+    /// The color of the icon of the `PillButton`.
+    case iconColor
+
+    /// The color of the icon of the `PillButton` when disabled.
+    case iconColorDisabled
+
+    /// The color of the icon of the `PillButton` when selected.
+    case iconColorSelected
+
+    /// The color of the icon of the `PillButton` when selected and disabled.
+    case iconColorSelectedDisabled
+
     /// The color of the title of the `PillButton`.
     case titleColor
 
@@ -107,7 +119,9 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
                     case .primary:
                         return theme.color(.foregroundDisabled1)
                     case .onBrand:
-                        return theme.color(.brandForegroundDisabled1)
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark,
+                                       darkElevated: theme.color(.foregroundDisabled1).darkElevated)
                     }
                 }
 
@@ -125,6 +139,54 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 
             case .font:
                 return .uiFont { theme.typography(.body2, adjustsForContentSizeCategory: false) }
+
+            case .iconColor:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foreground3)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.foregroundOnColor).light,
+                                       dark: theme.color(.foreground3).dark,
+                                       darkElevated: theme.color(.foreground3).darkElevated)
+                    }
+                }
+
+            case .iconColorDisabled:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundDisabled1)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForegroundDisabled1).light,
+                                       dark: theme.color(.foregroundDisabled1).dark,
+                                       darkElevated: theme.color(.foregroundDisabled1).darkElevated)
+                    }
+                }
+
+            case .iconColorSelected:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.foregroundOnColor)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForeground1).light,
+                                       dark: theme.color(.foreground1).dark,
+                                       darkElevated: theme.color(.foreground1).darkElevated)
+                    }
+                }
+
+            case .iconColorSelectedDisabled:
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.brandForegroundDisabled1)
+                    case .onBrand:
+                        return UIColor(light: theme.color(.brandForegroundDisabled2).light,
+                                       dark: theme.color(.foregroundDisabled2).dark,
+                                       darkElevated: theme.color(.foregroundDisabled2).darkElevated)
+                    }
+                }
 
             case .titleColor:
                 return .uiColor {
@@ -182,23 +244,29 @@ public class PillButtonTokenSet: ControlTokenSet<PillButtonToken> {
 }
 
 extension PillButtonTokenSet {
-    /// The distance of the content from the bottom of the `PillButton`.
-    static let bottomInset: CGFloat = GlobalTokens.spacing(.size60)
+    /// The corner radius of the `PillButton`.
+    static let cornerRadius: CGFloat = GlobalTokens.corner(.radiusCircular)
 
     /// The distance of the content from the sides of the `PillButton`.
     static let horizontalInset: CGFloat = GlobalTokens.spacing(.size160)
 
-    /// The distance of the unread dot from the trailing edge of the content of the `PillButton`.
-    static let unreadDotOffsetX: CGFloat = GlobalTokens.spacing(.size60)
+    /// The size of the icon of the `PillButton`.
+    static let iconSize: CGFloat = GlobalTokens.spacing(.size160)
 
-    /// The distance of the unread dot from the top of the content of the `PillButton`.
-    static let unreadDotOffsetY: CGFloat = 3.0
+    /// The distance between the icon and the label of the `PillButton`.
+    static let iconAndLabelSpacing: CGFloat = GlobalTokens.spacing(.size40)
+
+    /// The distance of the unread dot from the trailing edge of the `PillButton`.
+    static let unreadDotEdgeOffsetX: CGFloat = GlobalTokens.spacing(.size80)
+
+    /// The distance of the unread dot from the top edge of the `PillButton`.
+    static let unreadDotEdgeOffsetY: CGFloat = GlobalTokens.spacing(.size80)
 
     /// The size of the unread dot of the `PillButton`.
     static let unreadDotSize: CGFloat = GlobalTokens.spacing(.size60)
 
-    /// The distance of the content from the top of the `PillButton`.
-    static let topInset: CGFloat = GlobalTokens.spacing(.size60)
+    /// The distance of the content from the top and bottom edges of the `PillButton`.
+    static let verticalInset: CGFloat = GlobalTokens.spacing(.size60)
 }
 
 // MARK: - PillButtonStyle
