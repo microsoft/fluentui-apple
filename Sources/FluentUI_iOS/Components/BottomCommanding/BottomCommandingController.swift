@@ -8,6 +8,8 @@ import FluentUI_common
 #endif
 import UIKit
 
+public typealias BottomCommandingControllerStyle = BottomSheetControllerStyle
+
 @objc(MSFBottomCommandingControllerDelegate)
 public protocol BottomCommandingControllerDelegate: AnyObject {
 
@@ -130,7 +132,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     /// source of truth and the public getter will return that instead of this backing variable.
     private var _isHidden: Bool = false
 
-    private let bottomSheetControllerStyle: BottomSheetControllerStyle
+    private let style: BottomCommandingControllerStyle
 
     /// Indicates whether a more button is visible in the sheet style when `expandedListSections` is non-empty.
     /// Tapping the button will expand or collapse the sheet.
@@ -240,10 +242,10 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     /// Initializes the bottom commanding controller with a given content view controller.
     /// - Parameters:
     ///  - contentViewController: View controller that will be displayed below the bottom commanding UI.
-    ///  - bottomSheetControllerStyle: The style override for the BottomSheet's background material.
-    @objc public init(with contentViewController: UIViewController?, bottomSheetControllerStyle: BottomSheetControllerStyle) {
+    ///  - style: Style of the bottom commanding controller.
+    @objc public init(with contentViewController: UIViewController?, style: BottomCommandingControllerStyle) {
         self.contentViewController = contentViewController
-        self.bottomSheetControllerStyle = bottomSheetControllerStyle
+        self.style = style
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -251,7 +253,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     /// - Parameters:
     ///  - contentViewController: View controller that will be displayed below the bottom commanding UI.
     @objc public convenience init(with contentViewController: UIViewController?) {
-        self.init(with: contentViewController, bottomSheetControllerStyle: .primary)
+        self.init(with: contentViewController, style: .primary)
     }
 
     @available(*, unavailable)
@@ -366,7 +368,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     }
 
     public typealias TokenSetKeyType = BottomCommandingTokenSet.Tokens
-    public var tokenSet: BottomCommandingTokenSet = .init()
+    public lazy var tokenSet: BottomCommandingTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primary
+    })
 
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
@@ -418,7 +422,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
 
         let sheetController = BottomSheetController(headerContentView: headerView,
                                                     expandedContentView: makeSheetExpandedContent(with: tableView),
-                                                    style: bottomSheetControllerStyle)
+                                                    style: style)
         sheetController.headerContentHeight = Constants.BottomSheet.headerHeight
         sheetController.hostedScrollView = tableView
         sheetController.isHidden = isHidden
@@ -465,28 +469,63 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
 
     private func makeBottomBarByEmbedding(contentView: UIView) -> UIView {
         let bottomBarView = UIView()
+        let backgroundView: UIView
+        
+        switch style {
+        case .primary:
+            let roundedCornerView = UIView()
+            roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
+            roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
+            roundedCornerView.layer.cornerRadius = tokenSet[.cornerRadius].float
+            roundedCornerView.layer.cornerCurve = .continuous
+            roundedCornerView.clipsToBounds = true
+            roundedCornerView.addSubview(contentView)
+            
+            NSLayoutConstraint.activate([
+                contentView.leadingAnchor.constraint(equalTo: roundedCornerView.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: roundedCornerView.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: roundedCornerView.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: roundedCornerView.bottomAnchor)
+            ])
+            
+            backgroundView = roundedCornerView
+        case .glass:
+            let effectView = UIVisualEffectView()
+            effectView.translatesAutoresizingMaskIntoConstraints = false
 
-        let roundedCornerView = UIView()
-        roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
-        roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
-        roundedCornerView.layer.cornerRadius = tokenSet[.cornerRadius].float
-        roundedCornerView.layer.cornerCurve = .continuous
-        roundedCornerView.clipsToBounds = true
+            if #available(iOS 26, *) {
+                let glassEffect = UIGlassEffect(style: .regular)
+                glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                effectView.effect = glassEffect
+                effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+            } else {
+                effectView.effect = UIBlurEffect(style: .systemMaterial)
+                effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+                effectView.layer.masksToBounds = true
+            }
 
-        bottomBarView.addSubview(roundedCornerView)
-        roundedCornerView.addSubview(contentView)
+            let effectViewContentView = effectView.contentView
+            effectViewContentView.addSubview(contentView)
+            NSLayoutConstraint.activate([
+                contentView.leadingAnchor.constraint(equalTo: effectViewContentView.leadingAnchor),
+                contentView.trailingAnchor.constraint(equalTo: effectViewContentView.trailingAnchor),
+                contentView.topAnchor.constraint(equalTo: effectViewContentView.topAnchor),
+                contentView.bottomAnchor.constraint(equalTo: effectViewContentView.bottomAnchor)
+            ])
 
+            backgroundView = effectView
+        }
+
+        bottomBarView.addSubview(backgroundView)
         NSLayoutConstraint.activate([
             bottomBarView.heightAnchor.constraint(equalToConstant: Constants.BottomBar.height),
-            roundedCornerView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
-            roundedCornerView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
-            roundedCornerView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
-            roundedCornerView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
-            contentView.topAnchor.constraint(equalTo: bottomBarView.topAnchor, constant: BottomCommandingTokenSet.bottomBarTopSpacing)
+            backgroundView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: bottomBarView.trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor)
         ])
-        bottomBarBackgroundView = roundedCornerView
+        bottomBarBackgroundView = backgroundView
+
         return bottomBarView
     }
 
@@ -603,7 +642,6 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     }
 
     private func updateTableViewAppearance() {
-        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
         tableView.reloadData()
     }
 
@@ -618,8 +656,23 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         guard let bottomBarBackgroundView else {
             return
         }
-        bottomBarBackgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
-        bottomBarBackgroundView.layer.cornerRadius = tokenSet[.cornerRadius].float
+
+        switch style {
+        case .primary:
+            bottomBarBackgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
+            bottomBarBackgroundView.layer.cornerRadius = tokenSet[.cornerRadius].float
+        case .glass:
+            if let effectView = bottomBarBackgroundView as? UIVisualEffectView {
+                if #available(iOS 26, *) {
+                    let glassEffect = UIGlassEffect(style: .regular)
+                    glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                    effectView.effect = glassEffect
+                    effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+                } else {
+                    effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+                }
+            }
+        }
     }
 
     private lazy var moreHeroItem: CommandingItem = {
@@ -632,7 +685,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.addInteraction(UILargeContentViewerInteraction())
-        stackView.alignment = .top
+        stackView.alignment = .center
         let horizontalMargin = BottomCommandingTokenSet.tabHorizontalPadding
         stackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: horizontalMargin, bottom: 0, trailing: horizontalMargin)
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -667,7 +720,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         tableView.separatorStyle = .none
         tableView.alwaysBounceVertical = false
         tableView.sectionFooterHeight = 0
-        tableView.backgroundColor = tokenSet[.backgroundColor].uiColor
+        tableView.backgroundColor = .clear
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         tableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         tableView.register(TableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: TableViewHeaderFooterView.identifier)
@@ -839,7 +892,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         let tabItem = TabBarItem(title: itemTitle, image: itemImage, selectedImage: item.selectedImage, largeContentImage: item.largeImage)
         let itemView = TabBarItemView(item: tabItem,
                                       showsTitle: itemTitle != "",
-                                      style: bottomSheetControllerStyle == .glass ? .glass : .primary)
+                                      style: style == .glass ? .glass : .primary)
 
         itemView.alwaysShowTitleBelowImage = true
         itemView.numberOfTitleLines = Constants.heroButtonMaxTitleLines
