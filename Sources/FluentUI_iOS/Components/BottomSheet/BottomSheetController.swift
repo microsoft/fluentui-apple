@@ -845,22 +845,21 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
+#if DEBUG
     private func bottomSheetViewAccessibilityIdentifierForState() -> String? {
-        var accessibilityIdentifier: String? = nil
-    #if DEBUG
-        accessibilityIdentifier = "Bottom Sheet View"
+        var accessibilityIdentifier = "Bottom Sheet View"
         if expandedContentView.alpha == 1.0 {
-            accessibilityIdentifier?.append(", an expanded content view")
+            accessibilityIdentifier.append(", an expanded content view")
         }
         if isExpandable {
-            accessibilityIdentifier?.append(", a resizing handle")
+            accessibilityIdentifier.append(", a resizing handle")
         }
         if shouldAlwaysFillWidth {
-            accessibilityIdentifier?.append(", filled width")
+            accessibilityIdentifier.append(", filled width")
         }
-    #endif
         return accessibilityIdentifier
     }
+#endif
 
     private func updateSheetLayoutGuideTopConstraint() {
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
