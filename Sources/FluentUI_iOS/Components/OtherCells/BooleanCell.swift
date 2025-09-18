@@ -84,9 +84,7 @@ open class BooleanCell: TableViewCell {
         setup(title: title, customView: customView, customAccessoryView: `switch`)
         self.isOn = isOn
         self.isSwitchEnabled = isSwitchEnabled
-        if #available(iOS 17, *) {
-            self.accessibilityTraits.insert(.toggleButton)
-        }
+        self.accessibilityTraits.insert(.toggleButton)
     }
 
     @objc private func handleOnSwitchValueChanged() {
