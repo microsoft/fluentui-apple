@@ -39,7 +39,7 @@ import UIKit
 
     /// The navigation item's subtitle that displays in the navigation bar.
     @available(iOS, deprecated: 26.0, message: "Use the subtitle property on UINavigationItem directly.")
-    @available(visionOS, deprecated: 26.0, message: "Use the subtitle property on UINavigationItem directly.")
+    @available(visionOS, introduced: 1.0)
     @available(macCatalyst, deprecated: 26.0, message: "Use the subtitle property on UINavigationItem directly.")
     public dynamic var subtitle: String?
 
