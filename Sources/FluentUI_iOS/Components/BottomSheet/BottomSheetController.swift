@@ -126,11 +126,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 }
 
 #if DEBUG
-                if isExpandable {
-                    bottomSheetView.accessibilityIdentifier?.append(", a resizing handle")
-                } else {
-                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", a resizing handle", with: "")
-                }
+                bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
             }
         }
@@ -269,11 +265,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.setNeedsLayout()
 
 #if DEBUG
-                if shouldAlwaysFillWidth {
-                    bottomSheetView.accessibilityIdentifier?.append(", filled width")
-                } else {
-                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", filled width", with: "")
-                }
+            bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
         }
     }
@@ -715,7 +707,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         ])
 
 #if DEBUG
-        bottomSheetView.accessibilityIdentifier = "Bottom Sheet View"
+        bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
 
         return bottomSheetView
@@ -780,11 +772,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         expandedContentView.alpha = targetAlpha
 
 #if DEBUG
-        if targetAlpha == 1.0 {
-            bottomSheetView.accessibilityIdentifier?.append(", an expanded content view")
-        } else {
-            bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", an expanded content view", with: "")
-        }
+        bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
     }
 
@@ -856,6 +844,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.accessibilityViewIsModal = true
         }
     }
+
+#if DEBUG
+    private func bottomSheetViewAccessibilityIdentifierForState() -> String? {
+        var accessibilityIdentifier = "Bottom Sheet View"
+        if expandedContentView.alpha == 1.0 {
+            accessibilityIdentifier.append(", an expanded content view")
+        }
+        if isExpandable {
+            accessibilityIdentifier.append(", a resizing handle")
+        }
+        if shouldAlwaysFillWidth {
+            accessibilityIdentifier.append(", filled width")
+        }
+        return accessibilityIdentifier
+    }
+#endif
 
     private func updateSheetLayoutGuideTopConstraint() {
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {
