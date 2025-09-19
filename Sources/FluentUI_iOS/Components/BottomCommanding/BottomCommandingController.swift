@@ -490,20 +490,16 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
             
             backgroundView = roundedCornerView
         case .glass:
-            let effectView = UIVisualEffectView()
-            effectView.translatesAutoresizingMaskIntoConstraints = false
-
+            var effectView: UIVisualEffectView
+#if os(visionOS)
+            effectView = getBlurEffectView()
+#else // !os(visionOS)
             if #available(iOS 26, *) {
-                let glassEffect = UIGlassEffect(style: .regular)
-                glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-                effectView.effect = glassEffect
-                effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+                effectView = getGlassEffectView()
             } else {
-                effectView.effect = UIBlurEffect(style: .systemMaterial)
-                effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
-                effectView.layer.masksToBounds = true
+                effectView = getBlurEffectView()
             }
-
+#endif // !os(visionOS)
             let effectViewContentView = effectView.contentView
             effectViewContentView.addSubview(contentView)
             NSLayoutConstraint.activate([
@@ -527,6 +523,28 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         bottomBarBackgroundView = backgroundView
 
         return bottomBarView
+    }
+
+#if !os(visionOS)
+    @available(iOS 26, *)
+    private func getGlassEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        let glassEffect = UIGlassEffect(style: .regular)
+        glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+        effectView.effect = glassEffect
+        effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+        effectView.translatesAutoresizingMaskIntoConstraints = false
+        return effectView
+  }
+#endif // !os(visionOS)
+
+    private func getBlurEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        effectView.effect = UIBlurEffect(style: .systemMaterial)
+        effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+        effectView.layer.masksToBounds = true
+        effectView.translatesAutoresizingMaskIntoConstraints = false
+        return effectView
     }
 
     private func makeSheetExpandedContent(with tableView: UITableView) -> UIView {
@@ -663,6 +681,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
             bottomBarBackgroundView.layer.cornerRadius = tokenSet[.cornerRadius].float
         case .glass:
             if let effectView = bottomBarBackgroundView as? UIVisualEffectView {
+#if os(visionOS)
+                effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+#else // !os(visionOS)
                 if #available(iOS 26, *) {
                     let glassEffect = UIGlassEffect(style: .regular)
                     glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
@@ -671,6 +692,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
                 } else {
                     effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
                 }
+#endif // !os(visionOS)
             }
         }
     }
