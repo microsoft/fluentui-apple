@@ -122,9 +122,7 @@ class TabBarItemView: UIControl, TokenizedControl {
         let pointerInteraction = UIPointerInteraction(delegate: self)
         addInteraction(pointerInteraction)
 
-        if #available(iOS 17, *) {
-            self.hoverStyle = UIHoverStyle(shape: showsTitle ? .capsule : .circle)
-        }
+        self.hoverStyle = UIHoverStyle(shape: showsTitle ? .capsule : .circle)
 
         isAccessibilityElement = true
         updateAccessibilityLabel()

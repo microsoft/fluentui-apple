@@ -26,7 +26,6 @@ public struct DynamicColor: Hashable {
     public let darkElevated: Color?
 }
 
-@available(iOS 17, macOS 14, *)
 extension DynamicColor: ShapeStyle {
     /// Evaluate to a resolved `Color` (in the form of a `ShapeStyle`) given the current `environment`.
     public func resolve(in environment: EnvironmentValues) -> Color.Resolved {

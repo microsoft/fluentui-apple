@@ -50,7 +50,8 @@ public struct FluentList<ListContent: View>: View {
                     .scrollContentBackground(.hidden)
                     // TODO: Directly use `FluentList` token set instead of `ListItem`
                     .background(ListItem.listBackgroundColor(for: .grouped))
-                    .listStyling_iOS17()
+                    .listSectionSpacing(GlobalTokens.spacing(.size160))
+                    .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
             case .plain:
                 list
                     .listStyle(.plain)
@@ -89,33 +90,4 @@ extension EnvironmentValues {
 
 struct FluentListStyleKey: EnvironmentKey {
     static var defaultValue: FluentListStyle { .plain }
-}
-
-// MARK: - View
-
-extension View {
-    /// Abstracts away differences in pre-iOS 17 for list styling
-    ///
-    /// This function should be removed once we move to iOS 17 as a minimum target.
-    /// - Parameters:
-    ///   - spacing: The amount of spacing between sections.
-    ///   - minHeaderHeight: The minimum header height for sections in the list
-    /// - Returns: A view that has list section spacing applied if iOS 17 is available.
-    func listStyling_iOS17() -> some View {
-#if os(visionOS)
-        // On visionOS, using #available and .environment crashes.
-        // As a workaround, move this to a separate ifdef
-        return self
-            .listSectionSpacing(GlobalTokens.spacing(.size160))
-            .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
-#else
-        if #available(iOS 17, *) {
-            return self
-                .listSectionSpacing(GlobalTokens.spacing(.size160))
-                .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
-        } else {
-            return self
-        }
-#endif // os(visionOS)
-    }
 }

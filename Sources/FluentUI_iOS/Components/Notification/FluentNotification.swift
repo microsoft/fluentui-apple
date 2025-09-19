@@ -328,7 +328,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
 #endif // os(visionOS)
                 .offset(y: -bumpVerticalOffset)
-                .onChange_iOS17(of: state.shouldPerformBump) { shouldBump in
+                .onChange(of: state.shouldPerformBump) { _, shouldBump in
                     if shouldBump {
                         state.shouldPerformBump = false
                         performBumpAnimated()
@@ -360,7 +360,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
                                maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
-                        .onChange_iOS17(of: isPresented) { newPresent in
+                        .onChange(of: isPresented) { _, newPresent in
                             if newPresent {
                                 presentAnimated()
                             } else {

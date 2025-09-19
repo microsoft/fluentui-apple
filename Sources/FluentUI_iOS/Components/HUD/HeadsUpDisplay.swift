@@ -104,7 +104,7 @@ public struct HeadsUpDisplay: View, TokenizedControlView {
                 .cornerRadius(tokenSet[.cornerRadius].float)
         )
         .contentShape(Rectangle())
-        .onChange_iOS17(of: isPresented) { present in
+        .onChange(of: isPresented) { _, present in
             if present {
                 presentAnimated()
             } else {

@@ -26,10 +26,8 @@ open class ControlHostingView: NSView {
 	/// Indicates which safe area regions the underlying hosting controller should add to its view.
 	public init(_ controlView: AnyView, safeAreaRegions: SafeAreaRegions = .all) {
 		hostingView = NSHostingView.init(rootView: controlView)
-		if #available(macOS 13.3, *) {
-			hostingView.sizingOptions = [.intrinsicContentSize]
-			hostingView.safeAreaRegions = safeAreaRegions
-		}
+		hostingView.sizingOptions = [.intrinsicContentSize]
+		hostingView.safeAreaRegions = safeAreaRegions
 
 		super.init(frame: .zero)
 
