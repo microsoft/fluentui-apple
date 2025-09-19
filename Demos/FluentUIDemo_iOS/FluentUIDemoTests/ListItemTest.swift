@@ -72,16 +72,22 @@ class ListItemTest: BaseTest {
         XCTAssertFalse(leadingContentElement.exists, "Leading content should not appear when no value is passed in")
 
         showLeadingContentSwitch.tap()
+        app.scrollViews.firstMatch.swipeUp()
         leadingContentSizeButton.tap()
         zeroSizeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssertFalse(leadingContentElement.isHittable, "Leading content should not appear for size .zero")
 
+        app.scrollViews.firstMatch.swipeUp()
         leadingContentSizeButton.tap()
         smallSizeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssert(leadingContentElement.exists, "Leading content should appear for size .small")
 
+        app.scrollViews.firstMatch.swipeUp()
         leadingContentSizeButton.tap()
         mediumSizeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssert(leadingContentElement.exists, "Leading content should appear for size .medium")
     }
 
@@ -104,22 +110,30 @@ class ListItemTest: BaseTest {
         let checkmarkTypeButton: XCUIElement = app.buttons.matching(identifier: ".checkmark").firstMatch
         let detailButtonTypeButton: XCUIElement = app.buttons.matching(identifier: ".detailButton").firstMatch
 
+        app.scrollViews.firstMatch.swipeUp()
         accessoryTypeButton.tap()
         noneTypeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssertFalse(accessoryImageElement.exists, "Accessory should not appear for .none type")
 
+        app.scrollViews.firstMatch.swipeUp()
         accessoryTypeButton.tap()
         disclosureIndicatorTypeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssert(accessoryImageElement.exists, "Accessory should appear for .disclosureIndicator type")
         XCTAssertFalse(accessoryImageElement.isAccessibilityElement, "Accessory should not not have a tap target for .disclosureIndicator type")
 
+        app.scrollViews.firstMatch.swipeUp()
         accessoryTypeButton.tap()
         checkmarkTypeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssert(accessoryImageElement.exists, "Accessory should appear for .checkmark type")
         XCTAssertFalse(accessoryImageElement.isAccessibilityElement, "Accessory should not not have a tap target for .checkmark type")
 
+        app.scrollViews.firstMatch.swipeUp()
         accessoryTypeButton.tap()
         detailButtonTypeButton.tap()
+        app.scrollViews.firstMatch.swipeDown()
         XCTAssert(accessoryButtonElement.exists, "Accessory should appear for .detailButton type")
         XCTAssert(accessoryButtonElement.isEnabled, "Accessory should have a tap target for .detailButton type")
     }
