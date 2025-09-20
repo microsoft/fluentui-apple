@@ -56,13 +56,25 @@ public enum BottomCommandingToken: Int, TokenSetKey {
 }
 
 public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingToken> {
-    init() {
-        super.init { token, theme in
+    init(style: @escaping () -> BottomCommandingControllerStyle) {
+        self.style = style
+        super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor { theme.color(.background2) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.background2)
+                    case .glass:
+                        return .clear
+                    }
+                }
             case .cornerRadius:
-                return .float { GlobalTokens.corner(.radius120) }
+                if #available(iOS 26, *) {
+                    return .float { BottomSheetTokenSet.cornerRadius }
+                } else {
+                    return .float { GlobalTokens.corner(.radius120) }
+                }
             case .heroDisabledColor:
                 return .uiColor { theme.color(.foregroundDisabled1) }
             case .heroLabelFont:
@@ -92,10 +104,11 @@ public class BottomCommandingTokenSet: ControlTokenSet<BottomCommandingToken> {
             }
         }
     }
+
+    var style: () -> BottomCommandingControllerStyle
 }
 
 extension BottomCommandingTokenSet {
-    static let bottomBarTopSpacing: CGFloat = GlobalTokens.spacing(.size200)
     static let gridSpacing: CGFloat = GlobalTokens.spacing(.size80)
     static let tabVerticalPadding: CGFloat = GlobalTokens.spacing(.size80)
     static let tabHorizontalPadding: CGFloat = GlobalTokens.spacing(.size160)
