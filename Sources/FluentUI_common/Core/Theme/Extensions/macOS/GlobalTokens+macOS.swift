@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import SwiftUI
 
 extension GlobalTokens : PlatformGlobalTokenProviding {
@@ -30,4 +30,4 @@ extension GlobalTokens : PlatformGlobalTokenProviding {
         }
     }
 }
-#endif // canImport(AppKit)
+#endif // canImport(AppKit) && !targetEnvironment(macCatalyst)
