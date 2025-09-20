@@ -475,7 +475,6 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         case .primary:
             let roundedCornerView = UIView()
             roundedCornerView.backgroundColor = tokenSet[.backgroundColor].uiColor
-            roundedCornerView.translatesAutoresizingMaskIntoConstraints = false
             roundedCornerView.layer.cornerRadius = tokenSet[.cornerRadius].float
             roundedCornerView.layer.cornerCurve = .continuous
             roundedCornerView.clipsToBounds = true
@@ -500,6 +499,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
                 effectView = getBlurEffectView()
             }
 #endif // !os(visionOS)
+
             let effectViewContentView = effectView.contentView
             effectViewContentView.addSubview(contentView)
             NSLayoutConstraint.activate([
@@ -512,7 +512,9 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
             backgroundView = effectView
         }
 
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
         bottomBarView.addSubview(backgroundView)
+
         NSLayoutConstraint.activate([
             bottomBarView.heightAnchor.constraint(equalToConstant: Constants.BottomBar.height),
             backgroundView.leadingAnchor.constraint(equalTo: bottomBarView.leadingAnchor),
@@ -520,6 +522,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
             backgroundView.topAnchor.constraint(equalTo: bottomBarView.topAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: bottomBarView.bottomAnchor)
         ])
+
         bottomBarBackgroundView = backgroundView
 
         return bottomBarView
@@ -533,7 +536,6 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
         effectView.effect = glassEffect
         effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
-        effectView.translatesAutoresizingMaskIntoConstraints = false
         return effectView
   }
 #endif // !os(visionOS)
@@ -543,7 +545,6 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
         effectView.effect = UIBlurEffect(style: .systemMaterial)
         effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
         effectView.layer.masksToBounds = true
-        effectView.translatesAutoresizingMaskIntoConstraints = false
         return effectView
     }
 

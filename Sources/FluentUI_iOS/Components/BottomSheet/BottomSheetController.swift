@@ -725,6 +725,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 effectView = getBlurEffectView()
             }
 #endif // !os(visionOS)
+
             effectView.contentView.addSubview(contentView)
             bottomSheetView = effectView
         }
