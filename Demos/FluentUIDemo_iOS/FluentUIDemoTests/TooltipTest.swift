@@ -54,8 +54,9 @@ class TooltipTest: BaseTest {
         XCTAssert(tooltipExists(predicate: down))
         showTooltipLeftButton.tap()
         XCTAssert(tooltipExists(predicate: left))
-        // taps different part of screen since previous tooltip obscures next button
-        app.otherElements.firstMatch.tap()
+        // tap on tooltip to dismiss since it obscures next button
+        let tooltip: XCUIElement = app.otherElements.element(matching: left)
+        tooltip.tap()
         showTooltipRightButton.tap()
         XCTAssert(tooltipExists(predicate: right))
     }
@@ -88,7 +89,7 @@ class TooltipTest: BaseTest {
 
         showTooltipButton.tap()
         XCTAssert(tooltip.exists)
-        app.otherElements.firstMatch.tap()
+        app.navigationBars.firstMatch.tap()
         XCTAssert(tooltip.exists)
     }
 

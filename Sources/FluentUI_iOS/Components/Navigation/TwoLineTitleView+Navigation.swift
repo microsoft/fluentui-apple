@@ -66,12 +66,12 @@ extension TwoLineTitleView {
         }
 
         var subtitle: String?
-#if compiler(>=6.2)
+#if !os(visionOS)
         // Prefer the UINavigationItem `.subtitle` property over the one on fluentConfiguration.
-        if #available(iOS 26, visionOS 26, macCatalyst 26, *) {
+        if #available(iOS 26, macCatalyst 26, *) {
             subtitle = navigationItem.subtitle
         }
-#endif // compiler(>=6.2)
+#endif // !os(visionOS)
         if subtitle == nil {
             subtitle = navigationItem.fluentConfiguration.subtitle
         }

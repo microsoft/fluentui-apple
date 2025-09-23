@@ -202,7 +202,13 @@ class BottomSheetDemoController: DemoController {
     private lazy var contentNavigationController: UIViewController = {
         let contentVC = UIViewController()
         let contentVCView: UIView = contentVC.view
-        let barButtonItem = UIBarButtonItem(title: "Sample", style: .done, target: nil, action: nil)
+        let style: UIBarButtonItem.Style
+        if #available(iOS 26, *) {
+            style = .prominent
+        } else {
+            style = .done
+        }
+        let barButtonItem = UIBarButtonItem(title: "Sample", style: style, target: nil, action: nil)
 
         contentVC.navigationItem.title = "Nav title"
         contentVC.navigationItem.rightBarButtonItem = barButtonItem
