@@ -265,9 +265,7 @@ open class BadgeField: UIView, TokenizedControl {
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
         textField.delegate = self
-        if #available(iOS 17, *) {
-            textField.hoverStyle = nil
-        }
+        textField.hoverStyle = nil
     }
 
     private func setupDraggingWindow() {

@@ -43,10 +43,7 @@ open class ControlHostingView: UIView {
     public init(_ controlView: AnyView, safeAreaRegions: SafeAreaRegions = .all) {
         hostingController = FluentThemedHostingController.init(rootView: controlView)
         hostingController.sizingOptions = [.intrinsicContentSize]
-
-        if #available(iOS 16.4, *) {
-            hostingController.safeAreaRegions = safeAreaRegions
-        }
+        hostingController.safeAreaRegions = safeAreaRegions
 
         super.init(frame: .zero)
 
