@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import SwiftUI
 
 extension FluentTheme: PlatformThemeProviding {
@@ -331,4 +331,4 @@ extension FluentTheme: PlatformThemeProviding {
         }
     }
 }
-#endif // canImport(AppKit)
+#endif // canImport(AppKit) && !targetEnvironment(macCatalyst)
