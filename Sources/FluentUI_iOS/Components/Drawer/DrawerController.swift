@@ -549,9 +549,7 @@ open class DrawerController: UIViewController, TokenizedControl {
             self?.updateBackgroundColor()
         }
 
-        if #available(iOS 16, *) {
-            setNeedsUpdateOfSupportedInterfaceOrientations()
-        }
+        setNeedsUpdateOfSupportedInterfaceOrientations()
     }
 
     open override func viewWillAppear(_ animated: Bool) {

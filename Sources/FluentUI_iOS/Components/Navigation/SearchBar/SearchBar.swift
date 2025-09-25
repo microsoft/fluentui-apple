@@ -98,10 +98,7 @@ open class SearchBar: UIView, TokenizedControl {
         textField.addTarget(self, action: #selector(searchTextFieldValueDidChange(_:)), for: .editingChanged)
         textField.showsLargeContentViewer = true
         textField.adjustsFontForContentSizeCategory = true
-
-        if #available(iOS 17, *) {
-            textField.hoverStyle = nil
-        }
+        textField.hoverStyle = nil
 
         return textField
     }()
@@ -122,9 +119,7 @@ open class SearchBar: UIView, TokenizedControl {
         let backgroundView = UIView()
         backgroundView.backgroundColor = tokenSet[.backgroundColor].uiColor
         backgroundView.layer.cornerRadius = tokenSet[.searchTextFieldCornerRadius].float
-        if #available(iOS 17, *) {
-            backgroundView.hoverStyle = UIHoverStyle(shape: .capsule)
-        }
+        backgroundView.hoverStyle = UIHoverStyle(shape: .capsule)
         return backgroundView
     }()
 
@@ -145,9 +140,7 @@ open class SearchBar: UIView, TokenizedControl {
             let preview = UITargetedPreview(view: button)
             return UIPointerStyle(effect: .lift(preview))
         }
-        if #available(iOS 17, *) {
-            clearButton.hoverStyle = UIHoverStyle(shape: .circle)
-        }
+        clearButton.hoverStyle = UIHoverStyle(shape: .circle)
 
         return clearButton
     }()
@@ -161,9 +154,7 @@ open class SearchBar: UIView, TokenizedControl {
         button.showsLargeContentViewer = true
         button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.isPointerInteractionEnabled = true
-        if #available(iOS 17, *) {
-            button.hoverStyle = UIHoverStyle(shape: .capsule)
-        }
+        button.hoverStyle = UIHoverStyle(shape: .capsule)
 
         return button
     }()

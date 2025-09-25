@@ -14,9 +14,6 @@ struct Compatibility {
     /// - Returns: `UIDevice.current.userInterfaceIdiom == .vision` if the current OS is >= iOS 17,
     /// and `false` otherwise.
     static func isDeviceIdiomVision() -> Bool {
-        if #available(iOS 17, *) {
-            return UIDevice.current.userInterfaceIdiom == .vision
-        }
-        return false
+        return UIDevice.current.userInterfaceIdiom == .vision
     }
 }

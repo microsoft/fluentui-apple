@@ -68,22 +68,22 @@ struct DemoAppearanceMenu: View {
         })
 
         // Changes
-        .onChange_iOS17(of: configuration.userInterfaceStyle) { newValue in
+        .onChange(of: configuration.userInterfaceStyle) { _, newValue in
             configuration.onUserInterfaceStyleChanged?(newValue)
         }
-        .onChange_iOS17(of: configuration.windowTheme) { newValue in
+        .onChange(of: configuration.windowTheme) { _, newValue in
             configuration.onWindowThemeChanged?(newValue)
         }
-        .onChange_iOS17(of: configuration.appWideTheme) { newValue in
+        .onChange(of: configuration.appWideTheme) { _, newValue in
             configuration.onAppWideThemeChanged?(newValue)
         }
-        .onChange_iOS17(of: configuration.themeWideOverride) { newValue in
+        .onChange(of: configuration.themeWideOverride) { _, newValue in
             configuration.onThemeWideOverrideChanged?(newValue)
 
             // TODO: Still working through some issues with the theme-wide override tokens, so inform the user how to make it visible for now.
             showingThemeWideAlert = true
         }
-        .onChange_iOS17(of: configuration.perControlOverride) { newValue in
+        .onChange(of: configuration.perControlOverride) { _, newValue in
             configuration.onPerControlOverrideChanged?(newValue)
         }
 
