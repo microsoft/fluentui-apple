@@ -1040,7 +1040,7 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
             }
             if let customSwitch = customAccessoryView as? UISwitch {
                 if isEnabled && customSwitch.isEnabled {
-                    var allowOSHint = accessibilityTraits.contains(.toggleButton)
+                    let allowOSHint = accessibilityTraits.contains(.toggleButton)
                     return allowOSHint ? super.accessibilityHint : "Accessibility.TableViewCell.Switch.Hint".localized
                 } else {
                     return nil
