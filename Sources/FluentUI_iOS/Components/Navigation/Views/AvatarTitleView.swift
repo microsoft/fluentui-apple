@@ -240,10 +240,7 @@ class AvatarTitleView: UIView, TokenizedControl, TwoLineTitleViewDelegate {
         addGestureRecognizer(tapGesture)
 
         titleButton.showsLargeContentViewer = true
-
-        if #available(iOS 17, *) {
-            titleButton.hoverStyle = nil
-        }
+        titleButton.hoverStyle = nil
 
         updateAvatarViewPointerInteraction()
     }
