@@ -565,7 +565,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
-    public var tokenSet: BottomSheetTokenSet = .init()
+    public lazy var tokenSet: BottomSheetTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primary
+    })
 
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
@@ -577,11 +579,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateBackgroundColor() {
-        // Of course we have no active background color applied when we're using a BlurEffect
-        if (style != .glass) {
-            let backgroundColor = tokenSet[.backgroundColor].uiColor
+        let backgroundColor = tokenSet[.backgroundColor].uiColor
+        overflowView.backgroundColor = backgroundColor
+
+        switch style {
+        case .primary:
             bottomSheetView.subviews[0].backgroundColor = backgroundColor
-            overflowView.backgroundColor = backgroundColor
+        case .glass:
+#if !os(visionOS)
+            if #available(iOS 26, *) {
+                if let effectView = bottomSheetView as? UIVisualEffectView {
+                   let glassEffect = UIGlassEffect(style: .regular)
+                   glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                   effectView.effect = glassEffect
+                }
+            }
+#endif // !os(visionOS)
         }
     }
 
@@ -590,7 +603,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateShadow() {
-
         switch style {
         case .primary:
             let shadowInfo = tokenSet[.shadow].shadowInfo
@@ -611,7 +623,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateCornerRadius() {
-        bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
+        switch style {
+        case .primary:
+            bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
+        case .glass:
+            if let effectView = bottomSheetView as? UIVisualEffectView {
+                if #available(iOS 26, visionOS 26, *) {
+                    effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+                } else {
+                    effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+                }
+            }
+        }
     }
 
     private lazy var overflowView: UIView = UIView()
@@ -692,11 +715,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
             bottomSheetView.addSubview(contentView)
         case .glass:
-            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-            blurEffectView.layer.cornerRadius = tokenSet[.cornerRadius].float
-            blurEffectView.contentView.addSubview(contentView)
+            var effectView: UIVisualEffectView
+#if os(visionOS)
+            effectView = getBlurEffectView()
+#else // !os(visionOS)
+            if #available(iOS 26, *) {
+                effectView = getGlassEffectView()
+            } else {
+                effectView = getBlurEffectView()
+            }
+#endif // !os(visionOS)
 
-            bottomSheetView = blurEffectView
+            effectView.contentView.addSubview(contentView)
+            bottomSheetView = effectView
         }
 
         NSLayoutConstraint.activate([
@@ -711,6 +742,26 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 #endif
 
         return bottomSheetView
+    }
+
+#if !os(visionOS)
+    @available(iOS 26, *)
+    private func getGlassEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        let glassEffect = UIGlassEffect(style: .regular)
+        glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+        effectView.effect = glassEffect
+        effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+        return effectView
+  }
+#endif // !os(visionOS)
+
+    private func getBlurEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        effectView.effect = UIBlurEffect(style: .systemMaterial)
+        effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+        effectView.layer.masksToBounds = true
+        return effectView
     }
 
     // MARK: - Gesture handling
