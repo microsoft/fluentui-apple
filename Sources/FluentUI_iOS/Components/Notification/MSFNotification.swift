@@ -53,6 +53,17 @@ import UIKit
         return notification.tokenSet
     }
 
+	// MARK: - Show/Hide Methods
+	/// `show` is used to present the view inside a container view:
+	/// insert into layout and show with optional animation. Constraints are used for the view positioning.
+	/// - Parameters:
+	///   - view: The container view where this view will be presented.
+	///   - anchorView: The view used as the bottom anchor for presentation
+	///   (notification view is always presented up from the anchor). When no anchor view is provided the
+	///   bottom anchor of the container's safe area is used.
+	///   - animated: Indicates whether to use animation during presentation or not.
+	///   - completion: The closure to be called after presentation is completed.
+	///   Can be used to call `hide` with a delay.
     @objc public func show(in view: UIView,
                            from anchorView: UIView? = nil,
                            animated: Bool = true,
@@ -68,6 +79,7 @@ import UIKit
     ///   - anchorView: The view used as the bottom anchor for presentation
     ///   (notification view is always presented up from the anchor). When no anchor view is provided the
     ///   bottom anchor of the container's safe area is used.
+    ///  - layoutGuide: The layout guide used to present the toast inside of when no `anchorView` is provided
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed.
     ///   Can be used to call `hide` with a delay.
