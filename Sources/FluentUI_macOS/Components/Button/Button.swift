@@ -545,7 +545,15 @@ open class Button: NSButton {
 		}
 	}
 
-	private var cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
+	private var _cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
+	private var cornerRadius: CGFloat {
+		get {
+			usesCapsuleAppearance ? (bounds.size.height / 2.0) - 1.0 : _cornerRadius
+		}
+		set {
+			_cornerRadius = newValue
+		}
+	}
 
 	private static let borderWidth: CGFloat = 1
 
@@ -571,6 +579,17 @@ open class Button: NSButton {
 	@objc public var size: ButtonSize = .large {
 		didSet {
 			guard oldValue != size else {
+				return
+			}
+			setSizeParameters(forSize: size)
+			invalidateIntrinsicContentSize()
+			needsDisplay = true
+		}
+	}
+
+	@objc public var usesCapsuleAppearance: Bool = false {
+		didSet {
+			guard oldValue != usesCapsuleAppearance else {
 				return
 			}
 			setSizeParameters(forSize: size)
