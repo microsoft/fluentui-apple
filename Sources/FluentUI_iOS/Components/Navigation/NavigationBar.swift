@@ -705,8 +705,14 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-        subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
-            self.navigationItemDidUpdate(item)
+        if #available(iOS 26, macCatalyst 26, *) {
+            subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+                self.navigationItemDidUpdate(item)
+            }
+        } else {
+            subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
+                self.navigationItemDidUpdate(item)
+            }
         }
 #if !os(visionOS)
         if #available(iOS 26, macCatalyst 26, *) {
