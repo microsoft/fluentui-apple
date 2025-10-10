@@ -12,8 +12,9 @@ public enum CommandBarToken: Int, TokenSetKey {
     /// The background color of the Command Bar.
     case backgroundColor
 
-    /// The border radius for each group of item(s) inside the Command Bar.
-    case groupBorderRadius
+    /// The corner radius for each group of item(s) inside the Command Bar.
+    /// On iOS 26+, this is also the corner radius for each Command Bar Button.
+    case cornerRadius
 
     /// The background color of a single Command Bar Item when in rest.
     case itemBackgroundColorRest
@@ -47,6 +48,9 @@ public enum CommandBarToken: Int, TokenSetKey {
 
     /// The font of a Command Bar Item Group label.
     case itemGroupLabelFont
+
+    /// The shadows used by the `CommandBar`.
+    case shadow
 }
 
 /// Design token set for the `CommandBar` control.
@@ -57,11 +61,15 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
             case .backgroundColor:
                 return .uiColor { theme.color(.background2) }
 
-            case .groupBorderRadius:
+            case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius120) }
 
             case .itemBackgroundColorRest:
-                return .uiColor { theme.color(.background5) }
+                if #available(iOS 26, *) {
+                    return .uiColor { .clear }
+                } else {
+                    return .uiColor { theme.color(.background5) }
+                }
 
             case .itemBackgroundColorHover:
                 return .uiColor { theme.color(.background5) }
@@ -92,6 +100,13 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
 
             case .itemGroupLabelFont:
                 return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+
+            case .shadow:
+                if #available(iOS 26, *) {
+                    return .shadowInfo { theme.shadow(.shadow08) }
+                } else {
+                    return .shadowInfo { theme.shadow(.clear) }
+                }
             }
         }
     }
@@ -101,7 +116,13 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
 
 extension CommandBarTokenSet {
     /// The spacing between each Command Bar Group.
-    static let groupInterspace: CGFloat = GlobalTokens.spacing(.size80)
+    static var groupInterspace: CGFloat {
+        if #available(iOS 26, *) {
+            GlobalTokens.spacing(.size20)
+        } else {
+            GlobalTokens.spacing(.size80)
+        }
+    }
 
     /// The spacing between each Command Bar Group for iPad.
     static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.size160)
@@ -116,7 +137,13 @@ extension CommandBarTokenSet {
     static let dismissGradientWidth: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The edge inset values for the Command Bar.
-    static let barInsets: CGFloat = GlobalTokens.spacing(.size80)
+    static var barInsets: CGFloat {
+        if #available(iOS 26, *) {
+            GlobalTokens.spacing(.size40)
+        } else {
+            GlobalTokens.spacing(.size80)
+        }
+    }
 
     /// The edge inset values for the Command Bar Button.
     static let buttonContentInsets = NSDirectionalEdgeInsets(top: 8.0,
