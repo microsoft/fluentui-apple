@@ -897,12 +897,12 @@ private struct ButtonSizeParameters {
 	static let medium = ButtonSizeParameters(
 		fontSize: 13,  // line height: 17
 		cornerRadius: 6,
-		verticalPadding: 2.0, // overall height: 24
-		horizontalPadding: 5,
+		verticalPadding: 4.0, // overall height: 28
+		horizontalPadding: 8.0,
 		titleVerticalPositionAdjustment: 0,
-		titleToImageSpacing: 3,
+		titleToImageSpacing: 4,
 		titleToImageVerticalSpacingAdjustment: 7,
-		minButtonHeight: 24
+		minButtonHeight: 28
 	)
 
 	static let small = ButtonSizeParameters(
