@@ -339,9 +339,6 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
-#if !os(visionOS)
-    private var subtitle26Observer: NSKeyValueObservation?
-#endif // !os(visionOS)
     private var subtitleObserver: NSKeyValueObservation?
     private var titleAccessoryObserver: NSKeyValueObservation?
     private var titleImageObserver: NSKeyValueObservation?
@@ -708,6 +705,7 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
 #if os(visionOS)
         subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
+        }
 #else
         if #available(iOS 26, macCatalyst 26, *) {
             subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
