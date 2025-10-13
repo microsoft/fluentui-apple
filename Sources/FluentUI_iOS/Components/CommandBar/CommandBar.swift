@@ -21,7 +21,7 @@ public protocol CommandBarDelegate: AnyObject {
  Provide `itemGroups` in `init` to set the buttons in the CommandBar. Optional `leadingItemGroups` and `trailingItemGroups` add buttons in leading and trailing positions. Each `CommandBarItem` will be represented as a button.
  */
 @objc(MSFCommandBar)
-public class CommandBar: UIView, TokenizedControl {
+public class CommandBar: UIView, Shadowable, TokenizedControl {
     // Hierarchy:
     //
     // isScrollable = true
@@ -97,15 +97,18 @@ public class CommandBar: UIView, TokenizedControl {
         commandBarContainerStackView = UIStackView()
         commandBarContainerStackView.axis = .horizontal
         commandBarContainerStackView.translatesAutoresizingMaskIntoConstraints = false
+        commandBarContainerStackView.isLayoutMarginsRelativeArrangement = true
 
         super.init(frame: .zero)
 
         configureHierarchy()
         updateBackgroundColor()
+        updateShadow()
 
         // Update appearance whenever `tokenSet` changes.
         tokenSet.registerOnUpdate(for: self) { [weak self] in
             self?.updateBackgroundColor()
+            self?.updateShadow()
             self?.updateButtonTokens()
         }
     }
@@ -147,7 +150,11 @@ public class CommandBar: UIView, TokenizedControl {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
+        if #available(iOS 26, *) {
+            layer.cornerRadius = bounds.height / 2
+        }
         updateShadow()
+        updateScrollViewShadow()
     }
 
 #if DEBUG
@@ -170,6 +177,10 @@ public class CommandBar: UIView, TokenizedControl {
         set { }
     }
 #endif
+
+    // MARK: - Shadowable
+    public var ambientShadow: CALayer?
+    public var keyShadow: CALayer?
 
     // MARK: - TokenizedControl
 
@@ -296,6 +307,7 @@ public class CommandBar: UIView, TokenizedControl {
         commandBarContainerStackView.addArrangedSubview(leadingCommandGroupsView)
         commandBarContainerStackView.addArrangedSubview(containerView)
         commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
+        commandBarContainerStackView.directionalLayoutMargins = stackViewLayoutMargins()
 
         updateViewHierarchy()
         updateMainCommandGroupsViewConstraints()
@@ -358,6 +370,20 @@ public class CommandBar: UIView, TokenizedControl {
         NSLayoutConstraint.activate(mainCommandGroupsViewConstraints)
     }
 
+    private func stackViewLayoutMargins() -> NSDirectionalEdgeInsets {
+        var padding: CGFloat
+        if #available(iOS 26, *) {
+            padding = CommandBarTokenSet.barInsets
+        } else {
+            padding = 0
+        }
+        return NSDirectionalEdgeInsets(top: 0,
+                                       leading: leadingCommandGroupsView.isHidden ? 0 : padding,
+                                       bottom: 0,
+                                       trailing: trailingCommandGroupsView.isHidden ? 0 : padding,
+        )
+    }
+
     private func scrollViewContentInset() -> UIEdgeInsets {
         let fixedButtonSpacing = CommandBarTokenSet.itemInterspace
         return UIEdgeInsets(top: 0,
@@ -367,7 +393,7 @@ public class CommandBar: UIView, TokenizedControl {
         )
     }
 
-    private func updateShadow() {
+    private func updateScrollViewShadow() {
         var locations: [CGFloat] = [0, 0, 1]
 
         if !leadingCommandGroupsView.isHidden {
@@ -385,6 +411,11 @@ public class CommandBar: UIView, TokenizedControl {
         containerMaskLayer.locations = locations.map { NSNumber(value: Float($0)) }
     }
 
+    private func updateShadow() {
+        let shadowInfo = tokenSet[.shadow].shadowInfo
+        shadowInfo.applyShadow(to: self)
+    }
+
     private func updateBackgroundColor() {
         backgroundColor = tokenSet[.backgroundColor].uiColor
     }
@@ -400,6 +431,7 @@ public class CommandBar: UIView, TokenizedControl {
         commandGroupsView.itemGroups = items ?? []
 
         commandGroupsView.isHidden = commandGroupsView.itemGroups.isEmpty
+        commandBarContainerStackView.directionalLayoutMargins = stackViewLayoutMargins()
         scrollView.contentInset = scrollViewContentInset()
     }
 }
@@ -408,7 +440,7 @@ public class CommandBar: UIView, TokenizedControl {
 
 extension CommandBar: UIScrollViewDelegate {
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateShadow()
+        updateScrollViewShadow()
 
         delegate?.commandBarDidScroll(self)
     }
