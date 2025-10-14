@@ -65,20 +65,21 @@ extension TwoLineTitleView {
             animatesWhenPressed = false
         }
 
-        var subtitle: String?
-#if !os(visionOS)
+        let subtitle: String?
+#if os(visionOS)
+        subtitle = navigationItem.fluentConfiguration.subtitle
+#else
         // Prefer the UINavigationItem `.subtitle` property over the one on fluentConfiguration.
         if #available(iOS 26, macCatalyst 26, *) {
             subtitle = navigationItem.subtitle
-        }
-#endif // !os(visionOS)
-        if subtitle == nil {
+        } else {
             subtitle = navigationItem.fluentConfiguration.subtitle
         }
+#endif // !os(visionOS)
 
         setup(title: title,
               titleImage: navigationItem.fluentConfiguration.titleImage,
-              subtitle: navigationItem.fluentConfiguration.subtitle,
+              subtitle: subtitle,
               alignment: alignment,
               interactivePart: interactivePart,
               animatesWhenPressed: animatesWhenPressed,
