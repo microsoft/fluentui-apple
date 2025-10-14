@@ -158,6 +158,7 @@ public extension FluentTheme {
         case body2
         case caption1Strong
         case caption1
+        case caption2Strong
         case caption2
     }
 
