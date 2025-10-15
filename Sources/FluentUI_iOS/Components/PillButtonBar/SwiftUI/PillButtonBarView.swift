@@ -11,7 +11,7 @@ import SwiftUI
 /// `PillButtonBarView` is a horizontal scrollable list of pill shape text buttons.
 /// The bar can either have 1 selected pill at all times or allow no selected pills.
 public struct PillButtonBarView<Selection: Hashable>: View {
-    /// Initializes a new `PillButtonBarView` that allows a the bar to have no selected pill buttons and a maximum of 1 selected pill button.
+    /// Initializes a new `PillButtonBarView` that allows the bar to have no selected pill buttons and a maximum of 1 selected pill button.
     ///
     /// Use this initializer only if you want to allow the pill button bar to have no selected pills. In other words
     /// selecting an already selected pill will deselect it.
