@@ -77,9 +77,10 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         }
         .scrollPosition(id: $scrollTargetId, anchor: scrollAnchor)
         .onAppear {
-            DispatchQueue.main.async {
-                scrollToSelectedPill()
-            }
+            scrollToSelectedPill()
+        }
+        .onChange(of: scrollViewFrame.width) {
+            scrollToSelectedPill()
         }
         .onChange(of: selected) {
             guard !disableScroll,
