@@ -62,48 +62,46 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     }
 
     public var body: some View {
-        ScrollViewReader { scrollProxy in
-            ScrollView(.horizontal, showsIndicators: false) {
-                pillButtonStack()
-                    .environment(\.isEnabled, isEnabled)
+        ScrollView(.horizontal, showsIndicators: false) {
+            pillButtonStack()
+                .environment(\.isEnabled, isEnabled)
+                .scrollTargetLayout()
+        }
+        .environment(\.isEnabled, true)
+        .scrollDisabled(disableScroll)
+        .onGeometryChange(for: CGRect.self) { proxy in
+            proxy.frame(in: .global)
+        } action: { newFrame in
+            scrollViewFrame = newFrame
+            containerWidth = newFrame.width
+        }
+        .scrollPosition(id: $scrollTargetId, anchor: scrollAnchor)
+        .onAppear {
+            DispatchQueue.main.async {
+                scrollToSelectedPill()
             }
-            .environment(\.isEnabled, true)
-            .scrollDisabled(disableScroll)
-            .onGeometryChange(for: CGRect.self) { proxy in
-                proxy.frame(in: .global)
-            } action: { newFrame in
-                scrollViewFrame = newFrame
-                containerWidth = newFrame.width
+        }
+        .onChange(of: selected) {
+            guard !disableScroll,
+                  let selected = currentSelection.wrappedValue,
+                  let pillFrame = pillFrames[selected] else {
+                return
             }
-            .onAppear {
-                // Defer scroll until next loop so layout/frames are ready.
-                // TODO: Use scrollPosition API once iOS 16 support is dropped: https://developer.apple.com/documentation/swiftui/scrollposition
-                DispatchQueue.main.async {
-                    scrollToSelectedPill(scrollProxy)
-                }
-            }
-            .onChange_iOS17(of: selected) { _ in
-                guard !disableScroll,
-                      let selected = currentSelection.wrappedValue,
-                      let pillFrame = pillFrames[selected] else {
-                    return
-                }
 
-                let scrollMinX = scrollViewFrame.minX
-                let scrollMaxX = scrollViewFrame.maxX
+            let scrollMinX = scrollViewFrame.minX
+            let scrollMaxX = scrollViewFrame.maxX
 
-                if pillFrame.maxX > scrollMaxX {
-                    withAnimation {
-                        scrollProxy.scrollTo(selected,
-                                             anchor: UnitPoint(x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX)),
-                                                               y: Constants.scrollAnchorY))
-                    }
-                } else if pillFrame.minX < scrollMinX {
-                    withAnimation {
-                        scrollProxy.scrollTo(selected,
-                                             anchor: UnitPoint(x: Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX),
-                                                               y: Constants.scrollAnchorY))
-                    }
+            if pillFrame.maxX > scrollMaxX {
+                withAnimation {
+                    scrollAnchor = UnitPoint(x: Constants.scrollAnchorTrailingX - (Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX)),
+                                             y: Constants.scrollAnchorY)
+                    scrollTargetId = selected
+                }
+            } else if pillFrame.minX < scrollMinX {
+                withAnimation {
+                    scrollAnchor = UnitPoint(x: Constants.scrollPadding / max(scrollViewFrame.width, Constants.scrollAnchorTrailingX),
+                                             y: Constants.scrollAnchorY)
+                    scrollTargetId = selected
                 }
             }
         }
@@ -181,14 +179,15 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         return pillButtonStyle
     }
 
-    private func scrollToSelectedPill(_ scrollProxy: ScrollViewProxy) {
+    private func scrollToSelectedPill() {
         guard scrollViewFrame.width > 0,
               let selected = currentSelection.wrappedValue else {
             return
         }
 
         let anchorX = Constants.scrollPadding / scrollViewFrame.width
-        scrollProxy.scrollTo(selected, anchor: UnitPoint(x: anchorX, y: Constants.scrollAnchorY))
+        scrollAnchor = UnitPoint(x: anchorX, y: Constants.scrollAnchorY)
+        scrollTargetId = selected
     }
 
     private var currentSelection: Binding<Selection?> {
@@ -215,6 +214,8 @@ public struct PillButtonBarView<Selection: Hashable>: View {
     @State private var scrollViewFrame: CGRect = .zero
     @State private var contentWidth: CGFloat = 0
     @State private var containerWidth: CGFloat = 0
+    @State private var scrollTargetId: Selection?
+    @State private var scrollAnchor: UnitPoint = .center
 
     private let style: PillButtonStyle
     private let centerAlignIfContentFits: Bool

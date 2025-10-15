@@ -88,23 +88,23 @@ private struct PillButtonBarDemoView: View {
                     .fluentTheme(theme)
                 }
                 .background(FluentTheme.shared.swiftUIColor(.background1))
-                .onChange_iOS17(of: primarySelectedTitle) { newValue in
+                .onChange(of: primarySelectedTitle) { _, newValue in
                     showAlert = true
                     alertTitle = "Title \(newValue) selected"
                 }
-                .onChange_iOS17(of: onBrandSelectedIndex) { newValue in
+                .onChange(of: onBrandSelectedIndex) { _, newValue in
                     showAlert = true
                     alertTitle = "Index \(newValue) selected"
                 }
-                .onChange_iOS17(of: deselectionBarTitle) { newValue in
+                .onChange(of: deselectionBarTitle) { _, newValue in
                     showAlert = true
                     alertTitle = newValue != nil ? "Title \"\(newValue!)\" selected" : "No pill selected"
                 }
-                .onChange_iOS17(of: leadingAlignedBarSelectedTitle) { newValue in
+                .onChange(of: leadingAlignedBarSelectedTitle) { _, newValue in
                     showAlert = true
                     alertTitle = "Title \(newValue) selected"
                 }
-                .onChange_iOS17(of: centerAlignedBarSelectedTitle) { newValue in
+                .onChange(of: centerAlignedBarSelectedTitle) { _, newValue in
                     showAlert = true
                     alertTitle = "Title \(newValue) selected"
                 }
