@@ -37,6 +37,7 @@ extension FluentTheme.TypographyToken: @retroactive CaseIterable {
 		.body2,
 		.caption1Strong,
 		.caption1,
+		.caption2Strong,
 		.caption2
 	]
 
@@ -64,6 +65,8 @@ extension FluentTheme.TypographyToken: @retroactive CaseIterable {
 			return "Caption 1 Strong"
 		case .caption1:
 			return "Caption 1"
+		case .caption2Strong:
+			return "Caption 2 Strong"
 		case .caption2:
 			return "Caption 2"
 		}

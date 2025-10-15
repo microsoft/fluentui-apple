@@ -348,6 +348,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .caption1:
             return .init(size: GlobalTokens.fontSize(.size200),
                          weight: GlobalTokens.fontWeight(.regular))
+        case .caption2Strong:
+            return .init(size: GlobalTokens.fontSize(.size100),
+                         weight: GlobalTokens.fontWeight(.semibold))
         case .caption2:
             return .init(size: GlobalTokens.fontSize(.size100),
                          weight: GlobalTokens.fontWeight(.regular))
