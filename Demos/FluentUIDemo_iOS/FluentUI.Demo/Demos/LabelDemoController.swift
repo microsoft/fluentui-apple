@@ -117,6 +117,8 @@ extension FluentTheme.TypographyToken {
             return "Caption 1 Strong"
         case .caption1:
             return "Caption 1"
+        case .caption2Strong:
+            return "Caption 2 Strong"
         case .caption2:
             return "Caption 2"
         }

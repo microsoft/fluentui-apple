@@ -80,10 +80,28 @@ class TabBarItemTokenSet: ControlTokenSet<TabBarItemTokenSet.Tokens> {
                 return .uiColor { theme.color(.brandForeground1) }
 
             case .titleLabelFontPortrait:
-                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                if #available(iOS 26, *) {
+                    switch style() {
+                    case .primary:
+                        return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                    case .glass:
+                        return .uiFont { theme.typography(.caption2Strong, adjustsForContentSizeCategory: false) }
+                    }
+                } else {
+                    return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                }
 
             case .titleLabelFontLandscape:
-                return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                if #available(iOS 26, *) {
+                    switch style() {
+                    case .primary:
+                        return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                    case .glass:
+                        return .uiFont { theme.typography(.caption2Strong, adjustsForContentSizeCategory: false) }
+                    }
+                } else {
+                    return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
+                }
 
             case .unreadDotSize:
                 return .float { 8.0 }
