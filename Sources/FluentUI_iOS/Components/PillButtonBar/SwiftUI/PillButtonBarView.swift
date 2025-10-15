@@ -230,10 +230,10 @@ public struct PillButtonBarView<Selection: Hashable>: View {
 }
 
 private struct Constants {
-    static let pillSpacing: CGFloat = 8.0
-    static let verticalPadding: CGFloat = 10.0
-    static let horizontalPadding: CGFloat = 10.0
-    static let scrollPadding: CGFloat = 40.0
+    static let pillSpacing: CGFloat = GlobalTokens.spacing(.size80)
+    static let verticalPadding: CGFloat = GlobalTokens.spacing(.size100)
+    static let horizontalPadding: CGFloat = GlobalTokens.spacing(.size100)
+    static let scrollPadding: CGFloat = GlobalTokens.spacing(.size400)
     static let scrollAnchorY: CGFloat = 0.5
     static let scrollAnchorTrailingX: CGFloat = 1.0
 }
