@@ -126,11 +126,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 }
 
 #if DEBUG
-                if isExpandable {
-                    bottomSheetView.accessibilityIdentifier?.append(", a resizing handle")
-                } else {
-                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", a resizing handle", with: "")
-                }
+                bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
             }
         }
@@ -269,11 +265,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.setNeedsLayout()
 
 #if DEBUG
-                if shouldAlwaysFillWidth {
-                    bottomSheetView.accessibilityIdentifier?.append(", filled width")
-                } else {
-                    bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", filled width", with: "")
-                }
+            bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
         }
     }
@@ -573,7 +565,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     public typealias TokenSetKeyType = BottomSheetTokenSet.Tokens
-    public var tokenSet: BottomSheetTokenSet = .init()
+    public lazy var tokenSet: BottomSheetTokenSet = .init(style: { [weak self] in
+        return self?.style ?? .primary
+    })
 
     var fluentTheme: FluentTheme { return view.fluentTheme }
 
@@ -585,11 +579,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateBackgroundColor() {
-        // Of course we have no active background color applied when we're using a BlurEffect
-        if (style != .glass) {
-            let backgroundColor = tokenSet[.backgroundColor].uiColor
+        let backgroundColor = tokenSet[.backgroundColor].uiColor
+        overflowView.backgroundColor = backgroundColor
+
+        switch style {
+        case .primary:
             bottomSheetView.subviews[0].backgroundColor = backgroundColor
-            overflowView.backgroundColor = backgroundColor
+        case .glass:
+#if !os(visionOS)
+            if #available(iOS 26, *) {
+                if let effectView = bottomSheetView as? UIVisualEffectView {
+                   let glassEffect = UIGlassEffect(style: .regular)
+                   glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                   effectView.effect = glassEffect
+                }
+            }
+#endif // !os(visionOS)
         }
     }
 
@@ -598,7 +603,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateShadow() {
-
         switch style {
         case .primary:
             let shadowInfo = tokenSet[.shadow].shadowInfo
@@ -619,7 +623,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateCornerRadius() {
-        bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
+        switch style {
+        case .primary:
+            bottomSheetView.subviews[0].layer.cornerRadius = tokenSet[.cornerRadius].float
+        case .glass:
+            if let effectView = bottomSheetView as? UIVisualEffectView {
+                if #available(iOS 26, visionOS 26, *) {
+                    effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+                } else {
+                    effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+                }
+            }
+        }
     }
 
     private lazy var overflowView: UIView = UIView()
@@ -700,11 +715,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             bottomSheetView.layer.cornerRadius = tokenSet[.cornerRadius].float
             bottomSheetView.addSubview(contentView)
         case .glass:
-            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-            blurEffectView.layer.cornerRadius = tokenSet[.cornerRadius].float
-            blurEffectView.contentView.addSubview(contentView)
+            var effectView: UIVisualEffectView
+#if os(visionOS)
+            effectView = getBlurEffectView()
+#else // !os(visionOS)
+            if #available(iOS 26, *) {
+                effectView = getGlassEffectView()
+            } else {
+                effectView = getBlurEffectView()
+            }
+#endif // !os(visionOS)
 
-            bottomSheetView = blurEffectView
+            effectView.contentView.addSubview(contentView)
+            bottomSheetView = effectView
         }
 
         NSLayoutConstraint.activate([
@@ -715,10 +738,30 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         ])
 
 #if DEBUG
-        bottomSheetView.accessibilityIdentifier = "Bottom Sheet View"
+        bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
 
         return bottomSheetView
+    }
+
+#if !os(visionOS)
+    @available(iOS 26, *)
+    private func getGlassEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        let glassEffect = UIGlassEffect(style: .regular)
+        glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+        effectView.effect = glassEffect
+        effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+        return effectView
+  }
+#endif // !os(visionOS)
+
+    private func getBlurEffectView() -> UIVisualEffectView {
+        let effectView = UIVisualEffectView()
+        effectView.effect = UIBlurEffect(style: .systemMaterial)
+        effectView.layer.cornerRadius = tokenSet[.cornerRadius].float
+        effectView.layer.masksToBounds = true
+        return effectView
     }
 
     // MARK: - Gesture handling
@@ -780,11 +823,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         expandedContentView.alpha = targetAlpha
 
 #if DEBUG
-        if targetAlpha == 1.0 {
-            bottomSheetView.accessibilityIdentifier?.append(", an expanded content view")
-        } else {
-            bottomSheetView.accessibilityIdentifier = bottomSheetView.accessibilityIdentifier?.replacingOccurrences(of: ", an expanded content view", with: "")
-        }
+        bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
     }
 
@@ -856,6 +895,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.accessibilityViewIsModal = true
         }
     }
+
+#if DEBUG
+    private func bottomSheetViewAccessibilityIdentifierForState() -> String? {
+        var accessibilityIdentifier = "Bottom Sheet View"
+        if expandedContentView.alpha == 1.0 {
+            accessibilityIdentifier.append(", an expanded content view")
+        }
+        if isExpandable {
+            accessibilityIdentifier.append(", a resizing handle")
+        }
+        if shouldAlwaysFillWidth {
+            accessibilityIdentifier.append(", filled width")
+        }
+        return accessibilityIdentifier
+    }
+#endif
 
     private func updateSheetLayoutGuideTopConstraint() {
         if sheetLayoutGuideTopConstraint.constant != currentSheetVerticalOffset {

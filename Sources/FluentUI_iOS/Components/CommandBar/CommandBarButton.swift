@@ -53,7 +53,11 @@ class CommandBarButton: UIButton {
             var buttonConfiguration = UIButton.Configuration.plain()
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
-            buttonConfiguration.background.cornerRadius = 0
+            if #available(iOS 26, *) {
+                buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
+            } else {
+                buttonConfiguration.background.cornerRadius = 0
+            }
             configuration = buttonConfiguration
 
             setContentHuggingPriority(.required, for: .horizontal)
@@ -175,13 +179,6 @@ class CommandBarButton: UIButton {
             view.topAnchor.constraint(equalTo: topAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-
-    private struct LayoutConstants {
-        static let contentEdgeInsets = UIEdgeInsets(top: 8.0,
-                                                    left: 10.0,
-                                                    bottom: 8.0,
-                                                    right: 10.0)
     }
 }
 

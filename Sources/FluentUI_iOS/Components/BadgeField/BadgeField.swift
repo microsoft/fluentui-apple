@@ -185,7 +185,7 @@ open class BadgeField: UIView, TokenizedControl {
         selectedBadgeTextField.text = Constants.emptyTextFieldString
         addSubview(selectedBadgeTextField)
 
-        setupDraggingWindow()
+        setupDraggingWindow(frame: .zero)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleBadgeFieldTapped(_:)))
         addGestureRecognizer(tapGesture)
@@ -265,16 +265,18 @@ open class BadgeField: UIView, TokenizedControl {
         textField.autocorrectionType = .no
         textField.keyboardType = .emailAddress
         textField.delegate = self
-        if #available(iOS 17, *) {
-            textField.hoverStyle = nil
-        }
+        textField.hoverStyle = nil
     }
 
-    private func setupDraggingWindow() {
+    private func setupDraggingWindow(frame: CGRect) {
         // The dragging window must be on top of any other window (keyboard, status bar etc.)
-        draggingWindow.windowLevel = UIWindow.Level(rawValue: .greatestFiniteMagnitude)
-        draggingWindow.backgroundColor = .clear
-        draggingWindow.isHidden = true
+        if let activeWindowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            draggingWindow = UIWindow(windowScene: activeWindowScene)
+        }
+        draggingWindow?.frame = frame
+        draggingWindow?.windowLevel = UIWindow.Level(rawValue: .greatestFiniteMagnitude)
+        draggingWindow?.backgroundColor = .clear
+        draggingWindow?.isHidden = true
     }
 
     // MARK: Layout
@@ -561,7 +563,7 @@ open class BadgeField: UIView, TokenizedControl {
 
     var draggedBadge: BadgeView?
     private var draggedBadgeTouchCenterOffset: CGPoint?
-    private var draggingWindow = UIWindow()
+    private var draggingWindow: UIWindow?
 
     /// Shows all badges when text field starts editing and resorts back to constrained badges (if originalNumberOfLines > 0) when editing ends
     private var showAllBadgesForEditing: Bool = false {
@@ -926,7 +928,7 @@ open class BadgeField: UIView, TokenizedControl {
         switch gesture.state {
         case .began:
             // Already dragging another badge: cancel this new gesture
-            if !draggingWindow.isHidden {
+            if draggingWindow?.isHidden == false {
                 cancelRunningGesture(gesture)
                 return
             }
@@ -982,10 +984,10 @@ open class BadgeField: UIView, TokenizedControl {
         let touchLocation = gestureRecognizer.location(in: badge)
         draggedBadgeTouchCenterOffset = CGPoint(x: round(touchLocation.x - badge.frame.width / 2), y: round(touchLocation.y - badge.frame.height / 2))
         // Dragging window becomes front window
-        draggingWindow.isHidden = false
+        draggingWindow?.isHidden = false
         // Move dragged badge to main window
         draggedBadge?.frame = convert(draggedBadge!.frame, to: containingWindow)
-        draggingWindow.addSubview(draggedBadge!)
+        draggingWindow?.addSubview(draggedBadge!)
         // Animate scale
         UIView.animate(withDuration: Constants.dragAndDropScaleAnimationDuration) {
             self.draggedBadge!.layer.transform = CATransform3DMakeScale(Constants.dragAndDropScaleFactor, Constants.dragAndDropScaleFactor, 1)
@@ -1080,7 +1082,7 @@ open class BadgeField: UIView, TokenizedControl {
     }
 
     @objc private func hideDraggingWindow() {
-        draggingWindow.isHidden = true
+        draggingWindow?.isHidden = true
     }
 
     private func cancelRunningGesture(_ gesture: UIGestureRecognizer) {
@@ -1102,10 +1104,7 @@ open class BadgeField: UIView, TokenizedControl {
             return
         }
         cancelBadgeDraggingIfNeeded()
-        // Reinstanciate a window with fresh orientation
-        draggingWindow = UIWindow()
-        draggingWindow.frame = containingWindow.frame
-        setupDraggingWindow()
+        setupDraggingWindow(frame: containingWindow.frame)
     }
 }
 

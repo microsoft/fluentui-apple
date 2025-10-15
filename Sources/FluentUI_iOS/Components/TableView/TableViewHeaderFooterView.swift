@@ -542,9 +542,7 @@ open class TableViewHeaderFooterView: UITableViewHeaderFooterView, TokenizedCont
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(handleAccessoryButtonTapped), for: .touchUpInside)
-        if #available(iOS 17, *) {
-            button.hoverStyle = UIHoverStyle(shape: .capsule)
-        }
+        button.hoverStyle = UIHoverStyle(shape: .capsule)
         return button
     }
 

@@ -326,6 +326,14 @@ open class TwoLineTitleView: UIView, TokenizedControl {
         }
     }
 
+    open override var intrinsicContentSize: CGSize {
+        if #available(iOS 26, *) {
+            return containingStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        } else {
+            return super.intrinsicContentSize
+        }
+    }
+
     private func setupContainingStackView(isTitleImageLeadingForTitleAndSubtitle: Bool, alignment: UIStackView.Alignment) {
         containingStackView.removeAllSubviews()
         containingStackView.alignment = isTitleImageLeadingForTitleAndSubtitle ? .center : alignment

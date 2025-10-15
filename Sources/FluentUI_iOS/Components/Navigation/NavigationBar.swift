@@ -339,9 +339,6 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
     private var leftBarButtonItemsObserver: NSKeyValueObservation?
     private var rightBarButtonItemsObserver: NSKeyValueObservation?
     private var titleObserver: NSKeyValueObservation?
-#if compiler(>=6.2)
-    private var subtitle26Observer: NSKeyValueObservation?
-#endif // compiler(>=6.2)
     private var subtitleObserver: NSKeyValueObservation?
     private var titleAccessoryObserver: NSKeyValueObservation?
     private var titleImageObserver: NSKeyValueObservation?
@@ -705,16 +702,21 @@ open class NavigationBar: UINavigationBar, TokenizedControl, TwoLineTitleViewDel
         titleObserver = navigationItem.observe(\UINavigationItem.title) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
+#if os(visionOS)
         subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }
-#if compiler(>=6.2)
-        if #available(iOS 26, visionOS 26, macCatalyst 26, *) {
-            subtitle26Observer = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+#else
+        if #available(iOS 26, macCatalyst 26, *) {
+            subtitleObserver = navigationItem.observe(\UINavigationItem.subtitle) { [unowned self] item, _ in
+                self.navigationItemDidUpdate(item)
+            }
+        } else {
+            subtitleObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.subtitle) { [unowned self] item, _ in
                 self.navigationItemDidUpdate(item)
             }
         }
-#endif // compiler(>=6.2)
+#endif // !os(visionOS)
         titleAccessoryObserver = navigationItem.observe(\UINavigationItem.fluentConfiguration.titleAccessory) { [unowned self] item, _ in
             self.navigationItemDidUpdate(item)
         }

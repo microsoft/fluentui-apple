@@ -145,7 +145,8 @@ open class BadgeView: NSView {
 
 	private struct Constants {
 		static let defaultBackgroundColor: LegacyDynamicColor = .init(light: Colors.Palette.communicationBlueTint40.color, dark: Colors.Palette.communicationBlueTint30.color)
-		static let defaultTextColor: LegacyDynamicColor = .init(light: Colors.Palette.communicationBlue.color, dark: Colors.Palette.communicationBlueShade20.color)
+		static let defaultTextColor: LegacyDynamicColor = .init(light: Colors.Palette.communicationBlueShade20.color, dark: Colors.Palette.communicationBlueShade20.color)
+
 		static let primaryBackgroundColor: LegacyDynamicColor = .init(light: Colors.primaryTint40, dark: Colors.primaryTint30)
 		static let primaryTextColor: LegacyDynamicColor = .init(light: Colors.primary, dark: Colors.primaryShade20)
 	}

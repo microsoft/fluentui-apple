@@ -56,7 +56,7 @@ class CommandBarButtonGroupView: UIView {
         stackView.spacing = CommandBarTokenSet.itemInterspace
 
         stackView.clipsToBounds = true
-        stackView.layer.cornerRadius = tokenSet[.groupBorderRadius].float
+        stackView.layer.cornerRadius = tokenSet[.cornerRadius].float
         stackView.layer.cornerCurve = .continuous
         return stackView
     }()
@@ -83,8 +83,10 @@ class CommandBarButtonGroupView: UIView {
         stackView.axis = .vertical
 
         stackView.addArrangedSubview(buttonStackView)
-        if title != nil {
-            stackView.addArrangedSubview(groupLabel)
+        if #unavailable(iOS 26) {
+            if title != nil {
+                stackView.addArrangedSubview(groupLabel)
+            }
         }
         addSubview(stackView)
 

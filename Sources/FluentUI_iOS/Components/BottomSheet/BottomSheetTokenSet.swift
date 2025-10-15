@@ -23,15 +23,21 @@ public enum BottomSheetToken: Int, TokenSetKey {
 }
 
 public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
-    init() {
-        super.init { token, theme in
+    init(style: @escaping () -> BottomSheetControllerStyle) {
+        self.style = style
+        super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor { UIColor(light: theme.color(.background2).light,
-                                          dark: theme.color(.background2).dark)
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.background2)
+                    case .glass:
+                        return .clear
+                    }
                 }
             case .cornerRadius:
-                if #available(iOS 19, *) {
+                if #available(iOS 26, *) {
                     return .float { BottomSheetTokenSet.cornerRadius }
                 } else {
                     return .float { GlobalTokens.corner(.radius120) }
@@ -43,6 +49,8 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
             }
         }
     }
+
+    var style: () -> BottomSheetControllerStyle
 }
 
 // MARK: Constants
@@ -51,7 +59,7 @@ extension BottomSheetTokenSet {
     static let blurEffectShadowOpacity: Float = 0.25
     static let blurEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
     static let blurEffectShadowRadius: CGFloat = 8
-    static let cornerRadius: CGFloat = 40
+    static let cornerRadius: CGFloat = 34 // Matches iOS 26 system sheets.
 }
 
 // MARK: - BottomSheetControllerStyle

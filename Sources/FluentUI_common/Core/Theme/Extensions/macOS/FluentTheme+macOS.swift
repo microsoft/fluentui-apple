@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import SwiftUI
 
 extension FluentTheme: PlatformThemeProviding {
@@ -80,72 +80,58 @@ extension FluentTheme: PlatformThemeProviding {
                           dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .background1:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
-                          dark: GlobalTokens.neutralSwiftUIColor(.black),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey4))
-        case .background1Pressed:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey18),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey18))
-        case .background1Selected:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey14),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey14))
-        case .background2:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+        case .background1Pressed:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey84),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey32))
+        case .background1Selected:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey90),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey24))
+        case .background2:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey98),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey12))
         case .background2Pressed:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey30),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey82),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey28))
         case .background2Selected:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey26),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey26))
-        case .background3:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey16),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey20))
-        case .background3Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey34),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey34))
-        case .background3Selected:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey30),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
-        case .background4:
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey20))
+        case .background3:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey8))
-        case .background4Hover:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey12))
-        case .background4Pressed:
+        case .background3Pressed:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey80),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey24))
+        case .background3Selected:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey86),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey38),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey38))
-        case .background4Selected:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey90),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey34),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey34))
-        case .background5:
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey18))
+        case .background4:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey94),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey24),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey28))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey4))
+        case .background4Hover:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey90),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey8))
+        case .background4Pressed:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey78),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey20))
+        case .background4Selected:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey84),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey14))
+        case .background5:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                          dark: GlobalTokens.neutralSwiftUIColor(.black))
         case .background5Pressed:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey82),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey42),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey42))
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey76),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey2))
         case .background5Selected:
-            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey86),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey38),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey38))
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey82),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey2))
         case .background6:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.black))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .backgroundDisabled:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey32),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey32))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey32))
         case .brandBackgroundTint:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm150),
                           dark: GlobalTokens.brandSwiftUIColor(.comm40))
@@ -178,35 +164,28 @@ extension FluentTheme: PlatformThemeProviding {
                           dark: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .backgroundCanvas:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey8),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey14))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey8))
         case .backgroundDarkStatic:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey14),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey24),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey24))
         case .backgroundInverted:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey46),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey72),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey78))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey72))
         case .backgroundLightStatic:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
-                          dark: GlobalTokens.neutralSwiftUIColor(.white),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.white))
+                          dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .backgroundLightStaticDisabled:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey68),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey42))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey68))
         case .stroke1:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey82),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey30),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey36))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey30))
         case .stroke1Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey70),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey48))
         case .stroke2:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey24),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey30))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey24))
         case .strokeAccessible:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey38),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey68))
@@ -218,8 +197,7 @@ extension FluentTheme: PlatformThemeProviding {
                           dark: GlobalTokens.neutralSwiftUIColor(.white))
         case .strokeDisabled:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey26),
-                          darkElevated: GlobalTokens.neutralSwiftUIColor(.grey32))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey26))
         case .brandStroke1:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm80),
                           dark: GlobalTokens.brandSwiftUIColor(.comm100))
@@ -353,4 +331,4 @@ extension FluentTheme: PlatformThemeProviding {
         }
     }
 }
-#endif // canImport(AppKit)
+#endif // canImport(AppKit) && !targetEnvironment(macCatalyst)
