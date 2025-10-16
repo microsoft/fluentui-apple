@@ -12,6 +12,9 @@ class PillButtonBarDemoController: DemoController {
 
         readmeString = "A pill button bar lets someone select one option from a set of two or more pill-shaped buttons aligned horizontally.\n\nPill button bars are ideal for narrowing down the information someone sees on a page, like filtering information. They’re often used in conjunction with search bars. "
 
+        addTitle(text: "SwiftUI demo")
+        container.addArrangedSubview(createButton(title: "Show", action: #selector(showSwiftUIDemo)))
+
         container.layoutMargins.right = 0
         container.layoutMargins.left = 0
         var items: [PillButtonBarItem] = [PillButtonBarItem(title: "All"),
@@ -146,6 +149,11 @@ class PillButtonBarDemoController: DemoController {
                 }
             }
         }
+    }
+
+    @objc private func showSwiftUIDemo() {
+        navigationController?.pushViewController(PillButtonBarDemoControllerSwiftUI(),
+                                                 animated: true)
     }
 
     @objc private func toggleOnBrandPills(switchView: UISwitch) {

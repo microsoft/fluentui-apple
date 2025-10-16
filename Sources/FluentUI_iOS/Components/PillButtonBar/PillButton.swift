@@ -207,17 +207,14 @@ open class PillButton: UIButton, TokenizedControl {
             return
         }
 
-        let anchor = self.frame
+        let anchor = self.titleLabel?.frame ?? .zero
         let xPos: CGFloat
-        let yPos = round(anchor.minY + PillButtonTokenSet.unreadDotEdgeOffsetY)
-
         if effectiveUserInterfaceLayoutDirection == .leftToRight {
-            xPos = round(anchor.maxX - PillButtonTokenSet.unreadDotSize - PillButtonTokenSet.unreadDotEdgeOffsetX)
+            xPos = round(anchor.maxX + PillButtonTokenSet.unreadDotContentOffsetX)
         } else {
-            xPos = round(anchor.minX + PillButtonTokenSet.unreadDotEdgeOffsetX)
+            xPos = round(anchor.minX - PillButtonTokenSet.unreadDotContentOffsetX - PillButtonTokenSet.unreadDotSize)
         }
-
-        unreadDotLayer.frame.origin = CGPoint(x: xPos, y: yPos)
+        unreadDotLayer.frame.origin = CGPoint(x: xPos, y: anchor.minY + PillButtonTokenSet.unreadDotContentOffsetY)
         unreadDotLayer.backgroundColor = unreadDotColor.cgColor
     }
 
