@@ -31,7 +31,8 @@ let backgroundColors: [String: NSColor] = [
 	"controlBackgroundColor": .controlBackgroundColor,
 	"underPageBackgroundColor": .underPageBackgroundColor,
 	"selectedContentBackgroundColor": .selectedContentBackgroundColor,
-	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor
+	"unemphasizedSelectedContentBackgroundColor": .unemphasizedSelectedContentBackgroundColor,
+	"fluentBackgroundColorful": FluentTheme.shared.nsColor(.brandBackground1)
 ]
 
 let imagePositions: [String: NSControl.ImagePosition] = [
@@ -277,15 +278,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
-			var nearestPrimary: Button?
-			for button in newColumn {
-				switch button.style {
-				case .primary:
-					nearestPrimary = button
-				default:
-					button.linkedPrimary = nearestPrimary
-				}
-			}
 			fluentButtons.append(contentsOf: newColumn)
 			fluentButtonsGrid.addColumn(with: newColumn)
 		}
@@ -389,8 +381,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	@objc func stateChanged() {
 		let state = buttonStatesPopup.titleOfSelectedItem
 		for button in fluentButtons {
-			let originalLinkedPrimary = button.linkedPrimary
-			button.linkedPrimary = nil
 			switch state {
 			case "rest":
 				button.isEnabled = true
@@ -403,7 +393,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			default:
 				break
 			}
-			button.linkedPrimary = originalLinkedPrimary
 		}
 	}
 
