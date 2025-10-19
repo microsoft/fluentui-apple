@@ -436,18 +436,18 @@ open class Button: NSButton {
 
 		switch forStyle {
 		case .primary:
-			let contentTintRestColor = isWindowInactive ? fluentTheme.nsColor(.glassForeground1) : ButtonColor.neutralInverted
+			let contentTintRestColor = isWindowInactive ? fluentTheme.nsColor(.glassForeground1) : fluentTheme.nsColor(.foregroundLightStatic)
 			contentTintColorSet = .init(
 				rest: contentTintRestColor,
-				pressed: ButtonColor.neutralInverted?.withSystemEffect(.pressed),
-				hovered: contentTintRestColor?.withSystemEffect(.rollover),
+				pressed: contentTintRestColor.withSystemEffect(.pressed),
+				hovered: contentTintRestColor.withSystemEffect(.rollover),
 				disabled: ButtonColor.brandForegroundDisabled
 			)
-			let backgroundRestColor = isWindowInactive ? ButtonColor.neutralBackground3 : accentColor
+			let backgroundRestColor = isWindowInactive ? fluentTheme.nsColor(.background2).withAlphaComponent(0.05) : accentColor
 			backgroundColorSet = .init(
 				rest: backgroundRestColor,
 				pressed: accentColor.withSystemEffect(.pressed),
-				hovered: backgroundRestColor?.withSystemEffect(.rollover),
+				hovered: backgroundRestColor.withSystemEffect(.rollover),
 				disabled: ButtonColor.brandBackgroundDisabled,
 			)
 			borderColorSet = .init(
@@ -459,7 +459,7 @@ open class Button: NSButton {
 		case .secondary:
 			contentTintColorSet = .init(
 				rest: .textColor,
-				pressed: ButtonColor.neutralInverted?.withSystemEffect(.pressed),
+				pressed: .textColor.withSystemEffect(.pressed),
 				hovered: .textColor.withSystemEffect(.rollover),
 				disabled: NSColor.textColor.withSystemEffect(.disabled)
 			)
@@ -476,18 +476,19 @@ open class Button: NSButton {
 				disabled: increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
 			)
 		case .acrylic:
-			let foreground = fluentTheme.nsColor(.glassForeground1)
+			let foreground = fluentTheme.nsColor(isWindowInactive ? .glassForeground1 : .foreground1)
 			contentTintColorSet = .init(
 				rest: foreground,
 				pressed: foreground.withSystemEffect(.pressed),
 				hovered: foreground.withSystemEffect(.rollover),
 				disabled: foreground.withSystemEffect(.disabled)
 			)
+			let background = fluentTheme.nsColor(.background2).withAlphaComponent(0.05)
 			backgroundColorSet = .init(
-				rest: ButtonColor.neutralBackground3,
-				pressed: ButtonColor.neutralBackground3?.withSystemEffect(.pressed),
-				hovered: ButtonColor.neutralBackground3?.withSystemEffect(.deepPressed),
-				disabled: ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
+				rest: background,
+				pressed: background.withSystemEffect(.pressed),
+				hovered: background.withSystemEffect(.deepPressed),
+				disabled: background.withSystemEffect(.disabled)
 			)
 			borderColorSet = .init(
 				rest: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
@@ -920,7 +921,6 @@ class ButtonColor: NSObject {
 	public static let innerShadow = NSColor(named: "ButtonColors/innerShadow", bundle: FluentUIResources.resourceBundle)
 	public static let brandForegroundDisabled = NSColor(named: "ButtonColors/brandForegroundDisabled", bundle: FluentUIResources.resourceBundle)
 	public static let brandBackgroundDisabled = NSColor(named: "ButtonColors/brandBackgroundDisabled", bundle: FluentUIResources.resourceBundle)
-	public static let neutralInverted = NSColor(named: "ButtonColors/neutralInverted", bundle: FluentUIResources.resourceBundle)
 	public static let neutralForeground2 = NSColor(named: "ButtonColors/neutralForeground2", bundle: FluentUIResources.resourceBundle)
 	public static let neutralBackground2 = NSColor(named: "ButtonColors/neutralBackground2", bundle: FluentUIResources.resourceBundle)
 	public static let neutralStroke2 = NSColor(named: "ButtonColors/neutralStroke2", bundle: FluentUIResources.resourceBundle)
@@ -984,4 +984,3 @@ private struct ButtonSizeParameters {
 		}
 	}
 }
-
