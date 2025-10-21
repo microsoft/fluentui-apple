@@ -115,7 +115,6 @@ Pod::Spec.new do |s|
   s.subspec 'CommandBar_ios' do |commandbar_ios|
     commandbar_ios.platform = :ios
     commandbar_ios.dependency "#{s.name}/Core_ios"
-    commandbar_ios.dependency "#{s.name}/Label_ios"
     commandbar_ios.source_files = ["#{ios_root}/#{components_dir}/CommandBar/**/*.{swift,h}"]
   end
 
