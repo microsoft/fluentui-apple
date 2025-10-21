@@ -6,11 +6,12 @@
 import SwiftUI
 
 /// View model object used to create the pill buttons in a `PillButtonBarView`.
-public final class PillButtonViewModel<Selection: Hashable>: ObservableObject, Identifiable {
+@Observable
+public final class PillButtonViewModel<Selection: Hashable>: Identifiable {
     /// Determines whether the pill button should show the unread dot.
-    @Published public var isUnread: Bool
+    public var isUnread: Bool
     /// The leading image icon of the pill button.
-    @Published public var leadingImage: Image?
+    public var leadingImage: Image?
     /// The title of the pill button.
     public let title: String
     /// The unique identifier of this view model.
