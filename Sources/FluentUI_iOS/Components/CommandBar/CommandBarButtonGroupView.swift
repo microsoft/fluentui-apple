@@ -19,7 +19,7 @@ class CommandBarButtonGroupView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
 
         clipsToBounds = true
-        layer.cornerRadius = tokenSet[.groupBorderRadius].float
+        layer.cornerRadius = tokenSet[.cornerRadius].float
         layer.cornerCurve = .continuous
 
         configureHierarchy()
