@@ -11,6 +11,7 @@ import UIKit
 /// An object representing a row in the `MultilineCommandBar`.
 ///
 /// `MultilineCommandBarRow` contains the row's  itemGroups and whether or not the row is scrollable. By default, multiline command bar rows are not scrollable.
+@available(*, deprecated, message: "MultilineCommandBar is deprecated. Use CommandBar and BottomSheetController directly.")
 @objc(MSFMultilineCommandBarRow)
 public class MultilineCommandBarRow: NSObject {
     var itemGroups: [CommandBarItemGroup] = []
@@ -26,6 +27,7 @@ public class MultilineCommandBarRow: NSObject {
  `MultilineCommandBar` is a vertical list of `CommandBars`, hosted in a `BottomSheetController`.
  Provide `compactRows` in `init` to set the rows in the MultilineCommandBar. Provide the optional `regularRows` if either layout or buttons change in regular mode. If regularRows is not provided, compactRows will be used.
  */
+@available(*, deprecated, message: "MultilineCommandBar is deprecated. Use CommandBar and BottomSheetController directly.")
 @objc(MSFMultilineCommandBar)
 public class MultilineCommandBar: UIViewController {
 
