@@ -52,8 +52,6 @@
 		3A83F90F2953BB4000EF6629 /* TypographyTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */; };
 		3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */; };
 		3AA92B6B298DD96F001C0464 /* ShadowTokensTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */; };
-		3AC1024C29DB969D002BF27E /* MultilineCommandBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC1024B29DB969D002BF27E /* MultilineCommandBarTest.swift */; };
-		3ADA2E1D29C515890020434A /* MultilineCommandBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ADA2E1C29C515890020434A /* MultilineCommandBarDemoController.swift */; };
 		43488C4A270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */; };
 		497DC2DE24185896008D86F8 /* PillButtonBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */; };
 		5303259326B3198A00611D05 /* AvatarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */; };
@@ -202,8 +200,6 @@
 		3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypographyTokensTest.swift; sourceTree = "<group>"; };
 		3AA92B68298DD958001C0464 /* AliasColorTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliasColorTokensTest.swift; sourceTree = "<group>"; };
 		3AA92B6A298DD96F001C0464 /* ShadowTokensTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensTest.swift; sourceTree = "<group>"; };
-		3AC1024B29DB969D002BF27E /* MultilineCommandBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineCommandBarTest.swift; sourceTree = "<group>"; };
-		3ADA2E1C29C515890020434A /* MultilineCommandBarDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilineCommandBarDemoController.swift; sourceTree = "<group>"; };
 		43488C49270FB7E800124C71 /* NotificationViewDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		497DC2DD24185896008D86F8 /* PillButtonBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillButtonBarDemoController.swift; sourceTree = "<group>"; };
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -388,7 +384,6 @@
 				3A83F8E42953B9B800EF6629 /* LabelTest.swift */,
 				F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */,
 				F3DFD3622A7C358000014C6E /* ListItemTest.swift */,
-				3AC1024B29DB969D002BF27E /* MultilineCommandBarTest.swift */,
 				3A83F8E62953B9D100EF6629 /* NavigationControllerTest.swift */,
 				3A83F8E82953BA4500EF6629 /* NotificationViewTest.swift */,
 				3A83F8EA2953BA5400EF6629 /* NotificationViewTest_SwiftUI.swift */,
@@ -551,7 +546,6 @@
 				F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */,
 				F362C8092A780EBF00BB32BB /* ListItemDemoController.swift */,
 				F362C8072A780EA500BB32BB /* ListItemDemoController_SwiftUI.swift */,
-				3ADA2E1C29C515890020434A /* MultilineCommandBarDemoController.swift */,
 				FD41C8F322E28EEB0086F899 /* NavigationControllerDemoController.swift */,
 				A5B6617523A4227300E801DD /* NotificationViewDemoController.swift */,
 				D6296DAF295B8E1A002E8EB6 /* ObjectiveCDemoColorProviding.h */,
@@ -771,7 +765,6 @@
 				EC0A83E4299ED3630010ED3E /* TextFieldTest.swift in Sources */,
 				3A83F8F52953BAA200EF6629 /* PillButtonTest.swift in Sources */,
 				3A83F8C52953B8B900EF6629 /* AvatarGroupTest.swift in Sources */,
-				3AC1024C29DB969D002BF27E /* MultilineCommandBarTest.swift in Sources */,
 				3A83F9032953BAF700EF6629 /* TabBarViewTest.swift in Sources */,
 				3A83F8BD2953B75100EF6629 /* BaseTest.swift in Sources */,
 				F30B74492A82DAE8000F63A0 /* XCUIElement+Extensions.swift in Sources */,
@@ -863,7 +856,6 @@
 				EC24DBC628B97EB70026EF92 /* PopupMenuObjCDemoController.m in Sources */,
 				53097D3C27028AD000A6E4DC /* HUDDemoController.swift in Sources */,
 				92279B352B97F5DA00994D88 /* ButtonDemoController_SwiftUI.swift in Sources */,
-				3ADA2E1D29C515890020434A /* MultilineCommandBarDemoController.swift in Sources */,
 				92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */,
 				92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */,
 				B4EF66542295F1A8007FEAB0 /* TableViewHeaderFooterViewDemoController.swift in Sources */,
