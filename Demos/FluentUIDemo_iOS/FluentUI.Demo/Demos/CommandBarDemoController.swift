@@ -337,8 +337,10 @@ class CommandBarDemoController: DemoController {
             ]
         ]
 
-        let itemGroups: [CommandBarItemGroup] = commandGroups.map {
-            CommandBarItemGroup($0.map { newItem(for: $0) })
+        let itemGroups: [CommandBarItemGroup] = commandGroups.map { commandGroup in
+            commandGroup.map { command in
+                newItem(for: command)
+            }
         }
 
         itemGroups[0][1].isEnabled = false

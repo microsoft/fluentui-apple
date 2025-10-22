@@ -60,9 +60,6 @@ class CommandBarButton: UIButton {
             }
             configuration = buttonConfiguration
 
-            setContentHuggingPriority(.required, for: .horizontal)
-            setContentCompressionResistancePriority(.required, for: .horizontal)
-
             let accessibilityDescription = item.accessibilityLabel
             accessibilityLabel = (accessibilityDescription != nil) ? accessibilityDescription : item.title
             accessibilityHint = item.accessibilityHint

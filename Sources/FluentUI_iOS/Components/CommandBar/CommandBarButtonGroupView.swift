@@ -10,15 +10,17 @@ import UIKit
 
 class CommandBarButtonGroupView: UIView {
     let buttons: [CommandBarButton]
-    let title: String?
 
-    init(buttons: [CommandBarButton], title: String?, tokenSet: CommandBarTokenSet) {
+    init(buttons: [CommandBarButton], tokenSet: CommandBarTokenSet) {
         self.buttons = buttons
-        self.title = title
         self.tokenSet = tokenSet
 
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
+
+        clipsToBounds = true
+        layer.cornerRadius = tokenSet[.cornerRadius].float
+        layer.cornerCurve = .continuous
 
         configureHierarchy()
         applyInsets()
@@ -33,7 +35,7 @@ class CommandBarButtonGroupView: UIView {
     /// Hides the group view if all the views inside the `stackView` are hidden
     func hideGroupIfNeeded() {
         var allViewsHidden = true
-        for view in buttonStackView.arrangedSubviews {
+        for view in stackView.arrangedSubviews {
             if !view.isHidden {
                 allViewsHidden = false
                 break
@@ -45,51 +47,21 @@ class CommandBarButtonGroupView: UIView {
 
     var equalWidthButtons: Bool = false {
         didSet {
-            buttonStackView.distribution = equalWidthButtons ? .fillEqually : .fill
+            stackView.distribution = equalWidthButtons ? .fillEqually : .fill
         }
     }
 
-    private lazy var buttonStackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: buttons)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = CommandBarTokenSet.itemInterspace
 
-        stackView.clipsToBounds = true
-        stackView.layer.cornerRadius = tokenSet[.cornerRadius].float
-        stackView.layer.cornerCurve = .continuous
         return stackView
     }()
 
-    private lazy var groupLabel: Label = {
-        let label = Label()
-        label.text = title
-        label.font = tokenSet[.itemGroupLabelFont].uiFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentHuggingPriority(.required, for: .vertical)
-        label.lineBreakMode = .byClipping
-
-        label.accessibilityTraits.insert(.header)
-        label.isUserInteractionEnabled = true
-        label.addInteraction(UILargeContentViewerInteraction())
-        label.showsLargeContentViewer = true
-        label.largeContentTitle = title
-        return label
-    }()
-
     private func configureHierarchy() {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-
-        stackView.addArrangedSubview(buttonStackView)
-        if #unavailable(iOS 26) {
-            if title != nil {
-                stackView.addArrangedSubview(groupLabel)
-            }
-        }
         addSubview(stackView)
-
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),

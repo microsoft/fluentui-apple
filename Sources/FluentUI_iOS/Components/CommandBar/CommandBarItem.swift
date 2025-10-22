@@ -8,6 +8,8 @@ import FluentUI_common
 #endif
 import UIKit
 
+public typealias CommandBarItemGroup = [CommandBarItem]
+
 @objc(MSFCommandBarItem)
 open class CommandBarItem: NSObject {
     public typealias ItemTappedHandler = ((UIView, CommandBarItem) -> Void)
