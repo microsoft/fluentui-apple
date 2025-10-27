@@ -120,6 +120,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         didSet {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
+                resizingHandleView.isAccessibilityElement = isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded {
                     move(to: .collapsed, animated: false)
