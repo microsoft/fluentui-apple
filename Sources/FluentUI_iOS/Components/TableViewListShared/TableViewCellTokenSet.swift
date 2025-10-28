@@ -27,8 +27,11 @@ public enum TableViewCellToken: Int, TokenSetKey {
     /// The leading image color.
     case imageColor
 
-    /// The size dimensions of the customView.
-    case customViewDimensions
+    /// The width of the customView.
+    case customViewHeight
+
+    /// The height of the customView.
+    case customViewWidth
 
     /// The trailing margin of the customView.
     case customViewTrailingMargin
@@ -108,7 +111,19 @@ public class TableViewCellTokenSet: ControlTokenSet<TableViewCellToken> {
             case .imageColor:
                 return .uiColor { theme.color(.foreground3) }
 
-            case .customViewDimensions:
+            case .customViewHeight:
+                return .float {
+                    switch customViewSize() {
+                    case .zero:
+                        return 0.0
+                    case .small:
+                        return GlobalTokens.icon(.size240)
+                    case .medium, .default:
+                        return GlobalTokens.icon(.size400)
+                    }
+                }
+
+            case .customViewWidth:
                 return .float {
                     switch customViewSize() {
                     case .zero:

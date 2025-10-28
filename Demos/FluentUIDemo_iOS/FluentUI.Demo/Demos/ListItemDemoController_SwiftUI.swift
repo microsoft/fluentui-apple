@@ -238,6 +238,12 @@ struct ListItemDemoView: View {
             .accessoryDisclosureIndicatorColor: .uiColor {
                 UIColor(light: GlobalTokens.sharedColor(.forest, .tint10),
                         dark: GlobalTokens.sharedColor(.forest, .shade40))
+            },
+            .customViewWidth: .float {
+                114
+            },
+            .customViewHeight: .float {
+                64
             }
         ]
     }
