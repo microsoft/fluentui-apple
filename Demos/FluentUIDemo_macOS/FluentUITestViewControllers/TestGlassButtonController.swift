@@ -68,7 +68,7 @@ class TestGlassButtonController: NSViewController {
 		return image
 	}
 
-	@objc func toggleBackgroundColor(_ sender: NSButton) {
+	@objc private func toggleBackgroundColor(_ sender: NSButton) {
 		if (sender.state == .on) {
 			view.layer?.backgroundColor = view.fluentTheme.nsColor(.brandBackground1).cgColor
 		} else {
