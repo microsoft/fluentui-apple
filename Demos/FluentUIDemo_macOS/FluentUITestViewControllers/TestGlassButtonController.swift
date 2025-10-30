@@ -10,7 +10,18 @@ import FluentUI
 class TestGlassButtonController: NSViewController {
 
 	// Create various styles of GlassButton
-	let displayedGlassButtons: [[GlassButton]] = glassButtons()
+	let displayedGlassButtons: [[NSView]] = glassButtons().map { glassButtons in
+		glassButtons.map { glassButton in
+			if #available(macOS 26.0, *) {
+				let glassView = NSGlassEffectView()
+				glassView.cornerRadius = .greatestFiniteMagnitude
+				glassView.contentView = glassButton
+				return glassView
+			} else {
+				return glassButton
+			}
+		}
+	}
 
 	override func loadView() {
 
@@ -31,7 +42,8 @@ class TestGlassButtonController: NSViewController {
 		glassButtonContentView.edgeInsets = NSEdgeInsets(top: 0, left: spacing, bottom: 0, right: spacing)
 
 		let containerView = NSStackView(views: [
-			glassButtonContentView
+			glassButtonContentView,
+			NSButton(checkboxWithTitle: "Use brand background", target: self, action: #selector(toggleBackgroundColor(_:)))
 		])
 
 		containerView.orientation = .vertical
@@ -56,4 +68,11 @@ class TestGlassButtonController: NSViewController {
 		return image
 	}
 
+	@objc func toggleBackgroundColor(_ sender: NSButton) {
+		if (sender.state == .on) {
+			view.layer?.backgroundColor = view.fluentTheme.nsColor(.brandBackground1).cgColor
+		} else {
+			view.layer?.backgroundColor = nil
+		}
+	}
 }

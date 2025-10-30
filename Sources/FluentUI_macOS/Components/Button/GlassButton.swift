@@ -46,6 +46,7 @@ open class GlassButton: Button {
 		// Use System Colors which respond correctly to accessibility settings like increase contrast
 		// https://developer.apple.com/documentation/appkit/nscolor/ui_element_colors
 		let increaseContrastBorderColor: NSColor = .textColor
+		let clearAlphaComponent = 0.05
 
 		switch forStyle {
 		case .primary:
@@ -56,11 +57,12 @@ open class GlassButton: Button {
 				hovered: contentTintRestColor.withSystemEffect(.rollover),
 				disabled: ButtonColor.brandForegroundDisabled
 			)
-			let backgroundRestColor = isWindowInactive ? fluentTheme.nsColor(.background2).withAlphaComponent(0.05) : accentColor
+			let backgroundRestColor = isWindowInactive ? fluentTheme.nsColor(.background2) : accentColor
+			let alphaComponent = isWindowInactive ? clearAlphaComponent : 1.0
 			backgroundColorSet = .init(
-				rest: backgroundRestColor,
+				rest: backgroundRestColor.withAlphaComponent(alphaComponent),
 				pressed: accentColor.withSystemEffect(.pressed),
-				hovered: backgroundRestColor.withSystemEffect(.rollover),
+				hovered: backgroundRestColor.withSystemEffect(.rollover).withAlphaComponent(alphaComponent),
 				disabled: ButtonColor.brandBackgroundDisabled,
 			)
 			borderColorSet = .init(
@@ -77,12 +79,12 @@ open class GlassButton: Button {
 				hovered: foreground.withSystemEffect(.rollover),
 				disabled: foreground.withSystemEffect(.disabled)
 			)
-			let background = fluentTheme.nsColor(.background2).withAlphaComponent(0.05)
+			let background = fluentTheme.nsColor(.background2)
 			backgroundColorSet = .init(
-				rest: background,
-				pressed: background.withSystemEffect(.pressed),
-				hovered: background.withSystemEffect(.deepPressed),
-				disabled: background.withSystemEffect(.disabled)
+				rest: background.withAlphaComponent(clearAlphaComponent),
+				pressed: background.withSystemEffect(.pressed).withAlphaComponent(clearAlphaComponent),
+				hovered: background.withSystemEffect(.rollover).withAlphaComponent(clearAlphaComponent),
+				disabled: background.withSystemEffect(.disabled).withAlphaComponent(clearAlphaComponent)
 			)
 			borderColorSet = .init(
 				rest: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
