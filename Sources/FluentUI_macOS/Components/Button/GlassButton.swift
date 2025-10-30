@@ -46,7 +46,12 @@ open class GlassButton: Button {
 		// Use System Colors which respond correctly to accessibility settings like increase contrast
 		// https://developer.apple.com/documentation/appkit/nscolor/ui_element_colors
 		let increaseContrastBorderColor: NSColor = .textColor
-		let clearAlphaComponent = 0.05
+		let clearAlphaComponent: CGFloat
+		if #available(macOS 26.0, *) {
+			clearAlphaComponent = 0.05
+		} else {
+			clearAlphaComponent = 0.5
+		}
 
 		switch forStyle {
 		case .primary:
