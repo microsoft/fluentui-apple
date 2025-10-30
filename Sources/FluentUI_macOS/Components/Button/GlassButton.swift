@@ -109,10 +109,10 @@ open class GlassButton: Button {
 		fontSize: 13,  // line height: 17
 		cornerRadius: 0.0, // unused
 		verticalPadding: 4.0, // overall height: 28
-		horizontalPadding: 6.0,
+		horizontalPadding: 5.0,
 		titleVerticalPositionAdjustment: 0,
-		titleToImageSpacing: 3,
+		titleToImageSpacing: 4.0,
 		titleToImageVerticalSpacingAdjustment: 7,
-		minButtonHeight: 24
+		minButtonHeight: 28
 	)
 }
