@@ -3,6 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import AppKit
 
 // MARK: - Button
@@ -112,7 +115,7 @@ open class Button: NSButton {
 			setColorValues(forStyle: style, accentColor: accentColor)
 		}
 		if size == defaultFormat.size {
-			setSizeParameters(forSize: size)
+			setSizeParameters(size.parameters)
 		}
 
 		NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification,
@@ -214,38 +217,55 @@ open class Button: NSButton {
 		}
 	}
 
-	/// While the current Button is pressed, its style is temporarily applied to the linkedPrimary button.
-	/// This emulates an effect seen in the default style of Cocoa buttons, where pressing a secondary
-	/// button takes the accent color highlighting from a nearby primary button. For best results, the
-	/// current button should have the `.secondary` style, the linkedPrimary button should have the
-	/// `.primary` style, and both buttons should have the same accentColor.
-	@objc public var linkedPrimary: Button? {
-		didSet {
-			guard oldValue != linkedPrimary else {
-				return
-			}
-			linkedPrimaryOriginalStyle = linkedPrimary?.style
-		}
-	}
-
-	private var linkedPrimaryOriginalStyle: ButtonStyle?
-
 	public var isPressed: Bool = false {
 		didSet {
 			guard isEnabled && oldValue != isPressed else {
 				return
 			}
 			updateContentTintColor()
-			if let linkedPrimary = linkedPrimary {
-				if isPressed {
-					linkedPrimaryOriginalStyle = linkedPrimary.style
-					linkedPrimary.style = self.style
-				} else {
-					linkedPrimary.style = linkedPrimaryOriginalStyle ?? .primary
-				}
-			}
 			needsDisplay = true
 		}
+	}
+
+	public var isHovered: Bool = false {
+		didSet {
+			guard isEnabled && oldValue != isHovered else {
+				return
+			}
+			updateContentTintColor()
+			needsDisplay = true
+		}
+	}
+
+	public override func updateTrackingAreas() {
+		super.updateTrackingAreas()
+
+		// Remove existing trackingArea
+		if let trackingArea = trackingArea {
+			removeTrackingArea(trackingArea)
+			self.trackingArea = nil
+		}
+
+		// Create a new trackingArea
+		let options: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
+		let trackingArea = NSTrackingArea(
+			rect: bounds,
+			options: options,
+			owner: self,
+			userInfo: nil
+		)
+		addTrackingArea(trackingArea)
+		self.trackingArea = trackingArea
+	}
+
+	private var trackingArea: NSTrackingArea?
+
+	open override func mouseEntered(with event: NSEvent) {
+		isHovered = true
+	}
+
+	open override func mouseExited(with event: NSEvent) {
+		isHovered = false
 	}
 
 	open override func mouseDown(with event: NSEvent) {
@@ -270,14 +290,17 @@ open class Button: NSButton {
 		layer.borderWidth = Button.borderWidth
 		layer.cornerRadius = cornerRadius
 		if !isEnabled {
-			layer.backgroundColor = backgroundColorDisabled?.cgColor
-			layer.borderColor = borderColorDisabled?.cgColor
+			layer.backgroundColor = backgroundColorSet.disabled?.cgColor
+			layer.borderColor = borderColorSet.disabled?.cgColor
 		} else if isPressed {
-			layer.backgroundColor = backgroundColorPressed?.cgColor
-			layer.borderColor = borderColorPressed?.cgColor
+			layer.backgroundColor = backgroundColorSet.pressed?.cgColor
+			layer.borderColor = borderColorSet.pressed?.cgColor
+		} else if isHovered {
+			layer.backgroundColor = backgroundColorSet.hovered?.cgColor
+			layer.borderColor = borderColorSet.hovered?.cgColor
 		} else {
-			layer.backgroundColor = backgroundColorRest?.cgColor
-			layer.borderColor = borderColorRest?.cgColor
+			layer.backgroundColor = backgroundColorSet.rest?.cgColor
+			layer.borderColor = borderColorSet.rest?.cgColor
 		}
 
 		if usesBorderShadows {
@@ -380,40 +403,36 @@ open class Button: NSButton {
 	private var becomeMainWindowObserver: NSObjectProtocol?
 
 	/// State-specific colors for foreground, background and border
-	private var contentTintColorRest: NSColor?
-	private var contentTintColorPressed: NSColor?
-	private var contentTintColorDisabled: NSColor?
-	private var backgroundColorRest: NSColor?
-	private var backgroundColorPressed: NSColor?
-	private var backgroundColorDisabled: NSColor?
-	private var borderColorRest: NSColor?
-	private var borderColorPressed: NSColor?
-	private var borderColorDisabled: NSColor?
+	struct ButtonColorSet {
+		let rest: NSColor?
+		let pressed: NSColor?
+		let hovered: NSColor?
+		let disabled: NSColor?
+	}
 
-	private func updateContentTintColor() {
+	var contentTintColorSet: ButtonColorSet = .init(rest: nil, pressed: nil, hovered: nil, disabled: nil)
+	var backgroundColorSet: ButtonColorSet = .init(rest: nil, pressed: nil, hovered: nil, disabled: nil)
+	var borderColorSet: ButtonColorSet = .init(rest: nil, pressed: nil, hovered: nil, disabled: nil)
+
+	func updateContentTintColor() {
 		if !isEnabled {
-			contentTintColor = contentTintColorDisabled
+			contentTintColor = contentTintColorSet.disabled
 		} else if isPressed {
-			contentTintColor = contentTintColorPressed
+			contentTintColor = contentTintColorSet.pressed
+		} else if isHovered {
+			contentTintColor = contentTintColorSet.hovered
 		} else {
-			contentTintColor = contentTintColorRest
+			contentTintColor = contentTintColorSet.rest
 		}
 		updateTrailingImageContentTintColor()
 	}
 
 	private func updateTrailingImageContentTintColor() {
-		if let trailingImageView = trailingImageView {
-			if !isEnabled {
-				trailingImageView.contentTintColor = contentTintColorDisabled
-			} else if isPressed {
-				trailingImageView.contentTintColor = contentTintColorPressed
-			} else {
-				trailingImageView.contentTintColor = contentTintColorRest
-			}
-		}
+		trailingImageView?.contentTintColor = contentTintColor
+		needsDisplay = true
 	}
 
-	private func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
+	func setColorValues(forStyle: ButtonStyle, accentColor: NSColor) {
 
 		// Use System Colors which respond correctly to accessibility settings like increase contrast
 		// https://developer.apple.com/documentation/appkit/nscolor/ui_element_colors
@@ -421,49 +440,81 @@ open class Button: NSButton {
 
 		switch forStyle {
 		case .primary:
-			contentTintColorRest = isWindowInactive ? .textColor : ButtonColor.neutralInverted
-			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
-			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-			backgroundColorRest = isWindowInactive ? ButtonColor.neutralBackground2 : accentColor
-			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
-			backgroundColorDisabled = ButtonColor.brandBackgroundDisabled
-			if increaseContrastEnabled {
-				borderColorRest = increaseContrastBorderColor
-			} else {
-				borderColorRest = isWindowInactive ? ButtonColor.neutralStroke2 : .clear
-			}
-			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			contentTintColorSet = .init(
+				rest: isWindowInactive ? .textColor : ButtonColor.neutralInverted,
+				pressed: ButtonColor.neutralInverted?.withSystemEffect(.pressed),
+				hovered: isWindowInactive ? .textColor : ButtonColor.neutralInverted,
+				disabled: ButtonColor.brandForegroundDisabled
+			)
+			backgroundColorSet = .init(
+				rest: isWindowInactive ? ButtonColor.neutralBackground2 : accentColor,
+				pressed: accentColor.withSystemEffect(.pressed),
+				hovered: isWindowInactive ? ButtonColor.neutralBackground2 : accentColor,
+				disabled: ButtonColor.brandBackgroundDisabled,
+			)
+			borderColorSet = .init(
+				rest: increaseContrastEnabled ? increaseContrastBorderColor : (isWindowInactive ? ButtonColor.neutralStroke2 : .clear),
+				pressed: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				hovered: increaseContrastEnabled ? increaseContrastBorderColor : (isWindowInactive ? ButtonColor.neutralStroke2 : .clear),
+				disabled: increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			)
 		case .secondary:
-			contentTintColorRest = .textColor
-			contentTintColorPressed = ButtonColor.neutralInverted?.withSystemEffect(.pressed)
-			contentTintColorDisabled = NSColor.textColor.withSystemEffect(.disabled)
-			backgroundColorRest = ButtonColor.neutralBackground2
-			backgroundColorPressed = accentColor.withSystemEffect(.pressed)
-			backgroundColorDisabled = ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
-			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2
-			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+			contentTintColorSet = .init(
+				rest: .textColor,
+				pressed: .textColor.withSystemEffect(.pressed),
+				hovered: .textColor,
+				disabled: NSColor.textColor.withSystemEffect(.disabled)
+			)
+			backgroundColorSet = .init(
+				rest: ButtonColor.neutralBackground2,
+				pressed: ButtonColor.neutralBackground2?.withSystemEffect(.pressed),
+				hovered: ButtonColor.neutralBackground2,
+				disabled: ButtonColor.neutralBackground2?.withSystemEffect(.disabled)
+			)
+			borderColorSet = .init(
+				rest: increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2,
+				pressed: increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2,
+				hovered: increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2,
+				disabled: increaseContrastEnabled ? increaseContrastBorderColor : ButtonColor.neutralStroke2?.withSystemEffect(.disabled)
+			)
 		case .acrylic:
-			contentTintColorRest = ButtonColor.neutralForeground3
-			contentTintColorPressed = ButtonColor.neutralForeground3?.withSystemEffect(.pressed)
-			contentTintColorDisabled = ButtonColor.neutralForeground3?.withSystemEffect(.disabled)
-			backgroundColorRest = ButtonColor.neutralBackground3
-			backgroundColorPressed = ButtonColor.neutralBackground3?.withSystemEffect(.pressed)
-			backgroundColorDisabled = ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
-			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			contentTintColorSet = .init(
+				rest: ButtonColor.neutralForeground3,
+				pressed: ButtonColor.neutralForeground3?.withSystemEffect(.pressed),
+				hovered: ButtonColor.neutralForeground3,
+				disabled: ButtonColor.neutralForeground3?.withSystemEffect(.disabled)
+			)
+			backgroundColorSet = .init(
+				rest: ButtonColor.neutralBackground3,
+				pressed: ButtonColor.neutralBackground3?.withSystemEffect(.pressed),
+				hovered: ButtonColor.neutralBackground3,
+				disabled: ButtonColor.neutralBackground3?.withSystemEffect(.disabled)
+			)
+			borderColorSet = .init(
+				rest: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				pressed: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				hovered: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				disabled: increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			)
 		case .borderless:
-			contentTintColorRest = isWindowInactive ? .textColor : accentColor
-			contentTintColorPressed = accentColor.withSystemEffect(.deepPressed)
-			contentTintColorDisabled = ButtonColor.brandForegroundDisabled
-			backgroundColorRest = .clear
-			backgroundColorPressed = .clear
-			backgroundColorDisabled = .clear
-			borderColorRest = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorPressed = increaseContrastEnabled ? increaseContrastBorderColor : .clear
-			borderColorDisabled = increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			contentTintColorSet = .init(
+				rest: isWindowInactive ? .textColor : accentColor,
+				pressed: accentColor.withSystemEffect(.deepPressed),
+				hovered: isWindowInactive ? .textColor : accentColor,
+				disabled: ButtonColor.brandForegroundDisabled
+			)
+			backgroundColorSet = .init(
+				rest: .clear,
+				pressed: .clear,
+				hovered: .clear,
+				disabled: .clear
+			)
+			borderColorSet = .init(
+				rest: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				pressed: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				hovered: increaseContrastEnabled ? increaseContrastBorderColor : .clear,
+				disabled: increaseContrastEnabled ? increaseContrastBorderColor : .clear
+			)
 		}
 		updateContentTintColor()
 	}
@@ -545,22 +596,13 @@ open class Button: NSButton {
 		}
 	}
 
-	private var _cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
-	private var cornerRadius: CGFloat {
-		get {
-			usesCapsuleAppearance ? (bounds.size.height / 2.0) - 1.0 : _cornerRadius
-		}
-		set {
-			_cornerRadius = newValue
-		}
-	}
+	var cornerRadius: CGFloat = ButtonSizeParameters.large.cornerRadius
 
 	private static let borderWidth: CGFloat = 1
 
 	private var minButtonHeight: CGFloat = ButtonSizeParameters.large.minButtonHeight
 
-	private func setSizeParameters(forSize: ButtonSize) {
-		let parameters = ButtonSizeParameters.parameters(forSize: size)
+	func setSizeParameters(_ parameters: ButtonSizeParameters) {
 		font = NSFont.systemFont(ofSize: parameters.fontSize)
 		cornerRadius = parameters.cornerRadius
 		minButtonHeight = parameters.minButtonHeight
@@ -581,20 +623,16 @@ open class Button: NSButton {
 			guard oldValue != size else {
 				return
 			}
-			setSizeParameters(forSize: size)
+			setSizeParameters(size.parameters)
 			invalidateIntrinsicContentSize()
 			needsDisplay = true
 		}
 	}
 
-	@objc public var usesCapsuleAppearance: Bool = false {
+	@objc override public var isHidden: Bool {
 		didSet {
-			guard oldValue != usesCapsuleAppearance else {
-				return
-			}
-			setSizeParameters(forSize: size)
-			invalidateIntrinsicContentSize()
-			needsDisplay = true
+			// Always start with the assumption that we are not hovered
+			isHovered = false
 		}
 	}
 
@@ -614,7 +652,7 @@ open class Button: NSButton {
 	}
 
 	/// Indicates if the Window that the button view has been added to, is inactive/backgrounded
-	private var isWindowInactive: Bool = false {
+	var isWindowInactive: Bool = false {
 		didSet {
 			guard oldValue != isWindowInactive else {
 				return
@@ -626,7 +664,7 @@ open class Button: NSButton {
 	}
 
 	/// Indicates if the `Increase Contrast` Accessibility Setting is enabled
-	private var increaseContrastEnabled: Bool = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+	var increaseContrastEnabled: Bool = NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
 		didSet {
 			guard oldValue != increaseContrastEnabled else {
 				return
@@ -816,6 +854,17 @@ public enum ButtonSize: Int, CaseIterable {
 
 	/// Minimum Button Height - 20 pts
 	case small
+
+	var parameters: ButtonSizeParameters {
+		switch self {
+		case .large:
+			return .large
+		case .medium:
+			return .medium
+		case .small:
+			return .small
+		}
+	}
 }
 
 /// Indicates what style our button is drawn as
@@ -873,15 +922,15 @@ class ButtonColor: NSObject {
 
 // MARK: - Size Constants
 
-private struct ButtonSizeParameters {
-	fileprivate let fontSize: CGFloat
-	fileprivate let cornerRadius: CGFloat
-	fileprivate let verticalPadding: CGFloat
-	fileprivate let horizontalPadding: CGFloat
-	fileprivate let titleVerticalPositionAdjustment: CGFloat
-	fileprivate let titleToImageSpacing: CGFloat
-	fileprivate let titleToImageVerticalSpacingAdjustment: CGFloat
-	fileprivate var minButtonHeight: CGFloat
+struct ButtonSizeParameters {
+	let fontSize: CGFloat
+	let cornerRadius: CGFloat
+	let verticalPadding: CGFloat
+	let horizontalPadding: CGFloat
+	let titleVerticalPositionAdjustment: CGFloat
+	let titleToImageSpacing: CGFloat
+	let titleToImageVerticalSpacingAdjustment: CGFloat
+	var minButtonHeight: CGFloat
 
 	static let large = ButtonSizeParameters(
 		fontSize: 15,  // line height: 19
@@ -915,15 +964,4 @@ private struct ButtonSizeParameters {
 		titleToImageVerticalSpacingAdjustment: 7,
 		minButtonHeight: 20
 	)
-
-	static func parameters(forSize: ButtonSize) -> ButtonSizeParameters {
-		switch forSize {
-		case .large:
-			return .large
-		case .medium:
-			return .medium
-		case .small:
-			return .small
-		}
-	}
 }
