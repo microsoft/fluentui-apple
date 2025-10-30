@@ -173,8 +173,8 @@ public struct ListItem<LeadingContent: View,
         var leadingContentView: some View {
             if let leadingContent {
                 leadingContent()
-                    .frame(width: tokenSet[.customViewDimensions].float,
-                           height: tokenSet[.customViewDimensions].float)
+                    .frame(width: tokenSet[.customViewWidth].float,
+                           height: tokenSet[.customViewHeight].float)
                     .padding(.trailing, tokenSet[.customViewTrailingMargin].float)
                     .accessibilityIdentifier(AccessibilityIdentifiers.leadingContent)
             }
