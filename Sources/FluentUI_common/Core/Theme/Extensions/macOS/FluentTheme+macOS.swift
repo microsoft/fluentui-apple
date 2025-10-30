@@ -98,7 +98,7 @@ extension FluentTheme: PlatformThemeProviding {
                           dark: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .background3:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
-                          dark: GlobalTokens.neutralSwiftUIColor(.grey8))
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey10))
         case .background3Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey80),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey24))
