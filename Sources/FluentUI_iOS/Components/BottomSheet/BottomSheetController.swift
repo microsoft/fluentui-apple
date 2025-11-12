@@ -296,6 +296,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
     @objc open var allowsSwipeToHide: Bool = false
 
+    /// Indicates whether the `resizingHandleView` should overlay the `headerContentHeight` or `expandedContentView`
+    ///
+    /// The default value is false.
+    @objc open var shouldGrabberOverlayContent: Bool = false {
+        didSet {
+            guard shouldGrabberOverlayContent != oldValue && isViewLoaded else {
+                return
+            }
+            updateResizingHandleConstraints()
+            view.setNeedsLayout()
+        }
+    }
+
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public private(set) var collapsedHeightInSafeArea: CGFloat = 0 {
         didSet {
@@ -603,6 +616,16 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         resizingHandleView.tokenSet.setOverrideValue(tokenSet[.resizingHandleMarkColor], forToken: .markColor)
     }
 
+    private func updateResizingHandleConstraints() {
+        if let resizingHandleViewConstraints {
+            if shouldGrabberOverlayContent {
+                   NSLayoutConstraint.activate([resizingHandleViewConstraints])
+            } else {
+                   NSLayoutConstraint.deactivate([resizingHandleViewConstraints])
+            }
+        }
+    }
+
     private func updateShadow() {
         switch style {
         case .primary:
@@ -675,6 +698,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.bringSubviewToFront(resizingHandleView)
 
         // Some types of content (like navigation controllers) can mess up the VO order.
         // Explicitly specifying a11y elements helps prevents this.
@@ -695,6 +719,13 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
         ])
+
+        if let headerContentView {
+            resizingHandleViewConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -12.0)
+        } else {
+            resizingHandleViewConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -12.0)
+        }
+        updateResizingHandleConstraints()
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
@@ -893,6 +924,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             var margins: UIEdgeInsets = .zero
             margins.bottom = bottomSheetView.frame.height
             dimmingView.accessibilityFrame = view.frame.inset(by: margins)
+            view.accessibilityViewIsModal = true
             view.accessibilityViewIsModal = true
         }
     }
@@ -1336,6 +1368,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
     private var headerContentViewHeightConstraint: NSLayoutConstraint?
+
+    private var resizingHandleViewConstraints: NSLayoutConstraint?
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
