@@ -217,6 +217,7 @@ public struct ListItem<LeadingContent: View,
             .frame(minHeight: layoutType.minHeight)
             .opacity(isEnabled ? ListItemTokenSet.enabledAlpha : ListItemTokenSet.disabledAlpha)
             .background(backgroundView)
+            .listRowBackground(backgroundView)
         }
 
         @ViewBuilder
@@ -511,6 +512,21 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
             return Color(uiColor: tokenSet[.backgroundGroupedColor].uiColor)
         case .plain:
             return Color(uiColor: tokenSet[.backgroundColor].uiColor)
+        case .clear, .custom:
+            return .clear
+        }
+    }
+
+    /// The background color of `ListItem` based on the style.
+    /// - Parameter backgroundStyle: The background style of the `List`.
+    /// - Returns: The color to use for the background of `ListItem`.
+    static func listItemBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+        let tokenSet = ListItemTokenSet(customViewSize: { .default })
+        switch backgroundStyle {
+        case .grouped:
+            return Color(uiColor: tokenSet[.cellBackgroundGroupedColor].uiColor)
+        case .plain:
+            return Color(uiColor: tokenSet[.cellBackgroundColor].uiColor)
         case .clear, .custom:
             return .clear
         }
