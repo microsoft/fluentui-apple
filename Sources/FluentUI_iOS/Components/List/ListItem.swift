@@ -8,12 +8,6 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-public typealias ListItemAccessoryType = TableViewCellAccessoryType
-public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
-public typealias ListItemLeadingContentSize = MSFTableViewCellCustomViewSize
-public typealias ListItemTokenSet = TableViewCellTokenSet
-public typealias ListItemToken = TableViewCellToken
-
 /// View that represents an item in a List.
 public struct ListItem<LeadingContent: View,
                        TrailingContent: View,

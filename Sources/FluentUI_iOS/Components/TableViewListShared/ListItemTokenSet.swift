@@ -8,7 +8,12 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-// SwiftUI specific APIs on top of TableViewCellTokenSet
+public typealias ListItemAccessoryType = TableViewCellAccessoryType
+public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
+public typealias ListItemLeadingContentSize = MSFTableViewCellCustomViewSize
+public typealias ListItemTokenSet = TableViewCellTokenSet
+public typealias ListItemToken = TableViewCellToken
+
 extension ListItemTokenSet {
     /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
