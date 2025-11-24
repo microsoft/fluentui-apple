@@ -502,17 +502,17 @@ public extension ListItem where DetailedContent == EmptyView {
 /// Provide defaults for generic types so static methods can be called without needing to specify them.
 public extension ListItem where LeadingContent == EmptyView, TrailingContent == EmptyView, DetailedContent == EmptyView, Title == String, Subtitle == String, Footer == String {
 
-    /// The background color of `ListItem` based on the style.
+    /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
-    /// - Returns: The color to use for the background of `ListItem`.
-    @available(*, deprecated, renamed: "ListItemTokenSet.listItemBackgroundColor(for:)")
-    static func listItemBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+    /// - Returns: The color to use for the background of `List`.
+    @available(*, deprecated, renamed: "ListItemTokenSet.listBackgroundColor(for:)")
+    static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
         let tokenSet = ListItemTokenSet(customViewSize: { .default })
         switch backgroundStyle {
         case .grouped:
-            return Color(uiColor: tokenSet[.cellBackgroundGroupedColor].uiColor)
+            return Color(uiColor: tokenSet[.backgroundGroupedColor].uiColor)
         case .plain:
-            return Color(uiColor: tokenSet[.cellBackgroundColor].uiColor)
+            return Color(uiColor: tokenSet[.backgroundColor].uiColor)
         case .clear, .custom:
             return .clear
         }
