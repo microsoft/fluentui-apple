@@ -18,7 +18,7 @@ extension ListItemTokenSet {
     /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
     /// - Returns: The color to use for the background of `List`.
-    static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+    public static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
         let tokenSet = ListItemTokenSet(customViewSize: { .default })
         switch backgroundStyle {
         case .grouped:
@@ -33,7 +33,7 @@ extension ListItemTokenSet {
     /// The background color of `ListItem` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
     /// - Returns: The color to use for the background of `ListItem`.
-    static func listItemBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
+    public static func listItemBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
         let tokenSet = ListItemTokenSet(customViewSize: { .default })
         switch backgroundStyle {
         case .grouped:
