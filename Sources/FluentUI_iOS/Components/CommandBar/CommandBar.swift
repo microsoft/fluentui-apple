@@ -9,10 +9,11 @@ import FluentUI_common
 import UIKit
 
 /// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
+@objc(MSFCommandBarDelegate)
 public protocol CommandBarDelegate: AnyObject {
     /// Called when a scroll occurs in the `CommandBar`
     /// - Parameter commandBar: the instance of `CommandBar` that received the scroll
-    func commandBarDidScroll(_ commandBar: CommandBar)
+    @objc func commandBarDidScroll(_ commandBar: CommandBar)
 }
 
 /**
@@ -188,7 +189,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public var tokenSet: CommandBarTokenSet
 
     /// Items shown in the center of the CommandBar
-    public var itemGroups: [CommandBarItemGroup] {
+    @objc public var itemGroups: [CommandBarItemGroup] {
         get {
             mainCommandGroupsView.itemGroups
         }
@@ -198,7 +199,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     /// Items pinned to the leading end of the CommandBar
-    public var leadingItemGroups: [CommandBarItemGroup]? {
+    @objc public var leadingItemGroups: [CommandBarItemGroup]? {
         get {
             leadingCommandGroupsView.itemGroups
         }
@@ -208,7 +209,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     /// Items pinned to the trailing end of the CommandBar
-    public var trailingItemGroups: [CommandBarItemGroup]? {
+    @objc public var trailingItemGroups: [CommandBarItemGroup]? {
         get {
             trailingCommandGroupsView.itemGroups
         }
