@@ -53,11 +53,7 @@ class CommandBarButton: UIButton {
             var buttonConfiguration = UIButton.Configuration.plain()
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
-            if #available(iOS 26, *) {
-                buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
-            } else {
-                buttonConfiguration.background.cornerRadius = 0
-            }
+            buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
             configuration = buttonConfiguration
 
             let accessibilityDescription = item.accessibilityLabel

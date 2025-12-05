@@ -151,9 +151,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        if #available(iOS 26, *) {
-            layer.cornerRadius = bounds.height / 2
-        }
+        layer.cornerRadius = bounds.height / 2
         updateShadow()
         updateScrollViewShadow()
     }
@@ -372,12 +370,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func stackViewLayoutMargins() -> NSDirectionalEdgeInsets {
-        var padding: CGFloat
-        if #available(iOS 26, *) {
-            padding = CommandBarTokenSet.barInsets
-        } else {
-            padding = 0
-        }
+        let padding: CGFloat = CommandBarTokenSet.barInsets
         return NSDirectionalEdgeInsets(top: 0,
                                        leading: leadingCommandGroupsView.isHidden ? 0 : padding,
                                        bottom: 0,
