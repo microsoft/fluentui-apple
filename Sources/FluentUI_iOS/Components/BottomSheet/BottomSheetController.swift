@@ -721,9 +721,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         ])
 
         if let headerContentView {
-            resizingHandleViewConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -12.0)
+            resizingHandleViewConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor)
         } else {
-            resizingHandleViewConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -12.0)
+            resizingHandleViewConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor)
         }
         updateResizingHandleConstraints()
 
