@@ -925,7 +925,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             margins.bottom = bottomSheetView.frame.height
             dimmingView.accessibilityFrame = view.frame.inset(by: margins)
             view.accessibilityViewIsModal = true
-            view.accessibilityViewIsModal = true
         }
     }
 
