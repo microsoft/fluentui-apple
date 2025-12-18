@@ -299,9 +299,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Indicates whether the `resizingHandleView` should overlay the `headerContentHeight` or `expandedContentView`
     ///
     /// The default value is false.
-    @objc open var shouldGrabberOverlayContent: Bool = false {
+    @objc open var shouldResizingViewOverlayContent: Bool = false {
         didSet {
-            guard shouldGrabberOverlayContent != oldValue && isViewLoaded else {
+            guard shouldResizingViewOverlayContent != oldValue && isViewLoaded else {
                 return
             }
             updateResizingHandleConstraints()
@@ -617,11 +617,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     }
 
     private func updateResizingHandleConstraints() {
-        if let resizingHandleViewConstraints {
-            if shouldGrabberOverlayContent {
-                   NSLayoutConstraint.activate([resizingHandleViewConstraints])
+        if let resizingHandleContentOverlapConstraints {
+            if shouldResizingViewOverlayContent {
+                   NSLayoutConstraint.activate([resizingHandleContentOverlapConstraints])
             } else {
-                   NSLayoutConstraint.deactivate([resizingHandleViewConstraints])
+                   NSLayoutConstraint.deactivate([resizingHandleContentOverlapConstraints])
             }
         }
     }
@@ -698,7 +698,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.bringSubviewToFront(resizingHandleView)
 
         // Some types of content (like navigation controllers) can mess up the VO order.
         // Explicitly specifying a11y elements helps prevents this.
@@ -721,10 +720,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         ])
 
         if let headerContentView {
-            resizingHandleViewConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor)
+            resizingHandleContentOverlapConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -currentResizingHandleHeight)
         } else {
-            resizingHandleViewConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor)
+			resizingHandleContentOverlapConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -currentResizingHandleHeight)
         }
+        stackView.bringSubviewToFront(resizingHandleView)
         updateResizingHandleConstraints()
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
@@ -1369,7 +1369,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private var headerContentViewHeightConstraint: NSLayoutConstraint?
 
-    private var resizingHandleViewConstraints: NSLayoutConstraint?
+    private var resizingHandleContentOverlapConstraints: NSLayoutConstraint?
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 

@@ -103,8 +103,8 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.preferredWidth = sender.isOn ? 400 : 0
     }
 
-    @objc private func toggleGrabberOverlayContent(_ sender: BooleanCell) {
-        bottomSheetViewController?.shouldGrabberOverlayContent = sender.isOn
+    @objc private func toggleResizingViewOverlayContent(_ sender: BooleanCell) {
+        bottomSheetViewController?.shouldResizingViewOverlayContent = sender.isOn
     }
 
     @objc private func showTransientSheet() {
@@ -280,10 +280,10 @@ class BottomSheetDemoController: DemoController {
                           type: .boolean,
                         action: #selector(togglePreferredWidth),
                           isOn: bottomSheetViewController?.preferredWidth == 400),
-                DemoItem(title: "Should grabber overlay content",
+                DemoItem(title: "Should resizing view overlay content",
                          type: .boolean,
-                         action: #selector(toggleGrabberOverlayContent),
-                         isOn: bottomSheetViewController?.shouldGrabberOverlayContent ?? false)
+                         action: #selector(toggleResizingViewOverlayContent),
+                         isOn: bottomSheetViewController?.shouldResizingViewOverlayContent ?? false)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
