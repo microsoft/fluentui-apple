@@ -99,6 +99,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         commandBarContainerStackView.axis = .horizontal
         commandBarContainerStackView.translatesAutoresizingMaskIntoConstraints = false
         commandBarContainerStackView.isLayoutMarginsRelativeArrangement = true
+        commandBarContainerStackView.clipsToBounds = true
 
         super.init(frame: .zero)
 
@@ -151,7 +152,10 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        layer.cornerRadius = bounds.height / 2
+        let cornerRadius = bounds.height / 2
+        layer.cornerRadius = cornerRadius
+        commandBarContainerStackView.layer.cornerRadius = cornerRadius
+
         updateShadow()
         updateScrollViewShadow()
     }
