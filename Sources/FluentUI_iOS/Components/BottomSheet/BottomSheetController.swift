@@ -304,7 +304,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             guard shouldResizingViewOverlayContent != oldValue && isViewLoaded else {
                 return
             }
-            updateResizingHandleConstraints()
             view.setNeedsLayout()
         }
     }
@@ -472,9 +471,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // |--dimmingView (spans self.view)
     // |--bottomSheetView (sheet shadow)
     // |  |--UIStackView (round corner mask)
-    // |  |  |--resizingHandleView
     // |  |  |--headerContentView
     // |  |  |--expandedContentView
+    // |  |--resizingHandleView
     // |--overflowView
     public override func loadView() {
         view = BottomSheetPassthroughView()
@@ -616,16 +615,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         resizingHandleView.tokenSet.setOverrideValue(tokenSet[.resizingHandleMarkColor], forToken: .markColor)
     }
 
-    private func updateResizingHandleConstraints() {
-        if let resizingHandleContentOverlapConstraints {
-            if shouldResizingViewOverlayContent {
-                   NSLayoutConstraint.activate([resizingHandleContentOverlapConstraints])
-            } else {
-                   NSLayoutConstraint.deactivate([resizingHandleContentOverlapConstraints])
-            }
-        }
-    }
-
     private func updateShadow() {
         switch style {
         case .primary:
@@ -694,7 +683,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
-        let stackView = UIStackView(arrangedSubviews: [resizingHandleView])
+        let stackView = UIStackView(arrangedSubviews: [])
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -711,21 +700,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
+        bottomSheetContentView.addSubview(resizingHandleView)
 
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            resizingHandleView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            resizingHandleView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: shouldResizingViewOverlayContent ? currentResizingHandleHeight : 0.0),
             stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor),
         ])
-
-        if let headerContentView {
-            resizingHandleContentOverlapConstraints = headerContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -currentResizingHandleHeight)
-        } else {
-			resizingHandleContentOverlapConstraints = expandedContentView.topAnchor.constraint(equalTo: resizingHandleView.bottomAnchor, constant: -currentResizingHandleHeight)
-        }
-        stackView.bringSubviewToFront(resizingHandleView)
-        updateResizingHandleConstraints()
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
@@ -1367,8 +1350,6 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
 
     private var headerContentViewHeightConstraint: NSLayoutConstraint?
-
-    private var resizingHandleContentOverlapConstraints: NSLayoutConstraint?
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
