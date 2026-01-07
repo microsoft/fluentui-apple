@@ -103,10 +103,6 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.preferredWidth = sender.isOn ? 400 : 0
     }
 
-    @objc private func toggleResizingViewOverlayContent(_ sender: BooleanCell) {
-        bottomSheetViewController?.shouldResizingViewOverlayContent = sender.isOn
-    }
-
     @objc private func showTransientSheet() {
         let hostingVC = UIHostingController(rootView: BottomSheetDemoListContentView())
 
@@ -279,11 +275,7 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Set preferred width to 400",
                           type: .boolean,
                         action: #selector(togglePreferredWidth),
-                          isOn: bottomSheetViewController?.preferredWidth == 400),
-                DemoItem(title: "Should resizing view overlay content",
-                         type: .boolean,
-                         action: #selector(toggleResizingViewOverlayContent),
-                         isOn: bottomSheetViewController?.shouldResizingViewOverlayContent ?? false)
+                          isOn: bottomSheetViewController?.preferredWidth == 400)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
