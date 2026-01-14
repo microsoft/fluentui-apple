@@ -129,6 +129,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 #if DEBUG
                 bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
+                updateSheetContentOffset()
             }
         }
     }
@@ -296,14 +297,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
     @objc open var allowsSwipeToHide: Bool = false
 
-    /// Indicates whether the `resizingHandleView` should overlay the `headerContentHeight` or `expandedContentView`
+    /// Indicates whether the resizing handle should overlay the content.
     ///
     /// The default value is false.
-    @objc open var shouldResizingViewOverlayContent: Bool = false {
+    @objc open var shouldResizingHandleOverlayContent: Bool = false {
         didSet {
-            guard shouldResizingViewOverlayContent != oldValue && isViewLoaded else {
+            guard shouldResizingHandleOverlayContent != oldValue && isViewLoaded else {
                 return
             }
+            updateSheetContentOffset()
             view.setNeedsLayout()
         }
     }
@@ -702,13 +704,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         bottomSheetContentView.addSubview(stackView)
         bottomSheetContentView.addSubview(resizingHandleView)
 
+        let stackTopConstraint = stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor)
         NSLayoutConstraint.activate([
             resizingHandleView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
-            resizingHandleView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: shouldResizingViewOverlayContent ? currentResizingHandleHeight : 0.0),
+            stackTopConstraint,
             stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor),
         ])
+
+        sheetContentTopConstraint = stackTopConstraint
+        updateSheetContentOffset()
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
@@ -806,6 +812,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Expand".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Collapsed".localized
         }
+    }
+
+    private func updateSheetContentOffset() {
+        sheetContentTopConstraint?.constant = effectiveResizingHandleHeight
     }
 
     private func nextExpansionStateForResizingHandleTap(with currentExpansionState: BottomSheetExpansionState) -> BottomSheetExpansionState? {
@@ -1288,7 +1298,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if preferredExpandedContentHeight == 0 {
             height = maxSheetHeight
         } else {
-            let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
+            let idealHeight = effectiveResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
             height = min(maxSheetHeight, idealHeight)
         }
 
@@ -1303,9 +1313,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if let dynamicHeight = resolvedDynamicSheetHeights?.collapsedHeight, dynamicHeight > 0 {
             safeAreaSheetHeight = dynamicHeight
         } else if collapsedContentHeight > 0 {
-            safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
+            safeAreaSheetHeight = collapsedContentHeight + effectiveResizingHandleHeight
         } else {
-            safeAreaSheetHeight = headerContentHeight + currentResizingHandleHeight
+            safeAreaSheetHeight = headerContentHeight + effectiveResizingHandleHeight
         }
 
         let idealHeight = safeAreaSheetHeight + view.safeAreaInsets.bottom
@@ -1343,8 +1353,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Do not access directly. Use `resolvedDynamicSheetHeights` instead which wraps this cache.
     private var cachedResolvedDynamicSheetHeights: DynamicHeightResolutionResult?
 
-    private var currentResizingHandleHeight: CGFloat {
-        (isExpandable ? ResizingHandleView.height : 0.0)
+    // Effective height of the resizing handle for layout purposes.
+    // Accounts for:
+    // - when the sheet is not expandable (resizing handle doesn't show, so 0 height)
+    // - when the resizing handle overlaps content - effective height is also 0
+    private var effectiveResizingHandleHeight: CGFloat {
+        (isExpandable && !shouldResizingHandleOverlayContent ? ResizingHandleView.height : 0.0)
     }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
@@ -1378,6 +1392,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private let shouldShowDimmingView: Bool
 
     private let style: BottomSheetControllerStyle
+
+    private var sheetContentTopConstraint: NSLayoutConstraint?
 
     // Dynamic heights, resolved with the corresponding context.
     private typealias DynamicHeightResolutionResult = (context: ContentHeightResolutionContext, collapsedHeight: CGFloat?, partialHeight: CGFloat?)
