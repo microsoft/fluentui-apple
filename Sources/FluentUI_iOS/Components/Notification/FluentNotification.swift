@@ -20,6 +20,9 @@ import SwiftUI
     /// Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
     var attributedMessage: NSAttributedString? { get set }
 
+    /// Integer value that sets the maximum number of lines will show for a message
+    var messageLineLimit: Int { get set }
+
     /// Optional text to draw above the message area.
     var title: String? { get set }
 
@@ -60,6 +63,9 @@ import SwiftUI
 
     /// The callback to execute when the notification is dismissed.
     var onDismiss: (() -> Void)? { get set }
+
+    /// If the swipe to dismiss gesture is enabled for the notification
+    var swipeToDismissEnabled: Bool { get set }
 
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
@@ -111,6 +117,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 isFlexibleWidthToast: Bool = false,
                 message: String? = nil,
                 attributedMessage: NSAttributedString? = nil,
+                messageLineLimit: Int = 0,
                 isPresented: Binding<Bool>? = nil,
                 title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
@@ -123,6 +130,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 showActionButtonAndDismissButton: Bool = false,
                 defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
+                swipeToDismissEnabled: Bool = false,
                 showFromBottom: Bool = true,
                 verticalOffset: CGFloat = 0.0,
                 triggerModel: FluentNotificationTriggerModel = FluentNotificationTriggerModel(),
@@ -130,6 +138,7 @@ public struct FluentNotification: View, TokenizedControlView {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              attributedMessage: attributedMessage,
+                                             messageLineLimit: messageLineLimit,
                                              title: title,
                                              attributedTitle: attributedTitle,
                                              image: image,
@@ -141,6 +150,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                              defaultDismissButtonAction: defaultDismissButtonAction,
                                              messageButtonAction: messageButtonAction,
+                                             swipeToDismissEnabled: swipeToDismissEnabled,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
         state.onDismiss = onDismiss
@@ -208,7 +218,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 if hasSecondTextRow {
                     titleLabel
                 }
-                messageLabel
+                messageLabel.lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
             }
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
@@ -283,10 +293,9 @@ public struct FluentNotification: View, TokenizedControlView {
                     })
                     actionButton
 #if os(visionOS)
-                        .buttonStyle(.borderless)
+                    .buttonStyle(.borderless)
 #endif // os(visionOS)
-                        .layoutPriority(1)
-
+                    .layoutPriority(1)
                     if dismissButtonAction != nil {
                         Spacer()
                         dismissButton
@@ -352,6 +361,12 @@ public struct FluentNotification: View, TokenizedControlView {
                         messageAction()
                     }
                 }
+                .modifier(SwipeToDismiss(onDismiss: {
+                    isPresented = false
+                    if let dismissButtonAction = state.defaultDismissButtonAction {
+                        dismissButtonAction()
+                    }
+                }, enabled: state.swipeToDismissEnabled))
         }
 
         @ViewBuilder
@@ -395,10 +410,10 @@ public struct FluentNotification: View, TokenizedControlView {
         }
 
         return presentableNotification
-            .onDisappear {
-                state.onDismiss?()
-            }
-    }
+                .onDisappear {
+                    state.onDismiss?()
+                }
+	}
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
@@ -506,6 +521,7 @@ public struct FluentNotification: View, TokenizedControlView {
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var message: String?
     @Published var attributedMessage: NSAttributedString?
+    @Published var messageLineLimit: Int
     @Published var title: String?
     @Published var attributedTitle: NSAttributedString?
     @Published var image: UIImage?
@@ -518,6 +534,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
     @Published var onDismiss: (() -> Void)?
+    @Published var swipeToDismissEnabled: Bool
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -539,6 +556,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.init(style: style,
                   message: nil,
                   attributedMessage: nil,
+                  messageLineLimit: 0,
                   title: nil,
                   attributedTitle: nil,
                   image: nil,
@@ -549,6 +567,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   showDefaultDismissActionButton: nil,
                   showActionButtonAndDismissButton: false,
                   messageButtonAction: nil,
+                  swipeToDismissEnabled: false,
                   showFromBottom: true,
                   verticalOffset: 0.0)
     }
@@ -556,6 +575,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     init(style: MSFNotificationStyle,
          message: String? = nil,
          attributedMessage: NSAttributedString? = nil,
+         messageLineLimit: Int = 0,
          title: String? = nil,
          attributedTitle: NSAttributedString? = nil,
          image: UIImage? = nil,
@@ -567,11 +587,13 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          showActionButtonAndDismissButton: Bool = false,
          defaultDismissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
+         swipeToDismissEnabled: Bool = false,
          showFromBottom: Bool = true,
          verticalOffset: CGFloat) {
         self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
+        self.messageLineLimit = messageLineLimit
         self.title = title
         self.attributedTitle = attributedTitle
         self.image = image
@@ -583,9 +605,48 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
         self.showActionButtonAndDismissButton = showActionButtonAndDismissButton
+        self.swipeToDismissEnabled = swipeToDismissEnabled
         self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
 
         super.init()
+    }
+}
+
+struct SwipeToDismiss: ViewModifier {
+    @State private var horizontalOffset: CGFloat = 0
+    let onDismiss: () -> Void
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        content
+            .offset(x: horizontalOffset)
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                          guard value.translation.width < 0 else { return }
+                          if horizontalOffset == 0 {
+                              withAnimation(.interactiveSpring) {
+                                  horizontalOffset = value.translation.width
+                              }
+                          } else {
+                              horizontalOffset = value.translation.width
+                          }
+                    }
+                    .onEnded { _ in
+                        withAnimation(.interactiveSpring.speed(2)) {
+                            if horizontalOffset > -70 {
+                                horizontalOffset = 0
+                            } else {
+                                withAnimation(.interactiveSpring) {
+                                    horizontalOffset = -2000
+                                } completion: {
+                                    onDismiss()
+                                }
+                            }
+                        }
+                    },
+                isEnabled: enabled
+            )
     }
 }
