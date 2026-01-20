@@ -4,6 +4,7 @@
 //
 
 import FluentUI
+import Combine
 import SwiftUI
 
 class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDemoView> {
@@ -34,6 +35,7 @@ struct NotificationDemoView: View {
     @State var style: MSFNotificationStyle = .primaryToast
     @State var title: String = ""
     @State var message: String = "Mail Archived"
+    @State var messageLineLimit: Int = 0
     @State var actionButtonTitle: String = "Undo"
     @State var hasActionButtonAction: Bool = true
     @State var hasBlueStrikethroughAttribute: Bool = false
@@ -47,6 +49,7 @@ struct NotificationDemoView: View {
     @State var isFlexibleWidthToast: Bool = false
     @State var showDefaultDismissActionButton: Bool = true
     @State var showActionButtonAndDismissButton: Bool = false
+    @State var swipeToDismissEnabled: Bool = false
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
@@ -63,6 +66,14 @@ struct NotificationDemoView: View {
         ]
         return FluentTheme(colorOverrides: colorOverrides)
     }()
+    private let integerFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal // Handles thousands separators (e.g., 1,000)
+        formatter.allowsFloats = false // Rejects decimals (e.g., "12.3")
+        formatter.minimum = 0 // No negative numbers
+        return formatter
+    }()
+    @State var dismissTimer: DispatchWorkItem?
 
     public var body: some View {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
@@ -160,6 +171,7 @@ struct NotificationDemoView: View {
                                        isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                                        message: hasMessage ? message : nil,
                                        attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                       messageLineLimit: messageLineLimit,
                                        title: hasTitle ? title : nil,
                                        attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                        image: image,
@@ -171,6 +183,7 @@ struct NotificationDemoView: View {
                                        showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                        defaultDismissButtonAction: dismissButtonAction,
                                        messageButtonAction: messageButtonAction,
+                                       swipeToDismissEnabled: swipeToDismissEnabled,
                                        showFromBottom: showFromBottom)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
                     .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
@@ -182,10 +195,17 @@ struct NotificationDemoView: View {
 
             Button("Show Notification") {
                 if isPresented == false {
+//                    dismissTimer?.cancel()
+                    
                     isPresented = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        isPresented = false
-                    }
+                    
+//                    // Create new timer
+//                    let workItem = DispatchWorkItem { [self] in
+//                        isPresented = false
+//                    }
+//                    dismissTimer = workItem
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: workItem)
                 }
             }
             .buttonStyle(FluentButtonStyle(style: .accent))
@@ -211,6 +231,7 @@ struct NotificationDemoView: View {
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                messageButtonAction: messageButtonAction,
+                               swipeToDismissEnabled: swipeToDismissEnabled,
                                showFromBottom: showFromBottom,
                                verticalOffset: verticalOffset)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
@@ -243,6 +264,14 @@ struct NotificationDemoView: View {
                 }
 
                 LabeledContent {
+                    TextField("Line Limit", value: $messageLineLimit, formatter: integerFormatter)
+                                .padding()
+                                .keyboardType(.numberPad)
+                } label: {
+                    Text("Message Line Limit")
+                }
+
+                LabeledContent {
                     TextField("Action Button Title", text: $actionButtonTitle)
                         .autocapitalization(.none)
                         .disableAutocorrection(true)
@@ -270,6 +299,7 @@ struct NotificationDemoView: View {
                 Toggle("Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
                 Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
                 Toggle("Has Message Action", isOn: $hasMessageAction)
+                Toggle("Swipe to Dismiss Enabled", isOn: $swipeToDismissEnabled)
             }
 
             FluentListSection("Style") {
