@@ -257,8 +257,7 @@ struct NotificationDemoView: View {
 
                 LabeledContent {
                     TextField("Line Limit", value: $messageLineLimit, formatter: integerFormatter)
-                                .padding()
-                                .keyboardType(.numberPad)
+                        .keyboardType(.numberPad)
                 } label: {
                     Text("Message Line Limit")
                 }

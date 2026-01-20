@@ -93,7 +93,6 @@ class NotificationViewDemoController: DemoController {
             let notification = MSFNotification(style: .primaryToast)
             notification.state.message = "Mail Archived"
             notification.state.actionButtonTitle = "Undo"
-            notification.state.swipeToDismissEnabled = true
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Undo` tapped")
                 notification.hide()

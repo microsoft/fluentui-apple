@@ -396,7 +396,7 @@ public struct FluentNotification: View, TokenizedControlView {
         var presentableNotificationWithSwipeToDismiss: some View {
             if state.swipeToDismissEnabled {
                 presentableNotification
-                    .swipeToDismiss($isPresented, horizontalOffset: $horizontalOffset, onDismiss: {
+                    .swipeToDismiss(horizontalOffset: $horizontalOffset, onDismiss: {
                         isPresented = false
                         if let dismissButtonAction = state.defaultDismissButtonAction {
                             dismissButtonAction()
@@ -571,7 +571,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   messageButtonAction: nil,
                   swipeToDismissEnabled: false,
                   showFromBottom: true,
-                  verticalOffset: 0.0,)
+                  verticalOffset: 0.0)
     }
 
     init(style: MSFNotificationStyle,
@@ -623,7 +623,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
 
 
 struct SwipeToDismiss: ViewModifier {
-	@Binding var isPresented: Bool
     @Binding var horizontalOffset: CGFloat
 	let onDismiss: () -> Void
 	
@@ -631,34 +630,36 @@ struct SwipeToDismiss: ViewModifier {
 		content
             .offset(x: horizontalOffset)
             .gesture(
-                        DragGesture()
-                            .onChanged { value in
-                                  guard value.translation.width < 0 else { return }
-                                  if horizontalOffset == 0 {
-                                      withAnimation(.interactiveSpring.speed(2)) { horizontalOffset = value.translation.width }
-                                  } else { horizontalOffset = value.translation.width }
-                            }
-                            .onEnded { _ in
-                                withAnimation(.interactiveSpring.speed(2)) {
-                                    if horizontalOffset > -70 {
-                                        horizontalOffset = 0  // Snap back 🏠
-                                    } else {
-                                        // Animate off-screen, then call close() ✂️
-                                        withAnimation(.interactiveSpring.speed(1)) {
-                                            horizontalOffset = -400
-                                        } completion: {
-                                            onDismiss()
-                                        }
-                                    }
+                DragGesture()
+                    .onChanged { value in
+                          guard value.translation.width < 0 else { return }
+                          if horizontalOffset == 0 {
+                              withAnimation(.interactiveSpring) {
+                                  horizontalOffset = value.translation.width
+                              }
+                          } else {
+                              horizontalOffset = value.translation.width
+                          }
+                    }
+                    .onEnded { _ in
+                        withAnimation(.interactiveSpring.speed(2)) {
+                            if horizontalOffset > -70 {
+                                horizontalOffset = 0
+                            } else {
+                                withAnimation(.interactiveSpring) {
+                                    horizontalOffset = -2000
+                                } completion: {
+                                    onDismiss()
                                 }
-                            },
-                        isEnabled: true
-                    )
+                            }
+                        }
+                    }
+            )
     }
 }
 
 extension View {
-    func swipeToDismiss(_ isPresented: Binding<Bool>, horizontalOffset: Binding<CGFloat>, onDismiss: @escaping () -> Void) -> some View {
-		modifier(SwipeToDismiss(isPresented: isPresented, horizontalOffset: horizontalOffset, onDismiss: onDismiss))
+    func swipeToDismiss(horizontalOffset: Binding<CGFloat>, onDismiss: @escaping () -> Void) -> some View {
+		modifier(SwipeToDismiss(horizontalOffset: horizontalOffset, onDismiss: onDismiss))
 	}
 }
