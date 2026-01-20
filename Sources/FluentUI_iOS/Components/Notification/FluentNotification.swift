@@ -175,7 +175,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
             }
         }
-        
+
         @ViewBuilder
         var titleLabel: some View {
             if state.style.isToast && hasSecondTextRow {
@@ -188,7 +188,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
             }
         }
-        
+
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
@@ -199,7 +199,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     .font(.init(tokenSet[.regularTextFont].uiFont))
             }
         }
-        
+
         @ViewBuilder
         var textContainer: some View {
             VStack(alignment: .leading) {
@@ -210,7 +210,7 @@ public struct FluentNotification: View, TokenizedControlView {
             }
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
-        
+
         /// The `actionButton` will be shown iff a `state.actionButtonAction` is set and there is a custom title or trailing image.
         /// If the `state.actionButtonAction` is set but there is no custom title or trailing image, the action will be attached to
         /// the `dismissButton`.
@@ -237,7 +237,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
             }
         }
-        
+
         @ViewBuilder
         var dismissButton: some View {
             if let dismissAction = dismissButtonAction {
@@ -253,7 +253,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 }
             }
         }
-        
+
         let messageButtonAction = state.messageButtonAction
         @ViewBuilder
         var innerContents: some View {
@@ -302,7 +302,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 .clipped()
             }
         }
-        
+
         @ViewBuilder
         var backgroundFill: some View {
             if let backgroundGradient = state.backgroundGradient {
@@ -317,7 +317,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 tokenSet[.backgroundColor].color
             }
         }
-        
+
         @ViewBuilder
         var notification: some View {
             let shadowInfo = tokenSet[.shadow].shadowInfo
@@ -351,7 +351,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     }
                 }
         }
-        
+
         @ViewBuilder
         var presentableNotification: some View {
             if !shouldSelfPresent {
@@ -366,7 +366,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
                     }()
                     let showFromBottom = state.showFromBottom
-                    
+
                     notification
                         .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
                                maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
