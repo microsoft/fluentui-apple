@@ -620,7 +620,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     }
 }
 
-
 struct SwipeToDismiss: ViewModifier {
     @Binding var horizontalOffset: CGFloat
 	let onDismiss: () -> Void
