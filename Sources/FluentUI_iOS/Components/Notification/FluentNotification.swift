@@ -280,18 +280,17 @@ public struct FluentNotification: View, TokenizedControlView {
                             .hoverEffect()
                     })
                     actionButton
-    #if os(visionOS)
-                        .buttonStyle(.borderless)
-    #endif // os(visionOS)
-                        .layoutPriority(1)
-                    
+#if os(visionOS)
+                    .buttonStyle(.borderless)
+#endif // os(visionOS)
+                    .layoutPriority(1)
                     if dismissButtonAction != nil {
                         Spacer()
                         dismissButton
-    #if os(visionOS)
-                            .buttonStyle(.borderless)
-    #endif // os(visionOS)
-                            .layoutPriority(1)
+#if os(visionOS)
+                        .buttonStyle(.borderless)
+#endif // os(visionOS)
+                        .layoutPriority(1)
                     }
                 }
                 .onSizeChange { newSize in
@@ -334,9 +333,9 @@ public struct FluentNotification: View, TokenizedControlView {
                         )
                         .applyFluentShadow(shadowInfo: shadowInfo)
                 )
-    #if os(visionOS)
+#if os(visionOS)
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
-    #endif // os(visionOS)
+#endif // os(visionOS)
                 .offset(y: -bumpVerticalOffset)
                 .onChange(of: state.shouldPerformBump) { _, shouldBump in
                     if shouldBump {
