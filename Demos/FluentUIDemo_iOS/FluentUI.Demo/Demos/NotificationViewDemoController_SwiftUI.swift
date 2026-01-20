@@ -4,7 +4,6 @@
 //
 
 import FluentUI
-import Combine
 import SwiftUI
 
 class NotificationViewDemoControllerSwiftUI: UIHostingController<NotificationDemoView> {
@@ -212,6 +211,7 @@ struct NotificationDemoView: View {
                                isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                                message: hasMessage ? message : nil,
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                               messageLineLimit: messageLineLimit,
                                isPresented: $isPresented,
                                title: hasTitle ? title : nil,
                                attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
