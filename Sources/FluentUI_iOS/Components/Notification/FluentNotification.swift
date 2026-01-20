@@ -160,237 +160,237 @@ public struct FluentNotification: View, TokenizedControlView {
         }
     }
 
-	public var body: some View {
-		tokenSet.update(fluentTheme)
-		@ViewBuilder
-		var image: some View {
-			if state.style.isToast {
-				if let image = state.image {
-					let imageSize = image.size
-					Image(uiImage: image.renderingMode == .automatic ? image.withRenderingMode(.alwaysTemplate) : image)
-						.frame(width: imageSize.width,
-							   height: imageSize.height,
-							   alignment: .center)
-						.foregroundColor(tokenSet[.imageColor].color)
-				}
-			}
-		}
-		
-		@ViewBuilder
-		var titleLabel: some View {
-			if state.style.isToast && hasSecondTextRow {
-				if let attributedTitle = state.attributedTitle {
-					Text(AttributedString(attributedTitle))
-						.fixedSize(horizontal: false, vertical: true)
-				} else if let title = state.title {
-					Text(title)
-						.font(.init(tokenSet[.boldTextFont].uiFont))
-				}
-			}
-		}
-		
-		@ViewBuilder
-		var messageLabel: some View {
-			if let attributedMessage = state.attributedMessage {
-				Text(AttributedString(attributedMessage))
-					.fixedSize(horizontal: false, vertical: true)
-			} else if let message = state.message {
-				Text(message)
-					.font(.init(tokenSet[.regularTextFont].uiFont))
-			}
-		}
-		
-		@ViewBuilder
-		var textContainer: some View {
-			VStack(alignment: .leading) {
-				if hasSecondTextRow {
-					titleLabel
-				}
+    public var body: some View {
+        tokenSet.update(fluentTheme)
+        @ViewBuilder
+        var image: some View {
+            if state.style.isToast {
+                if let image = state.image {
+                    let imageSize = image.size
+                    Image(uiImage: image.renderingMode == .automatic ? image.withRenderingMode(.alwaysTemplate) : image)
+                        .frame(width: imageSize.width,
+                               height: imageSize.height,
+                               alignment: .center)
+                        .foregroundColor(tokenSet[.imageColor].color)
+                }
+            }
+        }
+        
+        @ViewBuilder
+        var titleLabel: some View {
+            if state.style.isToast && hasSecondTextRow {
+                if let attributedTitle = state.attributedTitle {
+                    Text(AttributedString(attributedTitle))
+                        .fixedSize(horizontal: false, vertical: true)
+                } else if let title = state.title {
+                    Text(title)
+                        .font(.init(tokenSet[.boldTextFont].uiFont))
+                }
+            }
+        }
+        
+        @ViewBuilder
+        var messageLabel: some View {
+            if let attributedMessage = state.attributedMessage {
+                Text(AttributedString(attributedMessage))
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if let message = state.message {
+                Text(message)
+                    .font(.init(tokenSet[.regularTextFont].uiFont))
+            }
+        }
+        
+        @ViewBuilder
+        var textContainer: some View {
+            VStack(alignment: .leading) {
+                if hasSecondTextRow {
+                    titleLabel
+                }
                 messageLabel.lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
-			}
-			.padding(.vertical, NotificationTokenSet.verticalPadding)
-		}
-		
-		/// The `actionButton` will be shown iff a `state.actionButtonAction` is set and there is a custom title or trailing image.
-		/// If the `state.actionButtonAction` is set but there is no custom title or trailing image, the action will be attached to
-		/// the `dismissButton`.
-		@ViewBuilder
-		var actionButton: some View {
-			if let buttonAction = state.actionButtonAction {
-				if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
-					SwiftUI.Button(actionTitle) {
-						isPresented = false
-						buttonAction()
-					}
-					.lineLimit(1)
-					.font(.init(tokenSet[.boldTextFont].uiFont))
-					.hoverEffect()
-				} else if let trailingImage = state.trailingImage {
-					SwiftUI.Button(action: {
-						isPresented = false
-						buttonAction()
-					}, label: {
-						Image(uiImage: trailingImage)
-							.accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
-					})
-					.hoverEffect()
-				}
-			}
-		}
-		
-		@ViewBuilder
-		var dismissButton: some View {
-			if let dismissAction = dismissButtonAction {
-				HStack {
-					SwiftUI.Button(action: {
-						isPresented = false
-						dismissAction()
-					}, label: {
-						Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
-							.accessibilityLabel("Accessibility.Dismiss.Label".localized)
-					})
-					.hoverEffect()
-				}
-			}
-		}
-		
-		let messageButtonAction = state.messageButtonAction
-		@ViewBuilder
-		var innerContents: some View {
-			if hasCenteredText {
-				HStack {
-					Spacer()
-					textContainer
-					Spacer()
-				}
-				.frame(minHeight: tokenSet[.minimumHeight].float)
-			} else {
-				let horizontalSpacing = tokenSet[.horizontalSpacing].float
-				HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
-					HStack(spacing: horizontalSpacing) {
-						image
-						textContainer
-						if !isFlexibleWidthToast {
-							Spacer(minLength: 0)
-						}
-					}
-					.accessibilityElement(children: .combine)
-					.modifyIf(messageButtonAction != nil, { messageButton in
-						messageButton.accessibilityAddTraits(.isButton)
-							.hoverEffect()
-					})
-					actionButton
-#if os(visionOS)
-						.buttonStyle(.borderless)
-#endif // os(visionOS)
-						.layoutPriority(1)
-					
-					if dismissButtonAction != nil {
-						Spacer()
-						dismissButton
-#if os(visionOS)
-							.buttonStyle(.borderless)
-#endif // os(visionOS)
-							.layoutPriority(1)
-					}
-				}
-				.onSizeChange { newSize in
-					innerContentsSize = newSize
-				}
-				.frame(minHeight: tokenSet[.minimumHeight].float)
-				.padding(.horizontal, NotificationTokenSet.horizontalPadding)
-				.clipped()
-			}
-		}
-		
-		@ViewBuilder
-		var backgroundFill: some View {
-			if let backgroundGradient = state.backgroundGradient {
-				GeometryReader { g in
-					// The gradient needs to be rendered square, then scaled to fit the containing view.
-					// Otherwise SwiftUI will crop the gradient view, which is not what we want!
-					LinearGradient(gradientInfo: backgroundGradient)
-						.frame(width: g.size.width, height: g.size.width)
-						.scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
-				}
-			} else {
-				tokenSet[.backgroundColor].color
-			}
-		}
-		
-		@ViewBuilder
-		var notification: some View {
-			let shadowInfo = tokenSet[.shadow].shadowInfo
-			innerContents
-				.foregroundStyle(tokenSet[.foregroundColor].color)
-				.background(
-					RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
-						.border(width: tokenSet[.outlineWidth].float,
-								edges: state.showFromBottom ? [.top] : [.bottom],
-								color: tokenSet[.outlineColor].color).foregroundColor(.clear)
-						.background(
-							backgroundFill
-								.clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
-						)
-						.applyFluentShadow(shadowInfo: shadowInfo)
-				)
-#if os(visionOS)
-				.glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
-#endif // os(visionOS)
-				.offset(y: -bumpVerticalOffset)
-				.onChange(of: state.shouldPerformBump) { _, shouldBump in
-					if shouldBump {
-						state.shouldPerformBump = false
-						performBumpAnimated()
-					}
-				}
-				.onTapGesture {
-					if let messageAction = messageButtonAction {
-						isPresented = false
-						messageAction()
-					}
-				}
-		}
-		
-		@ViewBuilder
-		var presentableNotification: some View {
-			if !shouldSelfPresent {
-				notification
-			} else {
-				GeometryReader { proxy in
-					let proposedSize = proxy.size
-					let proposedWidth = proposedSize.width
-					let horizontalPadding = 2 * tokenSet[.presentationOffset].float
-					let calculatedNotificationWidth: CGFloat = {
-						let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
-						return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
-					}()
-					let showFromBottom = state.showFromBottom
-					
-					notification
-						.frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
-							   maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
-						.onChange(of: isPresented) { _, newPresent in
-							if newPresent {
-								presentAnimated()
-							} else {
-								dismissAnimated()
-							}
-						}
-						.padding(.bottom, tokenSet[.bottomPresentationPadding].float)
-						.onSizeChange { newSize in
-							bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yKey / 2)
-							// Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
-							if !isPresented {
-								bottomOffset = bottomOffsetForDismissedState
-							}
-						}
-						.offset(y: showFromBottom ? bottomOffset : -bottomOffset)
-						.frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
-						.opacity(opacity)
-				}
-			}
-		}
+            }
+            .padding(.vertical, NotificationTokenSet.verticalPadding)
+        }
+        
+        /// The `actionButton` will be shown iff a `state.actionButtonAction` is set and there is a custom title or trailing image.
+        /// If the `state.actionButtonAction` is set but there is no custom title or trailing image, the action will be attached to
+        /// the `dismissButton`.
+        @ViewBuilder
+        var actionButton: some View {
+            if let buttonAction = state.actionButtonAction {
+                if let actionTitle = state.actionButtonTitle, !actionTitle.isEmpty {
+                    SwiftUI.Button(actionTitle) {
+                        isPresented = false
+                        buttonAction()
+                    }
+                    .lineLimit(1)
+                    .font(.init(tokenSet[.boldTextFont].uiFont))
+                    .hoverEffect()
+                } else if let trailingImage = state.trailingImage {
+                    SwiftUI.Button(action: {
+                        isPresented = false
+                        buttonAction()
+                    }, label: {
+                        Image(uiImage: trailingImage)
+                            .accessibilityLabel(state.trailingImageAccessibilityLabel ?? "")
+                    })
+                    .hoverEffect()
+                }
+            }
+        }
+        
+        @ViewBuilder
+        var dismissButton: some View {
+            if let dismissAction = dismissButtonAction {
+                HStack {
+                    SwiftUI.Button(action: {
+                        isPresented = false
+                        dismissAction()
+                    }, label: {
+                        Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                            .accessibilityLabel("Accessibility.Dismiss.Label".localized)
+                    })
+                    .hoverEffect()
+                }
+            }
+        }
+        
+        let messageButtonAction = state.messageButtonAction
+        @ViewBuilder
+        var innerContents: some View {
+            if hasCenteredText {
+                HStack {
+                    Spacer()
+                    textContainer
+                    Spacer()
+                }
+                .frame(minHeight: tokenSet[.minimumHeight].float)
+            } else {
+                let horizontalSpacing = tokenSet[.horizontalSpacing].float
+                HStack(spacing: isFlexibleWidthToast ? horizontalSpacing : 0) {
+                    HStack(spacing: horizontalSpacing) {
+                        image
+                        textContainer
+                        if !isFlexibleWidthToast {
+                            Spacer(minLength: 0)
+                        }
+                    }
+                    .accessibilityElement(children: .combine)
+                    .modifyIf(messageButtonAction != nil, { messageButton in
+                        messageButton.accessibilityAddTraits(.isButton)
+                            .hoverEffect()
+                    })
+                    actionButton
+    #if os(visionOS)
+                        .buttonStyle(.borderless)
+    #endif // os(visionOS)
+                        .layoutPriority(1)
+                    
+                    if dismissButtonAction != nil {
+                        Spacer()
+                        dismissButton
+    #if os(visionOS)
+                            .buttonStyle(.borderless)
+    #endif // os(visionOS)
+                            .layoutPriority(1)
+                    }
+                }
+                .onSizeChange { newSize in
+                    innerContentsSize = newSize
+                }
+                .frame(minHeight: tokenSet[.minimumHeight].float)
+                .padding(.horizontal, NotificationTokenSet.horizontalPadding)
+                .clipped()
+            }
+        }
+        
+        @ViewBuilder
+        var backgroundFill: some View {
+            if let backgroundGradient = state.backgroundGradient {
+                GeometryReader { g in
+                    // The gradient needs to be rendered square, then scaled to fit the containing view.
+                    // Otherwise SwiftUI will crop the gradient view, which is not what we want!
+                    LinearGradient(gradientInfo: backgroundGradient)
+                        .frame(width: g.size.width, height: g.size.width)
+                        .scaleEffect(x: 1.0, y: g.size.height / g.size.width, anchor: .top)
+                }
+            } else {
+                tokenSet[.backgroundColor].color
+            }
+        }
+        
+        @ViewBuilder
+        var notification: some View {
+            let shadowInfo = tokenSet[.shadow].shadowInfo
+            innerContents
+                .foregroundStyle(tokenSet[.foregroundColor].color)
+                .background(
+                    RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float)
+                        .border(width: tokenSet[.outlineWidth].float,
+                                edges: state.showFromBottom ? [.top] : [.bottom],
+                                color: tokenSet[.outlineColor].color).foregroundColor(.clear)
+                        .background(
+                            backgroundFill
+                                .clipShape(RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
+                        )
+                        .applyFluentShadow(shadowInfo: shadowInfo)
+                )
+    #if os(visionOS)
+                .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
+    #endif // os(visionOS)
+                .offset(y: -bumpVerticalOffset)
+                .onChange(of: state.shouldPerformBump) { _, shouldBump in
+                    if shouldBump {
+                        state.shouldPerformBump = false
+                        performBumpAnimated()
+                    }
+                }
+                .onTapGesture {
+                    if let messageAction = messageButtonAction {
+                        isPresented = false
+                        messageAction()
+                    }
+                }
+        }
+        
+        @ViewBuilder
+        var presentableNotification: some View {
+            if !shouldSelfPresent {
+                notification
+            } else {
+                GeometryReader { proxy in
+                    let proposedSize = proxy.size
+                    let proposedWidth = proposedSize.width
+                    let horizontalPadding = 2 * tokenSet[.presentationOffset].float
+                    let calculatedNotificationWidth: CGFloat = {
+                        let isHalfLength = state.style.isToast && horizontalSizeClass == .regular
+                        return isHalfLength ? proposedWidth / 2 : proposedWidth - horizontalPadding
+                    }()
+                    let showFromBottom = state.showFromBottom
+                    
+                    notification
+                        .frame(idealWidth: isFlexibleWidthToast ? innerContentsSize.width - horizontalPadding : calculatedNotificationWidth,
+                               maxWidth: isFlexibleWidthToast ? proposedWidth : calculatedNotificationWidth, alignment: .center)
+                        .onChange(of: isPresented) { _, newPresent in
+                            if newPresent {
+                                presentAnimated()
+                            } else {
+                                dismissAnimated()
+                            }
+                        }
+                        .padding(.bottom, tokenSet[.bottomPresentationPadding].float)
+                        .onSizeChange { newSize in
+                            bottomOffsetForDismissedState = newSize.height + (tokenSet[.shadow].shadowInfo.yKey / 2)
+                            // Bottom offset is only updated when the notification isn't presented to account for the new notification height (if presented, offset doesn't need to be updated since it grows upward vertically)
+                            if !isPresented {
+                                bottomOffset = bottomOffsetForDismissedState
+                            }
+                        }
+                        .offset(y: showFromBottom ? bottomOffset : -bottomOffset)
+                        .frame(width: proposedWidth, height: proposedSize.height, alignment: showFromBottom ? .bottom : .top)
+                        .opacity(opacity)
+                }
+            }
+        }
 
         @ViewBuilder
         var presentableNotificationWithSwipeToDismiss: some View {
