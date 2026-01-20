@@ -281,10 +281,10 @@ class NotificationViewDemoController: DemoController {
 
         let notification = createNotificationView(forVariant: variant)
         notification.tokenSet.replaceAllOverrides(with: overrideTokens)
-        notification.show(in: view) { _ in
-//            $0.hide(after: 3.0) {
-//                self?.currentNotification = nil
-//            }
+        notification.show(in: view) { [weak self] in
+            $0.hide(after: 3.0) {
+                self?.currentNotification = nil
+            }
         }
         currentNotification = notification
     }

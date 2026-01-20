@@ -73,7 +73,6 @@ struct NotificationDemoView: View {
         formatter.minimum = 0 // No negative numbers
         return formatter
     }()
-    @State var dismissTimer: DispatchWorkItem?
 
     public var body: some View {
         let font = UIFont(descriptor: .init(name: "Papyrus", size: 30.0), size: 30.0)
@@ -195,17 +194,10 @@ struct NotificationDemoView: View {
 
             Button("Show Notification") {
                 if isPresented == false {
-//                    dismissTimer?.cancel()
-                    
                     isPresented = true
-                    
-//                    // Create new timer
-//                    let workItem = DispatchWorkItem { [self] in
-//                        isPresented = false
-//                    }
-//                    dismissTimer = workItem
-//                    
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: workItem)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        isPresented = false
+                    }
                 }
             }
             .buttonStyle(FluentButtonStyle(style: .accent))
