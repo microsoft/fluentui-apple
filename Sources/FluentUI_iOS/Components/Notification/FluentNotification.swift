@@ -349,6 +349,12 @@ public struct FluentNotification: View, TokenizedControlView {
                         messageAction()
                     }
                 }
+                .modifier(SwipeToDismiss(onDismiss: {
+                    isPresented = false
+                    if let dismissButtonAction = state.defaultDismissButtonAction {
+                        dismissButtonAction()
+                    }
+                }, enabled: state.swipeToDismissEnabled))
         }
 
         @ViewBuilder
@@ -391,25 +397,10 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
-        @ViewBuilder
-        var presentableNotificationWithSwipeToDismiss: some View {
-            if state.swipeToDismissEnabled {
-                presentableNotification
-                    .swipeToDismiss(horizontalOffset: $horizontalOffset, onDismiss: {
-                        isPresented = false
-                        if let dismissButtonAction = state.defaultDismissButtonAction {
-                            dismissButtonAction()
-                        }
-                    })
-            } else {
-                presentableNotification
-            }
-        }
-
-		return presentableNotificationWithSwipeToDismiss
-			.onDisappear {
-				state.onDismiss?()
-			}
+        return presentableNotification
+                .onDisappear {
+                    state.onDismiss?()
+                }
 	}
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
@@ -462,7 +453,6 @@ public struct FluentNotification: View, TokenizedControlView {
     }
 
     private func presentAnimated() {
-        horizontalOffset = 0
         withAnimation(.spring(response: state.style.animationDurationForShow / 2.0,
                               dampingFraction: state.style.animationDampingRatio,
                               blendDuration: 0)) {
@@ -496,7 +486,6 @@ public struct FluentNotification: View, TokenizedControlView {
     @Binding private var isPresented: Bool
     @State private var bottomOffsetForDismissedState: CGFloat = 0
     @State private var bottomOffset: CGFloat = 0
-    @State private var horizontalOffset: CGFloat = 0
     @State private var innerContentsSize: CGSize = CGSize()
     @State private var attributedMessageSize: CGSize = CGSize()
     @State private var attributedTitleSize: CGSize = CGSize()
@@ -621,11 +610,12 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
 }
 
 struct SwipeToDismiss: ViewModifier {
-    @Binding var horizontalOffset: CGFloat
-	let onDismiss: () -> Void
-	
-	func body(content: Content) -> some View {
-		content
+    @State private var horizontalOffset: CGFloat = 0
+    let onDismiss: () -> Void
+    let enabled: Bool
+
+    func body(content: Content) -> some View {
+        content
             .offset(x: horizontalOffset)
             .gesture(
                 DragGesture()
@@ -651,13 +641,8 @@ struct SwipeToDismiss: ViewModifier {
                                 }
                             }
                         }
-                    }
+                    },
+                isEnabled: enabled
             )
     }
-}
-
-extension View {
-    func swipeToDismiss(horizontalOffset: Binding<CGFloat>, onDismiss: @escaping () -> Void) -> some View {
-		modifier(SwipeToDismiss(horizontalOffset: horizontalOffset, onDismiss: onDismiss))
-	}
 }
