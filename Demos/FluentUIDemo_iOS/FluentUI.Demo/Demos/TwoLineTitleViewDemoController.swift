@@ -107,7 +107,11 @@ class TwoLineTitleViewDemoController: DemoController {
         makeExampleNavigationItem {
             $0.title = "Centered Title"
             $0.fluentConfiguration.titleStyle = .system
-            $0.fluentConfiguration.subtitle = "Custom icon"
+            if #available(iOS 26.0, *) {
+                $0.subtitle = "Custom icon"
+            } else {
+                $0.fluentConfiguration.subtitle = "Custom icon"
+            }
             $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
             $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.fluentConfiguration.titleAccessory = .init(location: .subtitle, style: .custom)
@@ -116,7 +120,11 @@ class TwoLineTitleViewDemoController: DemoController {
         makeExampleNavigationItem {
             $0.title = "Leading Title"
             $0.fluentConfiguration.titleStyle = .leading
-            $0.fluentConfiguration.subtitle = "Subtitle"
+            if #available(iOS 26.0, *) {
+                $0.subtitle = "Subtitle"
+            } else {
+                $0.fluentConfiguration.subtitle = "Subtitle"
+            }
             $0.fluentConfiguration.titleImage = UIImage(named: "ic_fluent_star_24_regular")
             $0.fluentConfiguration.customSubtitleTrailingImage = UIImage(named: "ic_fluent_star_16_regular")
             $0.fluentConfiguration.titleAccessory = .init(location: .title, style: .downArrow)
