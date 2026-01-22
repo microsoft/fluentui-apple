@@ -107,7 +107,7 @@ class TwoLineTitleViewDemoController: DemoController {
         makeExampleNavigationItem {
             $0.title = "Centered Title"
             $0.fluentConfiguration.titleStyle = .system
-            if #available(iOS 26.0, *) {
+            if #available(iOS 26.0, macCatalyst 26, *) {
                 $0.subtitle = "Custom icon"
             } else {
                 $0.fluentConfiguration.subtitle = "Custom icon"
@@ -120,7 +120,7 @@ class TwoLineTitleViewDemoController: DemoController {
         makeExampleNavigationItem {
             $0.title = "Leading Title"
             $0.fluentConfiguration.titleStyle = .leading
-            if #available(iOS 26.0, *) {
+            if #available(iOS 26.0, macCatalyst 26, *) {
                 $0.subtitle = "Subtitle"
             } else {
                 $0.fluentConfiguration.subtitle = "Subtitle"
