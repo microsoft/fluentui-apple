@@ -39,6 +39,10 @@ import UIKit
         if notification.state.defaultDismissButtonAction == nil {
             notification.state.defaultDismissButtonAction = defaultDismissAction
         }
+
+        tokenSet.registerOnUpdate(for: self) { [weak self] in
+            self?.updateBottomPresentationPadding()
+        }
     }
 
     required public init?(coder: NSCoder) {
@@ -91,11 +95,15 @@ import UIKit
             view.addSubview(self)
         }
 
+        let constraintWhenHidden: NSLayoutConstraint
+        let constraintWhenShown: NSLayoutConstraint
         let anchor: NSLayoutYAxisAnchor
         if state.showFromBottom {
             anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
             constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
-            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
+            let bottomPresentationPadding = notification.tokenSet[.bottomPresentationPadding].float
+            let bottomPadding = presentationOffset + bottomPresentationPadding
+            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -(bottomPadding))
         } else {
             anchor = anchorView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
             constraintWhenHidden = self.bottomAnchor.constraint(equalTo: anchor)
@@ -105,6 +113,9 @@ import UIKit
         var constraints = [NSLayoutConstraint]()
         constraints.append(animated ? constraintWhenHidden : constraintWhenShown)
         constraints.append(self.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+
+        self.constraintWhenShown = constraintWhenShown
+        self.constraintWhenHidden = constraintWhenHidden
 
         let horizontalPadding = -2 * notification.tokenSet[.presentationOffset].float
         let widthAnchor = self.widthAnchor
@@ -138,8 +149,8 @@ import UIKit
                            usingSpringWithDamping: style.animationDampingRatio,
                            initialSpringVelocity: 0,
                            animations: {
-                self.constraintWhenHidden.isActive = false
-                self.constraintWhenShown.isActive = true
+                self.constraintWhenHidden?.isActive = false
+                self.constraintWhenShown?.isActive = true
                 self.alpha = 1
                 view.layoutIfNeeded()
             }, completion: completionForShow)
@@ -186,8 +197,8 @@ import UIKit
             if !isHiding {
                 isHiding = true
                 UIView.animate(withDuration: notification.state.style.animationDurationForHide, animations: {
-                    self.constraintWhenShown.isActive = false
-                    self.constraintWhenHidden.isActive = true
+                    self.constraintWhenShown?.isActive = false
+                    self.constraintWhenHidden?.isActive = true
                     self.alpha = 0
                     self.superview?.layoutIfNeeded()
                 }, completion: { _ in
@@ -211,6 +222,14 @@ import UIKit
         }
     }
 
+    private func updateBottomPresentationPadding() {
+        if let constraintWhenShown, constraintWhenShown.isActive && state.showFromBottom {
+            let presentationOffset = notification.tokenSet[.presentationOffset].float
+            let bottomPresentationPadding = notification.tokenSet[.bottomPresentationPadding].float
+            constraintWhenShown.constant = -(presentationOffset + bottomPresentationPadding)
+        }
+    }
+
     // MARK: - Private variables
     private static var currentToast: MSFNotification? {
         didSet {
@@ -221,8 +240,8 @@ import UIKit
     }
 
     private var completionsForHide: [() -> Void] = []
-    private var constraintWhenHidden: NSLayoutConstraint!
-    private var constraintWhenShown: NSLayoutConstraint!
+    private var constraintWhenHidden: NSLayoutConstraint?
+    private var constraintWhenShown: NSLayoutConstraint?
     private var notification: FluentNotification!
     private var isHiding: Bool = false
 }
