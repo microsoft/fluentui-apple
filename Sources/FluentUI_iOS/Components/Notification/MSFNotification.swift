@@ -103,7 +103,7 @@ import UIKit
             constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
             let bottomPresentationPadding = notification.tokenSet[.bottomPresentationPadding].float
             let bottomPadding = presentationOffset + bottomPresentationPadding
-            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -(bottomPadding))
+            constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -bottomPadding)
         } else {
             anchor = anchorView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
             constraintWhenHidden = self.bottomAnchor.constraint(equalTo: anchor)
