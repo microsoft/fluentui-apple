@@ -406,8 +406,8 @@
 				3A83F9082953BB1B00EF6629 /* TableViewCellShimmerTest.swift */,
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
 				EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */,
-				94F99E752F22D39800E4C4B0 /* TwoLineTitleViewTest.swift */,
 				3A83F90C2953BB3500EF6629 /* TooltipTest.swift */,
+				94F99E752F22D39800E4C4B0 /* TwoLineTitleViewTest.swift */,
 				3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */,
 			);
 			path = FluentUIDemoTests;
