@@ -99,6 +99,7 @@
 		92E977B726C7144F008E10A8 /* UIResponder+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */; };
 		92E977B826C7144F008E10A8 /* DemoControllerScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */; };
 		92EFD3E42BDA28F100DB35F2 /* TooltipDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92EFD3E32BDA28F100DB35F2 /* TooltipDemoController_SwiftUI.swift */; };
+		94F99E762F22D39800E4C4B0 /* TwoLineTitleViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F99E752F22D39800E4C4B0 /* TwoLineTitleViewTest.swift */; };
 		A589F856211BA71000471C23 /* LabelDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A589F855211BA71000471C23 /* LabelDemoController.swift */; };
 		A591A3F420F429EB001ED23B /* Demos.swift in Sources */ = {isa = PBXBuildFile; fileRef = A591A3F320F429EB001ED23B /* Demos.swift */; };
 		A5CEC21020E436F10016922A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CEC20F20E436F10016922A /* AppDelegate.swift */; };
@@ -240,6 +241,7 @@
 		92E977B426C713F3008E10A8 /* DemoControllerScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControllerScrollView.swift; sourceTree = "<group>"; };
 		92E977B526C713F3008E10A8 /* UIResponder+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Extensions.swift"; sourceTree = "<group>"; };
 		92EFD3E32BDA28F100DB35F2 /* TooltipDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TooltipDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		94F99E752F22D39800E4C4B0 /* TwoLineTitleViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTitleViewTest.swift; sourceTree = "<group>"; };
 		A589F855211BA71000471C23 /* LabelDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDemoController.swift; sourceTree = "<group>"; };
 		A591A3F320F429EB001ED23B /* Demos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Demos.swift; sourceTree = "<group>"; };
 		A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMenuDemoController.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				3A83F90A2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift */,
 				EC0A83E3299ED3630010ED3E /* TextFieldTest.swift */,
 				3A83F90C2953BB3500EF6629 /* TooltipTest.swift */,
+				94F99E752F22D39800E4C4B0 /* TwoLineTitleViewTest.swift */,
 				3A83F90E2953BB4000EF6629 /* TypographyTokensTest.swift */,
 			);
 			path = FluentUIDemoTests;
@@ -797,6 +800,7 @@
 				3A83F8D52953B92D00EF6629 /* GlobalColorTokensTest.swift in Sources */,
 				3A83F8F32953BA9500EF6629 /* PersonaListViewTest.swift in Sources */,
 				3A83F8D32953B91900EF6629 /* CardNudgeTest.swift in Sources */,
+				94F99E762F22D39800E4C4B0 /* TwoLineTitleViewTest.swift in Sources */,
 				3AA92B69298DD958001C0464 /* AliasColorTokensTest.swift in Sources */,
 				3A83F90D2953BB3500EF6629 /* TooltipTest.swift in Sources */,
 				3A83F8D92953B94D00EF6629 /* DateTimePickerTest.swift in Sources */,
