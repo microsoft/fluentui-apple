@@ -44,6 +44,35 @@ public final class TokenSet<T: TokenSetKey, V> {
         self.valueOverrides = overrideValues
     }
 
-    private let valueOverrides: [T: V]?
+    /// Updates a single override value for the given token.
+    ///
+    /// - Parameters:
+    ///   - value: The value to set.
+    ///   - token: The token to override.
+    public func setOverride(_ value: V, for token: T) {
+        valueOverrides = valueOverrides ?? [:]
+        valueOverrides?[token] = value
+    }
+
+    /// Updates multiple override values (merges with existing overrides).
+    ///
+    /// - Parameter overrides: A dictionary of token-value pairs to apply.
+    public func setOverrides(_ overrides: [T: V]) {
+        valueOverrides = (valueOverrides ?? [:]).merging(overrides) { _, new in new }
+    }
+
+    /// Removes an override for the given token, reverting to the default value.
+    ///
+    /// - Parameter token: The token whose override should be removed.
+    public func removeOverride(for token: T) {
+        valueOverrides?[token] = nil
+    }
+
+    /// Removes all overrides, reverting all tokens to their default values.
+    public func removeAllOverrides() {
+        valueOverrides = nil
+    }
+
     private let defaultValues: ((_ token: T) -> V)
+    private var valueOverrides: [T: V]?
 }
