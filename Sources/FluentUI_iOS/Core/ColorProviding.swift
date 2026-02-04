@@ -6,6 +6,7 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
+import SwiftUI
 import UIKit
 
 // MARK: ColorProviding
@@ -99,10 +100,8 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     ///   - provider: The `ColorProvider` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
     func setColorProvider(_ provider: ColorProviding) {
-        // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider)
-        let fluentTheme = FluentTheme(colorOverrides: brandColors)
-        self.fluentTheme = fluentTheme
+        self.fluentTheme.setColorOverrides(brandColors.mapValues { Color($0) })
     }
 }
 
@@ -112,11 +111,13 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     /// - Parameters:
     ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`. Passing `nil` will reset to the default theme.
     @objc static func setSharedThemeColorProvider(_ provider: ColorProviding?) {
-        if let provider {
-            let brandColors = brandColorOverrides(provider: provider)
-            FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
-        } else {
-            FluentTheme.shared = .init()
-        }
-    }
+		if let provider {
+			let brandColors = brandColorOverrides(provider: provider)
+			FluentTheme.shared.setColorOverrides(brandColors.mapValues { Color($0) })
+			GlobalTokens.brandColorProvider = provider
+		} else {
+			FluentTheme.shared.removeAllColorOverrides()
+			GlobalTokens.brandColorProvider = nil
+		}
+	}
 }
