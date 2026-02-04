@@ -42,6 +42,7 @@ enum DemoColorTheme: CaseIterable {
 }
 
 class DemoColorGreenTheme: NSObject, ColorProviding {
+    /// MARK: ColorProviding
     var brandBackground1: UIColor {
         return UIColor(light: UIColor(hexValue: 0x107C41),
                        dark: UIColor(hexValue: 0x55B17E))
@@ -140,6 +141,24 @@ class DemoColorGreenTheme: NSObject, ColorProviding {
     var brandGradient3: UIColor {
         return UIColor(hexValue: 0x42B8B2)
     }
+
+    // MARK: BrandColorProviding
+    var brand10: UIColor = (UIColor(named: "Colors/DemoGreenBrand10Color"))!
+    var brand20: UIColor = (UIColor(named: "Colors/DemoGreenBrand20Color"))!
+    var brand30: UIColor = (UIColor(named: "Colors/DemoGreenBrand30Color"))!
+    var brand40: UIColor = (UIColor(named: "Colors/DemoGreenBrand40Color"))!
+    var brand50: UIColor = (UIColor(named: "Colors/DemoGreenBrand50Color"))!
+    var brand60: UIColor = (UIColor(named: "Colors/DemoGreenBrand60Color"))!
+    var brand70: UIColor = (UIColor(named: "Colors/DemoGreenBrand70Color"))!
+    var brand80: UIColor = (UIColor(named: "Colors/DemoGreenBrand80Color"))!
+    var brand90: UIColor = (UIColor(named: "Colors/DemoGreenBrand90Color"))!
+    var brand100: UIColor = (UIColor(named: "Colors/DemoGreenBrand100Color"))!
+    var brand110: UIColor = (UIColor(named: "Colors/DemoGreenBrand110Color"))!
+    var brand120: UIColor = (UIColor(named: "Colors/DemoGreenBrand120Color"))!
+    var brand130: UIColor = (UIColor(named: "Colors/DemoGreenBrand130Color"))!
+    var brand140: UIColor = (UIColor(named: "Colors/DemoGreenBrand140Color"))!
+    var brand150: UIColor = (UIColor(named: "Colors/DemoGreenBrand150Color"))!
+    var brand160: UIColor = (UIColor(named: "Colors/DemoGreenBrand160Color"))!
 }
 
 class DemoColorPurpleTheme: NSObject, ColorProviding {
@@ -228,4 +247,22 @@ class DemoColorPurpleTheme: NSObject, ColorProviding {
         return UIColor(light: UIColor(hexValue: 0x6415DB),
                        dark: UIColor(hexValue: 0xB695FF))
     }
+
+    // MARK: BrandColorProviding
+    var brand10: UIColor = (UIColor(named: "Colors/DemoPurpleBrand10Color"))!
+    var brand20: UIColor = (UIColor(named: "Colors/DemoPurpleBrand20Color"))!
+    var brand30: UIColor = (UIColor(named: "Colors/DemoPurpleBrand30Color"))!
+    var brand40: UIColor = (UIColor(named: "Colors/DemoPurpleBrand40Color"))!
+    var brand50: UIColor = (UIColor(named: "Colors/DemoPurpleBrand50Color"))!
+    var brand60: UIColor = (UIColor(named: "Colors/DemoPurpleBrand60Color"))!
+    var brand70: UIColor = (UIColor(named: "Colors/DemoPurpleBrand70Color"))!
+    var brand80: UIColor = (UIColor(named: "Colors/DemoPurpleBrand80Color"))!
+    var brand90: UIColor = (UIColor(named: "Colors/DemoPurpleBrand90Color"))!
+    var brand100: UIColor = (UIColor(named: "Colors/DemoPurpleBrand100Color"))!
+    var brand110: UIColor = (UIColor(named: "Colors/DemoPurpleBrand110Color"))!
+    var brand120: UIColor = (UIColor(named: "Colors/DemoPurpleBrand120Color"))!
+    var brand130: UIColor = (UIColor(named: "Colors/DemoPurpleBrand130Color"))!
+    var brand140: UIColor = (UIColor(named: "Colors/DemoPurpleBrand140Color"))!
+    var brand150: UIColor = (UIColor(named: "Colors/DemoPurpleBrand150Color"))!
+    var brand160: UIColor = (UIColor(named: "Colors/DemoPurpleBrand160Color"))!
 }
