@@ -172,3 +172,55 @@ public extension EnvironmentValues {
 struct FluentThemeKey: EnvironmentKey {
     static var defaultValue: FluentTheme { .shared }
 }
+
+// MARK: - Color Override Methods
+
+public extension FluentTheme {
+    /// Updates color overrides on this theme instance without replacing the theme.
+    ///
+    /// This method merges the provided overrides with any existing overrides, preserving
+    /// shadow, typography, and gradient overrides that were set during initialization.
+    ///
+    /// - Parameter overrides: Color overrides to apply (merges with existing overrides).
+    func setColorOverrides(_ overrides: [ColorToken: Color]) {
+        objectWillChange.send()
+        let dynamicOverrides = overrides.mapValues { $0.dynamicColor }
+        colorTokenSet.setOverrides(dynamicOverrides)
+        postThemeDidChangeNotificationIfShared()
+    }
+
+    /// Updates a single color override on this theme instance.
+    ///
+    /// - Parameters:
+    ///   - color: The color value to use.
+    ///   - token: The token to override.
+    func setColorOverride(_ color: Color, for token: ColorToken) {
+        objectWillChange.send()
+        colorTokenSet.setOverride(color.dynamicColor, for: token)
+        postThemeDidChangeNotificationIfShared()
+    }
+
+    /// Removes a color override, reverting to the default value.
+    ///
+    /// - Parameter token: The token whose override should be removed.
+    func removeColorOverride(for token: ColorToken) {
+        objectWillChange.send()
+        colorTokenSet.removeOverride(for: token)
+        postThemeDidChangeNotificationIfShared()
+    }
+
+    /// Removes all color overrides, reverting to default values.
+    func removeAllColorOverrides() {
+        objectWillChange.send()
+        colorTokenSet.removeAllOverrides()
+        postThemeDidChangeNotificationIfShared()
+    }
+
+    /// Posts the theme change notification if this is the shared theme.
+    /// This notifies UIKit/AppKit views to refresh.
+    private func postThemeDidChangeNotificationIfShared() {
+        if self === FluentTheme.shared {
+            NotificationCenter.default.post(name: .didChangeTheme, object: nil)
+        }
+    }
+}
