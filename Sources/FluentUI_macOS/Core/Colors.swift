@@ -3,6 +3,9 @@
 //  Licensed under the MIT License.
 //
 
+#if canImport(FluentUI_common)
+import FluentUI_common
+#endif
 import AppKit
 
 // MARK: Colors
@@ -512,7 +515,12 @@ public final class Colors: NSObject {
 	}
 
 	/// Color provider object. When a Color Provider is present, colors will be retrieved from the provider vs. internally.
-	@objc public static var colorProvider: ColorProviding?
+	/// Setting this property also updates `FluentTheme.shared` with the provider's brand colors.
+	@objc public static var colorProvider: ColorProviding? {
+		didSet {
+			FluentTheme.setSharedThemeColorProvider(colorProvider)
+		}
+	}
 
 	/// These are initialized with the Communication Blue defaults.
 	private static var _primary: NSColor = Colors.Palette.communicationBlue.color
