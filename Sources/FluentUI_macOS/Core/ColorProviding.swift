@@ -7,6 +7,7 @@
 import FluentUI_common
 #endif
 import AppKit
+import SwiftUI
 
 // MARK: ColorProviding
 
@@ -35,4 +36,37 @@ public protocol ColorProviding: BrandColorProviding {
 	@objc var primaryTint20: NSColor { get }
 	@objc var primaryTint30: NSColor { get }
 	@objc var primaryTint40: NSColor { get }
+}
+
+// MARK: - Brand Color Overrides
+
+func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: Color] {
+	var brandColors: [FluentTheme.ColorToken: Color] = [:]
+
+	brandColors[.brandBackground1] = Color(provider.brandBackground1)
+	brandColors[.brandBackground1Pressed] = Color(provider.brandBackground1Pressed)
+	brandColors[.brandBackground1Selected] = Color(provider.brandBackground1Selected)
+	brandColors[.brandBackground2] = Color(provider.brandBackground1Selected)
+
+	return brandColors
+}
+
+// MARK: - FluentTheme Extension
+
+@objc public extension FluentTheme {
+	/// Associates a `ColorProviding` with the default shared `FluentTheme` instance.
+	/// Updates color overrides in place without replacing the theme (preserves shadow/typography/gradient overrides).
+	///
+	/// - Parameter provider: The `ColorProviding` whose colors should be used. Passing `nil` removes brand color overrides.
+	@objc static func setSharedThemeColorProvider(_ provider: ColorProviding?) {
+		if let provider {
+			let brandColors = brandColorOverrides(provider: provider)
+			FluentTheme.shared.setColorOverrides(brandColors)
+			GlobalTokens.brandColorProvider = provider
+		} else {
+			// Remove all brand color overrides
+			FluentTheme.shared.removeAllColorOverrides()
+			GlobalTokens.brandColorProvider = nil
+		}
+	}
 }
