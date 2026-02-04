@@ -13,6 +13,8 @@ public class GlobalTokens: NSObject {
 
     // MARK: - BrandColor
 
+    public static var brandColorProvider: BrandColorProviding? = nil
+
     @objc(MSFGlobalTokensBrandColor)
     public enum BrandColorToken: Int, CaseIterable, Hashable {
         // Communication blue colors
@@ -45,37 +47,37 @@ public class GlobalTokens: NSObject {
     public static func brandSwiftUIColor(_ token: BrandColorToken) -> Color {
         switch token {
         case .comm10:
-            return Color(hexValue: 0x061724)
+            return Self.brandColorProvider.map { Color($0.brand10) } ?? Color(hexValue: 0x061724)
         case .comm20:
-            return Color(hexValue: 0x082338)
+            return Self.brandColorProvider.map { Color($0.brand20) } ?? Color(hexValue: 0x082338)
         case .comm30:
-            return Color(hexValue: 0x0A2E4A)
+            return Self.brandColorProvider.map { Color($0.brand30) } ?? Color(hexValue: 0x0A2E4A)
         case .comm40:
-            return Color(hexValue: 0x0C3B5E)
+            return Self.brandColorProvider.map { Color($0.brand40) } ?? Color(hexValue: 0x0C3B5E)
         case .comm50:
-            return Color(hexValue: 0x0E4775)
+            return Self.brandColorProvider.map { Color($0.brand50) } ?? Color(hexValue: 0x0E4775)
         case .comm60:
-            return Color(hexValue: 0x0F548C)
+            return Self.brandColorProvider.map { Color($0.brand60) } ?? Color(hexValue: 0x0F548C)
         case .comm70:
-            return Color(hexValue: 0x115EA3)
+            return Self.brandColorProvider.map { Color($0.brand70) } ?? Color(hexValue: 0x115EA3)
         case .comm80:
-            return Color(hexValue: 0x0F6CBD)
+            return Self.brandColorProvider.map { Color($0.brand80) } ?? Color(hexValue: 0x0F6CBD)
         case .comm90:
-            return Color(hexValue: 0x2886DE)
+            return Self.brandColorProvider.map { Color($0.brand90) } ?? Color(hexValue: 0x2886DE)
         case .comm100:
-            return Color(hexValue: 0x479EF5)
+            return Self.brandColorProvider.map { Color($0.brand100) } ?? Color(hexValue: 0x479EF5)
         case .comm110:
-            return Color(hexValue: 0x62ABF5)
+            return Self.brandColorProvider.map { Color($0.brand110) } ?? Color(hexValue: 0x62ABF5)
         case .comm120:
-            return Color(hexValue: 0x77B7F7)
+            return Self.brandColorProvider.map { Color($0.brand120) } ?? Color(hexValue: 0x77B7F7)
         case .comm130:
-            return Color(hexValue: 0x96C6FA)
+            return Self.brandColorProvider.map { Color($0.brand130) } ?? Color(hexValue: 0x96C6FA)
         case .comm140:
-            return Color(hexValue: 0xB4D6FA)
+            return Self.brandColorProvider.map { Color($0.brand140) } ?? Color(hexValue: 0xB4D6FA)
         case .comm150:
-            return Color(hexValue: 0xCFE4FA)
+            return Self.brandColorProvider.map { Color($0.brand150) } ?? Color(hexValue: 0xCFE4FA)
         case .comm160:
-            return Color(hexValue: 0xEBF3FC)
+            return Self.brandColorProvider.map { Color($0.brand160) } ?? Color(hexValue: 0xEBF3FC)
         case .gradientPrimaryLight:
             return Color(hexValue: 0x464FEB)
         case .gradientPrimaryDark:
