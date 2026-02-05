@@ -6,16 +6,16 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
-import SwiftUI
 import UIKit
 
 // MARK: ColorProviding
 
-/// Protocol through which consumers can provide colors to "theme" their experiences
-/// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view
-/// If this protocol is not conformed to, communicationBlue variants will be used
+/// Protocol through which consumers can provide colors to "theme" their experiences.
+///
+/// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view.
+/// If this protocol is not conformed to, communicationBlue variants will be used.
 @objc(MSFColorProviding)
-public protocol ColorProviding: BrandColorProviding {
+public protocol ColorProviding {
     // MARK: - Brand Background Colors
 
     @objc var brandBackground1: UIColor { get }
@@ -106,7 +106,7 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
 }
 
 @objc public extension FluentTheme {
-    /// Associates a `ColorProvider` with the default shared `FluentTheme` instance.
+    /// Updates color overrides in place without replacing the theme (preserves shadow/typography/gradient overrides).
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`. Passing `nil` will reset to the default theme.
@@ -114,10 +114,8 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
 		if let provider {
 			let brandColors = brandColorOverrides(provider: provider)
 			FluentTheme.shared.setColorOverrides(brandColors.mapValues { Color($0) })
-			GlobalTokens.brandColorProvider = provider
 		} else {
 			FluentTheme.shared.removeAllColorOverrides()
-			GlobalTokens.brandColorProvider = nil
 		}
 	}
 }
