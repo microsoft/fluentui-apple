@@ -148,23 +148,6 @@ class TestColorViewController: NSViewController {
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Selected", color: fluentTheme.nsColor(.brandBackground1Selected)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandForeground1", color: fluentTheme.nsColor(.brandForeground1)))
 
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand10", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm10))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand20", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm20))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand30", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm30))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand40", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm40))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand50", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm50))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand60", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm60))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand70", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm70))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand80", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm80))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand90", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm90))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand100", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm100))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand110", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm110))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand120", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm120))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand130", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm130))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand140", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm140))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand150", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm150))))
-		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brand160", color: NSColor(GlobalTokens.brandSwiftUIColor(.comm160))))
-
 		NSLayoutConstraint.activate(subviewConstraints)
 	}
 
