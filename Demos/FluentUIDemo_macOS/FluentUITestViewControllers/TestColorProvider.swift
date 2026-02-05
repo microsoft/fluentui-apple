@@ -18,6 +18,8 @@ class TestColorProvider: ColorProviding {
 	var brandBackground1: NSColor = (NSColor(named: "Colors/DemoBrandBackground1Color"))!
 	var brandBackground1Pressed: NSColor = (NSColor(named: "Colors/DemoBrandBackground1PressedColor"))!
 	var brandBackground1Selected: NSColor = (NSColor(named: "Colors/DemoBrandBackground1SelectedColor"))!
+	var brandBackground2: NSColor = (NSColor(named: "Colors/DemoBrandBackground2Color"))!
+	var brandBackground2Pressed: NSColor = (NSColor(named: "Colors/DemoBrandBackground2PressedColor"))!
 
 	var brandForeground1: NSColor = (NSColor(named: "Colors/DemoBrandForeground1Color"))!
 
