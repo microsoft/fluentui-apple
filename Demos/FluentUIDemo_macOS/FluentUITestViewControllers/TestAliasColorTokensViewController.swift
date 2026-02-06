@@ -71,12 +71,15 @@ enum AliasColorTokensDemoSection: CaseIterable {
         switch self {
         case .neutralBackgrounds:
             return [.background1,
+                    .background1Hover,
                     .background1Pressed,
                     .background1Selected,
                     .background2,
+                    .background2Hover,
                     .background2Pressed,
                     .background2Selected,
                     .background3,
+                    .background3Hover,
                     .background3Pressed,
                     .background3Selected,
                     .background4,
@@ -84,6 +87,7 @@ enum AliasColorTokensDemoSection: CaseIterable {
                     .background4Pressed,
                     .background4Selected,
                     .background5,
+                    .background5Hover,
                     .background5Pressed,
                     .background5Selected,
                     .background6,
@@ -98,9 +102,11 @@ enum AliasColorTokensDemoSection: CaseIterable {
         case .brandBackgrounds:
             return [.brandBackgroundTint,
                     .brandBackground1,
+                    .brandBackground1Hover,
                     .brandBackground1Pressed,
                     .brandBackground1Selected,
                     .brandBackground2,
+                    .brandBackground2Hover,
                     .brandBackground2Pressed,
                     .brandBackground2Selected,
                     .brandBackground3,
@@ -202,18 +208,24 @@ extension FluentTheme.ColorToken {
             return "Brand Foreground Disabled 2"
         case .background1:
             return "Background 1"
+        case .background1Hover:
+            return "Background 1 Hover"
         case .background1Pressed:
             return "Background 1 Pressed"
         case .background1Selected:
             return "Background 1 Selected"
         case .background2:
             return "Background 2"
+        case .background2Hover:
+            return "Background 2 Hover"
         case .background2Pressed:
             return "Background 2 Pressed"
         case .background2Selected:
             return "Background 2 Selected"
         case .background3:
             return "Background 3"
+        case .background3Hover:
+            return "Background 3 Hover"
         case .background3Pressed:
             return "Background 3 Pressed"
         case .background3Selected:
@@ -228,6 +240,8 @@ extension FluentTheme.ColorToken {
             return "Background 4 Selected"
         case .background5:
             return "Background 5"
+        case .background5Hover:
+            return "Background 5 Hover"
         case .background5Pressed:
             return "Background 5 Pressed"
         case .background5Selected:
@@ -240,12 +254,16 @@ extension FluentTheme.ColorToken {
             return "Background Disabled"
         case .brandBackground1:
             return "Brand Background 1"
+        case .brandBackground1Hover:
+            return "Brand Background 1 Hover"
         case .brandBackground1Pressed:
             return "Brand Background 1 Pressed"
         case .brandBackground1Selected:
             return "Brand Background 1 Selected"
         case .brandBackground2:
             return "Brand Background 2"
+        case .brandBackground2Hover:
+            return "Brand Background 2 Hover"
         case .brandBackground2Pressed:
             return "Brand Background 2 Pressed"
         case .brandBackground2Selected:
@@ -356,12 +374,15 @@ extension FluentTheme.ColorToken {
     func textColor(_ fluentTheme: FluentTheme) -> Color {
         switch self {
         case .background1,
+             .background1Hover,
              .background1Pressed,
              .background1Selected,
              .background2,
+             .background2Hover,
              .background2Pressed,
              .background2Selected,
              .background3,
+             .background3Hover,
              .background3Pressed,
              .background3Selected,
              .background4,
@@ -369,6 +390,7 @@ extension FluentTheme.ColorToken {
              .background4Pressed,
              .background4Selected,
              .background5,
+             .background5Hover,
              .background5Pressed,
              .background5Selected,
              .background6,
@@ -436,8 +458,10 @@ extension FluentTheme.ColorToken {
              .brandForegroundDisabled1,
              .backgroundInverted,
              .brandBackground1,
+             .brandBackground1Hover,
              .brandBackground1Selected,
              .brandBackground2,
+             .brandBackground2Hover,
              .brandBackground2Pressed,
              .brandBackground2Selected,
              .brandBackground3,

@@ -81,6 +81,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .background1:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.white),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey16))
+        case .background1Hover:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey20))
         case .background1Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey84),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey32))
@@ -90,6 +93,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .background2:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey98),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey12))
+        case .background2Hover:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey94),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey16))
         case .background2Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey82),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey28))
@@ -99,6 +105,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .background3:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey96),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey10))
+        case .background3Hover:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey12))
         case .background3Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey80),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey24))
@@ -120,6 +129,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .background5:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey92),
                           dark: GlobalTokens.neutralSwiftUIColor(.black))
+        case .background5Hover:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
+                          dark: GlobalTokens.neutralSwiftUIColor(.grey8))
         case .background5Pressed:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey76),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey2))
@@ -138,6 +150,9 @@ extension FluentTheme: PlatformThemeProviding {
         case .brandBackground1:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm80),
                           dark: GlobalTokens.brandSwiftUIColor(.comm100))
+        case .brandBackground1Hover:
+            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm60),
+                          dark: GlobalTokens.brandSwiftUIColor(.comm90))
         case .brandBackground1Pressed:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm50),
                           dark: GlobalTokens.brandSwiftUIColor(.comm140))
@@ -145,9 +160,14 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm60),
                           dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .brandBackground2:
-            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm70))
+            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm160),
+                           dark: GlobalTokens.brandSwiftUIColor(.comm20))
+        case .brandBackground2Hover:
+            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm150),
+                           dark: GlobalTokens.brandSwiftUIColor(.comm40))
         case .brandBackground2Pressed:
-            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm40))
+            color = .init(light: GlobalTokens.brandSwiftUIColor(.comm130),
+                           dark: GlobalTokens.brandSwiftUIColor(.comm70))
         case .brandBackground2Selected:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm80))
         case .brandBackground3:
