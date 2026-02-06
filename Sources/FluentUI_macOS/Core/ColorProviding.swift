@@ -20,9 +20,11 @@ public protocol ColorProviding {
 	// MARK: - Brand Background Colors
 
 	@objc var brandBackground1: NSColor { get }
+	@objc var brandBackground1Hover: NSColor { get }
 	@objc var brandBackground1Pressed: NSColor { get }
 	@objc var brandBackground1Selected: NSColor { get }
 	@objc var brandBackground2: NSColor { get }
+	@objc var brandBackground2Hover: NSColor { get }
 	@objc var brandBackground2Pressed: NSColor { get }
 
 	// MARK: - Brand Foreground Colors
@@ -47,9 +49,11 @@ func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.ColorToken: C
 	var brandColors: [FluentTheme.ColorToken: Color] = [:]
 
 	brandColors[.brandBackground1] = Color(provider.brandBackground1)
+	brandColors[.brandBackground1Hover] = Color(provider.brandBackground1Hover)
 	brandColors[.brandBackground1Pressed] = Color(provider.brandBackground1Pressed)
 	brandColors[.brandBackground1Selected] = Color(provider.brandBackground1Selected)
 	brandColors[.brandBackground2] = Color(provider.brandBackground2)
+	brandColors[.brandBackground2Hover] = Color(provider.brandBackground2Hover)
 	brandColors[.brandBackground2Pressed] = Color(provider.brandBackground2Pressed)
 	brandColors[.brandForeground1] = Color(provider.brandForeground1)
 

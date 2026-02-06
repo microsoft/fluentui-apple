@@ -144,9 +144,11 @@ class TestColorViewController: NSViewController {
 		let fluentTheme = FluentTheme.shared
 
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1", color: fluentTheme.nsColor(.brandBackground1)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Hover", color: fluentTheme.nsColor(.brandBackground1Hover)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Pressed", color: fluentTheme.nsColor(.brandBackground1Pressed)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Selected", color: fluentTheme.nsColor(.brandBackground1Selected)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2", color: fluentTheme.nsColor(.brandBackground2)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2Hover", color: fluentTheme.nsColor(.brandBackground2Hover)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2Pressed", color: fluentTheme.nsColor(.brandBackground2Pressed)))
 		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandForeground1", color: fluentTheme.nsColor(.brandForeground1)))
 
