@@ -16,12 +16,30 @@ public extension FluentTheme {
     enum ColorToken: Int, TokenSetKey {
         // Neutral colors - Background
         case background1
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background1Hover
+
         case background1Pressed
         case background1Selected
         case background2
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background2Hover
+
         case background2Pressed
         case background2Selected
         case background3
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background3Hover
+
         case background3Pressed
         case background3Selected
         case background4
@@ -34,6 +52,12 @@ public extension FluentTheme {
         case background4Pressed
         case background4Selected
         case background5
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case background5Hover
+
         case background5Pressed
         case background5Selected
         case background6
@@ -77,9 +101,21 @@ public extension FluentTheme {
 
         // Brand colors - Brand background
         case brandBackground1
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case brandBackground1Hover
+
         case brandBackground1Pressed
         case brandBackground1Selected
         case brandBackground2
+
+        @available(iOS, unavailable)
+        @available(visionOS, unavailable)
+        @available(macCatalyst, unavailable)
+        case brandBackground2Hover
+
         case brandBackground2Pressed
         case brandBackground2Selected
         case brandBackground3
