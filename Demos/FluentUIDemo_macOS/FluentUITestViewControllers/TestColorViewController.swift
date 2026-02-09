@@ -7,6 +7,7 @@ import AppKit
 import FluentUI
 
 class TestColorViewController: NSViewController {
+	var brandColorsStackView = NSStackView()
 	var primaryColorsStackView = NSStackView()
 	var dynamicColorsStackView = NSStackView()
 	var subviewConstraints = [NSLayoutConstraint]()
@@ -21,7 +22,7 @@ class TestColorViewController: NSViewController {
 
 		let colorsStackView = NSStackView()
 
-		for stackView in [colorsStackView, dynamicColorsStackView, primaryColorsStackView] {
+		for stackView in [colorsStackView, dynamicColorsStackView, primaryColorsStackView, brandColorsStackView] {
 			stackView.translatesAutoresizingMaskIntoConstraints = false
 			stackView.orientation = .vertical
 			stackView.alignment = .leading
@@ -32,6 +33,7 @@ class TestColorViewController: NSViewController {
 		}
 
 		loadPrimaryColors()
+		loadBrandColors()
 		loadDynamicColors()
 
 		let documentView = NSView()
@@ -39,6 +41,7 @@ class TestColorViewController: NSViewController {
 		scrollView.documentView = documentView
 		documentView.addSubview(colorsStackView)
 		documentView.addSubview(primaryColorsStackView)
+		documentView.addSubview(brandColorsStackView)
 		documentView.addSubview(dynamicColorsStackView)
 
 		subviewConstraints = [
@@ -50,7 +53,10 @@ class TestColorViewController: NSViewController {
 			primaryColorsStackView.topAnchor.constraint(equalTo: colorsStackView.bottomAnchor, constant: colorRowSpacing),
 			primaryColorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
 			primaryColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
-			dynamicColorsStackView.topAnchor.constraint(equalTo: colorsStackView.bottomAnchor, constant: colorRowSpacing),
+			brandColorsStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
+			brandColorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
+			brandColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor),
+			dynamicColorsStackView.topAnchor.constraint(equalTo: brandColorsStackView.bottomAnchor, constant: colorRowSpacing),
 			dynamicColorsStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
 			dynamicColorsStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor)
 		]
@@ -74,7 +80,7 @@ class TestColorViewController: NSViewController {
 		documentView.addSubview(toggleStackView)
 
 		subviewConstraints.append(contentsOf: [
-			toggleStackView.topAnchor.constraint(equalTo: primaryColorsStackView.bottomAnchor, constant: colorRowSpacing),
+			toggleStackView.topAnchor.constraint(equalTo: dynamicColorsStackView.bottomAnchor, constant: colorRowSpacing),
 			toggleStackView.leadingAnchor.constraint(equalTo: documentView.leadingAnchor, constant: colorRowSpacing),
 			toggleStackView.trailingAnchor.constraint(equalTo: documentView.trailingAnchor, constant: colorRowSpacing),
 			toggleStackView.bottomAnchor.constraint(equalTo: documentView.bottomAnchor, constant: -colorRowSpacing)
@@ -100,8 +106,10 @@ class TestColorViewController: NSViewController {
 
 	@objc private func toggleClicked(button: NSSwitch?) {
 		primaryColorsStackView.subviews.removeAll()
+		brandColorsStackView.subviews.removeAll()
 		useColorProvider = button?.state == .on ? true : false
 		loadPrimaryColors()
+		loadBrandColors()
 	}
 
 	private func loadPrimaryColors() {
@@ -124,11 +132,34 @@ class TestColorViewController: NSViewController {
 		NSLayoutConstraint.activate(subviewConstraints)
 	}
 
+	private func loadBrandColors() {
+		if useColorProvider {
+			// Set our Test Color Provider singleton
+			Colors.colorProvider = TestColorProvider.shared
+		} else {
+			// Clear Test Color Provider singleton so communication blue defaults will be used
+			Colors.colorProvider = nil
+		}
+
+		let fluentTheme = FluentTheme.shared
+
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1", color: fluentTheme.nsColor(.brandBackground1)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Hover", color: fluentTheme.nsColor(.brandBackground1Hover)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Pressed", color: fluentTheme.nsColor(.brandBackground1Pressed)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground1Selected", color: fluentTheme.nsColor(.brandBackground1Selected)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2", color: fluentTheme.nsColor(.brandBackground2)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2Hover", color: fluentTheme.nsColor(.brandBackground2Hover)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandBackground2Pressed", color: fluentTheme.nsColor(.brandBackground2Pressed)))
+		brandColorsStackView.addArrangedSubview(createColorRowStackView(name: "brandForeground1", color: fluentTheme.nsColor(.brandForeground1)))
+
+		NSLayoutConstraint.activate(subviewConstraints)
+	}
+
 	private func loadDynamicColors() {
 		let dynamicColor = NSColor(light: NSColor.red, dark: NSColor.blue)
-		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic", color: dynamicColor))
-		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (light)", color: dynamicColor.light))
-		primaryColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (dark)", color: dynamicColor.dark))
+		dynamicColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic", color: dynamicColor))
+		dynamicColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (light)", color: dynamicColor.light))
+		dynamicColorsStackView.addArrangedSubview(createColorRowStackView(name: "Dynamic (dark)", color: dynamicColor.dark))
 	}
 }
 

@@ -6,15 +6,19 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
+import SwiftUI
 import UIKit
 
 // MARK: ColorProviding
 
-/// Protocol through which consumers can provide colors to "theme" their experiences
-/// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view
+/// Protocol through which consumers can provide colors to "theme" their experiences.
+///
+/// The view associated with the passed in theme will display the set colors to allow apps to provide different experiences per each view.
+/// If this protocol is not conformed to, communicationBlue variants will be used.
 @objc(MSFColorProviding)
 public protocol ColorProviding {
-    /// If this protocol is not conformed to, communicationBlue variants will be used
+    // MARK: - Brand Background Colors
+
     @objc var brandBackground1: UIColor { get }
     @objc var brandBackground1Pressed: UIColor { get }
     @objc var brandBackground1Selected: UIColor { get }
@@ -24,15 +28,22 @@ public protocol ColorProviding {
     @objc var brandBackground3: UIColor { get }
     @objc var brandBackgroundTint: UIColor { get }
     @objc var brandBackgroundDisabled: UIColor { get }
+
+    // MARK: - Brand Foreground Colors
+
     @objc var brandForeground1: UIColor { get }
     @objc var brandForeground1Pressed: UIColor { get }
     @objc var brandForeground1Selected: UIColor { get }
     @objc var brandForegroundTint: UIColor { get }
     @objc var brandForegroundDisabled1: UIColor { get }
     @objc var brandForegroundDisabled2: UIColor { get }
+
+    // MARK: - Brand Stroke Colors
     @objc var brandStroke1: UIColor { get }
     @objc var brandStroke1Pressed: UIColor { get }
     @objc var brandStroke1Selected: UIColor { get }
+
+    // MARK: - Brand Gradient Colors
     @objc optional var brandGradient1: UIColor { get }
     @objc optional var brandGradient2: UIColor { get }
     @objc optional var brandGradient3: UIColor { get }
@@ -90,24 +101,22 @@ private func brandColorOverrides(provider: ColorProviding) -> [FluentTheme.Color
     ///   - provider: The `ColorProvider` whose colors should be used for controls in this theme.
     @objc(setColorProvider:)
     func setColorProvider(_ provider: ColorProviding) {
-        // Create an updated fluent theme as well
         let brandColors = brandColorOverrides(provider: provider)
-        let fluentTheme = FluentTheme(colorOverrides: brandColors)
-        self.fluentTheme = fluentTheme
+        self.fluentTheme.setColorOverrides(brandColors.mapValues { Color($0) })
     }
 }
 
 @objc public extension FluentTheme {
-    /// Associates a `ColorProvider` with the default shared `FluentTheme` instance.
+    /// Updates color overrides in place without replacing the theme (preserves shadow/typography/gradient overrides).
     ///
     /// - Parameters:
     ///   - provider: The `ColorProvider` whose colors should be used for controls in `FluentTheme.shared`. Passing `nil` will reset to the default theme.
     @objc static func setSharedThemeColorProvider(_ provider: ColorProviding?) {
-        if let provider {
-            let brandColors = brandColorOverrides(provider: provider)
-            FluentTheme.shared = FluentTheme(colorOverrides: brandColors)
-        } else {
-            FluentTheme.shared = .init()
-        }
-    }
+		if let provider {
+			let brandColors = brandColorOverrides(provider: provider)
+			FluentTheme.shared.setColorOverrides(brandColors.mapValues { Color($0) })
+		} else {
+			FluentTheme.shared.removeAllColorOverrides()
+		}
+	}
 }

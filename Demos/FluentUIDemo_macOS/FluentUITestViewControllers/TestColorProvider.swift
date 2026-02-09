@@ -14,7 +14,17 @@ class TestColorProvider: ColorProviding {
 	  // Make the init private so no one can make separate instances
 	}
 
-	// MARK: ColorProvider
+	// MARK: ColorProviding
+	var brandBackground1: NSColor = (NSColor(named: "Colors/DemoBrandBackground1Color"))!
+	var brandBackground1Hover: NSColor = (NSColor(named: "Colors/DemoBrandBackground1HoverColor"))!
+	var brandBackground1Pressed: NSColor = (NSColor(named: "Colors/DemoBrandBackground1PressedColor"))!
+	var brandBackground1Selected: NSColor = (NSColor(named: "Colors/DemoBrandBackground1SelectedColor"))!
+	var brandBackground2: NSColor = (NSColor(named: "Colors/DemoBrandBackground2Color"))!
+	var brandBackground2Hover: NSColor = (NSColor(named: "Colors/DemoBrandBackground2HoverColor"))!
+	var brandBackground2Pressed: NSColor = (NSColor(named: "Colors/DemoBrandBackground2PressedColor"))!
+
+	var brandForeground1: NSColor = (NSColor(named: "Colors/DemoBrandForeground1Color"))!
+
 	var primary: NSColor = (NSColor(named: "Colors/DemoPrimaryColor"))!
 	var primaryShade10: NSColor = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!
 	var primaryShade20: NSColor = (NSColor(named: "Colors/DemoPrimaryShade20Color"))!
