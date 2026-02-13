@@ -146,7 +146,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
-        .zero
+        shouldCalculateIntrinsicHeight ? CGSize(width: UIView.noIntrinsicMetric, height: intrinsicHeight) : .zero
     }
 
     public override func layoutSubviews() {
@@ -197,6 +197,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
         set {
             mainCommandGroupsView.itemGroups = newValue
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -207,6 +208,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
         set {
             setupGroupsView(leadingCommandGroupsView, with: newValue)
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -217,6 +219,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
         set {
             setupGroupsView(trailingCommandGroupsView, with: newValue)
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -240,6 +243,15 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
     }
 
+    /// Controls whether intrinsic height should be calculated. When false, intrinsicContentSize.height returns 0.
+    @objc public var shouldCalculateIntrinsicHeight: Bool = true {
+        didSet {
+            if shouldCalculateIntrinsicHeight != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+
     /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
     public weak var delegate: CommandBarDelegate?
 
@@ -258,6 +270,24 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     private var trailingCommandGroupsView: CommandBarCommandGroupsView
 
     private var mainCommandGroupsViewConstraints: [NSLayoutConstraint] = []
+
+    private var intrinsicHeight: CGFloat {
+        var maxButtonHeight: CGFloat = 0
+
+        let allGroups = (leadingItemGroups ?? []) + itemGroups + (trailingItemGroups ?? [])
+        for group in allGroups {
+            for item in group where !item.isHidden {
+                if let button = leadingCommandGroupsView.button(for: item) ??
+                                mainCommandGroupsView.button(for: item) ??
+                                trailingCommandGroupsView.button(for: item) {
+                    let buttonHeight = button.intrinsicContentSize.height
+                    maxButtonHeight = max(maxButtonHeight, buttonHeight)
+                }
+            }
+        }
+
+        return maxButtonHeight + CommandBarTokenSet.barInsets * 2
+    }
 
     // MARK: Views and Layers
 

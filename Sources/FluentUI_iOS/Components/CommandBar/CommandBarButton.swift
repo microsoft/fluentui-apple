@@ -80,6 +80,13 @@ class CommandBarButton: UIButton {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    override var intrinsicContentSize: CGSize {
+        if let customView = item.customControlView?() {
+            return customView.intrinsicContentSize
+        }
+        return super.intrinsicContentSize
+    }
+
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
