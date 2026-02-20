@@ -6,6 +6,7 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
+import Combine
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.
@@ -67,10 +68,17 @@ import SwiftUI
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
     var backgroundGradient: LinearGradientInfo? { get set }
+}
 
-    /// Performs an animation emphasizing the notification.
-    /// The animation alternates between upward and downward movements with spring physics.
-    func bump()
+/// Exposes public published properties that are observed by the `FluentNotification`. Enables
+/// easy interaction with the Notification for clients.
+@objc(MSFFluentNotificationTriggerModel)
+public class FluentNotificationTriggerModel: NSObject, ObservableObject {
+    /// Triggers the bump animation for the notification.
+    ///
+    /// Set this to `true` to trigger the bump animation. The value will be
+    /// automatically reset to `false` after the animation is triggered.
+    @Published public var shouldBump: Bool = false
 }
 
 /// View that represents the Notification.
@@ -116,7 +124,9 @@ public struct FluentNotification: View, TokenizedControlView {
                 defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 showFromBottom: Bool = true,
-                verticalOffset: CGFloat = 0.0) {
+                verticalOffset: CGFloat = 0.0,
+                triggerModel: FluentNotificationTriggerModel = FluentNotificationTriggerModel(),
+                onDismiss: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              attributedMessage: attributedMessage,
@@ -133,9 +143,11 @@ public struct FluentNotification: View, TokenizedControlView {
                                              messageButtonAction: messageButtonAction,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
+        state.onDismiss = onDismiss
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
+        self.triggerModel = triggerModel
 
         self.tokenSet = NotificationTokenSet(style: { state.style })
 
@@ -328,9 +340,9 @@ public struct FluentNotification: View, TokenizedControlView {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
 #endif // os(visionOS)
                 .offset(y: -bumpVerticalOffset)
-                .onChange(of: state.shouldPerformBump) { _, shouldBump in
+                .onChange(of: triggerModel.shouldBump) { _, shouldBump in
                     if shouldBump {
-                        state.shouldPerformBump = false
+                        triggerModel.shouldBump = false
                         performBumpAnimated()
                     }
                 }
@@ -390,6 +402,7 @@ public struct FluentNotification: View, TokenizedControlView {
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
+    @ObservedObject var triggerModel: FluentNotificationTriggerModel
 
     /// The `dismissButtonAction` will be non-nil for the following cases:
     /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
@@ -522,9 +535,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     /// Style to draw the control.
     @Published var style: MSFNotificationStyle
 
-    /// Controls whether the bump animation should start
-    @Published internal var shouldPerformBump: Bool = false
-
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
                   message: nil,
@@ -577,11 +587,5 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.verticalOffset = verticalOffset
 
         super.init()
-    }
-
-    @objc func bump() {
-        if !shouldPerformBump {
-            shouldPerformBump = true
-        }
     }
 }

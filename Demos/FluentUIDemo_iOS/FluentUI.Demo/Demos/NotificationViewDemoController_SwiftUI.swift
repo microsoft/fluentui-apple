@@ -52,6 +52,7 @@ struct NotificationDemoView: View {
     @State var useCustomTheme: Bool = false
     @State var verticalOffset: CGFloat = 0.0
     @ObservedObject var fluentTheme: FluentTheme = .shared
+    private var triggerModel = FluentNotificationTriggerModel()
     let customTheme: FluentTheme = {
         let foregroundColor = UIColor(light: GlobalTokens.sharedColor(.lavender, .shade30),
                                       dark: GlobalTokens.sharedColor(.lavender, .tint40))
@@ -171,7 +172,7 @@ struct NotificationDemoView: View {
                                        showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                        defaultDismissButtonAction: dismissButtonAction,
                                        messageButtonAction: messageButtonAction,
-                                       showFromBottom: showFromBottom)
+                                       showFromBottom: showFromBottom, triggerModel: triggerModel)
                     .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
                     .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
                 }
@@ -212,7 +213,7 @@ struct NotificationDemoView: View {
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                messageButtonAction: messageButtonAction,
                                showFromBottom: showFromBottom,
-                               verticalOffset: verticalOffset)
+                               verticalOffset: verticalOffset, triggerModel: triggerModel)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
@@ -263,6 +264,9 @@ struct NotificationDemoView: View {
                 Toggle("Has Attributed Text: Large Red Papyrus Font", isOn: $hasLargeRedPapyrusFontAttribute)
                 Toggle("Set image", isOn: $showImage)
                 Toggle("Set trailing image", isOn: $showTrailingImage)
+                Button("Perform Bump") {
+                    triggerModel.shouldBump = true
+                }
             }
 
             FluentListSection("Action") {
