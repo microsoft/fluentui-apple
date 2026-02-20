@@ -214,7 +214,8 @@ struct NotificationDemoView: View {
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                messageButtonAction: messageButtonAction,
                                showFromBottom: showFromBottom,
-                               verticalOffset: verticalOffset, triggerModel: triggerModel)
+                               verticalOffset: verticalOffset,
+                               triggerModel: triggerModel)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
             .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
