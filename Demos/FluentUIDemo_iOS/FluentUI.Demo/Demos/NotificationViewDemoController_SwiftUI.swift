@@ -53,6 +53,9 @@ struct NotificationDemoView: View {
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
     @State var verticalOffset: CGFloat = 0.0
+    @State var previewPresented: Bool = true
+    @State var notificationID: UUID = UUID()
+    @State var autoReappear: Bool = false
     @ObservedObject var fluentTheme: FluentTheme = .shared
     private var triggerModel = FluentNotificationTriggerModel()
     let customTheme: FluentTheme = {
@@ -160,45 +163,44 @@ struct NotificationDemoView: View {
  #endif
 
         VStack {
-            Rectangle()
-                .foregroundColor(.clear)
+            if previewPresented {
+                Rectangle()
+                    .foregroundColor(.clear)
 #if DEBUG
-                .accessibilityIdentifier(accessibilityIdentifier)
+                    .accessibilityIdentifier(accessibilityIdentifier)
 #endif
-                .presentNotification(isPresented: .constant(true), isBlocking: false) {
-                    FluentNotification(style: style,
-                                       isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
-                                       message: hasMessage ? message : nil,
-                                       attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
-                                       messageLineLimit: messageLineLimit,
-                                       title: hasTitle ? title : nil,
-                                       attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
-                                       image: image,
-                                       trailingImage: trailingImage,
-                                       trailingImageAccessibilityLabel: trailingImageLabel,
-                                       actionButtonTitle: actionButtonTitle,
-                                       actionButtonAction: actionButtonAction,
-                                       showDefaultDismissActionButton: showDefaultDismissActionButton,
-                                       showActionButtonAndDismissButton: showActionButtonAndDismissButton,
-                                       defaultDismissButtonAction: dismissButtonAction,
-                                       messageButtonAction: messageButtonAction,
-                                       swipeToDismissEnabled: swipeToDismissEnabled,
-                                       showFromBottom: showFromBottom,
-                                       triggerModel: triggerModel)
-                    .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-                    .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
-                }
-                .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
-                .alert(isPresented: $showAlert, content: {
-                    Alert(title: Text("Button tapped"))
-                })
+                    .presentNotification(isPresented: $previewPresented, isBlocking: false) {
+                        FluentNotification(style: style,
+                                           isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                                           message: hasMessage ? message : nil,
+                                           attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
+                                           messageLineLimit: messageLineLimit,
+                                           title: hasTitle ? title : nil,
+                                           attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
+                                           image: image,
+                                           trailingImage: trailingImage,
+                                           trailingImageAccessibilityLabel: trailingImageLabel,
+                                           actionButtonTitle: actionButtonTitle,
+                                           actionButtonAction: actionButtonAction,
+                                           showDefaultDismissActionButton: showDefaultDismissActionButton,
+                                           showActionButtonAndDismissButton: showActionButtonAndDismissButton,
+                                           defaultDismissButtonAction: dismissButtonAction,
+                                           messageButtonAction: messageButtonAction,
+                                           swipeToDismissEnabled: swipeToDismissEnabled,
+                                           showFromBottom: showFromBottom,
+                                           triggerModel: triggerModel)
+                        .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
+                        .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
+                    .alert(isPresented: $showAlert, content: {
+                        Alert(title: Text("Button tapped"))
+                    })
+            }
 
             Button("Show Notification") {
                 if isPresented == false {
-                    isPresented = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                        isPresented = false
-                    }
+                    showNotificationWithAutoReappear()
                 }
             }
             .buttonStyle(FluentButtonStyle(style: .accent))
@@ -207,10 +209,10 @@ struct NotificationDemoView: View {
 
             notificationSettings
         }
-        .presentNotification(isPresented: $isPresented,
-                             isBlocking: false) {
+        .id(notificationID)
+        .presentNotification(isPresented: $isPresented, isBlocking: false) {
             FluentNotification(style: style,
-                               isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
+                               isFlexibleWidthToast: isFlexibleWidthToast,
                                message: hasMessage ? message : nil,
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                messageLineLimit: messageLineLimit,
@@ -230,10 +232,28 @@ struct NotificationDemoView: View {
                                verticalOffset: verticalOffset,
                                triggerModel: triggerModel)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-            .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
+            .overrideTokens(overrideTokens ? notificationOverrideTokens : nil)
         }
         .fluentTheme(theme)
         .tint(Color(theme.color(.brandForeground1)))
+    }
+
+    private func showNotificationWithAutoReappear() {
+        notificationID = UUID() // Force recreation
+        isPresented = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            isPresented = false
+
+            if autoReappear {
+                // Wait 2 seconds after dismissal, then show again
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    if autoReappear && !isPresented {
+                        showNotificationWithAutoReappear()
+                    }
+                }
+            }
+        }
     }
 
     @ViewBuilder
@@ -292,6 +312,7 @@ struct NotificationDemoView: View {
             }
 
             FluentListSection("Action") {
+                Toggle("Auto-Reappear After Dismissal (2s delay)", isOn: $autoReappear)
                 Toggle("Has Action Button Action", isOn: $hasActionButtonAction)
                 Toggle("Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
                 Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
@@ -321,6 +342,7 @@ struct NotificationDemoView: View {
             }
         }
         .fluentListStyle(.insetGrouped)
+        .id("notificationSettings")
     }
 
     private var backgroundGradient: LinearGradientInfo {

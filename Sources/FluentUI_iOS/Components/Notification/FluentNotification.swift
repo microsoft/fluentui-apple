@@ -8,6 +8,7 @@ import FluentUI_common
 #endif
 import Combine
 import SwiftUI
+import UIKit
 
 /// Properties that can be used to customize the appearance of the `Notification`.
 @objc public protocol MSFNotificationState: NSObjectProtocol {
@@ -618,35 +619,72 @@ struct SwipeToDismiss: ViewModifier {
     let onDismiss: () -> Void
     let enabled: Bool
 
+    // Constants for better maintainability
+    private let dismissalThreshold: CGFloat = 70
+    private let velocityThreshold: CGFloat = 500
+
     func body(content: Content) -> some View {
-        content
-            .offset(x: horizontalOffset)
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                          guard value.translation.width < 0 else { return }
-                          if horizontalOffset == 0 {
-                              withAnimation(.interactiveSpring) {
-                                  horizontalOffset = value.translation.width
-                              }
-                          } else {
-                              horizontalOffset = value.translation.width
-                          }
-                    }
-                    .onEnded { _ in
-                        withAnimation(.interactiveSpring.speed(2)) {
-                            if horizontalOffset > -70 {
-                                horizontalOffset = 0
-                            } else {
-                                withAnimation(.interactiveSpring) {
-                                    horizontalOffset = -2000
+            content
+                .offset(x: horizontalOffset)
+                .opacity(enabled ? opacityForOffset() : 1)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            // Only allow leftward swipes
+                            guard enabled, value.translation.width < 0 else { return }
+
+                            // Apply rubber-banding effect for resistance
+                            let resistance: CGFloat = 0.7
+                            horizontalOffset = value.translation.width * resistance
+                        }
+                        .onEnded { value in
+                            guard enabled else { return }
+
+                            let velocity = value.predictedEndLocation.x - value.location.x
+                            let shouldDismiss = horizontalOffset < -dismissalThreshold || velocity < -velocityThreshold
+
+                            if shouldDismiss {
+                                // Animate off-screen using window width to ensure it goes completely off-screen
+                                let windowWidth = windowWidth()
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    horizontalOffset = -(windowWidth + 100)
                                 } completion: {
                                     onDismiss()
                                 }
+                            } else {
+                                // Snap back to original position
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    horizontalOffset = 0
+                                }
                             }
                         }
-                    },
-                isEnabled: enabled
-            )
+                )
+    }
+
+    /// Calculate opacity based on swipe progress for smoother dismissal
+    private func opacityForOffset() -> Double {
+        if horizontalOffset >= 0 {
+            return 1.0
+        }
+        // Fade out as user swipes
+        let fadeStartThreshold: CGFloat = -30
+        let fadeRange: CGFloat = 150
+
+        if horizontalOffset > fadeStartThreshold {
+            return 1.0
+        }
+
+        let fadeProgress = min(1.0, abs(horizontalOffset - fadeStartThreshold) / fadeRange)
+        return 1.0 - (fadeProgress * 0.3) // Max 30% opacity reduction
+    }
+
+    /// Get the window width for the current scene
+    private func windowWidth() -> CGFloat {
+        // Get the active window from the connected scenes
+        let window = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+        return window?.bounds.width ?? 500
     }
 }
