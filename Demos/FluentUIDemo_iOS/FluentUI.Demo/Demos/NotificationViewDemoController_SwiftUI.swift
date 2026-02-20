@@ -104,7 +104,10 @@ struct NotificationDemoView: View {
         let trailingImage = showTrailingImage ? UIImage(named: "Placeholder_24") : nil
         let trailingImageLabel = showTrailingImage ? "Circle" : nil
         let actionButtonAction = hasActionButtonAction ? { showAlert = true } : nil
-        let dismissButtonAction = { showAlert = true }
+        let dismissButtonAction = {
+            previewPresented = false
+            showAlert = true
+        }
         let messageButtonAction = hasMessageAction ? { showAlert = true } : nil
         let hasMessage = !message.isEmpty
         let hasTitle = !title.isEmpty
@@ -200,7 +203,12 @@ struct NotificationDemoView: View {
 
             Button("Show Notification") {
                 if isPresented == false {
-                    showNotificationWithAutoReappear()
+                    notificationID = UUID() // Force recreation
+                    isPresented = true
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                        isPresented = false
+                    }
                 }
             }
             .buttonStyle(FluentButtonStyle(style: .accent))
@@ -210,6 +218,16 @@ struct NotificationDemoView: View {
             notificationSettings
         }
         .id(notificationID)
+        .onChange(of: previewPresented) { _, isPresented in
+            if !isPresented && autoReappear {
+                // Wait 2 seconds after dismissal, then show again
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    if autoReappear && !previewPresented {
+                        previewPresented = true
+                    }
+                }
+            }
+        }
         .presentNotification(isPresented: $isPresented, isBlocking: false) {
             FluentNotification(style: style,
                                isFlexibleWidthToast: isFlexibleWidthToast,
@@ -236,24 +254,6 @@ struct NotificationDemoView: View {
         }
         .fluentTheme(theme)
         .tint(Color(theme.color(.brandForeground1)))
-    }
-
-    private func showNotificationWithAutoReappear() {
-        notificationID = UUID() // Force recreation
-        isPresented = true
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            isPresented = false
-
-            if autoReappear {
-                // Wait 2 seconds after dismissal, then show again
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    if autoReappear && !isPresented {
-                        showNotificationWithAutoReappear()
-                    }
-                }
-            }
-        }
     }
 
     @ViewBuilder
