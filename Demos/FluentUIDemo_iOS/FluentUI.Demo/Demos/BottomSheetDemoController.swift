@@ -107,6 +107,10 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.shouldResizingHandleOverlayContent = sender.isOn
     }
 
+    @objc private func toggleResizingHandleTapToHide(_ sender: BooleanCell) {
+        bottomSheetViewController?.allowsResizingHandleTapToHide = sender.isOn
+    }
+
     @objc private func showTransientSheet() {
         let hostingVC = UIHostingController(rootView: BottomSheetDemoListContentView())
 
@@ -283,7 +287,11 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Resizing handle overlaps content",
                           type: .boolean,
                         action: #selector(toggleResizingHandleOverlayContent),
-                          isOn: bottomSheetViewController?.shouldResizingHandleOverlayContent ?? false)
+                          isOn: bottomSheetViewController?.shouldResizingHandleOverlayContent ?? false),
+                DemoItem(title: "Tap handle to dismiss sheet when expanded",
+                          type: .boolean,
+                        action: #selector(toggleResizingHandleTapToHide),
+                          isOn: bottomSheetViewController?.allowsResizingHandleTapToHide ?? false)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
