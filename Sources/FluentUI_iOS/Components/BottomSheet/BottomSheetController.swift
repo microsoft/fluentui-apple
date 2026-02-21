@@ -297,6 +297,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
     @objc open var allowsSwipeToHide: Bool = false
 
+    /// When enabled, tapping the resizing handle while the sheet is expanded will move it to the hidden state instead of collapsed.
+    @objc open var allowsResizingHandleTapToHide: Bool = false
+
     /// Indicates whether the resizing handle should overlay the content.
     ///
     /// The default value is false.
@@ -803,7 +806,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             return
         }
 
-        if nextState == .collapsed {
+        if nextState == .collapsed || nextState == .hidden {
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
@@ -825,7 +828,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         case .partial:
             .expanded
         case .expanded:
-            .collapsed
+            allowsResizingHandleTapToHide ? .hidden : .collapsed
         default:
             nil
         }
