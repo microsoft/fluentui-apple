@@ -248,7 +248,7 @@ class NotificationViewDemoController: DemoController {
             notification.state.actionButtonTitle = "Bump"
 
             notification.state.actionButtonAction = { [weak notification] in
-                notification?.state.bump()
+                notification?.performBumpAnimation()
             }
 
             return notification

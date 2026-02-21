@@ -26,8 +26,10 @@ import UIKit
     @objc public init(style: MSFNotificationStyle,
                       isFlexibleWidthToast: Bool = false) {
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
+        self.triggerModel = FluentNotificationTriggerModel()
         notification = FluentNotification(style: style,
-                                          shouldSelfPresent: false)
+                                          shouldSelfPresent: false,
+                                          triggerModel: triggerModel)
         super.init(AnyView(notification), safeAreaRegions: [])
         let defaultDismissAction = { [weak self] in
             guard let strongSelf = self else {
@@ -211,6 +213,11 @@ import UIKit
         }
     }
 
+    /// Triggers the bump animation for the notification
+    @objc public func performBumpAnimation() {
+        triggerModel.shouldBump = true
+    }
+
     // MARK: - Private variables
     private static var currentToast: MSFNotification? {
         didSet {
@@ -224,5 +231,6 @@ import UIKit
     private var constraintWhenHidden: NSLayoutConstraint!
     private var constraintWhenShown: NSLayoutConstraint!
     private var notification: FluentNotification!
+    private var triggerModel: FluentNotificationTriggerModel
     private var isHiding: Bool = false
 }
