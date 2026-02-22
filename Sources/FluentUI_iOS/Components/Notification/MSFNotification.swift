@@ -55,6 +55,24 @@ import UIKit
         return notification.tokenSet
     }
 
+	// MARK: - Show/Hide Methods
+	/// `show` is used to present the view inside a container view:
+	/// insert into layout and show with optional animation. Constraints are used for the view positioning.
+	/// - Parameters:
+	///   - view: The container view where this view will be presented.
+	///   - anchorView: The view used as the bottom anchor for presentation
+	///   (notification view is always presented up from the anchor). When no anchor view is provided the
+	///   bottom anchor of the container's safe area is used.
+	///   - animated: Indicates whether to use animation during presentation or not.
+	///   - completion: The closure to be called after presentation is completed.
+	///   Can be used to call `hide` with a delay.
+    @objc public func show(in view: UIView,
+                           from anchorView: UIView? = nil,
+                           animated: Bool = true,
+                           completion: ((MSFNotification) -> Void)? = nil) {
+        show(in: view, from: anchorView, with:nil, animated: animated, completion: completion);
+    }
+
     // MARK: - Show/Hide Methods
     /// `show` is used to present the view inside a container view:
     /// insert into layout and show with optional animation. Constraints are used for the view positioning.
@@ -63,11 +81,13 @@ import UIKit
     ///   - anchorView: The view used as the bottom anchor for presentation
     ///   (notification view is always presented up from the anchor). When no anchor view is provided the
     ///   bottom anchor of the container's safe area is used.
+    ///  - layoutGuide: The layout guide used to present the toast inside of when no `anchorView` is provided
     ///   - animated: Indicates whether to use animation during presentation or not.
     ///   - completion: The closure to be called after presentation is completed.
     ///   Can be used to call `hide` with a delay.
     @objc public func show(in view: UIView,
                            from anchorView: UIView? = nil,
+                           with layoutGuide: UILayoutGuide? = nil,
                            animated: Bool = true,
                            completion: ((MSFNotification) -> Void)? = nil) {
         guard self.window == nil else {
@@ -80,6 +100,7 @@ import UIKit
             currentToast.hide {
                 self.show(in: view,
                           from: anchorView,
+                          with: layoutGuide,
                           animated: animated,
                           completion: completion)
             }
@@ -95,11 +116,11 @@ import UIKit
 
         let anchor: NSLayoutYAxisAnchor
         if state.showFromBottom {
-            anchor = anchorView?.topAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
+            anchor = anchorView?.topAnchor ?? layoutGuide?.bottomAnchor ?? view.safeAreaLayoutGuide.bottomAnchor
             constraintWhenHidden = self.topAnchor.constraint(equalTo: anchor)
             constraintWhenShown = self.bottomAnchor.constraint(equalTo: anchor, constant: -presentationOffset)
         } else {
-            anchor = anchorView?.bottomAnchor ?? view.safeAreaLayoutGuide.topAnchor
+            anchor = anchorView?.bottomAnchor ?? layoutGuide?.topAnchor ?? view.safeAreaLayoutGuide.topAnchor
             constraintWhenHidden = self.bottomAnchor.constraint(equalTo: anchor)
             constraintWhenShown = self.topAnchor.constraint(equalTo: anchor, constant: presentationOffset)
         }
