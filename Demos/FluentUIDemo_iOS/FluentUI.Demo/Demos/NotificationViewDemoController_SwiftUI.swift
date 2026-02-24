@@ -230,7 +230,7 @@ struct NotificationDemoView: View {
         }
         .presentNotification(isPresented: $isPresented, isBlocking: false) {
             FluentNotification(style: style,
-                               isFlexibleWidthToast: isFlexibleWidthToast,
+                               isFlexibleWidthToast: $isFlexibleWidthToast.wrappedValue,
                                message: hasMessage ? message : nil,
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                messageLineLimit: messageLineLimit,
@@ -250,7 +250,7 @@ struct NotificationDemoView: View {
                                verticalOffset: verticalOffset,
                                triggerModel: triggerModel)
             .backgroundGradient(showBackgroundGradient ? backgroundGradient : nil)
-            .overrideTokens(overrideTokens ? notificationOverrideTokens : nil)
+            .overrideTokens($overrideTokens.wrappedValue ? notificationOverrideTokens : nil)
         }
         .fluentTheme(theme)
         .tint(Color(theme.color(.brandForeground1)))
