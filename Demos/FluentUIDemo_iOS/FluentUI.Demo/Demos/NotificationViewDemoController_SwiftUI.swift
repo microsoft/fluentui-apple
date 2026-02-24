@@ -55,7 +55,7 @@ struct NotificationDemoView: View {
     @State var verticalOffset: CGFloat = 0.0
     @State var previewPresented: Bool = true
     @State var notificationID: UUID = UUID()
-    @State var autoReappear: Bool = false
+    @State var autoReappear: Bool = true
     @ObservedObject var fluentTheme: FluentTheme = .shared
     private var triggerModel = FluentNotificationTriggerModel()
     let customTheme: FluentTheme = {
@@ -312,7 +312,6 @@ struct NotificationDemoView: View {
             }
 
             FluentListSection("Action") {
-                Toggle("Auto-Reappear After Dismissal (2s delay)", isOn: $autoReappear)
                 Toggle("Has Action Button Action", isOn: $hasActionButtonAction)
                 Toggle("Show Default Dismiss Button", isOn: $showDefaultDismissActionButton)
                 Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
@@ -342,7 +341,6 @@ struct NotificationDemoView: View {
             }
         }
         .fluentListStyle(.insetGrouped)
-        .id("notificationSettings")
     }
 
     private var backgroundGradient: LinearGradientInfo {
