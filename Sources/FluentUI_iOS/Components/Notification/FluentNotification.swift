@@ -8,7 +8,6 @@ import FluentUI_common
 #endif
 import Combine
 import SwiftUI
-import UIKit
 
 /// Properties that can be used to customize the appearance of the `Notification`.
 @objc public protocol MSFNotificationState: NSObjectProtocol {
