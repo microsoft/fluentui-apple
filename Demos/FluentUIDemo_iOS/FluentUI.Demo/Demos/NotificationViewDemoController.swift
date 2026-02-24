@@ -30,7 +30,7 @@ class NotificationViewDemoController: DemoController {
         var displayText: String {
             switch self {
             case .primaryToast:
-                return "Primary Toast with auto-hide"
+                return "Primary Toast with auto-hide and Swipe-to-Dismiss"
             case .primaryToastWithImageAndTitle:
                 return "Primary Toast with image and title"
             case .neutralToast:
@@ -93,6 +93,7 @@ class NotificationViewDemoController: DemoController {
             let notification = MSFNotification(style: .primaryToast)
             notification.state.message = "Mail Archived"
             notification.state.actionButtonTitle = "Undo"
+            notification.state.swipeToDismissEnabled = true
             notification.state.actionButtonAction = { [weak self] in
                 self?.showMessage("`Undo` tapped")
                 notification.hide()
