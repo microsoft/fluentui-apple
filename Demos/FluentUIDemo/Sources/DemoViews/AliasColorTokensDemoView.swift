@@ -182,6 +182,8 @@ extension FluentTheme.ColorToken {
             return "Foreground 2"
         case .foreground3:
             return "Foreground 3"
+        case .foreground4:
+            return "Foreground 4"
         case .foregroundDisabled1:
             return "Foreground Disabled 1"
         case .foregroundDisabled2:
@@ -226,6 +228,8 @@ extension FluentTheme.ColorToken {
             return "Background 4 Pressed"
         case .background4Selected:
             return "Background 4 Selected"
+        case .background4Hover:
+            return "Background 4 Hover"
         case .background5:
             return "Background 5"
         case .background5Pressed:
@@ -367,6 +371,7 @@ extension FluentTheme.ColorToken {
              .background4,
              .background4Pressed,
              .background4Selected,
+             .background4Hover,
              .background5,
              .background5Pressed,
              .background5Selected,
@@ -395,6 +400,7 @@ extension FluentTheme.ColorToken {
         case .foreground1,
              .foreground2,
              .foreground3,
+             .foreground4,
              .glassForeground1,
              .strokeFocus2,
              .strokeAccessible,
