@@ -155,6 +155,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         let cornerRadius = bounds.height / 2
         layer.cornerRadius = cornerRadius
         commandBarContainerStackView.layer.cornerRadius = cornerRadius
+        commandBarContainerStackView.layoutIfNeeded()
 
         updateShadow()
         updateScrollViewShadow()
