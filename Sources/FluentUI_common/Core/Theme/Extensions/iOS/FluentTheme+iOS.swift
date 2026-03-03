@@ -225,23 +225,23 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm60),
                           dark: GlobalTokens.brandSwiftUIColor(.comm120))
         case .dangerBackground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .tint60),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .shade40))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .tint60),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .shade40))
         case .dangerBackground2:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .shade10))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .shade10))
         case .dangerForeground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .shade10),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .shade20),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .tint30))
         case .dangerForeground2:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .tint30))
         case .dangerStroke1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .tint20),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .tint20))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .tint30))
         case .dangerStroke2:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.red, .primary),
-                          dark: GlobalTokens.sharedSwiftUIColor(.red, .tint30))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.cranberry, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.cranberry, .tint20))
         case .successBackground1:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .tint60),
                           dark: GlobalTokens.sharedSwiftUIColor(.green, .shade40))
@@ -249,14 +249,14 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .primary),
                           dark: GlobalTokens.sharedSwiftUIColor(.green, .shade10))
         case .successForeground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .shade10),
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .shade20),
                           dark: GlobalTokens.sharedSwiftUIColor(.green, .tint30))
         case .successForeground2:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .primary),
                           dark: GlobalTokens.sharedSwiftUIColor(.green, .tint30))
         case .successStroke1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .tint20),
-                          dark: GlobalTokens.sharedSwiftUIColor(.green, .tint20))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.green, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.lightGreen, .tint30))
         case .severeBackground1:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint60),
                           dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .shade40))
@@ -273,20 +273,20 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint10),
                           dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint20))
         case .warningBackground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint60),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade40))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.orange, .tint60),
+                          dark: GlobalTokens.sharedSwiftUIColor(.orange, .shade40))
         case .warningBackground2:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .primary),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade10))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.orange, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.orange, .shade10))
         case .warningForeground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .tint30))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.orange, .shade30),
+                          dark: GlobalTokens.sharedSwiftUIColor(.orange, .tint30))
         case .warningForeground2:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .tint30))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.orange, .shade20),
+                          dark: GlobalTokens.sharedSwiftUIColor(.orange, .tint40))
         case .warningStroke1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .shade30),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade20))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.orange, .primary),
+                          dark: GlobalTokens.sharedSwiftUIColor(.orange, .tint30))
         case .presenceAway:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.marigold, .primary))
         case .presenceDnd:
