@@ -215,6 +215,7 @@ open class BottomCommandingController: UIViewController, TokenizedControl {
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
     /// - Returns: A `UIViewPropertyAnimator`. The associated animations start in a paused state.
+    @available(*, deprecated, message: "prepareInteractiveIsHiddenChange is deprecated.")
     @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewPropertyAnimator? {
         guard isViewLoaded else {
             return nil
