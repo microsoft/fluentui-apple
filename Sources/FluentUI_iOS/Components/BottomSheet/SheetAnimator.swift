@@ -20,7 +20,7 @@ import UIKit
 ///     } completion: {
 ///         handleCompletedStateChange(...)
 ///     }
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 public class SheetAnimator {
 
     /// Creates a `SheetAnimator`.

@@ -168,7 +168,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///
     /// Defaults to `false` to preserve existing behavior. Requires iOS 18+.
     /// Note: This will cause more layout passes during animations, which may impact performance.
-    @available(iOS 18.0, *)
+    @available(iOS 18.0, visionOS 2.0, *)
     open var usesCustomSpringAnimator: Bool {
         get { _usesCustomSpringAnimator }
         set { _usesCustomSpringAnimator = newValue }
@@ -180,7 +180,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///
     /// Defaults to `true`. Only takes effect when `usesCustomSpringAnimator` is also `true`.
     /// Requires iOS 18+.
-    @available(iOS 18.0, *)
+    @available(iOS 18.0, visionOS 2.0, *)
     open var usesHighFrameRatePanning: Bool {
         get { _usesHighFrameRatePanning }
         set { _usesHighFrameRatePanning = newValue }
@@ -975,7 +975,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         switch sender.state {
         case .began:
             completeAnimationsIfNeeded()
-            if #available(iOS 18.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
+            if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
                 sheetAnimator.wantsHighFrameRateIdle = true
             }
             delegate?.bottomSheetStartedPan?(self, from: currentExpansionState)
@@ -1151,7 +1151,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
 
-            if animated, #available(iOS 18.0, *), usesCustomSpringAnimator {
+            if animated, #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator {
                 moveWithSpringAnimator(to: targetExpansionState,
                                     velocity: velocity,
                                     interaction: interaction,
@@ -1242,7 +1242,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return translationAnimator
     }
 
-    @available(iOS 18.0, *)
+    @available(iOS 18.0, visionOS 2.0, *)
     private func moveWithSpringAnimator(to targetExpansionState: BottomSheetExpansionState,
                                      velocity: CGFloat,
                                      interaction: BottomSheetInteraction,
@@ -1352,7 +1352,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             currentStateChangeAnimator = nil
         }
 
-        if #available(iOS 18.0, *), sheetAnimator.isRunning {
+        if #available(iOS 18.0, visionOS 2.0, *), sheetAnimator.isRunning {
             if skipToEnd {
                 sheetAnimator.skipToEnd()
             } else {
@@ -1459,7 +1459,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
-    @available(iOS 18.0, *)
+    @available(iOS 18.0, visionOS 2.0, *)
     private var sheetAnimator: SheetAnimator {
         if let existing = _sheetAnimator as? SheetAnimator {
             return existing
