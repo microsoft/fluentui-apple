@@ -94,7 +94,6 @@ class BottomCommandingDemoController: DemoController {
         return [
             [
                 DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomCommandingController?.isHidden ?? false),
-                DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
                 DemoItem(title: "Sheet more button", type: .boolean, action: #selector(toggleSheetMoreButton), isOn: bottomCommandingController?.prefersSheetMoreButtonVisible ?? true),
                 DemoItem(title: "Sheet should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomCommandingController?.sheetShouldAlwaysFillWidth ?? true)
             ],
@@ -120,10 +119,6 @@ class BottomCommandingDemoController: DemoController {
 
     @objc private func toggleHidden(_ sender: BooleanCell) {
         bottomCommandingController?.isHidden = sender.isOn
-    }
-
-    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
-        scrollHidingEnabled = sender.isOn
     }
 
     @objc private func toggleSheetMoreButton(_ sender: BooleanCell) {
@@ -323,14 +318,6 @@ class BottomCommandingDemoController: DemoController {
 
     private var additionalExpandedItemsVisible: Bool = false
 
-    private var previousScrollOffset: CGFloat = 0
-
-    private var isHiding: Bool = false
-
-    private var interactiveHidingAnimator: UIViewAnimating?
-
-    private var scrollHidingEnabled: Bool = false
-
     private enum DemoItemType {
         case action
         case boolean
@@ -412,48 +399,6 @@ extension BottomCommandingDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
-    }
-}
-
-extension BottomCommandingDemoController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let contentOffset = scrollView.contentOffset.y
-
-        if scrollView.isTracking && scrollHidingEnabled {
-            var delta = contentOffset - previousScrollOffset
-            if interactiveHidingAnimator == nil {
-                isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomCommandingController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
-                    self?.mainTableViewController?.tableView?.reloadData()
-                    self?.mainTableViewController?.tableView?.layoutIfNeeded()
-                    self?.interactiveHidingAnimator = nil
-                }
-            }
-            if let animator = interactiveHidingAnimator {
-                if animator.isRunning {
-                    animator.pauseAnimation()
-                }
-
-                // fractionComplete either represents progress to hidden or unhidden,
-                // so we need to adjust the delta to account for this
-                delta *= isHiding ? 1 : -1
-                animator.fractionComplete += delta / 100
-            }
-        }
-
-        previousScrollOffset = contentOffset
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let animator = interactiveHidingAnimator {
-            if animator.fractionComplete > 0.5 {
-                animator.startAnimation()
-            } else {
-                animator.isReversed.toggle()
-                isHiding.toggle()
-                animator.startAnimation()
-            }
-        }
     }
 }
 

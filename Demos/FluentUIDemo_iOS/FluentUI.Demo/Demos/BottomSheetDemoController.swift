@@ -73,10 +73,6 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.shouldAlwaysFillWidth = sender.isOn
     }
 
-    @objc private func toggleScrollHiding(_ sender: BooleanCell) {
-        scrollHidingEnabled = sender.isOn
-    }
-
     @objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
         bottomSheetViewController?.shouldHideCollapsedContent.toggle()
     }
@@ -253,17 +249,9 @@ class BottomSheetDemoController: DemoController {
 
     private var bottomSheetViewController: BottomSheetController?
 
-    private var previousScrollOffset: CGFloat = 0
-
-    private var scrollHidingEnabled: Bool = false
-
     private var collapsedContentHidingEnabled: Bool = true
 
     private var isHandleUsingCustomAccessibilityLabel: Bool = false
-
-    private var isHiding: Bool = false
-
-    private var interactiveHidingAnimator: UIViewAnimating?
 
     private var demoOptionItems: [[DemoItem]] {
         [
@@ -271,7 +259,6 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
                 DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
                 DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
-                DemoItem(title: "Scroll to hide", type: .boolean, action: #selector(toggleScrollHiding), isOn: scrollHidingEnabled),
                 DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
                 DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
                 DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
@@ -383,48 +370,6 @@ extension BottomSheetDemoController: UITableViewDataSource {
         }
 
         return UITableViewCell()
-    }
-}
-
-extension BottomSheetDemoController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let contentOffset = scrollView.contentOffset.y
-
-        if scrollView.isTracking && scrollHidingEnabled {
-            var delta = contentOffset - previousScrollOffset
-            if interactiveHidingAnimator == nil {
-                isHiding = delta > 0 ? true : false
-                interactiveHidingAnimator = bottomSheetViewController?.prepareInteractiveIsHiddenChange(isHiding) { [weak self] _ in
-                    self?.mainTableView?.reloadData()
-                    self?.mainTableView?.layoutIfNeeded()
-                    self?.interactiveHidingAnimator = nil
-                }
-            }
-            if let animator = interactiveHidingAnimator {
-                if animator.isRunning {
-                    animator.pauseAnimation()
-                }
-
-                // fractionComplete either represents progress to hidden or unhidden,
-                // so we need to adjust the delta to account for this
-                delta *= isHiding ? 1 : -1
-                animator.fractionComplete += delta / 100
-            }
-        }
-
-        previousScrollOffset = contentOffset
-    }
-
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if let animator = interactiveHidingAnimator {
-            if animator.fractionComplete > 0.5 {
-                animator.startAnimation()
-            } else {
-                animator.isReversed.toggle()
-                isHiding.toggle()
-                animator.startAnimation()
-            }
-        }
     }
 }
 
