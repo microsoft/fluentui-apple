@@ -24,39 +24,80 @@ class BottomSheetDemoController: DemoController {
         view.addSubview(optionTableView)
         mainTableView = optionTableView
 
-        let bottomSheetViewController = BottomSheetController(headerContentView: headerView, expandedContentView: contentNavigationController.view)
-        bottomSheetViewController.hostedScrollView = personaListView
-        bottomSheetViewController.headerContentHeight = BottomSheetDemoController.headerHeight
-        bottomSheetViewController.delegate = self
-        bottomSheetViewController.collapsedHeightResolver = { context in
-            return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
-        }
-
-        bottomSheetViewController.partialHeightResolver = { context in
-            return context.maximumHeight * 0.5
-        }
-
-        self.bottomSheetViewController = bottomSheetViewController
-
-        self.addChild(bottomSheetViewController)
-        view.addSubview(bottomSheetViewController.view)
-        bottomSheetViewController.didMove(toParent: self)
-
-        // If we're hosting a VC view in the bottom sheet, the VC itself needs to be a child of the bottom sheet VC
-        // This is important to ensure safe area changes propagate correctly.
-        bottomSheetViewController.addChild(contentNavigationController)
-        contentNavigationController.didMove(toParent: bottomSheetViewController)
+        fpsOverlay.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fpsOverlay)
 
         NSLayoutConstraint.activate([
             optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             optionTableView.topAnchor.constraint(equalTo: view.topAnchor),
             optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bottomSheetViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bottomSheetViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bottomSheetViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
-            bottomSheetViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            fpsOverlay.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            fpsOverlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
         ])
+
+        rebuildSheet()
+    }
+
+    private func rebuildSheet() {
+        // Tear down existing sheet
+        if let existing = bottomSheetViewController {
+            existing.willMove(toParent: nil)
+            existing.view.removeFromSuperview()
+            existing.removeFromParent()
+            bottomSheetViewController = nil
+            swiftUIHostingController = nil
+        }
+
+        let sheetController: BottomSheetController
+        if useSwiftUIContent {
+            let contentView = BottomSheetDemoSwiftUIContentView(layoutTickHandler: { [weak self] in
+                self?.fpsOverlay.tick("layout")
+            })
+            let hostingVC = UIHostingController(rootView: contentView)
+            hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
+            swiftUIHostingController = hostingVC
+
+            sheetController = BottomSheetController(expandedContentView: hostingVC.view)
+            sheetController.isFlexibleHeight = true
+            sheetController.shouldHideCollapsedContent = false
+        } else {
+            sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: contentNavigationController.view)
+            sheetController.hostedScrollView = personaListView
+            sheetController.headerContentHeight = BottomSheetDemoController.headerHeight
+        }
+
+        sheetController.delegate = self
+        sheetController.collapsedHeightResolver = { context in
+            return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
+        }
+        sheetController.partialHeightResolver = { context in
+            return context.maximumHeight * 0.5
+        }
+
+        self.bottomSheetViewController = sheetController
+
+        addChild(sheetController)
+        view.addSubview(sheetController.view)
+        sheetController.didMove(toParent: self)
+
+        if let hostingVC = swiftUIHostingController {
+            sheetController.addChild(hostingVC)
+            hostingVC.didMove(toParent: sheetController)
+        } else {
+            sheetController.addChild(contentNavigationController)
+            contentNavigationController.didMove(toParent: sheetController)
+        }
+
+        NSLayoutConstraint.activate([
+            sheetController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            sheetController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            sheetController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            sheetController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        view.bringSubviewToFront(fpsOverlay)
+        mainTableView?.reloadData()
     }
 
     private var mainTableView: UITableView?
@@ -72,6 +113,7 @@ class BottomSheetDemoController: DemoController {
     @objc private func toggleFillWidth(_ sender: BooleanCell) {
         bottomSheetViewController?.shouldAlwaysFillWidth = sender.isOn
     }
+
 
     @objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
         bottomSheetViewController?.shouldHideCollapsedContent.toggle()
@@ -105,6 +147,25 @@ class BottomSheetDemoController: DemoController {
 
     @objc private func toggleResizingHandleTapToHide(_ sender: BooleanCell) {
         bottomSheetViewController?.allowsResizingHandleTapToHide = sender.isOn
+    }
+
+    @objc private func toggleCustomSpringAnimator(_ sender: BooleanCell) {
+        guard #available(iOS 18.0, *) else { return }
+        bottomSheetViewController?.usesCustomSpringAnimator = sender.isOn
+    }
+
+    @objc private func toggleHighFrameRatePanning(_ sender: BooleanCell) {
+        guard #available(iOS 18.0, *) else { return }
+        bottomSheetViewController?.usesHighFrameRatePanning = sender.isOn
+    }
+
+    @objc private func toggleSwiftUIContent(_ sender: BooleanCell) {
+        useSwiftUIContent = sender.isOn
+        rebuildSheet()
+    }
+
+    @objc private func toggleFPSOverlay(_ sender: BooleanCell) {
+        fpsOverlay.isHidden = !sender.isOn
     }
 
     @objc private func showTransientSheet() {
@@ -249,9 +310,20 @@ class BottomSheetDemoController: DemoController {
 
     private var bottomSheetViewController: BottomSheetController?
 
+    private var swiftUIHostingController: UIViewController?
+
     private var collapsedContentHidingEnabled: Bool = true
 
     private var isHandleUsingCustomAccessibilityLabel: Bool = false
+
+    private var useSwiftUIContent: Bool = false
+
+    private let fpsOverlay: FPSOverlayView = {
+        let overlay = FPSOverlayView()
+        overlay.isHidden = true
+        return overlay
+    }()
+
 
     private var demoOptionItems: [[DemoItem]] {
         [
@@ -278,7 +350,23 @@ class BottomSheetDemoController: DemoController {
                 DemoItem(title: "Tap handle to dismiss sheet when expanded",
                           type: .boolean,
                         action: #selector(toggleResizingHandleTapToHide),
-                          isOn: bottomSheetViewController?.allowsResizingHandleTapToHide ?? false)
+                          isOn: bottomSheetViewController?.allowsResizingHandleTapToHide ?? false),
+                DemoItem(title: "Custom spring animator (iOS 18+)",
+                          type: .boolean,
+                        action: #selector(toggleCustomSpringAnimator),
+                          isOn: false),
+                DemoItem(title: "High frame rate panning (iOS 18+)",
+                          type: .boolean,
+                        action: #selector(toggleHighFrameRatePanning),
+                          isOn: false),
+                DemoItem(title: "SwiftUI sheet content",
+                          type: .boolean,
+                        action: #selector(toggleSwiftUIContent),
+                          isOn: useSwiftUIContent),
+                DemoItem(title: "Show FPS overlay",
+                          type: .boolean,
+                        action: #selector(toggleFPSOverlay),
+                          isOn: !fpsOverlay.isHidden)
             ],
             [
                 DemoItem(title: "Show transient sheet", type: .action, action: #selector(showTransientSheet))
@@ -439,5 +527,48 @@ struct BottomSheetDemoListContentView: View {
                 Text("Cell without Swipe Action")
             }
             .listStyle(.plain)
+    }
+}
+
+struct BottomSheetDemoSwiftUIContentView: View {
+    var layoutTickHandler: (() -> Void)?
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text("Main content")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            VStack(spacing: 0) {
+                Divider()
+                Text("Bottom bar")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+            }
+            .background(.bar)
+        }
+        .background(LayoutTickReporter(handler: layoutTickHandler))
+    }
+}
+
+private struct LayoutTickReporter: UIViewRepresentable {
+    var handler: (() -> Void)?
+
+    func makeUIView(context: Context) -> LayoutTickView {
+        let v = LayoutTickView()
+        v.handler = handler
+        return v
+    }
+
+    func updateUIView(_ uiView: LayoutTickView, context: Context) {
+        uiView.handler = handler
+    }
+}
+
+class LayoutTickView: UIView {
+    var handler: (() -> Void)?
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        handler?()
     }
 }

@@ -82,6 +82,7 @@
 		807E8B4528F9F8B8002B8F84 /* PillButtonDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807E8B4428F9F8B8002B8F84 /* PillButtonDemoController.swift */; };
 		80AECC0C2630F1BB005AF2F3 /* BottomCommandingDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */; };
 		80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */; };
+		AA1234560003000000000001 /* FPSOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1234560003000000000002 /* FPSOverlayView.swift */; };
 		8F0B81122670200300463726 /* AppCenterDistribute in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 8F0B81112670200300463726 /* AppCenterDistribute */; };
 		8F0B8114267021A700463726 /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 8F0B8113267021A700463726 /* AppCenterAnalytics */; };
 		8F0B8116267021A700463726 /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 8F0B8115267021A700463726 /* AppCenterCrashes */; };
@@ -224,6 +225,7 @@
 		807E8B4428F9F8B8002B8F84 /* PillButtonDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonDemoController.swift; sourceTree = "<group>"; };
 		80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomCommandingDemoController.swift; sourceTree = "<group>"; };
 		80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetDemoController.swift; sourceTree = "<group>"; };
+		AA1234560003000000000002 /* FPSOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSOverlayView.swift; sourceTree = "<group>"; };
 		9211BC602BD97B7900B95200 /* DemoHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoHostingController.swift; sourceTree = "<group>"; };
 		92279B342B97F5D900994D88 /* ButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		923DF2DA271158C900637646 /* libFluentUI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFluentUI.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -532,6 +534,7 @@
 				B444D6B72183BA4B0002B4D4 /* BadgeViewDemoController.swift */,
 				80AECC0B2630F1BB005AF2F3 /* BottomCommandingDemoController.swift */,
 				80B1F7002628D8BB004DFEE5 /* BottomSheetDemoController.swift */,
+				AA1234560003000000000002 /* FPSOverlayView.swift */,
 				B4D852DA225C010A004B1B29 /* ButtonDemoController.swift */,
 				92279B342B97F5D900994D88 /* ButtonDemoController_SwiftUI.swift */,
 				92D5598326A1523400328FD3 /* CardNudgeDemoController.swift */,
@@ -836,6 +839,7 @@
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
 				80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */,
+				AA1234560003000000000001 /* FPSOverlayView.swift in Sources */,
 				ECD95F5E2A0B19FF00152742 /* BrandedSwitch.swift in Sources */,
 				FC414E3725888BC300069E73 /* CommandBarDemoController.swift in Sources */,
 				B45EB79221A4D047008646A2 /* BadgeFieldDemoController.swift in Sources */,
