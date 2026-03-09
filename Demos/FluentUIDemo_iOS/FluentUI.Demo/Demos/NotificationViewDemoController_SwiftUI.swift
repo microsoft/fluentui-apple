@@ -245,7 +245,6 @@ struct NotificationDemoView: View {
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                messageButtonAction: messageButtonAction,
-                               swipeToDismissEnabled: swipeToDismissEnabled,
                                showFromBottom: showFromBottom,
                                verticalOffset: verticalOffset,
                                triggerModel: triggerModel)
