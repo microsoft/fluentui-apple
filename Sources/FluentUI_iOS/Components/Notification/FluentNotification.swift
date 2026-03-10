@@ -615,6 +615,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
 
 struct SwipeToDismiss: ViewModifier {
     @State private var horizontalOffset: CGFloat = 0
+    @State private var dismissalOpacity: CGFloat = 1.0
     let onDismiss: () -> Void
     let enabled: Bool
 
@@ -624,40 +625,41 @@ struct SwipeToDismiss: ViewModifier {
 
     func body(content: Content) -> some View {
             content
-                .offset(x: horizontalOffset)
-                .opacity(enabled ? opacityForOffset() : 1)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            // Only allow leftward swipes
-                            guard enabled, value.translation.width < 0 else { return }
+                .modifyIf(enabled) { view in
+                    view
+                        .offset(x: horizontalOffset)
+                        .opacity(min(opacityForOffset(), dismissalOpacity))
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    // Only allow leftward swipes
+                                    guard value.translation.width < 0 else { return }
 
-                            // Apply rubber-banding effect for resistance
-                            let resistance: CGFloat = 0.7
-                            horizontalOffset = value.translation.width * resistance
-                        }
-                        .onEnded { value in
-                            guard enabled else { return }
-
-                            let velocity = value.predictedEndLocation.x - value.location.x
-                            let shouldDismiss = horizontalOffset < -dismissalThreshold || velocity < -velocityThreshold
-
-                            if shouldDismiss {
-                                // Animate off-screen using window width to ensure it goes completely off-screen
-                                let windowWidth = windowWidth()
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    horizontalOffset = -(windowWidth + 100)
-                                } completion: {
-                                    onDismiss()
+                                    // Apply rubber-banding effect for resistance
+                                    let resistance: CGFloat = 0.7
+                                    horizontalOffset = value.translation.width * resistance
                                 }
-                            } else {
-                                // Snap back to original position
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                    horizontalOffset = 0
+                                .onEnded { value in
+                                    let velocity = value.predictedEndLocation.x - value.location.x
+                                    let shouldDismiss = horizontalOffset < -dismissalThreshold || velocity < -velocityThreshold
+
+                                    if shouldDismiss {
+                                        // Animate off-screen with fade to full transparency
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            horizontalOffset = -500
+                                            dismissalOpacity = 0
+                                        } completion: {
+                                            onDismiss()
+                                        }
+                                    } else {
+                                        // Snap back to original position
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                            horizontalOffset = 0
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                )
+                        )
+                }
     }
 
     /// Calculate opacity based on swipe progress for smoother dismissal
@@ -675,15 +677,5 @@ struct SwipeToDismiss: ViewModifier {
 
         let fadeProgress = min(1.0, abs(horizontalOffset - fadeStartThreshold) / fadeRange)
         return 1.0 - (fadeProgress * 0.3) // Max 30% opacity reduction
-    }
-
-    /// Get the window width for the current scene
-    private func windowWidth() -> CGFloat {
-        // Get the active window from the connected scenes
-        let window = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.isKeyWindow }
-        return window?.bounds.width ?? 500
     }
 }
