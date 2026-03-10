@@ -83,7 +83,7 @@ public class SheetAnimator {
         stop()
 
         let distance = toValue - fromValue
-        guard abs(distance) > Self.settleTolerance else {
+        guard abs(distance) > Self.settleTolerance, duration > 0 else {
             onChange(toValue)
             completion()
             return
