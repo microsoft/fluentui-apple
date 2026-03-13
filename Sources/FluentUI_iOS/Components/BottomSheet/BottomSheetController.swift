@@ -986,6 +986,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sender.setTranslation(.zero, in: view)
         case .ended, .cancelled, .failed:
             completePan(with: sender.velocity(in: view).y)
+            if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
+                sheetAnimator.wantsHighFrameRateIdle = false
+            }
         default:
             break
         }
