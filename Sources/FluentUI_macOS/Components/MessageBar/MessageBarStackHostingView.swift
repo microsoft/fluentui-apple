@@ -7,38 +7,7 @@ import AppKit
 import Combine
 import SwiftUI
 
-public class MessageBarStackViewModel: ObservableObject {
-	public struct BarItem: Identifiable {
-		public let id: Int
-		public let configuration: MessageBarConfiguration
-		public var isVisible: Bool = false
-	}
-
-	public init(bars: [BarItem]? = nil) {
-		self.bars = bars ?? []
-	}
-
-	@Published public var bars: [BarItem] = []
-
-	public var targetContentHeight: CGFloat {
-		let visibleCount = bars.filter { $0.isVisible }.count
-		return CGFloat(visibleCount) * MessageBar.fixedHeight
-	}
-}
-
-public struct MessageBarStackView: View {
-	@ObservedObject public var viewModel: MessageBarStackViewModel
-
-	public var body: some View {
-		VStack(spacing: 0) {
-			ForEach(viewModel.bars.filter { $0.isVisible }) { bar in
-				MessageBar(bar.configuration)
-			}
-		}
-	}
-}
-
-/// ObjC-accessible holder for the data needed to configure a single message bar row.
+/// Objective-C-accessible holder for the data needed to configure a message bar row.
 @objc(MSFMessageBarConfiguration)
 public class MessageBarConfigurationObject: NSObject {
 	@objc public var title: String = ""
@@ -56,7 +25,7 @@ public final class MessageBarStackHostingView: ControlHostingView {
 	@objc public init() {
 		viewModel = MessageBarStackViewModel()
 		super.init(AnyView(EmptyView()))
-		hostingView.rootView = AnyView(MessageBarStackView(viewModel: viewModel))
+		hostingView.rootView = AnyView(MessageBarStack(viewModel: viewModel))
 		wantsLayer = true
 		clipsToBounds = true
 	}
