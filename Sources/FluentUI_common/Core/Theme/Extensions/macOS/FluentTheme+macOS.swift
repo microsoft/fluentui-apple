@@ -276,8 +276,8 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint10),
                           dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint20))
         case .warningBackground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint60),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade40))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint50),
+                          dark: GlobalTokens.sharedSwiftUIColor(.brass, .shade30))
         case .warningBackground2:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .primary),
                           dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade10))

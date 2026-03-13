@@ -205,6 +205,7 @@ public enum ControlTokenValue {
     case uiColor(() -> UIColor)
     case uiFont(() -> UIFont)
 #endif // os(iOS) || os(visionOS)
+    case font(() -> Font)
     case shadowInfo(() -> ShadowInfo)
 
     public var float: CGFloat {
@@ -252,6 +253,15 @@ public enum ControlTokenValue {
     }
 #endif // os(iOS) || os(visionOS)
 
+    public var font: Font {
+        if case .font(let font) = self {
+            return font()
+        } else {
+            assertionFailure("Cannot convert token to Font: \(self)")
+            return .body
+        }
+    }
+
     public var shadowInfo: ShadowInfo {
         if case .shadowInfo(let shadowInfo) = self {
             return shadowInfo()
@@ -295,6 +305,8 @@ public enum ControlTokenValue {
         case let font as UIFont:
             self = .uiFont { font }
 #endif // os(iOS) || os(visionOS)
+        case let font as Font:
+            self = .font { font }
         case let shadowInfo as ShadowInfo:
             self = .shadowInfo { shadowInfo }
         default:
@@ -340,6 +352,8 @@ extension ControlTokenValue: CustomStringConvertible {
         case .uiFont(let uiFont):
             return "ControlTokenValue.uiFont (\(uiFont())"
 #endif // os(iOS) || os(visionOS)
+        case .font(let font):
+            return "ControlTokenValue.font (\(font())"
         case .shadowInfo(let shadowInfo):
             return "ControlTokenValue.shadowInfo (\(shadowInfo())"
         }
