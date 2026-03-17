@@ -13,7 +13,6 @@ class PillButtonBarTestSwiftUI: BaseTest {
         app.buttons["Show"].firstMatch.tap()
     }
 
-    // launch test that ensures the demo app does not crash and is on the correct control page
     func testLaunch() throws {
         XCTAssert(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Pill Button Bar (SwiftUI)")).exists)
     }
@@ -42,24 +41,15 @@ class PillButtonBarTestSwiftUI: BaseTest {
         // The PillButtonBarView is implemented as a ScrollView, so query it as such
         let pillBar = app.scrollViews[pillBarName]
 
-        // Scroll down the main view to ensure the pill bar is visible
+        // Scroll down the main view to ensure the pill bar is visible and hittable
         var scrollAttempts = 0
-        while !pillBar.exists && scrollAttempts < 8 {
+        while (!pillBar.exists || !pillBar.isHittable) && scrollAttempts < 11 {
             mainScrollView.swipeUp()
             scrollAttempts += 1
             usleep(500000) // 0.5 seconds
         }
 
         XCTAssertTrue(pillBar.waitForExistence(timeout: 5), "Pill bar '\(pillBarName)' not found")
-
-        // Make sure the pill bar is visible and hittable on screen
-        var hittableAttempts = 0
-        while !pillBar.isHittable && hittableAttempts < 3 {
-            mainScrollView.swipeUp()
-            hittableAttempts += 1
-            usleep(500000)
-        }
-
         XCTAssertTrue(pillBar.isHittable, "Pill bar '\(pillBarName)' is not hittable")
 
         // Get all buttons within the pill bar scroll view
@@ -71,15 +61,21 @@ class PillButtonBarTestSwiftUI: BaseTest {
         // Scroll the pill bar to the beginning (right) to ensure the first button is visible
         // Some pill bars may have a non-first button selected, causing the first button to be off-screen
         if buttons.count > 2 {
-            print("Scrolling pill bar to the beginning to reveal first button...")
-            for _ in 0..<5 {
-                if pillBar.isHittable {
-                    pillBar.swipeRight()
-                    usleep(200000) // 0.2 seconds
+            var resetAttempts = 0
+            while resetAttempts < 5 {
+                let firstFrame = buttons[0].frame
+                let barFrame = pillBar.frame
+                // Stop once the first button's left edge is within the pill bar's visible area
+                if firstFrame.width > 0 && firstFrame.minX >= barFrame.minX - 5 {
+                    break
                 }
+                pillBar.swipeRight()
+                usleep(200000) // 0.2 seconds
+                resetAttempts += 1
             }
-            // Small delay to let the scroll settle
-            usleep(300000)
+            if resetAttempts > 0 {
+                usleep(300000)
+            }
         }
 
         // Test each button
@@ -99,16 +95,12 @@ class PillButtonBarTestSwiftUI: BaseTest {
                         print("Pill bar not hittable, scrolling main view...")
                         mainScrollView.swipeUp()
                         usleep(300000)
-                    }
-
-                    // Only scroll the pill bar if it has more than 2 buttons
-                    if pillBar.isHittable && buttons.count > 2 {
+                    } else if buttons.count > 2 {
                         print("Swiping to reveal button \(index + 1) (attempt \(attempts + 1))...")
                         pillBar.swipeLeft()
                         usleep(300000) // 0.3 seconds
+                        attempts += 1
                     }
-
-                    attempts += 1
                 }
 
                 XCTAssertTrue(button.isHittable, "Button \(index + 1) '\(button.label)' is not hittable after \(attempts) attempts")
@@ -118,9 +110,6 @@ class PillButtonBarTestSwiftUI: BaseTest {
 
             // Tap the button
             button.tap()
-
-            // Small delay after tap to allow UI to update
-            usleep(300000) // 0.3 seconds
 
             // Dismiss alert if it appears
             let alertButton = app.buttons["OK"].firstMatch
