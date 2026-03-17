@@ -1,0 +1,134 @@
+//
+//  Copyright (c) Microsoft Corporation. All rights reserved.
+//  Licensed under the MIT License.
+//
+
+import XCTest
+
+class PillButtonBarTestSwiftUI: BaseTest {
+    override var controlName: String { "PillButtonBar" }
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        app.buttons["Show"].firstMatch.tap()
+    }
+
+    // launch test that ensures the demo app does not crash and is on the correct control page
+    func testLaunch() throws {
+        XCTAssert(app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS %@", "Pill Button Bar (SwiftUI)")).exists)
+    }
+
+    func testButtons() throws {
+        let pillBarNames = [
+            "onBrand bar",
+            "Primary bar",
+            "Bar with deselection",
+            "Leading aligned",
+            "Center aligned"
+        ]
+
+        for pillBarName in pillBarNames {
+            try testButtonsInPillBar(pillBarName: pillBarName)
+        }
+    }
+
+    private func testButtonsInPillBar(pillBarName: String) throws {
+        print("\n========== Testing pill bar: \(pillBarName) ==========")
+
+        // Find the main vertical scroll view (element 0) and the pill bar scroll view (should have identifier)
+        let mainScrollView = app.scrollViews.element(boundBy: 0)
+        XCTAssertTrue(mainScrollView.waitForExistence(timeout: 2), "Main scroll view not found")
+
+        // The PillButtonBarView is implemented as a ScrollView, so query it as such
+        let pillBar = app.scrollViews[pillBarName]
+
+        // Scroll down the main view to ensure the pill bar is visible
+        var scrollAttempts = 0
+        while !pillBar.exists && scrollAttempts < 8 {
+            mainScrollView.swipeUp()
+            scrollAttempts += 1
+            usleep(500000) // 0.5 seconds
+        }
+
+        XCTAssertTrue(pillBar.waitForExistence(timeout: 5), "Pill bar '\(pillBarName)' not found")
+
+        // Make sure the pill bar is visible and hittable on screen
+        var hittableAttempts = 0
+        while !pillBar.isHittable && hittableAttempts < 3 {
+            mainScrollView.swipeUp()
+            hittableAttempts += 1
+            usleep(500000)
+        }
+
+        XCTAssertTrue(pillBar.isHittable, "Pill bar '\(pillBarName)' is not hittable")
+
+        // Get all buttons within the pill bar scroll view
+        let buttons = pillBar.buttons.allElementsBoundByIndex
+
+        print("Number of buttons in '\(pillBarName)' = \(buttons.count)")
+        XCTAssertFalse(buttons.isEmpty, "No buttons found in pill bar '\(pillBarName)'")
+
+        // Scroll the pill bar to the beginning (right) to ensure the first button is visible
+        // Some pill bars may have a non-first button selected, causing the first button to be off-screen
+        if buttons.count > 2 {
+            print("Scrolling pill bar to the beginning to reveal first button...")
+            for _ in 0..<5 {
+                if pillBar.isHittable {
+                    pillBar.swipeRight()
+                    usleep(200000) // 0.2 seconds
+                }
+            }
+            // Small delay to let the scroll settle
+            usleep(300000)
+        }
+
+        // Test each button
+        for (index, button) in buttons.enumerated() {
+            print("Testing button \(index + 1) of \(buttons.count): '\(button.label)'")
+            XCTAssertTrue(button.waitForExistence(timeout: 2), "Button \(index + 1) does not exist")
+
+            // Only scroll if the button is NOT already hittable
+            if !button.isHittable {
+                print("Button \(index + 1) is not hittable, scrolling into view...")
+                var attempts = 0
+                let maxAttempts = 8
+
+                while !button.isHittable && attempts < maxAttempts {
+                    // Ensure pill bar is hittable
+                    if !pillBar.isHittable {
+                        print("Pill bar not hittable, scrolling main view...")
+                        mainScrollView.swipeUp()
+                        usleep(300000)
+                    }
+
+                    // Only scroll the pill bar if it has more than 2 buttons
+                    if pillBar.isHittable && buttons.count > 2 {
+                        print("Swiping to reveal button \(index + 1) (attempt \(attempts + 1))...")
+                        pillBar.swipeLeft()
+                        usleep(300000) // 0.3 seconds
+                    }
+
+                    attempts += 1
+                }
+
+                XCTAssertTrue(button.isHittable, "Button \(index + 1) '\(button.label)' is not hittable after \(attempts) attempts")
+            } else {
+                print("Button \(index + 1) is already hittable, tapping directly")
+            }
+
+            // Tap the button
+            button.tap()
+
+            // Small delay after tap to allow UI to update
+            usleep(300000) // 0.3 seconds
+
+            // Dismiss alert if it appears
+            let alertButton = app.buttons["OK"].firstMatch
+            if alertButton.waitForExistence(timeout: 1) {
+                alertButton.tap()
+            }
+        }
+
+        print("========== Completed testing pill bar: \(pillBarName) ==========\n")
+    }
+}

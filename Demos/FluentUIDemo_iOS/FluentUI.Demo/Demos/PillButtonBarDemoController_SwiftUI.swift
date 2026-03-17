@@ -29,61 +29,52 @@ private struct PillButtonBarDemoView: View {
             ScrollView(.vertical) {
                 VStack(spacing: 30) {
                     VStack(spacing: 20) {
-                        Text("onBrand bar")
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                        PillButtonBarView(style: .onBrand,
-                                          viewModels: indexSelectionViewModels,
-                                          selected: $onBrandSelectedIndex,
-                                          centerAlignIfContentFits: true,
-                                          tokenOverrides:  tokenOverrides)
-                        .disabled(disablePills)
-                        .background {
-                            fluentTheme.swiftUIColor(.brandBackground1)
+                        PillBarDemoSection(title: "onBrand bar") {
+                            PillButtonBarView(style: .onBrand,
+                                              viewModels: indexSelectionViewModels,
+                                              selected: $onBrandSelectedIndex,
+                                              centerAlignIfContentFits: true,
+                                              tokenOverrides: tokenOverrides)
+                            .disabled(disablePills)
+                            .background {
+                                fluentTheme.swiftUIColor(.brandBackground1)
+                            }
                         }
-                        
-                        Text("Primary bar")
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                            .multilineTextAlignment(.center)
-                        PillButtonBarView(style: .primary,
-                                          viewModels: titleSelectionViewModels,
-                                          selected: $primarySelectedTitle,
-                                          centerAlignIfContentFits: true,
-                                          tokenOverrides:  tokenOverrides)
-                        .disabled(disablePills)
 
-                        Text("Bar with deselection")
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                        Text("This pill button bar supports having no selected pill button. If the currently selected pill button is tapped, it will be deselected.")
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(.caption)
-                        PillButtonBarView(style: .primary,
-                                          viewModels: titleDeselectionViewModels,
-                                          selected: $deselectionBarTitle,
-                                          tokenOverrides:  tokenOverrides)
-                        .disabled(disablePills)
+                        PillBarDemoSection(title: "Primary bar") {
+                            PillButtonBarView(style: .primary,
+                                              viewModels: titleSelectionViewModels,
+                                              selected: $primarySelectedTitle,
+                                              centerAlignIfContentFits: true,
+                                              tokenOverrides: tokenOverrides)
+                            .disabled(disablePills)
+                        }
 
-                        Text("Leading aligned")
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                        PillButtonBarView(style: .primary,
-                                          viewModels: titleSelectionLeadingViewModels,
-                                          selected: $leadingAlignedBarSelectedTitle,
-                                          tokenOverrides:  tokenOverrides)
-                        .disabled(disablePills)
+                        PillBarDemoSection(title: "Bar with deselection",
+                                          subtitle: "This pill button bar supports having no selected pill button. If the currently selected pill button is tapped, it will be deselected.") {
+                            PillButtonBarView(style: .primary,
+                                              viewModels: titleDeselectionViewModels,
+                                              selected: $deselectionBarTitle,
+                                              tokenOverrides: tokenOverrides)
+                            .disabled(disablePills)
+                        }
 
-                        Text("Center aligned")
-                            .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
-                        PillButtonBarView(style: .primary,
-                                          viewModels: titleSelectionCenterViewModels,
-                                          selected: $centerAlignedBarSelectedTitle,
-                                          centerAlignIfContentFits: true,
-                                          tokenOverrides:  tokenOverrides)
-                        .disabled(disablePills)
+                        PillBarDemoSection(title: "Leading aligned") {
+                            PillButtonBarView(style: .primary,
+                                              viewModels: titleSelectionLeadingViewModels,
+                                              selected: $leadingAlignedBarSelectedTitle,
+                                              tokenOverrides: tokenOverrides)
+                            .disabled(disablePills)
+                        }
+
+                        PillBarDemoSection(title: "Center aligned") {
+                            PillButtonBarView(style: .primary,
+                                              viewModels: titleSelectionCenterViewModels,
+                                              selected: $centerAlignedBarSelectedTitle,
+                                              centerAlignIfContentFits: true,
+                                              tokenOverrides: tokenOverrides)
+                            .disabled(disablePills)
+                        }
                     }
                     .fluentTheme(theme)
                 }
@@ -201,4 +192,44 @@ private struct PillButtonBarDemoView: View {
         static let shortTitles = ["All", "Documents"]
         static let leadingImage = Image(systemName: "circle.fill")
     }
+}
+
+private struct PillBarDemoSection<PillButtonBar: View>: View {
+    let title: String
+    let subtitle: String?
+    let titleColor: Color?
+    let pillBar: () -> PillButtonBar
+
+    fileprivate init(title: String,
+                     subtitle: String? = nil,
+                     titleColor: Color? = nil,
+                     pillBar: @escaping () -> PillButtonBar) {
+        self.title = title
+        self.subtitle = subtitle
+        self.titleColor = titleColor
+        self.pillBar = pillBar
+    }
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text(title)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
+
+            if let subtitle {
+                Text(subtitle)
+                    .foregroundStyle(fluentTheme.swiftUIColor(.foreground1))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(.caption)
+            }
+
+            pillBar()
+                .accessibilityIdentifier(title)
+        }
+    }
+
+    @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 }
