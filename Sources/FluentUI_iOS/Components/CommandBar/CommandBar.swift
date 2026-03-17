@@ -9,10 +9,11 @@ import FluentUI_common
 import UIKit
 
 /// `CommandBarDelegate` is used to notify consumers of the `CommandBar` of certain events occurring within the `CommandBar`
+@objc(MSFCommandBarDelegate)
 public protocol CommandBarDelegate: AnyObject {
     /// Called when a scroll occurs in the `CommandBar`
     /// - Parameter commandBar: the instance of `CommandBar` that received the scroll
-    func commandBarDidScroll(_ commandBar: CommandBar)
+    @objc func commandBarDidScroll(_ commandBar: CommandBar)
 }
 
 /**
@@ -98,6 +99,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         commandBarContainerStackView.axis = .horizontal
         commandBarContainerStackView.translatesAutoresizingMaskIntoConstraints = false
         commandBarContainerStackView.isLayoutMarginsRelativeArrangement = true
+        commandBarContainerStackView.clipsToBounds = true
 
         super.init(frame: .zero)
 
@@ -144,15 +146,17 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     // MARK: Overrides
 
     public override var intrinsicContentSize: CGSize {
-        .zero
+        shouldCalculateIntrinsicHeight ? CGSize(width: UIView.noIntrinsicMetric, height: intrinsicHeight) : .zero
     }
 
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        if #available(iOS 26, *) {
-            layer.cornerRadius = bounds.height / 2
-        }
+        let cornerRadius = bounds.height / 2
+        layer.cornerRadius = cornerRadius
+        commandBarContainerStackView.layer.cornerRadius = cornerRadius
+        commandBarContainerStackView.layoutIfNeeded()
+
         updateShadow()
         updateScrollViewShadow()
     }
@@ -188,32 +192,35 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public var tokenSet: CommandBarTokenSet
 
     /// Items shown in the center of the CommandBar
-    public var itemGroups: [CommandBarItemGroup] {
+    @objc public var itemGroups: [CommandBarItemGroup] {
         get {
             mainCommandGroupsView.itemGroups
         }
         set {
             mainCommandGroupsView.itemGroups = newValue
+            invalidateIntrinsicContentSize()
         }
     }
 
     /// Items pinned to the leading end of the CommandBar
-    public var leadingItemGroups: [CommandBarItemGroup]? {
+    @objc public var leadingItemGroups: [CommandBarItemGroup]? {
         get {
             leadingCommandGroupsView.itemGroups
         }
         set {
             setupGroupsView(leadingCommandGroupsView, with: newValue)
+            invalidateIntrinsicContentSize()
         }
     }
 
     /// Items pinned to the trailing end of the CommandBar
-    public var trailingItemGroups: [CommandBarItemGroup]? {
+    @objc public var trailingItemGroups: [CommandBarItemGroup]? {
         get {
             trailingCommandGroupsView.itemGroups
         }
         set {
             setupGroupsView(trailingCommandGroupsView, with: newValue)
+            invalidateIntrinsicContentSize()
         }
     }
 
@@ -237,6 +244,15 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
     }
 
+    /// Controls whether intrinsic height should be calculated. When false, intrinsicContentSize.height returns 0.
+    @objc public var shouldCalculateIntrinsicHeight: Bool = true {
+        didSet {
+            if shouldCalculateIntrinsicHeight != oldValue {
+                invalidateIntrinsicContentSize()
+            }
+        }
+    }
+
     /// Delegate object that notifies consumers of events occuring inside the `CommandBar`
     public weak var delegate: CommandBarDelegate?
 
@@ -255,6 +271,24 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     private var trailingCommandGroupsView: CommandBarCommandGroupsView
 
     private var mainCommandGroupsViewConstraints: [NSLayoutConstraint] = []
+
+    private var intrinsicHeight: CGFloat {
+        var maxButtonHeight: CGFloat = 0
+
+        let allGroups = (leadingItemGroups ?? []) + itemGroups + (trailingItemGroups ?? [])
+        for group in allGroups {
+            for item in group where !item.isHidden {
+                if let button = leadingCommandGroupsView.button(for: item) ??
+                                mainCommandGroupsView.button(for: item) ??
+                                trailingCommandGroupsView.button(for: item) {
+                    let buttonHeight = button.intrinsicContentSize.height
+                    maxButtonHeight = max(maxButtonHeight, buttonHeight)
+                }
+            }
+        }
+
+        return maxButtonHeight + CommandBarTokenSet.barInsets * 2
+    }
 
     // MARK: Views and Layers
 
@@ -371,12 +405,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func stackViewLayoutMargins() -> NSDirectionalEdgeInsets {
-        var padding: CGFloat
-        if #available(iOS 26, *) {
-            padding = CommandBarTokenSet.barInsets
-        } else {
-            padding = 0
-        }
+        let padding: CGFloat = CommandBarTokenSet.barInsets
         return NSDirectionalEdgeInsets(top: 0,
                                        leading: leadingCommandGroupsView.isHidden ? 0 : padding,
                                        bottom: 0,

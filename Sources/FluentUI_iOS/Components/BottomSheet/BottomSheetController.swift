@@ -120,6 +120,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         didSet {
             if isExpandable != oldValue {
                 resizingHandleView.isHidden = !isExpandable
+                resizingHandleView.isAccessibilityElement = isExpandable
                 panGestureRecognizer.isEnabled = isExpandable
                 if isViewLoaded {
                     move(to: .collapsed, animated: false)
@@ -128,6 +129,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 #if DEBUG
                 bottomSheetView.accessibilityIdentifier = bottomSheetViewAccessibilityIdentifierForState()
 #endif
+                updateSheetContentOffset()
             }
         }
     }
@@ -160,6 +162,30 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             view.setNeedsLayout()
         }
     }
+
+    /// When enabled, state change animations are driven by a custom in-process animator.
+    /// This can improve layout stability and responsiveness.
+    ///
+    /// Defaults to `false` to preserve existing behavior. Requires iOS 18+.
+    /// Note: This will cause more layout passes during animations, which may impact performance.
+    @available(iOS 18.0, visionOS 2.0, *)
+    open var usesCustomSpringAnimator: Bool {
+        get { _usesCustomSpringAnimator }
+        set { _usesCustomSpringAnimator = newValue }
+    }
+    private var _usesCustomSpringAnimator: Bool = false
+
+    /// When enabled alongside `usesCustomSpringAnimator`, bottom sheet will attempt to force
+    /// 120Hz touch delivery for sheet gestures on ProMotion displays.
+    ///
+    /// Defaults to `true`. Only takes effect when `usesCustomSpringAnimator` is also `true`.
+    /// Requires iOS 18+.
+    @available(iOS 18.0, visionOS 2.0, *)
+    open var usesHighFrameRatePanning: Bool {
+        get { _usesHighFrameRatePanning }
+        set { _usesHighFrameRatePanning = newValue }
+    }
+    private var _usesHighFrameRatePanning: Bool = true
 
     /// Height of `headerContentView`.
     ///
@@ -295,6 +321,22 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// When enabled, users will be able to move the sheet to the hidden state by swiping down.
     @objc open var allowsSwipeToHide: Bool = false
 
+    /// When enabled, tapping the resizing handle while the sheet is expanded will move it to the hidden state instead of collapsed.
+    @objc open var allowsResizingHandleTapToHide: Bool = false
+
+    /// Indicates whether the resizing handle should overlay the content.
+    ///
+    /// The default value is false.
+    @objc open var shouldResizingHandleOverlayContent: Bool = false {
+        didSet {
+            guard shouldResizingHandleOverlayContent != oldValue && isViewLoaded else {
+                return
+            }
+            updateSheetContentOffset()
+            view.setNeedsLayout()
+        }
+    }
+
     /// Current height of the portion of a collapsed sheet that's in the safe area.
     @objc public private(set) var collapsedHeightInSafeArea: CGFloat = 0 {
         didSet {
@@ -411,6 +453,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - isHidden: The target state.
     ///   - completion: Closure to be called when the state change completes.
     /// - Returns: A `UIViewPropertyAnimator`. The associated animations start in a paused state.
+    @available(*, deprecated, message: "prepareInteractiveIsHiddenChange is deprecated.")
     @objc public func prepareInteractiveIsHiddenChange(_ isHidden: Bool, completion: ((_ finalPosition: UIViewAnimatingPosition) -> Void)? = nil) -> UIViewPropertyAnimator? {
         guard isViewLoaded else {
             return nil
@@ -458,9 +501,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // |--dimmingView (spans self.view)
     // |--bottomSheetView (sheet shadow)
     // |  |--UIStackView (round corner mask)
-    // |  |  |--resizingHandleView
     // |  |  |--headerContentView
     // |  |  |--expandedContentView
+    // |  |--resizingHandleView
     // |--overflowView
     public override func loadView() {
         view = BottomSheetPassthroughView()
@@ -670,7 +713,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         bottomSheetContentView.addGestureRecognizer(panGestureRecognizer)
         panGestureRecognizer.delegate = self
 
-        let stackView = UIStackView(arrangedSubviews: [resizingHandleView])
+        let stackView = UIStackView(arrangedSubviews: [])
         stackView.spacing = 0.0
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -687,13 +730,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         stackView.addArrangedSubview(expandedContentView)
         bottomSheetContentView.accessibilityElements?.append(expandedContentView)
         bottomSheetContentView.addSubview(stackView)
+        bottomSheetContentView.addSubview(resizingHandleView)
 
+        let stackTopConstraint = stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            resizingHandleView.topAnchor.constraint(equalTo: bottomSheetContentView.topAnchor),
+            stackTopConstraint,
             stackView.leadingAnchor.constraint(equalTo: bottomSheetContentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: bottomSheetContentView.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomSheetContentView.bottomAnchor),
         ])
+
+        sheetContentTopConstraint = stackTopConstraint
+        updateSheetContentOffset()
 
         return makeBottomSheetByEmbedding(contentView: bottomSheetContentView)
     }()
@@ -782,7 +831,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             return
         }
 
-        if nextState == .collapsed {
+        if nextState == .collapsed || nextState == .hidden {
             resizingHandleView.accessibilityLabel = handleCollapseCustomAccessibilityLabel ?? "Accessibility.BottomSheet.ResizingHandle.Label.CollapseSheet".localized
             resizingHandleView.accessibilityHint = "Accessibility.Drawer.ResizingHandle.Hint.Collapse".localized
             resizingHandleView.accessibilityValue = "Accessibility.Drawer.ResizingHandle.Value.Expanded".localized
@@ -793,6 +842,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         }
     }
 
+    private func updateSheetContentOffset() {
+        sheetContentTopConstraint?.constant = effectiveResizingHandleHeight
+    }
+
     private func nextExpansionStateForResizingHandleTap(with currentExpansionState: BottomSheetExpansionState) -> BottomSheetExpansionState? {
         return switch currentExpansionState {
         case .collapsed:
@@ -800,7 +853,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         case .partial:
             .expanded
         case .expanded:
-            .collapsed
+            allowsResizingHandleTapToHide ? .hidden : .collapsed
         default:
             nil
         }
@@ -922,6 +975,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         switch sender.state {
         case .began:
             completeAnimationsIfNeeded()
+            if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
+                sheetAnimator.wantsHighFrameRateIdle = true
+            }
             delegate?.bottomSheetStartedPan?(self, from: currentExpansionState)
             currentExpansionState = .transitioning
             fallthrough
@@ -930,6 +986,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sender.setTranslation(.zero, in: view)
         case .ended, .cancelled, .failed:
             completePan(with: sender.velocity(in: view).y)
+            if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
+                sheetAnimator.wantsHighFrameRateIdle = false
+            }
         default:
             break
         }
@@ -940,7 +999,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let collapsedOffset = offset(for: .collapsed)
         let hiddenOffset = offset(for: .hidden)
 
-        let minOffset = expandedOffset - Constants.maxRubberBandOffset
+        let minOffset = expandedOffset
         let maxOffset = allowsSwipeToHide ? hiddenOffset : (collapsedOffset + Constants.maxRubberBandOffset)
 
         var offsetDelta = translationDelta.y
@@ -1095,21 +1154,29 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
 
-            let animator = stateChangeAnimator(to: targetExpansionState,
-                                               velocity: velocity,
-                                               interaction: interaction,
-                                               shouldNotifyDelegate: shouldNotifyDelegate)
-            animator.addCompletion({ finalPosition in
-                completion?(finalPosition)
-            })
-
-            if animated {
-                currentStateChangeAnimator = animator
-                animator.startAnimation()
+            if animated, #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator {
+                moveWithSpringAnimator(to: targetExpansionState,
+                                    velocity: velocity,
+                                    interaction: interaction,
+                                    shouldNotifyDelegate: shouldNotifyDelegate,
+                                    completion: completion)
             } else {
-                animator.startAnimation() // moves the animator into active state so it can be stopped
-                animator.stopAnimation(false)
-                animator.finishAnimation(at: .end)
+                let animator = stateChangeAnimator(to: targetExpansionState,
+                                                   velocity: velocity,
+                                                   interaction: interaction,
+                                                   shouldNotifyDelegate: shouldNotifyDelegate)
+                animator.addCompletion({ finalPosition in
+                    completion?(finalPosition)
+                })
+
+                if animated {
+                    currentStateChangeAnimator = animator
+                    animator.startAnimation()
+                } else {
+                    animator.startAnimation() // moves the animator into active state so it can be stopped
+                    animator.stopAnimation(false)
+                    animator.finishAnimation(at: .end)
+                }
             }
         } else {
             handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
@@ -1178,6 +1245,51 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return translationAnimator
     }
 
+    @available(iOS 18.0, visionOS 2.0, *)
+    private func moveWithSpringAnimator(to targetExpansionState: BottomSheetExpansionState,
+                                     velocity: CGFloat,
+                                     interaction: BottomSheetInteraction,
+                                     shouldNotifyDelegate: Bool,
+                                     completion: ((UIViewAnimatingPosition) -> Void)?) {
+        let targetVerticalOffset = offset(for: targetExpansionState)
+        let fromOffset = currentSheetVerticalOffset
+
+        let clampedVelocity = max(-Constants.Spring.maxVelocity, min(velocity, Constants.Spring.maxVelocity))
+
+        self.targetExpansionState = targetExpansionState
+
+        if targetExpansionState == .hidden {
+            panGestureRecognizer.isEnabled = false
+        }
+
+        bottomSheetView.isHidden = false
+        currentExpansionState = .transitioning
+
+        sheetAnimator.animate(
+            from: fromOffset,
+            to: targetVerticalOffset,
+            initialVelocity: clampedVelocity,
+            dampingRatio: Constants.Spring.oscillatingDampingRatio,
+            duration: Constants.Spring.animationDuration
+        ) { [weak self] currentOffset in
+            guard let self else { return }
+            self.bottomSheetView.frame = self.sheetFrame(offset: currentOffset)
+            self.updateSheetLayoutGuideTopConstraint()
+            self.updateExpandedContentAlpha()
+            self.updateDimmingViewAlpha()
+        } completion: { [weak self] in
+            guard let self else { return }
+            self.updateDimmingViewAccessibility()
+            self.sheetAnimator.wantsHighFrameRateIdle = false
+            self.targetExpansionState = nil
+            self.panGestureRecognizer.isEnabled = self.isExpandable
+            self.handleCompletedStateChange(to: targetExpansionState,
+                                            interaction: interaction,
+                                            shouldNotifyDelegate: shouldNotifyDelegate)
+            completion?(.end)
+        }
+    }
+
     // Vertical offset of bottomSheetView.origin for the given expansion state
     //
     // Note: Since .transitioning state doesn't have a well defined offset, this function will
@@ -1242,6 +1354,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             currentAnimator.finishAnimation(at: skipToEnd ? endPosition : .current)
             currentStateChangeAnimator = nil
         }
+
+        if #available(iOS 18.0, visionOS 2.0, *), sheetAnimator.isRunning {
+            if skipToEnd {
+                sheetAnimator.skipToEnd()
+            } else {
+                sheetAnimator.stop()
+            }
+        }
     }
 
     private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
@@ -1273,7 +1393,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if preferredExpandedContentHeight == 0 {
             height = maxSheetHeight
         } else {
-            let idealHeight = currentResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
+            let idealHeight = effectiveResizingHandleHeight + headerContentHeight + preferredExpandedContentHeight + view.safeAreaInsets.bottom
             height = min(maxSheetHeight, idealHeight)
         }
 
@@ -1288,9 +1408,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if let dynamicHeight = resolvedDynamicSheetHeights?.collapsedHeight, dynamicHeight > 0 {
             safeAreaSheetHeight = dynamicHeight
         } else if collapsedContentHeight > 0 {
-            safeAreaSheetHeight = collapsedContentHeight + currentResizingHandleHeight
+            safeAreaSheetHeight = collapsedContentHeight + effectiveResizingHandleHeight
         } else {
-            safeAreaSheetHeight = headerContentHeight + currentResizingHandleHeight
+            safeAreaSheetHeight = headerContentHeight + effectiveResizingHandleHeight
         }
 
         let idealHeight = safeAreaSheetHeight + view.safeAreaInsets.bottom
@@ -1328,8 +1448,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     // Do not access directly. Use `resolvedDynamicSheetHeights` instead which wraps this cache.
     private var cachedResolvedDynamicSheetHeights: DynamicHeightResolutionResult?
 
-    private var currentResizingHandleHeight: CGFloat {
-        (isExpandable ? ResizingHandleView.height : 0.0)
+    // Effective height of the resizing handle for layout purposes.
+    // Accounts for:
+    // - when the sheet is not expandable (resizing handle doesn't show, so 0 height)
+    // - when the resizing handle overlaps content - effective height is also 0
+    private var effectiveResizingHandleHeight: CGFloat {
+        (isExpandable && !shouldResizingHandleOverlayContent ? ResizingHandleView.height : 0.0)
     }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
@@ -1337,6 +1461,17 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private var headerContentViewHeightConstraint: NSLayoutConstraint?
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
+
+    @available(iOS 18.0, visionOS 2.0, *)
+    private var sheetAnimator: SheetAnimator {
+        if let existing = _sheetAnimator as? SheetAnimator {
+            return existing
+        }
+        let animator = SheetAnimator(view: self.view)
+        _sheetAnimator = animator
+        return animator
+    }
+    private var _sheetAnimator: AnyObject?
 
     private var currentExpansionState: BottomSheetExpansionState = .collapsed
 
@@ -1363,6 +1498,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private let shouldShowDimmingView: Bool
 
     private let style: BottomSheetControllerStyle
+
+    private var sheetContentTopConstraint: NSLayoutConstraint?
 
     // Dynamic heights, resolved with the corresponding context.
     private typealias DynamicHeightResolutionResult = (context: ContentHeightResolutionContext, collapsedHeight: CGFloat?, partialHeight: CGFloat?)
@@ -1403,6 +1540,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             static let flickVelocityThreshold: CGFloat = 800
 
             static let maxInitialVelocity: CGFloat = 40.0
+
+            // Cap for raw velocity (pts/sec) passed to SheetAnimator
+            static let maxVelocity: CGFloat = 5000.0
+
             static let animationDuration: TimeInterval = 0.4
 
             // Off-screen overflow that can be partially revealed during spring oscillation or rubber banding (dragging the sheet beyond limits)

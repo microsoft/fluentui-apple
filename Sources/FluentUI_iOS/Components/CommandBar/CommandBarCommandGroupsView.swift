@@ -108,6 +108,11 @@ class CommandBarCommandGroupsView: UIView {
         }
     }
 
+    /// Returns the button associated with the given item, if it exists.
+    func button(for item: CommandBarItem) -> CommandBarButton? {
+        return itemsToButtonsMap[item]
+    }
+
     var equalWidthGroups: Bool = false {
         didSet {
             buttonGroupsStackView.distribution = equalWidthGroups ? .fillEqually : .fill

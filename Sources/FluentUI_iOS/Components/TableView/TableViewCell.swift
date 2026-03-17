@@ -567,7 +567,7 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
         var textAreaLeadingOffset = customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
                                                             leadingPadding: TableViewCellTokenSet.paddingLeading)
         if customViewSize != .zero {
-            textAreaLeadingOffset += tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
+            textAreaLeadingOffset += tokenSet[.customViewWidth].float + tokenSet[.customViewTrailingMargin].float
         }
 
         return textAreaLeadingOffset
@@ -1473,13 +1473,13 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
         }
 
         if let customView = customView {
-            let customViewDimensions = tokenSet[.customViewDimensions].float
-            let customViewYOffset = ceil((contentView.frame.height - customViewDimensions) / 2)
+            let customViewHeight = tokenSet[.customViewHeight].float
+            let customViewYOffset = ceil((contentView.frame.height - customViewHeight) / 2)
             let customViewXOffset = TableViewCell.customViewLeadingOffset(isInSelectionMode: isInSelectionMode,
                                                                           leadingPadding: TableViewCellTokenSet.paddingLeading)
             customView.frame = CGRect(
                 origin: CGPoint(x: customViewXOffset, y: customViewYOffset),
-                size: CGSize(width: customViewDimensions, height: customViewDimensions)
+                size: CGSize(width: tokenSet[.customViewWidth].float, height: customViewHeight)
             )
         }
 
@@ -1662,7 +1662,7 @@ open class TableViewCell: UITableViewCell, TokenizedControl {
             let baseOffset = TableViewCell.selectionModeAreaWidth(isInSelectionMode: isInSelectionMode,
                                                                   selectionImageMarginTrailing: TableViewCellTokenSet.selectionImageMarginTrailing,
                                                                   selectionImageSize: TableViewCellTokenSet.selectionImageSize)
-            return baseOffset + paddingLeading + tokenSet[.customViewDimensions].float + tokenSet[.customViewTrailingMargin].float
+            return baseOffset + paddingLeading + tokenSet[.customViewWidth].float + tokenSet[.customViewTrailingMargin].float
         case .full:
             return effectiveUserInterfaceLayoutDirection == .rightToLeft ? -safeAreaInsets.right : -safeAreaInsets.left
         }

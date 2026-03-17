@@ -95,7 +95,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	let widthPopup = NSPopUpButton(frame: .zero, pullsDown: false)
 	var widthConstraints: [NSLayoutConstraint] = []
 	let heightPopup = NSPopUpButton(frame: .zero, pullsDown: false)
-	let capsuleToggle = NSSwitch()
 	var heightConstraints: [NSLayoutConstraint] = []
 	let scrollView = VibrantScrollView()
 	let materialPane = NSVisualEffectView()
@@ -145,20 +144,13 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		heightPopup.action = #selector(TestButtonViewController.heightConstraintsChanged)
 		heightPopup.setAccessibilityLabel(heightPopupLabel)
 
-		let capsuleToggleLabel = "Use Capsule Appearance"
-		capsuleToggle.controlSize = .small
-		capsuleToggle.target = self
-		capsuleToggle.action = #selector(TestButtonViewController.capsuleAppearanceChanged)
-		capsuleToggle.setAccessibilityLabel(capsuleToggleLabel)
-
 		let tools = [
 			[NSTextField(labelWithString: "\(materialPopupLabel):"), materialsPopup],
 			[NSTextField(labelWithString: "\(backgroundColorsPopupLabel):"), backgroundColorsPopup],
 			[NSTextField(labelWithString: "\(imagePositionsPopupLabel):"), imagePositionsPopup],
 			[NSTextField(labelWithString: "\(buttonStatesPopupLabel):"), buttonStatesPopup],
 			[NSTextField(labelWithString: "\(widthPopupLabel):"), widthPopup],
-			[NSTextField(labelWithString: "\(heightPopupLabel):"), heightPopup],
-			[NSTextField(labelWithString: "\(capsuleToggleLabel):"), capsuleToggle]
+			[NSTextField(labelWithString: "\(heightPopupLabel):"), heightPopup]
 		]
 
 		let toolsGrid = NSGridView(views: tools)
@@ -277,15 +269,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			buttonsWithImage()
 		]
 		for newColumn in buttonColumns {
-			var nearestPrimary: Button?
-			for button in newColumn {
-				switch button.style {
-				case .primary:
-					nearestPrimary = button
-				default:
-					button.linkedPrimary = nearestPrimary
-				}
-			}
 			fluentButtons.append(contentsOf: newColumn)
 			fluentButtonsGrid.addColumn(with: newColumn)
 		}
@@ -389,8 +372,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 	@objc func stateChanged() {
 		let state = buttonStatesPopup.titleOfSelectedItem
 		for button in fluentButtons {
-			let originalLinkedPrimary = button.linkedPrimary
-			button.linkedPrimary = nil
 			switch state {
 			case "rest":
 				button.isEnabled = true
@@ -403,7 +384,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 			default:
 				break
 			}
-			button.linkedPrimary = originalLinkedPrimary
 		}
 	}
 
@@ -437,13 +417,6 @@ class TestButtonViewController: NSViewController, NSMenuDelegate {
 		}
 		heightConstraints.append(contentsOf: fluentButtons.map({ ($0 as Button).heightAnchor.constraint(equalToConstant: height) }))
 		NSLayoutConstraint.activate(heightConstraints)
-	}
-
-	@objc func capsuleAppearanceChanged() {
-		let capsuleAppearanceEnabled = capsuleToggle.state == .on ? true : false
-		for button in fluentButtons {
-			button.usesCapsuleAppearance = capsuleAppearanceEnabled
-		}
 	}
 
 	@objc func buttonPressed() {

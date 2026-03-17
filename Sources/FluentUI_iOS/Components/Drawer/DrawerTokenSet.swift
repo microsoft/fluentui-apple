@@ -70,7 +70,7 @@ public class DrawerTokenSet: ControlTokenSet<DrawerToken> {
 
             case .shadow:
                 return .shadowInfo({
-                    theme.shadow(.shadow28)
+                    theme.shadow(Compatibility.isDeviceIdiomVision() ? .clear : .shadow28)
                 })
             }
         }

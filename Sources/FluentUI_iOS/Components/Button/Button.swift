@@ -57,7 +57,7 @@ open class Button: UIButton, Shadowable, TokenizedControl {
     }
 
     /// The content insets of the buton.
-    open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
+    @objc open lazy var edgeInsets: NSDirectionalEdgeInsets = defaultEdgeInsets() {
         didSet {
             isUsingCustomContentEdgeInsets = edgeInsets != defaultEdgeInsets()
 

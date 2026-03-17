@@ -48,16 +48,14 @@ public struct FluentList<ListContent: View>: View {
                 list
                     .listStyle(.insetGrouped)
                     .scrollContentBackground(.hidden)
-                    // TODO: Directly use `FluentList` token set instead of `ListItem`
-                    .background(ListItem.listBackgroundColor(for: .grouped))
+                    .background(ListItemTokenSet.listBackgroundColor(for: .grouped))
                     .listSectionSpacing(GlobalTokens.spacing(.size160))
                     .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
             case .plain:
                 list
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
-                    // TODO: Directly use `FluentList` token set instead of `ListItem`
-                    .background(ListItem.listBackgroundColor(for: .plain))
+                    .background(ListItemTokenSet.listBackgroundColor(for: .plain))
             }
         }
 
