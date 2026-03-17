@@ -115,6 +115,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
     @objc open var hostedScrollView: UIScrollView?
 
+    /// When enabled, the sheet's pan gesture takes priority over all content gestures while the sheet is in the collapsed state.
+    /// Content gestures (including scrolling) are deferred until the sheet's pan gesture fails — for example,
+    /// when the user performs a horizontal swipe or a tap instead of a vertical drag.
+    /// Once the sheet is expanded, content gestures work normally.
+    ///
+    /// Use this for SwiftUI content where `hostedScrollView` cannot be provided.
+    @objc open var prioritizesSheetPanWhenCollapsed: Bool = false
+
     /// Indicates if the bottom sheet is expandable.
     @objc open var isExpandable: Bool = true {
         didSet {
@@ -1554,31 +1562,62 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
 extension BottomSheetController: UIGestureRecognizerDelegate {
 
+    /// Returns `true` if the gesture recognizer's view is inside the bottom sheet's content hierarchy.
+    private func isContentViewGesture(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let grView = gestureRecognizer.view,
+              let bottomSheet = bottomSheetView.superview else {
+            return false
+        }
+        return grView.isDescendant(of: bottomSheet)
+    }
+
+    private var shouldBlockContentGestures: Bool {
+        prioritizesSheetPanWhenCollapsed && currentExpansionState == .collapsed
+    }
+
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer == panGestureRecognizer && otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let isHostedScrollPan = otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let shouldBlockContent = shouldBlockContentGestures && isContentViewGesture(otherGestureRecognizer)
+        return gestureRecognizer == panGestureRecognizer && (isHostedScrollPan || shouldBlockContent)
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         // Enables other gesture recognizers to occur inside the bottom sheet alongside the `panGestureRecognizer`.
         // The `otherGestureRecognizer` will be required to fail if it is not a tap gesture and it is not the `hostedScrollView` pan gesture.
-        return !(otherGestureRecognizer is UITapGestureRecognizer) && (otherGestureRecognizer != hostedScrollView?.panGestureRecognizer)
+        // When blocking content scroll, we exempt all content view GRs so the sheet pan isn't blocked by
+        // internal UIKit gesture recognizers (e.g. UIKitResponderGestureRecognizer on the hosting view).
+        let isHostedScrollPan = otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let shouldExemptContentGR = shouldBlockContentGestures && isContentViewGesture(otherGestureRecognizer)
+        return !(otherGestureRecognizer is UITapGestureRecognizer) && !isHostedScrollPan && !shouldExemptContentGR
     }
 
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let scrollView = hostedScrollView,
-              let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
+        guard let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
+
         // By default, the sheet pan gesture takes precedence.
         var shouldBegin = true
 
-        // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
-        if currentSheetVerticalOffset <= offset(for: supportsPartialExpansion ? .partial : .expanded) {
-            let scrolledToTop = scrollView.contentOffset.y <= 0
-            let panningDown = panGesture.velocity(in: view).y > 0
-            let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
-            shouldBegin = (scrolledToTop && panningDown) || !panInHostedScrollView
+        if shouldBlockContentGestures {
+            // When blocking content scroll in collapsed state, only begin for primarily vertical pans
+            // so that taps and horizontal swipes still pass through to content.
+            let velocity = panGesture.velocity(in: view)
+            shouldBegin = abs(velocity.y) > abs(velocity.x)
+        } else if let scrollView = hostedScrollView {
+            let sheetOffset = currentSheetVerticalOffset
+            let targetOffset = offset(for: supportsPartialExpansion ? .partial : .expanded)
+            let isSufficientlyExpanded = sheetOffset <= targetOffset
+
+            // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
+            if isSufficientlyExpanded {
+                let scrolledToTop = scrollView.contentOffset.y <= 0
+                let panningDown = panGesture.velocity(in: view).y > 0
+                let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
+                shouldBegin = (scrolledToTop && panningDown) || !panInHostedScrollView
+            }
         }
+
         return shouldBegin
     }
 }

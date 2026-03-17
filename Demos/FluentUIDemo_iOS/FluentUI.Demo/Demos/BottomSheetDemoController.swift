@@ -61,6 +61,7 @@ class BottomSheetDemoController: DemoController {
             sheetController = BottomSheetController(expandedContentView: hostingVC.view)
             sheetController.isFlexibleHeight = true
             sheetController.shouldHideCollapsedContent = false
+            sheetController.prioritizesSheetPanWhenCollapsed = true
         } else {
             sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: contentNavigationController.view)
             sheetController.hostedScrollView = personaListView
@@ -535,8 +536,19 @@ struct BottomSheetDemoSwiftUIContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("Main content")
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            ScrollView {
+                VStack(spacing: 12) {
+                    ForEach(0..<30, id: \.self) { index in
+                        Text("Item \(index)")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(Color(.secondarySystemBackground))
+                            .cornerRadius(8)
+                    }
+                }
+                .padding()
+            }
 
             VStack(spacing: 0) {
                 Divider()
