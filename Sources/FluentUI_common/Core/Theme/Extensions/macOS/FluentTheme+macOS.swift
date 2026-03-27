@@ -218,6 +218,12 @@ extension FluentTheme: PlatformThemeProviding {
         case .strokeDisabled:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey26))
+        case .strokeAlpha1:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.black).opacity(0.2),
+                          dark: GlobalTokens.neutralSwiftUIColor(.white).opacity(0.2))
+        case .strokeAlpha2:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.black).opacity(0.1),
+                          dark: GlobalTokens.neutralSwiftUIColor(.white).opacity(0.1))
         case .brandStroke1:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm80),
                           dark: GlobalTokens.brandSwiftUIColor(.comm100))

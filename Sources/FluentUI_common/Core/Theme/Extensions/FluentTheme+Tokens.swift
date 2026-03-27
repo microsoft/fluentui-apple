@@ -98,6 +98,8 @@ public extension FluentTheme {
         case strokeFocus1
         case strokeFocus2
         case strokeDisabled
+        case strokeAlpha1
+        case strokeAlpha2
 
         // Brand colors - Brand background
         case brandBackground1

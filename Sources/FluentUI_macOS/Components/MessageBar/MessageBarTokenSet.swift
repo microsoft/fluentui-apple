@@ -26,7 +26,7 @@ public class MessageBarTokenSet: ControlTokenSet<MessageBarToken> {
 			case .backgroundColor:
 				return .color { theme.swiftUIColor(.warningBackground1) }
 			case .dividerColor:
-				return .color { theme.swiftUIColor(.warningForeground1) }
+				return .color { theme.swiftUIColor(.strokeAlpha1) }
 			case .titleFont:
 				return .font { .fluent(theme.typographyInfo(.body1Strong)) }
 			case .messageFont:
