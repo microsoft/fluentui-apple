@@ -21,23 +21,25 @@ class TestMessageBarController: NSViewController {
 			view.topAnchor.constraint(equalTo: stackingView.topAnchor),
 		])
 
-		let configuration = MessageBarConfigurationObject()
-		configuration.title = "Descriptive Title"
-		configuration.message = "Message providing information to the user with actionable insights."
-		configuration.hasCloseButton = true
-		configuration.actionTitles = ["One", "Two"]
-		configuration.onAction = { index in
-			let alert = NSAlert()
-			alert.messageText = "Action button \(index) on the MessageBarView was pressed."
-			alert.runModal()
+		for ii in 0..<3 {
+			let configuration = MessageBarConfigurationObject()
+			configuration.title = "Descriptive Title"
+			configuration.message = "Message providing information to the user with actionable insights."
+			configuration.hasCloseButton = true
+			configuration.actionTitles = ["One", "Two"]
+			configuration.onAction = { index in
+				let alert = NSAlert()
+				alert.messageText = "Action button \(index) on the MessageBarView was pressed."
+				alert.runModal()
+			}
+			configuration.onClose = {
+				let alert = NSAlert()
+				alert.messageText = "Close button on the MessageBarView was pressed."
+				alert.runModal()
+			}
+			stackingView.addBar(barID: ii, configuration: configuration)
+			stackingView.showBar(barID: ii)
 		}
-		configuration.onClose = {
-			let alert = NSAlert()
-			alert.messageText = "Close button on the MessageBarView was pressed."
-			alert.runModal()
-		}
-		stackingView.addBar(barID: 0, configuration: configuration)
-		stackingView.showBar(barID: 0)
 		stackingView.updateLayout()
 	}
 }
