@@ -188,6 +188,8 @@ struct NotificationDemoView: View {
                                            showDefaultDismissActionButton: showDefaultDismissActionButton,
                                            showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                            defaultDismissButtonAction: dismissButtonAction,
+                                           overrideDismissButonWithExpandedActionButton: true,
+                                           expandButtonAction: nil,
                                            messageButtonAction: messageButtonAction,
                                            swipeToDismissEnabled: swipeToDismissEnabled,
                                            showFromBottom: showFromBottom,
@@ -280,6 +282,7 @@ struct NotificationDemoView: View {
                 LabeledContent {
                     TextField("Line Limit", value: $messageLineLimit, formatter: integerFormatter)
                         .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
                 } label: {
                     Text("Message Line Limit")
                 }
