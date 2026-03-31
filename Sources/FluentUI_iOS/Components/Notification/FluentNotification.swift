@@ -214,21 +214,34 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
-                Text(AttributedString(attributedMessage))
-                    .fixedSize(horizontal: false, vertical: true)
+                ExpandableText(
+                    attributedMessage,
+                    lineLimit: state.messageLineLimit,
+                    isExpanded: $isMessageLabelExpanded,
+                    onExpandabilityChange: { isExpandable in
+                        isMessageLabelExpandable = isExpandable
+                    }
+                )
             } else if let message = state.message {
-                Text(message)
-                    .font(.init(tokenSet[.regularTextFont].uiFont))
+                ExpandableText(
+                    message,
+                    lineLimit: state.messageLineLimit,
+                    isExpanded: $isMessageLabelExpanded,
+                    font: tokenSet[.regularTextFont].uiFont,
+                    onExpandabilityChange: { isExpandable in
+                        isMessageLabelExpandable = isExpandable
+                    }
+                )
             }
         }
 
         @ViewBuilder
         var textContainer: some View {
             VStack(alignment: .leading) {
-                if hasSecondTextRow {
-                    titleLabel
-                }
-                messageLabel.lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
+				if hasSecondTextRow {
+					titleLabel
+				}
+				messageLabel
             }
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
@@ -283,10 +296,9 @@ public struct FluentNotification: View, TokenizedControlView {
                     if let customAction = state.expandButtonAction {
                         customAction()
                     } else {
-                        // Default behavior: expand message to show all lines
-                        state.messageLineLimit = 0
+                        // Default behavior: toggle expansion state
+                        isMessageLabelExpanded.toggle()
                     }
-                    state.overrideDismissButonWithExpandedActionButton.toggle()
                 }, label: {
                     Image("chevron-up-20x20", bundle: FluentUIFramework.resourceBundle)
                         .accessibilityLabel("Accessibility.Expand.Label".localized)
@@ -325,7 +337,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     .buttonStyle(.borderless)
 #endif // os(visionOS)
                     .layoutPriority(1)
-                    if state.overrideDismissButonWithExpandedActionButton {
+                    if state.overrideDismissButonWithExpandedActionButton && isMessageLabelExpandable && !isMessageLabelExpanded {
 						Spacer()
 						expandButton
 #if os(visionOS)
@@ -542,6 +554,8 @@ public struct FluentNotification: View, TokenizedControlView {
     @State private var attributedTitleSize: CGSize = CGSize()
     @State private var opacity: CGFloat = 0
     @State private var bumpVerticalOffset: CGFloat = 0
+    @State private var isMessageLabelExpandable = false
+    @State private var isMessageLabelExpanded = false
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -558,6 +572,7 @@ public struct FluentNotification: View, TokenizedControlView {
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var message: String?
+    @Published var isMultiLine: Bool = false
     @Published var attributedMessage: NSAttributedString?
     @Published var messageLineLimit: Int
     @Published var title: String?

@@ -246,6 +246,7 @@ struct NotificationDemoView: View {
                                actionButtonAction: actionButtonAction,
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
+                               overrideDismissButonWithExpandedActionButton: true,
                                messageButtonAction: messageButtonAction,
                                showFromBottom: showFromBottom,
                                verticalOffset: verticalOffset,
