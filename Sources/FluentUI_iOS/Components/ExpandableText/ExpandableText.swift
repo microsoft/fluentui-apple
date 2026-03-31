@@ -11,61 +11,8 @@ import SwiftUI
 /// based on the specified line limit. It provides an optional callback when expandability changes,
 /// allowing parent components to react (e.g., show/hide an expand button).
 ///
-/// Example usage:
-/// ```swift
-/// @State private var isExpanded = false
-///
-/// ExpandableText(
-///     "Long message that may be truncated...",
-///     lineLimit: 3,
-///     isExpanded: $isExpanded,
-///     onExpandabilityChange: { isExpandable in
-///         showExpandButton = isExpandable
-///     }
-/// )
-/// ```
 public struct ExpandableText: View {
-    // MARK: - Properties
-
-    private let text: String
-    private let attributedText: NSAttributedString?
-    private let lineLimit: Int
-    private let font: UIFont?
-    private let onExpandabilityChange: ((Bool) -> Void)?
-
-    // MARK: - State
-
-    @State private var internalIsExpanded: Bool = false
-    @State private var isExpandable: Bool = false
-    @State private var availableWidth: CGFloat = 0
-
-    private var externalIsExpanded: Binding<Bool>?
-
-    // MARK: - Computed Properties
-
-    /// The current expansion state, reading from external binding if provided, otherwise using internal state.
-    private var isExpanded: Bool {
-        get { externalIsExpanded?.wrappedValue ?? internalIsExpanded }
-        nonmutating set {
-            if let binding = externalIsExpanded {
-                binding.wrappedValue = newValue
-            } else {
-                internalIsExpanded = newValue
-            }
-        }
-    }
-
-    /// The font to use for rendering and measurements, with fallback to body style.
-    private var effectiveFont: UIFont {
-        font ?? UIFont.preferredFont(forTextStyle: .body)
-    }
-
-    /// The height of a single line of text using the effective font.
-    private var singleLineHeight: CGFloat {
-        ceil(effectiveFont.lineHeight + max(0, effectiveFont.leading))
-    }
-
-    // MARK: - Initializers
+    // MARK: - Public Initializers
 
     /// Creates an expandable text view with plain text.
     /// - Parameters:
@@ -109,16 +56,9 @@ public struct ExpandableText: View {
         self.onExpandabilityChange = onExpandabilityChange
     }
 
-    // MARK: - Body
+    // MARK: - Public Properties
 
     public var body: some View {
-        contentText
-    }
-
-    // MARK: - Private Views
-
-    @ViewBuilder
-    private var contentText: some View {
         Group {
             if let attributed = attributedText {
                 Text(AttributedString(attributed))
@@ -136,6 +76,42 @@ public struct ExpandableText: View {
         }
     }
 
+    // MARK: - Private Properties
+
+    private let text: String
+    private let attributedText: NSAttributedString?
+    private let lineLimit: Int
+    private let font: UIFont?
+    private let onExpandabilityChange: ((Bool) -> Void)?
+
+    @State private var isExpandable: Bool = false
+    @State private var internalIsExpanded: Bool = false
+    @State private var availableWidth: CGFloat = 0
+
+    private var externalIsExpanded: Binding<Bool>?
+
+    /// The current expansion state, reading from external binding if provided, otherwise using internal state.
+    private var isExpanded: Bool {
+        get { externalIsExpanded?.wrappedValue ?? internalIsExpanded }
+        nonmutating set {
+            if let binding = externalIsExpanded {
+                binding.wrappedValue = newValue
+            } else {
+                internalIsExpanded = newValue
+            }
+        }
+    }
+
+    /// The font to use for rendering and measurements, with fallback to body style.
+    private var effectiveFont: UIFont {
+        font ?? UIFont.preferredFont(forTextStyle: .body)
+    }
+
+    /// The height of a single line of text using the effective font.
+    private var singleLineHeight: CGFloat {
+        ceil(effectiveFont.lineHeight + max(0, effectiveFont.leading))
+    }
+
     // MARK: - Private Methods
 
     /// Calculates whether the text would be truncated by comparing the full text height to the maximum allowed height.
@@ -143,29 +119,22 @@ public struct ExpandableText: View {
     private func calculateTruncation(availableWidth: CGFloat) {
         guard availableWidth > 0 else { return }
 
-        // Calculate the full height the text would take without line limit
-        let fullHeight: CGFloat
-        if let attributed = attributedText {
-            // For attributed text, use the string content with the effective font as approximation
-            fullHeight = attributed.string.preferredSize(
-                for: effectiveFont,
-                width: availableWidth,
-                numberOfLines: 0
-            ).height
+        let messageText: String
+        if let attributedText {
+            messageText = attributedText.string
         } else {
-            fullHeight = text.preferredSize(
-                for: effectiveFont,
-                width: availableWidth,
-                numberOfLines: 0
-            ).height
+            messageText = text
         }
-
+        // Calculate the full height the text would take without line limit
+        let fullHeight = messageText.preferredSize(
+            for: effectiveFont,
+            width: availableWidth,
+            numberOfLines: 0
+        ).height
         let maxHeight = singleLineHeight * CGFloat(lineLimit < 1 ? Int.max : lineLimit)
 
         let newExpandable = fullHeight > maxHeight
-//        if newExpandable != isExpandable {
-            isExpandable = newExpandable
-            onExpandabilityChange?(newExpandable)
-//        }
+        isExpandable = newExpandable
+        onExpandabilityChange?(newExpandable)
     }
 }
