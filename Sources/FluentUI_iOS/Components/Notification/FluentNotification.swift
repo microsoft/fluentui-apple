@@ -64,7 +64,7 @@ import SwiftUI
     /// If dismiss button should be replaced an expand button
     var showExpandButtonInPlaceOfDismissButton: Bool { get set }
 
-    /// Optional override for the action to be called by the expand button on the trailing edge of the control. If left nil, default action will occur.
+    /// Action to be taken when `showExpandButtonInPlaceOfDismissButton` is enabled
     var expandButtonAction: (() -> Void)? { get set }
 
     /// Action to be dispatched by tapping on the toast/bar notification.
@@ -120,7 +120,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - defaultDismissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
-    ///   - expandButtonAction: Optional custom action to be dispatched by the expand button. If not provided, the default behavior expands the message to show all lines.
+    ///   - expandButtonAction: Action to be taken when showExpandButtonInPlaceOfDismissButton is enabled
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     ///   - verticalOffset: How much to vertically offset the notification from its default position.
@@ -221,24 +221,36 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
-                ExpandableText(
-                    attributedMessage,
-                    lineLimit: state.messageLineLimit,
-                    isExpanded: $isMessageLabelExpanded,
-                    onExpandabilityChange: { isExpandable in
-                        isMessageLabelExpandable = isExpandable
-                    }
-                )
+                if state.enableExandableMessageText {
+                    ExpandableText(
+                        attributedMessage,
+                        lineLimit: state.messageLineLimit,
+                        isExpanded: $isMessageLabelExpanded,
+                        onExpandabilityChange: { isExpandable in
+                            isMessageLabelExpandable = isExpandable
+                        }
+                    )
+                } else {
+                    Text(AttributedString(attributedMessage))
+                        .lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             } else if let message = state.message {
-                ExpandableText(
-                    message,
-                    lineLimit: state.messageLineLimit,
-                    isExpanded: $isMessageLabelExpanded,
-                    font: tokenSet[.regularTextFont].uiFont,
-                    onExpandabilityChange: { isExpandable in
-                        isMessageLabelExpandable = isExpandable
-                    }
-                )
+                if state.enableExandableMessageText {
+                    ExpandableText(
+                        message,
+                        lineLimit: state.messageLineLimit,
+                        isExpanded: $isMessageLabelExpanded,
+                        font: tokenSet[.regularTextFont].uiFont,
+                        onExpandabilityChange: { isExpandable in
+                            isMessageLabelExpandable = isExpandable
+                        }
+                    )
+                } else {
+                    Text(message)
+                        .lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
+                        .font(.init(tokenSet[.regularTextFont].uiFont))
+                }
             }
         }
 
