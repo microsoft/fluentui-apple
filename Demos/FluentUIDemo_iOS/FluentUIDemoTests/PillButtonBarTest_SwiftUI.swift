@@ -29,6 +29,7 @@ class PillButtonBarTestSwiftUI: BaseTest {
         for pillBarName in pillBarNames {
             try testButtonsInPillBar(pillBarName: pillBarName)
         }
+        try enableAllToggles()
     }
 
     private func testButtonsInPillBar(pillBarName: String) throws {
@@ -119,5 +120,29 @@ class PillButtonBarTestSwiftUI: BaseTest {
         }
 
         print("========== Completed testing pill bar: \(pillBarName) ==========\n")
+    }
+
+    private func enableAllToggles() throws {
+        let customThemeToggle = app.switches["Toggle custom theme"].switches.firstMatch
+        let tokenOverridesToggle = app.switches["Toggle token overrides"].switches.firstMatch
+        let disablePillsToggle = app.switches["Disable pills"].switches.firstMatch
+
+        XCTAssertTrue(customThemeToggle.waitForExistence(timeout: 5), "Toggle custom theme not found")
+        XCTAssertTrue(tokenOverridesToggle.waitForExistence(timeout: 5), "Toggle token overrides not found")
+        XCTAssertTrue(disablePillsToggle.waitForExistence(timeout: 5), "Disable pills toggle not found")
+
+        if customThemeToggle.value as? String == "0" {
+            customThemeToggle.tap()
+        }
+        if tokenOverridesToggle.value as? String == "0" {
+            tokenOverridesToggle.tap()
+        }
+        if disablePillsToggle.value as? String == "0" {
+            disablePillsToggle.tap()
+        }
+
+        XCTAssertEqual(customThemeToggle.value as? String, "1", "Custom theme toggle should be on")
+        XCTAssertEqual(tokenOverridesToggle.value as? String, "1", "Token overrides toggle should be on")
+        XCTAssertEqual(disablePillsToggle.value as? String, "1", "Disable pills toggle should be on")
     }
 }
