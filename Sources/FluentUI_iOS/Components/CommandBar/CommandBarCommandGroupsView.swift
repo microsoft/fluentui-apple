@@ -96,7 +96,6 @@ class CommandBarCommandGroupsView: UIView {
 
         updateButtonGroupViews()
         for (index, view) in buttonGroupViews.enumerated() {
-            view.equalWidthButtons = equalWidthGroups
             buttonGroupsStackView.addArrangedSubview(view)
 
             if index < buttonGroupViews.count - 1 {
@@ -131,12 +130,6 @@ class CommandBarCommandGroupsView: UIView {
     /// Returns the button associated with the given item, if it exists.
     func button(for item: CommandBarItem) -> CommandBarButton? {
         return itemsToButtonsMap[item]
-    }
-
-    var equalWidthGroups: Bool = false {
-        didSet {
-            buttonGroupsStackView.distribution = equalWidthGroups ? .fillEqually : .fill
-        }
     }
 
     // MARK: - Private properties
