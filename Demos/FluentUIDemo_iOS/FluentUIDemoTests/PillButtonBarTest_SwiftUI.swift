@@ -47,7 +47,7 @@ class PillButtonBarTestSwiftUI: BaseTest {
         while (!pillBar.exists || !pillBar.isHittable) && scrollAttempts < 11 {
             mainScrollView.swipeUp()
             scrollAttempts += 1
-            usleep(500000) // 0.5 seconds
+            usleep(500000)
         }
 
         XCTAssertTrue(pillBar.waitForExistence(timeout: 5), "Pill bar '\(pillBarName)' not found")
@@ -71,7 +71,7 @@ class PillButtonBarTestSwiftUI: BaseTest {
                     break
                 }
                 pillBar.swipeRight()
-                usleep(200000) // 0.2 seconds
+                usleep(200000)
                 resetAttempts += 1
             }
             if resetAttempts > 0 {
@@ -99,7 +99,7 @@ class PillButtonBarTestSwiftUI: BaseTest {
                     } else if buttons.count > 2 {
                         print("Swiping to reveal button \(index + 1) (attempt \(attempts + 1))...")
                         pillBar.swipeLeft()
-                        usleep(300000) // 0.3 seconds
+                        usleep(300000)
                         attempts += 1
                     }
                 }
