@@ -115,6 +115,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Provide this to ensure the bottom sheet pan gesture recognizer coordinates with the scroll view to enable scrolling based on current bottom sheet position and content offset.
     @objc open var hostedScrollView: UIScrollView?
 
+    /// When enabled, the sheet's pan gesture takes priority over all content gestures while the sheet is in the collapsed state.
+    /// Content gestures (including scrolling) are deferred until the sheet's pan gesture fails — for example,
+    /// when the user performs a horizontal swipe or a tap instead of a vertical drag.
+    /// Once the sheet is expanded, content gestures work normally.
+    ///
+    /// Use this for SwiftUI content where `hostedScrollView` cannot be provided.
+    @objc open var prioritizesSheetPanWhenCollapsed: Bool = false
+
     /// Indicates if the bottom sheet is expandable.
     @objc open var isExpandable: Bool = true {
         didSet {
@@ -401,19 +409,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///   - animated: Indicates if the change should be animated. The default value is `true`.
     ///   - completion: Closure to be called when the state change completes.
     @objc public func presentSheet(expandedState: BottomSheetExpansionState, animated: Bool = true, completion: ((_ isFinished: Bool) -> Void)? = nil) {
-        let finishedState: BottomSheetExpansionState
-
-        switch expandedState {
-        case .collapsed:
-            finishedState = .collapsed
-        case .expanded:
-            finishedState = isExpandable ? .expanded : .collapsed
-        case .partial:
-            finishedState = isExpandable && supportsPartialExpansion ? .partial : .collapsed
-        // Safe fallback for any invalid target states
-        default:
-            finishedState = .collapsed
-        }
+        let finishedState: BottomSheetExpansionState =
+            switch expandedState {
+            case .expanded where isExpandable:
+                .expanded
+            case .partial where isExpandable && supportsPartialState:
+                .partial
+            case .collapsed where supportsCollapsedState:
+                .collapsed
+            default:
+                // Requested state isn't supported; fall back to collapsed if available, otherwise expanded.
+                supportsCollapsedState ? .collapsed : .expanded
+            }
 
         if isViewLoaded {
             move(to: finishedState, animated: animated, allowUnhiding: true) { finalPosition in
@@ -489,7 +496,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         // If we are animating to one of the affected states, we need to retarget the animation.
         if targetExpansionState == .collapsed || (currentExpansionState == .collapsed && targetExpansionState == nil) {
             move(to: .collapsed)
-        } else if supportsPartialExpansion && (targetExpansionState == .partial || (currentExpansionState == .partial && targetExpansionState == nil)) {
+        } else if supportsPartialState && (targetExpansionState == .partial || (currentExpansionState == .partial && targetExpansionState == nil)) {
             move(to: .partial)
         }
     }
@@ -584,7 +591,19 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         // In the transitioning state a pan gesture or an animator temporarily owns the sheet frame updates,
         // so to avoid interfering we won't update the frame here.
         if currentExpansionState != .transitioning {
-            bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
+            let needsRepositionToExpanded = isExpandable && (
+                (currentExpansionState == .partial && !supportsPartialState)
+                || (currentExpansionState == .collapsed && !supportsCollapsedState)
+            )
+            if needsRepositionToExpanded {
+                delegate?.bottomSheetController?(self, willMoveTo: .expanded, interaction: .noUserAction)
+                currentExpansionState = .expanded
+                bottomSheetView.frame = sheetFrame(offset: offset(for: .expanded))
+                updateResizingHandleViewAccessibility(for: .expanded)
+                delegate?.bottomSheetController?(self, didMoveTo: .expanded, interaction: .noUserAction)
+            } else {
+                bottomSheetView.frame = sheetFrame(offset: offset(for: currentExpansionState))
+            }
             updateSheetLayoutGuideTopConstraint()
             updateExpandedContentAlpha()
             updateDimmingViewAlpha()
@@ -849,11 +868,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private func nextExpansionStateForResizingHandleTap(with currentExpansionState: BottomSheetExpansionState) -> BottomSheetExpansionState? {
         return switch currentExpansionState {
         case .collapsed:
-            supportsPartialExpansion ? .partial : .expanded
+            supportsPartialState ? .partial : .expanded
         case .partial:
             .expanded
         case .expanded:
-            allowsResizingHandleTapToHide ? .hidden : .collapsed
+            allowsResizingHandleTapToHide ? .hidden : supportsCollapsedState ? .collapsed : nil
         default:
             nil
         }
@@ -862,7 +881,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     private func updateExpandedContentAlpha() {
         let currentOffset = currentSheetVerticalOffset
         let collapsedOffset = offset(for: .collapsed)
-        let expandedOffset = supportsPartialExpansion ? offset(for: .partial) : offset(for: .expanded)
+        let expandedOffset = supportsPartialState ? offset(for: .partial) : offset(for: .expanded)
 
         var targetAlpha: CGFloat = 1.0
         if shouldHideCollapsedContent && !isHeightRestricted {
@@ -908,7 +927,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
             let currentOffset = currentSheetVerticalOffset
             let highestDimmedOffset = offset(for: .expanded)
-            let lowestUndimmedOffset = offset(for: isHeightRestricted ? .hidden : supportsPartialExpansion ? .partial : .collapsed)
+            let lowestUndimmedOffset = offset(for: isHeightRestricted ? .hidden : supportsPartialState ? .partial : .collapsed)
 
             if currentOffset <= highestDimmedOffset {
                 targetAlpha = 1.0
@@ -1103,8 +1122,8 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             // With a low velocity, we should snap to the closest state.
             let eligibleStates: [BottomSheetExpansionState?] = [
                 .expanded,
-                .collapsed,
-                supportsPartialExpansion ? .partial : nil,
+                supportsCollapsedState ? .collapsed : nil,
+                supportsPartialState ? .partial : nil,
                 allowsSwipeToHide ? .hidden : nil
             ]
 
@@ -1120,7 +1139,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             if currentSheetVerticalOffset > offset(for: .collapsed) && allowsSwipeToHide {
                 targetState = velocity > 0 ? .hidden : .collapsed
             } else {
-                if supportsPartialExpansion {
+                if supportsPartialState {
                     if velocity > 0 {
                         // Swiping down
                         targetState = currentSheetVerticalOffset > offset(for: .partial) ? .collapsed : .partial
@@ -1129,7 +1148,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                         targetState = currentSheetVerticalOffset > offset(for: .partial) ? .partial : .expanded
                     }
                 } else {
-                    targetState = velocity > 0 ? .collapsed : .expanded
+                    targetState = velocity > 0 && supportsCollapsedState ? .collapsed : .expanded
                 }
             }
         }
@@ -1145,6 +1164,14 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                       completion: ((UIViewAnimatingPosition) -> Void)? = nil) {
         guard targetExpansionState == .hidden || !isHiddenOrHiding || allowUnhiding else {
             return
+        }
+
+        var targetExpansionState = targetExpansionState
+        if targetExpansionState == .partial && !supportsPartialState {
+            targetExpansionState = currentExpansionState == .expanded ? .collapsed : .expanded
+        }
+        if targetExpansionState == .collapsed && !supportsCollapsedState {
+            targetExpansionState = .expanded
         }
 
         completeAnimationsIfNeeded()
@@ -1312,7 +1339,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 // Same here, in height restricted scenarios we want to utilize the space.
                 offset = minOffset
             } else {
-                offset = view.bounds.maxY - (resolvedDynamicSheetHeights?.partialHeight ?? collapsedSheetHeight)
+                offset = view.bounds.maxY - (partialSheetHeight ?? collapsedSheetHeight)
             }
         case .expanded:
             offset = minOffset
@@ -1417,6 +1444,15 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return min(idealHeight, maxSheetHeight)
     }
 
+    // Height of the sheet in partial state, or nil if partial expansion is not supported.
+    private var partialSheetHeight: CGFloat? {
+        guard let partialHeight = resolvedDynamicSheetHeights?.partialHeight else {
+            return nil
+        }
+        let idealHeight = partialHeight + view.safeAreaInsets.bottom
+        return max(collapsedSheetHeight, min(idealHeight, maxSheetHeight))
+    }
+
     // Maximum total sheet height including parts outside of the safe area.
     private var maxSheetHeight: CGFloat {
         let maxHeight: CGFloat
@@ -1483,8 +1519,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         maxSheetHeight - collapsedSheetHeight < Constants.heightRestrictedThreshold
     }
 
-    private var supportsPartialExpansion: Bool {
-        partialHeightResolver != nil
+    private var supportsCollapsedState: Bool {
+        !(isHeightRestricted && isExpandable)
+    }
+
+    private var supportsPartialState: Bool {
+        guard supportsCollapsedState, let partialHeight = partialSheetHeight else {
+            return false
+        }
+        let threshold = Constants.partialDetentMergeThreshold
+        let distinctFromCollapsed = abs(partialHeight - collapsedSheetHeight) > threshold
+        let distinctFromExpanded = abs(partialHeight - expandedSheetHeight) > threshold
+        return distinctFromCollapsed && distinctFromExpanded
     }
 
     private var currentSheetVerticalOffset: CGFloat {
@@ -1529,6 +1575,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         // we go into height restricted mode which skips the collapsed state and adjusts dimming.
         static let heightRestrictedThreshold: CGFloat = 50
 
+        // When partial height is within this threshold of collapsed or expanded height,
+        // partial is considered redundant and is skipped as a distinct detent.
+        static let partialDetentMergeThreshold: CGFloat = 50
+
         struct Spring {
             // Spring used in slow swipes - no oscillation
             static let defaultDampingRatio: CGFloat = 1.0
@@ -1554,31 +1604,62 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
 extension BottomSheetController: UIGestureRecognizerDelegate {
 
+    /// Returns `true` if the gesture recognizer's view is inside the bottom sheet's content hierarchy.
+    private func isContentViewGesture(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let grView = gestureRecognizer.view,
+              let bottomSheet = bottomSheetView.superview else {
+            return false
+        }
+        return grView.isDescendant(of: bottomSheet)
+    }
+
+    private var shouldBlockContentGestures: Bool {
+        prioritizesSheetPanWhenCollapsed && currentExpansionState == .collapsed
+    }
+
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer == panGestureRecognizer && otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let isHostedScrollPan = otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let shouldBlockContent = shouldBlockContentGestures && isContentViewGesture(otherGestureRecognizer)
+        return gestureRecognizer == panGestureRecognizer && (isHostedScrollPan || shouldBlockContent)
     }
 
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         // Enables other gesture recognizers to occur inside the bottom sheet alongside the `panGestureRecognizer`.
         // The `otherGestureRecognizer` will be required to fail if it is not a tap gesture and it is not the `hostedScrollView` pan gesture.
-        return !(otherGestureRecognizer is UITapGestureRecognizer) && (otherGestureRecognizer != hostedScrollView?.panGestureRecognizer)
+        // When blocking content scroll, we exempt all content view GRs so the sheet pan isn't blocked by
+        // internal UIKit gesture recognizers (e.g. UIKitResponderGestureRecognizer on the hosting view).
+        let isHostedScrollPan = otherGestureRecognizer == hostedScrollView?.panGestureRecognizer
+        let shouldExemptContentGR = shouldBlockContentGestures && isContentViewGesture(otherGestureRecognizer)
+        return !(otherGestureRecognizer is UITapGestureRecognizer) && !isHostedScrollPan && !shouldExemptContentGR
     }
 
     public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let scrollView = hostedScrollView,
-              let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
+        guard let panGesture = gestureRecognizer as? UIPanGestureRecognizer else {
             return true
         }
+
         // By default, the sheet pan gesture takes precedence.
         var shouldBegin = true
 
-        // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
-        if currentSheetVerticalOffset <= offset(for: supportsPartialExpansion ? .partial : .expanded) {
-            let scrolledToTop = scrollView.contentOffset.y <= 0
-            let panningDown = panGesture.velocity(in: view).y > 0
-            let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
-            shouldBegin = (scrolledToTop && panningDown) || !panInHostedScrollView
+        if shouldBlockContentGestures {
+            // When blocking content scroll in collapsed state, only begin for primarily vertical pans
+            // so that taps and horizontal swipes still pass through to content.
+            let velocity = panGesture.velocity(in: view)
+            shouldBegin = abs(velocity.y) > abs(velocity.x)
+        } else if let scrollView = hostedScrollView {
+            let sheetOffset = currentSheetVerticalOffset
+            let targetOffset = offset(for: supportsPartialState ? .partial : .expanded)
+            let isSufficientlyExpanded = sheetOffset <= targetOffset
+
+            // If we're sufficiently expanded, we give the scroll view an opportunity to take over.
+            if isSufficientlyExpanded {
+                let scrolledToTop = scrollView.contentOffset.y <= 0
+                let panningDown = panGesture.velocity(in: view).y > 0
+                let panInHostedScrollView = scrollView.frame.contains(panGesture.location(in: scrollView.superview))
+                shouldBegin = (scrolledToTop && panningDown) || !panInHostedScrollView
+            }
         }
+
         return shouldBegin
     }
 }

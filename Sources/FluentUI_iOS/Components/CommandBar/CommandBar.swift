@@ -229,18 +229,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         didSet {
             updateViewHierarchy()
             updateMainCommandGroupsViewConstraints()
-            if !isScrollable {
-                mainCommandGroupsView.equalWidthGroups = true
-            }
-        }
-    }
-
-    /// Whether or not the `CommandBar` scrollable content is centered in its container
-    public var isScrollableContentCentered: Bool = false {
-        didSet {
-            if isScrollable {
-                updateMainCommandGroupsViewConstraints()
-            }
         }
     }
 
@@ -388,11 +376,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
                 mainCommandGroupsView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
                 mainCommandGroupsView.leadingAnchor.constraint(greaterThanOrEqualTo: scrollView.leadingAnchor)
             ]
-
-            if isScrollableContentCentered {
-                let centerConstraint = mainCommandGroupsView.centerXAnchor.constraint(greaterThanOrEqualTo: scrollView.centerXAnchor)
-                mainCommandGroupsViewConstraints.append(centerConstraint)
-            }
         } else {
             mainCommandGroupsViewConstraints = [
                 mainCommandGroupsView.topAnchor.constraint(equalTo: containerView.topAnchor),

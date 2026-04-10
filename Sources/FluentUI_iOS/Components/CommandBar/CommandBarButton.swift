@@ -54,6 +54,7 @@ class CommandBarButton: UIButton {
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
             buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
+            buttonConfiguration.titleLineBreakMode = .byTruncatingMiddle
             configuration = buttonConfiguration
 
             let accessibilityDescription = item.accessibilityLabel
@@ -95,6 +96,11 @@ class CommandBarButton: UIButton {
         /// Additional state update is not needed if the `customControlView` is being shown
         guard item.customControlView == nil else {
             return
+        }
+
+        let maxWidth: CGFloat = tokenSet[.maxButtonWidth].float
+        if maxWidth > 0 {
+            widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
         }
 
         configuration?.title = item.title

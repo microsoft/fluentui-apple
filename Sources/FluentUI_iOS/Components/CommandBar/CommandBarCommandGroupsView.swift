@@ -95,9 +95,28 @@ class CommandBarCommandGroupsView: UIView {
         }
 
         updateButtonGroupViews()
-        for view in buttonGroupViews {
-            view.equalWidthButtons = equalWidthGroups
+        for (index, view) in buttonGroupViews.enumerated() {
             buttonGroupsStackView.addArrangedSubview(view)
+
+            if index < buttonGroupViews.count - 1 {
+                let separatorContainer = UIView()
+                separatorContainer.translatesAutoresizingMaskIntoConstraints = false
+
+                let separator = UIView()
+                separator.translatesAutoresizingMaskIntoConstraints = false
+                separator.backgroundColor = .opaqueSeparator
+                separatorContainer.addSubview(separator)
+
+                NSLayoutConstraint.activate([
+                    separator.topAnchor.constraint(equalTo: separatorContainer.topAnchor, constant: CommandBarTokenSet.separatorVerticalPadding),
+                    separator.bottomAnchor.constraint(equalTo: separatorContainer.bottomAnchor, constant: -CommandBarTokenSet.separatorVerticalPadding),
+                    separator.leadingAnchor.constraint(equalTo: separatorContainer.leadingAnchor),
+                    separator.trailingAnchor.constraint(equalTo: separatorContainer.trailingAnchor),
+                    separatorContainer.widthAnchor.constraint(equalToConstant: 1)
+                ])
+
+                buttonGroupsStackView.addArrangedSubview(separatorContainer)
+            }
         }
     }
 
@@ -111,12 +130,6 @@ class CommandBarCommandGroupsView: UIView {
     /// Returns the button associated with the given item, if it exists.
     func button(for item: CommandBarItem) -> CommandBarButton? {
         return itemsToButtonsMap[item]
-    }
-
-    var equalWidthGroups: Bool = false {
-        didSet {
-            buttonGroupsStackView.distribution = equalWidthGroups ? .fillEqually : .fill
-        }
     }
 
     // MARK: - Private properties

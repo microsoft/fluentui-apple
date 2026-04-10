@@ -218,6 +218,12 @@ extension FluentTheme: PlatformThemeProviding {
         case .strokeDisabled:
             color = .init(light: GlobalTokens.neutralSwiftUIColor(.grey88),
                           dark: GlobalTokens.neutralSwiftUIColor(.grey26))
+        case .strokeAlpha1:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.black).opacity(0.2),
+                          dark: GlobalTokens.neutralSwiftUIColor(.white).opacity(0.2))
+        case .strokeAlpha2:
+            color = .init(light: GlobalTokens.neutralSwiftUIColor(.black).opacity(0.1),
+                          dark: GlobalTokens.neutralSwiftUIColor(.white).opacity(0.1))
         case .brandStroke1:
             color = .init(light: GlobalTokens.brandSwiftUIColor(.comm80),
                           dark: GlobalTokens.brandSwiftUIColor(.comm100))
@@ -276,8 +282,8 @@ extension FluentTheme: PlatformThemeProviding {
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint10),
                           dark: GlobalTokens.sharedSwiftUIColor(.darkOrange, .tint20))
         case .warningBackground1:
-            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint60),
-                          dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade40))
+            color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .tint50),
+                          dark: GlobalTokens.sharedSwiftUIColor(.brass, .shade30))
         case .warningBackground2:
             color = .init(light: GlobalTokens.sharedSwiftUIColor(.yellow, .primary),
                           dark: GlobalTokens.sharedSwiftUIColor(.yellow, .shade10))
