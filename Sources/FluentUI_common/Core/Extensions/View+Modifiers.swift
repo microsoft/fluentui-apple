@@ -13,20 +13,6 @@ public extension View {
     func applyFluentShadow(shadowInfo: ShadowInfo) -> some View {
         modifier(ShadowModifier(shadowInfo: shadowInfo))
     }
-
-    /// Abstracts away differences in pre-iOS 17 `onChange(of:perform:)` versus post-iOS 17 `onChange(of:_:)`.
-    ///
-    /// This function will be removed once FluentUI moves to iOS 17 as a minimum target.
-    /// - Parameters:
-    ///   - value: The value to check against when determining whether to run the closure.
-    ///   - action: A closure to run when the value changes.
-    /// - Returns: A view that fires an action when the specified value changes.
-    @available(*, deprecated, message: "Please use the native onChange(of:_:) method instead.")
-    func onChange_iOS17<V>(of value: V, _ action: @escaping (V) -> Void) -> some View where V: Equatable {
-        return self.onChange(of: value) { _, newValue in
-            return action(newValue)
-        }
-    }
 }
 
 /// ViewModifier that applies both shadows from a ShadowInfo
