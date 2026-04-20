@@ -24,7 +24,7 @@ import SwiftUI
     var messageLineLimit: Int { get set }
 
     /// If the message text should be expandabled to view the entire mesage if it is truncated due to the messageLineLimit
-    var enableExandableMessageText: Bool { get set }
+    var enableExpandableMessageText: Bool { get set }
 
     /// Optional text to draw above the message area.
     var title: String? { get set }
@@ -103,7 +103,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - messageLineLimit: The maximum number of lines the message can show. Any excess text is truncated.
-    ///   - enableExandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncated. Tapping the expand button will display all lines of text.
+    ///   - enableExpandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncated. Tapping the expand button will display all lines of text.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
@@ -123,7 +123,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 message: String? = nil,
                 attributedMessage: NSAttributedString? = nil,
                 messageLineLimit: Int = 0,
-                enableExandableMessageText: Bool = false,
+                enableExpandableMessageText: Bool = false,
                 isPresented: Binding<Bool>? = nil,
                 title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
@@ -145,7 +145,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              message: message,
                                              attributedMessage: attributedMessage,
                                              messageLineLimit: messageLineLimit,
-                                             enableExandableMessageText: enableExandableMessageText,
+                                             enableExpandableMessageText: enableExpandableMessageText,
                                              title: title,
                                              attributedTitle: attributedTitle,
                                              image: image,
@@ -210,7 +210,7 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
-                if state.enableExandableMessageText {
+                if state.enableExpandableMessageText {
                     ExpandableText(
                         attributedMessage,
                         lineLimit: state.messageLineLimit,
@@ -225,7 +225,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         .fixedSize(horizontal: false, vertical: true)
                 }
             } else if let message = state.message {
-                if state.enableExandableMessageText {
+                if state.enableExpandableMessageText {
                     ExpandableText(
                         message,
                         lineLimit: state.messageLineLimit,
@@ -301,7 +301,7 @@ public struct FluentNotification: View, TokenizedControlView {
         var expandButton: some View {
             HStack {
                 SwiftUI.Button(action: {
-                    if state.enableExandableMessageText {
+                    if state.enableExpandableMessageText {
                         // Default behavior: toggle expansion state
                         isMessageLabelExpanded.toggle()
                     } else {
@@ -345,7 +345,7 @@ public struct FluentNotification: View, TokenizedControlView {
                     .buttonStyle(.borderless)
 #endif // os(visionOS)
                     .layoutPriority(1)
-                    if state.enableExandableMessageText && isMessageLabelExpandable && !isMessageLabelExpanded {
+                    if state.enableExpandableMessageText && isMessageLabelExpandable && !isMessageLabelExpanded {
                         Spacer()
                         expandButton
 #if os(visionOS)
@@ -595,7 +595,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var verticalOffset: CGFloat
     @Published var onDismiss: (() -> Void)?
     @Published var swipeToDismissEnabled: Bool
-    @Published var enableExandableMessageText: Bool
+    @Published var enableExpandableMessageText: Bool
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -638,7 +638,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          message: String? = nil,
          attributedMessage: NSAttributedString? = nil,
          messageLineLimit: Int = 0,
-         enableExandableMessageText: Bool = false,
+         enableExpandableMessageText: Bool = false,
          title: String? = nil,
          attributedTitle: NSAttributedString? = nil,
          image: UIImage? = nil,
@@ -671,7 +671,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.swipeToDismissEnabled = swipeToDismissEnabled
         self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
-        self.enableExandableMessageText = enableExandableMessageText
+        self.enableExpandableMessageText = enableExpandableMessageText
         super.init()
     }
 }
