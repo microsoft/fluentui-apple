@@ -102,8 +102,8 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents.
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
-    ///   - messageLineLimit: The maximum number of lines the message can show. Any exess text is truncated.
-    ///   - enableExandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncted. Tapping the expand button will display all lines of text.
+    ///   - messageLineLimit: The maximum number of lines the message can show. Any excess text is truncated.
+    ///   - enableExandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncated. Tapping the expand button will display all lines of text.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
