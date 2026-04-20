@@ -168,7 +168,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        let cornerRadius = bounds.height / 2
+        let cornerRadius = commandBarContainerStackView.bounds.height / 2
         layer.cornerRadius = cornerRadius
         commandBarContainerStackView.layer.cornerRadius = cornerRadius
         commandBarContainerStackView.layoutIfNeeded()
@@ -523,7 +523,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
 
     private func updateCornerRadius() {
         if style == .glass, let effectView = glassEffectView {
-            let cornerRadius = bounds.height / 2
+            let cornerRadius = commandBarContainerStackView.bounds.height / 2
 
             if #available(iOS 26, visionOS 26, *) {
                 effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
