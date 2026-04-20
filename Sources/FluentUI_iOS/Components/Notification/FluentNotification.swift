@@ -61,12 +61,6 @@ import SwiftUI
     /// Action to be dispatched by the dismiss button on the trailing edge of the control.
     var defaultDismissButtonAction: (() -> Void)? { get set }
 
-    /// If dismiss button should be replaced an expand button
-    var showExpandButtonInPlaceOfDismissButton: Bool { get set }
-
-    /// Action to be taken when `showExpandButtonInPlaceOfDismissButton` is enabled
-    var expandButtonAction: (() -> Void)? { get set }
-
     /// Action to be dispatched by tapping on the toast/bar notification.
     var messageButtonAction: (() -> Void)? { get set }
 
@@ -109,7 +103,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - messageLineLimit: The maximum number of lines the message can show. Any exess text is truncated.
-    ///   - enableExandableMessageText: If enabled, a expand button will be shown in place of the dimiss icon when the text is truncted. Tapping the expand button will display all lines of text.
+    ///   - enableExandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncted. Tapping the expand button will display all lines of text.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
@@ -120,7 +114,6 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - actionButtonAction: Action to be dispatched by the action button on the trailing edge of the control.
     ///   - showDefaultDismissActionButton: Bool to control if the Notification has a dismiss action by default.
     ///   - defaultDismissButtonAction: Action to be dispatched by the dismiss button of the trailing edge of the control.
-    ///   - expandButtonAction: Action to be taken when showExpandButtonInPlaceOfDismissButton is enabled
     ///   - messageButtonAction: Action to be dispatched by tapping on the toast/bar notification.
     ///   - showFromBottom: Defines whether the notification shows from the bottom of the presenting view or the top.
     ///   - verticalOffset: How much to vertically offset the notification from its default position.
@@ -142,8 +135,6 @@ public struct FluentNotification: View, TokenizedControlView {
                 showDefaultDismissActionButton: Bool? = nil,
                 showActionButtonAndDismissButton: Bool = false,
                 defaultDismissButtonAction: (() -> Void)? = nil,
-                showExpandButtonInPlaceOfDismissButton: Bool = false,
-                expandButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
                 swipeToDismissEnabled: Bool = false,
                 showFromBottom: Bool = true,
@@ -165,8 +156,6 @@ public struct FluentNotification: View, TokenizedControlView {
                                              showDefaultDismissActionButton: showDefaultDismissActionButton,
                                              showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                              defaultDismissButtonAction: defaultDismissButtonAction,
-                                             showExpandButtonInPlaceOfDismissButton: showExpandButtonInPlaceOfDismissButton,
-                                             expandButtonAction: expandButtonAction,
                                              messageButtonAction: messageButtonAction,
                                              swipeToDismissEnabled: swipeToDismissEnabled,
                                              showFromBottom: showFromBottom,
@@ -257,10 +246,10 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var textContainer: some View {
             VStack(alignment: .leading) {
-				if hasSecondTextRow {
-					titleLabel
-				}
-				messageLabel
+                if hasSecondTextRow {
+                    titleLabel
+                }
+                messageLabel
             }
             .padding(.vertical, NotificationTokenSet.verticalPadding)
         }
@@ -312,13 +301,11 @@ public struct FluentNotification: View, TokenizedControlView {
         var expandButton: some View {
             HStack {
                 SwiftUI.Button(action: {
-                    if state.showExpandButtonInPlaceOfDismissButton, let customAction = state.expandButtonAction {
-                        customAction()
-                    } else if state.enableExandableMessageText {
+                    if state.enableExandableMessageText {
                         // Default behavior: toggle expansion state
                         isMessageLabelExpanded.toggle()
                     } else {
-                        preconditionFailure("FluentNotification expandButton should be getting rendered given the current state")
+                        preconditionFailure("FluentNotification expandButton should not be rendered given state")
                     }
                 }, label: {
                     Image("chevron-up-20x20", bundle: FluentUIFramework.resourceBundle)
@@ -358,23 +345,23 @@ public struct FluentNotification: View, TokenizedControlView {
                     .buttonStyle(.borderless)
 #endif // os(visionOS)
                     .layoutPriority(1)
-                    if (state.showExpandButtonInPlaceOfDismissButton && state.expandButtonAction != nil) || (state.enableExandableMessageText && isMessageLabelExpandable && !isMessageLabelExpanded) {
-						Spacer()
-						expandButton
+                    if state.enableExandableMessageText && isMessageLabelExpandable && !isMessageLabelExpanded {
+                        Spacer()
+                        expandButton
 #if os(visionOS)
-						.buttonStyle(.borderless)
+                        .buttonStyle(.borderless)
 #endif // os(visionOS)
-						.layoutPriority(1)
-					} else {
-						if dismissButtonAction != nil {
-							Spacer()
-							dismissButton
-	#if os(visionOS)
-							.buttonStyle(.borderless)
-	#endif // os(visionOS)
-							.layoutPriority(1)
-						}
-					}
+                        .layoutPriority(1)
+                    } else {
+                        if dismissButtonAction != nil {
+                            Spacer()
+                            dismissButton
+#if os(visionOS)
+                            .buttonStyle(.borderless)
+#endif // os(visionOS)
+                            .layoutPriority(1)
+                        }
+                    }
                 }
                 .onSizeChange { newSize in
                     innerContentsSize = newSize
@@ -603,13 +590,11 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var showDefaultDismissActionButton: Bool
     @Published var showActionButtonAndDismissButton: Bool
     @Published var defaultDismissButtonAction: (() -> Void)?
-    @Published var expandButtonAction: (() -> Void)?
     @Published var showFromBottom: Bool
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
     @Published var onDismiss: (() -> Void)?
     @Published var swipeToDismissEnabled: Bool
-    @Published var showExpandButtonInPlaceOfDismissButton: Bool
     @Published var enableExandableMessageText: Bool
 
     /// Title to display in the action button on the trailing edge of the control.
@@ -643,7 +628,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   showDefaultDismissActionButton: nil,
                   showActionButtonAndDismissButton: false,
                   defaultDismissButtonAction: nil,
-                  expandButtonAction: nil,
                   messageButtonAction: nil,
                   swipeToDismissEnabled: false,
                   showFromBottom: true,
@@ -665,8 +649,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          showDefaultDismissActionButton: Bool? = nil,
          showActionButtonAndDismissButton: Bool = false,
          defaultDismissButtonAction: (() -> Void)? = nil,
-         showExpandButtonInPlaceOfDismissButton: Bool = false,
-         expandButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
          swipeToDismissEnabled: Bool = false,
          showFromBottom: Bool = true,
@@ -688,8 +670,6 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.showActionButtonAndDismissButton = showActionButtonAndDismissButton
         self.swipeToDismissEnabled = swipeToDismissEnabled
         self.defaultDismissButtonAction = defaultDismissButtonAction
-        self.showExpandButtonInPlaceOfDismissButton = showExpandButtonInPlaceOfDismissButton
-        self.expandButtonAction = expandButtonAction
         self.verticalOffset = verticalOffset
         self.enableExandableMessageText = enableExandableMessageText
         super.init()

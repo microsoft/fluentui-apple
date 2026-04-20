@@ -49,6 +49,7 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showActionButtonAndDismissButton: Bool = false
     @State var swipeToDismissEnabled: Bool = false
+    @State var isExpandableMessageLabel: Bool = false
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
@@ -56,7 +57,6 @@ struct NotificationDemoView: View {
     @State var previewPresented: Bool = true
     @State var notificationID: UUID = UUID()
     @State var autoReappear: Bool = true
-    @State var expandButtonMode: Int = 0
     @ObservedObject var fluentTheme: FluentTheme = .shared
     private var triggerModel = FluentNotificationTriggerModel()
     let customTheme: FluentTheme = {
@@ -179,7 +179,7 @@ struct NotificationDemoView: View {
                                            message: hasMessage ? message : nil,
                                            attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                            messageLineLimit: messageLineLimit,
-                                           enableExandableMessageText: expandButtonMode == 1,
+                                           enableExandableMessageText: isExpandableMessageLabel,
                                            title: hasTitle ? title : nil,
                                            attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                            image: image,
@@ -190,8 +190,6 @@ struct NotificationDemoView: View {
                                            showDefaultDismissActionButton: showDefaultDismissActionButton,
                                            showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                            defaultDismissButtonAction: dismissButtonAction,
-                                           showExpandButtonInPlaceOfDismissButton: expandButtonMode == 2,
-                                           expandButtonAction: (expandButtonMode == 2) ? { showAlert = true } : nil,
                                            messageButtonAction: messageButtonAction,
                                            swipeToDismissEnabled: swipeToDismissEnabled,
                                            showFromBottom: showFromBottom,
@@ -238,7 +236,7 @@ struct NotificationDemoView: View {
                                message: hasMessage ? message : nil,
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                messageLineLimit: messageLineLimit,
-                               enableExandableMessageText: expandButtonMode == 1,
+                               enableExandableMessageText: isExpandableMessageLabel,
                                isPresented: $isPresented,
                                title: hasTitle ? title : nil,
                                attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
@@ -249,8 +247,6 @@ struct NotificationDemoView: View {
                                actionButtonAction: actionButtonAction,
                                showDefaultDismissActionButton: showDefaultDismissActionButton,
                                showActionButtonAndDismissButton: showActionButtonAndDismissButton,
-                               showExpandButtonInPlaceOfDismissButton: expandButtonMode == 2,
-                               expandButtonAction: (expandButtonMode == 2) ? { showAlert = true } : nil,
                                messageButtonAction: messageButtonAction,
                                showFromBottom: showFromBottom,
                                verticalOffset: verticalOffset,
@@ -324,11 +320,7 @@ struct NotificationDemoView: View {
                 Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
                 Toggle("Has Message Action", isOn: $hasMessageAction)
                 Toggle("Swipe to Dismiss Enabled", isOn: $swipeToDismissEnabled)
-                Picker(selection: $expandButtonMode, label: Text("Expand Button Mode")) {
-                    Text("none").tag(0)
-                    Text("expandable message").tag(1)
-                    Text("custom expand action").tag(2)
-                }
+                Toggle("Expandable Message Label", isOn: $isExpandableMessageLabel)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
