@@ -115,9 +115,11 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         super.init(frame: .zero)
 
         configureHierarchy()
+
         if style == .glass {
             setupGlassBackground()
         }
+
         updateBackgroundColor()
         updateShadow()
 
@@ -449,10 +451,10 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
             let shadowInfo = tokenSet[.shadow].shadowInfo
             shadowInfo.applyShadow(to: self)
         case .glass:
-            layer.shadowColor   = UIColor.black.cgColor
-            layer.shadowOpacity = 0.25
-            layer.shadowOffset  = CGSize(width: 0, height: -2)
-            layer.shadowRadius  = 8
+            layer.shadowColor   = CommandBarTokenSet.glassEffectShadowColor
+            layer.shadowOpacity = CommandBarTokenSet.glassEffectShadowOpacity
+            layer.shadowOffset  = CommandBarTokenSet.glassEffectShadowOffset
+            layer.shadowRadius  = CommandBarTokenSet.glassEffectShadowRadius
         }
     }
 
@@ -491,7 +493,12 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
 #endif
         effectView.translatesAutoresizingMaskIntoConstraints = false
         commandBarContainerStackView.insertSubview(effectView, at: 0)
-        pinEffectView(effectView, to: commandBarContainerStackView)
+        NSLayoutConstraint.activate([
+            effectView.topAnchor.constraint(equalTo: commandBarContainerStackView.topAnchor),
+            effectView.leadingAnchor.constraint(equalTo: commandBarContainerStackView.leadingAnchor),
+            effectView.bottomAnchor.constraint(equalTo: commandBarContainerStackView.bottomAnchor),
+            effectView.trailingAnchor.constraint(equalTo: commandBarContainerStackView.trailingAnchor)
+        ])
         commandBarContainerStackView.backgroundColor = .clear
         glassEffectView = effectView
     }
@@ -515,26 +522,15 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func updateCornerRadius() {
-        guard style == .glass, let effectView = glassEffectView else { return }
-        let cornerRadius = bounds.height / 2
-#if !os(visionOS)
-        if #available(iOS 26, *) {
-            effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
-        } else {
-            effectView.layer.cornerRadius = cornerRadius
-        }
-#else
-        effectView.layer.cornerRadius = cornerRadius
-#endif
-    }
+        if style == .glass, let effectView = glassEffectView {
+            let cornerRadius = bounds.height / 2
 
-    private func pinEffectView(_ view: UIView, to container: UIView) {
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: container.topAnchor),
-            view.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-            view.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-            view.trailingAnchor.constraint(equalTo: container.trailingAnchor)
-        ])
+            if #available(iOS 26, visionOS 26, *) {
+                effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
+            } else {
+                effectView.layer.cornerRadius = cornerRadius
+            }
+        }
     }
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
