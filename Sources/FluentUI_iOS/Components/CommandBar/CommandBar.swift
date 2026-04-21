@@ -78,10 +78,21 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
                   trailingItemGroups: trailingItems)
     }
 
+    @objc public convenience init(itemGroups: [CommandBarItemGroup],
+                                  leadingItemGroups: [CommandBarItemGroup]? = nil,
+                                  trailingItemGroups: [CommandBarItemGroup]? = nil) {
+        self.init(itemGroups: itemGroups,
+                  leadingItemGroups: leadingItemGroups,
+                  trailingItemGroups: trailingItemGroups,
+                  style: .primary)
+    }
+
     @objc public init(itemGroups: [CommandBarItemGroup],
                       leadingItemGroups: [CommandBarItemGroup]? = nil,
-                      trailingItemGroups: [CommandBarItemGroup]? = nil) {
-        self.tokenSet = CommandBarTokenSet()
+                      trailingItemGroups: [CommandBarItemGroup]? = nil,
+                      style: CommandBarStyle) {
+        self.style = style
+        self.tokenSet = CommandBarTokenSet(style: { style })
 
         leadingCommandGroupsView = CommandBarCommandGroupsView(itemGroups: leadingItemGroups,
                                                                buttonsPersistSelection: false,
@@ -152,13 +163,11 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        let cornerRadius = bounds.height / 2
-        layer.cornerRadius = cornerRadius
-        commandBarContainerStackView.layer.cornerRadius = cornerRadius
         commandBarContainerStackView.layoutIfNeeded()
 
         updateShadow()
         updateScrollViewShadow()
+        updateCornerRadius()
     }
 
 #if DEBUG
@@ -190,6 +199,9 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
 
     public typealias TokenSetKeyType = CommandBarTokenSet.Tokens
     public var tokenSet: CommandBarTokenSet
+
+    /// The visual style of the CommandBar.
+    public let style: CommandBarStyle
 
     /// Items shown in the center of the CommandBar
     @objc public var itemGroups: [CommandBarItemGroup] {
@@ -245,6 +257,8 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     public weak var delegate: CommandBarDelegate?
 
     // MARK: - Private properties
+
+    private var glassEffectView: UIVisualEffectView?
 
     /// Container UIStackView that holds the leading, main and trailing views
     private var commandBarContainerStackView: UIStackView
@@ -324,8 +338,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         leadingCommandGroupsView.isHidden = leadingCommandGroupsView.itemGroups.isEmpty
         trailingCommandGroupsView.isHidden = trailingCommandGroupsView.itemGroups.isEmpty
 
-        addSubview(commandBarContainerStackView)
-
         commandBarContainerStackView.addArrangedSubview(leadingCommandGroupsView)
         commandBarContainerStackView.addArrangedSubview(containerView)
         commandBarContainerStackView.addArrangedSubview(trailingCommandGroupsView)
@@ -334,11 +346,40 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         updateViewHierarchy()
         updateMainCommandGroupsViewConstraints()
 
+        let rootView: UIView
+        switch style {
+        case .primary:
+            rootView = commandBarContainerStackView
+        case .glass:
+            let effectView = UIVisualEffectView()
+            effectView.effect = UIBlurEffect(style: .systemMaterial)
+            effectView.layer.masksToBounds = true
+#if !os(visionOS)
+            if #available(iOS 26, *) {
+                let glassEffect = UIGlassEffect(style: .regular)
+                glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                effectView.effect = glassEffect
+                effectView.layer.masksToBounds = false
+            }
+#endif
+            effectView.translatesAutoresizingMaskIntoConstraints = false
+            let contentView = effectView.contentView
+            contentView.addSubview(commandBarContainerStackView)
+            NSLayoutConstraint.activate([
+                commandBarContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                commandBarContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                commandBarContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                commandBarContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            ])
+            glassEffectView = effectView
+            rootView = effectView
+        }
+        addSubview(rootView)
         NSLayoutConstraint.activate([
-            commandBarContainerStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            commandBarContainerStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            commandBarContainerStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            commandBarContainerStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            rootView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            rootView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            rootView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            rootView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
@@ -424,18 +465,61 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func updateShadow() {
-        let shadowInfo = tokenSet[.shadow].shadowInfo
-        shadowInfo.applyShadow(to: self)
+        switch style {
+        case .primary:
+            let shadowInfo = tokenSet[.shadow].shadowInfo
+            shadowInfo.applyShadow(to: self)
+        case .glass:
+#if !os(visionOS)
+            if #unavailable(iOS 26) {
+                layer.shadowColor   = CommandBarTokenSet.glassEffectShadowColor
+                layer.shadowOpacity = CommandBarTokenSet.glassEffectShadowOpacity
+                layer.shadowOffset  = CommandBarTokenSet.glassEffectShadowOffset
+                layer.shadowRadius  = CommandBarTokenSet.glassEffectShadowRadius
+            }
+#else
+            layer.shadowColor   = CommandBarTokenSet.glassEffectShadowColor
+            layer.shadowOpacity = CommandBarTokenSet.glassEffectShadowOpacity
+            layer.shadowOffset  = CommandBarTokenSet.glassEffectShadowOffset
+            layer.shadowRadius  = CommandBarTokenSet.glassEffectShadowRadius
+#endif
+        }
     }
 
     private func updateBackgroundColor() {
-        backgroundColor = tokenSet[.backgroundColor].uiColor
+        switch style {
+        case .primary:
+            backgroundColor = tokenSet[.backgroundColor].uiColor
+        case .glass:
+            backgroundColor = .clear
+#if !os(visionOS)
+            if #available(iOS 26, *), let glassEffectView {
+                let glassEffect = UIGlassEffect(style: .regular)
+                glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                glassEffectView.effect = glassEffect
+            }
+#endif
+        }
     }
 
     private func updateButtonTokens() {
         leadingCommandGroupsView.updateButtonsShown()
         mainCommandGroupsView.updateButtonsShown()
         trailingCommandGroupsView.updateButtonsShown()
+    }
+
+    private func updateCornerRadius() {
+        let cornerRadius = commandBarContainerStackView.bounds.height / 2
+        layer.cornerRadius = cornerRadius
+        commandBarContainerStackView.layer.cornerRadius = cornerRadius
+
+        if style == .glass, let glassEffectView {
+            if #available(iOS 26, visionOS 26, *) {
+                glassEffectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
+            } else {
+                glassEffectView.layer.cornerRadius = cornerRadius
+            }
+        }
     }
 
     /// Updates the provided `CommandBarCommandGroupsView` with the `items` array and marks the view as needing a layout
