@@ -132,7 +132,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
 extension CommandBarTokenSet {
     static let glassEffectShadowColor: CGColor = UIColor.black.cgColor
     static let glassEffectShadowOpacity: Float = 0.25
-    static let glassEffectShadowOffset: CGSize = CGSize(width: 0, height: -2)
+    static let glassEffectShadowOffset: CGSize = CGSize(width: 0, height: 2)
     static let glassEffectShadowRadius: CGFloat = 8
 }
 
