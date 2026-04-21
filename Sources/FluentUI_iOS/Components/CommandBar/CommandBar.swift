@@ -115,11 +115,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         super.init(frame: .zero)
 
         configureHierarchy()
-
-        if style == .glass {
-            setupGlassBackground()
-        }
-
         updateBackgroundColor()
         updateShadow()
 
@@ -351,15 +346,41 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         updateViewHierarchy()
         updateMainCommandGroupsViewConstraints()
 
-        if style == .primary {
-            addSubview(commandBarContainerStackView)
+        let rootView: UIView
+        switch style {
+        case .primary:
+            rootView = commandBarContainerStackView
+        case .glass:
+            let effectView = UIVisualEffectView()
+            effectView.effect = UIBlurEffect(style: .systemMaterial)
+            effectView.layer.masksToBounds = true
+#if !os(visionOS)
+            if #available(iOS 26, *) {
+                let glassEffect = UIGlassEffect(style: .regular)
+                glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+                effectView.effect = glassEffect
+                effectView.layer.masksToBounds = false
+            }
+#endif
+            effectView.translatesAutoresizingMaskIntoConstraints = false
+            let contentView = effectView.contentView
+            contentView.addSubview(commandBarContainerStackView)
             NSLayoutConstraint.activate([
-                commandBarContainerStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-                commandBarContainerStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-                commandBarContainerStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-                commandBarContainerStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+                commandBarContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+                commandBarContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+                commandBarContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                commandBarContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
             ])
+            glassEffectView = effectView
+            rootView = effectView
         }
+        addSubview(rootView)
+        NSLayoutConstraint.activate([
+            rootView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            rootView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            rootView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            rootView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        ])
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {
             // Flip the scroll view to invert scrolling direction. Flip its content back because it's already in RTL.
@@ -485,39 +506,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         leadingCommandGroupsView.updateButtonsShown()
         mainCommandGroupsView.updateButtonsShown()
         trailingCommandGroupsView.updateButtonsShown()
-    }
-
-    private func setupGlassBackground() {
-        let effectView = UIVisualEffectView()
-        effectView.effect = UIBlurEffect(style: .systemMaterial)
-        effectView.layer.masksToBounds = true
-#if !os(visionOS)
-        if #available(iOS 26, *) {
-            let glassEffect = UIGlassEffect(style: .regular)
-            glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-            effectView.effect = glassEffect
-            effectView.layer.masksToBounds = false
-        }
-#endif
-        effectView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(effectView)
-        NSLayoutConstraint.activate([
-            effectView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            effectView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            effectView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            effectView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
-        ])
-
-        let contentView = effectView.contentView
-        contentView.addSubview(commandBarContainerStackView)
-        NSLayoutConstraint.activate([
-            commandBarContainerStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            commandBarContainerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            commandBarContainerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            commandBarContainerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-
-        glassEffectView = effectView
     }
 
     private func updateCornerRadius() {
