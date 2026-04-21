@@ -488,7 +488,17 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func setupGlassBackground() {
-        let effectView = makeEffectView()
+        let effectView = UIVisualEffectView()
+        effectView.effect = UIBlurEffect(style: .systemMaterial)
+        effectView.layer.masksToBounds = true
+#if !os(visionOS)
+        if #available(iOS 26, *) {
+            let glassEffect = UIGlassEffect(style: .regular)
+            glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+            effectView.effect = glassEffect
+            effectView.layer.masksToBounds = false
+        }
+#endif
         effectView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(effectView)
         NSLayoutConstraint.activate([
@@ -508,23 +518,6 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         ])
 
         glassEffectView = effectView
-    }
-
-    private func makeEffectView() -> UIVisualEffectView {
-        let effectView = UIVisualEffectView()
-        effectView.effect = UIBlurEffect(style: .systemMaterial)
-        effectView.layer.masksToBounds = true
-
-#if !os(visionOS)
-        if #available(iOS 26, *) {
-            let glassEffect = UIGlassEffect(style: .regular)
-            glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-            effectView.effect = glassEffect
-            effectView.layer.masksToBounds = false
-        }
-#endif
-
-        return effectView
     }
 
     private func updateCornerRadius() {
