@@ -488,16 +488,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
     }
 
     private func setupGlassBackground() {
-        var effectView: UIVisualEffectView
-#if os(visionOS)
-        effectView = makeBlurEffectView()
-#else
-        if #available(iOS 26, *) {
-            effectView = makeGlassEffectView()
-        } else {
-            effectView = makeBlurEffectView()
-        }
-#endif
+        let effectView = makeEffectView()
         effectView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(effectView)
         NSLayoutConstraint.activate([
@@ -519,21 +510,20 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         glassEffectView = effectView
     }
 
-#if !os(visionOS)
-    @available(iOS 26, *)
-    private func makeGlassEffectView() -> UIVisualEffectView {
-        let effectView = UIVisualEffectView()
-        let glassEffect = UIGlassEffect(style: .regular)
-        glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-        effectView.effect = glassEffect
-        return effectView
-    }
-#endif // !os(visionOS)
-
-    private func makeBlurEffectView() -> UIVisualEffectView {
+    private func makeEffectView() -> UIVisualEffectView {
         let effectView = UIVisualEffectView()
         effectView.effect = UIBlurEffect(style: .systemMaterial)
         effectView.layer.masksToBounds = true
+
+#if !os(visionOS)
+        if #available(iOS 26, *) {
+            let glassEffect = UIGlassEffect(style: .regular)
+            glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
+            effectView.effect = glassEffect
+            effectView.layer.masksToBounds = false
+        }
+#endif
+
         return effectView
     }
 
