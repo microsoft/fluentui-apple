@@ -472,10 +472,10 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         case .glass:
             backgroundColor = .clear
 #if !os(visionOS)
-            if #available(iOS 26, *), let effectView = glassEffectView {
+            if #available(iOS 26, *), let glassEffectView {
                 let glassEffect = UIGlassEffect(style: .regular)
                 glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-                effectView.effect = glassEffect
+                glassEffectView.effect = glassEffect
             }
 #endif
         }
@@ -542,11 +542,11 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         layer.cornerRadius = cornerRadius
         commandBarContainerStackView.layer.cornerRadius = cornerRadius
 
-        if style == .glass, let effectView = glassEffectView {
+        if style == .glass, let glassEffectView {
             if #available(iOS 26, visionOS 26, *) {
-                effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
+                glassEffectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(cornerRadius))
             } else {
-                effectView.layer.cornerRadius = cornerRadius
+                glassEffectView.layer.cornerRadius = cornerRadius
             }
         }
     }
