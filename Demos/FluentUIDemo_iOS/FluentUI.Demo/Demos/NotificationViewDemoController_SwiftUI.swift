@@ -49,6 +49,7 @@ struct NotificationDemoView: View {
     @State var showDefaultDismissActionButton: Bool = true
     @State var showActionButtonAndDismissButton: Bool = false
     @State var swipeToDismissEnabled: Bool = false
+    @State var isExpandableMessageLabel: Bool = false
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
@@ -178,6 +179,7 @@ struct NotificationDemoView: View {
                                            message: hasMessage ? message : nil,
                                            attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                            messageLineLimit: messageLineLimit,
+                                           enableExpandableMessageText: isExpandableMessageLabel,
                                            title: hasTitle ? title : nil,
                                            attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                            image: image,
@@ -234,6 +236,7 @@ struct NotificationDemoView: View {
                                message: hasMessage ? message : nil,
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                messageLineLimit: messageLineLimit,
+                               enableExpandableMessageText: isExpandableMessageLabel,
                                isPresented: $isPresented,
                                title: hasTitle ? title : nil,
                                attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
@@ -280,6 +283,7 @@ struct NotificationDemoView: View {
                 LabeledContent {
                     TextField("Line Limit", value: $messageLineLimit, formatter: integerFormatter)
                         .keyboardType(.numberPad)
+                        .multilineTextAlignment(.trailing)
                 } label: {
                     Text("Message Line Limit")
                 }
@@ -316,6 +320,8 @@ struct NotificationDemoView: View {
                 Toggle("Can Show Action & Dismiss Buttons", isOn: $showActionButtonAndDismissButton)
                 Toggle("Has Message Action", isOn: $hasMessageAction)
                 Toggle("Swipe to Dismiss Enabled", isOn: $swipeToDismissEnabled)
+                Toggle("Expandable Message Label", isOn: $isExpandableMessageLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
 
             FluentListSection("Style") {
