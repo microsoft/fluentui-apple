@@ -200,14 +200,6 @@ fi', :execution_position => :before_compile }
     listitem_ios.source_files = ["#{ios_root}/#{components_dir}/List/**/*.swift"]
   end
 
-  s.subspec 'MultilineCommandBar_ios' do |multilinecommandbar_ios|
-    multilinecommandbar_ios.platform = :ios
-    multilinecommandbar_ios.dependency "#{s.name}/BottomSheet_ios"
-    multilinecommandbar_ios.dependency "#{s.name}/CommandBar_ios"
-    multilinecommandbar_ios.dependency "#{s.name}/Core_ios"
-    multilinecommandbar_ios.source_files = ["#{ios_root}/#{components_dir}/MultilineCommandBar/**/*.{swift,h}"]
-  end
-
   s.subspec 'Navigation_ios' do |navigation_ios|
     navigation_ios.platform = :ios
     navigation_ios.dependency "#{s.name}/ActivityIndicator_ios"

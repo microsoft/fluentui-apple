@@ -3,9 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(FluentUI_common)
-import FluentUI_common
-#endif
+#if canImport(UIKit)
 import SwiftUI
 import UIKit
 
@@ -136,3 +134,4 @@ extension UIFont {
         }
     }
 }
+#endif // canImport(UIKit)

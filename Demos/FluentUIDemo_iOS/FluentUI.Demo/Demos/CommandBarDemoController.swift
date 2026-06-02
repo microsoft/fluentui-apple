@@ -180,7 +180,7 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("Default"))
 
-        let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]])
+        let commandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .keyboard)]], style: .glass)
         commandBar.delegate = self
         commandBar.translatesAutoresizingMaskIntoConstraints = false
         container.addArrangedSubview(commandBar)
@@ -275,7 +275,7 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(createLabelWithText("With Fixed Button"))
 
-        let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]])
+        let fixedButtonCommandBar = CommandBar(itemGroups: createItemGroups(), leadingItemGroups: [[newItem(for: .copy)]], trailingItemGroups: [[newItem(for: .keyboard)]], style: .glass)
         fixedButtonCommandBar.translatesAutoresizingMaskIntoConstraints = false
         container.addArrangedSubview(fixedButtonCommandBar)
 
@@ -293,7 +293,7 @@ class CommandBarDemoController: DemoController {
 
         container.addArrangedSubview(textFieldContainer)
 
-        let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]])
+        let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]], style: .glass)
         accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
 #if os(iOS)
         textField.inputAccessoryView = accessoryCommandBar

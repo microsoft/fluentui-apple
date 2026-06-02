@@ -162,8 +162,10 @@ public struct PillButtonBarView<Selection: Hashable>: View {
         }
         .allowsHitTesting(!ignoreTap && isEnabled)
         .id(value)
+        .accessibilityAddTraits(.isButton)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .accessibilityLabel(viewModel.isUnread ? String(format: "Accessibility.TabBarItemView.UnreadFormat".localized, title) : title)
+        .accessibilityIdentifier(title)
         .showsLargeContentViewer(text: title)
     }
 

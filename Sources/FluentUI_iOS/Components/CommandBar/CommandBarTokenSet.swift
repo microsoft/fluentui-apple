@@ -8,12 +8,20 @@ import FluentUI_common
 #endif
 import UIKit
 
+@objc(MSFCommandBarStyle)
+public enum CommandBarStyle: Int {
+    /// Default style — solid background color.
+    case primary
+
+    /// Glass material background (UIGlassEffect on iOS 26+, UIBlurEffect on earlier).
+    case glass
+}
+
 public enum CommandBarToken: Int, TokenSetKey {
     /// The background color of the Command Bar.
     case backgroundColor
 
-    /// The corner radius for each group of item(s) inside the Command Bar.
-    /// On iOS 26+, this is also the corner radius for each Command Bar Button.
+    /// The corner radius for each Command Bar Button.
     case cornerRadius
 
     /// The background color of a single Command Bar Item when in rest.
@@ -51,25 +59,32 @@ public enum CommandBarToken: Int, TokenSetKey {
 
     /// The shadows used by the `CommandBar`.
     case shadow
+
+    /// The maximum width of each button in the CommandBar. When greater than 0, buttons will be constrained to this width and truncate text that exceeds it.
+    case maxButtonWidth
 }
 
 /// Design token set for the `CommandBar` control.
 public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
-    init() {
-        super.init { token, theme in
+    init(style: @escaping () -> CommandBarStyle) {
+        self.style = style
+        super.init { [style] token, theme in
             switch token {
             case .backgroundColor:
-                return .uiColor { theme.color(.background2) }
+                return .uiColor {
+                    switch style() {
+                    case .primary:
+                        return theme.color(.background2)
+                    case .glass:
+                        return .clear
+                    }
+                }
 
             case .cornerRadius:
                 return .float { GlobalTokens.corner(.radius120) }
 
             case .itemBackgroundColorRest:
-                if #available(iOS 26, *) {
-                    return .uiColor { .clear }
-                } else {
-                    return .uiColor { theme.color(.background5) }
-                }
+                return .uiColor { .clear }
 
             case .itemBackgroundColorHover:
                 return .uiColor { theme.color(.background5) }
@@ -102,27 +117,30 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
                 return .uiFont { theme.typography(.caption2, adjustsForContentSizeCategory: false) }
 
             case .shadow:
-                if #available(iOS 26, *) {
-                    return .shadowInfo { theme.shadow(.shadow08) }
-                } else {
-                    return .shadowInfo { theme.shadow(.clear) }
-                }
+                return .shadowInfo { theme.shadow(.shadow08) }
+
+            case .maxButtonWidth:
+                return .float { 0.0 }
             }
         }
     }
+
+    var style: () -> CommandBarStyle
+}
+
+// MARK: Constants
+extension CommandBarTokenSet {
+    static let glassEffectShadowColor: CGColor = UIColor.black.cgColor
+    static let glassEffectShadowOpacity: Float = 0.25
+    static let glassEffectShadowOffset: CGSize = CGSize(width: 0, height: 2)
+    static let glassEffectShadowRadius: CGFloat = 8
 }
 
 // MARK: - Constants
 
 extension CommandBarTokenSet {
     /// The spacing between each Command Bar Group.
-    static var groupInterspace: CGFloat {
-        if #available(iOS 26, *) {
-            GlobalTokens.spacing(.size20)
-        } else {
-            GlobalTokens.spacing(.size80)
-        }
-    }
+    static let groupInterspace: CGFloat = GlobalTokens.spacing(.size20)
 
     /// The spacing between each Command Bar Group for iPad.
     static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.size160)
@@ -137,13 +155,7 @@ extension CommandBarTokenSet {
     static let dismissGradientWidth: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The edge inset values for the Command Bar.
-    static var barInsets: CGFloat {
-        if #available(iOS 26, *) {
-            GlobalTokens.spacing(.size40)
-        } else {
-            GlobalTokens.spacing(.size80)
-        }
-    }
+    static let barInsets: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The edge inset values for the Command Bar Button.
     static let buttonContentInsets = NSDirectionalEdgeInsets(top: 8.0,
@@ -153,4 +165,7 @@ extension CommandBarTokenSet {
 
     /// The padding between the Command Bar Button image and title.
     static let buttonImagePadding: CGFloat = GlobalTokens.spacing(.size60)
+
+    /// The top and bottom padding for the separator between Command Bar Groups.
+    static let separatorVerticalPadding: CGFloat = GlobalTokens.spacing(.size80)
 }

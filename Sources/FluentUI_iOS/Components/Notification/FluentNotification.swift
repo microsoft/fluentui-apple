@@ -6,6 +6,7 @@
 #if canImport(FluentUI_common)
 import FluentUI_common
 #endif
+import Combine
 import SwiftUI
 
 /// Properties that can be used to customize the appearance of the `Notification`.
@@ -18,6 +19,12 @@ import SwiftUI
 
     /// Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext.
     var attributedMessage: NSAttributedString? { get set }
+
+    /// Integer value that sets the maximum number of lines will show for a message
+    var messageLineLimit: Int { get set }
+
+    /// If the message text should be expandabled to view the entire mesage if it is truncated due to the messageLineLimit
+    var enableExpandableMessageText: Bool { get set }
 
     /// Optional text to draw above the message area.
     var title: String? { get set }
@@ -60,6 +67,9 @@ import SwiftUI
     /// The callback to execute when the notification is dismissed.
     var onDismiss: (() -> Void)? { get set }
 
+    /// If the swipe to dismiss gesture is enabled for the notification
+    var swipeToDismissEnabled: Bool { get set }
+
     /// Defines whether the notification shows from the bottom of the presenting view or the top.
     var showFromBottom: Bool { get set }
 
@@ -67,10 +77,17 @@ import SwiftUI
     ///
     /// If this property is nil, then this notification will use the background color defined by its design tokens.
     var backgroundGradient: LinearGradientInfo? { get set }
+}
 
-    /// Performs an animation emphasizing the notification.
-    /// The animation alternates between upward and downward movements with spring physics.
-    func bump()
+/// Exposes public published properties that are observed by the `FluentNotification`. Enables
+/// easy interaction with the Notification for clients.
+@objc(MSFFluentNotificationTriggerModel)
+public class FluentNotificationTriggerModel: NSObject, ObservableObject {
+    /// Triggers the bump animation for the notification.
+    ///
+    /// Set this to `true` to trigger the bump animation. The value will be
+    /// automatically reset to `false` after the animation is triggered.
+    @Published public var shouldBump: Bool = false
 }
 
 /// View that represents the Notification.
@@ -85,6 +102,8 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - isFlexibleWidthToast: Whether the width of the toast is set based  on the width of the screen or on its contents.
     ///   - message: Optional text for the main title area of the control. If there is a title, the message becomes subtext.
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
+    ///   - messageLineLimit: The maximum number of lines the message can show. Any excess text is truncated.
+    ///   - enableExpandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncated. Tapping the expand button will display all lines of text.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
@@ -103,6 +122,8 @@ public struct FluentNotification: View, TokenizedControlView {
                 isFlexibleWidthToast: Bool = false,
                 message: String? = nil,
                 attributedMessage: NSAttributedString? = nil,
+                messageLineLimit: Int = 0,
+                enableExpandableMessageText: Bool = false,
                 isPresented: Binding<Bool>? = nil,
                 title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
@@ -115,11 +136,16 @@ public struct FluentNotification: View, TokenizedControlView {
                 showActionButtonAndDismissButton: Bool = false,
                 defaultDismissButtonAction: (() -> Void)? = nil,
                 messageButtonAction: (() -> Void)? = nil,
+                swipeToDismissEnabled: Bool = false,
                 showFromBottom: Bool = true,
-                verticalOffset: CGFloat = 0.0) {
+                verticalOffset: CGFloat = 0.0,
+                triggerModel: FluentNotificationTriggerModel = FluentNotificationTriggerModel(),
+                onDismiss: (() -> Void)? = nil) {
         let state = MSFNotificationStateImpl(style: style,
                                              message: message,
                                              attributedMessage: attributedMessage,
+                                             messageLineLimit: messageLineLimit,
+                                             enableExpandableMessageText: enableExpandableMessageText,
                                              title: title,
                                              attributedTitle: attributedTitle,
                                              image: image,
@@ -131,12 +157,14 @@ public struct FluentNotification: View, TokenizedControlView {
                                              showActionButtonAndDismissButton: showActionButtonAndDismissButton,
                                              defaultDismissButtonAction: defaultDismissButtonAction,
                                              messageButtonAction: messageButtonAction,
+                                             swipeToDismissEnabled: swipeToDismissEnabled,
                                              showFromBottom: showFromBottom,
                                              verticalOffset: verticalOffset)
+        state.onDismiss = onDismiss
         self.state = state
         self.shouldSelfPresent = shouldSelfPresent
         self.isFlexibleWidthToast = isFlexibleWidthToast && style.isToast
-
+        self.triggerModel = triggerModel
         self.tokenSet = NotificationTokenSet(style: { state.style })
 
         if let isPresented = isPresented {
@@ -182,11 +210,36 @@ public struct FluentNotification: View, TokenizedControlView {
         @ViewBuilder
         var messageLabel: some View {
             if let attributedMessage = state.attributedMessage {
-                Text(AttributedString(attributedMessage))
-                    .fixedSize(horizontal: false, vertical: true)
+                if state.enableExpandableMessageText {
+                    ExpandableText(
+                        attributedMessage,
+                        lineLimit: state.messageLineLimit,
+                        isExpanded: $isMessageLabelExpanded,
+                        onExpandabilityChange: { isExpandable in
+                            isMessageLabelExpandable = isExpandable
+                        }
+                    )
+                } else {
+                    Text(AttributedString(attributedMessage))
+                        .lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             } else if let message = state.message {
-                Text(message)
-                    .font(.init(tokenSet[.regularTextFont].uiFont))
+                if state.enableExpandableMessageText {
+                    ExpandableText(
+                        message,
+                        lineLimit: state.messageLineLimit,
+                        isExpanded: $isMessageLabelExpanded,
+                        font: tokenSet[.regularTextFont].uiFont,
+                        onExpandabilityChange: { isExpandable in
+                            isMessageLabelExpandable = isExpandable
+                        }
+                    )
+                } else {
+                    Text(message)
+                        .lineLimit(state.messageLineLimit > 0 ? state.messageLineLimit : nil)
+                        .font(.init(tokenSet[.regularTextFont].uiFont))
+                }
             }
         }
 
@@ -244,6 +297,24 @@ public struct FluentNotification: View, TokenizedControlView {
             }
         }
 
+        @ViewBuilder
+        var expandButton: some View {
+            HStack {
+                SwiftUI.Button(action: {
+                    if state.enableExpandableMessageText {
+                        // Default behavior: toggle expansion state
+                        isMessageLabelExpanded.toggle()
+                    } else {
+                        preconditionFailure("FluentNotification expandButton should not be rendered given state")
+                    }
+                }, label: {
+                    Image("chevron-up-20x20", bundle: FluentUIFramework.resourceBundle)
+                        .accessibilityLabel("Accessibility.Expand.Label".localized)
+                })
+                .hoverEffect()
+            }
+        }
+
         let messageButtonAction = state.messageButtonAction
         @ViewBuilder
         var innerContents: some View {
@@ -271,17 +342,25 @@ public struct FluentNotification: View, TokenizedControlView {
                     })
                     actionButton
 #if os(visionOS)
-                        .buttonStyle(.borderless)
+                    .buttonStyle(.borderless)
 #endif // os(visionOS)
-                        .layoutPriority(1)
-
-                    if dismissButtonAction != nil {
+                    .layoutPriority(1)
+                    if state.enableExpandableMessageText && isMessageLabelExpandable && !isMessageLabelExpanded {
                         Spacer()
-                        dismissButton
+                        expandButton
 #if os(visionOS)
                         .buttonStyle(.borderless)
 #endif // os(visionOS)
                         .layoutPriority(1)
+                    } else {
+                        if dismissButtonAction != nil {
+                            Spacer()
+                            dismissButton
+#if os(visionOS)
+                            .buttonStyle(.borderless)
+#endif // os(visionOS)
+                            .layoutPriority(1)
+                        }
                     }
                 }
                 .onSizeChange { newSize in
@@ -328,9 +407,9 @@ public struct FluentNotification: View, TokenizedControlView {
                 .glassBackgroundEffect(in: RoundedRectangle(cornerRadius: tokenSet[.cornerRadius].float))
 #endif // os(visionOS)
                 .offset(y: -bumpVerticalOffset)
-                .onChange(of: state.shouldPerformBump) { _, shouldBump in
+                .onChange(of: triggerModel.shouldBump) { _, shouldBump in
                     if shouldBump {
-                        state.shouldPerformBump = false
+                        triggerModel.shouldBump = false
                         performBumpAnimated()
                     }
                 }
@@ -340,6 +419,12 @@ public struct FluentNotification: View, TokenizedControlView {
                         messageAction()
                     }
                 }
+                .modifier(SwipeToDismiss(onDismiss: {
+                    isPresented = false
+                    if let dismissButtonAction = state.defaultDismissButtonAction {
+                        dismissButtonAction()
+                    }
+                }, enabled: state.swipeToDismissEnabled))
         }
 
         @ViewBuilder
@@ -383,13 +468,14 @@ public struct FluentNotification: View, TokenizedControlView {
         }
 
         return presentableNotification
-            .onDisappear {
-                state.onDismiss?()
-            }
-    }
+                .onDisappear {
+                    state.onDismiss?()
+                }
+	}
 
     @Environment(\.fluentTheme) var fluentTheme: FluentTheme
     @ObservedObject var state: MSFNotificationStateImpl
+    @ObservedObject var triggerModel: FluentNotificationTriggerModel
 
     /// The `dismissButtonAction` will be non-nil for the following cases:
     /// - The `state.actionButtonAction` is set but there is no custom title or trailing image. The `actionButtonAction`
@@ -476,6 +562,8 @@ public struct FluentNotification: View, TokenizedControlView {
     @State private var attributedTitleSize: CGSize = CGSize()
     @State private var opacity: CGFloat = 0
     @State private var bumpVerticalOffset: CGFloat = 0
+    @State private var isMessageLabelExpandable = false
+    @State private var isMessageLabelExpanded = false
 
     // When true, the notification view will take up all proposed space
     // and automatically position itself within it.
@@ -493,6 +581,7 @@ public struct FluentNotification: View, TokenizedControlView {
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var message: String?
     @Published var attributedMessage: NSAttributedString?
+    @Published var messageLineLimit: Int
     @Published var title: String?
     @Published var attributedTitle: NSAttributedString?
     @Published var image: UIImage?
@@ -505,6 +594,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var backgroundGradient: LinearGradientInfo?
     @Published var verticalOffset: CGFloat
     @Published var onDismiss: (() -> Void)?
+    @Published var swipeToDismissEnabled: Bool
+    @Published var enableExpandableMessageText: Bool
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -522,13 +613,11 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     /// Style to draw the control.
     @Published var style: MSFNotificationStyle
 
-    /// Controls whether the bump animation should start
-    @Published internal var shouldPerformBump: Bool = false
-
     @objc convenience init(style: MSFNotificationStyle) {
         self.init(style: style,
                   message: nil,
                   attributedMessage: nil,
+                  messageLineLimit: 0,
                   title: nil,
                   attributedTitle: nil,
                   image: nil,
@@ -538,7 +627,9 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
                   actionButtonAction: nil,
                   showDefaultDismissActionButton: nil,
                   showActionButtonAndDismissButton: false,
+                  defaultDismissButtonAction: nil,
                   messageButtonAction: nil,
+                  swipeToDismissEnabled: false,
                   showFromBottom: true,
                   verticalOffset: 0.0)
     }
@@ -546,6 +637,8 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     init(style: MSFNotificationStyle,
          message: String? = nil,
          attributedMessage: NSAttributedString? = nil,
+         messageLineLimit: Int = 0,
+         enableExpandableMessageText: Bool = false,
          title: String? = nil,
          attributedTitle: NSAttributedString? = nil,
          image: UIImage? = nil,
@@ -557,11 +650,13 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          showActionButtonAndDismissButton: Bool = false,
          defaultDismissButtonAction: (() -> Void)? = nil,
          messageButtonAction: (() -> Void)? = nil,
+         swipeToDismissEnabled: Bool = false,
          showFromBottom: Bool = true,
          verticalOffset: CGFloat) {
         self.style = style
         self.message = message
         self.attributedMessage = attributedMessage
+        self.messageLineLimit = messageLineLimit
         self.title = title
         self.attributedTitle = attributedTitle
         self.image = image
@@ -573,15 +668,77 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.showFromBottom = showFromBottom
         self.showDefaultDismissActionButton = showDefaultDismissActionButton ?? style.isToast
         self.showActionButtonAndDismissButton = showActionButtonAndDismissButton
+        self.swipeToDismissEnabled = swipeToDismissEnabled
         self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
-
+        self.enableExpandableMessageText = enableExpandableMessageText
         super.init()
     }
+}
 
-    @objc func bump() {
-        if !shouldPerformBump {
-            shouldPerformBump = true
+struct SwipeToDismiss: ViewModifier {
+    @State private var horizontalOffset: CGFloat = 0
+    @State private var dismissalOpacity: CGFloat = 1.0
+    let onDismiss: () -> Void
+    let enabled: Bool
+
+    // Constants for better maintainability
+    private let dismissalThreshold: CGFloat = 70
+    private let velocityThreshold: CGFloat = 500
+
+    func body(content: Content) -> some View {
+            content
+                .modifyIf(enabled) { view in
+                    view
+                        .offset(x: horizontalOffset)
+                        .opacity(min(opacityForOffset(), dismissalOpacity))
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    // Only allow leftward swipes
+                                    guard value.translation.width < 0 else { return }
+
+                                    // Apply rubber-banding effect for resistance
+                                    let resistance: CGFloat = 0.7
+                                    horizontalOffset = value.translation.width * resistance
+                                }
+                                .onEnded { value in
+                                    let velocity = value.predictedEndLocation.x - value.location.x
+                                    let shouldDismiss = horizontalOffset < -dismissalThreshold || velocity < -velocityThreshold
+
+                                    if shouldDismiss {
+                                        // Animate off-screen with fade to full transparency
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            horizontalOffset = -500
+                                            dismissalOpacity = 0
+                                        } completion: {
+                                            onDismiss()
+                                        }
+                                    } else {
+                                        // Snap back to original position
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                            horizontalOffset = 0
+                                        }
+                                    }
+                                }
+                        )
+                }
+    }
+
+    /// Calculate opacity based on swipe progress for smoother dismissal
+    private func opacityForOffset() -> Double {
+        if horizontalOffset >= 0 {
+            return 1.0
         }
+        // Fade out as user swipes
+        let fadeStartThreshold: CGFloat = -30
+        let fadeRange: CGFloat = 150
+
+        if horizontalOffset > fadeStartThreshold {
+            return 1.0
+        }
+
+        let fadeProgress = min(1.0, abs(horizontalOffset - fadeStartThreshold) / fadeRange)
+        return 1.0 - (fadeProgress * 0.3) // Max 30% opacity reduction
     }
 }

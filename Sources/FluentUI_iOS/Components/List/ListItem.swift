@@ -8,12 +8,6 @@ import FluentUI_common
 #endif
 import SwiftUI
 
-public typealias ListItemAccessoryType = TableViewCellAccessoryType
-public typealias ListItemBackgroundStyleType = TableViewCellBackgroundStyleType
-public typealias ListItemLeadingContentSize = MSFTableViewCellCustomViewSize
-public typealias ListItemTokenSet = TableViewCellTokenSet
-public typealias ListItemToken = TableViewCellToken
-
 /// View that represents an item in a List.
 public struct ListItem<LeadingContent: View,
                        TrailingContent: View,
@@ -217,6 +211,7 @@ public struct ListItem<LeadingContent: View,
             .frame(minHeight: layoutType.minHeight)
             .opacity(isEnabled ? ListItemTokenSet.enabledAlpha : ListItemTokenSet.disabledAlpha)
             .background(backgroundView)
+            .listRowBackground(backgroundView)
         }
 
         @ViewBuilder
@@ -504,6 +499,7 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
     /// The background color of `List` based on the style.
     /// - Parameter backgroundStyle: The background style of the `List`.
     /// - Returns: The color to use for the background of `List`.
+    @available(*, deprecated, renamed: "ListItemTokenSet.listBackgroundColor(for:)")
     static func listBackgroundColor(for backgroundStyle: ListItemBackgroundStyleType) -> Color {
         let tokenSet = ListItemTokenSet(customViewSize: { .default })
         switch backgroundStyle {

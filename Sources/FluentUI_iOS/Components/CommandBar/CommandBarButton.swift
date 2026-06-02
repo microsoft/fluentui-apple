@@ -53,11 +53,8 @@ class CommandBarButton: UIButton {
             var buttonConfiguration = UIButton.Configuration.plain()
             buttonConfiguration.imagePadding = CommandBarTokenSet.buttonImagePadding
             buttonConfiguration.contentInsets = CommandBarTokenSet.buttonContentInsets
-            if #available(iOS 26, *) {
-                buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
-            } else {
-                buttonConfiguration.background.cornerRadius = 0
-            }
+            buttonConfiguration.background.cornerRadius = tokenSet[.cornerRadius].float
+            buttonConfiguration.titleLineBreakMode = .byTruncatingMiddle
             configuration = buttonConfiguration
 
             let accessibilityDescription = item.accessibilityLabel
@@ -84,6 +81,13 @@ class CommandBarButton: UIButton {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
+    override var intrinsicContentSize: CGSize {
+        if let customView = item.customControlView?() {
+            return customView.intrinsicContentSize
+        }
+        return super.intrinsicContentSize
+    }
+
     func updateState() {
         isEnabled = item.isEnabled
         isSelected = isPersistSelection && item.isSelected
@@ -94,8 +98,17 @@ class CommandBarButton: UIButton {
             return
         }
 
+        let maxWidth: CGFloat = tokenSet[.maxButtonWidth].float
+        if maxWidth > 0 {
+            widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+        }
+
         configuration?.title = item.title
         configuration?.image = item.iconImage
+
+        if item.title != nil {
+            setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        }
 
         if let font = item.titleFont {
             let attributeContainer = AttributeContainer([NSAttributedString.Key.font: font])

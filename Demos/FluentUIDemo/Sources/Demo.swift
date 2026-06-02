@@ -9,42 +9,36 @@ import SwiftUI
 enum Demo: CaseIterable, Hashable {
     // Components
     case button
+    case messageBar
     case shimmer
 
     // Tokens
     case aliasColorTokens
 
-    var title: String {
-        switch self {
-        case .button:
-            return "Button"
-        case .shimmer:
-            return "Shimmer"
-        case .aliasColorTokens:
-            return "Alias Color Tokens"
-        }
-    }
+    var title: String { demoConfiguration.title }
 
     /// Returns the `View` instance for the given demo.
-    var view: any View {
-        switch self {
-        case .button:
-            return ButtonDemoView()
-        case .shimmer:
-            return ShimmerDemoView()
-        case .aliasColorTokens:
-            return AliasColorTokensDemoView()
-        }
-    }
+    var view: any View { demoConfiguration.view }
 
     /// Only some demos are supported on visionOS.
-    var supportsVisionOS: Bool {
+    var supportsVisionOS: Bool { demoConfiguration.supportsVisionOS }
+
+    private struct DemoConfiguration {
+        let title: String
+        let view: any View
+        let supportsVisionOS: Bool
+    }
+
+    private var demoConfiguration: DemoConfiguration {
         switch self {
-        case .button,
-             .aliasColorTokens:
-            return true
+        case .button:
+            return DemoConfiguration(title: "Button", view: ButtonDemoView(), supportsVisionOS: true)
+        case .messageBar:
+            return DemoConfiguration(title: "Message Bar", view: MessageBarDemoView(), supportsVisionOS: true)
         case .shimmer:
-            return false
+            return DemoConfiguration(title: "Shimmer", view: ShimmerDemoView(), supportsVisionOS: false)
+        case .aliasColorTokens:
+            return DemoConfiguration(title: "Alias Color Tokens", view: AliasColorTokensDemoView(), supportsVisionOS: true)
         }
     }
 }
@@ -91,6 +85,7 @@ enum DemoListSection: CaseIterable, Hashable {
 private struct Demos {
     static let fluent2: [Demo] = [
         .button,
+        .messageBar,
         .shimmer
     ]
 

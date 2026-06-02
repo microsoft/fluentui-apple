@@ -21,7 +21,7 @@ class NotificationViewTestSwiftUI: BaseTest {
     func testText() throws {
         let titleTextField: XCUIElement = app.textFields.element(boundBy: 0)
         let messageTextField: XCUIElement = app.textFields.element(boundBy: 1)
-        let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
+        let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 3)
         let attributedTextSwitch: XCUIElement = app.switches["Has Attributed Text: Strikethrough"].switches.firstMatch
 
         XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*message \"Mail Archived\".*action button titled \"Undo\".*")).element.exists)
@@ -40,11 +40,11 @@ class NotificationViewTestSwiftUI: BaseTest {
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
         actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
         // if there is no action button title, there should be a dismiss button
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View with no title, no message.*dismiss button.*")).element.exists)
+        XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier MATCHES %@", "Notification View with no title, no message.*dismiss button.*")).exists)
     }
 
     func testImages() {
-        let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 2)
+        let actionButtonTextField: XCUIElement = app.textFields.element(boundBy: 3)
         let setImageSwitch: XCUIElement = app.switches["Set image"].switches.firstMatch
         let setTrailingImageSwitch: XCUIElement = app.switches["Set trailing image"].switches.firstMatch
 
@@ -57,14 +57,14 @@ class NotificationViewTestSwiftUI: BaseTest {
         XCTAssert(!app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
         actionButtonTextField.tap(withNumberOfTaps: 3, numberOfTouches: 1)
         actionButtonTextField.typeText(String(XCUIKeyboardKey.delete.rawValue) + "\n")
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).element.exists)
+        XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier MATCHES %@", "Notification View.*trailing image.*")).exists)
         setTrailingImageSwitch.tap()
         // if there is no action button title, there should be a dismiss button
-        XCTAssert(app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*dismiss button.*")).element.exists)
+        XCTAssert(app.otherElements.element(matching: NSPredicate(format: "identifier MATCHES %@", "Notification View.*dismiss button.*")).exists)
     }
 
     func testActions() throws {
-        let notificationView: XCUIElement = app.otherElements.containing(NSPredicate(format: "identifier MATCHES %@", "Notification View.*")).element(boundBy: 7)
+        let notificationView: XCUIElement = app.otherElements.element(matching: NSPredicate(format: "identifier MATCHES %@", "Notification View.*"))
         let actionButton: XCUIElement = app.buttons["Undo"].firstMatch
 
         // Switches may be offscreen, so scroll first

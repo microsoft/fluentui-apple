@@ -320,6 +320,10 @@ extension FluentTheme.ColorToken {
             return "Stroke Focus 2"
         case .strokeDisabled:
             return "Stroke Disabled"
+        case .strokeAlpha1:
+            return "Stroke Alpha 1"
+        case .strokeAlpha2:
+            return "Stroke Alpha 2"
         case .brandStroke1:
             return "Brand Stroke 1"
         case .brandStroke1Pressed:
@@ -420,6 +424,8 @@ extension FluentTheme.ColorToken {
              .stroke2,
              .strokeFocus1,
              .strokeDisabled,
+             .strokeAlpha1,
+             .strokeAlpha2,
              .brandBackgroundTint,
              .foregroundDisabled1,
              .glassForegroundDisabled1,
