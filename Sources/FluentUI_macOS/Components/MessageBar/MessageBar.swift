@@ -33,11 +33,6 @@ public struct MessageBar: View, TokenizedControlView {
 		.padding([.horizontal], GlobalTokens.spacing(.size120))
 		.frame(height: GlobalTokens.spacing(.size280))
 		.background(tokenSet[.backgroundColor].color)
-		.overlay(alignment: .top) {
-			Rectangle()
-				.fill(tokenSet[.dividerColor].color)
-				.frame(height: 1.0)
-		}
 	}
 
 	@ViewBuilder
