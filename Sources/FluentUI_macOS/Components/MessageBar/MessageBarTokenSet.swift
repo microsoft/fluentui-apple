@@ -9,7 +9,8 @@ public enum MessageBarToken: Int, TokenSetKey {
 	/// The background color of the `MessageBar`.
 	case backgroundColor
 
-	/// The color of the 1pt divider line at the top of the `MessageBar`.
+	/// The color of the 1pt divider line drawn between, and optionally above,
+	/// the `MessageBar`s in a `MessageBarStack`.
 	case dividerColor
 
 	/// The font used for the title of the `MessageBar`.
