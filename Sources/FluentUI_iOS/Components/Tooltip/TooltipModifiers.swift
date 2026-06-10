@@ -127,6 +127,7 @@ private struct TooltipAnchorViewRepresentable: UIViewRepresentable {
 
     func updateUIView(_ uiView: TooltipAnchorView, context: Context) {
         uiView.values = values
+        uiView.isPresented = $isPresented
         if isPresented {
             uiView.showTooltipIfPossible()
         } else {
