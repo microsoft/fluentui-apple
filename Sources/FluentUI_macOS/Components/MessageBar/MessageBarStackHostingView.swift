@@ -109,6 +109,14 @@ public final class MessageBarStackHostingView: ControlHostingView {
 		viewModel.bars.removeAll { $0.id == barID }
 	}
 
+	/// Controls whether the stack draws its 1pt divider above the topmost visible
+	/// bar. Inter-bar dividers between adjacent visible bars are always drawn.
+	/// Defaults to `true`.
+	@objc public var drawsTopDivider: Bool {
+		get { viewModel.drawsTopDivider }
+		set { viewModel.drawsTopDivider = newValue }
+	}
+
 	private var heightConstraint: NSLayoutConstraint?
 	private let viewModel: MessageBarStackViewModel
 }
