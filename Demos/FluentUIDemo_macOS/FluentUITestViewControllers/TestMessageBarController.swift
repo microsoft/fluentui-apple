@@ -9,16 +9,29 @@ import SwiftUI
 
 /// Test view controller for the MessageBar class
 class TestMessageBarController: NSViewController {
+	private let stackingView = MessageBarStackHostingView()
+
 	override func viewDidLoad() {
-		let stackingView = MessageBarStackHostingView()
 		stackingView.translatesAutoresizingMaskIntoConstraints = false
 
 		view.addSubview(stackingView)
+
+		let toggleButton = NSButton(
+			title: "Draw top divider",
+			target: self,
+			action: #selector(toggleDrawsTopDivider(_:))
+		)
+		toggleButton.setButtonType(.switch)
+		toggleButton.state = .on
+		toggleButton.translatesAutoresizingMaskIntoConstraints = false
+		view.addSubview(toggleButton)
 
 		view.addConstraints([
 			view.leadingAnchor.constraint(equalTo: stackingView.leadingAnchor),
 			view.trailingAnchor.constraint(equalTo: stackingView.trailingAnchor),
 			view.topAnchor.constraint(equalTo: stackingView.topAnchor),
+			toggleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+			toggleButton.topAnchor.constraint(equalTo: stackingView.bottomAnchor, constant: 16),
 		])
 
 		for ii in 0..<3 {
@@ -41,5 +54,9 @@ class TestMessageBarController: NSViewController {
 			stackingView.showBar(barID: ii)
 		}
 		stackingView.updateLayout()
+	}
+
+	@objc private func toggleDrawsTopDivider(_ sender: NSButton) {
+		stackingView.drawsTopDivider = (sender.state == .on)
 	}
 }

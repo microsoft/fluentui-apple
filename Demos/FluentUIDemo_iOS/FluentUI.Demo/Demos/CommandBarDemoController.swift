@@ -296,7 +296,16 @@ class CommandBarDemoController: DemoController {
         let accessoryCommandBar = CommandBar(itemGroups: createItemGroups(), trailingItemGroups: [[newItem(for: .keyboard)]], style: .glass)
         accessoryCommandBar.translatesAutoresizingMaskIntoConstraints = false
 #if os(iOS)
-        textField.inputAccessoryView = accessoryCommandBar
+        let accessoryInputView = UIView()
+        accessoryInputView.autoresizingMask = .flexibleHeight
+        accessoryInputView.addSubview(accessoryCommandBar)
+        NSLayoutConstraint.activate([
+            accessoryCommandBar.topAnchor.constraint(equalTo: accessoryInputView.topAnchor),
+            accessoryCommandBar.leadingAnchor.constraint(equalTo: accessoryInputView.leadingAnchor),
+            accessoryCommandBar.trailingAnchor.constraint(equalTo: accessoryInputView.trailingAnchor),
+            accessoryCommandBar.bottomAnchor.constraint(equalTo: accessoryInputView.safeAreaLayoutGuide.bottomAnchor)
+        ])
+        textField.inputAccessoryView = accessoryInputView
 #endif
     }
 

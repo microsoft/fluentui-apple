@@ -110,6 +110,7 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         commandBarContainerStackView.axis = .horizontal
         commandBarContainerStackView.translatesAutoresizingMaskIntoConstraints = false
         commandBarContainerStackView.isLayoutMarginsRelativeArrangement = true
+		commandBarContainerStackView.insetsLayoutMarginsFromSafeArea = false
         commandBarContainerStackView.clipsToBounds = true
 
         super.init(frame: .zero)
@@ -376,10 +377,10 @@ public class CommandBar: UIView, Shadowable, TokenizedControl {
         }
         addSubview(rootView)
         NSLayoutConstraint.activate([
-            rootView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            rootView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            rootView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            rootView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            rootView.topAnchor.constraint(equalTo: topAnchor),
+            rootView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            rootView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            rootView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
 
         if UIView.userInterfaceLayoutDirection(for: semanticContentAttribute) == .rightToLeft {

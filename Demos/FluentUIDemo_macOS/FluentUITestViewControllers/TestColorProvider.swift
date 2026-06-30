@@ -22,8 +22,12 @@ class TestColorProvider: ColorProviding {
 	var brandBackground2: NSColor = (NSColor(named: "Colors/DemoBrandBackground2Color"))!
 	var brandBackground2Hover: NSColor = (NSColor(named: "Colors/DemoBrandBackground2HoverColor"))!
 	var brandBackground2Pressed: NSColor = (NSColor(named: "Colors/DemoBrandBackground2PressedColor"))!
+	var brandBackgroundTint: NSColor = (NSColor(named: "Colors/DemoBrandBackground2Color"))!
 
 	var brandForeground1: NSColor = (NSColor(named: "Colors/DemoBrandForeground1Color"))!
+	var brandForegroundTint: NSColor = (NSColor(named: "Colors/DemoBrandForeground1Color"))!
+
+	var brandStroke1: NSColor = (NSColor(named: "Colors/DemoBrandBackground1Color"))!
 
 	var primary: NSColor = (NSColor(named: "Colors/DemoPrimaryColor"))!
 	var primaryShade10: NSColor = (NSColor(named: "Colors/DemoPrimaryShade10Color"))!

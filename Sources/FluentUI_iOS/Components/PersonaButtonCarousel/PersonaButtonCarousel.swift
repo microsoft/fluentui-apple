@@ -100,14 +100,15 @@ public struct PersonaButtonCarousel: View, TokenizedControlView {
     public var body: some View {
         tokenSet.update(fluentTheme)
         return SwiftUI.ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 0) {
-                ForEach(state.buttons, id: \.self) { buttonState in
-                    PersonaButton(state: buttonState) { [weak state] in
-                        guard let strongState = state,
-                              let index = strongState.buttons.firstIndex(of: buttonState) else {
-                            return
+            HStack(spacing: 0) { [weak state] in
+                if let strongState = state {
+                    ForEach(strongState.buttons, id: \.self) { buttonState in
+                        PersonaButton(state: buttonState) {
+                            guard let index = strongState.buttons.firstIndex(of: buttonState) else {
+                                return
+                            }
+                            strongState.onTapAction?(buttonState, index)
                         }
-                        strongState.onTapAction?(buttonState, index)
                     }
                 }
             }

@@ -609,7 +609,9 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             updateDimmingViewAlpha()
             updateDimmingViewAccessibility()
         }
-        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset(for: .collapsed)
+
+        let offset = targetExpansionState == .partial ? offset(for: .partial) : offset(for: .collapsed)
+        collapsedHeightInSafeArea = view.safeAreaLayoutGuide.layoutFrame.maxY - offset
 
         updateAppearance()
 
