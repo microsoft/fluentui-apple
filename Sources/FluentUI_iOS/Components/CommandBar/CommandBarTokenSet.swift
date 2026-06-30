@@ -81,7 +81,7 @@ public class CommandBarTokenSet: ControlTokenSet<CommandBarToken> {
                 }
 
             case .cornerRadius:
-                return .float { GlobalTokens.corner(.radius120) }
+                return .float { GlobalTokens.corner(.radius160) }
 
             case .itemBackgroundColorRest:
                 return .uiColor { .clear }
@@ -146,7 +146,7 @@ extension CommandBarTokenSet {
     static let groupInterspaceWide: CGFloat = GlobalTokens.spacing(.size160)
 
     /// The spacing between each Command Bar Item.
-    static let itemInterspace: CGFloat = GlobalTokens.spacing(.size20)
+    static let itemInterspace: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The buffer spacing left/right of each Command Bar Group.
     static let leftRightBuffer: CGFloat = GlobalTokens.spacing(.size20)
@@ -158,9 +158,9 @@ extension CommandBarTokenSet {
     static let barInsets: CGFloat = GlobalTokens.spacing(.size40)
 
     /// The edge inset values for the Command Bar Button.
-    static let buttonContentInsets = NSDirectionalEdgeInsets(top: 8.0,
+    static let buttonContentInsets = NSDirectionalEdgeInsets(top: 4.0,
                                                        leading: 10.0,
-                                                       bottom: 8.0,
+                                                       bottom: 4.0,
                                                        trailing: 10.0)
 
     /// The padding between the Command Bar Button image and title.
