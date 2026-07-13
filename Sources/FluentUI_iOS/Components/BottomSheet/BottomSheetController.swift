@@ -97,7 +97,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.init(headerContentView: headerContentView,
                   expandedContentView: expandedContentView,
                   shouldShowDimmingView: shouldShowDimmingView,
-                  style: .primary)
+                  style: .glass)
     }
 
     @available(*, unavailable)
@@ -122,6 +122,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     ///
     /// Use this for SwiftUI content where `hostedScrollView` cannot be provided.
     @objc open var prioritizesSheetPanWhenCollapsed: Bool = false
+
+    /// For the `.glass` style, when `true` the sheet renders a solid background in the
+    /// expanded state and the Liquid Glass material only in the partial/collapsed states.
+    @objc open var usesAdaptiveBackground: Bool = false
 
     /// Indicates if the bottom sheet is expandable.
     @objc open var isExpandable: Bool = true {
@@ -651,13 +655,12 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             bottomSheetView.subviews[0].backgroundColor = backgroundColor
         case .glass:
 #if !os(visionOS)
-            if #available(iOS 26, *) {
-                if let effectView = bottomSheetView as? UIVisualEffectView {
-                   let glassEffect = UIGlassEffect(style: .regular)
-                   glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-                   effectView.effect = glassEffect
-                }
+        if #available(iOS 26, *) {
+            if currentExpansionState != .transitioning, bottomSheetView is UIVisualEffectView {
+                // Re-derive the effect honoring the current expansion state.
+                updateGlassEffect(for: currentExpansionState, animated: false)
             }
+        }
 #endif // !os(visionOS)
         }
     }
@@ -674,15 +677,18 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             // Otherwise the view will mask its own shadow.
             shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
         case .glass:
-            // The current Fluent Shadow implementation in `applyShadow(to:)` adds extra CALayers with shadow properties
-            // and relies on the target UIView having an opaque backgroundColor — the shadow visibility depends on its opacity.
-            // This breaks down when using a UIVisualEffectView with a UIBlurEffect, since setting a backgroundColor would interfere
-            // with blur sampling and defeat its purpose. In such cases, we bypass `applyShadow(to:)` and apply the shadow tokens
-            // directly to the UIVisualEffectView’s primary layer, ensuring shadows render correctly without disrupting the blur effect.
-            bottomSheetView.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
-            bottomSheetView.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
-            bottomSheetView.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
-            bottomSheetView.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
+            // TODO: This code block can be removed once iOS 18 support is dropped and the project only supports iOS 26+
+            if #unavailable(iOS 26), let bottomSheetView = bottomSheetView as? UIVisualEffectView, bottomSheetView.effect is UIBlurEffect {
+                // The current Fluent Shadow implementation in `applyShadow(to:)` adds extra CALayers with shadow properties
+                // and relies on the target UIView having an opaque backgroundColor — the shadow visibility depends on its opacity.
+                // This breaks down when using a UIVisualEffectView with a UIBlurEffect, since setting a backgroundColor would interfere
+                // with blur sampling and defeat its purpose. In such cases, we bypass `applyShadow(to:)` and apply the shadow tokens
+                // directly to the UIVisualEffectView’s primary layer, ensuring shadows render correctly without disrupting the blur effect.
+                bottomSheetView.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
+                bottomSheetView.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
+                bottomSheetView.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
+                bottomSheetView.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
+            }
         }
     }
 
@@ -818,12 +824,51 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     @available(iOS 26, *)
     private func getGlassEffectView() -> UIVisualEffectView {
         let effectView = UIVisualEffectView()
-        let glassEffect = UIGlassEffect(style: .regular)
-        glassEffect.tintColor = tokenSet[.backgroundColor].uiColor
-        effectView.effect = glassEffect
+        effectView.effect = makeGlassEffect(wantsGlass: true)
         effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
         return effectView
   }
+
+    @available(iOS 26, *)
+    private func makeGlassEffect(wantsGlass: Bool) -> UIGlassEffect {
+        let glassEffect = UIGlassEffect(style: .regular)
+        // Leave the material untinted for the pure glass look; only tint toward the solid
+        // background when we want the opaque appearance (e.g. expanded + adaptive background).
+        if !wantsGlass {
+            glassEffect.tintColor = FluentTheme.shared.color(.background2)
+        }
+        return glassEffect
+    }
+
+    /// Toggles the bottom sheet background between the glass material and a solid fill
+    /// based on the expansion state. Only meaningful for `.glass` on iOS 26+.
+    @available(iOS 26, *)
+    private func applyGlassEffect(for state: BottomSheetExpansionState, animated: Bool) {
+        guard style == .glass, let effectView = bottomSheetView as? UIVisualEffectView else {
+            return
+        }
+
+        let wantsGlass = state != .expanded || !usesAdaptiveBackground
+
+        let applyEffect = {
+            effectView.effect = self.makeGlassEffect(wantsGlass: wantsGlass)
+            self.resizingHandleView.customBackgroundColor = wantsGlass ? .clear : nil
+        }
+
+        if animated {
+            UIViewPropertyAnimator(duration: Constants.Spring.animationDuration, dampingRatio: Constants.Spring.defaultDampingRatio, animations: applyEffect).startAnimation()
+        } else {
+            applyEffect()
+        }
+    }
+
+
+    /// Version-gated entry point for toggling the glass material based on expansion state.
+    private func updateGlassEffect(for state: BottomSheetExpansionState, animated: Bool) {
+        if #available(iOS 26, *) {
+            applyGlassEffect(for: state, animated: animated)
+        }
+    }
 #endif // !os(visionOS)
 
     private func getBlurEffectView() -> UIVisualEffectView {
@@ -1179,6 +1224,13 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         completeAnimationsIfNeeded()
 
         updateResizingHandleViewAccessibility(for: targetExpansionState)
+
+#if !os(visionOS)
+        // Start the glass material transition alongside the sheet movement (rather than waiting for
+        // it to complete in handleCompletedStateChange) so the two animate together and there's no
+        // visible flash after the sheet settles.
+        updateGlassEffect(for: targetExpansionState, animated: animated)
+#endif // !os(visionOS)
 
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
