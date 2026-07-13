@@ -97,7 +97,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         self.init(headerContentView: headerContentView,
                   expandedContentView: expandedContentView,
                   shouldShowDimmingView: shouldShowDimmingView,
-                  style: .glass)
+                  style: .primary)
     }
 
     @available(*, unavailable)
