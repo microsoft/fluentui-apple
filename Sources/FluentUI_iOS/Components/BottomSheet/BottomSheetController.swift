@@ -677,17 +677,16 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             // Otherwise the view will mask its own shadow.
             shadowInfo.applyShadow(to: bottomSheetView, parentController: self)
         case .glass:
-            // TODO: This code block can be removed once iOS 18 support is dropped and the project only supports iOS 26+
-            if #unavailable(iOS 26), let bottomSheetView = bottomSheetView as? UIVisualEffectView, bottomSheetView.effect is UIBlurEffect {
+            if isViewLoaded {
                 // The current Fluent Shadow implementation in `applyShadow(to:)` adds extra CALayers with shadow properties
                 // and relies on the target UIView having an opaque backgroundColor — the shadow visibility depends on its opacity.
                 // This breaks down when using a UIVisualEffectView with a UIBlurEffect, since setting a backgroundColor would interfere
                 // with blur sampling and defeat its purpose. In such cases, we bypass `applyShadow(to:)` and apply the shadow tokens
-                // directly to the UIVisualEffectView’s primary layer, ensuring shadows render correctly without disrupting the blur effect.
-                bottomSheetView.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
-                bottomSheetView.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
-                bottomSheetView.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
-                bottomSheetView.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
+                // directly to the view's primary layer, ensuring shadows render correctly without disrupting the blur effect.
+                view.layer.shadowColor   = BottomSheetTokenSet.blurEffectShadowColor
+                view.layer.shadowOpacity = BottomSheetTokenSet.blurEffectShadowOpacity
+                view.layer.shadowOffset  = BottomSheetTokenSet.blurEffectShadowOffset
+                view.layer.shadowRadius  = BottomSheetTokenSet.blurEffectShadowRadius
             }
         }
     }
@@ -826,6 +825,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         let effectView = UIVisualEffectView()
         effectView.effect = makeGlassEffect(wantsGlass: true)
         effectView.cornerConfiguration = .corners(radius: UICornerRadius.fixed(tokenSet[.cornerRadius].float))
+        effectView.layer.masksToBounds = true
         return effectView
   }
 
