@@ -33,7 +33,7 @@ struct Demos {
         DemoDescriptor("CommandBar", CommandBarDemoController.self, supportsVisionOS: false),
         DemoDescriptor("DrawerController", DrawerDemoController.self, supportsVisionOS: true),
         DemoDescriptor("HUD", HUDDemoController.self, supportsVisionOS: true),
-        DemoDescriptor("IndeterminateProgressBar", IndeterminateProgressBarDemoController.self, supportsVisionOS: false),
+        DemoDescriptor("ProgressBar", ProgressBarDemoController.self, supportsVisionOS: false),
         DemoDescriptor("Label", LabelDemoController.self, supportsVisionOS: true),
         DemoDescriptor("ListActionItem", ListActionItemDemoController.self, supportsVisionOS: false),
         DemoDescriptor("ListItem", ListItemDemoController.self, supportsVisionOS: true),

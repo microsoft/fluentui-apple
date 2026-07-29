@@ -27,8 +27,8 @@
 		3A83F8DB2953B95B00EF6629 /* DrawerControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */; };
 		3A83F8DD2953B96800EF6629 /* HUDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8DC2953B96800EF6629 /* HUDTest.swift */; };
 		3A83F8DF2953B97900EF6629 /* HUDTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8DE2953B97900EF6629 /* HUDTest_SwiftUI.swift */; };
-		3A83F8E12953B99A00EF6629 /* IndeterminateProgressBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E02953B99A00EF6629 /* IndeterminateProgressBarTest.swift */; };
-		3A83F8E32953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E22953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */; };
+		3A83F8E12953B99A00EF6629 /* ProgressBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E02953B99A00EF6629 /* ProgressBarTest.swift */; };
+		3A83F8E32953B9A800EF6629 /* ProgressBarTest_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E22953B9A800EF6629 /* ProgressBarTest_SwiftUI.swift */; };
 		3A83F8E52953B9B800EF6629 /* LabelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E42953B9B800EF6629 /* LabelTest.swift */; };
 		3A83F8E72953B9D100EF6629 /* NavigationControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E62953B9D100EF6629 /* NavigationControllerTest.swift */; };
 		3A83F8E92953BA4500EF6629 /* NotificationViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A83F8E82953BA4500EF6629 /* NotificationViewTest.swift */; };
@@ -66,8 +66,8 @@
 		53097D4127028AEA00A6E4DC /* PopupMenuDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5961FA8218A61BB00E2A506 /* PopupMenuDemoController.swift */; };
 		53097D4227028AF000A6E4DC /* TabBarViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11047D2522932DB1001F0F59 /* TabBarViewDemoController.swift */; };
 		53097D4427028AFA00A6E4DC /* TooltipDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD7DF06121FB941400857267 /* TooltipDemoController.swift */; };
-		5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */; };
-		5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */; };
+		5328D97A26FBA3EA00F3723B /* ProgressBarDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97826FBA3E900F3723B /* ProgressBarDemoController_SwiftUI.swift */; };
+		5328D97B26FBA3EA00F3723B /* ProgressBarDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5328D97926FBA3E900F3723B /* ProgressBarDemoController.swift */; };
 		532FE3DB26EA6D8D007539C0 /* ActivityIndicatorDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */; };
 		532FE3DC26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */; };
 		5336B17D27F7817300B01E0D /* HUDDemoController_SwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */; };
@@ -178,8 +178,8 @@
 		3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerControllerTest.swift; sourceTree = "<group>"; };
 		3A83F8DC2953B96800EF6629 /* HUDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTest.swift; sourceTree = "<group>"; };
 		3A83F8DE2953B97900EF6629 /* HUDTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDTest_SwiftUI.swift; sourceTree = "<group>"; };
-		3A83F8E02953B99A00EF6629 /* IndeterminateProgressBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTest.swift; sourceTree = "<group>"; };
-		3A83F8E22953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarTest_SwiftUI.swift; sourceTree = "<group>"; };
+		3A83F8E02953B99A00EF6629 /* ProgressBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarTest.swift; sourceTree = "<group>"; };
+		3A83F8E22953B9A800EF6629 /* ProgressBarTest_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarTest_SwiftUI.swift; sourceTree = "<group>"; };
 		3A83F8E42953B9B800EF6629 /* LabelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTest.swift; sourceTree = "<group>"; };
 		3A83F8E62953B9D100EF6629 /* NavigationControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerTest.swift; sourceTree = "<group>"; };
 		3A83F8E82953BA4500EF6629 /* NotificationViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewTest.swift; sourceTree = "<group>"; };
@@ -208,14 +208,14 @@
 		5303259226B3198A00611D05 /* AvatarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5303259726B31A6300611D05 /* FluentUIDemoToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FluentUIDemoToggle.swift; sourceTree = "<group>"; };
 		5306075826A1E73F002D49CF /* AvatarGroupDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarGroupDemoController.swift; sourceTree = "<group>"; };
-		5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
-		5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		5328D97826FBA3E900F3723B /* ProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		5328D97926FBA3E900F3723B /* ProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarDemoController.swift; sourceTree = "<group>"; };
 		532FE3D926EA6D8D007539C0 /* ActivityIndicatorDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController.swift; sourceTree = "<group>"; };
 		532FE3DA26EA6D8D007539C0 /* ActivityIndicatorDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDDemoController_SwiftUI.swift; sourceTree = "<group>"; };
 		5373D55E2694C3070032A3B4 /* AvatarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarDemoController.swift; sourceTree = "<group>"; };
-		5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
-		5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndeterminateProgressBarDemoController.swift; sourceTree = "<group>"; };
+		5373F95426F28D3A007F1410 /* ProgressBarDemoController_SwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarDemoController_SwiftUI.swift; sourceTree = "<group>"; };
+		5373F95626F28D9B007F1410 /* ProgressBarDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBarDemoController.swift; sourceTree = "<group>"; };
 		66963D0B29CB792E006F5FA9 /* TwoLineTitleViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineTitleViewDemoController.swift; sourceTree = "<group>"; };
 		6F453CA428AC536300ED91A4 /* ShadowTokensDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowTokensDemoController.swift; sourceTree = "<group>"; };
 		6F4A92EE2DD268A600B4B136 /* PillButtonDemoController_SwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButtonDemoController_SwiftUI.swift; sourceTree = "<group>"; };
@@ -385,8 +385,8 @@
 				3A83F8DA2953B95B00EF6629 /* DrawerControllerTest.swift */,
 				3A83F8DC2953B96800EF6629 /* HUDTest.swift */,
 				3A83F8DE2953B97900EF6629 /* HUDTest_SwiftUI.swift */,
-				3A83F8E02953B99A00EF6629 /* IndeterminateProgressBarTest.swift */,
-				3A83F8E22953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift */,
+				3A83F8E02953B99A00EF6629 /* ProgressBarTest.swift */,
+				3A83F8E22953B9A800EF6629 /* ProgressBarTest_SwiftUI.swift */,
 				3A83F8E42953B9B800EF6629 /* LabelTest.swift */,
 				F30B74392A7DB7EC000F63A0 /* ListActionItemTest.swift */,
 				F3DFD3622A7C358000014C6E /* ListItemTest.swift */,
@@ -429,8 +429,8 @@
 		5340828A26CFF298007716E1 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				5373F95426F28D3A007F1410 /* IndeterminateProgressBarDemoController_SwiftUI.swift */,
-				5373F95626F28D9B007F1410 /* IndeterminateProgressBarDemoController.swift */,
+				5373F95426F28D3A007F1410 /* ProgressBarDemoController_SwiftUI.swift */,
+				5373F95626F28D9B007F1410 /* ProgressBarDemoController.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -548,8 +548,8 @@
 				A5DCA75D211E3A92005F4CB7 /* DrawerDemoController.swift */,
 				B4E8F65121CD9579008A1598 /* HUDDemoController.swift */,
 				5336B17B27F7817300B01E0D /* HUDDemoController_SwiftUI.swift */,
-				5328D97926FBA3E900F3723B /* IndeterminateProgressBarDemoController.swift */,
-				5328D97826FBA3E900F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift */,
+				5328D97926FBA3E900F3723B /* ProgressBarDemoController.swift */,
+				5328D97826FBA3E900F3723B /* ProgressBarDemoController_SwiftUI.swift */,
 				A589F855211BA71000471C23 /* LabelDemoController.swift */,
 				F30B74352A7DB168000F63A0 /* ListActionItemDemoController.swift */,
 				F30B74372A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift */,
@@ -768,7 +768,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A83F8E12953B99A00EF6629 /* IndeterminateProgressBarTest.swift in Sources */,
+				3A83F8E12953B99A00EF6629 /* ProgressBarTest.swift in Sources */,
 				3A83F8FB2953BAC500EF6629 /* SearchBarTest.swift in Sources */,
 				6FC37A5F2EA9978C00351E52 /* PillButtonBarTest_SwiftUI.swift in Sources */,
 				3A83F8EF2953BA7C00EF6629 /* PeoplePickerTest.swift in Sources */,
@@ -790,7 +790,7 @@
 				3A83F8C12953B89000EF6629 /* AvatarTest.swift in Sources */,
 				3A83F9052953BB0100EF6629 /* TableViewCellTest.swift in Sources */,
 				3A83F90B2953BB2700EF6629 /* TableViewHeaderFooterViewTest.swift in Sources */,
-				3A83F8E32953B9A800EF6629 /* IndeterminateProgressBarTest_SwiftUI.swift in Sources */,
+				3A83F8E32953B9A800EF6629 /* ProgressBarTest_SwiftUI.swift in Sources */,
 				3A83F8C92953B8D600EF6629 /* BadgeViewTest.swift in Sources */,
 				3A83F8CD2953B8F200EF6629 /* BottomSheetControllerTest.swift in Sources */,
 				3A83F8D12953B90D00EF6629 /* CardTest.swift in Sources */,
@@ -839,7 +839,7 @@
 				A5DCA760211E3B4C005F4CB7 /* DemoController.swift in Sources */,
 				F30B74382A7DB177000F63A0 /* ListActionItemDemoController_SwiftUI.swift in Sources */,
 				9211BC612BD97B7900B95200 /* DemoHostingController.swift in Sources */,
-				5328D97B26FBA3EA00F3723B /* IndeterminateProgressBarDemoController.swift in Sources */,
+				5328D97B26FBA3EA00F3723B /* ProgressBarDemoController.swift in Sources */,
 				5373D55F2694C3070032A3B4 /* AvatarDemoController.swift in Sources */,
 				7D0931C124AAA3D30072458A /* SideTabBarDemoController.swift in Sources */,
 				80B1F7012628D8BB004DFEE5 /* BottomSheetDemoController.swift in Sources */,
@@ -880,7 +880,7 @@
 				A5CEC21220E436F10016922A /* DemoListViewController.swift in Sources */,
 				F362C80A2A780EBF00BB32BB /* ListItemDemoController.swift in Sources */,
 				53097D3E27028ADC00A6E4DC /* NotificationViewDemoController.swift in Sources */,
-				5328D97A26FBA3EA00F3723B /* IndeterminateProgressBarDemoController_SwiftUI.swift in Sources */,
+				5328D97A26FBA3EA00F3723B /* ProgressBarDemoController_SwiftUI.swift in Sources */,
 				B498141621E42C140077B48D /* TableViewCellDemoController.swift in Sources */,
 				ECA9D48A2979F5370048ADEC /* TextFieldDemoController.swift in Sources */,
 				FDCF7C8321BF35680058E9E6 /* SegmentedControlDemoController.swift in Sources */,

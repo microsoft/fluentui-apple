@@ -180,10 +180,10 @@ fi', :execution_position => :before_compile }
     hud_ios.source_files = ["#{ios_root}/#{components_dir}/HUD/**/*.{swift,h}"]
   end
 
-  s.subspec 'IndeterminateProgressBar_ios' do |indeterminateprogressbar_ios|
-    indeterminateprogressbar_ios.platform = :ios
-    indeterminateprogressbar_ios.dependency "#{s.name}/Core_ios"
-    indeterminateprogressbar_ios.source_files = ["#{ios_root}/#{components_dir}/IndeterminateProgressBar/**/*.{swift,h}"]
+  s.subspec 'ProgressBar_ios' do |progressbar_ios|
+    progressbar_ios.platform = :ios
+    progressbar_ios.dependency "#{s.name}/Core_ios"
+    progressbar_ios.source_files = ["#{ios_root}/#{components_dir}/ProgressBar/**/*.{swift,h}"]
   end
 
   s.subspec 'Label_ios' do |label_ios|

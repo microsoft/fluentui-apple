@@ -7,8 +7,8 @@ import FluentUI
 import SwiftUI
 import UIKit
 
-class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<IndeterminateProgressBarDemoView> {
-    override init?(coder aDecoder: NSCoder, rootView: IndeterminateProgressBarDemoView) {
+class ProgressBarDemoControllerSwiftUI: UIHostingController<ProgressBarDemoView> {
+    override init?(coder aDecoder: NSCoder, rootView: ProgressBarDemoView) {
         preconditionFailure("init(coder:) has not been implemented")
     }
 
@@ -17,8 +17,8 @@ class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<Indeter
     }
 
     init() {
-        super.init(rootView: IndeterminateProgressBarDemoView())
-        self.title = "IndeterminateProgressBar Fluent 2 (SwiftUI)"
+        super.init(rootView: ProgressBarDemoView())
+        self.title = "ProgressBar Fluent 2 (SwiftUI)"
     }
 
     override func willMove(toParent parent: UIViewController?) {
@@ -31,17 +31,21 @@ class IndeterminateProgressBarDemoControllerSwiftUI: UIHostingController<Indeter
     }
 }
 
-struct IndeterminateProgressBarDemoView: View {
+struct ProgressBarDemoView: View {
     @State var isAnimating: Bool = true
     @State var hidesWhenStopsAnimating: Bool = true
+    @State var isDeterminate: Bool = false
+    @State var autoAdvanceProgress: Bool = false
+    @State var progress: Double = 0.4
     @ObservedObject var fluentTheme: FluentTheme = .shared
 
     public var body: some View {
         VStack {
             VStack {
-                IndeterminateProgressBar()
+                ProgressBar()
                     .isAnimating(isAnimating)
                     .hidesWhenStopped(hidesWhenStopsAnimating)
+                    .progress(isDeterminate ? progress : nil)
             }
             .frame(maxWidth: .infinity, minHeight: 50, alignment: .center)
 
@@ -57,11 +61,30 @@ struct IndeterminateProgressBarDemoView: View {
 
                         FluentUIDemoToggle(titleKey: "Animating", isOn: $isAnimating)
                         FluentUIDemoToggle(titleKey: "Hides when stopped", isOn: $hidesWhenStopsAnimating)
+                        FluentUIDemoToggle(titleKey: "Determinate", isOn: $isDeterminate)
+                        if isDeterminate {
+                            FluentUIDemoToggle(titleKey: "Auto-advance progress", isOn: $autoAdvanceProgress)
+                        }
                     }
                 }
                 .padding()
             }
         }
         .fluentTheme(fluentTheme)
+        .task(id: isDeterminate && autoAdvanceProgress) {
+            guard isDeterminate && autoAdvanceProgress else {
+                return
+            }
+
+            // Continuously advance the determinate progress so the bar appears to animate,
+            // wrapping back to zero once it completes.
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 30 * NSEC_PER_MSEC)
+                if Task.isCancelled {
+                    break
+                }
+                progress = progress >= 1.0 ? 0.0 : min(progress + 0.01, 1.0)
+            }
+        }
     }
 }

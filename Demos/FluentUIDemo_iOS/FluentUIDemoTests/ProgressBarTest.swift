@@ -5,13 +5,13 @@
 
 import XCTest
 
-class IndeterminateProgressBarTest: BaseTest {
-    override var controlName: String { "IndeterminateProgressBar" }
+class ProgressBarTest: BaseTest {
+    override var controlName: String { "ProgressBar" }
 
     let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")
     let progressHalted: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is progress halted")
 
-    func indeterminateProgressBarExists(status: NSPredicate) -> Bool {
+    func progressBarExists(status: NSPredicate) -> Bool {
          return app.otherElements.element(matching: status).exists
     }
 
@@ -25,18 +25,18 @@ class IndeterminateProgressBarTest: BaseTest {
         let startStopButton: XCUIElement = app.buttons["Start / Stop activity"]
         let hidesWhenStoppedButton: XCUIElement = app.cells.containing(.staticText, identifier: "Hides when stopped").firstMatch
 
-        XCTAssert(indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
         startStopButton.tap()
-        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(!progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
 
         hidesWhenStoppedButton.tap()
-        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(!progressBarExists(status: inProgress))
+        XCTAssert(progressBarExists(status: progressHalted))
 
         startStopButton.tap()
-        XCTAssert(indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
     }
 }

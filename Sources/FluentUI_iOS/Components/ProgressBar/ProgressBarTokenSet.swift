@@ -9,14 +9,17 @@ import FluentUI_common
 import SwiftUI
 import UIKit
 
-/// Representation of design tokens for the Indeterminate Progress Bar.
-public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProgressBarTokenSet.Tokens> {
+/// Representation of design tokens for the Progress Bar.
+public class ProgressBarTokenSet: ControlTokenSet<ProgressBarTokenSet.Tokens> {
     public enum Tokens: TokenSetKey {
         /// Progress bar's background color.
         case backgroundColor
 
         /// Progress bar's gradient color.
         case gradientColor
+
+        /// Progress bar's determinate fill color.
+        case fillColor
     }
 
     init() {
@@ -31,6 +34,11 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
                 return .uiColor {
                     theme.color(.brandBackground1)
                 }
+
+            case .fillColor:
+                return .uiColor {
+                    theme.color(.brandBackground1)
+                }
             }
         }
     }
@@ -38,8 +46,9 @@ public class IndeterminateProgressBarTokenSet: ControlTokenSet<IndeterminateProg
 
 // MARK: - Constants
 
-extension IndeterminateProgressBarTokenSet {
+extension ProgressBarTokenSet {
     static let animationDuration: Double = 1.75
+    static let determinateAnimationDuration: Double = 0.2
     static let height: Double = 2.0
 
     static func initialStartPoint(_ isRTLLanguage: Bool) -> UnitPoint {

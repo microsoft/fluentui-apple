@@ -5,7 +5,7 @@
 
 import XCTest
 
-class IndeterminateProgressBarTestSwiftUI: IndeterminateProgressBarTest {
+class ProgressBarTestSwiftUI: ProgressBarTest {
     override func setUpWithError() throws {
         try super.setUpWithError()
         app.staticTexts["SwiftUI Demo"].tap()
@@ -21,19 +21,19 @@ class IndeterminateProgressBarTestSwiftUI: IndeterminateProgressBarTest {
         let hidesWhenStoppedSwitch: XCUIElement = app.switches["Hides when stopped"].switches.firstMatch
 
         hidesWhenStoppedSwitch.tap()
-        XCTAssert(indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
 
         animatingSwitch.tap()
-        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(!progressBarExists(status: inProgress))
+        XCTAssert(progressBarExists(status: progressHalted))
 
         hidesWhenStoppedSwitch.tap()
-        XCTAssert(!indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(!progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
 
         animatingSwitch.tap()
-        XCTAssert(indeterminateProgressBarExists(status: inProgress))
-        XCTAssert(!indeterminateProgressBarExists(status: progressHalted))
+        XCTAssert(progressBarExists(status: inProgress))
+        XCTAssert(!progressBarExists(status: progressHalted))
      }
 }

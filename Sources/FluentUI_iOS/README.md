@@ -34,7 +34,7 @@ Some of the controls available include:
 - DateTimePicker
 - DrawerController
 - HUD
-- IndeterminateProgressBar
+- ProgressBar
 - Label
 - NavigationController
 - NotificationView
