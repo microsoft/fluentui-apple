@@ -78,6 +78,7 @@ public struct ProgressBar: View, TokenizedControlView {
                    maxHeight: height,
                    alignment: .center)
             .background(backgroundColor)
+            .ignoresSafeArea(.container, edges: .horizontal)
             .accessibilityLabel(Text(accessibilityLabel))
 #if DEBUG
             .accessibilityIdentifier(accessibilityIdentifier)
@@ -119,6 +120,7 @@ public struct ProgressBar: View, TokenizedControlView {
                        alignment: .leading)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .ignoresSafeArea(.container, edges: .horizontal)
         .frame(maxWidth: .infinity,
                minHeight: height,
                idealHeight: height,
