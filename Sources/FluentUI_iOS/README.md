@@ -34,7 +34,6 @@ Some of the controls available include:
 - DateTimePicker
 - DrawerController
 - HUD
-- ProgressBar
 - Label
 - NavigationController
 - NotificationView
@@ -43,6 +42,7 @@ Some of the controls available include:
 - PersonaListView
 - PillButtonBar
 - PopupMenuController
+- ProgressBar
 - SearchBar
 - SegmentedControl
 - Separator

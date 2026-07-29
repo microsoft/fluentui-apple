@@ -180,12 +180,6 @@ fi', :execution_position => :before_compile }
     hud_ios.source_files = ["#{ios_root}/#{components_dir}/HUD/**/*.{swift,h}"]
   end
 
-  s.subspec 'ProgressBar_ios' do |progressbar_ios|
-    progressbar_ios.platform = :ios
-    progressbar_ios.dependency "#{s.name}/Core_ios"
-    progressbar_ios.source_files = ["#{ios_root}/#{components_dir}/ProgressBar/**/*.{swift,h}"]
-  end
-
   s.subspec 'Label_ios' do |label_ios|
     label_ios.platform = :ios
     label_ios.dependency "#{s.name}/Core_ios"
@@ -272,6 +266,12 @@ fi', :execution_position => :before_compile }
     presenters_ios.platform = :ios
     presenters_ios.dependency "#{s.name}/Obscurable_ios"
     presenters_ios.source_files = ["#{ios_root}/#{components_dir}/Presenters/**/*.{swift,h}"]
+  end
+
+  s.subspec 'ProgressBar_ios' do |progressbar_ios|
+    progressbar_ios.platform = :ios
+    progressbar_ios.dependency "#{s.name}/Core_ios"
+    progressbar_ios.source_files = ["#{ios_root}/#{components_dir}/ProgressBar/**/*.{swift,h}"]
   end
 
   s.subspec 'ResizingHandleView_ios' do |resizinghandleview_ios|

@@ -163,8 +163,7 @@ public struct ProgressBar: View, TokenizedControlView {
 }
 
 /// Properties available to customize the state of the Progress Bar
-class MSFProgressBarStateImpl: ControlState,
-                                            MSFProgressBarState {
+class MSFProgressBarStateImpl: ControlState, MSFProgressBarState {
     @Published var isAnimating: Bool = false
     @Published var hidesWhenStopped: Bool = true
     @Published var progress: NSNumber?

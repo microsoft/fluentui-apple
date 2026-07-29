@@ -10,6 +10,8 @@ class ProgressBarTest: BaseTest {
 
     let inProgress: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is in progress")
     let progressHalted: NSPredicate = NSPredicate(format: "identifier CONTAINS %@", "Indeterminate Progress Bar that is progress halted")
+    let determinateProgress: NSPredicate = NSPredicate(format: "identifier BEGINSWITH %@", "Determinate Progress Bar at ")
+    let fortyPercentProgress: NSPredicate = NSPredicate(format: "identifier == %@", "Determinate Progress Bar at 40%")
 
     func progressBarExists(status: NSPredicate) -> Bool {
          return app.otherElements.element(matching: status).exists
