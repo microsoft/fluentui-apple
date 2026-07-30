@@ -6,7 +6,7 @@
 import FluentUI
 import UIKit
 
-class IndeterminateProgressBarDemoController: DemoTableViewController {
+class ProgressBarDemoController: DemoTableViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -23,15 +23,15 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return IndeterminateProgressBarDemoSection.allCases.count
+        return ProgressBarDemoSection.allCases.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return IndeterminateProgressBarDemoSection.allCases[section].rows.count
+        return ProgressBarDemoSection.allCases[section].rows.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row = IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row]
+        let row = ProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row]
 
         switch row {
         case .hidesWhenStopped:
@@ -66,7 +66,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
         case.demoProgressBar:
             let cell = TableViewCell()
 
-            let rowContentView = UIStackView(arrangedSubviews: [indeterminateProgressBar])
+            let rowContentView = UIStackView(arrangedSubviews: [progressBar])
             rowContentView.isLayoutMarginsRelativeArrangement = true
             rowContentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 15, leading: 0, bottom: 15, trailing: 0)
             rowContentView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,11 +86,11 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return IndeterminateProgressBarDemoSection.allCases[section].title
+        return ProgressBarDemoSection.allCases[section].title
     }
 
     override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
+        return ProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] == .swiftUIDemo
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -100,9 +100,9 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
 
         cell.setSelected(false, animated: true)
 
-        switch IndeterminateProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] {
+        switch ProgressBarDemoSection.allCases[indexPath.section].rows[indexPath.row] {
         case .swiftUIDemo:
-            navigationController?.pushViewController(IndeterminateProgressBarDemoControllerSwiftUI(),
+            navigationController?.pushViewController(ProgressBarDemoControllerSwiftUI(),
                                                      animated: true)
         default:
             break
@@ -112,7 +112,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var shouldHideWhenStopped: Bool = true {
         didSet {
             if oldValue != shouldHideWhenStopped {
-                indeterminateProgressBar.state.hidesWhenStopped = shouldHideWhenStopped
+                progressBar.state.hidesWhenStopped = shouldHideWhenStopped
             }
         }
     }
@@ -120,19 +120,19 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
     private var isAnimating: Bool = true {
         didSet {
             if oldValue != isAnimating {
-                indeterminateProgressBar.state.isAnimating = isAnimating
+                progressBar.state.isAnimating = isAnimating
             }
         }
     }
 
-    private let indeterminateProgressBar: MSFIndeterminateProgressBar = {
-        let indeterminateProgressBar = MSFIndeterminateProgressBar()
-        indeterminateProgressBar.state.isAnimating = true
+    private let progressBar: MSFProgressBar = {
+        let progressBar = MSFProgressBar()
+        progressBar.state.isAnimating = true
 
-        return indeterminateProgressBar
+        return progressBar
     }()
 
-    private enum IndeterminateProgressBarDemoRow: CaseIterable {
+    private enum ProgressBarDemoRow: CaseIterable {
         case swiftUIDemo
         case hidesWhenStopped
         case startStopActivity
@@ -152,7 +152,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
         }
     }
 
-    private enum IndeterminateProgressBarDemoSection: CaseIterable {
+    private enum ProgressBarDemoSection: CaseIterable {
         case swiftUI
         case settings
         case progressBar
@@ -168,7 +168,7 @@ class IndeterminateProgressBarDemoController: DemoTableViewController {
             }
         }
 
-        var rows: [IndeterminateProgressBarDemoRow] {
+        var rows: [ProgressBarDemoRow] {
             switch self {
             case .swiftUI:
                 return [.swiftUIDemo]
