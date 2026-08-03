@@ -16,6 +16,7 @@ class BottomSheetDemoController: DemoController {
 
         let optionTableView = UITableView(frame: .zero, style: .insetGrouped)
         optionTableView.translatesAutoresizingMaskIntoConstraints = false
+        optionTableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
         optionTableView.register(BooleanCell.self, forCellReuseIdentifier: BooleanCell.identifier)
         optionTableView.register(ActionsCell.self, forCellReuseIdentifier: ActionsCell.identifier)
         optionTableView.dataSource = self
@@ -42,6 +43,13 @@ class BottomSheetDemoController: DemoController {
     private func rebuildSheet() {
         // Tear down existing sheet
         if let existing = bottomSheetViewController {
+            let contentViewController = swiftUIHostingController ?? contentNavigationController
+            if contentViewController.parent === existing {
+                contentViewController.willMove(toParent: nil)
+                contentViewController.view.removeFromSuperview()
+                contentViewController.removeFromParent()
+            }
+
             existing.willMove(toParent: nil)
             existing.view.removeFromSuperview()
             existing.removeFromParent()
@@ -58,17 +66,20 @@ class BottomSheetDemoController: DemoController {
             hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
             swiftUIHostingController = hostingVC
 
-            sheetController = BottomSheetController(expandedContentView: hostingVC.view)
+            sheetController = BottomSheetController(expandedContentView: hostingVC.view, style: bottomSheetStyle)
             sheetController.isFlexibleHeight = true
             sheetController.shouldHideCollapsedContent = false
             sheetController.prioritizesSheetPanWhenCollapsed = true
         } else {
-            sheetController = BottomSheetController(headerContentView: headerView, expandedContentView: contentNavigationController.view)
+            sheetController = BottomSheetController(headerContentView: headerView,
+                                                    expandedContentView: contentNavigationController.view,
+                                                    style: bottomSheetStyle)
             sheetController.hostedScrollView = personaListView
             sheetController.headerContentHeight = BottomSheetDemoController.headerHeight
         }
 
         sheetController.delegate = self
+        sheetController.usesAdaptiveBackground = useAdaptiveBackground
         sheetController.collapsedHeightResolver = { context in
             return context.containerTraitCollection.verticalSizeClass == .regular ? 100 : 70
         }
@@ -115,6 +126,19 @@ class BottomSheetDemoController: DemoController {
         bottomSheetViewController?.shouldAlwaysFillWidth = sender.isOn
     }
 
+    @objc private func toggleAdaptiveBackground(_ sender: BooleanCell) {
+        useAdaptiveBackground = sender.isOn
+        bottomSheetViewController?.usesAdaptiveBackground = sender.isOn
+    }
+
+    private func selectBottomSheetStyle(_ style: BottomSheetControllerStyle) {
+        guard bottomSheetStyle != style else {
+            return
+        }
+
+        bottomSheetStyle = style
+        rebuildSheet()
+    }
 
     @objc private func toggleCollapsedContentHiding(_ sender: BooleanCell) {
         bottomSheetViewController?.shouldHideCollapsedContent.toggle()
@@ -319,19 +343,42 @@ class BottomSheetDemoController: DemoController {
 
     private var useSwiftUIContent: Bool = false
 
+    private var useAdaptiveBackground: Bool = false
+
+    private var bottomSheetStyle: BottomSheetControllerStyle = .primary
+
+    private func makeStyleButton() -> UIButton {
+        let button = Button()
+        button.showsMenuAsPrimaryAction = true
+        let styleOptions: [(title: String, style: BottomSheetControllerStyle)] = [
+            ("Primary", .primary),
+            ("Glass", .glass)
+        ]
+        button.style = .subtle
+
+        button.setTitle(styleOptions.first(where: { $0.style == bottomSheetStyle })?.title, for: .normal)
+        button.menu = UIMenu(title: "Style", options: .singleSelection, children: styleOptions.map { option in
+            UIAction(title: option.title, state: option.style == bottomSheetStyle ? .on : .off) { [weak self] _ in
+                self?.selectBottomSheetStyle(option.style)
+            }
+        })
+        return button
+    }
+
     private let fpsOverlay: FPSOverlayView = {
         let overlay = FPSOverlayView()
         overlay.isHidden = true
         return overlay
     }()
 
-
     private var demoOptionItems: [[DemoItem]] {
         [
             [
+                DemoItem(title: "Style", type: .menu, action: nil),
                 DemoItem(title: "Expandable", type: .boolean, action: #selector(toggleExpandable), isOn: bottomSheetViewController?.isExpandable ?? true),
                 DemoItem(title: "Hidden", type: .boolean, action: #selector(toggleHidden), isOn: bottomSheetViewController?.isHidden ?? false),
                 DemoItem(title: "Should always fill width", type: .boolean, action: #selector(toggleFillWidth), isOn: bottomSheetViewController?.shouldAlwaysFillWidth ?? false),
+                DemoItem(title: "Use adaptive background", type: .boolean, action: #selector(toggleAdaptiveBackground), isOn: bottomSheetViewController?.usesAdaptiveBackground ?? false),
                 DemoItem(title: "Hide collapsed content", type: .boolean, action: #selector(toggleCollapsedContentHiding), isOn: collapsedContentHidingEnabled),
                 DemoItem(title: "Flexible sheet height", type: .boolean, action: #selector(toggleFlexibleSheetHeight), isOn: bottomSheetViewController?.isFlexibleHeight ?? false),
                 DemoItem(title: "Use custom handle accessibility label", type: .boolean, action: #selector(toggleHandleUsingCustomAccessibilityLabel), isOn: isHandleUsingCustomAccessibilityLabel),
@@ -382,6 +429,7 @@ class BottomSheetDemoController: DemoController {
     private enum DemoItemType {
         case action
         case boolean
+        case menu
         case stepper
     }
 
@@ -456,6 +504,13 @@ extension BottomSheetDemoController: UITableViewDataSource {
             }
             cell.bottomSeparatorType = .full
             return cell
+        } else if item.type == .menu {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier) as? TableViewCell else {
+                return UITableViewCell()
+            }
+
+            cell.setup(title: item.title, customAccessoryView: makeStyleButton())
+            return cell
         }
 
         return UITableViewCell()
@@ -518,7 +573,7 @@ extension BottomSheetDemoController: DemoAppearanceDelegate {
 
 struct BottomSheetDemoListContentView: View {
     var body: some View {
-            List {
+            FluentList {
                 Text("Cell with Swipe Action")
                     .swipeActions {
                         Button(action: {}, label: {
@@ -527,7 +582,7 @@ struct BottomSheetDemoListContentView: View {
                     }
                 Text("Cell without Swipe Action")
             }
-            .listStyle(.plain)
+            .fluentListStyle(.glass)
     }
 }
 

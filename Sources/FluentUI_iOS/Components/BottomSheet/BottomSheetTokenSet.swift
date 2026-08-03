@@ -33,7 +33,7 @@ public class BottomSheetTokenSet: ControlTokenSet<BottomSheetToken> {
                     case .primary:
                         return theme.color(.background2)
                     case .glass:
-                        return .clear
+                        return .systemBackground
                     }
                 }
             case .cornerRadius:
