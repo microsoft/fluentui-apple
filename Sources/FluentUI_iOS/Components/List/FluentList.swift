@@ -13,6 +13,9 @@ public enum FluentListStyle {
     case plain
     case insetGrouped
     case inset
+    /// Uses the `insetGrouped` layout but renders the list and its items with a clear background,
+    /// allowing content behind the list to show through.
+    case glass
 }
 
 /// This a wrapper around `SwiftUI.List` that has fluent style applied. It is intended to be used in conjunction with `FluentUI.FluentListSection` and `FluentUI.ListItem`
@@ -56,6 +59,12 @@ public struct FluentList<ListContent: View>: View {
                     .listStyle(.plain)
                     .scrollContentBackground(.hidden)
                     .background(ListItemTokenSet.listBackgroundColor(for: .plain))
+            case .glass:
+                list
+                    .listStyle(.insetGrouped)
+                    .scrollContentBackground(.hidden)
+                    .listSectionSpacing(GlobalTokens.spacing(.size160))
+                    .environment(\.defaultMinListHeaderHeight, GlobalTokens.spacing(.size320))
             }
         }
 

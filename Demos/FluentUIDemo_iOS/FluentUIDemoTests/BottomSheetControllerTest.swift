@@ -16,7 +16,7 @@ class BottomSheetControllerTest: BaseTest {
     }
 
     func testExpandable() throws {
-        let isExpandableSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 0)
+        let isExpandableSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 1)
 
         isExpandableSwitch.tap()
         sleep(1)
@@ -27,14 +27,14 @@ class BottomSheetControllerTest: BaseTest {
         let bottomSheet: XCUIElement = app.otherElements.containing(bottomSheetPredicate).element
         XCTAssert(bottomSheet.exists)
 
-        let isHiddenSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 1)
+        let isHiddenSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 2)
         isHiddenSwitch.tap()
         sleep(1)
         XCTAssert(!bottomSheet.isHittable)
     }
 
     func testFillWidth() throws {
-        let shouldFillWidthSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 2)
+        let shouldFillWidthSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 3)
 
         shouldFillWidthSwitch.tap()
         sleep(1)
@@ -42,7 +42,7 @@ class BottomSheetControllerTest: BaseTest {
     }
 
     func testCollapsedContent() throws {
-        let hideCollapsedContentSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 3)
+        let hideCollapsedContentSwitch: XCUIElement = app.tables.element(boundBy: 0).cells.element(boundBy: 5)
 
         hideCollapsedContentSwitch.tap()
         sleep(1)
