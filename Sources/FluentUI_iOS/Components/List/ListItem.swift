@@ -327,6 +327,8 @@ public struct ListItem<LeadingContent: View,
                 styleType = .plain
             case .insetGrouped:
                 styleType = .grouped
+            case .glass:
+                styleType = .clear
             }
         }
         return styleType

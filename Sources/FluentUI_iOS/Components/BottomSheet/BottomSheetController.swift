@@ -832,11 +832,10 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     @available(iOS 26, *)
     private func makeGlassEffect(wantsGlass: Bool) -> UIGlassEffect {
         let glassEffect = UIGlassEffect(style: .regular)
-        // Leave the material untinted for the pure glass look; only tint toward the solid
-        // background when we want the opaque appearance (e.g. expanded + adaptive background).
-        if !wantsGlass {
-            glassEffect.tintColor = FluentTheme.shared.color(.background2)
-        }
+        // Tint toward the sheet's glass tint color. In the opaque (expanded) state use the full
+        // color; in the pure-glass state apply it at 65% alpha so the material shows through.
+        let tintColor = tokenSet[.backgroundColor].uiColor
+        glassEffect.tintColor = wantsGlass ? tintColor.withAlphaComponent(0.65) : tintColor
         return glassEffect
     }
 
