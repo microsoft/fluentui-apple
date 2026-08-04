@@ -126,18 +126,18 @@ open class ShimmerLinesView: ShimmerView {
         let spacing: CGFloat = lineSpacing.map { CGFloat(truncating: $0) } ?? tokenSet[.labelSpacing].float
 
         // Use line configs mode if available
+        let height: CGFloat
         if let configs = lineConfigs {
-            let totalHeight = configs.enumerated().reduce(0) { total, element in
+            height = configs.enumerated().reduce(0) { total, element in
                 let (index, config) = element
                 let lineSpacing = index > 0 ? spacing : 0
                 return total + config.height + lineSpacing
             }
-            return CGSize(width: size.width, height: totalHeight)
         } else {
             let desiredLineCount = CGFloat(lineCount(for: size.height))
-            let height = desiredLineCount * tokenSet[.labelHeight].float + (desiredLineCount - 1) * spacing
-            return CGSize(width: size.width, height: height)
+            height = desiredLineCount * tokenSet[.labelHeight].float + (desiredLineCount - 1) * spacing
         }
+        return CGSize(width: size.width, height: height)
     }
 
     open override var intrinsicContentSize: CGSize {
