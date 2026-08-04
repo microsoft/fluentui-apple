@@ -22,7 +22,7 @@ open class ShimmerLinesView: ShimmerView {
 
     /// Array of line configurations defining each shimmer line's appearance.
     /// When set, this takes precedence over `lineCount`, `firstLineFillPercent`, and `lastLineFillPercent`.
-    @objc open var lineConfigs: [ShimmerLineConfig]? = nil {
+    @objc open var lineConfigs: [ShimmerLineConfiguration]? = nil {
         didSet {
             setNeedsLayout()
         }
@@ -67,7 +67,7 @@ open class ShimmerLinesView: ShimmerView {
     ///   - lineSpacing: Optional custom spacing between lines in points. If nil, uses default token spacing.
     ///   - animationSynchronizer: Optional synchronizer to coordinate animations across multiple shimmer views.
     @objc public convenience init(
-        lineConfigs: [ShimmerLineConfig]? = nil,
+        lineConfigs: [ShimmerLineConfiguration]? = nil,
         lineSpacing: NSNumber? = nil,
         animationSynchronizer: AnimationSynchronizerProtocol? = nil
     ) {

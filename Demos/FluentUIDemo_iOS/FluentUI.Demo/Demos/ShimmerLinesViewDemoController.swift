@@ -104,23 +104,23 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(shimmerViewLabel("ShimmerLinesView with custom line configurations"))
         container.addArrangedSubview(Separator())
         let customShimmerView1 = ShimmerLinesView(lineConfigs: [
-            ShimmerLineConfig(height: 64, widthPercent: 0.85, cornerRadius: NSNumber(value: 12)),
-            ShimmerLineConfig(height: 40, widthPercent: 0.55, cornerRadius: NSNumber(value: 10)),
-            ShimmerLineConfig(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
-            ShimmerLineConfig(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
-            ShimmerLineConfig(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8))
+            ShimmerLineConfiguration(height: 64, widthPercent: 0.85, cornerRadius: NSNumber(value: 12)),
+            ShimmerLineConfiguration(height: 40, widthPercent: 0.55, cornerRadius: NSNumber(value: 10)),
+            ShimmerLineConfiguration(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
+            ShimmerLineConfiguration(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
+            ShimmerLineConfiguration(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8))
         ])
         container.addArrangedSubview(customShimmerView1)
 
         container.addArrangedSubview(Separator())
         container.addArrangedSubview(shimmerViewLabel("Complex layout with title, subtitle, large content block, and list items"))
         container.addArrangedSubview(Separator())
-        let complexPattern: [ShimmerLineConfig] = [
-            ShimmerLineConfig(height: 64, widthPercent: 0.85, cornerRadius: NSNumber(value: 12)),
-            ShimmerLineConfig(height: 40, widthPercent: 0.55, cornerRadius: NSNumber(value: 10)),
-            ShimmerLineConfig(height: 200, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
+        let complexPattern: [ShimmerLineConfiguration] = [
+            ShimmerLineConfiguration(height: 64, widthPercent: 0.85, cornerRadius: NSNumber(value: 12)),
+            ShimmerLineConfiguration(height: 40, widthPercent: 0.55, cornerRadius: NSNumber(value: 10)),
+            ShimmerLineConfiguration(height: 200, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
         ] + Array(
-            repeating: ShimmerLineConfig(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
+            repeating: ShimmerLineConfiguration(height: 36, widthPercent: 1.0, cornerRadius: NSNumber(value: 8)),
             count: 5
         )
         let complexShimmerView = ShimmerLinesView(lineConfigs: complexPattern)
@@ -130,23 +130,23 @@ class ShimmerViewDemoController: DemoController {
         container.addArrangedSubview(shimmerViewLabel("Custom line configurations with specific heights and widths"))
         container.addArrangedSubview(Separator())
         let customConfigsView = ShimmerLinesView(lineConfigs: [
-            ShimmerLineConfig(height: 50, widthPercent: 0.9, cornerRadius: NSNumber(value: 10)),
-            ShimmerLineConfig(height: 30, widthPercent: 0.7, cornerRadius: NSNumber(value: 8)),
-            ShimmerLineConfig(height: 40, widthPercent: 1.0, cornerRadius: NSNumber(value: 12)),
-            ShimmerLineConfig(height: 35, widthPercent: 0.85, cornerRadius: NSNumber(value: 8))
+            ShimmerLineConfiguration(height: 50, widthPercent: 0.9, cornerRadius: NSNumber(value: 10)),
+            ShimmerLineConfiguration(height: 30, widthPercent: 0.7, cornerRadius: NSNumber(value: 8)),
+            ShimmerLineConfiguration(height: 40, widthPercent: 1.0, cornerRadius: NSNumber(value: 12)),
+            ShimmerLineConfiguration(height: 35, widthPercent: 0.85, cornerRadius: NSNumber(value: 8))
         ])
         container.addArrangedSubview(customConfigsView)
 
         container.addArrangedSubview(Separator())
         container.addArrangedSubview(shimmerViewLabel("Mixed heights simulating a feed with varying content"))
         container.addArrangedSubview(Separator())
-        let feedPattern: [ShimmerLineConfig] = [
-            ShimmerLineConfig(height: 60, widthPercent: 0.8, cornerRadius: NSNumber(value: 12)),
-            ShimmerLineConfig(height: 150, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
-            ShimmerLineConfig(height: 40, widthPercent: 0.6, cornerRadius: NSNumber(value: 8)),
-            ShimmerLineConfig(height: 60, widthPercent: 0.75, cornerRadius: NSNumber(value: 12)),
-            ShimmerLineConfig(height: 120, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
-            ShimmerLineConfig(height: 40, widthPercent: 0.5, cornerRadius: NSNumber(value: 8))
+        let feedPattern: [ShimmerLineConfiguration] = [
+            ShimmerLineConfiguration(height: 60, widthPercent: 0.8, cornerRadius: NSNumber(value: 12)),
+            ShimmerLineConfiguration(height: 150, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
+            ShimmerLineConfiguration(height: 40, widthPercent: 0.6, cornerRadius: NSNumber(value: 8)),
+            ShimmerLineConfiguration(height: 60, widthPercent: 0.75, cornerRadius: NSNumber(value: 12)),
+            ShimmerLineConfiguration(height: 120, widthPercent: 1.0, cornerRadius: NSNumber(value: 16)),
+            ShimmerLineConfiguration(height: 40, widthPercent: 0.5, cornerRadius: NSNumber(value: 8))
         ]
         let feedShimmerView = ShimmerLinesView(lineConfigs: feedPattern)
         container.addArrangedSubview(feedShimmerView)

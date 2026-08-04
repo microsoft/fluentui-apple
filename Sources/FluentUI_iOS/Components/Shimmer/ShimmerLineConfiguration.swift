@@ -6,8 +6,8 @@
 import UIKit
 
 /// Configuration for a single shimmer line, defining its visual appearance.
-@objc(MSFShimmerLineConfig)
-public class ShimmerLineConfig: NSObject {
+@objc(MSFShimmerLineConfiguration)
+public class ShimmerLineConfiguration: NSObject {
     /// Height of the line in points.
     @objc public let height: CGFloat
 
