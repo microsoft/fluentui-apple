@@ -196,8 +196,8 @@ struct ListItemDemoView: View {
                 .subtitleLineLimit(subtitleLineLimit)
                 .footerLineLimit(footerLineLimit)
                 .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-            let demoListItem = showTitleTrailingAccessory
-                ? listItem.titleTrailingAccessory { Image(systemName: "lock.fill") }
+            var demoListItem = showTitleTrailingAccessory
+                ? listItem.titleTrailingAccessory { Image(systemName: "star") }
                 : listItem
             demoListItem
                 .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
