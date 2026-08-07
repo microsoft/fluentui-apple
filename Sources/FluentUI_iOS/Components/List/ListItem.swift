@@ -325,8 +325,7 @@ public struct ListItem<LeadingContent: View,
     /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
     var combineTrailingContentAccessibilityElement: Bool = true
 
-    /// Content that appears immediately after the `title` text, rather than against the trailing edge of the view.
-    /// Type-erased so that adding this slot does not change `ListItem`'s generic signature.
+    /// Content that appears immediately trailing the `title` text.
     var titleTrailingAccessory: (() -> AnyView)?
 
     // MARK: Private variables

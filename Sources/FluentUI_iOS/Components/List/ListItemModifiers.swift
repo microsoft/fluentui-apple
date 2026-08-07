@@ -25,8 +25,7 @@ public extension ListItem {
         return listItem
     }
 
-    /// Content that appears immediately after the `title` text, rather than against the trailing edge of the
-    /// view. Use `trailingContent` instead to place content against the trailing edge.
+    /// Content that appears on the trailing edge of the `title` text.
     /// - Parameter content: The content to display after the `title`.
     /// - Returns: The modified `ListItem` with the property set.
     func titleTrailingAccessory<Content: View>(@ViewBuilder _ content: @escaping () -> Content) -> ListItem {
