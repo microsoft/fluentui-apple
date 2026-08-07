@@ -3,6 +3,8 @@
 //  Licensed under the MIT License.
 //
 
+import SwiftUI
+
 public extension ListItem {
 
     /// The accessory type for the `ListItem`.
@@ -29,6 +31,16 @@ public extension ListItem {
     func titleLineLimit(_ titleLineLimit: Int?) -> ListItem {
         var listItem = self
         listItem.titleLineLimit = titleLineLimit
+        return listItem
+    }
+
+    /// Content that appears immediately after the `title` text, rather than against the trailing edge of the
+    /// view. Use `trailingContent` instead to place content against the trailing edge.
+    /// - Parameter content: The content to display after the `title`.
+    /// - Returns: The modified `ListItem` with the property set.
+    func titleTrailingAccessory<Content: View>(@ViewBuilder _ content: @escaping () -> Content) -> ListItem {
+        var listItem = self
+        listItem.titleTrailingAccessory = { AnyView(content()) }
         return listItem
     }
 

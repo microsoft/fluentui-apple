@@ -50,13 +50,24 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var titleView: some View {
-            Text(title)
+            let titleView = Text(title)
                 .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
                 .font(Font(tokenSet[.titleFont].uiFont))
                 .frame(minHeight: ListItemTokenSet.titleHeight)
                 .lineLimit(titleLineLimit)
                 .truncationMode(titleTruncationMode)
                 .accessibilityIdentifier(AccessibilityIdentifiers.title)
+
+            if let titleTrailingAccessory {
+                HStack(spacing: 0) {
+                    titleView
+                    titleTrailingAccessory()
+                        .padding(.leading, ListItemTokenSet.titleTrailingAccessorySpacing)
+                        .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
+                }
+            } else {
+                titleView
+            }
         }
 
         @ViewBuilder
@@ -314,6 +325,10 @@ public struct ListItem<LeadingContent: View,
     /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
     var combineTrailingContentAccessibilityElement: Bool = true
 
+    /// Content that appears immediately after the `title` text, rather than against the trailing edge of the view.
+    /// Type-erased so that adding this slot does not change `ListItem`'s generic signature.
+    var titleTrailingAccessory: (() -> AnyView)?
+
     // MARK: Private variables
 
     /// The background styling of the `ListItem`.
@@ -386,6 +401,7 @@ private struct AccessibilityIdentifiers {
     static let subtitle: String = "ListItemSubtitle"
     static let footer: String = "ListItemFooter"
     static let leadingContent: String = "ListItemLeadingContent"
+    static let titleTrailingAccessory: String = "ListItemTitleTrailingAccessory"
     static let trailingContent: String = "ListItemTrailingContent"
     static let accessoryImage: String = "ListItemAccessoryImage"
     static let accessoryDetailButton: String = "ListItemAccessoryDetailButton"
