@@ -75,7 +75,13 @@ class CardTransitionAnimator: NSObject {
     }
 
     private func present(withTransitionContext transitionContext: UIViewControllerContextTransitioning, completion: @escaping (Bool) -> Void) {
-        let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
+        // `view(forKey:)` can return nil when the transition is torn down before it runs
+        // (e.g. the presentation is interrupted by the app being backgrounded). Bail out
+        // safely instead of force-unwrapping, which would trap (EXC_BREAKPOINT).
+        guard let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.to) else {
+            completion(true)
+            return
+        }
         let containerView = transitionContext.containerView
 
         // Animation start state
@@ -101,7 +107,13 @@ class CardTransitionAnimator: NSObject {
     }
 
     private func dismiss(withTransitionContext transitionContext: UIViewControllerContextTransitioning, completion: @escaping (Bool) -> Void) {
-        let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
+        // `view(forKey:)` can return nil when the transition is torn down before it runs
+        // (e.g. the dismissal is interrupted by the app being backgrounded). Bail out
+        // safely instead of force-unwrapping, which would trap (EXC_BREAKPOINT).
+        guard let presentedView = transitionContext.view(forKey: UITransitionContextViewKey.from) else {
+            completion(true)
+            return
+        }
         let containerView = transitionContext.containerView
 
         // Animation start state
