@@ -282,7 +282,8 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
                                 .overlay(Circle()
-                                            .foregroundColor(Color(backgroundColor))
+                                            // If image exists, remove background circle that's redundant
+                                            .foregroundColor(state.image != nil ? Color.clear : Color(backgroundColor))
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                                             .overlay(avatarContent
                                                         .frame(width: avatarImageSize * avatarImageSizeRatio,
