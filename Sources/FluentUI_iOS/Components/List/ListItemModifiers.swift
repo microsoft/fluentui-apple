@@ -25,12 +25,16 @@ public extension ListItem {
         return listItem
     }
 
-    /// Content that appears on the trailing edge of the `title` text.
-    /// - Parameter content: The content to display after the `title`.
+    /// Image that appears on the trailing edge of the `title` text.
+    /// - Parameters:
+    ///   - image: The image to display after the `title`.
+    ///   - accessibilityLabel: A localized description of the image, announced by VoiceOver after the `title`.
+    ///   Leave this `nil` when the image is purely decorative, so that VoiceOver ignores it.
     /// - Returns: The modified `ListItem` with the property set.
-    func titleTrailingAccessory<Content: View>(@ViewBuilder _ content: @escaping () -> Content) -> ListItem {
+    func titleTrailingAccessory(_ image: Image?, accessibilityLabel: String? = nil) -> ListItem {
         var listItem = self
-        listItem.titleTrailingAccessory = { AnyView(content()) }
+        listItem.titleTrailingAccessory = image
+        listItem.titleTrailingAccessoryAccessibilityLabel = accessibilityLabel
         return listItem
     }
 

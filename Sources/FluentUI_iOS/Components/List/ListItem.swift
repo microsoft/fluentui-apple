@@ -50,23 +50,29 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var titleView: some View {
-            let titleView = Text(title)
-                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
-                .font(Font(tokenSet[.titleFont].uiFont))
+            let titleColor = Color(uiColor: tokenSet[.titleColor].uiColor)
+            let titleFont = Font(tokenSet[.titleFont].uiFont)
+            let titleText = Text(title)
+                .foregroundColor(titleColor)
+                .font(titleFont)
                 .frame(minHeight: ListItemTokenSet.titleHeight)
                 .lineLimit(titleLineLimit)
                 .truncationMode(titleTruncationMode)
                 .accessibilityIdentifier(AccessibilityIdentifiers.title)
 
             if let titleTrailingAccessory {
-                HStack(spacing: 0) {
-                    titleView
-                    titleTrailingAccessory()
-                        .padding(.leading, ListItemTokenSet.titleTrailingAccessorySpacing)
+                HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
+                    titleText
+                    titleTrailingAccessory
+                        .modifyIf(titleTrailingAccessoryAccessibilityLabel != nil, { accessory in
+                            accessory.accessibilityLabel(Text(titleTrailingAccessoryAccessibilityLabel ?? ""))
+                        })
                         .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
                 }
+                .foregroundColor(titleColor)
+                .font(titleFont)
             } else {
-                titleView
+                titleText
             }
         }
 
@@ -325,8 +331,11 @@ public struct ListItem<LeadingContent: View,
     /// Whether or not the `TrailingContent` should be combined or be a separate accessibility element.
     var combineTrailingContentAccessibilityElement: Bool = true
 
-    /// Content that appears immediately trailing the `title` text.
-    var titleTrailingAccessory: (() -> AnyView)?
+    /// Image that appears immediately trailing the `title` text.
+    var titleTrailingAccessory: Image?
+
+    /// A localized description of `titleTrailingAccessory`, announced by VoiceOver after the `title`.
+    var titleTrailingAccessoryAccessibilityLabel: String?
 
     // MARK: Private variables
 

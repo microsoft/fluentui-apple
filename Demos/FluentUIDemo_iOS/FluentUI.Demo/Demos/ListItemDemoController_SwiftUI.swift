@@ -153,7 +153,7 @@ struct ListItemDemoView: View {
 
         @ViewBuilder
         var listItem: some View {
-            let listItem = ListItem(title: title,
+            var listItem = ListItem(title: title,
                                     subtitle: showSubtitle ? subtitle : "",
                                     footer: showFooter ? footer : "",
                                     leadingContent: {
@@ -196,10 +196,9 @@ struct ListItemDemoView: View {
                 .subtitleLineLimit(subtitleLineLimit)
                 .footerLineLimit(footerLineLimit)
                 .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-            var demoListItem = showTitleTrailingAccessory
-                ? listItem.titleTrailingAccessory { Image(systemName: "star") }
-                : listItem
-            demoListItem
+                .titleTrailingAccessory(showTitleTrailingAccessory ? Image(systemName: "star.fill") : nil,
+                                        accessibilityLabel: "Star icon")
+            listItem
                 .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
                 .disabled(isDisabled)
                 .alert("List Item tapped", isPresented: $showingPrimaryAlert) {
