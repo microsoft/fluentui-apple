@@ -45,6 +45,7 @@ struct AvatarDemoView: View {
     @State var activityStyle: MSFAvatarActivityStyle = .none
     @State var showActivityImage: Bool = false
     @State var showImage: Bool = false
+    @State var useReducedOpacity: Bool = false
     @State var showImageBasedRingColor: Bool = false
     @State var useCustomDefaultImage: Bool = false
     @State var size: MSFAvatarSize = .size72
@@ -59,11 +60,25 @@ struct AvatarDemoView: View {
         }
     }
 
+    /// Returns the avatar image. When reduced opacity is on, bakes 50% alpha into its pixels.
+    var avatarImage: UIImage? {
+        guard showImage, let baseImage = UIImage(named: "avatar_kat_larsson") else {
+            return nil
+        }
+        guard useReducedOpacity else {
+            return baseImage
+        }
+        let renderer = UIGraphicsImageRenderer(size: baseImage.size)
+        return renderer.image { _ in
+            baseImage.draw(at: .zero, blendMode: .normal, alpha: 0.5)
+        }
+    }
+
     public var body: some View {
         VStack {
             Avatar(style: style,
                    size: size,
-                   image: showImage ? UIImage(named: "avatar_kat_larsson") : nil,
+                   image: avatarImage,
                    primaryText: primaryText,
                    secondaryText: secondaryText)
                 .isRingVisible(isRingVisible)
@@ -76,6 +91,7 @@ struct AvatarDemoView: View {
                 .isOutOfOffice(isOutOfOffice)
                 .hasPointerInteraction(hasPointerInteraction)
                 .isAnimated(isAnimated)
+                .opacity(useReducedOpacity && !showImage ? 0.5 : 1)
                 .frame(maxWidth: .infinity, minHeight: 150, alignment: .center)
                 .background(useAlternateBackground ? Color.gray : Color.clear)
 
@@ -105,6 +121,7 @@ struct AvatarDemoView: View {
                         FluentUIDemoToggle(titleKey: "iPad Pointer interaction", isOn: $hasPointerInteraction)
                         FluentUIDemoToggle(titleKey: "Animate transitions", isOn: $isAnimated)
                         FluentUIDemoToggle(titleKey: "Use custom default image", isOn: $useCustomDefaultImage)
+                        FluentUIDemoToggle(titleKey: "Reduced opacity", isOn: $useReducedOpacity)
                     }
 
                     Group {

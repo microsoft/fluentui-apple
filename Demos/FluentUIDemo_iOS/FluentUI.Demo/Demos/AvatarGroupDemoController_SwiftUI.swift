@@ -34,6 +34,7 @@ struct AvatarGroupDemoView: View {
     // Avatar settings
     @State var isRingVisible: Bool = false
     @State var showImage: Bool = true
+    @State var useReducedOpacity: Bool = false
     @State var showImageBasedRingColor: Bool = false
     @State var hasRingInnerGap: Bool = true
 
@@ -51,12 +52,26 @@ struct AvatarGroupDemoView: View {
         let samplePersona = samplePersonas[index % samplePersonas.count]
         Avatar(style: .default,
                size: size,
-               image: showImage ? samplePersona.image : nil,
+               image: showImage ? avatarImage(for: samplePersona) : nil,
                primaryText: samplePersona.name,
                secondaryText: samplePersona.email)
         .isRingVisible(isRingVisible)
         .hasRingInnerGap(hasRingInnerGap)
         .imageBasedRingColor(showImageBasedRingColor ? AvatarDemoController.colorfulCustomImage : nil)
+    }
+
+    /// Returns the persona's image. When reduced opacity is on, bakes 50% alpha into its pixels, but this doesn't apply to initials placeholders.
+    private func avatarImage(for persona: PersonaData) -> UIImage? {
+        guard let baseImage = persona.image else {
+            return nil
+        }
+        guard useReducedOpacity else {
+            return baseImage
+        }
+        let renderer = UIGraphicsImageRenderer(size: baseImage.size)
+        return renderer.image { _ in
+            baseImage.draw(at: .zero, blendMode: .normal, alpha: 0.5)
+        }
     }
 
     var body: some View {
@@ -84,6 +99,7 @@ struct AvatarGroupDemoView: View {
                     Toggle("Show Avatar Images", isOn: $showImage)
                     Toggle("Unread Dot", isOn: $isUnread)
                     Toggle("Alternate Background", isOn: $useAlternateBackground)
+                    Toggle("Reduced Opacity", isOn: $useReducedOpacity)
                 }
 
                 FluentListSection("Ring") {
