@@ -145,10 +145,10 @@ class ListItemTest: BaseTest {
 
         titleTrailingAccessorySwitch.tap()
         XCTAssert(accessoryElement.exists, "Title trailing accessory should appear when an image is passed in")
-        XCTAssert(accessoryElement.label == "Favorited", "Title trailing accessory should be described by its accessibility label")
+        XCTAssert(accessoryElement.label == "Star icon", "Title trailing accessory should be described by its accessibility label")
 
         let listItemElement: XCUIElement = app.buttons.containing(.staticText, identifier: "ListItemTitle").firstMatch
-        XCTAssert(listItemElement.label.contains("Favorited"),
+        XCTAssert(listItemElement.label.contains("Star icon"),
                   "Title trailing accessory should be announced as part of the list item, but was '\(listItemElement.label)'")
     }
 
