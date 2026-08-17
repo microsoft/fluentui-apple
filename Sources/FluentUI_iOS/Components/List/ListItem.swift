@@ -53,27 +53,21 @@ public struct ListItem<LeadingContent: View,
             let titleColor = Color(uiColor: tokenSet[.titleColor].uiColor)
             let titleFont = Font(tokenSet[.titleFont].uiFont)
             let titleText = Text(title)
-                .foregroundColor(titleColor)
-                .font(titleFont)
                 .frame(minHeight: ListItemTokenSet.titleHeight)
                 .lineLimit(titleLineLimit)
                 .truncationMode(titleTruncationMode)
                 .accessibilityIdentifier(AccessibilityIdentifiers.title)
 
-            if let titleTrailingAccessory {
-                HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
-                    titleText
+            HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
+                titleText
+                if let titleTrailingAccessory {
                     titleTrailingAccessory
-                        .modifyIf(titleTrailingAccessoryAccessibilityLabel != nil, { accessory in
-                            accessory.accessibilityLabel(Text(titleTrailingAccessoryAccessibilityLabel ?? ""))
-                        })
+                        .accessibilityLabel(Text(titleTrailingAccessoryAccessibilityLabel ?? ""))
                         .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
                 }
-                .foregroundColor(titleColor)
-                .font(titleFont)
-            } else {
-                titleText
             }
+            .foregroundColor(titleColor)
+            .font(titleFont)
         }
 
         @ViewBuilder

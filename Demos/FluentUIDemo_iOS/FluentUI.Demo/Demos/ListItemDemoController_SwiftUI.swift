@@ -113,6 +113,7 @@ struct ListItemDemoView: View {
                 Text(".plain").tag(FluentListStyle.plain)
                 Text(".insetGrouped").tag(FluentListStyle.insetGrouped)
                 Text(".inset").tag(FluentListStyle.inset)
+                Text(".glass").tag(FluentListStyle.glass)
             }
         }
 
