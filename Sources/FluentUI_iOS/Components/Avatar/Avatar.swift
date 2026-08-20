@@ -169,6 +169,8 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         let backgroundColor: UIColor = state.backgroundColor ?? (
             !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].uiColor :
                 CalculatedColors.backgroundColor(hashCode: colorHashCode))
+        // If image exists, the background circle behind avatarContent is redundant, so make it transparent.
+        let avatarBackgroundColor: Color = state.image != nil ? .clear : Color(backgroundColor)
         let ringGapColor = Color(tokenSet[.ringGapColor].uiColor).opacity(isTransparent ? 0 : 1)
         let ringColor = ( !isRingVisible ?
                           Color.clear :
@@ -282,8 +284,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
                                 .overlay(Circle()
-                                            // If image exists, remove background circle that's redundant
-                                            .foregroundColor(state.image != nil ? Color.clear : Color(backgroundColor))
+                                            .foregroundColor(avatarBackgroundColor)
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                                             .overlay(avatarContent
                                                         .frame(width: avatarImageSize * avatarImageSizeRatio,
