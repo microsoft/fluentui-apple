@@ -169,8 +169,6 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         let backgroundColor: UIColor = state.backgroundColor ?? (
             !shouldUseCalculatedColors ? tokenSet[.backgroundDefaultColor].uiColor :
                 CalculatedColors.backgroundColor(hashCode: colorHashCode))
-        // If image exists, the background circle behind avatarContent is redundant, so make it transparent.
-        let avatarBackgroundColor: Color = state.image != nil ? .clear : Color(backgroundColor)
         let ringGapColor = Color(tokenSet[.ringGapColor].uiColor).opacity(isTransparent ? 0 : 1)
         let ringColor = ( !isRingVisible ?
                           Color.clear :
@@ -233,16 +231,40 @@ public struct Avatar: View, TokenizedControlView, Equatable {
 #endif
 
         @ViewBuilder
-        var avatarContent: some View {
-            if let image = avatarImageInfo.image {
+        func avatarContent(includesOwnBackground: Bool) -> some View {
+            if let image = state.image {
                 Image(uiImage: image)
+                    .renderingMode(.original)
+                    .resizable()
+                    .foregroundColor(Color(foregroundColor))
+            } else if shouldUseDefaultImage, let defaultImage = avatarImageInfo.image {
+                let icon = Image(uiImage: defaultImage)
                     .renderingMode(avatarImageInfo.renderingMode)
                     .resizable()
                     .foregroundColor(Color(foregroundColor))
+                    .frame(width: avatarImageSize * avatarImageSizeRatio,
+                           height: avatarImageSize * avatarImageSizeRatio,
+                           alignment: .center)
+                if includesOwnBackground {
+                    Circle()
+                        .foregroundColor(Color(backgroundColor))
+                        .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
+                        .overlay(icon, alignment: .center)
+                } else {
+                    icon
+                }
             } else {
-                Text(initialsString)
+                let text = Text(initialsString)
                     .foregroundColor(Color(foregroundColor))
                     .font(.init(tokenSet[.textFont].uiFont))
+                if includesOwnBackground {
+                    Circle()
+                        .foregroundColor(Color(backgroundColor))
+                        .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
+                        .overlay(text, alignment: .center)
+                } else {
+                    text
+                }
             }
         }
 
@@ -270,7 +292,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
         var avatarBody: some View {
             if style == .group {
                 let avatarSize = contentSize
-                avatarContent
+                avatarContent(includesOwnBackground: false)
                     .background(Rectangle()
                         .frame(width: avatarSize, height: avatarSize, alignment: .center)
                         .foregroundColor(Color(backgroundColor)))
@@ -283,18 +305,12 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                     .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
-                                .overlay(Circle()
-                                            .foregroundColor(avatarBackgroundColor)
+                                .overlay(avatarContent(includesOwnBackground: true)
                                             .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
-                                            .overlay(avatarContent
-                                                        .frame(width: avatarImageSize * avatarImageSizeRatio,
-                                                               height: avatarImageSize * avatarImageSizeRatio,
-                                                               alignment: .center)
-                                                        .contentShape(Circle())
-                                                        .clipShape(Circle())
-                                                        .transition(.opacity),
-                                                     alignment: .center)
-                                        )
+                                            .contentShape(Circle())
+                                            .clipShape(Circle())
+                                            .transition(.opacity),
+                                         alignment: .center)
                                 .contentShape(Circle()),
                              alignment: .center)
             }
