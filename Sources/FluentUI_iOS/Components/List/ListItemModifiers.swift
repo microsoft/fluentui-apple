@@ -25,19 +25,6 @@ public extension ListItem {
         return listItem
     }
 
-    /// Image that appears on the trailing edge of the `title` text.
-    /// - Parameters:
-    ///   - image: The image to display after the `title`.
-    ///   - accessibilityLabel: A localized description of the image, announced by VoiceOver after the `title`.
-    ///   Leave this `nil` when the image is purely decorative, so that VoiceOver ignores it.
-    /// - Returns: The modified `ListItem` with the property set.
-    func titleTrailingAccessory(_ image: Image?, accessibilityLabel: String? = nil) -> ListItem {
-        var listItem = self
-        listItem.titleTrailingAccessory = image
-        listItem.titleTrailingAccessoryAccessibilityLabel = accessibilityLabel
-        return listItem
-    }
-
     /// The line limit for `title`.
     /// - Parameter titleLineLimit: The  number of lines to display for the `title`.
     /// - Returns: The modified `ListItem` with the property set.

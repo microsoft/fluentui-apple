@@ -157,6 +157,8 @@ struct ListItemDemoView: View {
             var listItem = ListItem(title: title,
                                     subtitle: showSubtitle ? subtitle : "",
                                     footer: showFooter ? footer : "",
+                                    titleTrailingAccessory: showTitleTrailingAccessory ? Image(systemName: "star.fill") : nil,
+                                    titleTrailingAccessoryAccessibilityLabel: "Star icon",
                                     leadingContent: {
                                         if showLeadingContent {
                                             leadingContent
@@ -197,8 +199,6 @@ struct ListItemDemoView: View {
                 .subtitleLineLimit(subtitleLineLimit)
                 .footerLineLimit(footerLineLimit)
                 .combineTrailingContentAccessibilityElement(trailingContentFocusableElementCount < 2)
-                .titleTrailingAccessory(showTitleTrailingAccessory ? Image(systemName: "star.fill") : nil,
-                                        accessibilityLabel: "Star icon")
             listItem
                 .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
                 .disabled(isDisabled)
