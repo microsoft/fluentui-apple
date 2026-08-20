@@ -236,18 +236,18 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                 Image(uiImage: image)
                     .renderingMode(.original)
                     .resizable()
-                    .foregroundColor(Color(foregroundColor))
+                    .foregroundStyle(Color(foregroundColor))
             } else if shouldUseDefaultImage, let defaultImage = avatarImageInfo.image {
                 let icon = Image(uiImage: defaultImage)
                     .renderingMode(avatarImageInfo.renderingMode)
                     .resizable()
-                    .foregroundColor(Color(foregroundColor))
+                    .foregroundStyle(Color(foregroundColor))
                     .frame(width: avatarImageSize * avatarImageSizeRatio,
                            height: avatarImageSize * avatarImageSizeRatio,
                            alignment: .center)
                 if includesOwnBackground {
                     Circle()
-                        .foregroundColor(Color(backgroundColor))
+                        .foregroundStyle(Color(backgroundColor))
                         .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                         .overlay(icon, alignment: .center)
                 } else {
@@ -255,11 +255,11 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                 }
             } else {
                 let text = Text(initialsString)
-                    .foregroundColor(Color(foregroundColor))
+                    .foregroundStyle(Color(foregroundColor))
                     .font(.init(tokenSet[.textFont].uiFont))
                 if includesOwnBackground {
                     Circle()
-                        .foregroundColor(Color(backgroundColor))
+                        .foregroundStyle(Color(backgroundColor))
                         .frame(width: avatarImageSize, height: avatarImageSize, alignment: .center)
                         .overlay(text, alignment: .center)
                 } else {
@@ -295,13 +295,13 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                 avatarContent(includesOwnBackground: false)
                     .background(Rectangle()
                         .frame(width: avatarSize, height: avatarSize, alignment: .center)
-                        .foregroundColor(Color(backgroundColor)))
+                        .foregroundStyle(Color(backgroundColor)))
                     .frame(width: avatarSize, height: avatarSize, alignment: .center)
                     .contentShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
                     .clipShape(RoundedRectangle(cornerRadius: tokenSet[.borderRadius].float))
             } else {
                 Circle()
-                    .foregroundColor(ringGapColor)
+                    .foregroundStyle(ringGapColor)
                     .frame(width: ringOuterGapSize, height: ringOuterGapSize, alignment: .center)
                     .overlay(avatarRingView
                                 .frame(width: ringSize, height: ringSize, alignment: .center)
@@ -351,7 +351,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                     .modifyIf(shouldDisplayActivity, { thisView in
                         thisView
                             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
+                                .foregroundStyle(Color(accessoryBorderColorToken).opacity(isTransparent ? 0 : 1))
                                 .frame(width: accessoryBorderSize, height: accessoryBorderSize, alignment: .center)
                                 .contentShape(Circle())
                                 .frame(width: accessoryBorderFrameSideRelativeToOuterRing, height: accessoryBorderFrameSideRelativeToOuterRing,
@@ -362,7 +362,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                     .modifyIf((shouldDisplayActivity || shouldDisplayPresence), { thisView in
                         thisView
                             .overlay(RoundedRectangle(cornerRadius: cornerRadius)
-                                .foregroundColor(Color(accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
+                                .foregroundStyle(Color(accessoryBackgroundColor).opacity(isTransparent ? 0 : 1))
                                 .frame(width: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        height: shouldDisplayActivity ? accessoryIconSize : accessoryBorderSize,
                                        alignment: .center)
@@ -372,7 +372,7 @@ public struct Avatar: View, TokenizedControlView, Equatable {
                                         .frame(width: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                height: shouldDisplayActivity ? activityImageSize : accessoryIconSize,
                                                alignment: .center)
-                                            .foregroundColor(accessoryForegroundColor))
+                                            .foregroundStyle(accessoryForegroundColor))
                                         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
                                         .frame(width: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
                                                height: shouldDisplayActivity ? activityBackgroundFrameSideRelativeToOuterRing : accessoryBorderFrameSideRelativeToOuterRing,
