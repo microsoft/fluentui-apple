@@ -26,7 +26,7 @@ public extension View {
         interactive: Bool = false,
         tint: Color? = nil,
         in shape: T = Capsule()
-    ) -> some View where T: Shape {
+    ) -> some View where T: InsettableShape {
         self.modifier(
             FluentGlassEffectModifier(
                 interactive: interactive,
@@ -58,7 +58,7 @@ private struct ShadowModifier: ViewModifier {
     }
 }
 
-private struct FluentGlassEffectModifier<T: Shape>: ViewModifier {
+private struct FluentGlassEffectModifier<T: InsettableShape>: ViewModifier {
     @Environment(\.fluentTheme) private var fluentTheme: FluentTheme
 
     let interactive: Bool
@@ -66,7 +66,10 @@ private struct FluentGlassEffectModifier<T: Shape>: ViewModifier {
     let shape: T
 
     func body(content: Content) -> some View {
-        #if os(visionOS) || compiler(<6.2)
+        #if os(visionOS)
+        content
+            .glassBackgroundEffect(in: shape)
+        #elseif compiler(<6.2)
         content
             .background(.regularMaterial, in: shape)
             .applyFluentShadow(shadowInfo: fluentTheme.shadow(.shadow08))
