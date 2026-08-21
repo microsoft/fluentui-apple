@@ -223,6 +223,9 @@ extension TableViewCellTokenSet {
     /// The default horizontal spacing in the cell.
     static let horizontalSpacing: CGFloat = GlobalTokens.spacing(.size160)
 
+    /// The spacing between the `title` and content that appears immediately after it.
+    static let titleTrailingAccessorySpacing: CGFloat = GlobalTokens.spacing(.size80)
+
     /// The leading padding in the cell.
     static let paddingLeading: CGFloat = GlobalTokens.spacing(.size160)
 
