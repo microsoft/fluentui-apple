@@ -3,8 +3,6 @@
 //  Licensed under the MIT License.
 //
 
-import SwiftUI
-
 public extension ListItem {
 
     /// The accessory type for the `ListItem`.
