@@ -26,6 +26,9 @@ import SwiftUI
     /// If the message text should be expandabled to view the entire mesage if it is truncated due to the messageLineLimit
     var enableExpandableMessageText: Bool { get set }
 
+    /// Direction the expand button's chevron icon should point when collapsed. Defaults to `.up`.
+    var expandButtonDirection: MSFNotificationExpandButtonDirection { get set }
+
     /// Optional text to draw above the message area.
     var title: String? { get set }
 
@@ -79,6 +82,15 @@ import SwiftUI
     var backgroundGradient: LinearGradientInfo? { get set }
 }
 
+/// Defines the direction the expand button's chevron icon should point when collapsed.
+@objc public enum MSFNotificationExpandButtonDirection: Int {
+    /// Chevron points up, e.g. for notifications anchored to the bottom of the screen.
+    case up
+
+    /// Chevron points down, e.g. for notifications anchored to the top of the screen.
+    case down
+}
+
 /// Exposes public published properties that are observed by the `FluentNotification`. Enables
 /// easy interaction with the Notification for clients.
 @objc(MSFFluentNotificationTriggerModel)
@@ -104,6 +116,7 @@ public struct FluentNotification: View, TokenizedControlView {
     ///   - attributedMessage: Optional attributed text for the main title area of the control. If there is a title, the message becomes subtext. If set, it will override the message parameter.
     ///   - messageLineLimit: The maximum number of lines the message can show. Any excess text is truncated.
     ///   - enableExpandableMessageText: If enabled, an expand button will be shown in place of the dimiss icon when the text is truncated. Tapping the expand button will display all lines of text.
+    ///   - expandButtonDirection: Direction the expand button's chevron icon should point when collapsed. Defaults to `.up`.
     ///   - isPresented: Controls whether the Notification is being presented.
     ///   - title: Optional text to draw above the message area.
     ///   - attributedTitle: Optional attributed text to draw above the message area. If set, it will override the title parameter.
@@ -124,6 +137,7 @@ public struct FluentNotification: View, TokenizedControlView {
                 attributedMessage: NSAttributedString? = nil,
                 messageLineLimit: Int = 0,
                 enableExpandableMessageText: Bool = false,
+                expandButtonDirection: MSFNotificationExpandButtonDirection = .up,
                 isPresented: Binding<Bool>? = nil,
                 title: String? = nil,
                 attributedTitle: NSAttributedString? = nil,
@@ -146,6 +160,7 @@ public struct FluentNotification: View, TokenizedControlView {
                                              attributedMessage: attributedMessage,
                                              messageLineLimit: messageLineLimit,
                                              enableExpandableMessageText: enableExpandableMessageText,
+                                             expandButtonDirection: expandButtonDirection,
                                              title: title,
                                              attributedTitle: attributedTitle,
                                              image: image,
@@ -289,7 +304,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         isPresented = false
                         dismissAction()
                     }, label: {
-                        Image("dismiss-20x20", bundle: FluentUIFramework.resourceBundle)
+                        Image(ImageNames.dismiss, bundle: FluentUIFramework.resourceBundle)
                             .accessibilityLabel("Accessibility.Dismiss.Label".localized)
                     })
                     .hoverEffect()
@@ -308,7 +323,7 @@ public struct FluentNotification: View, TokenizedControlView {
                         preconditionFailure("FluentNotification expandButton should not be rendered given state")
                     }
                 }, label: {
-                    Image("chevron-up-20x20", bundle: FluentUIFramework.resourceBundle)
+                    Image(state.expandButtonDirection == .down ? ImageNames.expandDown : ImageNames.expandUp, bundle: FluentUIFramework.resourceBundle)
                         .accessibilityLabel("Accessibility.Expand.Label".localized)
                 })
                 .hoverEffect()
@@ -576,6 +591,12 @@ public struct FluentNotification: View, TokenizedControlView {
     // When true, the notification will fit the size of its contents.
     // When false, the notification will be fixed based on the size of the screen.
     private let isFlexibleWidthToast: Bool
+
+    private struct ImageNames {
+        static let dismiss = "dismiss-20x20"
+        static let expandUp = "chevron-up-20x20"
+        static let expandDown = "chevron-down-20x20"
+    }
 }
 
 class MSFNotificationStateImpl: ControlState, MSFNotificationState {
@@ -596,6 +617,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
     @Published var onDismiss: (() -> Void)?
     @Published var swipeToDismissEnabled: Bool
     @Published var enableExpandableMessageText: Bool
+    @Published var expandButtonDirection: MSFNotificationExpandButtonDirection
 
     /// Title to display in the action button on the trailing edge of the control.
     ///
@@ -639,6 +661,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
          attributedMessage: NSAttributedString? = nil,
          messageLineLimit: Int = 0,
          enableExpandableMessageText: Bool = false,
+         expandButtonDirection: MSFNotificationExpandButtonDirection = .up,
          title: String? = nil,
          attributedTitle: NSAttributedString? = nil,
          image: UIImage? = nil,
@@ -672,6 +695,7 @@ class MSFNotificationStateImpl: ControlState, MSFNotificationState {
         self.defaultDismissButtonAction = defaultDismissButtonAction
         self.verticalOffset = verticalOffset
         self.enableExpandableMessageText = enableExpandableMessageText
+        self.expandButtonDirection = expandButtonDirection
         super.init()
     }
 }
