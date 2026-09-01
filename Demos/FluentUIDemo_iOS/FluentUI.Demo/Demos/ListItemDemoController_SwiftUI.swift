@@ -32,6 +32,7 @@ struct ListItemDemoView: View {
     @State var showSubtitle: Bool = false
     @State var showFooter: Bool = false
     @State var showLeadingContent: Bool = true
+    @State var showTitleTrailingAccessory: Bool = false
     @State var showTrailingContent: Bool = true
     @State var isTappable: Bool = true
     @State var isDisabled: Bool = false
@@ -76,6 +77,8 @@ struct ListItemDemoView: View {
                 .accessibilityIdentifier("footerSwitch")
             FluentUIDemoToggle(titleKey: "Show leading content", isOn: $showLeadingContent)
                 .accessibilityIdentifier("leadingContentSwitch")
+            FluentUIDemoToggle(titleKey: "Show title trailing accessory", isOn: $showTitleTrailingAccessory)
+                .accessibilityIdentifier("titleTrailingAccessorySwitch")
             FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
                 .accessibilityIdentifier("trailingContentSwitch")
             FluentUIDemoToggle(titleKey: "Tappable", isOn: $isTappable)
@@ -154,6 +157,8 @@ struct ListItemDemoView: View {
             var listItem = ListItem(title: title,
                                     subtitle: showSubtitle ? subtitle : "",
                                     footer: showFooter ? footer : "",
+                                    titleTrailingAccessory: showTitleTrailingAccessory ? Image(systemName: "star.fill") : nil,
+                                    titleTrailingAccessoryAccessibilityLabel: "Star icon",
                                     leadingContent: {
                                         if showLeadingContent {
                                             leadingContent

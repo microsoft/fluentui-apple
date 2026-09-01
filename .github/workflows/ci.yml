@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: true
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: pod lib lint
@@ -37,7 +37,7 @@ jobs:
         ]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@a37ce9120846195fa4ece8f58b268e6043cb2f26 # v3.7.0
     - name: Switch to current version of Xcode
       run: scripts/xcode_select_current_version.sh
     - name: Install xcbeautify
@@ -54,7 +54,7 @@ jobs:
           echo "TestResultsMac.xcresult not found."
         fi
     - name: Upload TestResultsMac.zip
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: xctest-resultsMac
         path: TestResultsMac.zip
@@ -67,7 +67,7 @@ jobs:
           echo "TestResultsiOS.xcresult not found."
         fi
     - name: Upload TestResultsiOS.zip
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
       with:
         name: xctest-resultsiOS
         path: TestResultsiOS.zip

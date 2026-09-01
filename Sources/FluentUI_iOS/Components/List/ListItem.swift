@@ -23,6 +23,9 @@ public struct ListItem<LeadingContent: View,
     ///   - title: Text that appears as the first line of text
     ///   - subtitle: Text that appears as the second line of text
     ///   - footer: Text that appears as the third line of text
+    ///   - titleTrailingAccessory: Image that appears immediately trailing the `title` text
+    ///   - titleTrailingAccessoryAccessibilityLabel: A localized description of `titleTrailingAccessory`, announced by VoiceOver after
+    ///   the `title`. Leave this `nil` when the image is purely decorative, so that VoiceOver ignores it.
     ///   - leadingContent: The content that appears on the leading edge of the view
     ///   - trailingContent: The content that appears on the trailing edge of the view, next to the accessory type if provided
     ///   - detailedContent: The content that appears in a sheet when the accessory detail button is tapped
@@ -30,6 +33,8 @@ public struct ListItem<LeadingContent: View,
     public init(title: Title,
                 subtitle: Subtitle = String(),
                 footer: Footer = String(),
+                titleTrailingAccessory: Image? = nil,
+                titleTrailingAccessoryAccessibilityLabel: String? = nil,
                 @ViewBuilder leadingContent: @escaping () -> LeadingContent,
                 @ViewBuilder trailingContent: @escaping () -> TrailingContent,
                 @ViewBuilder detailedContent: @escaping () -> DetailedContent,
@@ -37,6 +42,8 @@ public struct ListItem<LeadingContent: View,
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
         self.detailedContent = detailedContent
@@ -50,13 +57,24 @@ public struct ListItem<LeadingContent: View,
 
         @ViewBuilder
         var titleView: some View {
-            Text(title)
-                .foregroundColor(Color(uiColor: tokenSet[.titleColor].uiColor))
-                .font(Font(tokenSet[.titleFont].uiFont))
+            let titleColor = Color(uiColor: tokenSet[.titleColor].uiColor)
+            let titleFont = Font(tokenSet[.titleFont].uiFont)
+            let titleText = Text(title)
                 .frame(minHeight: ListItemTokenSet.titleHeight)
                 .lineLimit(titleLineLimit)
                 .truncationMode(titleTruncationMode)
                 .accessibilityIdentifier(AccessibilityIdentifiers.title)
+
+            HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
+                titleText
+                if let titleTrailingAccessory {
+                    titleTrailingAccessory
+                        .accessibilityLabel(Text(titleTrailingAccessoryAccessibilityLabel ?? ""))
+                        .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
+                }
+            }
+            .foregroundColor(titleColor)
+            .font(titleFont)
         }
 
         @ViewBuilder
@@ -351,6 +369,12 @@ public struct ListItem<LeadingContent: View,
     private let subtitle: Subtitle
     private let title: Title
 
+    /// Image that appears immediately trailing the `title` text.
+    private let titleTrailingAccessory: Image?
+
+    /// A localized description of `titleTrailingAccessory`, announced by VoiceOver after the `title`.
+    private let titleTrailingAccessoryAccessibilityLabel: String?
+
     private var tokenOverrides: [ListItemToken: ControlTokenValue]?
 }
 
@@ -386,6 +410,7 @@ private struct AccessibilityIdentifiers {
     static let subtitle: String = "ListItemSubtitle"
     static let footer: String = "ListItemFooter"
     static let leadingContent: String = "ListItemLeadingContent"
+    static let titleTrailingAccessory: String = "ListItemTitleTrailingAccessory"
     static let trailingContent: String = "ListItemTrailingContent"
     static let accessoryImage: String = "ListItemAccessoryImage"
     static let accessoryDetailButton: String = "ListItemAccessoryDetailButton"
@@ -397,10 +422,14 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.action = action
     }
 }
@@ -409,11 +438,15 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.detailedContent = detailedContent
         self.action = action
     }
@@ -423,11 +456,15 @@ public extension ListItem where LeadingContent == EmptyView, DetailedContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.trailingContent = trailingContent
         self.action = action
     }
@@ -437,11 +474,15 @@ public extension ListItem where TrailingContent == EmptyView, DetailedContent ==
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.leadingContent = leadingContent
         self.action = action
     }
@@ -451,12 +492,16 @@ public extension ListItem where TrailingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.leadingContent = leadingContent
         self.detailedContent = detailedContent
         self.action = action
@@ -467,12 +512,16 @@ public extension ListItem where LeadingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.trailingContent = trailingContent
         self.detailedContent = detailedContent
         self.action = action
@@ -483,12 +532,16 @@ public extension ListItem where DetailedContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
+         titleTrailingAccessory: Image? = nil,
+         titleTrailingAccessoryAccessibilityLabel: String? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.footer = footer
+        self.titleTrailingAccessory = titleTrailingAccessory
+        self.titleTrailingAccessoryAccessibilityLabel = titleTrailingAccessoryAccessibilityLabel
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
         self.action = action

@@ -138,7 +138,25 @@ class ListItemTest: BaseTest {
         XCTAssert(accessoryButtonElement.isEnabled, "Accessory should have a tap target for .detailButton type")
     }
 
+    func testTitleTrailingAccessory() throws {
+        let accessoryElement: XCUIElement = app.images.matching(identifier: "ListItemTitleTrailingAccessory").firstMatch
+
+        XCTAssertFalse(accessoryElement.exists, "Title trailing accessory should not appear unless an image is passed in")
+
+        titleTrailingAccessorySwitch.tap()
+        XCTAssert(accessoryElement.exists, "Title trailing accessory should appear when an image is passed in")
+        XCTAssert(accessoryElement.label == "Star icon", "Title trailing accessory should be described by its accessibility label")
+
+        let listItemElement: XCUIElement = app.buttons.containing(.staticText, identifier: "ListItemTitle").firstMatch
+        XCTAssert(listItemElement.label.contains("Star icon"),
+                  "Title trailing accessory should be announced as part of the list item, but was '\(listItemElement.label)'")
+    }
+
     // MARK: Helper variables
+
+    var titleTrailingAccessorySwitch: XCUIElement {
+        app.switches.matching(identifier: "titleTrailingAccessorySwitch").switches.firstMatch
+    }
 
     var showSubtitleSwitch: XCUIElement {
         app.switches.matching(identifier: "subtitleSwitch").switches.firstMatch

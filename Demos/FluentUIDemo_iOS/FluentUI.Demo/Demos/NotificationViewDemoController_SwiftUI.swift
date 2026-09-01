@@ -50,6 +50,7 @@ struct NotificationDemoView: View {
     @State var showActionButtonAndDismissButton: Bool = false
     @State var swipeToDismissEnabled: Bool = false
     @State var isExpandableMessageLabel: Bool = false
+    @State var expandButtonPointsDown: Bool = false
     @State var showFromBottom: Bool = true
     @State var showBackgroundGradient: Bool = false
     @State var useCustomTheme: Bool = false
@@ -180,6 +181,7 @@ struct NotificationDemoView: View {
                                            attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                            messageLineLimit: messageLineLimit,
                                            enableExpandableMessageText: isExpandableMessageLabel,
+                                           expandButtonDirection: expandButtonPointsDown ? .down : .up,
                                            title: hasTitle ? title : nil,
                                            attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
                                            image: image,
@@ -237,6 +239,7 @@ struct NotificationDemoView: View {
                                attributedMessage: hasAttribute && hasMessage ? attributedMessage : nil,
                                messageLineLimit: messageLineLimit,
                                enableExpandableMessageText: isExpandableMessageLabel,
+                               expandButtonDirection: expandButtonPointsDown ? .down : .up,
                                isPresented: $isPresented,
                                title: hasTitle ? title : nil,
                                attributedTitle: hasAttribute && hasTitle ? attributedTitle : nil,
@@ -321,6 +324,8 @@ struct NotificationDemoView: View {
                 Toggle("Has Message Action", isOn: $hasMessageAction)
                 Toggle("Swipe to Dismiss Enabled", isOn: $swipeToDismissEnabled)
                 Toggle("Expandable Message Label", isOn: $isExpandableMessageLabel)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                Toggle("Expand Button Points Down", isOn: $expandButtonPointsDown)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
