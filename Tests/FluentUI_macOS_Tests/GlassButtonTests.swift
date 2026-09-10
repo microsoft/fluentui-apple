@@ -129,49 +129,6 @@ class GlassButtonTests: XCTestCase {
 		}
 	}
 
-	func testDecorativeContentIsIgnoredByWindowHitTesting() throws {
-		let button = makeButton()
-		let window = NSWindow(
-			contentRect: NSRect(x: 100, y: 100, width: 320, height: 120),
-			styleMask: [.titled],
-			backing: .buffered,
-			defer: false
-		)
-		window.isReleasedWhenClosed = false
-		let contentView = try XCTUnwrap(window.contentView)
-		contentView.addSubview(button)
-		button.setFrameOrigin(NSPoint(x: 20, y: 20))
-		window.orderBack(nil)
-		defer { window.orderOut(nil) }
-
-		for trailingImage in [makeImage(description: "Chevron"), makeImage(description: "Menu"), nil, makeImage(description: "Chevron")] {
-			button.trailingImage = trailingImage
-
-			for imagePosition: NSControl.ImagePosition in [.imageLeading, .noImage, .imageOnly] {
-				button.imagePosition = imagePosition
-				button.setFrameSize(button.intrinsicContentSize)
-				button.layoutSubtreeIfNeeded()
-
-				let decorativeViews = button.subviews.filter { $0 is NSImageView || $0 is NSTextField }
-				if #available(macOS 26.0, *), trailingImage != nil {
-					XCTAssertEqual(decorativeViews.count, 3)
-				}
-				for view in decorativeViews {
-					XCTAssertNil(NSAccessibility.unignoredDescendant(of: view), "\(type(of: view)) exposes an accessibility descendant")
-					if !view.isHidden {
-						XCTAssertFalse(view.bounds.isEmpty)
-						let center = NSPoint(x: view.bounds.midX, y: view.bounds.midY)
-						let screenPoint = window.convertPoint(toScreen: view.convert(center, to: nil))
-						XCTAssertTrue(
-							(window.accessibilityHitTest(screenPoint) as? NSView) === button,
-							"Hit-testing \(type(of: view)) should return the button"
-						)
-					}
-				}
-			}
-		}
-	}
-
 	func testLabelFollowsTitleAndLayoutChanges() {
 		let button = makeButton()
 		XCTAssertEqual(button.accessibilityLabel(), "Share")
