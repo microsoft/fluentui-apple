@@ -8,6 +8,111 @@ import XCTest
 @testable import FluentUI_macos
 
 class GlassButtonTests: XCTestCase {
+	func testIconOnlySystemButtonUsesCompactPadding() throws {
+		guard #available(macOS 26.0, *) else {
+			throw XCTSkip("System glass requires macOS 26.")
+		}
+
+		let button = makeButton()
+		let image = makeImage(description: "Search")
+		image.size = NSSize(width: 20, height: 20)
+		button.image = image
+		button.title = ""
+
+		for imagePosition: NSControl.ImagePosition in [.imageLeading, .imageOnly] {
+			button.imagePosition = imagePosition
+			XCTAssertEqual(button.intrinsicContentSize, NSSize(width: 28, height: 28))
+		}
+
+		button.title = "Search"
+		button.imagePosition = .imageOnly
+		XCTAssertEqual(button.intrinsicContentSize, NSSize(width: 28, height: 28))
+
+		button.title = ""
+		button.image = nil
+		XCTAssertEqual(button.intrinsicContentSize.width, 16)
+	}
+
+	func testSystemButtonKeepsStandardPaddingForTitleOrChevron() throws {
+		guard #available(macOS 26.0, *) else {
+			throw XCTSkip("System glass requires macOS 26.")
+		}
+
+		let button = makeButton()
+		let image = makeImage(description: "Share")
+		image.size = NSSize(width: 20, height: 20)
+		button.image = image
+		let font = try XCTUnwrap(button.font)
+		let titleWidth = button.title.size(withAttributes: [.font: font]).width
+		XCTAssertEqual(button.intrinsicContentSize.width, ceil(20 + 4 + titleWidth + 16))
+
+		button.trailingImage = makeImage(description: "Chevron")
+		button.title = ""
+		XCTAssertEqual(button.intrinsicContentSize.width, 20 + 4 + 16 + 16)
+
+		button.imagePosition = .imageOnly
+		XCTAssertEqual(button.intrinsicContentSize.width, 20 + 4 + 16 + 16)
+
+		button.trailingImage = nil
+		XCTAssertEqual(button.intrinsicContentSize, NSSize(width: 28, height: 28))
+
+		button.title = "Share"
+		button.imagePosition = .imageLeading
+		XCTAssertEqual(button.intrinsicContentSize.width, ceil(20 + 4 + titleWidth + 16))
+
+		button.imagePosition = .noImage
+		XCTAssertEqual(button.intrinsicContentSize.width, ceil(titleWidth + 16))
+	}
+
+	func testCustomContentImagePositionControlsLayout() throws {
+		guard #available(macOS 26.0, *) else {
+			throw XCTSkip("System glass requires macOS 26.")
+		}
+
+		let button = makeButton()
+		button.trailingImage = makeImage(description: "Chevron")
+
+		for imagePosition: NSControl.ImagePosition in [.imageLeading, .noImage, .imageOnly, .imageLeading, .noImage] {
+			button.imagePosition = imagePosition
+			try assertCustomContentLayout(
+				button,
+				imageIsHidden: imagePosition == .noImage,
+				titleIsHidden: imagePosition == .imageOnly
+			)
+		}
+	}
+
+	func testNoImageSurvivesCustomContentChanges() throws {
+		guard #available(macOS 26.0, *) else {
+			throw XCTSkip("System glass requires macOS 26.")
+		}
+
+		let button = makeButton()
+		button.imagePosition = .noImage
+		button.trailingImage = makeImage(description: "Chevron")
+		try assertCustomContentLayout(button, imageIsHidden: true, titleIsHidden: false)
+
+		for image in [makeImage(description: "Replacement"), nil, makeImage(description: "Restored")] {
+			button.image = image
+			try assertCustomContentLayout(button, imageIsHidden: true, titleIsHidden: false)
+		}
+
+		button.title = "Sharing options"
+		try assertCustomContentLayout(button, imageIsHidden: true, titleIsHidden: false)
+
+		button.trailingImage = nil
+		button.trailingImage = makeImage(description: "Menu")
+		try assertCustomContentLayout(button, imageIsHidden: true, titleIsHidden: false)
+
+		button.imagePosition = .imageLeading
+		try assertCustomContentLayout(button, imageIsHidden: false, titleIsHidden: false)
+
+		button.image = nil
+		try assertCustomContentLayout(button, imageIsHidden: true, titleIsHidden: false)
+		button.image = makeImage(description: "Share icon")
+		try assertCustomContentLayout(button, imageIsHidden: false, titleIsHidden: false)
+	}
+
 	func testSingleAccessibleButton() {
 		let button = makeButton()
 
@@ -42,7 +147,7 @@ class GlassButtonTests: XCTestCase {
 		for trailingImage in [makeImage(description: "Chevron"), makeImage(description: "Menu"), nil, makeImage(description: "Chevron")] {
 			button.trailingImage = trailingImage
 
-			for imagePosition: NSControl.ImagePosition in [.imageLeading, .imageOnly] {
+			for imagePosition: NSControl.ImagePosition in [.imageLeading, .noImage, .imageOnly] {
 				button.imagePosition = imagePosition
 				button.setFrameSize(button.intrinsicContentSize)
 				button.layoutSubtreeIfNeeded()
@@ -163,6 +268,34 @@ class GlassButtonTests: XCTestCase {
 			XCTAssertFalse(button.isAccessibilityEnabled())
 			_ = button.accessibilityPerformPress()
 			XCTAssertEqual(receiver.pressCount, previousCount + 1)
+		}
+	}
+
+	private func assertCustomContentLayout(
+		_ button: GlassButton,
+		imageIsHidden: Bool,
+		titleIsHidden: Bool,
+		file: StaticString = #filePath,
+		line: UInt = #line
+	) throws {
+		let imageViews = button.subviews.compactMap { $0 as? NSImageView }
+		let imageView = try XCTUnwrap(imageViews.first { $0.image === button.image }, file: file, line: line)
+		let trailingImageView = try XCTUnwrap(imageViews.first { $0.image === button.trailingImage }, file: file, line: line)
+		let label = try XCTUnwrap(button.subviews.compactMap { $0 as? NSTextField }.first, file: file, line: line)
+		let cell = try XCTUnwrap(button.cell as? ButtonCell, file: file, line: line)
+		button.setFrameSize(button.intrinsicContentSize)
+		button.layoutSubtreeIfNeeded()
+
+		XCTAssertEqual(imageView.isHidden, imageIsHidden, file: file, line: line)
+		XCTAssertEqual(label.isHidden, titleIsHidden, file: file, line: line)
+		XCTAssertFalse(trailingImageView.isHidden, file: file, line: line)
+		if !titleIsHidden {
+			let imageRect = imageView.alignmentRect(forFrame: imageView.frame)
+			let titleRect = label.alignmentRect(forFrame: label.frame)
+			let trailingImageRect = trailingImageView.alignmentRect(forFrame: trailingImageView.frame)
+			let expectedLeading = imageIsHidden ? cell.horizontalPadding : imageRect.maxX + cell.titleToImageSpacing
+			XCTAssertEqual(titleRect.minX, expectedLeading, accuracy: 0.01, file: file, line: line)
+			XCTAssertLessThanOrEqual(titleRect.maxX + cell.titleToImageSpacing, trailingImageRect.minX + 0.01, file: file, line: line)
 		}
 	}
 

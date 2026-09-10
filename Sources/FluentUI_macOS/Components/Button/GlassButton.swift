@@ -74,7 +74,7 @@ open class GlassButton: Button {
 			super.image = nil
 			configureOwnContentViewsIfNeeded()
 			primaryImageView?.image = newValue
-			primaryImageView?.isHidden = (newValue == nil)
+			updateOwnContentLayout()
 			invalidateIntrinsicContentSize()
 		}
 	}
@@ -92,7 +92,7 @@ open class GlassButton: Button {
 			super.title = ""
 			configureOwnContentViewsIfNeeded()
 			titleLabel?.stringValue = newValue
-			titleLabel?.isHidden = shouldHideTitleLabel
+			updateOwnContentLayout()
 			invalidateIntrinsicContentSize()
 		}
 	}
@@ -102,7 +102,7 @@ open class GlassButton: Button {
 			guard usesOwnContentLayout, oldValue != imagePosition else {
 				return
 			}
-			titleLabel?.isHidden = shouldHideTitleLabel
+			updateOwnContentLayout()
 			invalidateIntrinsicContentSize()
 		}
 	}
@@ -115,6 +115,7 @@ open class GlassButton: Button {
 				return
 			}
 
+			let currentImagePosition = imagePosition
 			if usesOwnContentLayout {
 				// Move AppKit's content into our subviews.
 				let currentImage = super.image
@@ -125,15 +126,18 @@ open class GlassButton: Button {
 				super.title = ""
 				configureOwnContentViewsIfNeeded()
 				primaryImageView?.image = currentImage
-				primaryImageView?.isHidden = (currentImage == nil)
 				titleLabel?.stringValue = currentTitle
-				titleLabel?.isHidden = shouldHideTitleLabel
 			} else {
 				// Restore AppKit's content.
 				super.image = logicalImage
 				super.title = logicalTitle
 				primaryImageView?.isHidden = true
 				titleLabel?.isHidden = true
+			}
+			// AppKit may change imagePosition when restoring its image and title.
+			imagePosition = currentImagePosition
+			if usesOwnContentLayout {
+				updateOwnContentLayout()
 			}
 			// Tint handling changes with content ownership.
 			setColorValues(forStyle: style, accentColor: accentColor)
@@ -151,7 +155,14 @@ open class GlassButton: Button {
 		let imageSize = (imagePosition != .noImage) ? (image?.size ?? .zero) : .zero
 		let hasImage = imageSize != .zero
 		let hasTitle = imagePosition != .imageOnly && !title.isEmpty
-		let horizontalPadding = (cell as? ButtonCell)?.horizontalPadding ?? GlassButton.systemBezelSizeParameters.horizontalPadding
+
+		// We use a narrower padding when it's icon-only to make the button look round.
+		let horizontalPadding: CGFloat
+		if hasImage && !hasTitle && trailingImage == nil {
+			horizontalPadding = 4.0
+		} else {
+			horizontalPadding = (cell as? ButtonCell)?.horizontalPadding ?? GlassButton.systemBezelSizeParameters.horizontalPadding
+		}
 
 		var width: CGFloat = 0
 		if hasImage {
@@ -317,9 +328,24 @@ open class GlassButton: Button {
 		NSLayoutConstraint.activate([
 			imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: cell.horizontalPadding),
 			imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
-			label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: cell.titleToImageSpacing),
 			label.centerYAnchor.constraint(equalTo: centerYAnchor)
 		])
+	}
+
+	private func updateOwnContentLayout() {
+		guard let imageView = primaryImageView, let label = titleLabel, let cell = cell as? ButtonCell else {
+			return
+		}
+
+		let hideImage = imagePosition == .noImage || logicalImage == nil
+		imageView.isHidden = hideImage
+		label.isHidden = shouldHideTitleLabel
+
+		titleLeadingConstraint?.isActive = false
+		titleLeadingConstraint = hideImage
+			? label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: cell.horizontalPadding)
+			: label.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: cell.titleToImageSpacing)
+		titleLeadingConstraint?.isActive = true
 	}
 
 	@available(macOS 26.0, *)
@@ -396,6 +422,8 @@ open class GlassButton: Button {
 	private var titleLabel: NSTextField?
 
 	private var explicitAccessibilityLabel: String?
+
+	private var titleLeadingConstraint: NSLayoutConstraint?
 
 	/// `.imageOnly` can hide the title without clearing it.
 	private var shouldHideTitleLabel: Bool {
