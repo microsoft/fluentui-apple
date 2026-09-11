@@ -31,7 +31,7 @@ public struct ListItem<LeadingContent: View,
     public init(title: Title,
                 subtitle: Subtitle = String(),
                 footer: Footer = String(),
-                titleTrailingAccessory: TitleTrailingAccessory? = nil,
+                titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
                 @ViewBuilder leadingContent: @escaping () -> LeadingContent,
                 @ViewBuilder trailingContent: @escaping () -> TrailingContent,
                 @ViewBuilder detailedContent: @escaping () -> DetailedContent,
@@ -55,22 +55,35 @@ public struct ListItem<LeadingContent: View,
         var titleView: some View {
             let titleColor = Color(uiColor: tokenSet[.titleColor].uiColor)
             let titleFont = Font(tokenSet[.titleFont].uiFont)
-            let titleText = Text(title)
-                .frame(minHeight: ListItemTokenSet.titleHeight)
-                .lineLimit(titleLineLimit)
-                .truncationMode(titleTruncationMode)
-                .accessibilityIdentifier(AccessibilityIdentifiers.title)
 
-            HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
-                titleText
-                if let titleTrailingAccessory {
-                    titleTrailingAccessory.image
-                        .accessibilityLabel(Text(titleTrailingAccessory.accessibilityLabel ?? ""))
-                        .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
+            if let editingText, let editingIsFocused {
+                TextField(title, text: editingText)
+                    .focused(editingIsFocused)
+                    .onSubmit {
+                        onSubmit?()
+                    }
+                    .frame(minHeight: ListItemTokenSet.titleHeight)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.title)
+                    .foregroundColor(titleColor)
+                    .font(titleFont)
+            } else {
+                let titleText = Text(title)
+                    .frame(minHeight: ListItemTokenSet.titleHeight)
+                    .lineLimit(titleLineLimit)
+                    .truncationMode(titleTruncationMode)
+                    .accessibilityIdentifier(AccessibilityIdentifiers.title)
+
+                HStack(spacing: ListItemTokenSet.titleTrailingAccessorySpacing) {
+                    titleText
+                    if let titleTrailingAccessory {
+                        titleTrailingAccessory.image
+                            .accessibilityLabel(Text(titleTrailingAccessory.accessibilityLabel ?? ""))
+                            .accessibilityIdentifier(AccessibilityIdentifiers.titleTrailingAccessory)
+                    }
                 }
+                .foregroundColor(titleColor)
+                .font(titleFont)
             }
-            .foregroundColor(titleColor)
-            .font(titleFont)
         }
 
         @ViewBuilder
@@ -210,7 +223,10 @@ public struct ListItem<LeadingContent: View,
                         trailingContentView
                     }
                 }
-                .accessibilityElement(children: .combine)
+                .modifyIf(!isEditing, { content in
+                    content
+                        .accessibilityElement(children: .combine)
+                })
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
                     trailingContentView
@@ -241,7 +257,7 @@ public struct ListItem<LeadingContent: View,
                     innerContent
                         // This is necessary so that the VoiceOver focus ring includes the `innerContent` padding.
                         // When accessoryType == .detailButton, the detail button should be its own accessiblity element.
-                        .modifyIf(accessoryType != .detailButton, { content in
+                        .modifyIf(accessoryType != .detailButton && !isEditing, { content in
                             content
                                 .accessibilityElement(children: .combine)
                         })
@@ -361,18 +377,27 @@ public struct ListItem<LeadingContent: View,
     private var detailedContent: (() -> DetailedContent)?
     private var action: (() -> Void)?
 
+    private var editingText: Binding<String>?
+    private var editingIsFocused: FocusState<Bool>.Binding?
+    private var onSubmit: (() -> Void)?
+
+    /// Whether the `title` is presented as an editable text field rather than as static text.
+    private var isEditing: Bool {
+        return editingText != nil
+    }
+
     private let footer: Footer
     private let subtitle: Subtitle
     private let title: Title
 
     /// The accessory that appears immediately trailing the `title` text.
-    private let titleTrailingAccessory: TitleTrailingAccessory?
+    private let titleTrailingAccessory: ListItemTitleTrailingAccessory?
 
     private var tokenOverrides: [ListItemToken: ControlTokenValue]?
 }
 
 /// The image and optional VoiceOver label that appear immediately after a `ListItem` title.
-public struct TitleTrailingAccessory {
+public struct ListItemTitleTrailingAccessory {
     /// The image displayed immediately after the title.
     public let image: Image
 
@@ -434,7 +459,7 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          action: (() -> Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
@@ -448,7 +473,7 @@ public extension ListItem where LeadingContent == EmptyView, TrailingContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
         self.title = title
@@ -464,7 +489,7 @@ public extension ListItem where LeadingContent == EmptyView, DetailedContent == 
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          action: (() -> Void)? = nil) {
         self.title = title
@@ -480,7 +505,7 @@ public extension ListItem where TrailingContent == EmptyView, DetailedContent ==
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          action: (() -> Void)? = nil) {
         self.title = title
@@ -496,7 +521,7 @@ public extension ListItem where TrailingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
@@ -514,7 +539,7 @@ public extension ListItem where LeadingContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          @ViewBuilder detailedContent: @escaping () -> DetailedContent,
          action: (() -> Void)? = nil) {
@@ -532,7 +557,7 @@ public extension ListItem where DetailedContent == EmptyView {
     init(title: Title,
          subtitle: Subtitle = String(),
          footer: Footer = String(),
-         titleTrailingAccessory: TitleTrailingAccessory? = nil,
+         titleTrailingAccessory: ListItemTitleTrailingAccessory? = nil,
          @ViewBuilder leadingContent: @escaping () -> LeadingContent,
          @ViewBuilder trailingContent: @escaping () -> TrailingContent,
          action: (() -> Void)? = nil) {
@@ -543,6 +568,32 @@ public extension ListItem where DetailedContent == EmptyView {
         self.leadingContent = leadingContent
         self.trailingContent = trailingContent
         self.action = action
+    }
+}
+
+public extension ListItem where Subtitle == String,
+                                Footer == String,
+                                LeadingContent == EmptyView,
+                                TrailingContent == EmptyView,
+                                DetailedContent == EmptyView {
+    /// Creates a `ListItem` whose title is an editable text field.
+    ///
+    /// - Parameters:
+    ///   - prompt: Text that appears in the field while `text` is empty
+    ///   - text: The text being edited
+    ///   - isFocused: Drives keyboard focus for the field, bound to the caller's `FocusState`
+    ///   - onSubmit: The action to be dispatched when the user submits the field, such as by pressing return
+    init(prompt: Title,
+         text: Binding<String>,
+         isFocused: FocusState<Bool>.Binding,
+         onSubmit: (() -> Void)? = nil) {
+        self.title = prompt
+        self.subtitle = String()
+        self.footer = String()
+        self.titleTrailingAccessory = nil
+        self.editingText = text
+        self.editingIsFocused = isFocused
+        self.onSubmit = onSubmit
     }
 }
 
