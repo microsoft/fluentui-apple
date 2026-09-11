@@ -223,10 +223,7 @@ public struct ListItem<LeadingContent: View,
                         trailingContentView
                     }
                 }
-                .modifyIf(!isEditing, { content in
-                    content
-                        .accessibilityElement(children: .combine)
-                })
+                .accessibilityElement(children: !isEditing ? .combine : .contain)
                 .accessibilitySortPriority(2)
                 if !combineTrailingContentAccessibilityElement {
                     trailingContentView
@@ -257,10 +254,7 @@ public struct ListItem<LeadingContent: View,
                     innerContent
                         // This is necessary so that the VoiceOver focus ring includes the `innerContent` padding.
                         // When accessoryType == .detailButton, the detail button should be its own accessiblity element.
-                        .modifyIf(accessoryType != .detailButton && !isEditing, { content in
-                            content
-                                .accessibilityElement(children: .combine)
-                        })
+                        .accessibilityElement(children: (accessoryType != .detailButton && !isEditing) ? .combine : .contain)
                 }
             }
             .listRowInsets(EdgeInsets())
