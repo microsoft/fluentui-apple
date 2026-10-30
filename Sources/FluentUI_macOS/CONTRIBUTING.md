@@ -19,8 +19,6 @@ To build and deploy the demo follow these steps:
 - Add TestFooViewController.swift to FluentUI xcode project (All the files are in alphabetical order)
 - Make sure it is part of FluentUITestViewControllers Target membership
 - Add TestFooViewController to the array in [TestViewContronllers.swift](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_macOS/FluentUITestViewControllers/TestViewControllers.swift)
-- Add a new cocopod subspec in [MicrosoftFluentUI.podspec](https://github.com/microsoft/fluentui-apple/blob/main/MicrosoftFluentUI.podspec) with required dependencies. "s.subspec 'Foo_mac' do |foo_mac|"
-- Verify by "pod spec lint" For more info on [cocoapod](https://cocoapods.org)
 - Build and Run
 - Make sure no warnings and errors. Test your components!
 - Add documentation for your new class and especially for public apis
