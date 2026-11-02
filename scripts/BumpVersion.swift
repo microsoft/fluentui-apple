@@ -67,11 +67,10 @@ func isVersionBumped(_ currentVersion: String, _ newVersion: String) -> Bool {
     return newPatch > currentPatch
 }
 
-// MARK: Update podspec
+// MARK: Validate version
 
 let newVersion = CommandLine.arguments[1]
 let versionRegex = try? Regex("^\\d+\\.\\d+\\.\\d+$")
-let versionRange = NSRange(location: 0, length: newVersion.utf16.count)
 let croppedPattern = "\\.\\d+\\.\\d+"
 var croppedNewValue = ""
 
@@ -85,42 +84,18 @@ guard let _ = try versionRegex?.firstMatch(in: newVersion) else {
 }
 
 let currentDirectory = FileManager.default.currentDirectoryPath
-let podspecPath = "\(currentDirectory)/MicrosoftFluentUI.podspec"
+let versionPlistPath = "\(currentDirectory)/Sources/FluentUI_iOS/Resources/Version.plist"
 
-guard var fileContents = try? String(contentsOfFile: podspecPath, encoding: .utf8) else {
-    print("\(redColor)Failed to read MicrosoftFluentUI.podspec file.\(resetColor)")
+guard let versionPlistData = FileManager.default.contents(atPath: versionPlistPath),
+      let versionPlist = try? PropertyListSerialization.propertyList(from: versionPlistData, options: [], format: nil) as? [String: Any],
+      let currentVersion = versionPlist["CFBundleVersion"] as? String else {
+    print("\(redColor)Failed to read the current version from \(versionPlistPath).\(resetColor)")
     exit(1)
 }
 
-let regexPattern = "s.version\\s*=\\s*'([^']*)'"
-
-if let range = fileContents.range(of: regexPattern, options: .regularExpression) {
-    let oldValue = fileContents[range]
-    let oldVersion = "\\d+\\.\\d+\\.\\d+"
-    if let oldVersionRange = oldValue.range(of: oldVersion, options: .regularExpression) {
-        let version = oldValue[oldVersionRange]
-        let updatedValue = oldValue.replacingOccurrences(of: version, with: newVersion)
-
-        if !isVersionBumped(String(oldValue[oldVersionRange]), newVersion) {
-            print("\(redColor)Please provide a version newer than \(version)\(resetColor)")
-            exit(1)
-        }
-
-        fileContents.replaceSubrange(range, with: updatedValue)
-    }
-    else {
-        print("\(redColor)Failed to find the field for the old version.\(resetColor)")
-        exit(1)
-    }
-} else {
-    print("\(redColor)Failed to find the field s.version in the MicrosoftFluentUI.podspec file.\(resetColor)")
+if !isVersionBumped(currentVersion, newVersion) {
+    print("\(redColor)Please provide a version newer than \(currentVersion)\(resetColor)")
     exit(1)
-}
-
-do {
-    try fileContents.write(toFile: podspecPath, atomically: true, encoding: .utf8)
-} catch {
-    print("\(redColor)Failed to write to the MicrosoftFluentUI.podspec file.\(resetColor)")
 }
 
 // MARK: Update plists
@@ -157,7 +132,7 @@ let majorBump = Int(values[0])!
 updatePlist(path: "\(currentDirectory)/Demos/FluentUIDemo_iOS/FluentUI.Demo/Info.plist",
             values: ["\(1 + majorBump)\(croppedNewValue)", "\(137 + majorBump)\(croppedNewValue)"])
 
-updatePlist(path: "\(currentDirectory)/Sources/FluentUI_iOS/Resources/Version.plist",
+updatePlist(path: versionPlistPath,
             values: [newVersion, newVersion])
 
 updatePlist(path: "\(currentDirectory)/Sources/FluentUI_macOS/FluentUI-Info.plist",

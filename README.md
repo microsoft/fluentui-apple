@@ -3,11 +3,8 @@ Fluent UI Apple contains native UIKit and AppKit controls aligned with [Microsof
 
 ![Build Status](https://github.com/microsoft/fluentui-apple/workflows/CI/badge.svg?branch=main)
 ![Localization Status](https://github.com/microsoft/fluentui-apple/workflows/Localize/badge.svg)
-![CocoaPod Publishing](https://github.com/microsoft/fluentui-apple/workflows/Pod-Publish/badge.svg)
 [![Build Status](https://dev.azure.com/microsoftdesign/fluentui-native/_apis/build/status/microsoft.fluentui-apple?branchName=main)](https://dev.azure.com/microsoftdesign/fluentui-native/_build/latest?definitionId=144&branchName=main)
 ![License](https://img.shields.io/github/license/Microsoft/fluentui-apple)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/MicrosoftFluentUI)](https://cocoapods.org/pods/MicrosoftFluentUI)
-![Platform](https://img.shields.io/cocoapods/p/MicrosoftFluentUI.svg?style=flat)
 
 ## Getting Started
 ### Install and use FluentUI
@@ -26,15 +23,6 @@ To integrate FluentUI using SwiftUI, specify it as a dependency in your Xcode pr
 dependencies: [
     .package(url: "https://github.com/microsoft/fluentui-apple.git", .upToNextMinor(from: "X.X.X")),
 ],
-```
-
-#### Using CocoaPods
-
-To get set up with CocoaPods visit their [getting started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-To integrate FluentUI into your Xcode project using CocoaPods, specify it in your Podfile:
-```ruby
-pod 'MicrosoftFluentUI', '~> X.X.X'
 ```
 
 ### Import and use FluentUI
