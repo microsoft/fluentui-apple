@@ -59,5 +59,7 @@ open class PersonaCell: TableViewCell {
         // Attempt to use email if name is empty
         let title = !persona.name.isEmpty ? persona.name : persona.email
         setup(title: title, subtitle: persona.subtitle, customView: avatarView, accessoryType: accessoryType)
+        titleNumberOfLinesForLargerDynamicType = 0
+        subtitleNumberOfLinesForLargerDynamicType = 0
     }
 }
