@@ -163,7 +163,6 @@ class TwoLineTitleViewDemoController: DemoController {
         }
 
         addTitle(text: "Made from UINavigationItem")
-        addTitle(text: "(requires Navigation subspec)")
         exampleNavigationItems.enumerated().forEach {
             (offset, navigationItem) in
             let twoLineTitleView = Self.createDemoTitleView(forBottomSheet: false)

@@ -20,8 +20,6 @@ To build and run the demo app follow these steps:
 - Add FooDemoController.swift to Fluent Demo xcode project (All the files are in alphabetical order)
 - Make sure it is part of FluentUI.Demo Target membership
 - Add your FooDemoController to the list of [DemoDescriptor](https://github.com/microsoft/fluentui-apple/blob/main/Demos/FluentUIDemo_iOS/FluentUI.Demo/Demos.swift)
-- Add a new cocopod subspec in [MicrosoftFluentUI.podspec](https://github.com/microsoft/fluentui-apple/blob/main/MicrosoftFluentUI.podspec) with required dependencies. "s.subspec 'Foo_ios' do |foo_ios|"
-- Verify by "pod spec lint" For more info on [cocoapod](https://cocoapods.org)
 - Build and Run
 - Make sure no warnings and errors. Test your components!
 - Add documentation for your new class and especially for public apis

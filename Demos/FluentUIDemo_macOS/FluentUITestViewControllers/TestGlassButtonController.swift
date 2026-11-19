@@ -10,18 +10,7 @@ import FluentUI
 class TestGlassButtonController: NSViewController {
 
 	// Create various styles of GlassButton
-	let displayedGlassButtons: [[NSView]] = glassButtons().map { glassButtons in
-		glassButtons.map { glassButton in
-			if #available(macOS 26.0, *) {
-				let glassView = NSGlassEffectView()
-				glassView.cornerRadius = .greatestFiniteMagnitude
-				glassView.contentView = glassButton
-				return glassView
-			} else {
-				return glassButton
-			}
-		}
-	}
+	let displayedGlassButtons: [[NSView]] = glassButtons()
 
 	override func loadView() {
 

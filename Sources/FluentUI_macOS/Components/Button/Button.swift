@@ -125,6 +125,11 @@ open class Button: NSButton {
 		}
 	}
 
+	/// Controls Fluent drawing and layout. System-bezel subclasses return `false`.
+	var usesFluentBezelDrawing: Bool {
+		return true
+	}
+
 	func setupBorderShadowsIfNeeded() {
 		// At the moment border shadows only apply for the Primary and Secondary Button Styles.
 		// Border shadows being meant for buttons and their corresponding States, that have ~some~
@@ -135,7 +140,7 @@ open class Button: NSButton {
 		// challenge. Therefore, unless it becomes necessary, these buttons will remain without shadows.
 		// And perhaps shadowPath is the way to go, where you can have the CALayer have a Clear
 		// background color and still show a shadow by setting a hollow shadowPath around the button.
-		self.usesBorderShadows = style == .primary || style == .secondary
+		self.usesBorderShadows = usesFluentBezelDrawing && (style == .primary || style == .secondary)
 	}
 
 	var firstOuterDropShadowLayer: CALayer?
@@ -190,6 +195,8 @@ open class Button: NSButton {
 				} else {
 					let imageView = NSImageView(image: trailingImage)
 					imageView.translatesAutoresizingMaskIntoConstraints = false
+					imageView.setAccessibilityElement(false)
+					imageView.cell?.setAccessibilityElement(false)
 					addSubview(imageView)
 					NSLayoutConstraint.activate([
 						imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -cell.horizontalPadding),
@@ -284,6 +291,11 @@ open class Button: NSButton {
 	}
 
 	open override func updateLayer() {
+		guard usesFluentBezelDrawing else {
+			super.updateLayer()
+			return
+		}
+
 		guard let layer = layer else {
 			return
 		}
@@ -333,6 +345,11 @@ open class Button: NSButton {
 	}
 
 	open override func drawFocusRingMask() {
+		guard usesFluentBezelDrawing else {
+			super.drawFocusRingMask()
+			return
+		}
+
 		// Ensure we draw the focus ring around the entire button bounds
 		// rather than just around the image or title.
 		let path = NSBezierPath(roundedRect: bounds, xRadius: cornerRadius, yRadius: cornerRadius)
@@ -643,7 +660,9 @@ open class Button: NSButton {
 		// Account for extra space needed by `trailingImage`
 		if let trailingImage = trailingImage,
 		   let cell = cell as? ButtonCell {
-			trailingImageAdjustment = trailingImage.size.width + cell.titleToImageSpacing
+			// Reserve both sides to keep AppKit's centered content clear of the trailing image.
+			let sides: CGFloat = usesFluentBezelDrawing ? 1 : 2
+			trailingImageAdjustment = sides * (trailingImage.size.width + cell.titleToImageSpacing)
 		} else {
 			trailingImageAdjustment = 0
 		}
@@ -685,7 +704,19 @@ class ButtonCell: NSButtonCell {
 	var titleToImageSpacing: CGFloat = 0
 	var titleToImageVerticalSpacingAdjustment: CGFloat = 0
 
+	/// Use Fluent layout for custom bezels or trailing images, which AppKit's layout ignores.
+	private var usesFluentLayout: Bool {
+		guard let button = controlView as? Button else {
+			return true
+		}
+		return button.usesFluentBezelDrawing || button.trailingImage != nil
+	}
+
 	override func imageRect(forBounds rect: NSRect) -> NSRect {
+		guard usesFluentLayout else {
+			return super.imageRect(forBounds: rect)
+		}
+
 		guard
 			let image = image,
 			let controlView = controlView,
@@ -735,14 +766,17 @@ class ButtonCell: NSButtonCell {
 		if xOffsetSign != 0 {
 			// Offset the Primary Image from the Title
 			x += CGFloat(xOffsetSign) * (titleSize.width + titleToImageSpacing) / 2
+		}
 
-			// Offset the Title from the Trailing Image
-			if let controlView = controlView as? Button,
-			   let trailingImage = controlView.trailingImage {
-				x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
-			}
-		} else if yOffsetSign != 0 {
+		if yOffsetSign != 0 {
 			y += CGFloat(yOffsetSign) * (titleSize.height + titleToImageSpacing - titleToImageVerticalSpacingAdjustment) / 2
+		}
+
+		// Keep the primary image clear of the trailing image, even in `.imageOnly`.
+		if yOffsetSign == 0,
+		   let controlView = controlView as? Button,
+		   let trailingImage = controlView.trailingImage {
+			x += CGFloat(-1 * layoutDirectionSign) * (trailingImage.size.width + titleToImageSpacing) / 2
 		}
 
 		return NSRect(
@@ -754,6 +788,10 @@ class ButtonCell: NSButtonCell {
 	}
 
 	override func titleRect(forBounds rect: NSRect) -> NSRect {
+		guard usesFluentLayout else {
+			return super.titleRect(forBounds: rect)
+		}
+
 		guard
 			let font = font,
 			let controlView = controlView,
@@ -822,6 +860,10 @@ class ButtonCell: NSButtonCell {
 	}
 
 	override func drawingRect(forBounds rect: NSRect) -> NSRect {
+		guard usesFluentLayout else {
+			return super.drawingRect(forBounds: rect)
+		}
+
 		var width = rect.width - (horizontalPadding * 2)
 		var height = rect.height - (verticalPadding * 2)
 
