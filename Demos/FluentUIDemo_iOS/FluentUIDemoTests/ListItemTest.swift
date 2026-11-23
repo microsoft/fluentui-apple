@@ -152,7 +152,35 @@ class ListItemTest: BaseTest {
                   "Title trailing accessory should be announced as part of the list item, but was '\(listItemElement.label)'")
     }
 
+    func testEditableTitle() throws {
+        XCTAssert(app.staticTexts.matching(identifier: "ListItemTitle").firstMatch.exists,
+                  "Title should be static text when the list item is not editable")
+
+        editableSwitch.tap()
+
+        let titleField: XCUIElement = app.textFields.matching(identifier: "ListItemTitle").firstMatch
+        XCTAssert(titleField.exists, "Title should be a text field when the list item is editable")
+        XCTAssert(titleField.value as? String == "Contoso Survey",
+                  "Text field should show the bound text, but was '\(String(describing: titleField.value))'")
+
+        titleField.clearText()
+        XCTAssert(titleField.placeholderValue == "Enter a title",
+                  "Text field should show the prompt when empty, but was '\(String(describing: titleField.placeholderValue))'")
+
+        titleField.typeText("X")
+        XCTAssert((titleField.value as? String)?.contains("X") == true,
+                  "Text field should accept typing, but was '\(String(describing: titleField.value))'")
+
+        titleField.typeText("\n")
+        XCTAssert(app.alerts["Editable title submitted"].waitForExistence(timeout: 2),
+                  "Submitting the text field should invoke onSubmit")
+    }
+
     // MARK: Helper variables
+
+    var editableSwitch: XCUIElement {
+        app.switches.matching(identifier: "editableSwitch").switches.firstMatch
+    }
 
     var titleTrailingAccessorySwitch: XCUIElement {
         app.switches.matching(identifier: "titleTrailingAccessorySwitch").switches.firstMatch

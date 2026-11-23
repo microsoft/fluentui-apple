@@ -47,6 +47,10 @@ struct ListItemDemoView: View {
     @State var footerLineLimit: Int = 1
     @State var trailingContentFocusableElementCount: Int = 0
     @State var trailingContentToggleEnabled: Bool = true
+    @State var isEditable: Bool = false
+    @State var editableText: String = "Contoso Survey"
+    @State var editablePrompt: String = "Enter a title"
+    @FocusState var isEditableFocused: Bool
 
     public var body: some View {
 
@@ -81,6 +85,8 @@ struct ListItemDemoView: View {
                 .accessibilityIdentifier("titleTrailingAccessorySwitch")
             FluentUIDemoToggle(titleKey: "Show trailing content", isOn: $showTrailingContent)
                 .accessibilityIdentifier("trailingContentSwitch")
+            FluentUIDemoToggle(titleKey: "Editable title", isOn: $isEditable)
+                .accessibilityIdentifier("editableSwitch")
             FluentUIDemoToggle(titleKey: "Tappable", isOn: $isTappable)
             FluentUIDemoToggle(titleKey: "Disabled", isOn: $isDisabled)
             FluentUIDemoToggle(titleKey: "Render standalone", isOn: $renderStandalone)
@@ -157,8 +163,10 @@ struct ListItemDemoView: View {
             var listItem = ListItem(title: title,
                                     subtitle: showSubtitle ? subtitle : "",
                                     footer: showFooter ? footer : "",
-                                    titleTrailingAccessory: showTitleTrailingAccessory ? Image(systemName: "star.fill") : nil,
-                                    titleTrailingAccessoryAccessibilityLabel: "Star icon",
+                                    titleTrailingAccessory: showTitleTrailingAccessory ? ListItemTitleTrailingAccessory(
+                                        image: Image(systemName: "star.fill"),
+                                        accessibilityLabel: "Star icon"
+                                    ) : nil,
                                     leadingContent: {
                                         if showLeadingContent {
                                             leadingContent
@@ -211,21 +219,50 @@ struct ListItemDemoView: View {
         }
 
         @ViewBuilder
+        var editableListItem: some View {
+            var editableListItem = ListItem(prompt: editablePrompt,
+                                            text: $editableText,
+                                            isFocused: $isEditableFocused,
+                                            onSubmit: {
+                                                showingPrimaryAlert = true
+                                            })
+                .backgroundStyleType(backgroundStyle)
+            editableListItem
+                .overrideTokens($overrideTokens.wrappedValue ? listItemTokenOverrides : [:])
+                .disabled(isDisabled)
+                .alert("Editable title submitted", isPresented: $showingPrimaryAlert) {
+                    Button("OK", role: .cancel) { }
+                }
+        }
+
+        @ViewBuilder
+        var displayedListItem: some View {
+            if isEditable {
+                editableListItem
+            } else {
+                listItem
+            }
+        }
+
+        @ViewBuilder
         var content: some View {
             VStack {
                 if renderStandalone {
-                    listItem
+                    displayedListItem
                 }
                 FluentList {
                     if !renderStandalone {
                         FluentListSection("ListItem") {
-                            listItem
+                            displayedListItem
                         }
                     }
                     controls
                 }
                 .fluentListStyle(listStyle)
                 .fluentTheme(fluentTheme)
+            }
+            .onChange(of: isEditable) { _, newValue in
+                isEditableFocused = newValue
             }
         }
 
