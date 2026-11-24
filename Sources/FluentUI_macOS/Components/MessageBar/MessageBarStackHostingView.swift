@@ -5,6 +5,7 @@
 
 import AppKit
 import Combine
+import QuartzCore
 import SwiftUI
 
 /// Objective-C-accessible holder for the data needed to configure a message bar row.
@@ -54,9 +55,23 @@ public final class MessageBarStackHostingView: ControlHostingView {
 	}
 
 	@objc public func updateLayout() {
+		updateLayout(emphasizedAnimation: false, duration: 0)
+	}
+
+	@objc(updateLayoutWithEmphasizedAnimation:duration:)
+	public func updateLayout(emphasizedAnimation: Bool, duration: TimeInterval) {
 		let newHeight = viewModel.targetContentHeight
-		heightConstraint?.constant = newHeight
-		layoutSubtreeIfNeeded()
+		if emphasizedAnimation {
+			NSAnimationContext.runAnimationGroup { context in
+				context.duration = duration
+				context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+				heightConstraint?.animator().constant = newHeight
+				layoutSubtreeIfNeeded()
+			}
+		} else {
+			heightConstraint?.constant = newHeight
+			layoutSubtreeIfNeeded()
+		}
 	}
 
 	/// Registers a bar. The bar starts hidden; call `showBar(barID:)` to reveal it.
