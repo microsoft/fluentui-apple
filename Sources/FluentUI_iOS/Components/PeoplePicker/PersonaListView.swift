@@ -100,10 +100,6 @@ open class PersonaListView: UITableView {
                                                selector: #selector(themeDidChange),
                                                name: .didChangeTheme,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleContentSizeCategoryDidChange),
-                                               name: UIContentSizeCategory.didChangeNotification,
-                                               object: nil)
     }
 
     @objc private func themeDidChange(_ notification: Notification) {
@@ -115,10 +111,6 @@ open class PersonaListView: UITableView {
 
     private func updateBackgroundColor() {
         backgroundColor = fluentTheme.color(.background1)
-    }
-
-    @objc private func handleContentSizeCategoryDidChange() {
-        reloadData()
     }
 
     @objc public required init(coder aDecoder: NSCoder) {
