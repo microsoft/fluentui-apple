@@ -3,7 +3,7 @@
 //  Licensed under the MIT License.
 //
 
-#if canImport(AppKit)
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
 import AppKit
 import SwiftUI
 
@@ -127,4 +127,4 @@ extension NSFont {
         }
     }
 }
-#endif // canImport(AppKit)
+#endif // canImport(AppKit) && !targetEnvironment(macCatalyst)

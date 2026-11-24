@@ -3,6 +3,7 @@
 //  Licensed under the MIT License.
 //
 
+#if !targetEnvironment(macCatalyst)
 import UIKit
 
 /// A `UIUpdateLink`-driven spring animator designed for sheet transitions.
@@ -219,3 +220,4 @@ public class SheetAnimator {
         stopUpdateLink()
     }
 }
+#endif // !targetEnvironment(macCatalyst)

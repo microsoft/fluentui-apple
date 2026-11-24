@@ -181,6 +181,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Defaults to `false` to preserve existing behavior. Requires iOS 18+.
     /// Note: This will cause more layout passes during animations, which may impact performance.
     @available(iOS 18.0, visionOS 2.0, *)
+    @available(macCatalyst, unavailable)
     open var usesCustomSpringAnimator: Bool {
         get { _usesCustomSpringAnimator }
         set { _usesCustomSpringAnimator = newValue }
@@ -193,6 +194,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
     /// Defaults to `true`. Only takes effect when `usesCustomSpringAnimator` is also `true`.
     /// Requires iOS 18+.
     @available(iOS 18.0, visionOS 2.0, *)
+    @available(macCatalyst, unavailable)
     open var usesHighFrameRatePanning: Bool {
         get { _usesHighFrameRatePanning }
         set { _usesHighFrameRatePanning = newValue }
@@ -1040,9 +1042,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         switch sender.state {
         case .began:
             completeAnimationsIfNeeded()
+#if !targetEnvironment(macCatalyst)
             if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
                 sheetAnimator.wantsHighFrameRateIdle = true
             }
+#endif // !targetEnvironment(macCatalyst)
             delegate?.bottomSheetStartedPan?(self, from: currentExpansionState)
             currentExpansionState = .transitioning
             fallthrough
@@ -1051,9 +1055,11 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             sender.setTranslation(.zero, in: view)
         case .ended, .cancelled, .failed:
             completePan(with: sender.velocity(in: view).y)
+#if !targetEnvironment(macCatalyst)
             if #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator && usesHighFrameRatePanning {
                 sheetAnimator.wantsHighFrameRateIdle = false
             }
+#endif // !targetEnvironment(macCatalyst)
         default:
             break
         }
@@ -1234,29 +1240,32 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         if currentSheetVerticalOffset != offset(for: targetExpansionState) {
             delegate?.bottomSheetController?(self, willMoveTo: targetExpansionState, interaction: interaction)
 
+#if !targetEnvironment(macCatalyst)
             if animated, #available(iOS 18.0, visionOS 2.0, *), usesCustomSpringAnimator {
                 moveWithSpringAnimator(to: targetExpansionState,
-                                    velocity: velocity,
-                                    interaction: interaction,
-                                    shouldNotifyDelegate: shouldNotifyDelegate,
-                                    completion: completion)
-            } else {
-                let animator = stateChangeAnimator(to: targetExpansionState,
-                                                   velocity: velocity,
-                                                   interaction: interaction,
-                                                   shouldNotifyDelegate: shouldNotifyDelegate)
-                animator.addCompletion({ finalPosition in
-                    completion?(finalPosition)
-                })
+                                       velocity: velocity,
+                                       interaction: interaction,
+                                       shouldNotifyDelegate: shouldNotifyDelegate,
+                                       completion: completion)
+                return
+            }
+#endif // !targetEnvironment(macCatalyst)
 
-                if animated {
-                    currentStateChangeAnimator = animator
-                    animator.startAnimation()
-                } else {
-                    animator.startAnimation() // moves the animator into active state so it can be stopped
-                    animator.stopAnimation(false)
-                    animator.finishAnimation(at: .end)
-                }
+            let animator = stateChangeAnimator(to: targetExpansionState,
+                                               velocity: velocity,
+                                               interaction: interaction,
+                                               shouldNotifyDelegate: shouldNotifyDelegate)
+            animator.addCompletion({ finalPosition in
+                completion?(finalPosition)
+            })
+
+            if animated {
+                currentStateChangeAnimator = animator
+                animator.startAnimation()
+            } else {
+                animator.startAnimation() // moves the animator into active state so it can be stopped
+                animator.stopAnimation(false)
+                animator.finishAnimation(at: .end)
             }
         } else {
             handleCompletedStateChange(to: targetExpansionState, interaction: interaction, shouldNotifyDelegate: shouldNotifyDelegate)
@@ -1325,12 +1334,13 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return translationAnimator
     }
 
+#if !targetEnvironment(macCatalyst)
     @available(iOS 18.0, visionOS 2.0, *)
     private func moveWithSpringAnimator(to targetExpansionState: BottomSheetExpansionState,
-                                     velocity: CGFloat,
-                                     interaction: BottomSheetInteraction,
-                                     shouldNotifyDelegate: Bool,
-                                     completion: ((UIViewAnimatingPosition) -> Void)?) {
+                                        velocity: CGFloat,
+                                        interaction: BottomSheetInteraction,
+                                        shouldNotifyDelegate: Bool,
+                                        completion: ((UIViewAnimatingPosition) -> Void)?) {
         let targetVerticalOffset = offset(for: targetExpansionState)
         let fromOffset = currentSheetVerticalOffset
 
@@ -1369,6 +1379,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             completion?(.end)
         }
     }
+#endif // !targetEnvironment(macCatalyst)
 
     // Vertical offset of bottomSheetView.origin for the given expansion state
     //
@@ -1435,6 +1446,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
             currentStateChangeAnimator = nil
         }
 
+#if !targetEnvironment(macCatalyst)
         if #available(iOS 18.0, visionOS 2.0, *), sheetAnimator.isRunning {
             if skipToEnd {
                 sheetAnimator.skipToEnd()
@@ -1442,6 +1454,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
                 sheetAnimator.stop()
             }
         }
+#endif // !targetEnvironment(macCatalyst)
     }
 
     private func makeLayoutGuideConstraints() -> [NSLayoutConstraint] {
@@ -1551,6 +1564,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
 
     private var currentStateChangeAnimator: UIViewPropertyAnimator?
 
+#if !targetEnvironment(macCatalyst)
     @available(iOS 18.0, visionOS 2.0, *)
     private var sheetAnimator: SheetAnimator {
         if let existing = _sheetAnimator as? SheetAnimator {
@@ -1561,6 +1575,7 @@ public class BottomSheetController: UIViewController, Shadowable, TokenizedContr
         return animator
     }
     private var _sheetAnimator: AnyObject?
+#endif // !targetEnvironment(macCatalyst)
 
     private var currentExpansionState: BottomSheetExpansionState = .collapsed
 
