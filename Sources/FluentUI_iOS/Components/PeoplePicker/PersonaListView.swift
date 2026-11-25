@@ -240,6 +240,26 @@ extension PersonaListView: UITableViewDataSource {
 // MARK: - PersonaListView: UITableViewDelegate
 
 extension PersonaListView: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard Section(rawValue: indexPath.section) == .personas else {
+            return UITableView.automaticDimension
+        }
+
+        let persona = personaList[indexPath.row]
+        let contentSizeCategory = tableView.traitCollection.preferredContentSizeCategory
+        let numberOfLines = contentSizeCategory > .large ? 0 : 1
+        return TableViewCell.height(tokenSet: .init(customViewSize: { .medium }),
+                                    title: !persona.name.isEmpty ? persona.name : persona.email,
+                                    subtitle: persona.subtitle,
+                                    titleFont: tableView.fluentTheme.typography(.body1, contentSizeCategory: contentSizeCategory),
+                                    subtitleFont: tableView.fluentTheme.typography(.caption1, contentSizeCategory: contentSizeCategory),
+                                    customViewSize: .medium,
+                                    accessoryType: accessoryType,
+                                    titleNumberOfLines: numberOfLines,
+                                    subtitleNumberOfLines: numberOfLines,
+                                    containerWidth: tableView.bounds.width)
+    }
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Deselecting row affects voice over focus, calling `deselectRowAtIndexPath` before `onPersonaSelected` would help.
         tableView.deselectRow(at: indexPath, animated: false)
